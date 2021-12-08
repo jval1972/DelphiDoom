@@ -184,7 +184,7 @@ asm
 @@TestValid:
   test  bl, bl              {Got Valid Number?}
   jz    @@Error             {No, Error}
-@@CheckDone:            
+@@CheckDone:
   add   ecx, edi            {Last Character = Null Terminator?}
   jnz   @@Error             {No, Error}
   sar   ebx, 31             {Set Each Bit to Top Bit (Sign Flag)}

@@ -504,7 +504,7 @@ begin
       end;
       exit;
     end;
-    
+
     while frac <= fraclimit2 do
     begin
     // Re-map color indices from wall texture column
@@ -1624,7 +1624,7 @@ end;
 const
   MAXSPRITETHREADS = 16;
 
-var  
+var
   SPRIDS: array[0..MAXSPRITETHREADS - 1] of integer = (
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
   );

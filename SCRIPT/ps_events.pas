@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -36,7 +36,7 @@ interface
 uses
   ps_import,
   ps_compiler,
-  ps_utils;                                             
+  ps_utils;
 
 const
   EventExportedProcs: array [0..9] of record
@@ -47,7 +47,7 @@ const
     {$IFDEF DLL}
     Template: AnsiString;
     {$ENDIF}
-  end = // Must be in sync with TScriptEvents 
+  end = // Must be in sync with TScriptEvents
   (
     (
       Name: 'ONACTORDIED';

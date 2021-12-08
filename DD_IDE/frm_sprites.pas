@@ -239,7 +239,7 @@ begin
   statesnext.Free;
 
   sprinfo.Sorted := True;
-  
+
   FillTreeView;
 
   FillListView;

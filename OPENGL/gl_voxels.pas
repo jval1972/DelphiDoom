@@ -1794,7 +1794,7 @@ end;
 
 //
 // JVAL
-//  Create the palette texture, 512x512 
+//  Create the palette texture, 512x512
 //
 procedure gld_InitVoxelTexture;
 var

@@ -114,7 +114,7 @@ begin
               sector.floorheight := lastpos;
               P_ChangeSector(sector, crush);
               result := crushed;
-              exit;     
+              exit;
             end;
           end;
         end

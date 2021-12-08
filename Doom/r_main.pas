@@ -1009,7 +1009,7 @@ begin
   else
     fov := round(arctan(monitor_relative_aspect) * FINEANGLES / D_PI);
   focallength := FixedDiv(centerxfrac, finetangent[FINEANGLES div 4 + fov div 2]);
-  
+
   if focallength = oldfocallength then
     exit;
   oldfocallength := focallength;

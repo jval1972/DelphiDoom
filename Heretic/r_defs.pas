@@ -337,7 +337,7 @@ type
     iSegID: integer;
 {$ELSE}
     map_length: integer;
-    inv_length: double;      
+    inv_length: double;
 {$ENDIF}
     miniseg: boolean;
   end;

@@ -131,7 +131,7 @@ type
   //The actual print controller object
   TSynEditPrint = class(TComponent)
   private
-    FCopies: Integer;                                                           
+    FCopies: Integer;
     FFooter: TFooter;
     FHeader: THeader;
     FLines: TUnicodeStrings;
@@ -139,7 +139,7 @@ type
     FPageCount: Integer;
     FFont: TFont;
     FTitle: UnicodeString;
-    FDocTitle: UnicodeString;                                                      
+    FDocTitle: UnicodeString;
     FPrinterInfo: TSynEditPrinterInfo;
     FPages: TList;
     FCanvas: TCanvas;
@@ -168,8 +168,8 @@ type
     FPagesCounted: Boolean;
     FLineNumbersInMargin: Boolean;
     FTabWidth: integer;
-    fFontColor: TColor;                                                         
-    fSelectedOnly: Boolean;                                                     
+    fFontColor: TColor;
+    fSelectedOnly: Boolean;
     fSelAvail: Boolean;
     fSelMode: TSynSelectionMode;
     fBlockBegin: TBufferCoord;
@@ -226,10 +226,10 @@ type
     property Lines: TUnicodeStrings read FLines write SetLines;
     property Font: TFont read FFont write SetFont;
     property Title: UnicodeString read FTitle write FTitle;
-    property DocTitle: UnicodeString read FDocTitle write FDocTitle;               
+    property DocTitle: UnicodeString read FDocTitle write FDocTitle;
     property Wrap: Boolean read FWrap write FWrap default True;
     property Highlight: Boolean read FHighlight write FHighlight default True;
-    property SelectedOnly: Boolean read FSelectedOnly write FSelectedOnly       
+    property SelectedOnly: Boolean read FSelectedOnly write FSelectedOnly
       default False;
     property Colors: Boolean read FColors write FColors default False;
     property LineNumbers: Boolean read FLineNumbers write FLineNumbers
@@ -243,8 +243,8 @@ type
       write SetHighlighter;
     property LineNumbersInMargin: Boolean read FLineNumbersInMargin
       write FLineNumbersInMargin default False;
-    property TabWidth: integer read fTabWidth write fTabWidth;                  
-    property Color: TColor read fDefaultBG write fDefaultBG;                    
+    property TabWidth: integer read fTabWidth write fTabWidth;
+    property Color: TColor read fDefaultBG write fDefaultBG;
   end;
 
 implementation
@@ -274,8 +274,8 @@ begin
   FPageOffset := 0;
   FLineNumbersInMargin := False;
   FPages := TList.Create;
-  FTabWidth := 8;                                                     
-  FDefaultBG := clWhite;                                                        
+  FTabWidth := 8;
+  FDefaultBG := clWhite;
 end;
 
 destructor TSynEditPrint.Destroy;
@@ -402,7 +402,7 @@ var
   TmpTextMetrics: TTextMetric;
 {$ENDIF}
 begin
-//  FDefaultBG := FCanvas.Brush.Color;                                          
+//  FDefaultBG := FCanvas.Brush.Color;
   fFontColor := FFont.Color;
   FCanvas.Font.Assign(FFont);
   if not FPrinting then
@@ -549,7 +549,7 @@ begin
     end;
     StrWidth := TextWidth(FCanvas, Text);
     {Check for wrap}
-    if Wrap and (StrWidth > FMaxWidth) then begin                          
+    if Wrap and (StrWidth > FMaxWidth) then begin
       AList := TList.Create;
       if WrapTextEx(Text, [' ', '-', #9, ','], FMaxCol, AList) then
         CountWrapped
@@ -590,7 +590,7 @@ var
 begin
   SaveCurrentFont;
   AStr := IntToStr(FLineNumber + FLineOffset) + ': ';
-  FCanvas.Brush.Color := FDefaultBG; 
+  FCanvas.Brush.Color := FDefaultBG;
   FCanvas.Font.Style := [];
   FCanvas.Font.Color := clBlack;
   {$IFDEF SYN_CLX}
@@ -629,7 +629,7 @@ var
         Break;
     end;
   end;
-  
+
 begin
   AStr := '';
   //First try to break the string at the following chars:
@@ -701,7 +701,7 @@ var
     end;
   end;
   {$ENDIF}
-  
+
   procedure ClippedTextOut(X, Y: Integer; Text: UnicodeString);
   begin
     Text := ClipLineToRect(Text, ClipRect);
@@ -776,13 +776,13 @@ begin
         end
         else
         begin
-          FCanvas.Font.Color := fFontColor;                                     
+          FCanvas.Font.Color := fFontColor;
           FCanvas.Brush.Color := FDefaultBG;
         end;
       end
       else
       begin
-        FCanvas.Font.Color := fFontColor;                                       
+        FCanvas.Font.Color := fFontColor;
         FCanvas.Brush.Color := FDefaultBG;
       end;
       Handled := False;

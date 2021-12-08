@@ -77,7 +77,7 @@ implementation
 
 constructor TProcedureList.Create(const aName: string);
 begin
-  fList := nil;     
+  fList := nil;
   fNumItems := 0;
   fRealSize := 0;
   fName := aName;

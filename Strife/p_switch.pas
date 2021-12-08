@@ -471,7 +471,7 @@ begin
 
           if breakglass then
             P_SpawnBrokenGlass(line);
-            
+
           exit;
         end;
       end;
@@ -1071,7 +1071,7 @@ begin
         if EV_DoDoor (line, vld_blazeClose) <> 0 then
           P_ChangeSwitchTexture(line, false);
       end;
-    
+
     114:
       begin
         // Blazing Door Raise (faster than TURBO!) - [STRIFE] Verified unmodified

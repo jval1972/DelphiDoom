@@ -67,7 +67,7 @@ uses
   w_wad,
   g_game,
   s_sound,
-  r_defs, 
+  r_defs,
   doomstat,
   sounds,
   v_data,
@@ -89,7 +89,7 @@ const
 //  in one episode. So there.
   NUMEPISODES = 4;
   NUMMAPS = 9;
-                               
+
 
 // in tics
 //U #define PAUSELEN    (TICRATE*2)
@@ -1475,7 +1475,7 @@ var
 begin
   if wi_loaded then
     exit;
-    
+
   if gamemode = commercial then
     wibackground := 'INTERPIC'
   else
@@ -1700,7 +1700,7 @@ procedure WI_Drawer;
 begin
   if not wi_loaded then
     WI_LoadData;
-    
+
   WI_slamBackground;
 
   // draw animated background

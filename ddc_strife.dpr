@@ -51,7 +51,7 @@
 {$D Strife to Delphi Total Conversion}
 
 library ddc_strife;
-                                     
+
 {$R *.RES}
 
 uses

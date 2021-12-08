@@ -91,7 +91,7 @@ uses
   r_draw,
 {$IFNDEF OPENGL}
   r_segs,
-{$ENDIF}  
+{$ENDIF}
   r_dynlights,
   s_sound,
   sc_actordef,

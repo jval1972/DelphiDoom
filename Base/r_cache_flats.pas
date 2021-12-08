@@ -107,7 +107,7 @@ var
   r2, g2, b2: byte;
   r, g, b: LongWord;
   c: LongWord;
-{$IFDEF DOOM_OR_STRIFE}  
+{$IFDEF DOOM_OR_STRIFE}
   dihertable: Pdihertable_t;
 {$ENDIF}
   lump: integer;
@@ -165,7 +165,7 @@ begin
             fsize := 128
           else if t.GetWidth <= 256 then
             fsize := 256
-          else 
+          else
             fsize := 512;
         end;
         t.ScaleTo(fsize, fsize);
@@ -242,7 +242,7 @@ begin
             c := plw^;
             b2 := (c shr 16) shr DIHERSHIFT;
             g2 := ((c shr 8) and $FF) shr DIHERSHIFT;
-            r2 := (c and $FF) shr DIHERSHIFT;              
+            r2 := (c and $FF) shr DIHERSHIFT;
             plw^ := dihertable[b2, g2, r2];
             inc(plw);
           end;

@@ -20,9 +20,9 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION: 
-//  System specific interface stuff. 
-// 
+// DESCRIPTION:
+//  System specific interface stuff.
+//
 //------------------------------------------------------------------------------
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ type
     buttons: byte;
 {$IFDEF STRIFE}
     buttons2: byte;
-    inventory: integer;                                                  
+    inventory: integer;
 {$ENDIF}
     commands: byte;         // JVAL for special commands
 {$IFDEF HERETIC_OR_HEXEN}

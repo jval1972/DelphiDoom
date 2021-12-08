@@ -880,7 +880,7 @@ begin
 
   if vil <> nil then
     vil.Free;
-    
+
   vx_names.Free;
 end;
 

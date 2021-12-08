@@ -908,7 +908,7 @@ Label BadArg, BadFormat, CopyStr, DoFloat;
       GotTemp, GotIndex : boolean;
   begin
     GotIndex:=False;
-    Temp:=0; // not really necessary, but this will suppress compiler's warning. 
+    Temp:=0; // not really necessary, but this will suppress compiler's warning.
     repeat
       GotTemp:=False;
       if Fmt^='*' then begin  // Get indirect entry into Temp
@@ -1131,7 +1131,7 @@ begin
       Move(Src^, Dest^, Width);
       PChar(Dest)[Width]:=#0
     end;
-  end;  
+  end;
 end;
 
 function Scanf_core(var Buffer: PChar; var Format : PChar;

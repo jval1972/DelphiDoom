@@ -58,7 +58,7 @@
 
 // $Id: SynTextDrawer.pas,v 1.6.2.17 2008/09/17 13:59:12 maelh Exp $
 
-// SynEdit note: The name had to be changed to get SynEdit to install 
+// SynEdit note: The name had to be changed to get SynEdit to install
 //   together with mwEdit into the same Delphi installation
 
 unit SynTextDrawer;
@@ -81,7 +81,7 @@ uses
 const
   FontStyleCount = Ord(High(TFontStyle)) +1;
   FontStyleCombineCount = (1 shl FontStyleCount);
-  
+
 type
   PIntegerArray = ^TIntegerArray;
   TIntegerArray = array[0..MaxInt div SizeOf(Integer) - 1] of Integer;
@@ -336,7 +336,7 @@ begin
     // value for GlyphBufferSize (see documentation of cGlyphs parameter of
     // ScriptStringAnalyse function)
     GlyphBufferSize := (3 * Count) div 2 + 16;
-    
+
     Result := Succeeded(ScriptStringAnalyse(DC, Str, Count, GlyphBufferSize, -1,
       SSAnalyseFlags, 0, nil, nil, Pointer(ETODist), nil, nil, @saa));
     Result := Result and Succeeded(ScriptStringOut(saa, X, Y, TextOutFlags,
@@ -398,7 +398,7 @@ end;
 destructor TheFontsInfoManager.Destroy;
 begin
   gFontsInfoManager := nil;
-  
+
   if Assigned(FFontsInfo) then
   begin
     while FFontsInfo.Count > 0 do
@@ -735,7 +735,7 @@ begin
   FStockBitmap.Free;
   FFontStock.Free;
   ReleaseETODist;
-  
+
   inherited;
 end;
 
@@ -932,7 +932,7 @@ procedure TheTextDrawer.ExtTextOut(X, Y: Integer; Options: TTextOutOptions;
     tm: TTextMetricA;
   begin
     if Length <= 0 then Exit;
-    
+
     LastChar := Ord(Text[Length - 1]);
     CharWidth := FETODist[Length - 1];
     RealCharWidth := CharWidth;

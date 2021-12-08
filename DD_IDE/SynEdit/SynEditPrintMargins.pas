@@ -96,7 +96,7 @@ uses
   QGraphics,
   QSynEditPrintTypes,
   QSynEditPrinterInfo,
-  QSynUnicode,  
+  QSynUnicode,
 {$ELSE}
   Graphics,
   SynEditPrintTypes,

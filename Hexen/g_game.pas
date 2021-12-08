@@ -42,11 +42,11 @@ uses
 //-----------------------------------------------------------------------------
 //
 // DESCRIPTION:
-//   Duh. 
-//  
+//   Duh.
+//
 //-----------------------------------------------------------------------------
 
-// 
+//
 // GAME
 //
 
@@ -2370,7 +2370,7 @@ begin
       ga_loadlevel:
         G_DoLoadLevel;
       ga_initnew:
-        G_DoInitNew;            
+        G_DoInitNew;
       ga_newgame:
         G_DoNewGame;
       ga_loadgame:

@@ -945,7 +945,7 @@ begin
       exit;
     end;
   end;
-  
+
   // Check for missile
   if tmthing.flags and MF_MISSILE <> 0 then
   begin
@@ -1093,7 +1093,7 @@ begin
     end;
 
     if (tmthing.target <> nil) and (
-	   (tmthing.target._type = thing._type) or 
+	   (tmthing.target._type = thing._type) or
        // JVAL: 20211126 - Inherited actors do not hurt each other
        (Info_GetInheritance(tmthing.target.info) = Info_GetInheritance(thing.info))) then
     begin // Don't hit same species as originator
@@ -2180,7 +2180,7 @@ var
 
   aimslope: fixed_t;
 
-// JVAL: 3d floors : Moved from P_Sight  
+// JVAL: 3d floors : Moved from P_Sight
 //  bottomslope: fixed_t; // slopes to top and bottom of target
 //  topslope: fixed_t;
 
@@ -3156,7 +3156,7 @@ begin
     result := true;
     exit;
   end;
-  
+
   // crunch bodies to giblets
   if (thing.flags and MF_CORPSE <> 0) and (thing.health <= 0) then
   begin

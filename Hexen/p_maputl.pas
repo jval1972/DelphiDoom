@@ -1500,7 +1500,7 @@ begin
           result := mobj;
           exit;
         end;
-        
+
       end;
     end
 

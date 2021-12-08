@@ -142,7 +142,7 @@ asm {299 Bytes}
   xor     eax, eax         {Return 0}
   ret
 @@Remainder:               {Check Last 1 to 4 Characters}
-  mov     eax, [esi-3]     {Last 4 Characters of S - May include Length 
+  mov     eax, [esi-3]     {Last 4 Characters of S - May include Length
 Bytes}
   xor     eax, ecx         {Zero Byte at each Matching Position}
   lea     ebx, [eax-$01010101]

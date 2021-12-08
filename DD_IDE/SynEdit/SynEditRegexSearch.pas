@@ -131,7 +131,7 @@ end;
 function TSynEditRegexSearch.Replace(const aOccurrence, aReplacement: UnicodeString): UnicodeString;
 begin
   Result := fRegex.Replace(aOccurrence, aReplacement, True);
-end;   
+end;
 
 function TSynEditRegexSearch.GetLength(Index: Integer): Integer;
 begin

@@ -627,7 +627,7 @@ asm
   movaps  xmm1, [eax+ecx+16]
   movaps  xmm2, [eax+ecx+32]
   movaps  xmm3, [eax+ecx+48]
-  movaps  [edx+ecx], xmm0 
+  movaps  [edx+ecx], xmm0
   movaps  [edx+ecx+16], xmm1
   movaps  [edx+ecx+32], xmm2
   movaps  [edx+ecx+48], xmm3
@@ -1214,7 +1214,7 @@ asm
 {$IFDEF SSE2Basm}
   lddqu   xmm0, [eax+ebx]
 {$ELSE}
-  DB      $F2,$0F,$F0,$04,$03 
+  DB      $F2,$0F,$F0,$04,$03
 {$ENDIF}
   movdqa  [edx+ebx], xmm0
   add     ebx, 16
@@ -1238,7 +1238,7 @@ asm
 {$IFDEF SSE2Basm}
   lddqu   xmm0, [eax] {First 16 Bytes}
 {$ELSE}
-  DB      $F2,$0F,$F0,$00 
+  DB      $F2,$0F,$F0,$00
 {$ENDIF}
   mov     ebx, edx
   add     eax, ecx {Align Writes}

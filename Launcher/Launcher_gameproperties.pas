@@ -9,7 +9,7 @@ uses
 
 type
   TGamePropertiesForm = class(TForm)
-    Panel1: TPanel;                              
+    Panel1: TPanel;
     RunDelphiDoomButton: TButton;
     Button2: TButton;
     DescriptionEdit: TEdit;

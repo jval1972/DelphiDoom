@@ -2,7 +2,7 @@
   begin
     while ypos <= w.dc_yh do
     begin
-      spot := (LongWord(frac1) shr FRACBITS) 
+      spot := (LongWord(frac1) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -22,7 +22,7 @@
   begin
     while ypos <= w.dc_yh do
     begin
-      spot := (LongWord(frac1) shr FRACBITS) 
+      spot := (LongWord(frac1) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and

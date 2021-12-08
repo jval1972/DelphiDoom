@@ -140,7 +140,7 @@ implementation
 uses
   d_delphi,
   jpg_deferr;
-  
+
 procedure jpeg_create_decompress(cinfo: j_decompress_ptr);
 begin
   jpeg_CreateDecompress(cinfo, JPEG_LIB_VERSION,

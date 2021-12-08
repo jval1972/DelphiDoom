@@ -120,7 +120,7 @@ var
   ret: integer;
 begin
   ismultithread := true;
-  
+
   while s3m_datapointer = nil do
     I_Sleep(10);
 

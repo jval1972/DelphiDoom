@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -744,7 +744,7 @@ end;
 
 var
   in_sounds2: integer;
-  
+
 procedure IN_DrawCoopStats;
 var
   i: integer;
@@ -844,7 +844,7 @@ begin
     S_StartSound(nil, Ord(sfx_wpnup));
     inc(in_sounds3);
   end;
-  
+
   for i := 0 to MAXPLAYERS - 1 do
   begin
     if playeringame[i] then

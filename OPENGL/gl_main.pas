@@ -195,7 +195,7 @@ begin
       h_RC := 0;
     end;
   end;
-  
+
   // Attemps to release the device context
   if ((h_DC > 0) and (ReleaseDC(hMainWnd, h_DC) = 0)) then
   begin

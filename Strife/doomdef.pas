@@ -93,7 +93,7 @@ const
   // MIN RENDERING DIMENTIONS
   MINWIDTH = 160;
   MINHEIGHT = 100;
-  
+
 var
 // Rendering Engine Screen Dimentions
   SCREENWIDTH: integer;

@@ -153,7 +153,7 @@ begin
       translationtables[i + 256] := i;
       translationtables[i + 512] := i;
     end;
-    
+
   // JVAL: Initialize ColorRegions
   lump := W_CheckNumForName('CR_START');
   for i := 0 to Ord(CR_LIMIT) - 1 do

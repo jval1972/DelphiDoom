@@ -507,7 +507,7 @@ begin
   else if demoversion <> VERSION then
     I_Warning('G_DoPlayDemo(): Demo is from a partial supported game version = %d.%.*d' + #13#10,
       [demo_p[0] div 100, 2, demo_p[0] mod 100]);
-      
+
   demo_p := @demo_p[1];
 
   skill := skill_t(demo_p[0]);

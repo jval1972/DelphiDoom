@@ -1233,7 +1233,7 @@ var
   hitCenterFrame: boolean = false;
 
 procedure SB_DrawAnimatedIcons;
-var             
+var
   frame: integer;
 begin
   sbiconsactive := false;

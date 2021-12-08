@@ -115,7 +115,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1, w.dc_fog);  // JVAL: Mars fog sectors  
+    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep2 := w.dc_iscale;

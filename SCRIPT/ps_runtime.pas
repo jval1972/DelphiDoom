@@ -10391,7 +10391,7 @@ begin
     8: // StrSet
       begin
         temp := NewTPSVariantIFC(Stack[Stack.Count - 3], True);
-        if (temp.Dta = nil) or not (temp.aType.BaseType in [btString, btUnicodeString]) then 
+        if (temp.Dta = nil) or not (temp.aType.BaseType in [btString, btUnicodeString]) then
         begin
           Result := False;
           Exit;
@@ -13179,7 +13179,7 @@ begin
  end;
  pp := fExceptionStack[fExceptionStack.Count - 1];
  Result := pp.ExceptionObject;
-end; 
+end;
 
 { TPSRuntimeClass }
 constructor TPSRuntimeClass.Create(aClass: TClass; const AName: TbtString);

@@ -1861,7 +1861,7 @@ begin
     pal := @palette[pl * 768];
     I_SetPalette(pal);
     V_SetPalette(pal);
-    Z_ChangeTag(palette, PU_CACHE); 
+    Z_ChangeTag(palette, PU_CACHE);
     R_SetPalette(pl);
   end;
 end;
@@ -2234,7 +2234,7 @@ begin
         mo.args[0] := 0;
     end;
   end;
-  
+
   if spawndir and SHARDSPAWN_UP <> 0 then
   begin
     mo := P_SpawnMissileAngleSpeed(

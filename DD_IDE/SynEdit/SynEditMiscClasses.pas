@@ -281,7 +281,7 @@ type
   end;
 
   { TSynInternalImage }
-  
+
   TSynInternalImage = class(TObject)
   private
     fImages : TBitmap;
@@ -483,7 +483,7 @@ procedure TSynGutter.Assign(Source: TPersistent);
 var
   Src: TSynGutter;
 begin
-  if Assigned(Source) and (Source is TSynGutter) then 
+  if Assigned(Source) and (Source is TSynGutter) then
   begin
     Src := TSynGutter(Source);
     fFont.Assign(src.Font);
@@ -508,7 +508,7 @@ begin
     fGradientSteps := Src.fGradientSteps;
     if Assigned(fOnChange) then
       fOnChange(Self);
-  end 
+  end
   else
     inherited;
 end;
@@ -517,7 +517,7 @@ procedure TSynGutter.AutoSizeDigitCount(LinesCount: integer);
 var
   nDigits: integer;
 begin
-  if fVisible and fAutoSize and fShowLineNumbers then 
+  if fVisible and fAutoSize and fShowLineNumbers then
   begin
     if fZeroStart then
       Dec(LinesCount)
@@ -1402,7 +1402,7 @@ begin
     if AnsiChar(Key) in ['a'..'z'] then Key := Ord(UpCase(AnsiChar(Key)));
   end;
   {$ENDIF}
-  
+
   SavedKey := Key;
   FPressedOnlyModifiers := KeySameAsShiftState(Key, Shift);
 
@@ -1449,7 +1449,7 @@ begin
     if AnsiChar(Key) in ['a'..'z'] then Key := Ord(UpCase(AnsiChar(Key)));
   end;
   {$ENDIF}
-  
+
   if FPressedOnlyModifiers then
   begin
     Text := srNone;
@@ -1470,7 +1470,7 @@ var
   r: TRect;
 begin
   r := ClientRect;
-  
+
   {$IFDEF SYN_CLX}
   QClxDrawUtil_DrawWinPanel(Canvas.Handle, @r, Palette.ColorGroup(cgActive), True,
     QBrushH(0));

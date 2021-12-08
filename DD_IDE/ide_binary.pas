@@ -91,7 +91,7 @@ type
     property OnProgress: TZProgressEvent read FOnProgress write FOnProgress;
     property CompressionLevel: TCompressionLevel read GetCompressionLevel write SetCompressionLevel;
   end;
-  
+
   TBinaryData = class(TCustomBinaryData)
   published
     property Binary: TBinary read FBinary write SetBinary;

@@ -1264,7 +1264,7 @@ begin
     KeyBindingsInfo[Ord(kb_weapon0)].text := 'Fists/Chainsaw';
     KeyBindingsInfo[Ord(kb_weapon1)].text := 'Pistol';
     KeyBindingsInfo[Ord(kb_weapon2)].text := 'Shotgun';
-    KeyBindingsInfo[Ord(kb_weapon3)].text := 'Chaingun'; 
+    KeyBindingsInfo[Ord(kb_weapon3)].text := 'Chaingun';
     KeyBindingsInfo[Ord(kb_weapon4)].text := 'Rocket launcher';
     KeyBindingsInfo[Ord(kb_weapon5)].text := 'Plasma gun';
     KeyBindingsInfo[Ord(kb_weapon6)].text := 'BFG 9000';
@@ -1736,7 +1736,7 @@ begin
   dogs := GetIntegerInRange(dogs, 0, MAXPLAYERS - 1);
   ppos := M_WriteText(CompatibilityDef.x, CompatibilityDef.y + CompatibilityDef.itemheight * Ord(cmp_dogs), 'Dogs (Marine Best Friend): ');
   M_WriteWhiteText(ppos.x, ppos.y, itoa(dogs));
-end; 
+end;
 
 const
   mkeyboardmodes: array[0..3] of string = ('ARROWS', 'WASD', 'ESDF', 'CUSTOM');
@@ -5254,7 +5254,7 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @gl_linear_hud;
   pmi.alphaKey := 'l';
-  
+
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayOpenGLFilterDef
   OptionsDisplayOpenGLFilterDef.numitems := Ord(optglfilter_end); // # of menu items

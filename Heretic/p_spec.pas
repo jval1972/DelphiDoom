@@ -934,7 +934,7 @@ begin
         EV_DoCeiling(line, crushAndRaise);
         line.special := 0;
       end;
-  
+
     30:
       begin
         // Raise floor to shortest texture height

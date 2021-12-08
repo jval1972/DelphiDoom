@@ -545,7 +545,7 @@ var
 begin
   if not (it.ItemType in [pi_script, pi_compiledscript, pi_actor, pi_project]) then
     Exit;
-    
+
   frm := FindItemEditor(PageControl1, it);
   if frm <> nil then
   begin
@@ -616,7 +616,7 @@ var
   node: TTreeNode;
 begin
   Result := nil;
-  
+
   if project = nil then
     Exit;
 
@@ -689,7 +689,7 @@ begin
 
     for i := 0 to l.Count - 1 do
       MessagesListBox.Items.AddObject(l.Strings[i], Pointer(c));
-      
+
     MessagesListBox.ItemIndex := MessagesListBox.Items.Count - 1;
   finally
     l.Free;

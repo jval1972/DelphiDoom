@@ -209,7 +209,7 @@ uses
 //   cases. These effects cannot be corrected without increasing the
 //   precision of various renderer variables, and, possibly, suffering
 //   a performance penalty.
-//   
+//
 
 var
   lastheight: integer = 0;
@@ -344,7 +344,7 @@ begin
   lightnum := _SHR(
         {$IFDEF DOOM_OR_STRIFE}R_FakeFlat(frontsector, @tempsec, nil, nil, False).lightlevel
         {$ELSE}frontsector.lightlevel
-        {$ENDIF}, 
+        {$ENDIF},
         LIGHTSEGSHIFT) + extralight;
 
   if r_fakecontrast then
@@ -1216,7 +1216,7 @@ begin
   pds.x2 := stop;
   rw_stopx := stop + 1;
 
-  // JVAL: 20200417 - Use double arithmetic for large segs 
+  // JVAL: 20200417 - Use double arithmetic for large segs
   if curline.map_length >= 1024 then
   begin
     R_StoreWallRange_DBL(pds, start, stop);

@@ -672,7 +672,7 @@ begin
               // Reflection
               rnd := P_Random;
               angle := angle + ANG1 * ((rnd mod 16) - 8);
-            end; 
+            end;
           end;
 
           if not skip then

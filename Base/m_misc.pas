@@ -36,7 +36,7 @@ unit m_misc;
 interface
 
 //
-// MISC 
+// MISC
 //
 
 var

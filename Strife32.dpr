@@ -43,7 +43,7 @@
 {$D Strife to Delphi Total Conversion}
 
 program Strife32;
-                                     
+
 {$R *.RES}
 
 uses

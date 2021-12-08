@@ -100,7 +100,7 @@ const
   F_STAGE_CAST = 2;
 
 procedure F_Init;
-  
+
 implementation
 
 uses
@@ -857,7 +857,7 @@ begin
   F_CastPrint(castname);
 
   // draw the current frame in the middle of the screen
-  sprdef := @sprites[caststate.sprite];    
+  sprdef := @sprites[caststate.sprite];
   sprframe := @sprdef.spriteframes[caststate.frame and FF_FRAMEMASK];
   lump := sprframe.lump[0];
   flip := sprframe.flip[0];
@@ -868,7 +868,7 @@ begin
   else
     V_DrawPatch(160, 170, SCN_TMP, patch, false);
   Z_ChangeTag(patch, PU_CACHE);
-  
+
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
   V_FullScreenStretch;
 end;

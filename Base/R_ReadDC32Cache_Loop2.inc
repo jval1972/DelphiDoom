@@ -3,5 +3,5 @@
 {$IFNDEF LASTLOOP}
         inc(src1);
         inc(src2);
-{$ENDIF}        
+{$ENDIF}
 

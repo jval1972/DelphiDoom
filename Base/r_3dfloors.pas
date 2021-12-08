@@ -102,7 +102,7 @@ procedure R_StoreThickSideRange(const ds: Pdrawseg_t; const frontsector, backsec
 var
   hicut, lowcut: fixed_t; // JVAL: 3d Floors
   backmidsec, frontmidsec: Psector_t; // JVAL: 3d Floors
-  ceil1, floor1: integer;        
+  ceil1, floor1: integer;
 begin
   if (backsector.midsec >= 0) and (frontsector.midsec >= 0) then
   begin

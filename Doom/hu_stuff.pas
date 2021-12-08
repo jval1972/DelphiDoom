@@ -112,7 +112,7 @@ var
 
 var
   destination_keys: array[0..MAXPLAYERS - 1] of string;
-    
+
 var
   shiftxform: array[0..127] of char;
 
@@ -546,7 +546,7 @@ begin
     else
       x := x - 4;
   end;
-{$ENDIF}  
+{$ENDIF}
 end;
 
 // 19/9/2009 JVAL: For drawing demo progress
@@ -563,7 +563,7 @@ begin
   i := round(G_DemoProgress * viewwidth / SCREENWIDTH * 320 / FRACUNIT);
 {$ELSE}
   i := G_DemoProgress * viewwidth div FRACUNIT;
-{$ENDIF}  
+{$ENDIF}
   while i > 0 do
   begin
     V_DrawPatchTransparent(x, y, SCN_FG, dp, {$IFDEF OPENGL}true{$ELSE}false{$ENDIF});

@@ -5093,7 +5093,7 @@ const
   IID_IDirect3DDevice2: TGUID = '{93281501-8CF8-11D0-89AB-00A0C9054129}';
   IID_IDirect3DDevice3: TGUID = '{B0AB3B60-33D7-11D1-A981-00C04FD7B174}';
   IID_IDirect3DDevice7: TGUID = '{F5049E79-4861-11D2-A407-00A0C90629A8}';
-  
+
   IID_IDirect3DTexture: TGUID ='{2CDCD9E0-25A0-11CF-A31A-00AA00B93356}';
   IID_IDirect3DTexture2: TGUID = '{93281502-8CF8-11D0-89AB-00A0C9054129}';
   IID_IDirect3DLight: TGUID = '{4417C142-33AD-11CF-816F-0000C020156E}';
@@ -5181,7 +5181,7 @@ type
     // IDirect3D2 methods
     function CreateDevice(const rclsid: TGUID; lpDDS: IDirectDrawSurface4;
         out lplpD3DDevice2: IDirect3DDevice3; pUnkOuter: IUnknown): HResult; stdcall;
-    // IDirect3D3 methods                             
+    // IDirect3D3 methods
     function CreateVertexBuffer(const lpVBDesc: TD3DVertexBufferDesc;
         out lpD3DVertexBuffer: IDirect3DVertexBuffer; dwFlags: DWORD; pUnkOuter: IUnknown): HResult; stdcall;
     function EnumZBufferFormats(const riidDevice: TGUID; lpEnumCallback: TD3DEnumPixelFormatsCallback;
@@ -8976,7 +8976,7 @@ type
   DIPROPSTRING = TDIPropString;
   LPDIPROPSTRING = PDIPropString;
 
-const            
+const
   DIPROPRANGE_NOMIN   = $80000000;
   DIPROPRANGE_NOMAX   = $7FFFFFFF;
 
@@ -11876,7 +11876,7 @@ const
 
   DS3D_IMMEDIATE          = $00000000;
   DS3D_DEFERRED           = $00000001;
-  
+
   DS3D_MINDISTANCEFACTOR     = 0.0;
   DS3D_MAXDISTANCEFACTOR     = 10.0;
   DS3D_DEFAULTDISTANCEFACTOR = 1.0;
@@ -11975,7 +11975,7 @@ function DirectSoundCaptureEnumerate(lpDSEnumCallback: TDSEnumCallbackA; lpConte
 //               LIST [] 'ins ' [dlid,insh,RGNLIST,ARTLIST,INFOLIST]
 //
 // RGNLIST
-// LIST [] 'lrgn' 
+// LIST [] 'lrgn'
 //               LIST [] 'rgn '  [rgnh,wsmp,wlnk,ARTLIST]
 //               LIST [] 'rgn '  [rgnh,wsmp,wlnk,ARTLIST]
 //               LIST [] 'rgn '  [rgnh,wsmp,wlnk,ARTLIST]
@@ -12030,10 +12030,10 @@ const
   //FOURCC_VERS = Ord('v') + Ord('e') shl 8 + Ord('r') shl 16 + Ord('s') shl 24;
 
 ///////////////////////////////////////////////////////////////////////////
-// Articulation connection graph definitions 
+// Articulation connection graph definitions
 //////////////////////////////////////////////////////////////////////////
 
-// Generic Sources 
+// Generic Sources
   CONN_SRC_NONE           = $0000;
   CONN_SRC_LFO            = $0001;
   CONN_SRC_KEYONVELOCITY  = $0002;
@@ -12048,13 +12048,13 @@ const
   CONN_SRC_CC10           = $008A;
   CONN_SRC_CC11           = $008B;
 
-// Generic Destinations 
+// Generic Destinations
   CONN_DST_NONE           = $0000;
   CONN_DST_ATTENUATION    = $0001;
   CONN_DST_PITCH          = $0003;
   CONN_DST_PAN            = $0004;
 
-// LFO Destinations 
+// LFO Destinations
   CONN_DST_LFO_FREQUENCY  = $0104;
   CONN_DST_LFO_STARTDELAY = $0105;
 
@@ -12064,7 +12064,7 @@ const
   CONN_DST_EG1_RELEASETIME  = $0209;
   CONN_DST_EG1_SUSTAINLEVEL = $020A;
 
-// EG2 Destinations 
+// EG2 Destinations
   CONN_DST_EG2_ATTACKTIME   = $030A;
   CONN_DST_EG2_DECAYTIME    = $030B;
   CONN_DST_EG2_RELEASETIME  = $030D;
@@ -12100,7 +12100,7 @@ type
   CONNECTION   = TCONNECTION;
   LPCONNECTION = ^CONNECTION;
 
-// Level 1 Articulation Data 
+// Level 1 Articulation Data
 
   TCONNECTIONLIST = record
     cbSize       : Cardinal;      // size of the connection list structure
@@ -12140,24 +12140,24 @@ const
 
 type
   TRGNHEADER = record
-    RangeKey      : RGNRANGE;       // Key range  
-    RangeVelocity : RGNRANGE;       // Velocity Range  
-    fusOptions    : Word;           // Synthesis options for this range 
+    RangeKey      : RGNRANGE;       // Key range
+    RangeVelocity : RGNRANGE;       // Velocity Range
+    fusOptions    : Word;           // Synthesis options for this range
     usKeyGroup    : Word;           // Key grouping for non simultaneous play
-  end;                              // 0 = no group, 1 up is group 
-                                    // for Level 1 only groups 1-15 are allowed 
+  end;                              // 0 = no group, 1 up is group
+                                    // for Level 1 only groups 1-15 are allowed
   RGNHEADER   = TRGNHEADER;
   LPRGNHEADER = ^RGNHEADER;
 
   TINSTHEADER = record
-    cRegions : Cardinal;            // Count of regions in this instrument 
-    Locale : MIDILOCALE;            // Intended MIDI locale of this instrument 
+    cRegions : Cardinal;            // Count of regions in this instrument
+    Locale : MIDILOCALE;            // Intended MIDI locale of this instrument
   end;
   INSTHEADER   = TINSTHEADER;
   LPINSTHEADER = ^INSTHEADER;
 
   TDLSHEADER = record
-    cInstruments : Cardinal;        // Count of instruments in the collection 
+    cInstruments : Cardinal;        // Count of instruments in the collection
   end;
   DLSHEADER = TDLSHEADER;
   LPDLSHEADER = ^DLSHEADER;
@@ -12166,8 +12166,8 @@ type
 // definitions for the Wave link structure
 /////////////////////////////////////////////////////////////////////////////
 
-// ****  For level 1 only WAVELINK_CHANNEL_MONO is valid  **** 
-// ulChannel allows for up to 32 channels of audio with each bit position 
+// ****  For level 1 only WAVELINK_CHANNEL_MONO is valid  ****
+// ulChannel allows for up to 32 channels of audio with each bit position
 // specifiying a channel of playback
 
 const
@@ -12177,11 +12177,11 @@ const
   F_WAVELINK_PHASE_MASTER = $0001;
 
 type
-  TWAVELINK = record           // any paths or links are stored right after struct 
+  TWAVELINK = record           // any paths or links are stored right after struct
     fusOptions   : Word;       // options flags for this wave
-    usPhaseGroup : Word;       // Phase grouping for locking channels 
-    ulChannel    : Cardinal;   // channel placement 
-    ulTableIndex : Cardinal;   // index into the wave pool table, 0 based 
+    usPhaseGroup : Word;       // Phase grouping for locking channels
+    ulChannel    : Cardinal;   // channel placement
+    ulTableIndex : Cardinal;   // index into the wave pool table, 0 based
   end;
   WAVELINK   = TWAVELINK;
   LPWAVELINK = ^WAVELINK;
@@ -12191,14 +12191,14 @@ const
 
 type
   TPOOLCUE = record
-    ulOffset : Cardinal;       // Offset to the entry in the list 
+    ulOffset : Cardinal;       // Offset to the entry in the list
   end;
   POOLCUE   = TPOOLCUE;
   LPPOOLCUE = ^POOLCUE;
 
   TPOOLTABLE = record
-    cbSize : Cardinal;         // size of the pool table structure 
-    cCues  : Cardinal;         // count of cues in the list 
+    cbSize : Cardinal;         // size of the pool table structure
+    cCues  : Cardinal;         // count of cues in the list
   end;
   POOLTABLE   = TPOOLTABLE;
   LPPOOLTABLE = ^POOLTABLE;
@@ -12213,28 +12213,28 @@ const
 type
   Trwsmp = record
     cbSize       : Cardinal;
-    usUnityNote  : Word;         // MIDI Unity Playback Note 
-    sFineTune    : Smallint;     // Fine Tune in log tuning 
-    lAttenuation : Longint;      // Overall Attenuation to be applied to data 
-    fulOptions   : Cardinal;     // Flag options  
+    usUnityNote  : Word;         // MIDI Unity Playback Note
+    sFineTune    : Smallint;     // Fine Tune in log tuning
+    lAttenuation : Longint;      // Overall Attenuation to be applied to data
+    fulOptions   : Cardinal;     // Flag options
     cSampleLoops : Cardinal;     // Count of Sample loops, 0 loops is one shot
   end;
   WSMPL   = Trwsmp;
   LPWSMPL = ^WSMPL;
 
 
-// This loop type is a normal forward playing loop which is continually 
-// played until the envelope reaches an off threshold in the release 
-// portion of the volume envelope 
+// This loop type is a normal forward playing loop which is continually
+// played until the envelope reaches an off threshold in the release
+// portion of the volume envelope
 const
  WLOOP_TYPE_FORWARD = 0;
 
 type
   Trloop = record
     cbSize   : Cardinal;
-    ulType   : Cardinal;           // Loop Type 
+    ulType   : Cardinal;           // Loop Type
     ulStart  : Cardinal;           // Start of loop in samples
-    ulLength : Cardinal;           // Length of loop in samples 
+    ulLength : Cardinal;           // Length of loop in samples
   end;
   WLOOP = Trloop;
   LPWLOOP = ^WLOOP;
@@ -12268,75 +12268,75 @@ const
 //  the definitions in the DLS1 header.
 ///
 
-// Generic Sources (in addition to DLS1 sources. 
+// Generic Sources (in addition to DLS1 sources.
   CONN_SRC_POLYPRESSURE	       = $0007; 	// Polyphonic Pressure
-  CONN_SRC_CHANNELPRESSURE     = $0008;	        // Channel Pressure 
-  CONN_SRC_VIBRATO	       = $0009; 	// Vibrato LFO 
+  CONN_SRC_CHANNELPRESSURE     = $0008;	        // Channel Pressure
+  CONN_SRC_VIBRATO	       = $0009; 	// Vibrato LFO
   CONN_SRC_MONOPRESSURE        = $000a;         // MIDI Mono pressure
 
 
-// Midi Controllers 
-  CONN_SRC_CC91		       = $00db;	        // Reverb Send 
+// Midi Controllers
+  CONN_SRC_CC91		       = $00db;	        // Reverb Send
   CONN_SRC_CC93		       = $00dd;	        // Chorus Send
 
 
-// Generic Destinations 
-  CONN_DST_GAIN		       = $0001;	        // Same as CONN_DST_ ATTENUATION 
-  CONN_DST_KEYNUMBER 	       = $0005;  	// Key Number Generator 
+// Generic Destinations
+  CONN_DST_GAIN		       = $0001;	        // Same as CONN_DST_ ATTENUATION
+  CONN_DST_KEYNUMBER 	       = $0005;  	// Key Number Generator
 
-// Audio Channel Output Destinations 
-  CONN_DST_LEFT		       = $0010;  	// Left Channel Send 
-  CONN_DST_RIGHT	       = $0011; 	// Right Channel Send 
+// Audio Channel Output Destinations
+  CONN_DST_LEFT		       = $0010;  	// Left Channel Send
+  CONN_DST_RIGHT	       = $0011; 	// Right Channel Send
   CONN_DST_CENTER	       = $0012; 	// Center Channel Send
-  CONN_DST_LEFTREAR	       = $0013; 	// Left Rear Channel Send 
-  CONN_DST_RIGHTREAR	       = $0014; 	// Right Rear Channel Send 
-  CONN_DST_LFE_CHANNEL	       = $0015; 	// LFE Channel Send 
-  CONN_DST_CHORUS	       = $0080; 	// Chorus Send 
-  CONN_DST_REVERB	       = $0081; 	// Reverb Send 
+  CONN_DST_LEFTREAR	       = $0013; 	// Left Rear Channel Send
+  CONN_DST_RIGHTREAR	       = $0014; 	// Right Rear Channel Send
+  CONN_DST_LFE_CHANNEL	       = $0015; 	// LFE Channel Send
+  CONN_DST_CHORUS	       = $0080; 	// Chorus Send
+  CONN_DST_REVERB	       = $0081; 	// Reverb Send
 
 // Vibrato LFO Destinations
-  CONN_DST_VIB_FREQUENCY       = $0114; 	// Vibrato Frequency 
-  CONN_DST_VIB_STARTDELAY      = $0115; 	// Vibrato Start Delay 
+  CONN_DST_VIB_FREQUENCY       = $0114; 	// Vibrato Frequency
+  CONN_DST_VIB_STARTDELAY      = $0115; 	// Vibrato Start Delay
 
-// EG1 Destinations 
-  CONN_DST_EG1_DELAYTIME       = $020B; 	// EG1 Delay Time 
-  CONN_DST_EG1_HOLDTIME	       = $020C; 	// EG1 Hold Time 
+// EG1 Destinations
+  CONN_DST_EG1_DELAYTIME       = $020B; 	// EG1 Delay Time
+  CONN_DST_EG1_HOLDTIME	       = $020C; 	// EG1 Hold Time
 
 
-//	EG2 Destinations 
-  CONN_DST_EG2_DELAYTIME       = $030F; 	// EG2 Delay Time 
-  CONN_DST_EG2_HOLDTIME	       = $0310; 	// EG2 Hold Time 
+//	EG2 Destinations
+  CONN_DST_EG2_DELAYTIME       = $030F; 	// EG2 Delay Time
+  CONN_DST_EG2_HOLDTIME	       = $0310; 	// EG2 Hold Time
 
 
 // Filter Destinations
-  CONN_DST_FILTER_CUTOFF       = $0500; 	// Filter Cutoff Frequency 
-  CONN_DST_FILTER_Q	       = $0501; 	// Filter Resonance 
+  CONN_DST_FILTER_CUTOFF       = $0500; 	// Filter Cutoff Frequency
+  CONN_DST_FILTER_Q	       = $0501; 	// Filter Resonance
 
 
-// Transforms 
-  CONN_TRN_CONVEX	       = $0002; 	// Convex Transform 
+// Transforms
+  CONN_TRN_CONVEX	       = $0002; 	// Convex Transform
   CONN_TRN_SWITCH	       = $0003; 	// Switch Transform
 
 
-//	Conditional chunk operators 
-  DLS_CDL_AND		       = $0001; 	// X = X & Y 
-  DLS_CDL_OR		       = $0002; 	// X = X | Y 
-  DLS_CDL_XOR		       = $0003; 	// X = X ^ Y 
-  DLS_CDL_ADD		       = $0004; 	// X = X + Y 
-  DLS_CDL_SUBTRACT   	       = $0005; 	// X = X - Y 
-  DLS_CDL_MULTIPLY	       = $0006; 	// X = X * Y 
-  DLS_CDL_DIVIDE	       = $0007; 	// X = X / Y 
+//	Conditional chunk operators
+  DLS_CDL_AND		       = $0001; 	// X = X & Y
+  DLS_CDL_OR		       = $0002; 	// X = X | Y
+  DLS_CDL_XOR		       = $0003; 	// X = X ^ Y
+  DLS_CDL_ADD		       = $0004; 	// X = X + Y
+  DLS_CDL_SUBTRACT   	       = $0005; 	// X = X - Y
+  DLS_CDL_MULTIPLY	       = $0006; 	// X = X * Y
+  DLS_CDL_DIVIDE	       = $0007; 	// X = X / Y
   DLS_CDL_LOGICAL_AND	       = $0008; 	// X = X && Y
   DLS_CDL_LOGICAL_OR	       = $0009; 	// X = X || Y
-  DLS_CDL_LT		       = $000A; 	// X = (X < Y) 
-  DLS_CDL_LE		       = $000B; 	// X = (X <= Y) 
-  DLS_CDL_GT	    	       = $000C; 	// X = (X > Y) 
-  DLS_CDL_GE		       = $000D; 	// X = (X >= Y) 
-  DLS_CDL_EQ		       = $000E; 	// X = (X == Y) 
-  DLS_CDL_NOT	   	       = $000F; 	// X = !X 
-  DLS_CDL_CONST	    	       = $0010; 	// 32-bit constant 
-  DLS_CDL_QUERY	    	       = $0011; 	// 32-bit value returned from query 
-  DLS_CDL_QUERYSUPPORTED       = $0012; 	// Test to see if DLSID Query is supported 
+  DLS_CDL_LT		       = $000A; 	// X = (X < Y)
+  DLS_CDL_LE		       = $000B; 	// X = (X <= Y)
+  DLS_CDL_GT	    	       = $000C; 	// X = (X > Y)
+  DLS_CDL_GE		       = $000D; 	// X = (X >= Y)
+  DLS_CDL_EQ		       = $000E; 	// X = (X == Y)
+  DLS_CDL_NOT	   	       = $000F; 	// X = !X
+  DLS_CDL_CONST	    	       = $0010; 	// 32-bit constant
+  DLS_CDL_QUERY	    	       = $0011; 	// 32-bit value returned from query
+  DLS_CDL_QUERYSUPPORTED       = $0012; 	// Test to see if DLSID Query is supported
 
 //Loop and release
 
@@ -12363,10 +12363,10 @@ const
 //**********************************************************************
 
 type
-  PCENT   = Longint;     // Pitch cents 
-  GCENT   = Longint;     // Gain cents 
-  TCENT   = Longint;     // Time cents 
-  PERCENT = Longint;     // Per.. cent! 
+  PCENT   = Longint;     // Pitch cents
+  GCENT   = Longint;     // Gain cents
+  TCENT   = Longint;     // Time cents
+  PERCENT = Longint;     // Per.. cent!
 
   PReference_Time = ^TReference_Time;
   TReference_Time  = LONGLONG;
@@ -12377,13 +12377,13 @@ type
 function MAKEFOURCC(ch0, ch1, ch2, ch3: Char) : DWORD;
 
 type
-  FOURCC = DWORD;         // a four character code 
+  FOURCC = DWORD;         // a four character code
 
   TDMUS_DOWNLOADINFO = record
-    dwDLType                : DWORD;      // Instrument or Wave 
-    dwDLId                  : DWORD;      // Unique identifier to tag this download. 
+    dwDLType                : DWORD;      // Instrument or Wave
+    dwDLId                  : DWORD;      // Unique identifier to tag this download.
     dwNumOffsetTableEntries : DWORD;      // Number of index in the offset address table.
-    cbSize                  : DWORD;      // Total size of this memory chunk. 
+    cbSize                  : DWORD;      // Total size of this memory chunk.
   end;
   DMUS_DOWNLOADINFO = TDMUS_DOWNLOADINFO;
 
@@ -12406,9 +12406,9 @@ type
   TDMUS_INSTRUMENT = record
     ulPatch          : Cardinal;
     ulFirstRegionIdx : Cardinal;
-    ulGlobalArtIdx   : Cardinal;        // If zero the instrument does not have an articulation 
-    ulFirstExtCkIdx  : Cardinal;        // If zero no 3rd party entenstion chunks associated with the instrument 
-    ulCopyrightIdx   : Cardinal;        // If zero no Copyright information associated with the instrument 
+    ulGlobalArtIdx   : Cardinal;        // If zero the instrument does not have an articulation
+    ulFirstExtCkIdx  : Cardinal;        // If zero no 3rd party entenstion chunks associated with the instrument
+    ulCopyrightIdx   : Cardinal;        // If zero no Copyright information associated with the instrument
     ulFlags          : Cardinal;
   end;
   DMUS_INSTRUMENT = TDMUS_INSTRUMENT;
@@ -12418,9 +12418,9 @@ type
     RangeVelocity   : RGNRANGE;
     fusOptions      : Word;
     usKeyGroup      : Word;
-    ulRegionArtIdx  : Cardinal;                // If zero the region does not have an articulation 
-    ulNextRegionIdx : Cardinal;                // If zero no more regions 
-    ulFirstExtCkIdx : Cardinal;                // If zero no 3rd party entenstion chunks associated with the region 
+    ulRegionArtIdx  : Cardinal;                // If zero the region does not have an articulation
+    ulNextRegionIdx : Cardinal;                // If zero no more regions
+    ulFirstExtCkIdx : Cardinal;                // If zero no 3rd party entenstion chunks associated with the region
     WaveLink        : WAVELINK;
     WSMP            : WSMPL;                   //  If WSMP.cSampleLoops > 1 then a WLOOP is included
     WLOOP           : array[0..0] of WLOOP;
@@ -12473,35 +12473,35 @@ type
 
   TDMUS_ARTICULATION = record
     ulArt1Idx       : Cardinal;        // If zero no DLS Level 1 articulation chunk
-    ulFirstExtCkIdx : Cardinal;        // If zero no 3rd party entenstion chunks associated with the articulation 
-    ulNextArtIdx    : Cardinal;        // Additional articulation chunks 
+    ulFirstExtCkIdx : Cardinal;        // If zero no 3rd party entenstion chunks associated with the articulation
+    ulNextArtIdx    : Cardinal;        // Additional articulation chunks
   end;
   DMUS_ARTICULATION = TDMUS_ARTICULATION;
 
   TDMUS_ARTICULATION2 = record
-    ulArt1Idx       : Cardinal;        // If zero no DLS Level 1 articulation chunk 
-    ulFirstExtCkIdx : Cardinal;        // If zero no 3rd party entenstion chunks associated with the articulation 
+    ulArt1Idx       : Cardinal;        // If zero no DLS Level 1 articulation chunk
+    ulFirstExtCkIdx : Cardinal;        // If zero no 3rd party entenstion chunks associated with the articulation
   end;
   DMUS_ARTICULATION2 = TDMUS_ARTICULATION2;
 
 const
   DMUS_MIN_DATA_SIZE = 4;
-//  The actual number is determined by cbSize of struct _DMUS_EXTENSIONCHUNK 
+//  The actual number is determined by cbSize of struct _DMUS_EXTENSIONCHUNK
 
 type
   TDMUS_EXTENSIONCHUNK = record
-    cbSize : Cardinal;                                  //  Size of extension chunk  
-    ulNextExtCkIdx : Cardinal;                          //  If zero no more 3rd party entenstion chunks 
+    cbSize : Cardinal;                                  //  Size of extension chunk
+    ulNextExtCkIdx : Cardinal;                          //  If zero no more 3rd party entenstion chunks
     ExtCkID : FOURCC;
-    byExtCk : array[0..DMUS_MIN_DATA_SIZE - 1] of Byte; //  The actual number that follows is determined by cbSize 
+    byExtCk : array[0..DMUS_MIN_DATA_SIZE - 1] of Byte; //  The actual number that follows is determined by cbSize
   end;
   DMUS_EXTENSIONCHUNK = TDMUS_EXTENSIONCHUNK;
 
-//  The actual number is determined by cbSize of struct TDMUS_COPYRIGHT 
+//  The actual number is determined by cbSize of struct TDMUS_COPYRIGHT
 
   TDMUS_COPYRIGHT = record
-    cbSize      : Cardinal;                                    //  Size of copyright information 
-    byCopyright : array[0..DMUS_MIN_DATA_SIZE - 1] of Byte;    //  The actual number that follows is determined by cbSize 
+    cbSize      : Cardinal;                                    //  Size of copyright information
+    byCopyright : array[0..DMUS_MIN_DATA_SIZE - 1] of Byte;    //  The actual number that follows is determined by cbSize
   end;
   DMUS_COPYRIGHT = TDMUS_COPYRIGHT;
 
@@ -12512,9 +12512,9 @@ type
   DMUS_WAVEDATA = TDMUS_WAVEDATA;
 
   TDMUS_WAVE = record
-    ulFirstExtCkIdx : Cardinal;      // If zero no 3rd party entenstion chunks associated with the wave 
-    ulCopyrightIdx  : Cardinal;      // If zero no Copyright information associated with the wave 
-    ulWaveDataIdx   : Cardinal;      // Location of actual wave data. 
+    ulFirstExtCkIdx : Cardinal;      // If zero no 3rd party entenstion chunks associated with the wave
+    ulCopyrightIdx  : Cardinal;      // If zero no Copyright information associated with the wave
+    ulWaveDataIdx   : Cardinal;      // Location of actual wave data.
     WaveformatEx    : TWAVEFORMATEX;
   end;
   DMUS_WAVE = TDMUS_WAVE;
@@ -12539,8 +12539,8 @@ type
 //**********************************************************************
 
 const
-  FACILITY_DIRECTMUSIC = $878;       // Shared with DirectSound 
-  DMUS_ERRBASE         = $1000;      // Make error codes human readable in hex 
+  FACILITY_DIRECTMUSIC = $878;       // Shared with DirectSound
+  DMUS_ERRBASE         = $1000;      // Make error codes human readable in hex
 
   function MAKE_DMHRESULTSUCCESS(code: Cardinal) : HResult;
   function MAKE_DMHRESULTERROR(code: Cardinal) : HResult;
@@ -13244,14 +13244,14 @@ const
 // Immediately following the header is the event data. The header+data
 // size is rounded to the nearest quadword (8 bytes).
 ///
- 
-// Do not pad at end - that's where the data is 
+
+// Do not pad at end - that's where the data is
 type
   TDMUS_EVENTHEADER = record
-    cbEvent        : DWORD;                // Unrounded bytes in event 
-    dwChannelGroup : DWORD;                // Channel group of event 
+    cbEvent        : DWORD;                // Unrounded bytes in event
+    dwChannelGroup : DWORD;                // Channel group of event
     rtDelta        : REFERENCE_TIME;       // Delta from start time of entire buffer
-    dwFlags        : DWORD;                // Flags DMUS_EVENT_xxx 
+    dwFlags        : DWORD;                // Flags DMUS_EVENT_xxx
   end;
   DMUS_EVENTHEADER = TDMUS_EVENTHEADER;
   LPDMUS_EVENTHEADER = ^TDMUS_EVENTHEADER;
@@ -13260,7 +13260,7 @@ const
   DMUS_EVENT_STRUCTURED  = $00000001;  // Unstructured data (SysEx, etc.)
 
 // The number of bytes to allocate for an event with 'cb' data bytes.
-// 
+//
   function QWORD_ALIGN(x: LONGLONG) : LONGLONG; //(((x) + 7) & ~7)
   function DMUS_EVENT_SIZE(cb: LONGLONG) : LONGLONG; //QWORD_ALIGN(sizeof(DMUS_EVENTHEADER) + cb)
 
@@ -13295,12 +13295,12 @@ const
   DMUS_EFFECT_CHORUS         = $00000002;
 
 // For DMUS_PORTCAPS dwClass
-// 
+//
   DMUS_PC_INPUTCLASS     = (0);
   DMUS_PC_OUTPUTCLASS    = (1);
 
 // For DMUS_PORTCAPS dwFlags
-// 
+//
   DMUS_PC_DLS             = ($00000001);
   DMUS_PC_EXTERNAL        = ($00000002);
   DMUS_PC_SOFTWARESYNTH   = ($00000004);
@@ -13339,7 +13339,7 @@ const
   DMUS_PORT_KERNEL_MODE      = (2);
 
 // These flags (set in dwValidParams) indicate which other members of the
-// DMUS_PORTPARAMS are valid. 
+// DMUS_PORTPARAMS are valid.
 //
   DMUS_PORTPARAMS_VOICES          = $00000001;
   DMUS_PORTPARAMS_CHANNELGROUPS   = $00000002;
@@ -13364,11 +13364,11 @@ type
 
   TDMUS_SYNTHSTATS = record
     dwSize        : DWORD;      // Size in bytes of the structure
-    dwValidStats  : DWORD;      // Flags indicating which fields below are valid. 
-    dwVoices      : DWORD;      // Average number of voices playing. 
+    dwValidStats  : DWORD;      // Flags indicating which fields below are valid.
+    dwVoices      : DWORD;      // Average number of voices playing.
     dwTotalCPU    : DWORD;      // Total CPU usage as percent * 100.
     dwCPUPerVoice : DWORD;      // CPU per voice as percent * 100.
-    dwLostNotes   : DWORD;      // Number of notes lost in 1 second. 
+    dwLostNotes   : DWORD;      // Number of notes lost in 1 second.
     dwFreeMemory  : DWORD;      // Free memory in bytes
     lPeakVolume   : Longint;    // Decibel level * 100.
   end;
@@ -13392,7 +13392,7 @@ type
                                    //Negative values gives less wet signal.
                                    //The coeficients are calculated so that the overall output level stays
                                    //(approximately) constant regardless of the ammount of reverb mix.
-    fReverbTime      : Single;     // The reverb decay time, in milliseconds. 
+    fReverbTime      : Single;     // The reverb decay time, in milliseconds.
     fHighFreqRTRatio : Single;     // The ratio of the high frequencies to the global reverb time.
                                    //Unless very 'splashy-bright' reverbs are wanted, this should be set to
                                    //a value < 1.0.
@@ -13465,7 +13465,7 @@ type
     function SetStartTime(rt: TREFERENCE_TIME) : HResult; stdcall;
     function SetUsedBytes(cb: DWORD) : HResult; stdcall;
   end;
-                      
+
 // Format of DirectMusic events in a buffer
 //
 // A buffer contains 1 or more events, each with the following header.
@@ -13530,7 +13530,7 @@ type
 
   IDirectMusicPort = interface(IUnknown)
     ['{08F2D8C9-37C2-11D2-B9F9-0000F875AC12}']
-    //  IDirectMusicPort 
+    //  IDirectMusicPort
     //
     function PlayBuffer(pBuffer: IDirectMusicBuffer) : HResult; stdcall;
     function SetReadNotificationHandle(hEvent: THandle) : HResult; stdcall;
@@ -13576,11 +13576,11 @@ type
     //  IReferenceClock
     //
 
-    //  get the time now 
+    //  get the time now
     function GetTime(var pTime: TREFERENCE_TIME) : HResult; stdcall;
 
     //  ask for an async notification that a time has elapsed
-    function AdviseTime(baseTime: TREFERENCE_TIME;         //  base time 
+    function AdviseTime(baseTime: TREFERENCE_TIME;         //  base time
                         streamTime: TREFERENCE_TIME;       //  stream offset time
                         hEvent: THandle;                   //  advise via this event
                         var pdwAdviseCookie: DWORD) : HResult; stdcall;   //  where your cookie goes
@@ -13604,7 +13604,7 @@ type
 // size is rounded to the nearest quadword (8 bytes).
 ///
 
-  //DMUS_EVENT_STRUCTURED = $00000001;  // Unstructured data (SysEx, etc.) 
+  //DMUS_EVENT_STRUCTURED = $00000001;  // Unstructured data (SysEx, etc.)
 
 // The number of bytes to allocate for an event with 'cb' data bytes.
 ///
@@ -13650,8 +13650,8 @@ const
   DAUD_CHAN14_VOICE_PRIORITY_OFFSET = $00000002;
   DAUD_CHAN15_VOICE_PRIORITY_OFFSET = $00000001;
   DAUD_CHAN16_VOICE_PRIORITY_OFFSET = $00000000;
- 
- 
+
+
   DAUD_CHAN1_DEF_VOICE_PRIORITY = (DAUD_STANDARD_VOICE_PRIORITY or DAUD_CHAN1_VOICE_PRIORITY_OFFSET);
   DAUD_CHAN2_DEF_VOICE_PRIORITY = (DAUD_STANDARD_VOICE_PRIORITY or DAUD_CHAN2_VOICE_PRIORITY_OFFSET);
   DAUD_CHAN3_DEF_VOICE_PRIORITY = (DAUD_STANDARD_VOICE_PRIORITY or DAUD_CHAN3_VOICE_PRIORITY_OFFSET);
@@ -13687,7 +13687,7 @@ const
   IID_IDirectMusicInstrument  : TGUID = '{D2AC287D-B39B-11D1-8704-00600893B1BD}';
   IID_IDirectMusicDownloadedInstrument: TGUID = '{D2AC287E-B39B-11D1-8704-00600893B1BD}';
 
-// Alternate interface ID for IID_IDirectMusic, available in DX7 release and after. 
+// Alternate interface ID for IID_IDirectMusic, available in DX7 release and after.
   IID_IDirectMusic2           : TGUID = '{6FC2CAE1-BC78-11D2-AFA6-00AA0024D8B6}';
 
 // Property Query GUID_DMUS_PROP_GM_Hardware - Local GM set, no need to download
@@ -13781,7 +13781,7 @@ type
   MUSIC_TIME      = Longint;
 
 const
-  DMUS_PPQ        = 768;     // parts per quarter note 
+  DMUS_PPQ        = 768;     // parts per quarter note
 
 const
   DMUS_MAX_NAME          = 64;         // Maximum object name length.
@@ -13857,42 +13857,42 @@ const
 // DMUS_PMSGF_FLAGS fill the DMUS_PMSG's dwFlags member
   DMUS_PMSGF_REFTIME          = 1;      // if rtTime is valid
   DMUS_PMSGF_MUSICTIME        = 2;      // if mtTime is valid
-  DMUS_PMSGF_TOOL_IMMEDIATE   = 4;      // if PMSG should be processed immediately 
+  DMUS_PMSGF_TOOL_IMMEDIATE   = 4;      // if PMSG should be processed immediately
   DMUS_PMSGF_TOOL_QUEUE       = 8;      // if PMSG should be processed a little early, at Queue time
   DMUS_PMSGF_TOOL_ATTIME      = 16;     // if PMSG should be processed at the time stamp
   DMUS_PMSGF_TOOL_FLUSH       = 32;     // if PMSG is being flushed
   // The values of DMUS_TIME_RESOLVE_FLAGS may also be used inside the
-  // DMUS_PMSG's dwFlags member. 
+  // DMUS_PMSG's dwFlags member.
 
 type
   TDMUS_PMSGF_FLAGS    = Cardinal;
   DMUS_PMSGF_FLAGS     = TDMUS_PMSGF_FLAGS;
 {typedef enum enumDMUS_PMSGF_FLAGS
 {
-    DMUS_PMSGF_REFTIME          = 1,      /* if rtTime is valid 
-    DMUS_PMSGF_MUSICTIME        = 2,      /* if mtTime is valid 
+    DMUS_PMSGF_REFTIME          = 1,      /* if rtTime is valid
+    DMUS_PMSGF_MUSICTIME        = 2,      /* if mtTime is valid
     DMUS_PMSGF_TOOL_IMMEDIATE   = 4,      /* if PMSG should be processed immediately
     DMUS_PMSGF_TOOL_QUEUE       = 8,      /* if PMSG should be processed a little early, at Queue time
     DMUS_PMSGF_TOOL_ATTIME      = 16,     /* if PMSG should be processed at the time stamp
     DMUS_PMSGF_TOOL_FLUSH       = 32      /* if PMSG is being flushed
-    /* The values of DMUS_TIME_RESOLVE_FLAGS may also be used inside the 
-    /* DMUS_PMSG's dwFlags member. 
+    /* The values of DMUS_TIME_RESOLVE_FLAGS may also be used inside the
+    /* DMUS_PMSG's dwFlags member.
  DMUS_PMSGF_FLAGS;}
 
 const
-// DMUS_PMSGT_TYPES fill the DMUS_PMSG's dwType member 
+// DMUS_PMSGT_TYPES fill the DMUS_PMSG's dwType member
   DMUS_PMSGT_MIDI             = 0;      // MIDI short message
-  DMUS_PMSGT_NOTE             = 1;      // Interactive Music Note 
+  DMUS_PMSGT_NOTE             = 1;      // Interactive Music Note
   DMUS_PMSGT_SYSEX            = 2;      // MIDI long message (system exclusive message)
-  DMUS_PMSGT_NOTIFICATION     = 3;      // Notification message 
+  DMUS_PMSGT_NOTIFICATION     = 3;      // Notification message
   DMUS_PMSGT_TEMPO            = 4;      // Tempo message
-  DMUS_PMSGT_CURVE            = 5;      // Control change / pitch bend, etc. curve 
-  DMUS_PMSGT_TIMESIG          = 6;      // Time signature 
+  DMUS_PMSGT_CURVE            = 5;      // Control change / pitch bend, etc. curve
+  DMUS_PMSGT_TIMESIG          = 6;      // Time signature
   DMUS_PMSGT_PATCH            = 7;      // Patch changes
-  DMUS_PMSGT_TRANSPOSE        = 8;      // Transposition messages 
+  DMUS_PMSGT_TRANSPOSE        = 8;      // Transposition messages
   DMUS_PMSGT_CHANNEL_PRIORITY = 9;      // Channel priority
   DMUS_PMSGT_STOP             = 10;     // Stop message
-  DMUS_PMSGT_DIRTY            = 11;     // Tells Tools that cache GetParam() info to refresh 
+  DMUS_PMSGT_DIRTY            = 11;     // Tells Tools that cache GetParam() info to refresh
   DMUS_PMSGT_USER             = 255;    // User message
 
 type
@@ -13901,33 +13901,33 @@ type
 
 {typedef enum enumDMUS_PMSGT_TYPES
 {
-    DMUS_PMSGT_MIDI             = 0,      /* MIDI short message 
-    DMUS_PMSGT_NOTE             = 1,      /* Interactive Music Note 
-    DMUS_PMSGT_SYSEX            = 2,      /* MIDI long message (system exclusive message) 
+    DMUS_PMSGT_MIDI             = 0,      /* MIDI short message
+    DMUS_PMSGT_NOTE             = 1,      /* Interactive Music Note
+    DMUS_PMSGT_SYSEX            = 2,      /* MIDI long message (system exclusive message)
     DMUS_PMSGT_NOTIFICATION     = 3,      /* Notification message
-    DMUS_PMSGT_TEMPO            = 4,      /* Tempo message 
+    DMUS_PMSGT_TEMPO            = 4,      /* Tempo message
     DMUS_PMSGT_CURVE            = 5,      /* Control change / pitch bend, etc. curve
-    DMUS_PMSGT_TIMESIG          = 6,      /* Time signature 
-    DMUS_PMSGT_PATCH            = 7,      /* Patch changes 
-    DMUS_PMSGT_TRANSPOSE        = 8,      /* Transposition messages 
-    DMUS_PMSGT_CHANNEL_PRIORITY = 9,      /* Channel priority 
-    DMUS_PMSGT_STOP             = 10,     /* Stop message 
-    DMUS_PMSGT_DIRTY            = 11,     /* Tells Tools that cache GetParam() info to refresh 
-    DMUS_PMSGT_USER             = 255     /* User message 
+    DMUS_PMSGT_TIMESIG          = 6,      /* Time signature
+    DMUS_PMSGT_PATCH            = 7,      /* Patch changes
+    DMUS_PMSGT_TRANSPOSE        = 8,      /* Transposition messages
+    DMUS_PMSGT_CHANNEL_PRIORITY = 9,      /* Channel priority
+    DMUS_PMSGT_STOP             = 10,     /* Stop message
+    DMUS_PMSGT_DIRTY            = 11,     /* Tells Tools that cache GetParam() info to refresh
+    DMUS_PMSGT_USER             = 255     /* User message
  DMUS_PMSGT_TYPES;}
 
 const
-// DMUS_SEGF_FLAGS correspond to IDirectMusicPerformance::PlaySegment, and other API 
-  DMUS_SEGF_REFTIME           = 64;        // time parameter is in reference time  
-  DMUS_SEGF_SECONDARY         = 128;       // secondary segment 
-  DMUS_SEGF_QUEUE             = 256;       // queue at the end of the primary segment queue (primary only) 
+// DMUS_SEGF_FLAGS correspond to IDirectMusicPerformance::PlaySegment, and other API
+  DMUS_SEGF_REFTIME           = 64;        // time parameter is in reference time
+  DMUS_SEGF_SECONDARY         = 128;       // secondary segment
+  DMUS_SEGF_QUEUE             = 256;       // queue at the end of the primary segment queue (primary only)
   DMUS_SEGF_CONTROL           = 512;       // play as a control track (secondary segments only)
-  DMUS_SEGF_AFTERPREPARETIME  = 1 shl 10;  // play after the prepare time (See IDirectMusicPerformance::GetPrepareTime) 
+  DMUS_SEGF_AFTERPREPARETIME  = 1 shl 10;  // play after the prepare time (See IDirectMusicPerformance::GetPrepareTime)
   DMUS_SEGF_GRID              = 1 shl 11;  // play on grid boundary
-  DMUS_SEGF_BEAT              = 1 shl 12;  // play on beat boundary 
-  DMUS_SEGF_MEASURE           = 1 shl 13;  // play on measure boundary 
-  DMUS_SEGF_DEFAULT           = 1 shl 14;  // use segment's default boundary 
-  DMUS_SEGF_NOINVALIDATE      = 1 shl 15;  // play without invalidating the currently playing segment(s) 
+  DMUS_SEGF_BEAT              = 1 shl 12;  // play on beat boundary
+  DMUS_SEGF_MEASURE           = 1 shl 13;  // play on measure boundary
+  DMUS_SEGF_DEFAULT           = 1 shl 14;  // use segment's default boundary
+  DMUS_SEGF_NOINVALIDATE      = 1 shl 15;  // play without invalidating the currently playing segment(s)
 
 type
   TDMUS_SEGF_FLAGS = Cardinal;
@@ -13935,26 +13935,26 @@ type
 
 {typedef enum enumDMUS_SEGF_FLAGS
 {
-    DMUS_SEGF_REFTIME           = 64,     /* time parameter is in reference time  
+    DMUS_SEGF_REFTIME           = 64,     /* time parameter is in reference time
     DMUS_SEGF_SECONDARY         = 128,    /* secondary segment
-    DMUS_SEGF_QUEUE             = 256,    /* queue at the end of the primary segment queue (primary only) 
-    DMUS_SEGF_CONTROL           = 512,    /* play as a control track (secondary segments only) 
-    DMUS_SEGF_AFTERPREPARETIME  = 1<<10,  /* play after the prepare time (See IDirectMusicPerformance::GetPrepareTime) 
-    DMUS_SEGF_GRID              = 1<<11,  /* play on grid boundary 
-    DMUS_SEGF_BEAT              = 1<<12,  /* play on beat boundary 
-    DMUS_SEGF_MEASURE           = 1<<13,  /* play on measure boundary 
-    DMUS_SEGF_DEFAULT           = 1<<14,  /* use segment's default boundary 
-    DMUS_SEGF_NOINVALIDATE      = 1<<15   /* play without invalidating the currently playing segment(s) 
+    DMUS_SEGF_QUEUE             = 256,    /* queue at the end of the primary segment queue (primary only)
+    DMUS_SEGF_CONTROL           = 512,    /* play as a control track (secondary segments only)
+    DMUS_SEGF_AFTERPREPARETIME  = 1<<10,  /* play after the prepare time (See IDirectMusicPerformance::GetPrepareTime)
+    DMUS_SEGF_GRID              = 1<<11,  /* play on grid boundary
+    DMUS_SEGF_BEAT              = 1<<12,  /* play on beat boundary
+    DMUS_SEGF_MEASURE           = 1<<13,  /* play on measure boundary
+    DMUS_SEGF_DEFAULT           = 1<<14,  /* use segment's default boundary
+    DMUS_SEGF_NOINVALIDATE      = 1<<15   /* play without invalidating the currently playing segment(s)
  DMUS_SEGF_FLAGS;}
 
 const
 // DMUS_TIME_RESOLVE_FLAGS correspond to IDirectMusicPerformance::GetResolvedTime, and can
-// also be used interchangeably with the corresponding DMUS_SEGF_FLAGS, since their values 
-// are intentionally the same 
-  DMUS_TIME_RESOLVE_AFTERPREPARETIME  = 1 shl 10;  // resolve to a time after the prepare time 
-  DMUS_TIME_RESOLVE_GRID              = 1 shl 11;  // resolve to a time on a grid boundary 
-  DMUS_TIME_RESOLVE_BEAT              = 1 shl 12;  // resolve to a time on a beat boundary 
-  DMUS_TIME_RESOLVE_MEASURE           = 1 shl 13;  // resolve to a time on a measure boundary 
+// also be used interchangeably with the corresponding DMUS_SEGF_FLAGS, since their values
+// are intentionally the same
+  DMUS_TIME_RESOLVE_AFTERPREPARETIME  = 1 shl 10;  // resolve to a time after the prepare time
+  DMUS_TIME_RESOLVE_GRID              = 1 shl 11;  // resolve to a time on a grid boundary
+  DMUS_TIME_RESOLVE_BEAT              = 1 shl 12;  // resolve to a time on a beat boundary
+  DMUS_TIME_RESOLVE_MEASURE           = 1 shl 13;  // resolve to a time on a measure boundary
 
 type
   TDMUS_TIME_RESOLVE_FLAGS = Cardinal;
@@ -13962,20 +13962,20 @@ type
 
 {typedef enum enumDMUS_TIME_RESOLVE_FLAGS
 {
-    DMUS_TIME_RESOLVE_AFTERPREPARETIME  = 1<<10,  /* resolve to a time after the prepare time 
-    DMUS_TIME_RESOLVE_GRID              = 1<<11,  /* resolve to a time on a grid boundary 
+    DMUS_TIME_RESOLVE_AFTERPREPARETIME  = 1<<10,  /* resolve to a time after the prepare time
+    DMUS_TIME_RESOLVE_GRID              = 1<<11,  /* resolve to a time on a grid boundary
     DMUS_TIME_RESOLVE_BEAT              = 1<<12,  /* resolve to a time on a beat boundary
-    DMUS_TIME_RESOLVE_MEASURE           = 1<<13   /* resolve to a time on a measure boundary 
+    DMUS_TIME_RESOLVE_MEASURE           = 1<<13   /* resolve to a time on a measure boundary
  DMUS_TIME_RESOLVE_FLAGS;}
 
 const
-// The following flags are sent in the IDirectMusicTrack::Play() method 
-// inside the dwFlags parameter 
-  DMUS_TRACKF_SEEK            = 1;      // set on a seek 
-  DMUS_TRACKF_LOOP            = 2;      // set on a loop (repeat) 
-  DMUS_TRACKF_START           = 4;      // set on first call to Play 
-  DMUS_TRACKF_FLUSH           = 8;      // set when this call is in response to a flush on the perfomance 
-  DMUS_TRACKF_DIRTY           = 16;     // set when the track should consider any cached values from a previous call to GetParam to be invalidated 
+// The following flags are sent in the IDirectMusicTrack::Play() method
+// inside the dwFlags parameter
+  DMUS_TRACKF_SEEK            = 1;      // set on a seek
+  DMUS_TRACKF_LOOP            = 2;      // set on a loop (repeat)
+  DMUS_TRACKF_START           = 4;      // set on first call to Play
+  DMUS_TRACKF_FLUSH           = 8;      // set when this call is in response to a flush on the perfomance
+  DMUS_TRACKF_DIRTY           = 16;     // set when the track should consider any cached values from a previous call to GetParam to be invalidated
 
 type
   TDMUS_TRACKF_FLAGS = Cardinal;
@@ -13983,11 +13983,11 @@ type
 
 {typedef enum enumDMUS_TRACKF_FLAGS
 {
-    DMUS_TRACKF_SEEK            = 1,      /* set on a seek 
-    DMUS_TRACKF_LOOP            = 2,      /* set on a loop (repeat) 
-    DMUS_TRACKF_START           = 4,      /* set on first call to Play 
-    DMUS_TRACKF_FLUSH           = 8,      /* set when this call is in response to a flush on the perfomance 
-    DMUS_TRACKF_DIRTY           = 16,     /* set when the track should consider any cached values from a previous call to GetParam to be invalidated 
+    DMUS_TRACKF_SEEK            = 1,      /* set on a seek
+    DMUS_TRACKF_LOOP            = 2,      /* set on a loop (repeat)
+    DMUS_TRACKF_START           = 4,      /* set on first call to Play
+    DMUS_TRACKF_FLUSH           = 8,      /* set when this call is in response to a flush on the perfomance
+    DMUS_TRACKF_DIRTY           = 16,     /* set when the track should consider any cached values from a previous call to GetParam to be invalidated
  DMUS_TRACKF_FLAGS;}
 
 const
@@ -13996,28 +13996,28 @@ const
 type
   TDMUS_SUBCHORD = record
     dwChordPattern    : DWORD;     // Notes in the subchord
-    dwScalePattern    : DWORD;     // Notes in the scale 
-    dwInversionPoints : DWORD;     // Where inversions can occur 
-    dwLevels          : DWORD;     // Which levels are supported by this subchord 
+    dwScalePattern    : DWORD;     // Notes in the scale
+    dwInversionPoints : DWORD;     // Where inversions can occur
+    dwLevels          : DWORD;     // Which levels are supported by this subchord
     bChordRoot        : Byte;      // Root of the subchord
-    bScaleRoot        : Byte;      // Root of the scale 
+    bScaleRoot        : Byte;      // Root of the scale
   end;
   DMUS_SUBCHORD = TDMUS_SUBCHORD;
 
   TDMUS_CHORD_KEY = record
-    wszName        : array[0..15] of WideChar;                        // Name of the chord 
+    wszName        : array[0..15] of WideChar;                        // Name of the chord
     wMeasure       : Word;                                            // Measure this falls on
-    bBeat          : Byte;                                            // Beat this falls on 
-    bSubChordCount : Byte;                                            // Number of chords in the list of subchords 
-    SubChordList   : array[0..DMUS_MAXSUBCHORD - 1] of TDMUS_SUBCHORD;// List of sub chords 
-    dwScale        : DWORD;                                           // Scale underlying the entire chord 
-    bKey           : Byte;                                            // Key underlying the entire chord 
+    bBeat          : Byte;                                            // Beat this falls on
+    bSubChordCount : Byte;                                            // Number of chords in the list of subchords
+    SubChordList   : array[0..DMUS_MAXSUBCHORD - 1] of TDMUS_SUBCHORD;// List of sub chords
+    dwScale        : DWORD;                                           // Scale underlying the entire chord
+    bKey           : Byte;                                            // Key underlying the entire chord
   end;
   DMUS_CHORD_KEY = TDMUS_CHORD_KEY;
 
 const
 //typedef enum enumDMUS_NOTEF_FLAGS
-  DMUS_NOTEF_NOTEON = 1;     // Set if this is a MIDI Note On. Otherwise, it is MIDI Note Off 
+  DMUS_NOTEF_NOTEON = 1;     // Set if this is a MIDI Note On. Otherwise, it is MIDI Note Off
 
 type
   TDMUS_NOTEF_FLAGS = Cardinal;
@@ -14028,11 +14028,11 @@ type
 ///
 const
 //typedef enum enumDMUS_PLAYMODE_FLAGS
-  DMUS_PLAYMODE_KEY_ROOT          = 1;  // Transpose on top of the key root. 
-  DMUS_PLAYMODE_CHORD_ROOT        = 2;  // Transpose on top of the chord root. 
-  DMUS_PLAYMODE_SCALE_INTERVALS   = 4;  // Use scale intervals from scale pattern. 
+  DMUS_PLAYMODE_KEY_ROOT          = 1;  // Transpose on top of the key root.
+  DMUS_PLAYMODE_CHORD_ROOT        = 2;  // Transpose on top of the chord root.
+  DMUS_PLAYMODE_SCALE_INTERVALS   = 4;  // Use scale intervals from scale pattern.
   DMUS_PLAYMODE_CHORD_INTERVALS   = 8;  // Use chord intervals from chord pattern.
-  DMUS_PLAYMODE_NONE              = 16; // No mode. Indicates the parent part's mode should be used. 
+  DMUS_PLAYMODE_NONE              = 16; // No mode. Indicates the parent part's mode should be used.
 
 type
   TDMUS_PLAYMODE_FLAGS = Cardinal;
@@ -14081,7 +14081,7 @@ const
 ///
   DMUS_PLAYMODE_ALWAYSPLAY       = (DMUS_PLAYMODE_MELODIC or DMUS_PLAYMODE_NORMALCHORD);
 
-//  Legacy names for modes... 
+//  Legacy names for modes...
   DMUS_PLAYMODE_PURPLEIZED       = DMUS_PLAYMODE_ALWAYSPLAY;
   DMUS_PLAYMODE_SCALE_ROOT       = DMUS_PLAYMODE_KEY_ROOT;
   DMUS_PLAYMODE_FIXEDTOSCALE     = DMUS_PLAYMODE_FIXEDTOKEY;
@@ -14094,34 +14094,34 @@ const
   DMUS_MASTERTEMPO_MIN   = 0.25;
 
 const
-  DMUS_CURVE_RESET = 1;           // Set if the curve needs to be reset. 
+  DMUS_CURVE_RESET = 1;           // Set if the curve needs to be reset.
 
 type
   TDMUS_CURVE_FLAGS = Cardinal;
   DMUS_CURVE_FLAGS  = TDMUS_CURVE_FLAGS;
 {
-    DMUS_CURVE_RESET = 1,           /* Set if the curve needs to be reset. 
+    DMUS_CURVE_RESET = 1,           /* Set if the curve needs to be reset.
  DMUS_CURVE_FLAGS; }
 
 
 const
   //DMUS_CURVE_RESET   = 1;
 
-// Curve shapes 
+// Curve shapes
   DMUS_CURVES_LINEAR  = 0;
   DMUS_CURVES_INSTANT = 1;
   DMUS_CURVES_EXP     = 2;
   DMUS_CURVES_LOG     = 3;
   DMUS_CURVES_SINE    = 4;
 
-// curve types 
+// curve types
   DMUS_CURVET_PBCURVE     = $03;
   DMUS_CURVET_CCCURVE     = $04;
   DMUS_CURVET_MATCURVE    = $05;
   DMUS_CURVET_PATCURVE    = $06;
 
-// notification type values 
-// The following correspond to GUID_NOTIFICATION_SEGMENT 
+// notification type values
+// The following correspond to GUID_NOTIFICATION_SEGMENT
 const
   DMUS_NOTIFICATION_SEGSTART     = 0;
   DMUS_NOTIFICATION_SEGEND       = 1;
@@ -14131,44 +14131,44 @@ const
 // The following correspond to GUID_NOTIFICATION_PERFORMANCE
   DMUS_NOTIFICATION_MUSICSTARTED = 0;
   DMUS_NOTIFICATION_MUSICSTOPPED = 1;
-// The following corresponds to GUID_NOTIFICATION_MEASUREANDBEAT 
+// The following corresponds to GUID_NOTIFICATION_MEASUREANDBEAT
   DMUS_NOTIFICATION_MEASUREBEAT  = 0;
-// The following corresponds to GUID_NOTIFICATION_CHORD 
+// The following corresponds to GUID_NOTIFICATION_CHORD
   DMUS_NOTIFICATION_CHORD        = 0;
-// The following correspond to GUID_NOTIFICATION_COMMAND 
+// The following correspond to GUID_NOTIFICATION_COMMAND
   DMUS_NOTIFICATION_GROOVE       = 0;
   DMUS_NOTIFICATION_EMBELLISHMENT= 1;
 
 type
-// Time Signature structure, used by IDirectMusicStyle 
-// Also used as a parameter for GetParam() and SetParam 
+// Time Signature structure, used by IDirectMusicStyle
+// Also used as a parameter for GetParam() and SetParam
   TDMUS_TIMESIGNATURE = record
     mtTime           : MUSIC_TIME;
-    bBeatsPerMeasure : Byte;        // beats per measure (top of time sig) 
-    bBeat            : Byte;        // what note receives the beat (bottom of time sig.) 
+    bBeatsPerMeasure : Byte;        // beats per measure (top of time sig)
+    bBeat            : Byte;        // what note receives the beat (bottom of time sig.)
                                     // we can assume that 0 means 256th note
-    wGridsPerBeat    : Word;        // grids per beat 
+    wGridsPerBeat    : Word;        // grids per beat
   end;
   DMUS_TIMESIGNATURE = TDMUS_TIMESIGNATURE;
 
 //      Flags for dwValidData. When set, a flag indicates that the
-//      corresponding field in DMUSOBJECTDESC holds valid data. 
+//      corresponding field in DMUSOBJECTDESC holds valid data.
 const
-  DMUS_OBJ_OBJECT         = 1 shl 0;     // Object GUID is valid. 
-  DMUS_OBJ_CLASS          = 1 shl 1;     // Class GUID is valid. 
-  DMUS_OBJ_NAME           = 1 shl 2;     // Name is valid. 
-  DMUS_OBJ_CATEGORY       = 1 shl 3;     // Category is valid. 
-  DMUS_OBJ_FILENAME       = 1 shl 4;     // File path is valid. 
-  DMUS_OBJ_FULLPATH       = 1 shl 5;     // Path is full path. 
-  DMUS_OBJ_URL            = 1 shl 6;     // Path is URL. 
-  DMUS_OBJ_VERSION        = 1 shl 7;     // Version is valid. 
-  DMUS_OBJ_DATE           = 1 shl 8;     // Date is valid. 
-  DMUS_OBJ_LOADED         = 1 shl 9;     // Object is currently loaded in memory. 
-  DMUS_OBJ_MEMORY         = 1 shl 10;    // Object is pointed to by pbMemData. 
+  DMUS_OBJ_OBJECT         = 1 shl 0;     // Object GUID is valid.
+  DMUS_OBJ_CLASS          = 1 shl 1;     // Class GUID is valid.
+  DMUS_OBJ_NAME           = 1 shl 2;     // Name is valid.
+  DMUS_OBJ_CATEGORY       = 1 shl 3;     // Category is valid.
+  DMUS_OBJ_FILENAME       = 1 shl 4;     // File path is valid.
+  DMUS_OBJ_FULLPATH       = 1 shl 5;     // Path is full path.
+  DMUS_OBJ_URL            = 1 shl 6;     // Path is URL.
+  DMUS_OBJ_VERSION        = 1 shl 7;     // Version is valid.
+  DMUS_OBJ_DATE           = 1 shl 8;     // Date is valid.
+  DMUS_OBJ_LOADED         = 1 shl 9;     // Object is currently loaded in memory.
+  DMUS_OBJ_MEMORY         = 1 shl 10;    // Object is pointed to by pbMemData.
 
 const
-  DMUSB_LOADED    = 1 shl 0;        // Set when band has been loaded 
-  DMUSB_DEFAULT   = 1 shl 1;        // Set when band is default band for a style 
+  DMUSB_LOADED    = 1 shl 0;        // Set when band has been loaded
+  DMUSB_DEFAULT   = 1 shl 1;        // Set when band is default band for a style
 
 type
   IDirectMusicTrack = interface;
@@ -14222,13 +14222,13 @@ typedef interface IDirectMusicLoader IDirectMusicLoader;
                                             // identify a specific event. For DirectX 6.0,        \
                                             // this field should always be 0.                     \
     dwGroupID        : DWORD;               // Track group id                                  \
-    punkUser         : IUnknown;            // user com pointer, auto released upon PMSG free 
+    punkUser         : IUnknown;            // user com pointer, auto released upon PMSG free
   end;
 // every DMUS_PMSG is based off of this structure. The Performance needs
-// to access these members consistently in every PMSG that goes through it. 
+// to access these members consistently in every PMSG that goes through it.
 {typedef struct _DMUS_PMSG
 {
-    /* begin DMUS_PMSG_PART 
+    /* begin DMUS_PMSG_PART
     DMUS_PMSG_PART
     /* end DMUS_PMSG_PART
 
@@ -14236,26 +14236,26 @@ typedef interface IDirectMusicLoader IDirectMusicLoader;
   TDMUS_PMSG = TDMUS_PMSG_PART;
   DMUS_PMSG  = TDMUS_PMSG;
 
-  // DMUS_NOTE_PMSG 
+  // DMUS_NOTE_PMSG
   TDMUS_NOTE_PMSG = record
-    // begin DMUS_PMSG_PART 
+    // begin DMUS_PMSG_PART
     DMUS_PMSG_PART : TDMUS_PMSG_PART;
-    // end DMUS_PMSG_PART 
+    // end DMUS_PMSG_PART
 
-    mtDuration     : MUSIC_TIME;     // duration 
-    wMusicValue    : Word;           // Description of note in chord and key. 
+    mtDuration     : MUSIC_TIME;     // duration
+    wMusicValue    : Word;           // Description of note in chord and key.
     wMeasure       : Word;           // Measure in which this note occurs
-    nOffset        : Smallint;       // Offset from grid at which this note occurs 
-    bBeat          : Byte;           // Beat (in measure) at which this note occurs 
-    bGrid          : Byte;           // Grid offset from beat at which this note occurs 
-    bVelocity      : Byte;           // Note velocity 
-    bFlags         : Byte;           // see DMUS_NOTE_FLAGS 
-    bTimeRange     : Byte;           // Range to randomize time. 
-    bDurRange      : Byte;           // Range to randomize duration. 
-    bVelRange      : Byte;           // Range to randomize velocity. 
-    bPlayModeFlags : Byte;           // Play mode 
-    bSubChordLevel : Byte;           // Which subchord level this note uses.  
-    bMidiValue     : Byte;           // The MIDI note value, converted from wMusicValue 
+    nOffset        : Smallint;       // Offset from grid at which this note occurs
+    bBeat          : Byte;           // Beat (in measure) at which this note occurs
+    bGrid          : Byte;           // Grid offset from beat at which this note occurs
+    bVelocity      : Byte;           // Note velocity
+    bFlags         : Byte;           // see DMUS_NOTE_FLAGS
+    bTimeRange     : Byte;           // Range to randomize time.
+    bDurRange      : Byte;           // Range to randomize duration.
+    bVelRange      : Byte;           // Range to randomize velocity.
+    bPlayModeFlags : Byte;           // Play mode
+    bSubChordLevel : Byte;           // Which subchord level this note uses.
+    bMidiValue     : Byte;           // The MIDI note value, converted from wMusicValue
     cTranspose     : Shortint;       // Transposition to add to midi note value after converted from wMusicValue.
   end;
   DMUS_NOTE_PMSG = TDMUS_NOTE_PMSG;
@@ -14296,58 +14296,58 @@ typedef interface IDirectMusicLoader IDirectMusicLoader;
   end;
   DMUS_TRANSPOSE_PMSG = TDMUS_TRANSPOSE_PMSG;
 
-  // DMUS_CHANNEL_PRIORITY_PMSG 
+  // DMUS_CHANNEL_PRIORITY_PMSG
   TDMUS_CHANNEL_PRIORITY_PMSG = record
     // begin DMUS_PMSG_PART
     DMUS_PMSG_PART : TDMUS_PMSG_PART;
-    // end DMUS_PMSG_PART 
+    // end DMUS_PMSG_PART
 
     dwChannelPriority : DWORD;
   end;
   DMUS_CHANNEL_PRIORITY_PMSG = TDMUS_CHANNEL_PRIORITY_PMSG;
 
-  // DMUS_TEMPO_PMSG 
+  // DMUS_TEMPO_PMSG
   TDMUS_TEMPO_PMSG = record
-    // begin DMUS_PMSG_PART 
+    // begin DMUS_PMSG_PART
     DMUS_PMSG_PART : TDMUS_PMSG_PART;
-    // end DMUS_PMSG_PART 
+    // end DMUS_PMSG_PART
 
-    dblTempo : Double;                       // the tempo 
+    dblTempo : Double;                       // the tempo
   end;
   DMUS_TEMPO_PMSG = TDMUS_TEMPO_PMSG;
 
-  // DMUS_SYSEX_PMSG 
+  // DMUS_SYSEX_PMSG
   TDMUS_SYSEX_PMSG = record
-    // begin DMUS_PMSG_PART 
+    // begin DMUS_PMSG_PART
     DMUS_PMSG_PART : TDMUS_PMSG_PART;
-    // end DMUS_PMSG_PART 
+    // end DMUS_PMSG_PART
 
-    dwLen  : DWORD;                    // length of the data 
-    abData : array[0..0] of Byte;      // array of data, length equal to dwLen 
+    dwLen  : DWORD;                    // length of the data
+    abData : array[0..0] of Byte;      // array of data, length equal to dwLen
   end;
   DMUS_SYSEX_PMSG = TDMUS_SYSEX_PMSG;
 
-  // DMUS_CURVE_PMSG 
+  // DMUS_CURVE_PMSG
   TDMUS_CURVE_PMSG = record
-    // begin DMUS_PMSG_PART 
+    // begin DMUS_PMSG_PART
     DMUS_PMSG_PART : TDMUS_PMSG_PART;
-    // end DMUS_PMSG_PART 
+    // end DMUS_PMSG_PART
 
-    mtDuration      : MUSIC_TIME;   // how long this curve lasts 
-    mtOriginalStart : MUSIC_TIME;   // must be set to either zero when this PMSG is created or to the original mtTime of the curve 
+    mtDuration      : MUSIC_TIME;   // how long this curve lasts
+    mtOriginalStart : MUSIC_TIME;   // must be set to either zero when this PMSG is created or to the original mtTime of the curve
     mtResetDuration : MUSIC_TIME;   // how long after the curve is finished to reset to the
-                                    //  reset value, nResetValue 
-    nStartValue     : Smallint;     // curve's start value 
-    nEndValue       : Smallint;     // curve's end value 
+                                    //  reset value, nResetValue
+    nStartValue     : Smallint;     // curve's start value
+    nEndValue       : Smallint;     // curve's end value
     nResetValue     : Smallint;     // curve's reset value, sent after mtResetDuration or
-                                    //  upon a flush or invalidation 
-    wMeasure        : Word;         // Measure in which this curve occurs 
-    nOffset         : Smallint;     // Offset from grid at which this curve occurs 
-    bBeat           : Byte;         // Beat (in measure) at which this curve occurs 
-    bGrid           : Byte;         // Grid offset from beat at which this curve occurs 
-    bType           : Byte;         // type of curve 
-    bCurveShape     : Byte;         // shape of curve 
-    bCCData         : Byte;         // CC# if this is a control change type 
+                                    //  upon a flush or invalidation
+    wMeasure        : Word;         // Measure in which this curve occurs
+    nOffset         : Smallint;     // Offset from grid at which this curve occurs
+    bBeat           : Byte;         // Beat (in measure) at which this curve occurs
+    bGrid           : Byte;         // Grid offset from beat at which this curve occurs
+    bType           : Byte;         // type of curve
+    bCurveShape     : Byte;         // shape of curve
+    bCCData         : Byte;         // CC# if this is a control change type
     bFlags          : Byte;         // set to 1 if the nResetValue must be sent when the
                                     //  time is reached or an invalidate occurs because
                                     //  of a transition. If 0, the curve stays
@@ -14357,18 +14357,18 @@ typedef interface IDirectMusicLoader IDirectMusicLoader;
   end;
   DMUS_CURVE_PMSG = TDMUS_CURVE_PMSG;
 
-  // DMUS_TIMESIG_PMSG 
+  // DMUS_TIMESIG_PMSG
   TDMUS_TIMESIG_PMSG = record
-    // begin DMUS_PMSG_PART 
+    // begin DMUS_PMSG_PART
     DMUS_PMSG_PART : TDMUS_PMSG_PART;
-    // end DMUS_PMSG_PART 
+    // end DMUS_PMSG_PART
 
-    // Time signatures define how many beats per measure, which note receives 
+    // Time signatures define how many beats per measure, which note receives
     // the beat, and the grid resolution.
     bBeatsPerMeasure : Byte;       // beats per measure (top of time sig)
     bBeat            : Byte;       // what note receives the beat (bottom of time sig.)
                                    // we can assume that 0 means 256th note
-    wGridsPerBeat    : Word;       // grids per beat 
+    wGridsPerBeat    : Word;       // grids per beat
   end;
   DMUS_TIMESIG_PMSG = TDMUS_TIMESIG_PMSG;
 
@@ -14393,20 +14393,20 @@ typedef interface IDirectMusicLoader IDirectMusicLoader;
   DMUS_VERSION = TDMUS_VERSION;
   LPDMUS_VERSION = ^TDMUS_VERSION;
 
-//      The DMUSOBJECTDESC structure is used to communicate everything you could 
+//      The DMUSOBJECTDESC structure is used to communicate everything you could
 //      possibly use to describe a DirectMusic object.
 
   TDMUS_OBJECTDESC = record
     dwSize      : DWORD;                                       // Size of this structure.
     dwValidData : DWORD;                                       // Flags indicating which fields below are valid.
-    guidObject  : TGUID;                                       // Unique ID for this object. 
+    guidObject  : TGUID;                                       // Unique ID for this object.
     guidClass   : TGUID;                                       // GUID for the class of object.
-    ftDate      : TFILETIME;                                   // Last edited date of object. 
+    ftDate      : TFILETIME;                                   // Last edited date of object.
     vVersion    : TDMUS_VERSION;                               // Version.
-    wszName     : array[0..DMUS_MAX_NAME - 1] of WCHAR;        // Name of object. 
+    wszName     : array[0..DMUS_MAX_NAME - 1] of WCHAR;        // Name of object.
     wszCategory : array[0..DMUS_MAX_CATEGORY - 1] of WCHAR;    // Category for object (optional).
-    wszFileName : array[0..DMUS_MAX_FILENAME - 1] of WCHAR;    // File path. 
-    llMemLength : LONGLONG;                                       // Size of Memory data. 
+    wszFileName : array[0..DMUS_MAX_FILENAME - 1] of WCHAR;    // File path.
+    llMemLength : LONGLONG;                                       // Size of Memory data.
     pbMemData   : Pointer;                                       // Memory pointer for data.
   end;
   DMUS_OBJECTDESC   = TDMUS_OBJECTDESC;
@@ -14422,7 +14422,7 @@ typedef interface IDirectMusicLoader IDirectMusicLoader;
 
   IDirectMusicObject = interface(IUnknown)
   ['{D2AC28B5-B39B-11D1-8704-00600893B1BD}']
-    // IDirectMusicObject 
+    // IDirectMusicObject
     function GetDescriptor(var pDesc: TDMUS_OBJECTDESC) : HResult; stdcall;
     function SetDescriptor(const pDesc: TDMUS_OBJECTDESC) : HResult; stdcall;
     function ParseDescriptor(pStream: IStream;
@@ -14673,7 +14673,7 @@ typedef interface IDirectMusicLoader IDirectMusicLoader;
 
   IDirectMusicTool = interface(IUnknown)
   ['{D2AC28BA-B39B-11D1-8704-00600893B1BD}']
-    //  IDirectMusicTool 
+    //  IDirectMusicTool
     function Init(pGraph: IDirectMusicGraph) : HResult; stdcall;
     function GetMsgDeliveryType(var pdwDeliveryType: DWORD) : HResult; stdcall;
     function GetMediaTypeArraySize(var pdwNumElements: DWORD) : HResult; stdcall;
@@ -14781,7 +14781,7 @@ typedef interface IDirectMusicLoader IDirectMusicLoader;
   end;
 
 const
-  // CLSID's 
+  // CLSID's
   CLSID_DirectMusicPerformance  : TGUID = '{D2AC2881-B39B-11D1-8704-00600893B1BD}';
   CLSID_DirectMusicSegment      : TGUID = '{D2AC2882-B39B-11D1-8704-00600893B1BD}';
   CLSID_DirectMusicSegmentState : TGUID = '{D2AC2883-B39B-11D1-8704-00600893B1BD}';
@@ -14827,42 +14827,42 @@ const
 // Use to get/set an IDirectMusicStyle param in the Style track
   GUID_IDirectMusicStyle          : TGUID = '{D2AC28A1-B39B-11D1-8704-00600893B1BD}';
 
-// Use to get a DMUS_TIMESIGNATURE param in the Style and TimeSig tracks 
+// Use to get a DMUS_TIMESIGNATURE param in the Style and TimeSig tracks
   GUID_TimeSignature              : TGUID = '{D2AC28A4-B39B-11D1-8704-00600893B1BD}';
 
-// Use to get/set a DMUS_TEMPO_PARAM param in the Tempo track 
+// Use to get/set a DMUS_TEMPO_PARAM param in the Tempo track
   GUID_TempoParam                 : TGUID = '{D2AC28A5-B39B-11D1-8704-00600893B1BD}';
 
-// Use to set an IDirectMusicBand param in the Band track 
+// Use to set an IDirectMusicBand param in the Band track
   GUID_IDirectMusicBand           : TGUID = '{D2AC28AC-B39B-11D1-8704-00600893B1BD}';
 
 // Use to get/set an IDirectMusicChordMap param in the ChordMap track
   GUID_IDirectMusicChordMap       : TGUID = '{D2AC28AD-B39B-11D1-8704-00600893B1BD}';
 
-// Use to get/set a DMUS_MUTE_PARAM param in the Mute track 
+// Use to get/set a DMUS_MUTE_PARAM param in the Mute track
   GUID_MuteParam                  : TGUID = '{D2AC28AF-B39B-11D1-8704-00600893B1BD}';
 
 // These guids are used in IDirectMusicSegment::SetParam to tell the band track to perform various actions.
 ///
-/// Download bands for the IDirectMusicSegment 
+/// Download bands for the IDirectMusicSegment
   GUID_Download                   : TGUID = '{D2AC28A7-B39B-11D1-8704-00600893B1BD}';
 
-// Unload bands for the IDirectMusicSegment 
+// Unload bands for the IDirectMusicSegment
   GUID_Unload                     : TGUID = '{D2AC28A8-B39B-11D1-8704-00600893B1BD}';
 
-// Connect segment's bands to an IDirectMusicCollection 
+// Connect segment's bands to an IDirectMusicCollection
   GUID_ConnectToDLSCollection     : TGUID = '{1DB1AE6B-E92E-11D1-A8C5-00C04FA3726E}';
 
-// Enable/disable autodownloading of bands 
+// Enable/disable autodownloading of bands
   GUID_Enable_Auto_Download       : TGUID = '{D2AC28A9-B39B-11D1-8704-00600893B1BD}';
   GUID_Disable_Auto_Download      : TGUID = '{D2AC28AA-B39B-11D1-8704-00600893B1BD}';
 
-// Clear all bands 
+// Clear all bands
   GUID_Clear_All_Bands            : TGUID = '{D2AC28AB-B39B-11D1-8704-00600893B1BD}';
 
 // Set segment to manage all program changes, bank selects, etc. for simple playback of a standard MIDI file
   GUID_StandardMIDIFile           : TGUID = '{06621075-E92E-11D1-A8C5-00C04FA3726E}';
-// For compatibility with beta releases... 
+// For compatibility with beta releases...
   GUID_IgnoreBankSelectForGM      : TGUID = '{06621075-E92E-11D1-A8C5-00C04FA3726E}'; //same as GUID_StandardMIDIFile;
 
 // Disable/enable param guids. Use these in SetParam calls to disable or enable sending
@@ -14873,16 +14873,16 @@ const
   GUID_DisableTempo               : TGUID = '{45FC707D-1DB4-11D2-BCAC-00A0C922E6EB}';
   GUID_EnableTempo                : TGUID = '{45FC707E-1DB4-11D2-BCAC-00A0C922E6EB}';
 
-// Global data guids 
+// Global data guids
   GUID_PerfMasterTempo            : TGUID = '{D2AC28B0-B39B-11D1-8704-00600893B1BD}';
   GUID_PerfMasterVolume           : TGUID = '{D2AC28B1-B39B-11D1-8704-00600893B1BD}';
   GUID_PerfMasterGrooveLevel      : TGUID = '{D2AC28B2-B39B-11D1-8704-00600893B1BD}';
   GUID_PerfAutoDownload           : TGUID = '{FB09565B-3631-11D2-BCB8-00A0C922E6EB}';
 
-// GUID for default GM/GS dls collection. 
+// GUID for default GM/GS dls collection.
   GUID_DefaultGMCollection        : TGUID = '{F17E8673-C3B4-11D1-870B-00600893B1BD}';
 
-// IID's 
+// IID's
   IID_IDirectMusicLoader          : TGUID = '{2FFAACA2-5DCA-11D2-AFA6-00AA0024D8B6}';
   IID_IDirectMusicGetLoader       : TGUID = '{68A04844-D13D-11D1-AFA6-00AA0024D8B6}';
   IID_IDirectMusicObject          : TGUID = '{D2AC28B5-B39B-11D1-8704-00600893B1BD}';
@@ -14897,7 +14897,7 @@ const
   IID_IDirectMusicComposer        : TGUID = '{D2AC28BF-B39B-11D1-8704-00600893B1BD}';
   IID_IDirectMusicBand            : TGUID = '{D2AC28C0-B39B-11D1-8704-00600893B1BD}';
 
-// Alternate interface IDs, available in DX7 release and after. 
+// Alternate interface IDs, available in DX7 release and after.
   IID_IDirectMusicPerformance2    : TGUID = '{6FC2CAE0-BC78-11D2-AFA6-00AA0024D8B6}';
   IID_IDirectMusicSegment2        : TGUID = '{D38894D1-C052-11D2-872F-00600893B1BD}';
 
@@ -14909,7 +14909,7 @@ const
 //   Copyright (c) 1998, Microsoft Corp. All rights reserved.           *
 //                                                                      *
 //**********************************************************************
-// Common chunks 
+// Common chunks
 const
   DMUS_FOURCC_GUID_CHUNK     = Ord('g') + Ord('u') shl 8 + Ord('i') shl 16 + Ord('d') shl 24;
   DMUS_FOURCC_INFO_LIST      = Ord('I') + Ord('N') shl 8 + Ord('F') shl 16 + Ord('O') shl 24;
@@ -14922,8 +14922,8 @@ const
   DMUS_FOURCC_CATEGORY_CHUNK = Ord('c') + Ord('a') shl 8 + Ord('t') shl 16 + Ord('g') shl 24;
   DMUS_FOURCC_VERSION_CHUNK  = Ord('v') + Ord('e') shl 8 + Ord('r') shl 16 + Ord('s') shl 24;
 
-// The following structures are used by the Tracks, and are the packed structures 
-// that are passed to the Tracks inside the IStream. 
+// The following structures are used by the Tracks, and are the packed structures
+// that are passed to the Tracks inside the IStream.
 
 type
   TDMUS_IO_SEQ_ITEM = record
@@ -14972,14 +14972,14 @@ type
 
   TDMUS_IO_TIMESIGNATURE_ITEM = record
     lTime            : MUSIC_TIME;
-    bBeatsPerMeasure : Byte;          // beats per measure (top of time sig) 
-    bBeat            : Byte;          // what note receives the beat (bottom of time sig.) 
-                                      // we can assume that 0 means 256th note 
-    wGridsPerBeat    : Word;          // grids per beat 
+    bBeatsPerMeasure : Byte;          // beats per measure (top of time sig)
+    bBeat            : Byte;          // what note receives the beat (bottom of time sig.)
+                                      // we can assume that 0 means 256th note
+    wGridsPerBeat    : Word;          // grids per beat
   end;
   DMUS_IO_TIMESIGNATURE_ITEM = TDMUS_IO_TIMESIGNATURE_ITEM;
 
-// PARAM structures, used by GetParam() and SetParam() 
+// PARAM structures, used by GetParam() and SetParam()
   TDMUS_COMMAND_PARAM = record
     bCommand     : Byte;
     bGrooveLevel : Byte;
@@ -14987,7 +14987,7 @@ type
   end;
   DMUS_COMMAND_PARAM = TDMUS_COMMAND_PARAM;
 
-  //DMUS_CHORD_KEY = DMUS_CHORD_PARAM; // DMUS_CHORD_KEY defined in dmusici.h 
+  //DMUS_CHORD_KEY = DMUS_CHORD_PARAM; // DMUS_CHORD_KEY defined in dmusici.h
 
   TDMUS_RHYTHM_PARAM = record
     TimeSig         : TDMUS_TIMESIGNATURE;
@@ -15010,7 +15010,7 @@ type
   DMUS_MUTE_PARAM = TDMUS_MUTE_PARAM;
 
 const
-// Style chunks 
+// Style chunks
 
   DMUS_FOURCC_STYLE_FORM           = Ord('D') + Ord('M') shl 8 + Ord('S') shl 16 + Ord('T') shl 24;
   DMUS_FOURCC_STYLE_CHUNK          = Ord('s') + Ord('t') shl 8 + Ord('y') shl 16 + Ord('h') shl 24;
@@ -15026,140 +15026,140 @@ const
   DMUS_FOURCC_STYLE_PERS_REF_LIST  = Ord('p') + Ord('r') shl 8 + Ord('r') shl 16 + Ord('f') shl 24;
   DMUS_FOURCC_MOTIFSETTINGS_CHUNK  = Ord('m') + Ord('t') shl 8 + Ord('f') shl 16 + Ord('s') shl 24;
 
-// Flags used by variations: these make up the DWORDs in dwVariationChoices.               
+// Flags used by variations: these make up the DWORDs in dwVariationChoices.
 
-// These flags determine the types of chords supported by a given variation in DirectMusic 
-// mode.  The first seven flags (bits 1-7) are set if the variation supports major chords  
-// rooted in scale positions, so, e.g., if bits 1, 2, and 4 are set, the variation         
+// These flags determine the types of chords supported by a given variation in DirectMusic
+// mode.  The first seven flags (bits 1-7) are set if the variation supports major chords
+// rooted in scale positions, so, e.g., if bits 1, 2, and 4 are set, the variation
 // supports major chords rooted in the tonic, second, and fourth scale positions.  The
 // next seven flags serve the same purpose, but for minor chords, and the following seven
-// flags serve the same purpose for chords that are not major or minor (e.g., SUS 4        
-// chords).  Bits 22, 23, and 24 are set if the variation supports chords rooted in the    
-// scale, chords rooted sharp of scale tones, and chords rooted flat of scale tones,       
-// respectively.  For example, to support a C# minor chord in the scale of C Major,        
-// bits 8 (for tonic minor) and 24 (for sharp) need to be set.  Bits 25, 26, an 27 handle  
+// flags serve the same purpose for chords that are not major or minor (e.g., SUS 4
+// chords).  Bits 22, 23, and 24 are set if the variation supports chords rooted in the
+// scale, chords rooted sharp of scale tones, and chords rooted flat of scale tones,
+// respectively.  For example, to support a C# minor chord in the scale of C Major,
+// bits 8 (for tonic minor) and 24 (for sharp) need to be set.  Bits 25, 26, an 27 handle
 // chords that are triads, 6th or 7th chords, and chords with extensions, respectively.
-// bits 28 and 29 handle chords that are followed by tonic and dominant chords,            
-// respectively.                                                                           
-  DMUS_VARIATIONF_MAJOR       = $0000007F; // Seven positions in the scale - major chords. 
-  DMUS_VARIATIONF_MINOR       = $00003F80; // Seven positions in the scale - minor chords. 
-  DMUS_VARIATIONF_OTHER       = $001FC000; // Seven positions in the scale - other chords. 
-  DMUS_VARIATIONF_ROOT_SCALE  = $00200000; // Handles chord roots in the scale. 
-  DMUS_VARIATIONF_ROOT_FLAT   = $00400000; // Handles flat chord roots (based on scale notes). 
-  DMUS_VARIATIONF_ROOT_SHARP  = $00800000; // Handles sharp chord roots (based on scale notes). 
-  DMUS_VARIATIONF_TYPE_TRIAD  = $01000000; // Handles simple chords - triads. 
-  DMUS_VARIATIONF_TYPE_6AND7  = $02000000; // Handles simple chords - 6 and 7. 
-  DMUS_VARIATIONF_TYPE_COMPLEX= $04000000; // Handles complex chords. 
-  DMUS_VARIATIONF_DEST_TO1    = $08000000; // Handles transitions to 1 chord. 
-  DMUS_VARIATIONF_DEST_TO5    = $10000000; // Handles transitions to 5 chord. 
+// bits 28 and 29 handle chords that are followed by tonic and dominant chords,
+// respectively.
+  DMUS_VARIATIONF_MAJOR       = $0000007F; // Seven positions in the scale - major chords.
+  DMUS_VARIATIONF_MINOR       = $00003F80; // Seven positions in the scale - minor chords.
+  DMUS_VARIATIONF_OTHER       = $001FC000; // Seven positions in the scale - other chords.
+  DMUS_VARIATIONF_ROOT_SCALE  = $00200000; // Handles chord roots in the scale.
+  DMUS_VARIATIONF_ROOT_FLAT   = $00400000; // Handles flat chord roots (based on scale notes).
+  DMUS_VARIATIONF_ROOT_SHARP  = $00800000; // Handles sharp chord roots (based on scale notes).
+  DMUS_VARIATIONF_TYPE_TRIAD  = $01000000; // Handles simple chords - triads.
+  DMUS_VARIATIONF_TYPE_6AND7  = $02000000; // Handles simple chords - 6 and 7.
+  DMUS_VARIATIONF_TYPE_COMPLEX= $04000000; // Handles complex chords.
+  DMUS_VARIATIONF_DEST_TO1    = $08000000; // Handles transitions to 1 chord.
+  DMUS_VARIATIONF_DEST_TO5    = $10000000; // Handles transitions to 5 chord.
 
-// The top three bits of the variation flags are the Mode bits.  If all are 0, it's IMA. 
-// If the smallest is 1, it's Direct Music. 
+// The top three bits of the variation flags are the Mode bits.  If all are 0, it's IMA.
+// If the smallest is 1, it's Direct Music.
   DMUS_VARIATIONF_MODES       = $E0000000;
   DMUS_VARIATIONF_IMA25_MODE  = $00000000;
   DMUS_VARIATIONF_DMUS_MODE   = $20000000;
 
 type
   TDMUS_IO_TIMESIG = record
-    // Time signatures define how many beats per measure, which note receives 
-    // the beat, and the grid resolution. 
-    bBeatsPerMeasure : Byte;    // beats per measure (top of time sig) 
+    // Time signatures define how many beats per measure, which note receives
+    // the beat, and the grid resolution.
+    bBeatsPerMeasure : Byte;    // beats per measure (top of time sig)
     bBeat            : Byte;    // what note receives the beat (bottom of time sig.)
-                                // we can assume that 0 means 256th note 
-    wGridsPerBeat    : Word;    // grids per beat 
+                                // we can assume that 0 means 256th note
+    wGridsPerBeat    : Word;    // grids per beat
   end;
   DMUS_IO_TIMESIG = TDMUS_IO_TIMESIG;
 
   TDMUS_IO_STYLE = record
-    timeSig : TDMUS_IO_TIMESIG;        // Styles have a default Time Signature 
+    timeSig : TDMUS_IO_TIMESIG;        // Styles have a default Time Signature
     dblTempo: Double;
   end;
   DMUS_IO_STYLE = TDMUS_IO_STYLE;
 
   TDMUS_IO_VERSION = record
-    dwVersionMS : DWORD;        // Version # high-order 32 bits 
-    dwVersionLS : DWORD;        // Version # low-order 32 bits  
+    dwVersionMS : DWORD;        // Version # high-order 32 bits
+    dwVersionLS : DWORD;        // Version # low-order 32 bits
   end;
   DMUS_IO_VERSION = TDMUS_IO_VERSION;
 
   TDMUS_IO_PATTERN = record
-    timeSig        : TDMUS_IO_TIMESIG;        // Patterns can override the Style's Time sig. 
-    bGrooveBottom  : Byte;                    // bottom of groove range 
-    bGrooveTop     : Byte;                    // top of groove range 
-    wEmbellishment : Word;                    // Fill, Break, Intro, End, Normal, Motif 
-    wNbrMeasures   : Word;                    // length in measures 
+    timeSig        : TDMUS_IO_TIMESIG;        // Patterns can override the Style's Time sig.
+    bGrooveBottom  : Byte;                    // bottom of groove range
+    bGrooveTop     : Byte;                    // top of groove range
+    wEmbellishment : Word;                    // Fill, Break, Intro, End, Normal, Motif
+    wNbrMeasures   : Word;                    // length in measures
   end;
   DMUS_IO_PATTERN = TDMUS_IO_PATTERN;
 
   TDMUS_IO_STYLEPART = record
-    timeSig            : TDMUS_IO_TIMESIG;        // can override pattern's 
-    dwVariationChoices : array[0..31] of DWORD;   // MOAW choice bitfield 
-    guidPartID         : TGUID;                   // identifies the part 
-    wNbrMeasures       : Word;                    // length of the Part 
-    bPlayModeFlags     : Byte;                    // see PLAYMODE flags 
-    bInvertUpper       : Byte;                    // inversion upper limit 
-    bInvertLower       : Byte;                    // inversion lower limit 
+    timeSig            : TDMUS_IO_TIMESIG;        // can override pattern's
+    dwVariationChoices : array[0..31] of DWORD;   // MOAW choice bitfield
+    guidPartID         : TGUID;                   // identifies the part
+    wNbrMeasures       : Word;                    // length of the Part
+    bPlayModeFlags     : Byte;                    // see PLAYMODE flags
+    bInvertUpper       : Byte;                    // inversion upper limit
+    bInvertLower       : Byte;                    // inversion lower limit
   end;
   DMUS_IO_STYLEPART = TDMUS_IO_STYLEPART;
 
   TDMUS_IO_PARTREF = record
-    guidPartID       : TGUID;   // unique ID for matching up with parts 
-    wLogicalPartID   : Word;    // corresponds to port/device/midi channel 
+    guidPartID       : TGUID;   // unique ID for matching up with parts
+    wLogicalPartID   : Word;    // corresponds to port/device/midi channel
     bVariationLockID : Byte;    // parts with the same ID lock variations.
                                 // high bit is used to identify master Part
-    bSubChordLevel   : Byte;    // tells which sub chord level this part wants 
-    bPriority        : Byte;    // 256 priority levels. Parts with lower priority 
-                                // aren't played first when a device runs out of 
-                                // notes 
-    bRandomVariation : Byte;    // when set, matching variations play in random order 
+    bSubChordLevel   : Byte;    // tells which sub chord level this part wants
+    bPriority        : Byte;    // 256 priority levels. Parts with lower priority
+                                // aren't played first when a device runs out of
+                                // notes
+    bRandomVariation : Byte;    // when set, matching variations play in random order
                                 // when clear, matching variations play sequentially
   end;
   DMUS_IO_PARTREF = TDMUS_IO_PARTREF;
 
   TDMUS_IO_STYLENOTE = record
-    mtGridStart : MUSIC_TIME;    // when this note occurs 
-    dwVariation : DWORD;         // variation bits 
-    mtDuration : MUSIC_TIME;     // how long this note lasts 
-    nTimeOffset : Smallint;      // offset from mtGridStart 
-    wMusicValue : Word;          // Position in scale. 
-    bVelocity : Byte;            // Note velocity. 
-    bTimeRange : Byte;           // Range to randomize start time. 
-    bDurRange : Byte;            // Range to randomize duration. 
-    bVelRange : Byte;            // Range to randomize velocity. 
-    bInversionID : Byte;         // Identifies inversion group to which this note belongs 
-    bPlayModeFlags : Byte;       // Can override part 
+    mtGridStart : MUSIC_TIME;    // when this note occurs
+    dwVariation : DWORD;         // variation bits
+    mtDuration : MUSIC_TIME;     // how long this note lasts
+    nTimeOffset : Smallint;      // offset from mtGridStart
+    wMusicValue : Word;          // Position in scale.
+    bVelocity : Byte;            // Note velocity.
+    bTimeRange : Byte;           // Range to randomize start time.
+    bDurRange : Byte;            // Range to randomize duration.
+    bVelRange : Byte;            // Range to randomize velocity.
+    bInversionID : Byte;         // Identifies inversion group to which this note belongs
+    bPlayModeFlags : Byte;       // Can override part
   end;
   DMUS_IO_STYLENOTE = TDMUS_IO_STYLENOTE;
 
   TDMUS_IO_STYLECURVE = record
-    mtGridStart     : MUSIC_TIME;// when this curve occurs 
-    dwVariation     : DWORD;     // variation bits 
-    mtDuration      : MUSIC_TIME;// how long this curve lasts 
-    mtResetDuration : MUSIC_TIME;// how long after the end of the curve to reset the curve 
-    nTimeOffset     : Smallint;  // offset from mtGridStart 
-    nStartValue     : Smallint;  // curve's start value 
-    nEndValue       : Smallint;  // curve's end value 
-    nResetValue     : Smallint;  // the value to which to reset the curve 
+    mtGridStart     : MUSIC_TIME;// when this curve occurs
+    dwVariation     : DWORD;     // variation bits
+    mtDuration      : MUSIC_TIME;// how long this curve lasts
+    mtResetDuration : MUSIC_TIME;// how long after the end of the curve to reset the curve
+    nTimeOffset     : Smallint;  // offset from mtGridStart
+    nStartValue     : Smallint;  // curve's start value
+    nEndValue       : Smallint;  // curve's end value
+    nResetValue     : Smallint;  // the value to which to reset the curve
     bEventType      : Byte;      // type of curve
-    bCurveShape     : Byte;      // shape of curve 
-    bCCData         : Byte;      // CC# 
+    bCurveShape     : Byte;      // shape of curve
+    bCCData         : Byte;      // CC#
     bFlags          : Byte;      // Bit 1=TRUE means to send nResetValue. Otherwise, don't.
-                                 //  Other bits are reserved. 
+                                 //  Other bits are reserved.
   end;
   DMUS_IO_STYLECURVE = TDMUS_IO_STYLECURVE;
 
   TDMUS_IO_MOTIFSETTINGS = record
-    dwRepeats    : DWORD;         // Number of repeats. By default, 0. 
-    mtPlayStart  : MUSIC_TIME;    // Start of playback. By default, 0. 
-    mtLoopStart  : MUSIC_TIME;    // Start of looping portion. By default, 0. 
-    mtLoopEnd    : MUSIC_TIME;    // End of loop. Must be greater than mtLoopStart. By default equal to length of motif. 
-    dwResolution : DWORD;         // Default resolution. 
+    dwRepeats    : DWORD;         // Number of repeats. By default, 0.
+    mtPlayStart  : MUSIC_TIME;    // Start of playback. By default, 0.
+    mtLoopStart  : MUSIC_TIME;    // Start of looping portion. By default, 0.
+    mtLoopEnd    : MUSIC_TIME;    // End of loop. Must be greater than mtLoopStart. By default equal to length of motif.
+    dwResolution : DWORD;         // Default resolution.
   end;
   DMUS_IO_MOTIFSETTINGS = TDMUS_IO_MOTIFSETTINGS;
 
 
 const
-// Chord and command file formats 
+// Chord and command file formats
 
   DMUS_FOURCC_CHORDTRACK_LIST        = Ord('c') + Ord('o') shl 8 + Ord('r') shl 16 + Ord('d') shl 24;
   DMUS_FOURCC_CHORDTRACKHEADER_CHUNK = Ord('c') + Ord('r') shl 8 + Ord('d') shl 16 + Ord('h') shl 24;
@@ -15169,30 +15169,30 @@ const
 
 type
   TDMUS_IO_CHORD = record
-    wszName : array[0..15] of WCHAR;    // Name of the chord 
-    mtTime : MUSIC_TIME;                // Time of this chord 
-    wMeasure : Word;                    // Measure this falls on 
-    bBeat : Byte;                       // Beat this falls on 
+    wszName : array[0..15] of WCHAR;    // Name of the chord
+    mtTime : MUSIC_TIME;                // Time of this chord
+    wMeasure : Word;                    // Measure this falls on
+    bBeat : Byte;                       // Beat this falls on
   end;
   DMUS_IO_CHORD = TDMUS_IO_CHORD;
 
   TDMUS_IO_SUBCHORD = record
-    dwChordPattern    : DWORD;     // Notes in the subchord 
-    dwScalePattern    : DWORD;     // Notes in the scale 
+    dwChordPattern    : DWORD;     // Notes in the subchord
+    dwScalePattern    : DWORD;     // Notes in the scale
     dwInversionPoints : DWORD;     // Where inversions can occur
     dwLevels          : DWORD;     // Which levels are supported by this subchord
-    bChordRoot        : Byte;      // Root of the subchord 
-    bScaleRoot        : Byte;      // Root of the scale 
+    bChordRoot        : Byte;      // Root of the subchord
+    bScaleRoot        : Byte;      // Root of the scale
   end;
   DMUS_IO_SUBCHORD = TDMUS_IO_SUBCHORD;
 
   TDMUS_IO_COMMAND = record
-    mtTime       : MUSIC_TIME;     // Time of this command 
-    wMeasure     : Word;           // Measure this falls on 
-    bBeat        : Byte;           // Beat this falls on 
-    bCommand     : Byte;           // Command type (see #defines below) 
-    bGrooveLevel : Byte;           // Groove level (0 if command is not a groove) 
-    bGrooveRange : Byte;           // Groove range  
+    mtTime       : MUSIC_TIME;     // Time of this command
+    wMeasure     : Word;           // Measure this falls on
+    bBeat        : Byte;           // Beat this falls on
+    bCommand     : Byte;           // Command type (see #defines below)
+    bGrooveLevel : Byte;           // Groove level (0 if command is not a groove)
+    bGrooveRange : Byte;           // Groove range
   end;
   DMUS_IO_COMMAND = TDMUS_IO_COMMAND;
 
@@ -15201,7 +15201,7 @@ type
 ///
 
 const
-// RIFF ids: 
+// RIFF ids:
 
   DMUS_FOURCC_TOOLGRAPH_FORM = Ord('D') + Ord('M') shl 8 + Ord('T') shl 16 + Ord('G') shl 24;
   DMUS_FOURCC_TOOL_LIST      = Ord('t') + Ord('o') shl 8 + Ord('l') shl 16 + Ord('l') shl 24;
@@ -15209,23 +15209,23 @@ const
   DMUS_FOURCC_TOOL_CHUNK     = Ord('t') + Ord('o') shl 8 + Ord('l') shl 16 + Ord('h') shl 24;
 
 type
-// io structures: 
+// io structures:
 
   TDMUS_IO_TOOL_HEADER = record
-    guidClassID : TGUID;                // Class id of tool. 
-    lIndex      : Longint;              // Position in graph. 
-    cPChannels  : DWORD;                // Number of items in channels array. 
-    ckid        : FOURCC;               // chunk ID of tool's data chunk if 0 fccType valid. 
+    guidClassID : TGUID;                // Class id of tool.
+    lIndex      : Longint;              // Position in graph.
+    cPChannels  : DWORD;                // Number of items in channels array.
+    ckid        : FOURCC;               // chunk ID of tool's data chunk if 0 fccType valid.
     fccType     : FOURCC;               // list type if NULL ckid valid.
-    dwPChannels : array[0..0] of DWORD; // Array of PChannels, size determined by cPChannels. 
+    dwPChannels : array[0..0] of DWORD; // Array of PChannels, size determined by cPChannels.
   end;
   DMUS_IO_TOOL_HEADER = TDMUS_IO_TOOL_HEADER;
 
 
-//  File io for DirectMusic Band Track object 
+//  File io for DirectMusic Band Track object
 
 const
-// RIFF ids: 
+// RIFF ids:
   DMUS_FOURCC_BANDTRACK_FORM  = Ord('D') + Ord('M') shl 8 + Ord('B') shl 16 + Ord('T') shl 24;
   DMUS_FOURCC_BANDTRACK_CHUNK = Ord('b') + Ord('d') shl 8 + Ord('t') shl 16 + Ord('h') shl 24;
   DMUS_FOURCC_BANDS_LIST      = Ord('l') + Ord('b') shl 8 + Ord('d') shl 16 + Ord('l') shl 24;
@@ -15233,14 +15233,14 @@ const
   DMUS_FOURCC_BANDITEM_CHUNK  = Ord('b') + Ord('d') shl 8 + Ord('i') shl 16 + Ord('h') shl 24;
 
 type
-//  io structures 
+//  io structures
   TDMUS_IO_BAND_TRACK_HEADER = record
-    bAutoDownload : BOOL;     // Determines if Auto-Download is enabled. 
+    bAutoDownload : BOOL;     // Determines if Auto-Download is enabled.
   end;
   DMUS_IO_BAND_TRACK_HEADER = TDMUS_IO_BAND_TRACK_HEADER;
 
   TDMUS_IO_BAND_ITEM_HEADER = record
-    lBandTime : MUSIC_TIME;   // Position in track list. 
+    lBandTime : MUSIC_TIME;   // Position in track list.
   end;
   DMUS_IO_BAND_ITEM_HEADER = TDMUS_IO_BAND_ITEM_HEADER;
 
@@ -15249,7 +15249,7 @@ type
 ///
 
 const
-// RIFF ids: 
+// RIFF ids:
 
   DMUS_FOURCC_BAND_FORM          = Ord('D') + Ord('M') shl 8 + Ord('B') shl 16 + Ord('D') shl 24;
   DMUS_FOURCC_INSTRUMENTS_LIST   = Ord('l') + Ord('b') shl 8 + Ord('i') shl 16 + Ord('l') shl 24;
@@ -15258,37 +15258,37 @@ const
 
 // Flags for DMUS_IO_INSTRUMENT
 ///
-  DMUS_IO_INST_PATCH              = (1 shl 0);      // dwPatch is valid. 
+  DMUS_IO_INST_PATCH              = (1 shl 0);      // dwPatch is valid.
   DMUS_IO_INST_BANKSELECT         = (1 shl 1);      // dwPatch contains a valid Bank Select MSB and LSB part
   DMUS_IO_INST_ASSIGN_PATCH       = (1 shl 3);      // dwAssignPatch is valid
-  DMUS_IO_INST_NOTERANGES         = (1 shl 4);      // dwNoteRanges is valid 
-  DMUS_IO_INST_PAN                = (1 shl 5);      // bPan is valid 
-  DMUS_IO_INST_VOLUME             = (1 shl 6);      // bVolume is valid 
-  DMUS_IO_INST_TRANSPOSE          = (1 shl 7);      // nTranspose is valid 
-  DMUS_IO_INST_GM                 = (1 shl 8);      // Instrument is from GM collection 
-  DMUS_IO_INST_GS                 = (1 shl 9);      // Instrument is from GS collection 
-  DMUS_IO_INST_XG                 = (1 shl 10);     // Instrument is from XG collection 
-  DMUS_IO_INST_CHANNEL_PRIORITY   = (1 shl 11);     // dwChannelPriority is valid 
-  DMUS_IO_INST_USE_DEFAULT_GM_SET = (1 shl 12);     // Always use the default GM set for this patch,  
-                                                    // don't rely on the synth caps stating GM or GS in hardware. 
+  DMUS_IO_INST_NOTERANGES         = (1 shl 4);      // dwNoteRanges is valid
+  DMUS_IO_INST_PAN                = (1 shl 5);      // bPan is valid
+  DMUS_IO_INST_VOLUME             = (1 shl 6);      // bVolume is valid
+  DMUS_IO_INST_TRANSPOSE          = (1 shl 7);      // nTranspose is valid
+  DMUS_IO_INST_GM                 = (1 shl 8);      // Instrument is from GM collection
+  DMUS_IO_INST_GS                 = (1 shl 9);      // Instrument is from GS collection
+  DMUS_IO_INST_XG                 = (1 shl 10);     // Instrument is from XG collection
+  DMUS_IO_INST_CHANNEL_PRIORITY   = (1 shl 11);     // dwChannelPriority is valid
+  DMUS_IO_INST_USE_DEFAULT_GM_SET = (1 shl 12);     // Always use the default GM set for this patch,
+                                                    // don't rely on the synth caps stating GM or GS in hardware.
 
 type
-//  io structures 
+//  io structures
   TDMUS_IO_INSTRUMENT = record
-    dwPatch           : DWORD;                   // MSB, LSB and Program change to define instrument 
-    dwAssignPatch     : DWORD;                   // MSB, LSB and Program change to assign to instrument when downloading 
-    dwNoteRanges      : array[0..3] of DWORD;    // 128 bits; one for each MIDI note instrument needs to able to play 
-    dwPChannel        : DWORD;                   // PChannel instrument plays on 
-    dwFlags           : DWORD;                   // DMUS_IO_INST_ flags 
-    bPan              : Byte;                    // Pan for instrument 
-    bVolume           : Byte;                    // Volume for instrument 
-    nTranspose        : Smallint;                // Number of semitones to transpose notes 
-    dwChannelPriority : DWORD;                   // Channel priority 
+    dwPatch           : DWORD;                   // MSB, LSB and Program change to define instrument
+    dwAssignPatch     : DWORD;                   // MSB, LSB and Program change to assign to instrument when downloading
+    dwNoteRanges      : array[0..3] of DWORD;    // 128 bits; one for each MIDI note instrument needs to able to play
+    dwPChannel        : DWORD;                   // PChannel instrument plays on
+    dwFlags           : DWORD;                   // DMUS_IO_INST_ flags
+    bPan              : Byte;                    // Pan for instrument
+    bVolume           : Byte;                    // Volume for instrument
+    nTranspose        : Smallint;                // Number of semitones to transpose notes
+    dwChannelPriority : DWORD;                   // Channel priority
   end;
   DMUS_IO_INSTRUMENT = TDMUS_IO_INSTRUMENT;
 
 
-//  File io for DirectMusic Segment object 
+//  File io for DirectMusic Segment object
 
 const
 // RIFF ids:
@@ -15325,7 +15325,7 @@ type
 //  This is used to embed a reference to an object.
 
 const
-//  RIFF ids: 
+//  RIFF ids:
 
   DMUS_FOURCC_REF_LIST       = Ord('D') + Ord('M') shl 8 + Ord('R') shl 16 + Ord('F') shl 24;
   DMUS_FOURCC_REF_CHUNK      = Ord('r') + Ord('e') shl 8 + Ord('f') shl 16 + Ord('h') shl 24;
@@ -15335,16 +15335,16 @@ const
 
 type
   TDMUS_IO_REFERENCE = record
-    guidClassID : TGUID;    // Class id is always required. 
-    dwValidData : DWORD;    // Flags. 
+    guidClassID : TGUID;    // Class id is always required.
+    dwValidData : DWORD;    // Flags.
   end;
   DMUS_IO_REFERENCE = TDMUS_IO_REFERENCE;
 
 
-// Chord Maps 
+// Chord Maps
 
 const
-// runtime chunks 
+// runtime chunks
   DMUS_FOURCC_CHORDMAP_FORM      = Ord('D') + Ord('M') shl 8 + Ord('P') shl 16 + Ord('R') shl 24;
   DMUS_FOURCC_IOCHORDMAP_CHUNK   = Ord('p') + Ord('e') shl 8 + Ord('r') shl 16 + Ord('h') shl 24;
   DMUS_FOURCC_SUBCHORD_CHUNK     = Ord('c') + Ord('h') shl 8 + Ord('d') shl 16 + Ord('t') shl 24;
@@ -15355,7 +15355,7 @@ const
   DMUS_FOURCC_IOSIGNPOST_CHUNK   = Ord('s') + Ord('p') shl 8 + Ord('s') shl 16 + Ord('h') shl 24;
   DMUS_FOURCC_CHORDNAME_CHUNK    = Ord('I') + Ord('N') shl 8 + Ord('A') shl 16 + Ord('M') shl 24;
 
-// runtime list chunks 
+// runtime list chunks
   DMUS_FOURCC_CHORDENTRY_LIST    = Ord('c') + Ord('h') shl 8 + Ord('o') shl 16 + Ord('e') shl 24;
   DMUS_FOURCC_CHORDMAP_LIST      = Ord('c') + Ord('m') shl 8 + Ord('a') shl 16 + Ord('p') shl 24;
   DMUS_FOURCC_CHORD_LIST         = Ord('c') + Ord('h') shl 8 + Ord('r') shl 16 + Ord('d') shl 24;
@@ -15365,7 +15365,7 @@ const
 
   DMUS_FOURCC_SIGNPOST_LIST      = Ord('s') + Ord('p') shl 8 + Ord('s') shl 16 + Ord('q') shl 24;
 
-// values for dwChord field of DMUS_IO_PERS_SIGNPOST 
+// values for dwChord field of DMUS_IO_PERS_SIGNPOST
 // DMUS_SIGNPOSTF_ flags are also used in templates (DMUS_IO_SIGNPOST)
   DMUS_SIGNPOSTF_A       = 1;
   DMUS_SIGNPOSTF_B       = 2;
@@ -15384,12 +15384,12 @@ const
   DMUS_SIGNPOSTF_ROOT    = (DMUS_SIGNPOSTF_1 or DMUS_SIGNPOSTF_2 or DMUS_SIGNPOSTF_3 or DMUS_SIGNPOSTF_4 or DMUS_SIGNPOSTF_5 or DMUS_SIGNPOSTF_6 or DMUS_SIGNPOSTF_7);
   DMUS_SIGNPOSTF_CADENCE = $8000;
 
-// values for dwChord field of DMUS_IO_PERS_SIGNPOST 
-  DMUS_SPOSTCADENCEF_1 = 2;   // Use the first cadence chord. 
-  DMUS_SPOSTCADENCEF_2 = 4;   // Use the second cadence chord. 
+// values for dwChord field of DMUS_IO_PERS_SIGNPOST
+  DMUS_SPOSTCADENCEF_1 = 2;   // Use the first cadence chord.
+  DMUS_SPOSTCADENCEF_2 = 4;   // Use the second cadence chord.
 
 type
-// run time data structs 
+// run time data structs
   TDMUS_IO_CHORDMAP = record
     wszLoadName    : array[0..19] of WCHAR;
     dwScalePattern : DWORD;
@@ -15404,16 +15404,16 @@ type
     bChordRoot     : Byte;
     bScaleRoot     : Byte;
     wCFlags        : Word;
-    dwLevels       : DWORD;   // parts or which subchord levels this chord supports 
+    dwLevels       : DWORD;   // parts or which subchord levels this chord supports
   end;
   DMUS_IO_CHORDMAP_SUBCHORD = TDMUS_IO_CHORDMAP_SUBCHORD;
 
-// Legacy name... 
+// Legacy name...
   DMUS_IO_PERS_SUBCHORD = TDMUS_IO_CHORDMAP_SUBCHORD;
 
   TDMUS_IO_CHORDENTRY = record
     dwFlags       : DWORD;
-    wConnectionID : Word;  // replaces runtime "pointer to this" 
+    wConnectionID : Word;  // replaces runtime "pointer to this"
   end;
   DMUS_IO_CHORDENTRY = TDMUS_IO_CHORDENTRY;
 
@@ -15422,21 +15422,21 @@ type
     nWeight       : Word;
     wMinBeats     : Word;
     wMaxBeats     : Word;
-    wConnectionID : Word;  // points to an ioChordEntry 
+    wConnectionID : Word;  // points to an ioChordEntry
   end;
   DMUS_IO_NEXTCHORD = TDMUS_IO_NEXTCHORD;
 
   TDMUS_IO_CHORDMAP_SIGNPOST = record
-    dwChords : DWORD;   // 1bit per group 
+    dwChords : DWORD;   // 1bit per group
     dwFlags  : DWORD;
   end;
   DMUS_IO_CHORDMAP_SIGNPOST = TDMUS_IO_CHORDMAP_SIGNPOST;
 
-// Legacy name... 
+// Legacy name...
   DMUS_IO_PERS_SIGNPOST = TDMUS_IO_CHORDMAP_SIGNPOST;
 
 const
-// Signpost tracks 
+// Signpost tracks
   DMUS_FOURCC_SIGNPOST_TRACK_CHUNK = Ord('s') + Ord('g') shl 8 + Ord('n') shl 16 + Ord('p') shl 24;
 
 type

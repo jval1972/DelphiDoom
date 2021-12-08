@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -107,7 +107,7 @@ type
 
 var
   colorregions: array[0..Ord(CR_LIMIT) - 1] of PByteArray;
-  
+
 implementation
 
 uses
@@ -271,7 +271,7 @@ begin
 
   dest := screens[SCN_TMP];
 
-  for y := 0 to 200 - SB_HEIGHT do 
+  for y := 0 to 200 - SB_HEIGHT do
   begin
     for x := 0 to 320 div 64 - 1 do
     begin

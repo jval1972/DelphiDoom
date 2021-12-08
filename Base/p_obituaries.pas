@@ -129,7 +129,7 @@ begin
 
   messagefmt := StringReplace(messagefmt, '%o', vname, [rfReplaceAll, rfIgnoreCase]);
   messagefmt := StringReplace(messagefmt, '%k', aname, [rfReplaceAll, rfIgnoreCase]);
-  
+
   messagefmt := StringReplace(messagefmt, '%g', GENDERINFO[Ord(victim.info.gender)].ob_g, [rfReplaceAll, rfIgnoreCase]);
 
   agender := attacker.info.gender;

@@ -1238,7 +1238,7 @@ var
 begin
 {$IFNDEF OPENGL}
   cur_pal_index := palette;
-{$ENDIF}  
+{$ENDIF}
   if palette > 0 then
   begin
     if palette <= 8 then

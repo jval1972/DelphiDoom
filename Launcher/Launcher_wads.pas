@@ -121,7 +121,7 @@ begin
 
   if not FileExists(wadfile) then
     exit;
-    
+
   lumps := nil;
   numlumps := 0;
 

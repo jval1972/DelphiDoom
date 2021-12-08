@@ -48,7 +48,7 @@ uses
 {$IFDEF SYN_CLX}
   QSynEditTypes,
   QSynEditMiscClasses,
-  QSynUnicode,   
+  QSynUnicode,
 {$ELSE}
   SynEditTypes,
   SynEditMiscClasses,
@@ -163,7 +163,7 @@ begin
     inc(Look_at);
   end;
   fShiftInitialized := True;
-end;                                
+end;
 
 // TODO: would be more intelligent to use IsWordBreakChar for SynEdit
 function IsWordBreakChar(C: WideChar): Boolean;
@@ -274,7 +274,7 @@ end;
 function TSynEditSearch.Replace(const aOccurrence, aReplacement: UnicodeString): UnicodeString;
 begin
   Result := aReplacement;
-end;                     
+end;
 
 function TSynEditSearch.FindFirst(const NewText: UnicodeString): Integer;
 begin
@@ -297,12 +297,12 @@ end;
 
 function TSynEditSearch.GetLength(Index: Integer): Integer;
 begin
-  Result := PatLen;  
+  Result := PatLen;
 end;
 
 function TSynEditSearch.GetPattern: UnicodeString;
 begin
-  Result := CasedPat; 
+  Result := CasedPat;
 end;
 
 procedure TSynEditSearch.SetOptions(const Value: TSynSearchOptions);

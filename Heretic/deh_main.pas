@@ -39,7 +39,7 @@ uses
   d_delphi,
   d_think;
 
-procedure DEH_Parse(const s: TDStringList); 
+procedure DEH_Parse(const s: TDStringList);
 
 function DEH_CurrentSettings: TDStringList;
 

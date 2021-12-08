@@ -648,7 +648,7 @@ end;
 // returns false if the move is blocked.
 //
 // [STRIFE]
-// villsa/haleyjd 09/05/10: Modified for terrain types and 3D object 
+// villsa/haleyjd 09/05/10: Modified for terrain types and 3D object
 // clipping. Below constants are verified to be unmodified:
 //
 const
@@ -904,8 +904,8 @@ end;
 //
 // villsa [STRIFE] new function
 //
-// haleyjd: Almost identical to the tail-end of P_NewChaseDir, this function 
-// finds a purely random direction for an object to walk. Called from 
+// haleyjd: Almost identical to the tail-end of P_NewChaseDir, this function
+// finds a purely random direction for an object to walk. Called from
 // A_RandomWalk.
 //
 // Shockingly similar to the RandomWalk pointer in Eternity :)
@@ -2502,7 +2502,7 @@ end;
 //
 // A_Pain
 //
-// villsa [STRIFE] 
+// villsa [STRIFE]
 // * Play random peasant sounds; otherwise play painsound directly
 //
 // JVAL: adjusted for MF_EX_RANDOMPAINSOUND flag
@@ -2608,8 +2608,8 @@ end;
 // A_ProgrammerDie
 //
 // villsa [STRIFE] new codepointer
-// 09/08/10: Action routine for the Programmer's grisly death. Spawns the 
-// separate mechanical base object and sends it flying off in some random 
+// 09/08/10: Action routine for the Programmer's grisly death. Spawns the
+// separate mechanical base object and sends it flying off in some random
 // direction.
 //
 procedure A_ProgrammerDie(actor: Pmobj_t);
@@ -2658,7 +2658,7 @@ end;
 //
 // villsa [STRIFE] new codepointer (unused)
 // 09/08/10: Spawns Spectre A. Or would, if anything actually used this.
-// This is evidence that the Programmer's spectre, which appears in the 
+// This is evidence that the Programmer's spectre, which appears in the
 // Catacombs in the final version, was originally meant to be spawned
 // after his death.
 //
@@ -3311,7 +3311,7 @@ begin
         F_StartFinale();
         G_ExitLevel(0);
       end;
-      
+
   end;
 end;
 
@@ -3399,7 +3399,7 @@ begin
     sound := Ord(sfx_plxdth) // villsa [STRIFE] different sound
   else
     sound := Ord(sfx_pldeth);
-    
+
   S_StartSound(mo, sound);
 end;
 

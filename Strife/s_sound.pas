@@ -70,7 +70,7 @@ procedure S_StartSound(origin: pointer; const sndname: string); overload;
 procedure S_StartSoundAtVolume(origin_p: pointer; sfx_id: integer; volume: integer);
 
 // Voice volume
-procedure S_StartVoice(const sndname: string); 
+procedure S_StartVoice(const sndname: string);
 
 procedure S_StartVoiceAtVolume(origin_p: pointer; sfx_id: integer; volume: integer);
 
@@ -121,7 +121,7 @@ var
   numChannels: integer;
 
 var
-  disable_voices: boolean = false;  
+  disable_voices: boolean = false;
 
 const
   MIN_NUMCHANNELS = 8;

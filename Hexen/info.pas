@@ -31390,7 +31390,7 @@ const
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
    )  //S_BAT_DEATH
-   
+
   );
 
 const // Doom Original Sprite Names

@@ -325,7 +325,7 @@ var
 begin
   if MaceSpotCount = 0 then // No maces placed
     exit;
-    
+
   if (deathmatch <> 0) and (P_Random < 64) then
   begin // Sometimes doesn't show up if not in deathmatch
     exit;
@@ -537,7 +537,7 @@ begin
      (player.mo.state = @states[Ord(S_PLAY_ATK2)]) then
     P_SetMobjState(player.mo, S_PLAY);
 
-  // Check for staff PL2 active sound  
+  // Check for staff PL2 active sound
   if (player.readyweapon = wp_staff) and
      (psp.state = @states[Ord(S_STAFFREADY2_1)]) then
     if P_Random < 128 then
@@ -1153,7 +1153,7 @@ begin
     P_RemoveMobj(ball);
     exit;
   end;
-  
+
   if (ball.z <= ball.floorz) and (ball.momz <> 0) then
   begin // Bounce
     newAngle := false;

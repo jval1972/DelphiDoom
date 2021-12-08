@@ -236,7 +236,7 @@ begin
     dec(script.delayCount);
     exit;
   end;
-                  
+
   ACScript := script;
   PCodePtr := ACScript.ip;
   repeat

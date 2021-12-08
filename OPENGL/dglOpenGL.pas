@@ -371,7 +371,7 @@
   call ActivateRenderingContext. This may some bit faster and the smart linker can delete
   all non used functions. This will reduce the filesize of your binary file. But in this
   case you have to load the functions by yourself. There are two ways to do this.
-  
+
   1. You can load whole extension by calling the func Read_Extensionname. But if you do
      this it's possible to load functions you dont use. So you have the same "problem"
      like before. But it's only an bit smaler.
@@ -492,7 +492,7 @@ type
   GLvoid = Pointer;
   GLint64 = Int64;
   GLuint64 = {$IFDEF DELPHI6_AND_DOWN} Int64 {$ELSE} UInt64 {$ENDIF};
-  
+
   TGLenum = GLenum;
   TGLboolean = GLboolean;
   TGLbitfield = GLbitfield;
@@ -584,7 +584,7 @@ type
   // WGL_NV_video_capture
   HVIDEOINPUTDEVICENV = THandle;
   PHVIDEOINPUTDEVICENV = ^HVIDEOINPUTDEVICENV;
-  
+
   HPGPUNV = THandle;
   HGPUNV = THandle;
 
@@ -603,12 +603,12 @@ type
 
   // GL_AMD_debug_output
   TglDebugProcAMD = procedure (id: GLuint; category: GLenum; severity: GLenum; length: GLsizei; const message_: PGLchar; userParam: PGLvoid); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
-  
+
   // GL_NV_vdpau_interop
   GLvdpauSurfaceNV = GLintptr;
   PGLvdpauSurfaceNV = ^GLvdpauSurfaceNV;
-  
-  
+
+
   // GLX
   {$IFDEF DGL_LINUX}
     GLXContext = Pointer;
@@ -692,7 +692,7 @@ type
     Flags: DWORD;
     rcVirtualScreen: TRect;
   end;
-  
+
 
 type
 {$IFDEF FPC}
@@ -878,7 +878,7 @@ var
   GL_ARB_cl_event,
   GL_ARB_debug_output,
   GL_ARB_robustness,
-  GL_ARB_shader_stencil_export,  
+  GL_ARB_shader_stencil_export,
   GL_ATI_draw_buffers,
   GL_ATI_element_array,
   GL_ATI_envmap_bumpmap,
@@ -1200,7 +1200,7 @@ var
   WGL_3DL_stereo_control,
   WIN_draw_range_elements,
   WIN_swap_hint,
-  
+
 //  GLX_VERSION_1_0,
   GLX_VERSION_1_3,
   GLX_VERSION_1_4,
@@ -2779,11 +2779,11 @@ const
   // GL_APPLE_row_bytes
   GL_PACK_ROW_BYTES_APPLE = $8A15;
   GL_UNPACK_ROW_BYTES_APPLE = $8A16;
-  
+
   // GL_APPLE_rgb_422
   { reuse GL_UNSIGNED_SHORT_8_8_APPLE }
-  { reuse GL_UNSIGNED_SHORT_8_8_REV_APPLE }  
-  
+  { reuse GL_UNSIGNED_SHORT_8_8_REV_APPLE }
+
   // GL_ARB_depth_texture
   GL_DEPTH_COMPONENT16_ARB = $81A5;
   GL_DEPTH_COMPONENT24_ARB = $81A6;
@@ -3989,7 +3989,7 @@ const
   GL_PERFMON_RESULT_AVAILABLE_AMD = $8BC4;
   GL_PERFMON_RESULT_SIZE_AMD = $8BC5;
   GL_PERFMON_RESULT_AMD = $8BC6;
-  
+
   // GL_AMD_vertex_shader_tesselator
   GL_SAMPLER_BUFFER_AMD = $9001;
   GL_INT_SAMPLER_BUFFER_AMD = $9002;
@@ -4619,7 +4619,7 @@ const
   GL_MIRROR_CLAMP_TO_BORDER_EXT = $8912;
 
   // GL_EXT_blend_equation_separate
-  GL_BLEND_EQUATION_RGB_EXT = $8009; 
+  GL_BLEND_EQUATION_RGB_EXT = $8009;
   GL_BLEND_EQUATION_ALPHA_EXT = $883D;
 
   // GL_EXT_pixel_buffer_object
@@ -4861,7 +4861,7 @@ const
   GL_FIRST_VERTEX_CONVENTION_EXT = $8E4D;
   GL_LAST_VERTEX_CONVENTION_EXT = $8E4E;
   GL_PROVOKING_VERTEX_EXT = $8E4F;
-  
+
   // GL_EXT_texture_snorm
   GL_ALPHA_SNORM = $9010;
   GL_LUMINANCE_SNORM = $9011;
@@ -4888,10 +4888,10 @@ const
   { reuse GL_RGB16_SNORM }
   { reuse GL_RGBA16_SNORM }
   { reuse GL_SIGNED_NORMALIZED }
-  
+
   // GL_EXT_separate_shader_objects
   GL_ACTIVE_PROGRAM_EXT = $8B8D;
-  
+
   // GL_EXT_shader_image_load_store
   GL_MAX_IMAGE_UNITS_EXT = $8F38;
   GL_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS_EXT = $8F39;
@@ -4948,7 +4948,7 @@ const
   GL_TRANSFORM_FEEDBACK_BARRIER_BIT_EXT = $00000800;
   GL_ATOMIC_COUNTER_BARRIER_BIT_EXT = $00001000;
   GL_ALL_BARRIER_BITS_EXT = $FFFFFFFF;
-  
+
   // GL_EXT_vertex_attrib_64bit
   { reuse GL_DOUBLE }
   GL_DOUBLE_VEC2_EXT = $8FFC;
@@ -5534,7 +5534,7 @@ const
   GL_TRANSFORM_FEEDBACK_BUFFER_PAUSED_NV = $8E23;
   GL_TRANSFORM_FEEDBACK_BUFFER_ACTIVE_NV = $8E24;
   GL_TRANSFORM_FEEDBACK_BINDING_NV = $8E25;
-  
+
   // GL_NV_video_capture
   GL_VIDEO_BUFFER_NV = $9020;
   GL_VIDEO_BUFFER_BINDING_NV = $9021;
@@ -5565,7 +5565,7 @@ const
   GL_VIDEO_CAPTURE_FIELD_UPPER_HEIGHT_NV = $903A;
   GL_VIDEO_CAPTURE_FIELD_LOWER_HEIGHT_NV = $903B;
   GL_VIDEO_CAPTURE_SURFACE_ORIGIN_NV = $903C;
-  
+
   // GL_NV_shader_buffer_load
   GL_BUFFER_GPU_ADDRESS_NV = $8F1D;
   GL_GPU_ADDRESS_NV = $8F34;
@@ -6479,7 +6479,7 @@ const
 
   // WGL_NV_present_video
   WGL_NUM_VIDEO_SLOTS_NV = $20F0;
-  
+
   // WGL_NV_video_output
   WGL_BIND_TO_VIDEO_RGB_NV = $20C0;
   WGL_BIND_TO_VIDEO_RGBA_NV = $20C1;
@@ -6502,7 +6502,7 @@ const
   // WGL_NV_video_capture
   WGL_UNIQUE_ID_NV = $20CE;
   WGL_NUM_VIDEO_CAPTURE_SLOTS_NV = $20CF;
-  
+
   // WGL_NV_multisample_coverage
   WGL_COVERAGE_SAMPLES_NV = $2042;
   WGL_COLOR_SAMPLES_NV = $20B9;
@@ -6645,13 +6645,13 @@ const
   GLX_STATIC_GRAY_EXT = $8007;
   GLX_TRANSPARENT_RGB_EXT = $8008;
   GLX_TRANSPARENT_INDEX_EXT = $8009;
-  
+
   // GLX_EXT_visual_rating
   GLX_VISUAL_CAVEAT_EXT = $20;
   GLX_SLOW_VISUAL_EXT = $8001;
   GLX_NON_CONFORMANT_VISUAL_EXT = $800D;
   (* reuse GLX_NONE_EXT *)
-  
+
   // GLX_EXT_import_context
   GLX_SHARE_CONTEXT_EXT = $800A;
   GLX_VISUAL_ID_EXT = $800B;
@@ -6887,7 +6887,7 @@ type
   TglBindTexture = procedure(target: GLenum; texture: GLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglDeleteTextures = procedure(n: GLsizei; const textures: PGLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglGenTextures = procedure(n: GLsizei; textures: PGLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
-  
+
 {$ifdef DGL_DEPRECATED}
   TglAccum = procedure(op: GLenum; value: GLfloat); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglAlphaFunc = procedure(func: GLenum; ref: GLclampf); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
@@ -7515,7 +7515,7 @@ type
   TglGetBufferParameteri64v = procedure(target: GLenum; pname: GLenum; params: PGLint64); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglFramebufferTexture = procedure(target: GLenum; attachment: GLenum; texture: GLuint; level: GLint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
 //  TglFramebufferTextureFace = procedure(target: GLenum; attachment: GLenum; texture: GLuint; level: GLint; face: GLenum); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
-  
+
   // GL_VERSION_3_3
   { OpenGL 3.3 also reuses entry points from these extensions: }
   { ARB_blend_func_extended }
@@ -7528,7 +7528,7 @@ type
   { ARB_timer_query }
   { ARB_vertex_type_2_10_10_10_rev }
   TglVertexAttribDivisor = procedure(index: GLuint; divisor: GLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
-  
+
   // GL_VERSION_4_0
   { OpenGL 4.0 also reuses entry points from these extensions: }
   { ARB_texture_query_lod (no entry points) }
@@ -7556,7 +7556,7 @@ type
   { ARB_shader_precision (no entry points) }
   { ARB_vertex_attrib_64bit }
   { ARB_viewport_array }
-  
+
   // GL_3DFX_tbuffer
   TglTbufferMask3DFX = procedure(mask: GLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
 
@@ -8070,7 +8070,7 @@ type
   TglGetProgramBinary = procedure(program_: GLuint; bufSize: GLsizei; length: PGLsizei; binaryFormat: PGLenum; binary: PGLvoid); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglProgramBinary = procedure(program_: GLuint; binaryFormat: GLenum; const binary: PGLvoid; length: GLsizei); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglProgramParameteri = procedure(program_: GLuint; pname: GLenum; value: GLint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
-  
+
   // GL_ARB_separate_shader_objects
   TglUseProgramStages = procedure(pipeline: GLuint; stages: GLbitfield; program_: GLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglActiveShaderProgram = procedure(pipeline: GLuint; program_: GLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
@@ -9218,7 +9218,7 @@ type
   TglGetVideoi64vNV = procedure(video_slot: GLuint; pname: GLenum; params: PGLint64EXT); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglGetVideoui64vNV = procedure(video_slot: GLuint; pname: GLenum; params: PGLuint64EXT); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
 //  TglVideoParameterivNV = procedure(video_slot: GLuint; pname: GLenum; const params: PGLint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
-  
+
   // GL_NV_explicit_multisample
   TglGetMultisamplefvNV = procedure (pname: GLenum; index: GLuint; val: PGLfloat); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglSampleMaskIndexedNV = procedure (index: GLuint; mask: GLbitfield); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
@@ -9743,7 +9743,7 @@ type
 
   // WGL_3DL_stereo_control
   TwglSetStereoEmitterState3DL = function(hDC: HDC; uState: UINT): Boolean; stdcall;
-  
+
   // WIN_draw_range_elements
   TglDrawRangeElementsWIN = procedure(mode: GLenum; start: GLuint; _end: GLuint; count: GLsizei; _type: GLenum; const indices: PGLvoid); stdcall;
 
@@ -9767,7 +9767,7 @@ type
   TglXQueryVersion = function(dpy: PDisplay; major: PGLint; minor: PGLint): GLboolean cdecl;
   TglXSwapBuffers = procedure(dpy: PDisplay; drawable: GLXDrawable); cdecl;
   TglXUseXFont = procedure(font: Font; first: GLint; count: GLint; listBase: GLint); cdecl;
-  TglXWaitGL = procedure; cdecl; 
+  TglXWaitGL = procedure; cdecl;
   TglXWaitX = procedure; cdecl;
 
   TglXGetClientString = function(dpy: PDisplay; name: GLint): PGLchar; cdecl;
@@ -9811,7 +9811,7 @@ type
   TglXGetContextIDEXT = function(const context: GLXContext): GLXContextID; cdecl;
   TglXImportContextEXT = function(dpy: PDisplay; contextID: GLXContextID): GLXContext; cdecl;
   TglXFreeContextEXT = procedure(dpy: PDisplay; context: GLXContext); cdecl;
-  
+
   // GLX_EXT_texture_from_pixmap
   TglXBindTexImageEXT = procedure(dpy: PDisplay; drawable: GLXDrawable; buffer: GLint; const attrib_list: PGLint); cdecl;
   TglXReleaseTexImageEXT = procedure(dpy: PDisplay; drawable: GLXDrawable; buffer: GLint); cdecl;
@@ -10556,7 +10556,7 @@ var
 
   // GL_VERSION_3_3
   glVertexAttribDivisor: TglVertexAttribDivisor;
-  
+
   // GL_VERSION_4_0
   { OpenGL 4.0 also reuses entry points from these extensions: }
   { ARB_texture_query_lod (no entry points) }
@@ -11090,7 +11090,7 @@ var
   glGetProgramBinary: TglGetProgramBinary;
   glProgramBinary: TglProgramBinary;
   glProgramParameteri: TglProgramParameteri;
-  
+
   // GL_ARB_separate_shader_objects
   glUseProgramStages: TglUseProgramStages;
   glActiveShaderProgram: TglActiveShaderProgram;
@@ -11330,7 +11330,7 @@ var
   // GL_AMD_vertex_shader_tesselator
   glTessellationFactorAMD: TglTessellationFactorAMD;
   glTessellationModeAMD: TglTessellationModeAMD;
-  
+
   // GL_AMD_draw_buffers_blend
   glBlendFuncIndexedAMD: TglBlendFuncIndexedAMD;
   glBlendFuncSeparateIndexedAMD: TglBlendFuncSeparateIndexedAMD;
@@ -11923,7 +11923,7 @@ var
   glVertexAttribLPointerEXT: TglVertexAttribLPointerEXT;
   glGetVertexAttribLdvEXT: TglGetVertexAttribLdvEXT;
   glVertexArrayVertexAttribLOffsetEXT: TglVertexArrayVertexAttribLOffsetEXT;
-  
+
   // GL_HP_image_transform
   glImageTransformParameteriHP: TglImageTransformParameteriHP;
   glImageTransformParameterfHP: TglImageTransformParameterfHP;
@@ -12818,14 +12818,14 @@ var
 
   // GLX_ARB_create_context
   glXCreateContextAttribsARB: TglXCreateContextAttribsARB;
-  
+
   // GLX_EXT_import_context
   glXGetCurrentDisplayEXT: TglXGetCurrentDisplayEXT;
   glXQueryContextInfoEXT: TglXQueryContextInfoEXT;
   glXGetContextIDEXT: TglXGetContextIDEXT;
   glXImportContextEXT: TglXImportContextEXT;
   glXFreeContextEXT: TglXFreeContextEXT;
-  
+
   // GLX_EXT_texture_from_pixmap
   glXBindTexImageEXT: TglXBindTexImageEXT;
   glXReleaseTexImageEXT: TglXReleaseTexImageEXT;
@@ -13388,7 +13388,7 @@ begin
       glXGetContextIDEXT := dglGetProcAddress('glXGetContextIDEXT');
       glXImportContextEXT := dglGetProcAddress('glXImportContextEXT');
       glXFreeContextEXT := dglGetProcAddress('glXFreeContextEXT');
-      
+
       // GLX_EXT_texture_from_pixmap
       glXBindTexImageEXT := dglGetProcAddress('glXBindTexImageEXT');
       glXReleaseTexImageEXT := dglGetProcAddress('glXReleaseTexImageEXT');
@@ -14062,7 +14062,7 @@ begin
   glUniformMatrix4x2fv := dglGetProcAddress('glUniformMatrix4x2fv');
   glUniformMatrix3x4fv := dglGetProcAddress('glUniformMatrix3x4fv');
   glUniformMatrix4x3fv := dglGetProcAddress('glUniformMatrix4x3fv');
-  
+
   // GL_VERSION_3_0
   { OpenGL 3.0 also reuses entry points from these extensions: }
   Read_GL_ARB_framebuffer_object;
@@ -14163,7 +14163,7 @@ begin
   Read_GL_ARB_vertex_type_2_10_10_10_rev;
 
   glVertexAttribDivisor := dglGetProcAddress('glVertexAttribDivisor');
-  
+
   // GL_VERSION_4_0
   { OpenGL 4.0 also reuses entry points from these extensions: }
   { ARB_texture_query_lod (no entry points) }
@@ -14938,7 +14938,7 @@ begin
   glGetnUniformuivARB := dglGetProcAddress('glGetnUniformuivARB');
   glGetnUniformdvARB := dglGetProcAddress('glGetnUniformdvARB');
 end;
-  
+
 procedure Read_GL_ATI_draw_buffers;
 begin
   glDrawBuffersATI := dglGetProcAddress('glDrawBuffersATI');
@@ -15111,7 +15111,7 @@ begin
   glDebugMessageCallbackAMD := dglGetProcAddress('glDebugMessageCallbackAMD');
   glGetDebugMessageLogAMD := dglGetProcAddress('glGetDebugMessageLogAMD');
 end;
- 
+
 procedure Read_GL_EXT_blend_color;
 begin
   glBlendColorEXT := dglGetProcAddress('glBlendColorEXT');
@@ -16295,7 +16295,7 @@ begin
   glGetVertexAttribLi64vNV := dglGetProcAddress('glGetVertexAttribLi64vNV');
   glGetVertexAttribLui64vNV := dglGetProcAddress('glGetVertexAttribLui64vNV');
   glVertexAttribLFormatNV := dglGetProcAddress('glVertexAttribLFormatNV');
-end;  
+end;
 
 procedure Read_GL_NV_vdpau_interop;
 begin
@@ -16310,7 +16310,7 @@ begin
   glVDPAUMapSurfacesNV := dglGetProcAddress('glVDPAUMapSurfacesNV');
   glVDPAUUnmapSurfacesNV := dglGetProcAddress('glVDPAUUnmapSurfacesNV');
 end;
-  
+
 procedure Read_GL_NV_texture_barrier;
 begin
   glTextureBarrierNV := dglGetProcAddress('glTextureBarrierNV');
@@ -16811,7 +16811,7 @@ end;
 procedure ReadExtensions;
 begin
   ReadOpenGLCore;
-  
+
   Read_GL_3DFX_tbuffer;
   Read_GL_APPLE_element_array;
   Read_GL_APPLE_fence;
@@ -17144,7 +17144,7 @@ begin
   begin
     GL_VERSION_2_1 := True;
     GL_VERSION_3_0 := True;
-    
+
     if MinorVersion >= 1 then
       GL_VERSION_3_1 := True;
     if MinorVersion >= 2 then
@@ -17316,7 +17316,7 @@ begin
   GL_ARB_debug_output := Int_CheckExtension(Buffer, 'GL_ARB_debug_output');
   GL_ARB_robustness := Int_CheckExtension(Buffer, 'GL_ARB_robustness');
   GL_ARB_shader_stencil_export := Int_CheckExtension(Buffer, 'GL_ARB_shader_stencil_export');
-  
+
   // === ATI/AMD =================================================================
   GL_ATI_draw_buffers := Int_CheckExtension(Buffer, 'GL_ATI_draw_buffers');
   GL_ATI_element_array := Int_CheckExtension(Buffer, 'GL_ATI_element_array');
@@ -17440,7 +17440,7 @@ begin
   GL_EXT_shader_image_load_store := Int_CheckExtension(Buffer, 'GL_EXT_shader_image_load_store');
   GL_EXT_vertex_attrib_64bit := Int_CheckExtension(Buffer, 'GL_EXT_vertex_attrib_64bit');
   GL_EXT_texture_sRGB_decode := Int_CheckExtension(Buffer, 'GL_EXT_texture_sRGB_decode');
-  
+
   // === HP ======================================================================
   GL_HP_convolution_border_modes := Int_CheckExtension(Buffer, 'GL_HP_convolution_border_modes');
   GL_HP_image_transform := Int_CheckExtension(Buffer, 'GL_HP_image_transform');

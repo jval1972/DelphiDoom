@@ -732,7 +732,7 @@ begin
 
   if mthing.options and MTF_DONOTTRIGGERSCRIPTS <> 0 then
     mobj.flags2_ex := mobj.flags2_ex or MF2_EX_DONTRUNSCRIPTS;
-    
+
   if mthing.options and MTF_AMBUSH <> 0 then
     mo.flags := mo.flags or MF_AMBUSH;
   if mthing.options and MTF_STAND <> 0 then       // [STRIFE] Standing mode, for NPCs

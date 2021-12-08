@@ -62,7 +62,7 @@ const
   FastcodeCompareStrSSE: FastcodeCompareStrFunction = CompareStr_PLR_IA32_14;
   FastcodeCompareStrSSE2: FastcodeCompareStrFunction = CompareStr_PLR_IA32_14;
   FastCodeCompareStrPascalSizePenalty: FastCodeCompareStrFunction = CompareStr_PLR_PAS_1;
-  FastCodeCompareStrPascal: FastCodeCompareStrFunction = CompareStr_PLR_PAS_1; 
+  FastCodeCompareStrPascal: FastCodeCompareStrFunction = CompareStr_PLR_PAS_1;
 
 procedure CompareStrStub;
 

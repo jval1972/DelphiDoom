@@ -3779,7 +3779,7 @@ begin
     rlen := M_StringWidth(rstr);
     M_WriteWhiteText4(315 - rlen, 158, rstr);
   end;
-  
+
   if currentMenu.itemheight <= LINEHEIGHT2 then
     M_WriteWhiteText4(x + LINEXOFF, currentMenu.y + itemOn * currentMenu.itemheight + LINEYOFF, '-')
   else
@@ -5262,7 +5262,7 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @gl_linear_hud;
   pmi.alphaKey := 'l';
-  
+
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayOpenGLFilterDef
   OptionsDisplayOpenGLFilterDef.numitems := Ord(optglfilter_end); // # of menu items

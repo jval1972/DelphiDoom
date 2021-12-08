@@ -73,7 +73,7 @@ uses
 constructor TDDModel.Create(const name: string;
   const xoffset, yoffset, zoffset: float;
   const xscale, yscale, zscale: float;
-  const additionalframes: TDStringList); 
+  const additionalframes: TDStringList);
 var
   i: integer;
 begin

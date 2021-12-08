@@ -112,9 +112,9 @@ end;
 function StrIComp_JOH_IA32_3(const Str1, Str2: PChar): Integer;
 asm
   push  ebx
-  sub   eax, edx   
+  sub   eax, edx
   mov   ecx, eax       {Difference between Str1 and Str2}
-@@Check:                         
+@@Check:
   test  eax, eax
   jz    @@Exit         {End Reached - Return 0}
 @@Loop:

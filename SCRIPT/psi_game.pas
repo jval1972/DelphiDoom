@@ -5293,7 +5293,7 @@ begin
   end;
 
   Result := Ord(players[plnum]._class);
-end;  
+end;
 {$ENDIF}
 
 procedure PS_SetPlayerMessage(const plnum: Integer; const msg: string);

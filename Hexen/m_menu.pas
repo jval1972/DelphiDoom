@@ -217,7 +217,7 @@ uses
   r_draw,
 {$IFNDEF OPENGL}
   r_segs,
-{$ENDIF}  
+{$ENDIF}
   t_main,
   vx_voxelsprite,
   v_data,
@@ -3961,7 +3961,7 @@ begin
     rlen := M_StringWidth(rstr);
     M_WriteWhiteText3(315 - rlen, 158, rstr);
   end;
-  
+
   if currentMenu.itemheight <= LINEHEIGHT2 then
     M_WriteWhiteText3(x + LINECHARXOFF, currentMenu.y + LINECHARYOFF + itemOn * LINEHEIGHT2, '-')
   else
@@ -5439,7 +5439,7 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @gl_linear_hud;
   pmi.alphaKey := 'l';
-  
+
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayOpenGLFilterDef
   OptionsDisplayOpenGLFilterDef.numitems := Ord(optglfilter_end); // # of menu items

@@ -106,7 +106,7 @@ var
 
 // haleyjd 20110203: [STRIFE] New global
 // "blockingline" tracks the linedef responsible for blocking motion of an mobj
-// for purposes of doing impact special activation by missiles. Suspiciously 
+// for purposes of doing impact special activation by missiles. Suspiciously
 // similar to the solution used by Raven in Heretic and Hexen.
   blockingline: Pline_t;
 
@@ -125,7 +125,7 @@ var
 
 function P_CheckPositionZ(thing: Pmobj_t; height: fixed_t): boolean;
 
-// JVAL: 3d Floors move from implementation section to interface  
+// JVAL: 3d Floors move from implementation section to interface
 var
   tmthing: Pmobj_t;
   tmx: fixed_t; // JVAL: Slopes - move from implementation section to interface
@@ -1582,7 +1582,7 @@ var
 
   aimslope: fixed_t;
 
-// JVAL: 3d floors : Moved from P_Sight  
+// JVAL: 3d floors : Moved from P_Sight
   bottomslope: fixed_t; // slopes to top and bottom of target
   topslope: fixed_t;
 
@@ -2529,7 +2529,7 @@ begin
     result := true;
     exit;
   end;
-  
+
   // crunch bodies to giblets
   if thing.health <= 0 then
   begin
@@ -2929,7 +2929,7 @@ begin
     else
       node := node.m_tnext;
   end;
-  
+
 end;
 
 //----------------------------------------------------------------------------

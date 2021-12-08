@@ -118,9 +118,9 @@ asm
   pop    ecx                   {Dump Start Position}
   pop    eax                   {Dump Remainder to Check}
   pop    ebp
-  pop    edi              
+  pop    edi
   jmp    @@NotFound
-@@SingleChar: 
+@@SingleChar:
   movzx  ebx, [eax]            {1st Char of SubStr}
   lea    esi, AnsiUpcase
   movzx  ebx, [esi+ebx]        {Convert to Uppercase}

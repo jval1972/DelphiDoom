@@ -12,7 +12,7 @@
         hrtp^ := r + g shl 8 + b;
 
         inc(hrtp);
-{$IFNDEF LASTLOOP}        
+{$IFNDEF LASTLOOP}
         inc(vplj);
 {$ENDIF}
 

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -21,11 +21,11 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION: 
-//  all external data is defined here 
-//  most of the data is loaded into different structures at run time 
-//  some internal structures shared by many modules are here 
-// 
+// DESCRIPTION:
+//  all external data is defined here
+//  most of the data is loaded into different structures at run time
+//  some internal structures shared by many modules are here
+//
 //------------------------------------------------------------------------------
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
@@ -151,7 +151,7 @@ const
 //line triggers
   ML_TRIGGERSCRIPTS = 512;
 //
-  ML_NOCLIP = 1024;  
+  ML_NOCLIP = 1024;
 
 
 type

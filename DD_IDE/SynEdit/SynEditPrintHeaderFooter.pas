@@ -288,7 +288,7 @@ begin
     IntToStr(FFont.Charset) + '/' +
 {$ENDIF}
 {$ELSE}
-    IntToStr(DEFAULT_CHARSET)+'/' +                             
+    IntToStr(DEFAULT_CHARSET)+'/' +
 {$ENDIF}
     IntToStr(FFont.Color) + '/' +
     IntToStr(FFont.Height) + '/' +
@@ -907,7 +907,7 @@ begin
     begin
       item.AsString := DecodeString(GetFirstEl(s, '/'));
       Add(item.Text, item.Font, item.Alignment, item.LineNumber);
-    end; 
+    end;
   finally
     item.Free;
   end;

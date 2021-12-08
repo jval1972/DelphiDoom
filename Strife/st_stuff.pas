@@ -554,7 +554,7 @@ var
   ss: Psubsector_t;
 begin
   if not ST_CmdCheckPlayerStatus then
-    exit;                                                  
+    exit;
 
   ss := R_PointInSubsector(plyr.mo.x, plyr.mo.y);
   sprintf(buf, 'ssector = %d, sector = %d'#13#10, [
@@ -1044,7 +1044,7 @@ var
 begin
   if plyr = nil then
     exit;
-    
+
   cnt := plyr.damagecount;
 
   if plyr.powers[Ord(pw_strength)] <> 0 then

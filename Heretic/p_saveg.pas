@@ -1232,7 +1232,7 @@ var
 begin
   // read in saved thinkers
   while true do
-  begin              
+  begin
     tclass := save_p[0];
     save_p := @save_p[1];
     case tclass of

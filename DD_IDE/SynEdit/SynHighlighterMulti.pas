@@ -55,7 +55,7 @@ uses
 {$IFDEF SYN_CLX}
   QSynEditTypes,
   QSynEditHighlighter,
-  QSynUnicode,  
+  QSynUnicode,
 {$ELSE}
   Windows,
   SynEditTypes,
@@ -554,7 +554,7 @@ begin
       TmpLine := fLineStr
     else
       TmpLine := Copy(fLineStr, 1, Markers[fNextMarker].fStartPos - 1);
-      
+
     if fExpandedLine <> nil then
     begin
       if fMarkers.Count = 0 then

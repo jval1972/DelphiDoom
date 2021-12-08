@@ -243,7 +243,7 @@ const
   MF2_TELESTOMP = $00040000;        // mobj can stomp another
 
   MF2_FLOATBOB = $00080000;         // use float bobbing z movement
-  
+
   MF2_DONTDRAW = $00100000;         // don't generate a vissprite
 
   MF2_IMPACT = $00200000;            // an MF_MISSILE mobj can activate

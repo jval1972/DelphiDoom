@@ -163,7 +163,7 @@ begin
     Result := false;
 end;
 
-function TWadReader.ReadEntry(const aname: string; var buf: pointer; var bufsize: integer): boolean; 
+function TWadReader.ReadEntry(const aname: string; var buf: pointer; var bufsize: integer): boolean;
 var
   id: integer;
 begin

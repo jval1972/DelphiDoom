@@ -1560,7 +1560,7 @@ begin
   end;
 
   sec.renderflags := sec.renderflags or SRF_NO_INTERPOLATE;
-  
+
   // Init sliding door vars
   if door = nil then
   begin

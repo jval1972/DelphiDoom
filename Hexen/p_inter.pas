@@ -1541,7 +1541,7 @@ begin
         P_TryPickupWeaponPiece(player, PCLASS_MAGE, WPIECE3, special);
         exit;
       end;
-      
+
   else
     I_Error('P_SpecialThing(): Unknown gettable thing (sprite number = %d', [special.sprite]);
   end;

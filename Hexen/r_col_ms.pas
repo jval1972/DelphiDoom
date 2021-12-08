@@ -38,7 +38,7 @@ procedure R_DrawMaskedColumnHi32;
 procedure R_DrawMaskedColumnUltra32;
 
 implementation
-{$UNDEF FOG}  
+{$UNDEF FOG}
 
 uses
   d_delphi,

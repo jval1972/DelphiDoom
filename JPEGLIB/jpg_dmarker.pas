@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -55,11 +55,11 @@ const                  { JPEG marker codes }
   M_SOF1  = $c1;
   M_SOF2  = $c2;
   M_SOF3  = $c3;
-  
+
   M_SOF5  = $c5;
   M_SOF6  = $c6;
   M_SOF7  = $c7;
-  
+
   M_JPG   = $c8;
   M_SOF9  = $c9;
   M_SOF10 = $ca;
@@ -68,11 +68,11 @@ const                  { JPEG marker codes }
   M_SOF13 = $cd;
   M_SOF14 = $ce;
   M_SOF15 = $cf;
-  
+
   M_DHT   = $c4;
-  
+
   M_DAC   = $cc;
-  
+
   M_RST0  = $d0;
   M_RST1  = $d1;
   M_RST2  = $d2;
@@ -81,7 +81,7 @@ const                  { JPEG marker codes }
   M_RST5  = $d5;
   M_RST6  = $d6;
   M_RST7  = $d7;
-  
+
   M_SOI   = $d8;
   M_EOI   = $d9;
   M_SOS   = $da;
@@ -90,7 +90,7 @@ const                  { JPEG marker codes }
   M_DRI   = $dd;
   M_DHP   = $de;
   M_EXP   = $df;
-  
+
   M_APP0  = $e0;
   M_APP1  = $e1;
   M_APP2  = $e2;
@@ -107,7 +107,7 @@ const                  { JPEG marker codes }
   M_APP13 = $ed;
   M_APP14 = $ee;
   M_APP15 = $ef;
-  
+
   M_JPG0  = $f0;
   M_JPG13 = $fd;
   M_COM   = $fe;
@@ -1530,7 +1530,7 @@ procedure examine_app0 (cinfo: j_decompress_ptr;
 {$IFDEF DEBUG}
 var
   totallen: INT32;
-{$ENDIF}  
+{$ENDIF}
 begin
   {$IFDEF DEBUG}
   totallen := INT32(datalen) + remaining;

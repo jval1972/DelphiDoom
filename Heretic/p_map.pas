@@ -105,7 +105,7 @@ var
 
 function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t = nil): integer;
 
-// JVAL: 3d Floors move from implementation section to interface  
+// JVAL: 3d Floors move from implementation section to interface
 var
   tmthing: Pmobj_t;
   tmx: fixed_t; // JVAL: Slopes - move from implementation section to interface
@@ -739,9 +739,9 @@ begin
     end;
 
     if (tmthing.target <> nil) and (
-       (tmthing.target._type = thing._type) or 
+       (tmthing.target._type = thing._type) or
        // JVAL: 20211126 - Inherited actors do not hurt each other
-       (Info_GetInheritance(tmthing.target.info) = Info_GetInheritance(thing.info))) then  
+       (Info_GetInheritance(tmthing.target.info) = Info_GetInheritance(thing.info))) then
     begin // Don't hit same species as originator.
       if thing = tmthing.target then // Don't missile self
       begin
@@ -1708,7 +1708,7 @@ var
 
   aimslope: fixed_t;
 
-// JVAL: 3d floors : Moved from P_Sight  
+// JVAL: 3d floors : Moved from P_Sight
   bottomslope: fixed_t; // slopes to top and bottom of target
   topslope: fixed_t;
 

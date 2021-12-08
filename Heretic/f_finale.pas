@@ -21,8 +21,8 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION: 
-// Game completion, final screen animation. 
+// DESCRIPTION:
+// Game completion, final screen animation.
 //
 //------------------------------------------------------------------------------
 //  Site  : http://sourceforge.net/projects/delphidoom/
@@ -220,7 +220,7 @@ begin
     end;
   end;
   Z_ChangeTag(src, PU_CACHE);
-  
+
   // draw some of the text onto the screen
   cx := 20;
   cy := 5;

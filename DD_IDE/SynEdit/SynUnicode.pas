@@ -59,13 +59,13 @@ uses
   {$ENDIF}
   {$IFDEF SYN_CLX}
   QGraphics,
-  QClipbrd,  
+  QClipbrd,
   {$ELSE}
   Messages,
   Controls,
   Forms,
   Graphics,
-  Clipbrd,  
+  Clipbrd,
   {$ENDIF}
   {$IFDEF SYN_COMPILER_6_UP}
   Types,
@@ -96,7 +96,7 @@ const
   // constants describing range of the Unicode Private Use Area (Unicode 3.2)
   PrivateUseLow = WideChar($E000);
   PrivateUseHigh = WideChar($F8FF);
-  // filler char: helper for painting wide glyphs 
+  // filler char: helper for painting wide glyphs
   FillerChar = PrivateUseLow;
 
 const
@@ -226,7 +226,7 @@ type
   TUnicodeStringList = TStringList;
 {$ELSE}
 { TUnicodeStringList }
-  
+
   //----- TUnicodeStringList class
   TDynWideCharArray = array of WideChar;
   TUnicodeStringItem = record
@@ -328,7 +328,7 @@ function WideCompareText(const S1, S2: UnicodeString): Integer;
 var
   DefaultSystemCodePage: Cardinal; // implicitly used when converting AnsiString <--> UnicodeString.
 {$ENDIF}
-  
+
 function WCharUpper(lpsz: PWideChar): PWideChar;
 function WCharUpperBuff(lpsz: PWideChar; cchLength: DWORD): DWORD;
 function WCharLower(lpsz: PWideChar): PWideChar;
@@ -542,7 +542,7 @@ var
   I: Integer;
 begin
   Assert(Strings <> nil);
-  
+
   BeginUpdate;
   try
     for I := 0 to Strings.Count - 1 do
@@ -579,7 +579,7 @@ begin
     end
     else
       inherited Assign(Source);
-  end; 
+  end;
 end;
 
 procedure TUnicodeStrings.AssignTo(Dest: TPersistent);
@@ -774,7 +774,7 @@ begin
   Size := 0;
   for I := 0 to Count - 1 do
     Inc(Size, Length(Get(I)) + SepSize);
-    
+
   // set one separator less, the last line does not need a trailing separator
   SetLength(Result, Size - SepSize);
   if Size > 0 then
@@ -794,7 +794,7 @@ begin
       Inc(I);
       if I = Count then
         Break;
-        
+
       // add separators
       System.Move(Pointer(Separators)^, P^, SizeOf(WideChar) * SepSize);
       Inc(P, SepSize);
@@ -1117,7 +1117,7 @@ begin
       else
       begin
         P1 := P;
-        while (P^ > WideSpace) and (P^ <> ',') do 
+        while (P^ > WideSpace) and (P^ <> ',') do
           Inc(P);
         SetString(S, P1, P - P1);
       end;
@@ -2267,7 +2267,7 @@ var
   P: PWord;
 begin
   P := PWord(Str);
-  while P^ <> 0 do 
+  while P^ <> 0 do
   begin
     P^ := MakeWord(HiByte(P^), LoByte(P^));
     Inc(P);
@@ -2522,7 +2522,7 @@ begin
     // value for GlyphBufferSize (see documentation of cGlyphs parameter of
     // ScriptStringAnalyse function)
     GlyphBufferSize := (3 * Count) div 2 + 16;
-    
+
     if Succeeded(ScriptStringAnalyse(DC, Str, Count, GlyphBufferSize, -1,
       SSAnalyseFlags, 0, nil, nil, nil, nil, nil, @saa)) then
     begin
@@ -2991,7 +2991,7 @@ var
 begin
   // if Stream is nil, let Delphi raise the exception, by accessing Stream,
   // to signal an invalid result
-  
+
   // start analysis at actual Stream.Position
   Size := Stream.Size - Stream.Position;
 

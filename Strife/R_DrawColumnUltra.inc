@@ -58,7 +58,7 @@
       {$I R_DrawColumnUltra_Loop.inc}
       count := count - 16;
     end;
-    
+
     while count >= 4 do
     begin
       {$I R_DrawColumnUltra_Loop.inc}

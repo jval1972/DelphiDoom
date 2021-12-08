@@ -261,7 +261,7 @@ begin
   CharsBefore := 0;
   if Assigned(pLine) then
   begin
-    while pLine^ <> #0 do 
+    while pLine^ <> #0 do
     begin
       if pLine^ = #9 then break;
       Inc(CharsBefore);

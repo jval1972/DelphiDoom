@@ -22,7 +22,7 @@
 //  02111-1307, USA.
 //
 // DESCRIPTION:
-//  Play functions, animation, global header. 
+//  Play functions, animation, global header.
 //
 //------------------------------------------------------------------------------
 //  Site  : http://sourceforge.net/projects/delphidoom/

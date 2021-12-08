@@ -118,7 +118,7 @@ procedure A_Sor2DthInit(actor: Pmobj_t);
 
 procedure A_Sor2DthLoop(actor: Pmobj_t);
 
-procedure A_SorZap(actor: Pmobj_t); 
+procedure A_SorZap(actor: Pmobj_t);
 
 procedure A_SorRise(actor: Pmobj_t);
 
@@ -493,7 +493,7 @@ begin
   begin
     result := false; // do not attack yet
     exit;
-  end;                                
+  end;
 
   // OPTIMIZE: get this from a global checksight
   dist := P_AproxDistance(actor.x - actor.target.x, actor.y - actor.target.y) -
@@ -1612,7 +1612,7 @@ begin
     P_DamageMobj(actor.target, actor, actor, HITDICE(8));
     exit;
   end;
-  
+
   if actor.health > (actor.info.spawnhealth div 3) * 2 then
   begin // Spit one fireball
     P_SpawnMissile(actor, actor.target, Ord(MT_SRCRFX1));

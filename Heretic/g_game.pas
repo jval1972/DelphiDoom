@@ -2285,7 +2285,7 @@ begin
     R_ExecuteSetViewSize;
 
   P_LevelInfoChangeMusic;
-    
+
   // draw the pattern into the back screen
 {$IFNDEF OPENGL}
   R_FillBackScreen;
@@ -2333,7 +2333,7 @@ begin
   // JVAL
   // Hack:
   //    Strings 'heretic' and 'version' have the same length!!
-  savegameversion := VERSION; 
+  savegameversion := VERSION;
   sprintf(name2, 'heretic %d', [VERSION]);
   while length(name2) < VERSIONSIZE do
     name2 := name2 + ' ';

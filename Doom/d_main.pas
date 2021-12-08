@@ -785,7 +785,7 @@ begin
         if gamemode = commercial then
         begin
           pagetic := TICRATE * 11;
-          pagename := decide(customgame = cg_bfg2, pg_DMENUPIC, pg_TITLE); 
+          pagename := decide(customgame = cg_bfg2, pg_DMENUPIC, pg_TITLE);
           S_StartMusic(Ord(mus_dm2ttl));
         end
         else

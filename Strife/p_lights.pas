@@ -82,7 +82,7 @@ uses
 //
 // T_FireFlicker
 //
-// [STRIFE] 
+// [STRIFE]
 // haleyjd 2011023: Changes to amount and duration of flicker
 //
 procedure T_FireFlicker(flick: Pfireflicker_t);
@@ -107,7 +107,7 @@ end;
 //
 // P_SpawnFireFlicker
 //
-// [STRIFE] 
+// [STRIFE]
 // haleyjd 2011023: Changes to minimum light level and initial duration
 //
 procedure P_SpawnFireFlicker(sector: Psector_t);

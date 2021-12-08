@@ -66,7 +66,7 @@ implementation
 
 uses
   d_delphi;
-  
+
 function R_GetGenderForName(const s: string): gender_t;
 var
   check: string;

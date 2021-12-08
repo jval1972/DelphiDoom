@@ -226,7 +226,7 @@ begin
   end;
 
   ResizeActorDefFuncs(j);
-  
+
   dllret.Free;
 
   FillListView;

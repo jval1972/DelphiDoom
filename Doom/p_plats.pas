@@ -260,7 +260,7 @@ begin
           plat.status := down;
           S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_pstart));
         end;
-        
+
       perpetualRaise:
         begin
           plat.speed := PLATSPEED;

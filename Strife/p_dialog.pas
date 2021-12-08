@@ -950,7 +950,7 @@ begin
       for j := 0 to MDLG_TEXTLEN - 1 do
         dialogs[i].txt[j] := olddialogs[i].txt[j];
       for j := 0 to MDLG_MAXCHOICES - 1 do
-      begin                     
+      begin
         dialogs[i].choices[j] := olddialogs[i].choices[j];
         dialogs[i].choices[j].giveitem := P_IdFromXlat(dialogs[i].choices[j].giveitem);
         for k := 0 to MDLG_MAXITEMS - 1 do
@@ -1039,7 +1039,7 @@ end;
 // P_DialogFind
 //
 // [STRIFE] New function
-// haleyjd 09/03/10: Looks for a dialog definition matching the given 
+// haleyjd 09/03/10: Looks for a dialog definition matching the given
 // Script ID # for an mobj.
 //
 function P_DialogFind(_type: mobjtype_t; jumptoconv: integer): mapdialog_p;

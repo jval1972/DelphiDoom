@@ -32,7 +32,7 @@ interface
 
 uses
   d_delphi;
-  
+
 
 //
 //  MUSIC I/O

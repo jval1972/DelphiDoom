@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -452,7 +452,7 @@ asm
     { Final output stage: inputs are tmp10..tmp13, tmp0..tmp3 }
 
     {wsptr^[DCTSIZE*0] := int (DESCALE(tmp10 + tmp3, CONST_BITS-PASS1_BITS));}
-    {wsptr^[DCTSIZE*7] := int (DESCALE(tmp10 - tmp3, CONST_BITS-PASS1_BITS));}    
+    {wsptr^[DCTSIZE*7] := int (DESCALE(tmp10 - tmp3, CONST_BITS-PASS1_BITS));}
   mov  eax, tmp10
   add   eax, ROUND_CONST
   lea   ebx, [eax+edx]
@@ -490,7 +490,7 @@ asm
   mov  DWORD PTR [ecx+wrkDCTSIZE*5], eax
 
     {wsptr^[DCTSIZE*3] := int (DESCALE(tmp13 + tmp0, CONST_BITS-PASS1_BITS));}
-    {wsptr^[DCTSIZE*4] := int (DESCALE(tmp13 - tmp0, CONST_BITS-PASS1_BITS));}    
+    {wsptr^[DCTSIZE*4] := int (DESCALE(tmp13 - tmp0, CONST_BITS-PASS1_BITS));}
   mov  eax, tmp13
   add   eax, ROUND_CONST
   mov   edx, tmp0

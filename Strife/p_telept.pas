@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -83,7 +83,7 @@ uses
 // TELEPORTATION
 //
 // haleyjd 09/22/10: [STRIFE] Modified to take a flags parameter to control
-// silent teleportation. Rogue also removed the check for missiles, and the 
+// silent teleportation. Rogue also removed the check for missiles, and the
 // z-set was replaced with one in P_TeleportMove.
 //
 function EV_Teleport(line: Pline_t; side: integer; thing: Pmobj_t; flags: integer): integer;

@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -520,7 +520,7 @@ begin
     else
       x := x - 4;
   end;
-{$ENDIF}  
+{$ENDIF}
 end;
 
 // 19/9/2009 JVAL: For drawing demo progress
@@ -537,7 +537,7 @@ begin
   i := round(G_DemoProgress * viewwidth / SCREENWIDTH * 320 / FRACUNIT);
 {$ELSE}
   i := G_DemoProgress * viewwidth div FRACUNIT;
-{$ENDIF}  
+{$ENDIF}
   while i > 0 do
   begin
     V_DrawPatchTransparent(x, y, SCN_FG, dp, {$IFDEF OPENGL}true{$ELSE}false{$ENDIF});

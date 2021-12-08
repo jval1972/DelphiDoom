@@ -386,7 +386,7 @@ resourcestring
   SYNS_FriendlyAttrText                 =  'Text';
   SYNS_FriendlyAttrTextMathMode         =  'Text in Math Mode';
   SYNS_FriendlyAttrThirdTri             =  'ThirdTri';
-  SYNS_FriendlyAttrTixKeyWords          =  'Tix Keywords';  
+  SYNS_FriendlyAttrTixKeyWords          =  'Tix Keywords';
   SYNS_FriendlyAttrTriangle             =  'Triangle';
   SYNS_FriendlyAttrUndefinedProperty    =  'Undefined Property';
   SYNS_FriendlyAttrUnknownWord          =  'Unknown Word';
@@ -413,7 +413,7 @@ resourcestring
   SYNS_FriendlyAttrVrmlViewpoint        =  'Vrml_Viewpoint';
   SYNS_FriendlyAttrVrmlWorldInfo        =  'Vrml_WorldInfo';
   SYNS_FriendlyAttrWhitespace           =  'Whitespace';
-  SYNS_FriendlyAttrWidgetWords          =  'Widget Keywords';  
+  SYNS_FriendlyAttrWidgetWords          =  'Widget Keywords';
   SYNS_FriendlyAttrX3DDocType           =  'X3DDocType';
   SYNS_FriendlyAttrX3DHeader            =  'X3DHeader';
 

@@ -218,7 +218,7 @@ type
     fChangeStartPos: TBufferCoord;
     fChangeEndPos: TBufferCoord;
     fChangeStr: UnicodeString;
-    fChangeNumber: integer;                                                     
+    fChangeNumber: integer;
   public
     procedure Assign(Source: TPersistent); override;
     property ChangeReason: TSynChangeReason read fChangeReason;
@@ -254,7 +254,7 @@ type
     destructor Destroy; override;
     procedure AddChange(AReason: TSynChangeReason; const AStart, AEnd: TBufferCoord;
       const ChangeText: UnicodeString; SelMode: TSynSelectionMode);
-    procedure BeginBlock;                                                       
+    procedure BeginBlock;
     procedure Clear;
     procedure EndBlock;
     procedure Lock;
@@ -762,7 +762,7 @@ begin
     System.Move(fList^[Index], fList^[Index + 1],
       (fCount - Index) * SynEditStringRecSize);
   end;
-  fIndexOfLongestLine := -1;                                                    
+  fIndexOfLongestLine := -1;
   with fList^[Index] do
   begin
     Pointer(fString) := nil;
@@ -1219,9 +1219,9 @@ procedure TSynEditUndoList.EnsureMaxEntries;
 var
   Item: TSynEditUndoItem;
 begin
-  if fItems.Count > fMaxUndoActions then 
+  if fItems.Count > fMaxUndoActions then
   begin
-    fFullUndoImposible := True;                                                 
+    fFullUndoImposible := True;
     while fItems.Count > fMaxUndoActions do begin
       Item := fItems[0];
       Item.Free;

@@ -162,7 +162,7 @@ type
     function Value: string;
     function EvaluateExpression(const aexpr: string): string;
     procedure AddFunc(aname: string; afunc: TObjFunc; anump: integer); overload; virtual;
-    procedure AddFunc(aname: string; afunc: TExtFunc; anump: integer); overload; virtual; 
+    procedure AddFunc(aname: string; afunc: TExtFunc; anump: integer); overload; virtual;
   end;
 
 const
@@ -288,7 +288,7 @@ begin
     exit;
   end;
 
-  v := s;                             
+  v := s;
   Result := '';
   repeat
     p := System.Pos(sout, v);

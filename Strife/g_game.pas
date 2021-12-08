@@ -46,7 +46,7 @@ uses
   d_player,
   d_ticcmd;
 
-// 
+//
 // GAME
 //
 
@@ -277,7 +277,7 @@ var
   gamekeydown: array[0..NUMKEYS - 1] of boolean;
   mousebuttons: PBooleanArray;
   joybuttons: PBooleanArray;
-  
+
 implementation
 
 uses
@@ -1533,7 +1533,7 @@ var
 // G_RiftExitLevel
 //
 // haleyjd 20100824: [STRIFE] New function
-// * Called from some exit linedefs to exit to a specific riftspot in the 
+// * Called from some exit linedefs to exit to a specific riftspot in the
 //   given destination map.
 //
 procedure G_RiftExitLevel(map, spot: integer; angle: angle_t);
@@ -1899,7 +1899,7 @@ begin
     R_ExecuteSetViewSize;
 
   P_LevelInfoChangeMusic;
-    
+
   // draw the pattern into the back screen
 {$IFNDEF OPENGL}
   R_FillBackScreen;
@@ -1989,7 +1989,7 @@ begin
   save_p := PByteArray(integer(save_p) + SAVESTRINGSIZE);
   name2 := '';
 
-  savegameversion := VERSION; 
+  savegameversion := VERSION;
   sprintf(name2, 'version %d', [VERSION]);
   memcpy(save_p, @name2[1], VERSIONSIZE);
   save_p := PByteArray(integer(save_p) + VERSIONSIZE);

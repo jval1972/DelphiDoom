@@ -195,7 +195,7 @@ var
   i: integer;
 begin
   Caption := D_Version + ' - ' + D_VersionBuilt;
-  
+
   DoubleBuffered := True;
   for i := 0 to ComponentCount - 1 do
     if Components[i].InheritsFrom(TWinControl) then

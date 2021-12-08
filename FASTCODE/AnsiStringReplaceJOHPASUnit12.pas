@@ -130,10 +130,10 @@ var
 begin
   SrcLen := Length(S);
   OldLen := Length(OldPattern);
-  NewLen := Length(NewPattern);                     
+  NewLen := Length(NewPattern);
   if (OldLen = 0) or (SrcLen < OldLen) then
     begin
-      if SrcLen = 0 then                   
+      if SrcLen = 0 then
         result := '' {Needed for Non-Nil Zero Length Strings}
       else
         result := S
@@ -247,7 +247,7 @@ begin
                 end
               else
                 begin
-                  if Found > 0 then                        
+                  if Found > 0 then
                 begin
                   Move(PSrc^, PRes^, Found);
                   inc(PRes, Found);

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -137,8 +137,8 @@ type
     JERR_WIDTH_OVERFLOW,
     JERR_XMS_READ,
     JERR_XMS_WRITE,
-    JMSG_COPYRIGHT, 
-    JMSG_VERSION, 
+    JMSG_COPYRIGHT,
+    JMSG_VERSION,
     JTRC_16BIT_TABLES,
     JTRC_ADOBE,
     JTRC_APP0,

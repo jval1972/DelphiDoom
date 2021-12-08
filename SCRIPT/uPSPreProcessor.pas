@@ -19,7 +19,7 @@ type
                             const Active: Boolean;
                             const DirectiveName, DirectiveParam: TbtString;
                             var Continue: Boolean); //- jgv - application set continue to false to stop the normal directive processing
-  
+
   TPSLineInfo = class(TObject)
   private
     function GetLineOffset(I: Integer): Cardinal;
@@ -64,7 +64,7 @@ type
     destructor Destroy; override;
   end;
   TPSDefineStates = class;
-  
+
   TPSPreProcessor = class(TObject)
   private
     FID: Pointer;
@@ -102,9 +102,9 @@ type
   end;
 
   TPSPascalPreProcessorType = (ptEOF, ptOther, ptDefine);
-  
+
   TPSOnNewLine = procedure (Sender: TPSPascalPreProcessorParser; Row, Col, Pos: Cardinal) of object;
-  
+
   TPSPascalPreProcessorParser = class(TObject)
   private
     FData: TbtString;
@@ -784,4 +784,4 @@ begin
     Result := TPSDefineState(FItems[FItems.Count - 2]).DoWrite;
 end;
 
-end.
+end.

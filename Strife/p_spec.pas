@@ -94,7 +94,7 @@ procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; co
 
 function twoSided(sector: integer; line: integer): boolean;
 
-function twoSidedS(sector: Psector_t; line: integer): boolean; 
+function twoSidedS(sector: Psector_t; line: integer): boolean;
 
 function getSide(currentSector: integer; line: integer; side: integer): Pside_t;
 

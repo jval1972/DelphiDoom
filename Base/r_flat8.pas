@@ -165,7 +165,7 @@ var
 begin
   if flatcachesize8 = 0 then
     exit;
-    
+
   if force_numflatrenderingthreads_8bit > 0 then
   begin
     numthreads := force_numflatrenderingthreads_8bit;
@@ -948,7 +948,7 @@ begin
   ds_ystep := Pflatrenderinfo8_t(fi).ds_ystep;
   ds_scale := Pflatrenderinfo8_t(fi).ds_scale;
   ds_size := Pflatrenderinfo8_t(fi).ds_size;
-  
+
   dest := @((ylookup[ds_y]^)[columnofs[ds_x1]]);
 
   // We do not check for zero spans here?

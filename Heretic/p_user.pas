@@ -360,7 +360,7 @@ begin
     if player.bob > MAXBOB then
       player.bob := MAXBOB;
   end;
-  
+
   oldviewz := player.viewz;
 
   if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then

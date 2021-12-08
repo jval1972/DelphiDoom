@@ -7,7 +7,7 @@
         w := @walls.walls[0];
         if (ypos >= w.dc_yl) then
         begin
-          spot := (LongWord(frac1) shr FRACBITS) 
+          spot := (LongWord(frac1) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -25,7 +25,7 @@
 
         if (ypos >= w.dc_yl) then
         begin
-          spot := (LongWord(frac2) shr FRACBITS) 
+          spot := (LongWord(frac2) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -45,7 +45,7 @@
 
       while ypos <= min_yh do
       begin
-        spot := (LongWord(frac1) shr FRACBITS) 
+        spot := (LongWord(frac1) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -59,7 +59,7 @@
         inc(frac1, fracstep1);
         inc(destl);
 
-        spot := (LongWord(frac2) shr FRACBITS) 
+        spot := (LongWord(frac2) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -81,7 +81,7 @@
         w := @walls.walls[0];
         if (ypos <= w.dc_yh) then
         begin
-          spot := (LongWord(frac1) shr FRACBITS) 
+          spot := (LongWord(frac1) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -99,7 +99,7 @@
 
         if (ypos <= w.dc_yh) then
         begin
-          spot := (LongWord(frac2) shr FRACBITS) 
+          spot := (LongWord(frac2) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -124,7 +124,7 @@
         w := @walls.walls[0];
         if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
         begin
-          spot := (LongWord(frac1) shr FRACBITS) 
+          spot := (LongWord(frac1) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -142,7 +142,7 @@
 
         if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
         begin
-          spot := (LongWord(frac2) shr FRACBITS) 
+          spot := (LongWord(frac2) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -165,7 +165,7 @@
         w := @walls.walls[0];
         if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
         begin
-          spot := (LongWord(frac1) shr FRACBITS) 
+          spot := (LongWord(frac1) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -183,7 +183,7 @@
 
         if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
         begin
-          spot := (LongWord(frac2) shr FRACBITS) 
+          spot := (LongWord(frac2) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -210,7 +210,7 @@
         w := @walls.walls[0];
         if (ypos >= w.dc_yl) then
         begin
-          spot := (LongWord(frac1) shr FRACBITS) 
+          spot := (LongWord(frac1) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -231,7 +231,7 @@
 
         if (ypos >= w.dc_yl) then
         begin
-          spot := (LongWord(frac2) shr FRACBITS) 
+          spot := (LongWord(frac2) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -254,7 +254,7 @@
 
       while ypos <= min_yh do
       begin
-        spot := (LongWord(frac1) shr FRACBITS) 
+        spot := (LongWord(frac1) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -271,7 +271,7 @@
         inc(frac1, fracstep1);
         inc(destl);
 
-        spot := (LongWord(frac2) shr FRACBITS) 
+        spot := (LongWord(frac2) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -296,7 +296,7 @@
         w := @walls.walls[0];
         if (ypos <= w.dc_yh) then
         begin
-          spot := (LongWord(frac1) shr FRACBITS) 
+          spot := (LongWord(frac1) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -317,7 +317,7 @@
 
         if (ypos <= w.dc_yh) then
         begin
-          spot := (LongWord(frac2) shr FRACBITS) 
+          spot := (LongWord(frac2) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -345,7 +345,7 @@
         w := @walls.walls[0];
         if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
         begin
-          spot := (LongWord(frac1) shr FRACBITS) 
+          spot := (LongWord(frac1) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -366,7 +366,7 @@
 
         if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
         begin
-          spot := (LongWord(frac2) shr FRACBITS) 
+          spot := (LongWord(frac2) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -392,7 +392,7 @@
         w := @walls.walls[0];
         if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
         begin
-          spot := (LongWord(frac1) shr FRACBITS) 
+          spot := (LongWord(frac1) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and
@@ -413,7 +413,7 @@
 
         if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
         begin
-          spot := (LongWord(frac2) shr FRACBITS) 
+          spot := (LongWord(frac2) shr FRACBITS)
             {$IFDEF MASK_TC}mod mod_height
             {$ELSE}
             and

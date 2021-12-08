@@ -38,7 +38,7 @@ uses
   r_defs,
   tables;
 
-type  
+type
   podoortype_t = (
     PODOOR_NONE,
     PODOOR_SLIDE,

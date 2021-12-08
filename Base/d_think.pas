@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,11 +20,11 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION: 
-//  MapObj data. Map Objects or mobjs are actors, entities, 
-//  thinker, take-your-pick... anything that moves, acts, or 
-//  suffers state changes of more or less violent nature. 
-// 
+// DESCRIPTION:
+//  MapObj data. Map Objects or mobjs are actors, entities,
+//  thinker, take-your-pick... anything that moves, acts, or
+//  suffers state changes of more or less violent nature.
+//
 //------------------------------------------------------------------------------
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------

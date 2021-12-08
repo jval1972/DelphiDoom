@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -217,7 +217,7 @@ type
     mus_hall,
     mus_orb,
     mus_chess,
-    
+
     DO_NUMMUSIC
   );
 
@@ -286,8 +286,8 @@ type
     SFX_FIGHTER_PUNCH_MISS,
     SFX_FIGHTER_PUNCH_HITTHING,
     SFX_FIGHTER_PUNCH_HITWALL,
-    SFX_FIGHTER_GRUNT,    
-    SFX_FIGHTER_AXE_HITTHING,    
+    SFX_FIGHTER_GRUNT,
+    SFX_FIGHTER_AXE_HITTHING,
     SFX_FIGHTER_HAMMER_MISS,
     SFX_FIGHTER_HAMMER_HITTHING,
     SFX_FIGHTER_HAMMER_HITWALL,
@@ -2642,7 +2642,7 @@ const
     (tagname: ''),
     (tagname: ''),
     (tagname: ''),
-    
+
     (tagname: ''),
     (tagname: ''),
     (tagname: ''),

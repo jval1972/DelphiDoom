@@ -39,7 +39,7 @@ uses
   d_delphi,
   d_think;
 
-procedure DEH_Parse(const s: TDStringList); 
+procedure DEH_Parse(const s: TDStringList);
 
 function DEH_CurrentSettings: TDStringList;
 
@@ -2698,7 +2698,7 @@ begin
   DEH_AddString(@deh_strings, @TXT_BLOODSCOURGE_PIECE, 'TXT_BLOODSCOURGE_PIECE');
 
 // Cheats
-  
+
   DEH_AddString(@deh_strings, @TXT_CHEATGODON, 'TXT_CHEATGODON');
   DEH_AddString(@deh_strings, @TXT_CHEATGODOFF, 'TXT_CHEATGODOFF');
   DEH_AddString(@deh_strings, @TXT_CHEATNOCLIPON, 'TXT_CHEATNOCLIPON');

@@ -508,7 +508,7 @@ begin
 end;
 
 procedure I_Sleep(const msecs: integer);
-begin         
+begin
   sleep(msecs);
 end;
 
@@ -844,7 +844,7 @@ type
 // JVAL
 // Dynamically get ShellExecute function to avoid malicius detection of
 // some antivirus programs
-//     
+//
 procedure I_GoToWebPage(const cmd: string);
 var
   shellexecutefunc: shellexecute_t;

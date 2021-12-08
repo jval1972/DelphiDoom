@@ -98,13 +98,13 @@ asm
   jg      @@Large
 @@Small:
   mov     eax, [esi+ebx-4]       {Convert the Last 4 Characters of String}
-  mov     ecx, $7f7f7f7f         {Note - For Strings of Length 1, 2 or 3, 
+  mov     ecx, $7f7f7f7f         {Note - For Strings of Length 1, 2 or 3,
 this}
-  mov     edx, eax               {will Read/Write the last 1, 2 or 3 bytes 
+  mov     edx, eax               {will Read/Write the last 1, 2 or 3 bytes
 of }
-  not     edx                    {the Length Preaamble, but since these 
+  not     edx                    {the Length Preaamble, but since these
 bytes }
-  and     ecx, eax               {will always contain 0 in these cases, 
+  and     ecx, eax               {will always contain 0 in these cases,
 hey  }
   and     edx, $80808080         {will never be modified}
   add     ecx, $05050505
@@ -216,9 +216,9 @@ asm
 this}
   mov     edx, eax               {will Read/Write the last 1, 2 or 3 bytes
 of }
-  not     edx                    {the Length Preaamble, but since these 
+  not     edx                    {the Length Preaamble, but since these
 bytes }
-  and     ecx, eax               {will always contain 0 in these cases, 
+  and     ecx, eax               {will always contain 0 in these cases,
 hey  }
   and     edx, $80808080         {will never be modified}
   add     ecx, $05050505
@@ -348,13 +348,13 @@ asm
   jg      @@Large
 @@Small:
   mov     eax, [esi+ebx-4]       {Convert the Last 4 Characters of String}
-  mov     ecx, $7f7f7f7f         {Note - For Strings of Length 1, 2 or 3, 
+  mov     ecx, $7f7f7f7f         {Note - For Strings of Length 1, 2 or 3,
 this}
-  mov     edx, eax               {will Read/Write the last 1, 2 or 3 bytes 
+  mov     edx, eax               {will Read/Write the last 1, 2 or 3 bytes
 of }
-  not     edx                    {the Length Preaamble, but since these 
+  not     edx                    {the Length Preaamble, but since these
 bytes }
-  and     ecx, eax               {will always contain 0 in these cases, 
+  and     ecx, eax               {will always contain 0 in these cases,
 hey  }
   and     edx, $80808080         {will never be modified}
   add     ecx, $05050505

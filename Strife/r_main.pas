@@ -976,7 +976,7 @@ begin
   else
     fov := round(arctan(monitor_relative_aspect) * FINEANGLES / D_PI);
   focallength := FixedDiv(centerxfrac, finetangent[FINEANGLES div 4 + fov div 2]);
-  
+
   if focallength = oldfocallength then
     exit;
   oldfocallength := focallength;
@@ -1573,7 +1573,7 @@ begin
 
         fuzztranscolfunc := R_DrawFuzzColumnHiTL;
         batchfuzztranscolfunc := R_DrawFuzzColumnHiTL_Batch;
-        
+
         if usemultithread then
         begin
           basebatchcolfunc_mt := R_DrawColumnHi_BatchMT;

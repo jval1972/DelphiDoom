@@ -637,7 +637,7 @@ begin
     begin
       sprintf(namebuf, 'AMMNUM%d', [i]);
       marknumsid[i] := W_GetNumForName(namebuf);
-      marknums[i] := W_CacheLumpNum(marknumsid[i], PU_STATIC);      
+      marknums[i] := W_CacheLumpNum(marknumsid[i], PU_STATIC);
     end;
   end
 end;

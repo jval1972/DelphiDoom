@@ -1918,7 +1918,7 @@ begin
 end;
 
 //
-// G_WorldDone 
+// G_WorldDone
 //
 procedure G_WorldDone;
 begin
@@ -1961,7 +1961,7 @@ begin
       exit;
     end;
   end;
-  
+
   if strupper(Copy(name, length(name) - 3, 4)) <> '.DSG' then
     result := name + '.DSG'
   else

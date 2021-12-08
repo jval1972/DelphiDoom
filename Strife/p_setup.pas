@@ -56,7 +56,7 @@ const
 var
 // haleyjd 08/24/10: [STRIFE] rift spots for player spawning
   riftSpots: array[0..MAXRIFTSPOTS - 1] of mapthing_t;
-  
+
 function P_GetMapName(const map: integer): string;
 
 // NOT called by W_Ticker. Fixme.

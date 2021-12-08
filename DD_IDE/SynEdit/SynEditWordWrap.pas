@@ -123,7 +123,7 @@ type
     function LinesDeleted(aIndex: integer; aCount: integer): integer;
     function LinesPutted(aIndex: integer; aCount: integer): integer;
     procedure Reset;
-    procedure DisplayChanged; 
+    procedure DisplayChanged;
   end;
 
 implementation
@@ -188,7 +188,7 @@ end;
 
 constructor TSynWordWrapPlugin.Create(aOwner: TCustomSynEdit);
 begin
-  inherited Create; // just to work as reminder in case I revert it to a TComponent... 
+  inherited Create; // just to work as reminder in case I revert it to a TComponent...
   if aOwner = nil then
     raise Exception.Create( 'Owner of TSynWordWrapPlugin must be a TCustomSynEdit' );
   fEditor := aOwner;
@@ -333,7 +333,7 @@ begin
     MoveLines(aIndex, aCount);
   end
   else
-    Inc(fLineCount, aCount); 
+    Inc(fLineCount, aCount);
   // set offset to same as previous line (i.e. the line has 0 rows)
   if aIndex = 0 then
     vPrevOffset := 0

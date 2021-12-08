@@ -1226,7 +1226,7 @@ var
 begin
   if plyr = nil then
     exit;
-    
+
   // must redirect the pointer if the ready weapon has changed.
   if weaponinfo[Ord(plyr.readyweapon)].ammo = am_noammo then
     w_ready.num := @largeammo
@@ -1293,7 +1293,7 @@ var
 begin
   if plyr = nil then
     exit;
-    
+
   cnt := plyr.damagecount;
 
   if plyr.powers[Ord(pw_strength)] <> 0 then
@@ -1332,7 +1332,7 @@ begin
   if customgame in [cg_chex, cg_chex2] then
     if (palette >= STARTREDPALS) and (palette < STARTREDPALS + NUMREDPALS) then
       palette := RADIATIONPAL;
-          
+
   if palette <> st_palette then
   begin
     st_palette := palette;

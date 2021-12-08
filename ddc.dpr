@@ -30,7 +30,7 @@ uses
   ddc_base in 'SCRIPT\ddc_base.pas';
 
 {$R ddc_icon.res}
-  
+
 begin
   CmdLineCompiler;
 end.

@@ -2370,7 +2370,7 @@ begin
   {$IFNDEF FPC}
   SUC_Progress(86);
   {$ENDIF}
-  
+
   savepathtemp := M_SafeFilePath(M_SaveFileName(''), 'strfsav8.ssg');
   printf('M_ClearTmp: Clear temporary save directory.'#13#10);
   M_ClearTmp;
@@ -2382,7 +2382,7 @@ begin
   printf('S_Init: Setting up sound.'#13#10);
   S_Init(snd_SfxVolume, snd_MusicVolume, snd_VoiceVolume);
 
-  
+
 
   {$IFNDEF FPC}
   SUC_Progress(90);

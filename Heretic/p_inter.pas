@@ -127,7 +127,7 @@ var
   p_maxartifacts: integer = 16;
 
 function P_GiveArtifact(player: Pplayer_t; arti: artitype_t; mo: Pmobj_t): boolean;
-  
+
 implementation
 
 uses
@@ -1589,7 +1589,7 @@ begin
          ((inflictor._type = Ord(MT_PHOENIXFX1)) and (target.health > -50) and (damage > 25)) then
         target.flags2 := target.flags2 or MF2_FIREDAMAGE;
     end;
-    
+
     P_KillMobj(source, target);
     P_Obituary(target, inflictor, source);
     exit;

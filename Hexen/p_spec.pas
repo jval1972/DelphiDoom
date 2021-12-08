@@ -703,7 +703,7 @@ begin
     result := false;
     exit;
   end;
-  
+
   result := true;
 end;
 
