@@ -1458,13 +1458,11 @@ begin
 end;
 
 //
-//================================================================================
 // P_SpawnSpecials
 //
 // After the map has been loaded, scan for specials that
 // spawn thinkers
 //
-//===============================================================================
 //
 
 procedure P_SpawnSpecials;

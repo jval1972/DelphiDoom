@@ -3058,7 +3058,6 @@ begin
   actor.flags := actor.flags and not MF_MISSILE;
 end;
 
-//=============================================================================
 //
 // P_DoNewChaseDir
 //
@@ -3067,8 +3066,6 @@ end;
 // Most of P_NewChaseDir(), except for what
 // determines the new direction to take
 //
-//=============================================================================
-
 const
   opposite: array[0..8] of dirtype_t = (
     DI_WEST, DI_SOUTHWEST, DI_SOUTH, DI_SOUTHEAST,
@@ -3182,12 +3179,9 @@ begin
   actor.movedir := Ord(DI_NODIR);  // can not move
 end;
 
-//=============================================================================
 //
 // P_RandomChaseDir
 //
-//=============================================================================
-
 procedure P_RandomChaseDir(actor: Pmobj_t);
 var
   turndir, tdir: integer;
