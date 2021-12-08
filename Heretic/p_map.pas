@@ -1519,6 +1519,7 @@ end;
 function PTR_SlideTraverse(intr: Pintercept_t): boolean;
 var
   li: Pline_t;
+  margin: integer;
 
   procedure isblocking;
   begin
@@ -1569,7 +1570,16 @@ begin
     exit;
   end;
 
-  if openbottom - slidemo.z > 24 * FRACUNIT then
+  margin := 24 * FRACUNIT;
+  if G_PlayingEngineVersion >= VERSION207 then
+    if slidemo.info.maxstepheight > 0 then
+    begin
+      margin := slidemo.info.maxstepheight;
+      if margin < 64 then
+        margin := margin * FRACUNIT
+    end;
+
+  if openbottom - slidemo.z > margin then
   begin
     isblocking; // too big a step up
     result := false; // stop
