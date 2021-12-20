@@ -1187,6 +1187,8 @@ var
   pds: Pdrawseg_t;
   overflow: boolean;
   sec2: Psector_t;
+  high_less_top: boolean;
+  low_greater_bottom: boolean;
 begin
   if curline.linedef.renderflags and LRF_SLOPED <> 0 then
   begin
@@ -1659,6 +1661,10 @@ begin
     end;
   end;
 
+  // Compare before shifting
+  high_less_top := worldhigh < worldtop;
+  low_greater_bottom := worldlow > worldbottom;
+
   // calculate incremental stepping values for texture edges
   worldtop := worldtop div WORLDUNIT;
 //  worldtop := worldtop shr WORLDBITS;
@@ -1680,13 +1686,13 @@ begin
     worldlow := worldlow div WORLDUNIT;
 //    worldlow := worldlow shr WORLDBITS;
 
-    if worldhigh < worldtop then
+    if high_less_top then
     begin
       pixhigh := (int64(centeryfrac) div WORLDUNIT) - int64(worldhigh) * int64(rw_scale) shr FRACBITS;  // R_WiggleFix
       pixhighstep := -FixedMul(rw_scalestep, worldhigh);
     end;
 
-    if worldlow > worldbottom then
+    if low_greater_bottom then
     begin
       pixlow := (int64(centeryfrac) div WORLDUNIT) - int64(worldlow) * int64(rw_scale) shr FRACBITS;  // R_WiggleFix
       pixlowstep := -FixedMul(rw_scalestep, worldlow);
