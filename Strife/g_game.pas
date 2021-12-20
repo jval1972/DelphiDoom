@@ -57,7 +57,7 @@ procedure G_InitNew(skill: skill_t; map: integer);
 // Can be called by the startup code or M_Responder.
 // A normal game starts at map 1,
 // but a warp test can start elsewhere
-procedure G_DeferedInitNew(skill:skill_t; map: integer);
+procedure G_DeferedInitNew(skill: skill_t; map: integer);
 
 procedure G_CmdNewGame(const parm1, parm2: string);
 
