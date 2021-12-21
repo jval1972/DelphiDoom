@@ -1965,7 +1965,7 @@ long ov_read_filter(OggVorbis_File *vf,char *buffer,int length,
   long samples;
 
   host_endian=host_is_big_endian();
-  
+
   if(vf->ready_state<OPENED)return(OV_EINVAL);
   if(word<=0)return(OV_EINVAL);
 

@@ -989,7 +989,7 @@ alac_error_string (int error)
                 case kALAC_BadSpecificConfigSize: return "kALAC_BadSpecificConfigSize";
                 case kALAC_ZeroChannelCount: return "kALAC_ZeroChannelCount";
                 case kALAC_NumSamplesTooBig: return "kALAC_NumSamplesTooBig";
-                case kALAC_UnsupportedElement: return "kALAC_UnsupportedElement"; 
+                case kALAC_UnsupportedElement: return "kALAC_UnsupportedElement";
 		default:
 			break ;
 		} ;

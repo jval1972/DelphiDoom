@@ -122,7 +122,7 @@ const char* g_fx_str[16] = {
     "e",    // 14 - additional effects
     "A"     // 15 - set speed xx (default 06)
 };
-  
+
 /* Global variables ----------------------------------------------------------*/
 
 
@@ -154,13 +154,13 @@ void s3m_print_channels(s3m_t* s3mHandle)
 {
     int i;
     uint8_t cs;
-    
+
     s3m_header_t* h;
     h = s3mHandle->header;
     printf("Channel settings:\n");
     for (i=0; i<S3M_MAX_CHANNELS; i++) {
-        cs = h->channel_settings[i]; 
-        printf("  %02d - %03d - %s\n", 
+        cs = h->channel_settings[i];
+        printf("  %02d - %03d - %s\n",
                i, cs, cs < eS3M_CHN_TYPE_LAST ? g_chnTypeName[cs] : "--");
     }
 }
@@ -169,22 +169,22 @@ void s3m_print_arrangement(s3m_t* s3m)
 {
     int i;
     uint8_t cs;
-    
+
     s3m_header_t* h;
     h = s3m->header;
     printf("Arrangement:\n");
     for (i=0; i<h->arrangement_length; i++) {
         printf("  %03d - %03d\n", i, s3m->order[i]);
-    }   
+    }
 }
 
 void s3m_print_instruments(s3m_t* s3m)
 {
-    int i;  
+    int i;
     s3m_header_t* h;
     s3m_instrument_t* in;
     char fnstr[13];
-    
+
     h = s3m->header;
 
     printf("Instruments:\n");
@@ -217,14 +217,14 @@ void s3m_print_instruments(s3m_t* s3m)
             printf("  Name:        %28s\n", in->adlib.name);
             printf("  Ident:       %c%c%c%c\n", in->adlib.ident[0], in->adlib.ident[1], in->adlib.ident[2], in->adlib.ident[3]);
         }
-        
+
     }
 }
 
-void s3m_print_entry(pat_entry_t* entry) 
+void s3m_print_entry(pat_entry_t* entry)
 {
     uint8_t octave, note;
-    
+
     if (entry->note == 255) {
         printf("--- ");
     } else {
@@ -237,13 +237,13 @@ void s3m_print_entry(pat_entry_t* entry)
     } else {
         printf("%02d ", entry->instr);
     }
-    
+
     if (entry->vol == 255) {
         printf("-- ");
     } else {
         printf("%02d ", entry->vol);
     }
-    
+
     if (entry->cmd == 255) {
         printf("---");
     } else {
@@ -252,26 +252,26 @@ void s3m_print_entry(pat_entry_t* entry)
         } else {
             printf("?%02X", entry->info);
         }
-    }       
+    }
 }
 
 void s3m_print_patterns(s3m_t* s3m)
 {
-    int             p, c, r;  
+    int             p, c, r;
     s3m_header_t*   h;
     uint8_t*        pd;
     pat_row_t       row;
     uint16_t        len;
     pat_entry_t     empty_entry;
     h = s3m->header;
-    
+
     empty_entry.chn = 255;
     empty_entry.note = 255;
     empty_entry.instr = 255;
     empty_entry.vol = 255;
     empty_entry.cmd = 255;
     empty_entry.info = 0;
-    
+
     printf("Patterns:\n");
     printf("-----------------------------------------------------------\n");
     for (p=0; p<h->num_patterns; p++) {
@@ -284,7 +284,7 @@ void s3m_print_patterns(s3m_t* s3m)
             pat_read_row(&pd, &row);
             printf("  %03d  ", r);
             for (c=0; c<S3M_MAX_CHANNELS; c++) {
-                if (h->channel_settings[c] >= 128) continue;             
+                if (h->channel_settings[c] >= 128) continue;
                 s3m_print_entry(&row.entry_chn[c]);
                 printf("  ");
             }
@@ -294,14 +294,14 @@ void s3m_print_patterns(s3m_t* s3m)
         while (r<64) {
             printf("  %03d  ", r);
             for (c=0; c<S3M_MAX_CHANNELS; c++) {
-                if (h->channel_settings[c] >= 128) continue;             
+                if (h->channel_settings[c] >= 128) continue;
                 s3m_print_entry(&empty_entry);
                 printf("  ");
             }
             printf("\n");
             r++;
         }
-        
+
         if(p<h->num_patterns-1) printf("\n");
     }
 }

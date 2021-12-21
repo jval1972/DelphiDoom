@@ -52,7 +52,7 @@ bool pat_read_packed_entry(uint8_t** pd, pat_entry_t* entry)
     entry->vol = 255;
     entry->cmd = 255;
     entry->info = 255;
-    
+
     p = *pd; // increase because eventually this is end of row.
     byte = *p++;
     if (byte == 0) {
@@ -70,7 +70,7 @@ bool pat_read_packed_entry(uint8_t** pd, pat_entry_t* entry)
     if (byte & 0x80) {
         entry->cmd = *p++;
         entry->info = *p++;
-    }        
+    }
     *pd = p;
     return true;
 }
@@ -78,13 +78,13 @@ bool pat_read_packed_entry(uint8_t** pd, pat_entry_t* entry)
 bool pat_read_row(uint8_t** pd, pat_row_t* row)
 {
     pat_entry_t entry;
-    
+
 //    assert(pd != NULL);
 //    assert(row != NULL);
-    
+
     memset(row, 255, sizeof(pat_row_t));
     if (!pat_read_packed_entry(pd, &entry)) return false;
-    
+
     do {
         memcpy(&row->entry_chn[entry.chn], &entry, sizeof(entry));
     } while (pat_read_packed_entry(pd, &entry));
@@ -94,7 +94,7 @@ bool pat_read_row(uint8_t** pd, pat_row_t* row)
 void pat_skip_rows(uint8_t** pd, uint8_t skip)
 {
     pat_row_t row;
-    
+
     while (skip-- > 0) {
         pat_read_row(pd, &row);
     }

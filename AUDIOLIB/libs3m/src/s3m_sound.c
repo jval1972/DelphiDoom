@@ -58,7 +58,7 @@ static void process_row(s3m_t* s3m)
     pat_row_t       row;
     pat_entry_t*    e;
     channel_t*      chn;
-    
+
     pat_read_row(&s3m->rt.pattern, &row);
     // process row content
     for (c=0; c<S3M_MAX_CHANNELS; c++) {
@@ -74,7 +74,7 @@ static void process_row(s3m_t* s3m)
         // do fx for every not, so previous effects will be stopped
         chn_do_fx(s3m, chn, e->cmd, e->info);
     }
-      
+
     // get next row
     s3m->rt.row_ctr++;
     if (s3m->rt.row_ctr >= S3M_MAX_ROWS_PER_PATTERN) {
@@ -83,19 +83,19 @@ static void process_row(s3m_t* s3m)
         // select next pattern
         if (s3m->rt.order_idx >= s3m->header->arrangement_length) {
             // song is finished, stop.
-            s3m->rt.playing = false;            
+            s3m->rt.playing = false;
             return;
         }
         s3m->rt.pattern_idx = s3m->order[s3m->rt.order_idx];
         if (s3m->rt.pattern_idx >= s3m->header->num_patterns) {
             // song is finished, stop.
-            s3m->rt.playing = false;            
+            s3m->rt.playing = false;
             return;
         }
         s3m->rt.pattern = &s3m->pattern[s3m->rt.pattern_idx][2];
         // for Cxx effect: Break pattern and in new one goto row xx
         if (s3m->rt.skip_rows > 0) {
-            pat_skip_rows(&s3m->rt.pattern, s3m->rt.skip_rows);                
+            pat_skip_rows(&s3m->rt.pattern, s3m->rt.skip_rows);
             s3m->rt.row_ctr += s3m->rt.skip_rows;
             s3m->rt.skip_rows = 0;
         }
@@ -103,21 +103,21 @@ static void process_row(s3m_t* s3m)
 
     if (s3m->row_chg_callback != NULL) {
         s3m->row_chg_callback(s3m, s3m->row_chg_callback_arg);
-    }    
+    }
 }
 
 static void process_frame(s3m_t* s3m)
 {
     int c;
-    
+
     if (s3m->rt.frame_ctr-- == 0) {
         s3m->rt.frame_ctr = s3m->rt.speed - 1;
         process_row(s3m);
     }
-        
+
     for (c=0; c<S3M_MAX_CHANNELS; c++) {
         if (s3m->header->channel_settings[c] > eS3M_CHN_TYPE_S8R) continue;
-        
+
         // process effects which apply every tick
         chn_do_fx_frame(s3m, &s3m->rt.chns[c]);
     }
@@ -129,7 +129,7 @@ static void mix_samples_of_channels(s3m_t* s3m, int16_t* l_sample, int16_t* r_sa
     int32_t l, r;
     int c, lcc = 0, rcc = 0;
     s3m_chn_type ct;
-    
+
     for (c=0; c<S3M_MAX_CHANNELS; c++) {
         ct = s3m->header->channel_settings[c];
         if (ct >= eS3M_CHN_TYPE_S1L && ct <= eS3M_CHN_TYPE_S8L) {
@@ -142,23 +142,23 @@ static void mix_samples_of_channels(s3m_t* s3m, int16_t* l_sample, int16_t* r_sa
             rcc++; // right channel count
         }
     }
-    
-    volfact = s3m->rt.global_vol * s3m->rt.master_vol / (64.0*64.0); 
+
+    volfact = s3m->rt.global_vol * s3m->rt.master_vol / (64.0*64.0);
     l = ls * volfact;
     r = rs * volfact;
-    
+
     //l=ls /lcc;
     //r = rs / rcc;
-    
+
     if (l < INT16_MIN) l = INT16_MIN;
     if (l > INT16_MAX) l = INT16_MAX;
-    
+
     if (r < INT16_MIN) r = INT16_MIN;
     if (r > INT16_MAX) r = INT16_MAX;
     //if (lcc) ls /= lcc; // normalize amplitude
     //if (rcc) rs /= rcc;
     *l_sample = l;
-    *r_sample = r;  
+    *r_sample = r;
 }
 
 /* Module local functions ----------------------------------------------------*/
@@ -178,7 +178,7 @@ void s3m__set_speed(s3m_t* s3m, uint8_t speed)
 {
     if (speed == 0) return;
     s3m->rt.speed = speed;
-    s3m->rt.frame_ctr = s3m->rt.speed - 1;    
+    s3m->rt.frame_ctr = s3m->rt.speed - 1;
 }
 
 void s3m__set_global_vol(s3m_t* s3m, uint8_t vol)
@@ -200,19 +200,19 @@ void s3m_sound_callback(void* arg, uint8_t* streambuf, int bufferlength)
     int i, bi, num_samples;
     int16_t l_sample = 0, r_sample = 0;
     s3m_t* s3m = s3m__current_playing;
-    
-    // The format of the byte stream is signed 16-bit samples in little-endian 
+
+    // The format of the byte stream is signed 16-bit samples in little-endian
     // byte order. Stereo samples are stored in a LRLRLR ordering.
     // sample     |             1             |             2             |...
     // channel    |    left     |    right    |    left     |    right    |...
     // byte order | low  | high | low  | high | low  | high | low  | high |...
     // stream     | [0]  | [1]  | [2]  | [3]  | [4]  | [5]  | [6]  | [7]  |...
-    
+
     // Hence num_samples must be divided by four.
-   
+
     num_samples = bufferlength >> 2;
     bi = 0; // start with byte index at the beginning
-    
+
     for (i=0; i<num_samples; i++) {
         if (s3m != NULL && s3m->rt.playing) {
             if (s3m->rt.sample_ctr-- == 0) {

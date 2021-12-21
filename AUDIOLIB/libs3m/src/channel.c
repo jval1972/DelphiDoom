@@ -40,9 +40,9 @@
 
 /* Local variables -----------------------------------------------------------*/
 
-static const uint16_t g_note_period[12] = 
+static const uint16_t g_note_period[12] =
     { 1712, 1616, 1524, 1440, 1356, 1280, 1208, 1140, 1076, 1016, 960, 907 };
-    
+
 /* Global variables ----------------------------------------------------------*/
 
 /* Local functions -----------------------------------------------------------*/
@@ -58,11 +58,11 @@ void chn_reset(channel_t* chn)
 
     chn->cmd = 255;
     chn->note = 255;
-    chn->last_note = 255; 
+    chn->last_note = 255;
     chn->instr = 255;
-    
+
     chn->vol = 64;
-    
+
     chn->do_vol_slide = false;
     chn->do_tone_slide = false;
     chn->do_tone_porta = false;
@@ -70,11 +70,11 @@ void chn_reset(channel_t* chn)
     chn->do_tremor = false;
     chn->do_arpeggio = false;
     chn->do_tremolo = false;
-    
+
     chn->vol_slide = 0;
-    chn->tone_slide = 0;    
+    chn->tone_slide = 0;
     chn->retrig_fr = 0;
-    chn->sam_pos = 0.0; 
+    chn->sam_pos = 0.0;
     chn->sam_period = g_note_period[0]; // C-4 is default
     chn->sam_target_period = g_note_period[0]; // C-4 is default
     chn->sam_last_period = g_note_period[0]; // C-4 is default
@@ -88,10 +88,10 @@ void chn_update_sample_increment(s3m_t* s3m, channel_t* chn)
     // note_herz = --------------- = ---------------
     //              sample_period     sample_period
     note_herz = 14317056 / chn->sam_period;
-    
+
     //                      note_herz
     // sample_increment = --------------
-    //                      samplerate   
+    //                      samplerate
     chn->sam_incr = note_herz / s3m->samplerate;
 }
 
@@ -99,11 +99,11 @@ void chn_calc_note_incr(s3m_t* s3m, channel_t* chn, uint8_t note)
 {
     uint8_t n, o, of;
     double instr_c4_speed, herz, incr;
-    
+
     o = note >> 4;
     n = note & 0x0F;
     if (o > 7) o = 7;
-    if (n > 11) n = 11;   
+    if (n > 11) n = 11;
 
     //                  8363 * 16 * (period(note) >> octave(note))
     // sample_period = --------------------------------------------
@@ -116,27 +116,27 @@ void chn_calc_note_incr(s3m_t* s3m, channel_t* chn, uint8_t note)
 }
 
 void chn_play_note(s3m_t* s3m, channel_t* chn, uint8_t instr, uint8_t note)
-{   
+{
     // don't play note, if it is >= 12 (more than one octave)
     if ((note & 0x0F) >= 12) return;
     // scream tracker counts instruments beginning from 1
-    if (instr > 0) instr--;   
+    if (instr > 0) instr--;
     if (instr >= s3m->header->num_instruments) return;
     chn->last_note = chn->note;
     chn->note = note;
     chn->instr = instr;
-    
+
     // set instrument/sample pointer
     chn->pi = s3m->instrument[instr];
     chn->ps = s3m->sample[instr];
-    
+
     if (chn->pi->type == 1) {
         chn->vol = chn->pi->sample.volume;
     } else {
         chn->vol = chn->pi->adlib.volume;
     }
     chn->sam_pos = 0.0;
-    
+
     // select sample increment depending on note
     chn_calc_note_incr(s3m, chn, note);
 }
@@ -154,14 +154,14 @@ void chn_do_fx(s3m_t* s3m, channel_t* chn, uint8_t cmd, uint8_t param)
         // Axx: Set speed to xx (default 06)
         s3m__set_speed(s3m, param);
         break;
-            
+
     case 'C'-64:
         // Cxx: Break pattern to row xx
         s3m->rt.row_ctr = S3M_MAX_ROWS_PER_PATTERN;
         if (param >= S3M_MAX_ROWS_PER_PATTERN) param = S3M_MAX_ROWS_PER_PATTERN - 1;
         s3m->rt.skip_rows = param;
         break;
-            
+
     case 'D'-64:
         // DFx: fine volume slide down by x
         if ((param & 0xF0) == 0xF0) {
@@ -169,7 +169,7 @@ void chn_do_fx(s3m_t* s3m, channel_t* chn, uint8_t cmd, uint8_t param)
         }
         // DxF: fine volume slide up by x
         else if (param & 0x0F == 0x0F) {
-            chn->vol_slide = (param & 0xF0) >> 4;         
+            chn->vol_slide = (param & 0xF0) >> 4;
         }
         // D0x or Dx0: volume slide down/up
         else if (param != 0x00) {
@@ -179,7 +179,7 @@ void chn_do_fx(s3m_t* s3m, channel_t* chn, uint8_t cmd, uint8_t param)
             chn->do_vibrato = false;
             chn->do_tremor = false;
             chn->do_arpeggio = false;
-            chn->do_tremolo = false;            
+            chn->do_tremolo = false;
         }
         // only fine volume slide
         if (!chn->do_vol_slide) {
@@ -188,20 +188,20 @@ void chn_do_fx(s3m_t* s3m, channel_t* chn, uint8_t cmd, uint8_t param)
             if (chn->vol > 64) chn->vol = 64;
         }
         break;
-        
+
     case 'E'-64:
         // EFx: Fine slide down by x
         if ((param & 0xF0) == 0xF0) {
             // sliding down tonal means increasing the period
             chn->tone_slide = (param & 0x0F) * 5;
-        } 
+        }
         // EEx: Extra fine slide down by x
         else if ((param & 0xF0) == 0xE0) {
             // sliding down tonal means increasing the period
             chn->tone_slide = (param & 0x0F);
         }
         // Exx: slide down by xx every frame
-        else if (param != 0x00) {            
+        else if (param != 0x00) {
             // save for use in every frame
             chn->tone_slide = param * 3.33;
             chn->do_vol_slide = false;
@@ -210,27 +210,27 @@ void chn_do_fx(s3m_t* s3m, channel_t* chn, uint8_t cmd, uint8_t param)
             chn->do_vibrato = false;
             chn->do_tremor = false;
             chn->do_arpeggio = false;
-            chn->do_tremolo = false;                       
+            chn->do_tremolo = false;
         }
         // E00: repeat last slide
         if (!chn->do_tone_slide) {
             chn->sam_period += chn->tone_slide;
         }
         break;
-        
+
     case 'F'-64:
         // FFx: Fine slide up by x
         if ((param & 0xF0) == 0xF0) {
             // sliding up tonal means decreasing the period
             chn->tone_slide = -(param & 0x0F) * 5;
-        } 
+        }
         // FEx: Extra fine slide up by x
         else if ((param & 0xF0) == 0xE0) {
             // sliding up tonal means decreasing the period
             chn->tone_slide = -(param & 0x0F);
         }
         // Fxx: slide up by xx every frame
-        else if (param != 0x00) {            
+        else if (param != 0x00) {
             // save for use in every frame
             chn->tone_slide = -param * 3.33;
             chn->do_vol_slide = false;
@@ -239,14 +239,14 @@ void chn_do_fx(s3m_t* s3m, channel_t* chn, uint8_t cmd, uint8_t param)
             chn->do_vibrato = false;
             chn->do_tremor = false;
             chn->do_arpeggio = false;
-            chn->do_tremolo = false;             
+            chn->do_tremolo = false;
         }
         // F00: repeat last slide
         if (!chn->do_tone_slide) {
             chn->sam_period += chn->tone_slide;
         }
         break;
-        
+
     case 'G'-64:
         // Gxx: Tone portamento, speed xx
         if (param != 0) { // G00 repeats old parameter
@@ -256,7 +256,7 @@ void chn_do_fx(s3m_t* s3m, channel_t* chn, uint8_t cmd, uint8_t param)
             }
             if (chn->sam_target_period < chn->sam_period) {
                 chn->tone_slide = -param * 2.4;
-            } 
+            }
             else if (chn->sam_target_period > chn->sam_period) {
                 chn->tone_slide = param * 2.4;
             }
@@ -268,9 +268,9 @@ void chn_do_fx(s3m_t* s3m, channel_t* chn, uint8_t cmd, uint8_t param)
         chn->do_vibrato = false;
         chn->do_tremor = false;
         chn->do_arpeggio = false;
-        chn->do_tremolo = false; 
+        chn->do_tremolo = false;
         break;
-        
+
     case 'H'-64:
         // Hxy: Vibrato, speed x and depth y
         if (param != 0x00) {
@@ -283,10 +283,10 @@ void chn_do_fx(s3m_t* s3m, channel_t* chn, uint8_t cmd, uint8_t param)
             chn->do_vibrato = true;
             chn->do_tremor = false;
             chn->do_arpeggio = false;
-            chn->do_tremolo = false;           
+            chn->do_tremolo = false;
         }
         break;
-        
+
     case 'O'-64:
         // Oxx: Set SampleOffset = xx00h
         if (((uint16_t)param << 8) < chn->pi->sample.length) {
@@ -294,7 +294,7 @@ void chn_do_fx(s3m_t* s3m, channel_t* chn, uint8_t cmd, uint8_t param)
             chn->sam_pos *= 0x100;
         }
         break;
-        
+
     case 'Q'-64:
         // Qxy: retrigger note
         chn->cmd = cmd;
@@ -307,7 +307,7 @@ void chn_do_fx(s3m_t* s3m, channel_t* chn, uint8_t cmd, uint8_t param)
         s3m__set_global_vol(s3m, param);
         break;
     // ...
-        
+
     default:
         chn->cmd = 255;
         chn->param = 0;
@@ -336,13 +336,13 @@ void chn_do_fx(s3m_t* s3m, channel_t* chn, uint8_t cmd, uint8_t param)
 void chn_do_fx_frame(s3m_t* s3m, channel_t* chn)
 {
     int16_t val;
-    
+
     uint8_t slide;
-    
+
     if (chn->do_vol_slide) {
         chn->vol += chn->vol_slide;
         if (chn->vol > 64) chn->vol = 64;
-        if (chn->vol < 0) chn->vol = 0;       
+        if (chn->vol < 0) chn->vol = 0;
     }
     if (chn->do_tone_slide) {
         chn->sam_period += chn->tone_slide;
@@ -354,24 +354,24 @@ void chn_do_fx_frame(s3m_t* s3m, channel_t* chn)
                 chn->sam_period = chn->sam_target_period;
                 chn->tone_slide = 0;
             }
-        } 
+        }
         if (chn->sam_target_period > chn->sam_period) {
             if (chn->sam_period >= chn->sam_target_period) { // target reached?
                 chn->sam_period = chn->sam_target_period;
                 chn->tone_slide = 0;
             }
-        }        
+        }
     }
     if (chn->do_vibrato) {
         val = s3m->vibrato_table[chn->vibrato_pos];
         val = val * chn->vibrato_intensity;
         val = val / 16;
-       
+
         chn->vibrato_pos += chn->vibrato_speed;
         chn->vibrato_pos %= S3M_VIBRATO_TABLE_SIZE;
-        chn->sam_period = chn->sam_target_period + val; 
+        chn->sam_period = chn->sam_target_period + val;
     }
-    
+
     switch (chn->cmd) {
  /*   case 'D'-64:
         if ((chn->param & 0x0F) != 0) {
@@ -387,14 +387,14 @@ void chn_do_fx_frame(s3m_t* s3m, channel_t* chn)
             else chn->vol = 64;
         }
         break;
-        
+
     case 'E'-64:
     case 'F'-64:
         // Exx: slide down by xx every frame
         // Fxx: slide up by xx every frame
         chn->sam_period += chn->tone_slide;
         break;
-       
+
     case 'G'-64:
         chn->sam_period += chn->last_tone_slide;
         if (chn->sam_target_period < chn->sam_period) {
@@ -402,7 +402,7 @@ void chn_do_fx_frame(s3m_t* s3m, channel_t* chn)
                 chn->sam_period = chn->sam_target_period;
                 chn->last_tone_slide = 0;
             }
-        } 
+        }
         else if (chn->sam_target_period > chn->sam_period) {
             if (chn->sam_period >= chn->sam_target_period) { // target reached?
                 chn->sam_period = chn->sam_target_period;
@@ -410,17 +410,17 @@ void chn_do_fx_frame(s3m_t* s3m, channel_t* chn)
             }
         }
         break;
-        
+
     case 'H'-64:
         val = s3m->vibrato_table[chn->vibrato_pos];
         val = val * chn->vibrato_intensity;
         val = val / 16;
-       
+
         chn->vibrato_pos += chn->vibrato_speed;
         chn->vibrato_pos %= S3M_VIBRATO_TABLE_SIZE;
-        chn->sam_period = chn->sam_target_period + val; 
+        chn->sam_period = chn->sam_target_period + val;
         break;
-*/        
+*/
     case 'Q'-64:
         // Qxy: retrigger note
         chn->retrig_fr--;
@@ -435,7 +435,7 @@ void chn_do_fx_frame(s3m_t* s3m, channel_t* chn)
             case 5: chn->vol -= 16; break;
             case 6: chn->vol *= 2; chn->vol /= 3; break;
             case 7: chn->vol /= 2; break;
-            case 8: break;                    
+            case 8: break;
             case 9: chn->vol += 1; break;
             case 10: chn->vol += 2; break;
             case 11: chn->vol += 4; break;
@@ -452,7 +452,7 @@ void chn_do_fx_frame(s3m_t* s3m, channel_t* chn)
         break;
 
     // ...
-        
+
     default:
         break;
     }
@@ -465,14 +465,14 @@ int16_t chn_get_sample(s3m_t* s3m, channel_t* chn)
     int16_t sample = 0;
     int16_t vol;
     uint32_t spos;
-    
+
     spos = (chn->sam_pos + 0.5);
     if (chn->pi != NULL && chn->ps != NULL && spos < chn->pi->sample.length) {
         raw_sample = chn->ps[spos];
-        
+
         chn->sam_pos = chn->sam_pos + chn->sam_incr;
         spos = chn->sam_pos + 0.5;
-        
+
         // is sample looped?
         if (chn->pi->sample.flags & S3M_FLAG_INSTR_LOOP) {
             if (spos >= chn->pi->sample.loop_end) {
@@ -482,9 +482,9 @@ int16_t chn_get_sample(s3m_t* s3m, channel_t* chn)
     }
     sample = raw_sample - 128;
     sample = sample * chn->vol;
-    
+
     return sample;
 }
-    
+
 
 /* EOF: channel.c */

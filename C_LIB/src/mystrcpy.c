@@ -19,10 +19,10 @@ char* mystrcpy(char* dest, const char* src)
         dest++;
         src++;
     }
- 
+
     // include the terminating null character
     *dest = '\0';
- 
+
     // dest is returned by standard strcpy()
     return ptr;
 }

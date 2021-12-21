@@ -989,7 +989,7 @@ int main1(void){
     for(j=1;j<40;j++)
       if(j&0x7)
         copytest(j,i);
-  
+
   fprintf(stderr,"ok.      \n");
 
 
@@ -1105,7 +1105,7 @@ int main1(void){
     for(j=1;j<40;j++)
       if(j&0x7)
         copytestB(j,i);
-  
+
   fprintf(stderr,"ok.      \n\n");
 
   return(0);

@@ -57,10 +57,10 @@ static void load_instruments(s3m_t* s3m, uint8_t* buffer, size_t length)
     uint16_t instr_offs;
     s3m_header_t* h = s3m->header;
     double c4, sr;
-    
+
     if (h->num_instruments > S3M_MAX_INSTRUMENTS) {
         h->num_instruments = S3M_MAX_INSTRUMENTS;
-    }  
+    }
     offs = 0x60 + h->arrangement_length;
     for (i=0; i<h->num_instruments; i++) {
 
@@ -68,7 +68,7 @@ static void load_instruments(s3m_t* s3m, uint8_t* buffer, size_t length)
         instr_offs <<= 4;
         s3m->instrument[i] = (s3m_instrument_t*)&buffer[instr_offs];
         offs += 2;
-        
+
         if (s3m->instrument[i]->type == 1) {
             c4 = s3m->instrument[i]->sample.c4_speed;
             sr = s3m->samplerate;
@@ -85,7 +85,7 @@ static void load_samples(s3m_t* s3m, uint8_t* buffer, size_t length)
 
     for (i=0; i<h->num_instruments; i++) {
         if (s3m->instrument[i]->type == 1) {
-            smpl_offs = s3m->instrument[i]->sample.file_offs_sample[0] << 16 | 
+            smpl_offs = s3m->instrument[i]->sample.file_offs_sample[0] << 16 |
                         s3m->instrument[i]->sample.file_offs_sample[2] << 8 |
                         s3m->instrument[i]->sample.file_offs_sample[1];
             smpl_offs <<= 4;
@@ -109,8 +109,8 @@ static void load_pattern(s3m_t* s3m, uint8_t* buffer, size_t length)
 
     if (h->num_patterns > S3M_MAX_PATTERNS) {
         h->num_patterns = S3M_MAX_PATTERNS;
-    }  
-    offs = 0x60 + h->arrangement_length + (h->num_instruments * 2);  
+    }
+    offs = 0x60 + h->arrangement_length + (h->num_instruments * 2);
     for (i=0; i<h->num_patterns; i++) {
         pat_offs = (buffer[offs+1] << 8) | buffer[offs];
         pat_offs <<= 4;
@@ -122,7 +122,7 @@ static void load_pattern(s3m_t* s3m, uint8_t* buffer, size_t length)
 /* Public functions ----------------------------------------------------------*/
 
 /**
- * Initialize the s3m structure. Do this first, before loading a S3M file 
+ * Initialize the s3m structure. Do this first, before loading a S3M file
  * from RAM or disk.
  */
 int s3m_initialize(s3m_t* s3m, uint32_t samplerate)
@@ -145,14 +145,14 @@ int s3m_initialize(s3m_t* s3m, uint32_t samplerate)
     return 1;
 }
 
-/** 
+/**
  * Register a callback, which is called, whenever a new row wat executed
  * This callbak is called from sound thread!! Quit the callback fast!
  */
 void s3m_register_row_changed_callback(s3m_t* s3m, s3m_func_t func, void* arg)
 {
 //    assert(s3m != NULL);
-    
+
     s3m->row_chg_callback = func;
     s3m->row_chg_callback_arg = arg;
 }
@@ -253,9 +253,9 @@ uint8_t s3m_get_current_pattern_idx(s3m_t* s3m)
 /**
  * Get the current row index (0..63).
  * This function is expected mainly to be used for visualization in S3M player apps.
- * 
- * @note Be aware, the pattern index is changed within the context of the audio 
- * callback function s3m_sound_callback(). This might be another thread and no 
+ *
+ * @note Be aware, the pattern index is changed within the context of the audio
+ * callback function s3m_sound_callback(). This might be another thread and no
  * synchronization tchnique is used to get it!
  */
 uint8_t s3m_get_current_row_idx(s3m_t* s3m)
@@ -267,17 +267,17 @@ uint8_t s3m_get_current_row_idx(s3m_t* s3m)
     return s3m->rt.row_ctr;
 }
 
-/** 
- * Copy the current row data. 
- * 
+/**
+ * Copy the current row data.
+ *
  * This function is expected mainly to be used for visualization in S3M player apps.
- * To avoid synchronization with the audio thread, 
- * internally a A/B buffer is used e.g. the thread writes into B while this 
- * function reads from A. When the thred is finished writing, is switches the 
+ * To avoid synchronization with the audio thread,
+ * internally a A/B buffer is used e.g. the thread writes into B while this
+ * function reads from A. When the thred is finished writing, is switches the
  * pages and will now write to A and this function will read B.
  *
- * @note Be aware, the pattern index is changed within the context of the audio 
- * callback function s3m_sound_callback(). This might be another thread and no 
+ * @note Be aware, the pattern index is changed within the context of the audio
+ * callback function s3m_sound_callback(). This might be another thread and no
  * synchronization tchnique is used to get it!
  */
 void s3m_get_current_row(s3m_t* s3m, pat_row_t* row)

@@ -93,16 +93,16 @@ qBreak:
         leftP = leftP + qsSize;
 
     leftTemp = leftP - qsSize;
-        
+
     pivotTemp = pivotP;
-        
+
     while ((pivotTemp < pivotEnd) && (leftTemp >= pivotEnd))
         {
         Exchange(pivotTemp, leftTemp);
         pivotTemp += qsSize;
         leftTemp -= qsSize;
         }
-        
+
     lNum = (leftP - pivotEnd) / qsSize;
     nElem = ((nElem * qsSize + pivotP) - leftP)/qsSize;
 
@@ -116,9 +116,9 @@ qBreak:
         myqSortHelper (pivotP, lNum);
         pivotP = leftP;
         }
-                
+
     goto tailRecursion;
-}   
+}
 
 void myqsort(void *baseP, size_t nElem, size_t sz, comparF *compar)
 {

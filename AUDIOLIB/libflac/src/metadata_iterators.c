@@ -3384,7 +3384,7 @@ FLAC__bool transport_tempfile_(const char *filename, int *tempfile, char **tempf
 
 #if defined _MSC_VER || defined __BORLANDC__ || defined __MINGW32__ || defined __EMX__
 	/* on some flavors of windows, flac_rename() will fail if the destination already exists */
-// remove FILE        
+// remove FILE
 //	if(flac_unlink(filename) < 0) {
 //		cleanup_tempfile_(tempfile, tempfilename);
 //		*status = FLAC__METADATA_SIMPLE_ITERATOR_STATUS_UNLINK_ERROR;

@@ -262,7 +262,7 @@ static float ***setup_tone_curves(float curveatt_dB[P_BANDS],float binHz,int n,
   }
 
   free(brute_buffer);
-  
+
   return(ret);
 }
 
@@ -503,7 +503,7 @@ static void seed_chase(float *seeds, int linesper, long n){
 
   free(posstack);
   free(ampstack);
-  
+
   /* there.  Linear time.  I now remember this was on a problem set I
      had in Grad Skool... I didn't solve it at the time ;-) */
 
@@ -710,7 +710,7 @@ static void bark_noise_hybridmp(int n,const long *b,
     R = (A + x * B) / D;
     if (R - offset < noise[i]) noise[i] = R - offset;
   }
-  
+
   free(N);
   free(X);
   free(XX);
@@ -1024,7 +1024,7 @@ static float noise_normalize(vorbis_look_psy *p, int limit, float *r, float *q, 
   }
 
   free(sort);
-  
+
   return acc;
 }
 
