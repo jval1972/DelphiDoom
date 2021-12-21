@@ -127,7 +127,6 @@ uses
   p_tick,
   p_pspr,
   p_setup,
-  p_spec,
   p_common,
   p_terrain,
   p_sounds,
