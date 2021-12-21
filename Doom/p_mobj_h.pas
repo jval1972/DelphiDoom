@@ -553,6 +553,8 @@ type
     painchance: integer;
     spriteDX: integer;
     spriteDY: integer;
+    flags5_ex: integer;  // JVAL extended flags (MF5_EX_????)
+    flags6_ex: integer;  // JVAL extended flags (MF6_EX_????)
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;

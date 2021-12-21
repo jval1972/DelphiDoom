@@ -764,6 +764,8 @@ begin
             mobj.painchance := mobjinfo[mobj._type].painchance;
             mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
             mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+            mobj.flags5_ex := 0;
+            mobj.flags6_ex := 0;
           end
           else if savegameversion >= VERSION205 then
           begin
@@ -788,6 +790,8 @@ begin
             mobj.painchance := mobjinfo[mobj._type].painchance;
             mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
             mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+            mobj.flags5_ex := 0;
+            mobj.flags6_ex := 0;
           end
           else if savegameversion >= VERSION115 then
           begin
@@ -820,6 +824,8 @@ begin
             mobj.painchance := mobjinfo[mobj._type].painchance;
             mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
             mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+            mobj.flags5_ex := 0;
+            mobj.flags6_ex := 0;
           end
           else if savegameversion = VERSION114 then
           begin
@@ -854,6 +860,8 @@ begin
             mobj.painchance := mobjinfo[mobj._type].painchance;
             mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
             mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+            mobj.flags5_ex := 0;
+            mobj.flags6_ex := 0;
           end
           else if (savegameversion = VERSION112) or (savegameversion = VERSION113) then
           begin
@@ -900,6 +908,8 @@ begin
             mobj.painchance := mobjinfo[mobj._type].painchance;
             mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
             mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+            mobj.flags5_ex := 0;
+            mobj.flags6_ex := 0;
           end
           else if (savegameversion = VERSION110) or (savegameversion = VERSION111) then
           begin
@@ -994,6 +1004,8 @@ begin
             mobj.painchance := mobjinfo[mobj._type].painchance;
             mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
             mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+            mobj.flags5_ex := 0;
+            mobj.flags6_ex := 0;
 
             Z_Free(mobj111);
           end

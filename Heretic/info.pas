@@ -13425,6 +13425,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13493,6 +13495,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13561,6 +13565,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13629,6 +13635,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13697,6 +13705,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13765,6 +13775,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13833,6 +13845,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13901,6 +13915,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13969,6 +13985,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14037,6 +14055,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14105,6 +14125,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14173,6 +14195,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14241,6 +14265,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14309,6 +14335,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14377,6 +14405,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14445,6 +14475,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14513,6 +14545,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14581,6 +14615,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14649,6 +14685,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14717,6 +14755,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14785,6 +14825,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14853,6 +14895,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14921,6 +14965,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14989,6 +15035,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15057,6 +15105,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15125,6 +15175,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15193,6 +15245,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15261,6 +15315,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15329,6 +15385,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15397,6 +15455,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15465,6 +15525,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15533,6 +15595,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15601,6 +15665,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15669,6 +15735,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15737,6 +15805,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15805,6 +15875,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15873,6 +15945,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15941,6 +16015,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16009,6 +16085,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16077,6 +16155,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16145,6 +16225,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16213,6 +16295,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16281,6 +16365,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16349,6 +16435,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16417,6 +16505,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16485,6 +16575,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16553,6 +16645,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16621,6 +16715,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16689,6 +16785,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16757,6 +16855,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16825,6 +16925,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16893,6 +16995,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16961,6 +17065,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17029,6 +17135,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17097,6 +17205,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17165,6 +17275,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17233,6 +17345,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17301,6 +17415,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17369,6 +17485,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17437,6 +17555,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17505,6 +17625,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17573,6 +17695,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17641,6 +17765,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17709,6 +17835,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17777,6 +17905,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17845,6 +17975,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17913,6 +18045,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17981,6 +18115,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18049,6 +18185,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18117,6 +18255,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18185,6 +18325,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18253,6 +18395,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18321,6 +18465,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18389,6 +18535,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18457,6 +18605,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18525,6 +18675,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18593,6 +18745,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18661,6 +18815,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18729,6 +18885,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18797,6 +18955,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18865,6 +19025,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18933,6 +19095,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19001,6 +19165,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19069,6 +19235,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19137,6 +19305,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19205,6 +19375,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19273,6 +19445,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19341,6 +19515,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19409,6 +19585,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19477,6 +19655,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19545,6 +19725,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19613,6 +19795,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19681,6 +19865,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19749,6 +19935,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19817,6 +20005,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19885,6 +20075,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19953,6 +20145,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20021,6 +20215,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20089,6 +20285,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20157,6 +20355,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20225,6 +20425,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20293,6 +20495,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20361,6 +20565,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20429,6 +20635,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20497,6 +20705,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20565,6 +20775,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20633,6 +20845,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20701,6 +20915,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20769,6 +20985,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20837,6 +21055,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20905,6 +21125,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20973,6 +21195,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21041,6 +21265,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21109,6 +21335,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21177,6 +21405,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21245,6 +21475,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21313,6 +21545,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21381,6 +21615,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21449,6 +21685,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21517,6 +21755,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21585,6 +21825,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21653,6 +21895,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21721,6 +21965,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21789,6 +22035,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21857,6 +22105,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21925,6 +22175,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21993,6 +22245,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22061,6 +22315,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22129,6 +22385,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22197,6 +22455,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22265,6 +22525,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22333,6 +22595,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22401,6 +22665,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22469,6 +22735,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22537,6 +22805,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22605,6 +22875,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22673,6 +22945,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22741,6 +23015,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22809,6 +23085,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22877,6 +23155,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22945,6 +23225,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23013,6 +23295,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23081,6 +23365,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23149,6 +23435,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23217,6 +23505,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23285,6 +23575,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23353,6 +23645,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23421,6 +23715,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23489,6 +23785,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23557,6 +23855,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23625,6 +23925,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23693,6 +23995,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23761,6 +24065,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23829,6 +24135,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23897,6 +24205,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23965,6 +24275,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24033,6 +24345,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24101,6 +24415,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24169,6 +24485,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24237,6 +24555,8 @@ const // Heretic Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
    )
 
   );

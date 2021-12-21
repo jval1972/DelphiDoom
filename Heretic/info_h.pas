@@ -1550,6 +1550,8 @@ type
     WeaveIndexZ: integer;
     spriteDX: integer;
     spriteDY: integer;
+    flags5_ex: integer;
+    flags6_ex: integer;
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;

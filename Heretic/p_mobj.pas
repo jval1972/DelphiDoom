@@ -1033,6 +1033,8 @@ begin
   mobj.flags2_ex := info.flags2_ex;
   mobj.flags3_ex := info.flags3_ex;
   mobj.flags4_ex := info.flags4_ex;
+  mobj.flags5_ex := info.flags5_ex;
+  mobj.flags6_ex := info.flags6_ex;
   mobj.scale := info.scale;
   mobj.gravity := info.gravity;
   mobj.pushfactor := info.pushfactor;

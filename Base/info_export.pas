@@ -325,6 +325,8 @@ begin
     AddLn('mobjinfo[' + mname + '].WeaveIndexZ := ' + itoa(mobjinfo[i].WeaveIndexZ) + ';');
     AddLn('mobjinfo[' + mname + '].spriteDX := ' + itoa_FRACUNIT(mobjinfo[i].spriteDX) + ';');
     AddLn('mobjinfo[' + mname + '].spriteDY := ' + itoa_FRACUNIT(mobjinfo[i].spriteDY) + ';');
+    AddLn('mobjinfo[' + mname + '].flags5_ex := ' + itoa_FLAGS(mobjinfo[i].flags5_ex, mobj_flags5_ex) + ';');
+    AddLn('mobjinfo[' + mname + '].flags6_ex := ' + itoa_FLAGS(mobjinfo[i].flags6_ex, mobj_flags6_ex) + ';');
     AddLn('');
   end;
 
@@ -467,6 +469,8 @@ begin
     AddField('WeaveIndexZ', itoa(fmobjinfo[i].WeaveIndexZ));
     AddField('spriteDX', itoa_FRACUNIT(fmobjinfo[i].spriteDX));
     AddField('spriteDY', itoa_FRACUNIT(fmobjinfo[i].spriteDY));
+    AddField('flags5_ex', itoa_FLAGS(fmobjinfo[i].flags5_ex, mobj_flags5_ex));
+    AddField('flags6_ex', itoa_FLAGS(fmobjinfo[i].flags6_ex, mobj_flags6_ex));
     if i = finish then
       AddLn(' )')
     else

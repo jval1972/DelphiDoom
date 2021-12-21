@@ -1738,6 +1738,8 @@ begin
             corpsehit.flags2_ex := corpsehit.flags2_ex or MF2_EX_FRIEND;
           corpsehit.flags3_ex := info.flags3_ex;
           corpsehit.flags4_ex := info.flags4_ex;
+          corpsehit.flags5_ex := info.flags5_ex;
+          corpsehit.flags6_ex := info.flags6_ex;
           corpsehit.health := info.spawnhealth;
           corpsehit.target := nil;
           exit;

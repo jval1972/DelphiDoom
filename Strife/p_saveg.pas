@@ -1173,6 +1173,8 @@ begin
             mobj.painchance := mobjinfo[mobj._type].painchance;
             mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
             mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+            mobj.flags5_ex := 0;
+            mobj.flags6_ex := 0;
           end
           else if savegameversion >= VERSION122 then
           begin
@@ -1203,6 +1205,8 @@ begin
             mobj.painchance := mobjinfo[mobj._type].painchance;
             mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
             mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+            mobj.flags5_ex := 0;
+            mobj.flags6_ex := 0;
           end
           else if savegameversion = VERSION121 then
           begin
@@ -1235,6 +1239,8 @@ begin
             mobj.painchance := mobjinfo[mobj._type].painchance;
             mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
             mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+            mobj.flags5_ex := 0;
+            mobj.flags6_ex := 0;
           end
           else if savegameversion = VERSION120 then
           begin
@@ -1277,6 +1283,8 @@ begin
             mobj.painchance := mobjinfo[mobj._type].painchance;
             mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
             mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+            mobj.flags5_ex := 0;
+            mobj.flags6_ex := 0;
           end
           else
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);

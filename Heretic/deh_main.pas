@@ -85,6 +85,8 @@ var
   mobj_flags2_ex: TDTextList;
   mobj_flags3_ex: TDTextList;
   mobj_flags4_ex: TDTextList;
+  mobj_flags5_ex: TDTextList;
+  mobj_flags6_ex: TDTextList;
   state_tokens: TDTextList;
   state_flags_ex: TDTextList;
   ammo_tokens: TDTextList;
@@ -150,6 +152,8 @@ var
   mobj_flags2_ex_hash: TDEHStringsHashTable;
   mobj_flags3_ex_hash: TDEHStringsHashTable;
   mobj_flags4_ex_hash: TDEHStringsHashTable;
+  mobj_flags5_ex_hash: TDEHStringsHashTable;
+  mobj_flags6_ex_hash: TDEHStringsHashTable;
 
 procedure DEH_AddString(deh_strings: Pdeh_strings_t; pstr: PString; const name: string);
 begin
@@ -596,6 +600,56 @@ begin
           62: mobjinfo[mobj_no].spriteDX := DEH_FixedOrFloat(token2, 256);
           63: mobjinfo[mobj_no].spriteDY := DEH_FixedOrFloat(token2, 256);
           64: mobjinfo[mobj_no].interactstate := mobj_val;
+          65: begin
+                if mobj_val >= 0 then
+                  mobjinfo[mobj_no].flags5_ex := mobj_val  // DelphiDoom specific
+                else
+                begin
+                  mobj_setflag := -1;
+                  repeat
+                    splitstring(token2, token3, token4, [' ', '|', ',', '+']);
+                    mobj_flag := mobj_flags5_ex_hash.IndexOf('MF5_EX_' + token3);
+                    if mobj_flag = -1 then
+                      mobj_flag := mobj_flags5_ex_hash.IndexOf(token3);
+                    if mobj_flag >= 0 then
+                    begin
+                      if mobj_setflag = -1 then
+                        mobj_setflag := 0;
+                      mobj_flag := _SHL(1, mobj_flag);
+                      mobj_setflag := mobj_setflag or mobj_flag;
+                    end;
+                    token2 := token4;
+                  until token2 = '';
+                  if mobj_setflag <> -1 then
+                    mobjinfo[mobj_no].flags5_ex := mobj_setflag;
+
+                end;
+              end;
+          66: begin
+                if mobj_val >= 0 then
+                  mobjinfo[mobj_no].flags6_ex := mobj_val  // DelphiDoom specific
+                else
+                begin
+                  mobj_setflag := -1;
+                  repeat
+                    splitstring(token2, token3, token4, [' ', '|', ',', '+']);
+                    mobj_flag := mobj_flags6_ex_hash.IndexOf('MF6_EX_' + token3);
+                    if mobj_flag = -1 then
+                      mobj_flag := mobj_flags6_ex_hash.IndexOf(token3);
+                    if mobj_flag >= 0 then
+                    begin
+                      if mobj_setflag = -1 then
+                        mobj_setflag := 0;
+                      mobj_flag := _SHL(1, mobj_flag);
+                      mobj_setflag := mobj_setflag or mobj_flag;
+                    end;
+                    token2 := token4;
+                  until token2 = '';
+                  if mobj_setflag <> -1 then
+                    mobjinfo[mobj_no].flags6_ex := mobj_setflag;
+
+                end;
+              end;
         end;
       end;
 
@@ -1700,6 +1754,37 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[62]), mobjinfo[i].spriteDX]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[63]), mobjinfo[i].spriteDY]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[64]), mobjinfo[i].interactstate]);
+
+    str := '';
+    for j := 0 to mobj_flags5_ex.Count - 1 do
+    begin
+      if mobjinfo[i].flags5_ex and _SHL(1, j) <> 0 then
+      begin
+        if str <> '' then
+          str := str + ', ';
+        str := str + mobj_flags5_ex[j];
+      end;
+    end;
+    if str = '' then
+      result.Add('%s = 0', [capitalizedstring(mobj_tokens[65])])
+    else
+      result.Add('%s = %s', [capitalizedstring(mobj_tokens[65]), str]);
+
+    str := '';
+    for j := 0 to mobj_flags6_ex.Count - 1 do
+    begin
+      if mobjinfo[i].flags6_ex and _SHL(1, j) <> 0 then
+      begin
+        if str <> '' then
+          str := str + ', ';
+        str := str + mobj_flags6_ex[j];
+      end;
+    end;
+    if str = '' then
+      result.Add('%s = 0', [capitalizedstring(mobj_tokens[66])])
+    else
+      result.Add('%s = %s', [capitalizedstring(mobj_tokens[66]), str]);
+
     result.Add('');
   end;
 
@@ -1956,6 +2041,8 @@ begin
   mobj_tokens.Add('SPRITE DX');          // .spriteDX                 // 62
   mobj_tokens.Add('SPRITE DY');          // .spriteDY                 // 63
   mobj_tokens.Add('INTERACT FRAME');     // .interactstate (DelphiDoom) // 64
+  mobj_tokens.Add('FLAGS5_EX');          // .flags5_ex (DelphiDoom)   // 66
+  mobj_tokens.Add('FLAGS6_EX');          // .flags6_ex (DelphiDoom)   // 67
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);
@@ -2132,6 +2219,16 @@ begin
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);
+
+  mobj_flags5_ex := TDTextList.Create;
+
+  mobj_flags5_ex_hash := TDEHStringsHashTable.Create;
+  mobj_flags5_ex_hash.AssignList(mobj_flags5_ex);
+
+  mobj_flags6_ex := TDTextList.Create;
+
+  mobj_flags6_ex_hash := TDEHStringsHashTable.Create;
+  mobj_flags6_ex_hash.AssignList(mobj_flags6_ex);
 
 
   // JVAL: 20200330 - State flags
@@ -2846,6 +2943,8 @@ begin
   FreeAndNil(mobj_flags2_ex);
   FreeAndNil(mobj_flags3_ex);
   FreeAndNil(mobj_flags4_ex);
+  FreeAndNil(mobj_flags5_ex);
+  FreeAndNil(mobj_flags6_ex);
   FreeAndNil(state_flags_ex);
   FreeAndNil(state_tokens);
   FreeAndNil(ammo_tokens);
@@ -2863,6 +2962,8 @@ begin
   FreeAndNil(mobj_flags2_ex_hash);
   FreeAndNil(mobj_flags3_ex_hash);
   FreeAndNil(mobj_flags4_ex_hash);
+  FreeAndNil(mobj_flags5_ex_hash);
+  FreeAndNil(mobj_flags6_ex_hash);
 
   DEH_ShutDownActionsHash;
 

@@ -111,6 +111,8 @@ type
     flags2_ex: string;
     flags3_ex: string;
     flags4_ex: string;
+    flags5_ex: string;
+    flags6_ex: string;
     raisestate: integer;
     customsound1: string;
     customsound2: string;

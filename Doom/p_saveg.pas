@@ -859,6 +859,8 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -949,6 +951,8 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -1039,6 +1043,8 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -1129,6 +1135,8 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -1219,6 +1227,8 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -1266,6 +1276,8 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -1301,6 +1313,8 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -1335,6 +1349,8 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -1381,6 +1397,8 @@ begin
     mobj.painchance := mobjinfo[mobj._type].painchance;
     mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
     mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
 
     result := true;
   end
@@ -1393,6 +1411,8 @@ begin
     mobj.painchance := mobjinfo[mobj._type].painchance;
     mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
     mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
 
     result := true;
   end

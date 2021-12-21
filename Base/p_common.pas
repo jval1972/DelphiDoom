@@ -3971,6 +3971,32 @@ begin
       actor.flags4_ex := actor.flags4_ex and not flg;
     exit;
   end;
+
+  idx := mobj_flags5_ex.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags5_ex.IndexOf('MF5_EX_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    if change then
+      actor.flags5_ex := actor.flags5_ex or flg
+    else
+      actor.flags5_ex := actor.flags5_ex and not flg;
+    exit;
+  end;
+
+  idx := mobj_flags6_ex.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags6_ex.IndexOf('MF6_EX_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    if change then
+      actor.flags6_ex := actor.flags6_ex or flg
+    else
+      actor.flags6_ex := actor.flags6_ex and not flg;
+    exit;
+  end;
 end;
 
 procedure A_CheckFloor(actor: Pmobj_t);
@@ -4555,6 +4581,30 @@ begin
     begin
       flg := 1 shl idx;
       dojump := mo.flags4_ex and flg <> 0;
+    end;
+  end;
+
+  if not dojump then
+  begin
+    idx := mobj_flags5_ex.IndexOf(sflag);
+    if idx < 0 then
+      idx := mobj_flags5_ex.IndexOf('MF5_EX_' + sflag);
+    if idx >= 0 then
+    begin
+      flg := 1 shl idx;
+      dojump := mo.flags5_ex and flg <> 0;
+    end;
+  end;
+
+  if not dojump then
+  begin
+    idx := mobj_flags6_ex.IndexOf(sflag);
+    if idx < 0 then
+      idx := mobj_flags6_ex.IndexOf('MF6_EX_' + sflag);
+    if idx >= 0 then
+    begin
+      flg := 1 shl idx;
+      dojump := mo.flags6_ex and flg <> 0;
     end;
   end;
 
@@ -5341,6 +5391,8 @@ begin
   thing.flags2_ex := info.flags2_ex;
   thing.flags3_ex := info.flags3_ex;
   thing.flags4_ex := info.flags4_ex;
+  thing.flags5_ex := info.flags5_ex;
+  thing.flags6_ex := info.flags6_ex;
 
   if raiser <> nil then
     P_CopyFriendliness(raiser, thing);
