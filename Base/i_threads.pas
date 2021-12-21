@@ -51,6 +51,7 @@ type
     info: threadinfo_t;
     fstatus: integer;
     fterminated: boolean;
+    frunning: boolean;
   public
     constructor Create(const func: threadfunc_t = nil);
     destructor Destroy; override;
@@ -86,7 +87,9 @@ begin
     end;
     if th.fterminated then
       exit;
+    th.frunning := true;
     th.ffunc(th.fparms);
+    th.frunning := false;
     if th.fterminated then
       exit;
     th.fstatus := THR_IDLE;
@@ -99,6 +102,7 @@ begin
   ffunc := func;
   fparms := nil;
   fstatus := THR_IDLE;
+  frunning := false;
   info.thread := Self;
   fid := I_CreateProcess(@ThreadWorker, @info, true);
   suspended := true;
@@ -106,9 +110,11 @@ end;
 
 destructor TDThread.Destroy;
 begin
+  while frunning do
+    I_Sleep(0);
   fterminated := true;
   fstatus := THR_DEAD;
-  I_WaitForProcess(fid, 100);
+  I_WaitForProcess(fid, 1);
   Inherited Destroy;
 end;
 

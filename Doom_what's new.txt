@@ -67,6 +67,7 @@ Safe check for light columns in software rendering.
 The "gameskill" can be accessed by ACTORDEF parameters evaluation.
 Added check for vanilla E2M7 linedef flags.
 Use the native monitor resolution as default in software rendering mode.
+Faster and safer thread de-allocation.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
