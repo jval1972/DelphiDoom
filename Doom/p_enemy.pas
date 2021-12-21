@@ -167,6 +167,8 @@ function P_Move(actor: Pmobj_t): boolean;
 
 procedure P_Massacre;
 
+procedure A_TurretChase(actor: Pmobj_t);
+
 type
   dirtype_t = (
     DI_EAST,
@@ -212,7 +214,6 @@ uses
   p_inter,
   p_floor,
   p_pspr,
-  p_extra,
   p_common,
   p_sounds,
   ps_main,
