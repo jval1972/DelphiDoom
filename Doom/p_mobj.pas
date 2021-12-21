@@ -48,6 +48,8 @@ uses
 
 function P_SetMobjState(mobj: Pmobj_t; state: statenum_t): boolean;
 
+function P_SetMobjStateNF(mobj: Pmobj_t; state: statenum_t): boolean;
+
 procedure P_ExplodeMissile(mo: Pmobj_t);
 
 procedure P_MobjThinker(mobj: Pmobj_t);
@@ -158,7 +160,7 @@ const
 // P_SetMobjState
 // Returns true if the mobj is still present.
 //
-function P_SetMobjState(mobj: Pmobj_t; state: statenum_t): boolean;
+function P_DoSetMobjState(mobj: Pmobj_t; state: statenum_t; const runthinker: boolean): boolean;
 var
   st: Pstate_t;
   cycle_counter: integer;
@@ -191,7 +193,7 @@ begin
 
     // Modified handling.
     // Call action functions when the state is set
-    if Assigned(st.action.acp1) then
+    if Assigned(st.action.acp1) and runthinker then
     begin
       if st.params <> nil then
         st.params.Actor := mobj;
@@ -206,6 +208,16 @@ begin
   until mobj.tics <> 0;
 
   result := true;
+end;
+
+function P_SetMobjState(mobj: Pmobj_t; state: statenum_t): boolean;
+begin
+  result := P_DoSetMobjState(mobj, state, true);
+end;
+
+function P_SetMobjStateNF(mobj: Pmobj_t; state: statenum_t): boolean;
+begin
+  result := P_DoSetMobjState(mobj, state, false);
 end;
 
 //

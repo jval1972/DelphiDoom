@@ -2590,5 +2590,102 @@ begin
   end;
 end;
 
+procedure A_TurretChase(actor: Pmobj_t);
+var
+  delta: integer;
+  nomissile: boolean;
+begin
+  if actor.reactiontime <> 0 then
+    actor.reactiontime := actor.reactiontime - 1;
+
+  // modify target threshold
+  if actor.threshold <> 0 then
+  begin
+    if (actor.target = nil) or (actor.target.health <= 0) then
+      actor.threshold := 0
+    else
+      actor.threshold := actor.threshold - 1;
+  end;
+
+  // turn towards movement direction if not there yet
+  if actor.movedir < 8 then
+  begin
+    actor.angle := actor.angle and $E0000000;
+    delta := actor.angle - _SHLW(actor.movedir, 29);
+
+    if delta > 0 then
+      actor.angle := actor.angle - ANG90 div 2
+    else if delta < 0 then
+      actor.angle := actor.angle + ANG90 div 2;
+  end;
+
+  if P_BothFriends(actor, actor.target) then
+  begin
+    if P_LookForTargets(actor, actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) then
+      exit; // got a new target
+    if actor.state <> @states[actor.info.spawnstate] then
+      P_SetMobjStateNF(actor, statenum_t(actor.info.spawnstate));
+    exit;
+  end;
+
+  if (actor.target = nil) or
+     (actor.target.flags and MF_SHOOTABLE = 0) then
+  begin
+    // look for a new target
+    if P_LookForTargets(actor, true) then
+      exit; // got a new target
+
+    if actor.state <> @states[actor.info.spawnstate] then
+      P_SetMobjStateNF(actor, statenum_t(actor.info.spawnstate));
+    exit;
+  end;
+
+  // do not attack twice in a row
+  if actor.flags and MF_JUSTATTACKED <> 0 then
+  begin
+    actor.flags := actor.flags and not MF_JUSTATTACKED;
+    exit;
+  end;
+
+  // check for melee attack
+  if (actor.info.meleestate <> 0) and P_CheckMeleeRange(actor) then
+  begin
+    A_MeleeSound(actor, actor);
+    if actor.state <> @states[actor.info.meleestate] then
+      P_SetMobjState(actor, statenum_t(actor.info.meleestate));
+    exit;
+  end;
+
+  nomissile := false;
+  // check for missile attack
+  if actor.info.missilestate <> 0 then
+  begin
+    if (gameskill < sk_nightmare) and not fastparm and (actor.movecount <> 0) then
+      nomissile := true
+    else if not P_CheckMissileRange(actor) then
+      nomissile := true;
+    if not nomissile then
+    begin
+      if actor.state <> @states[actor.info.missilestate] then
+        P_SetMobjState(actor, statenum_t(actor.info.missilestate));
+      actor.flags := actor.flags or MF_JUSTATTACKED;
+      exit;
+    end;
+  end;
+
+  // possibly choose another target
+  if netgame and
+    (actor.threshold = 0) and
+    not P_CheckSight(actor, actor.target) then
+  begin
+    if P_LookForTargets(actor, true) then
+      exit;  // got a new target
+  end;
+
+  // make active sound
+  if (actor.info.activesound <> 0) and (P_Random < 3) then
+    A_ActiveSound(actor, actor);
+end;
+
 end.
 
