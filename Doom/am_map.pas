@@ -1589,12 +1589,16 @@ begin
 
       if t.flags2_ex and MF2_EX_FRIEND <> 0 then
         color := WHITE
+      else if t.flags and MF_SHOOTABLE <> 0 then
+        color := THINGCOLORS + lightlev
+      else if t.flags and MF_SPECIAL <> 0 then
+        color := BLUES
       else
-        color := THINGCOLORS + lightlev;
+        color := GRAYS;
 
       if t.radius >= 40 * FRACUNIT then
         AM_drawLineCharacter
-          (@triangle_guy, NUMTHINTRIANGLEGUYLINES,
+          (@triangle_guy, NUMTRIANGLEGUYLINES,
           16 * FRACUNIT, t.angle, color, x, y)
       else
         AM_drawLineCharacter
