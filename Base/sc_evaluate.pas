@@ -212,12 +212,12 @@ begin
   while (p = 0) and (i < l) do
   begin
     if r[i] = '"' then
-      quote := not quote;
-    if r[i] = '(' then
-      Inc(bracket);
-    if r[i] = ')' then
+      quote := not quote
+    else if r[i] = '(' then
+      Inc(bracket)
+    else if r[i] = ')' then
       Dec(bracket);
-    if (not quote) and (bracket = 0) and (r[i] = ',') then
+    if not quote and (bracket = 0) and (r[i] = ',') then
       p := i;
     Inc(i);
   end;
