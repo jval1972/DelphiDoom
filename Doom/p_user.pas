@@ -64,6 +64,7 @@ uses
 {$ENDIF}
   g_game,
   p_genlin,
+  p_dogs,
   p_mobj,
   p_tick,
   p_pspr,
@@ -867,6 +868,9 @@ begin
     P_DeathThink(player);
     exit;
   end;
+
+  P_PlayerHistoryNotify(player);  // JVAL: 20211224 - Notify player history
+  P_HandleDogsNearMe(player); // JVAL: 20211224 - Handle nearby dogs
 
   P_AngleTarget(player);
 

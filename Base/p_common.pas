@@ -605,6 +605,8 @@ procedure P_NoiseAlertEx(target: Pmobj_t; emmiter: Pmobj_t; const maxdist: fixed
 
 procedure P_LocalEarthQuake(const actor: Pmobj_t; const tics: integer; const intensity: fixed_t; const maxdist: fixed_t);
 
+function P_NearestPlayer(const mo: Pmobj_t): Pplayer_t;
+
 implementation
 
 uses
@@ -6329,6 +6331,29 @@ end;
 procedure A_UnSetInteractive(actor: Pmobj_t);
 begin
   actor.flags2_ex := actor.flags2_ex and not MF2_EX_INTERACTIVE;
+end;
+
+function P_NearestPlayer(const mo: Pmobj_t): Pplayer_t;
+var
+  i: integer;
+  nearest: fixed_t;
+  dist: fixed_t;
+begin
+  result := nil;
+  nearest := MAXINT;
+
+  for i := 0 to MAXPLAYERS - 1 do
+    if playeringame[i] then
+      if (players[i].mo <> nil) and (players[i].mo <> mo) then
+        if players[i].mo.health >= 0 then
+        begin
+          dist := P_AproxDistance(players[i].mo.x - mo.x, players[i].mo.y - mo.y);
+          if dist < nearest then
+          begin
+            nearest := dist;
+            result := @players[i];
+          end;
+        end;
 end;
 
 end.

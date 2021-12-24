@@ -405,6 +405,8 @@ const
   MF4_EX_THRUMONSTERS = 2;
   // Drop item in actual z
   MF4_EX_ABSOLUTEDROPITEMPOS = 4;
+  // Follow trace
+  MF4_EX_TRACEDEFINED = 8;
 
 type
 // Map Object definition.
@@ -555,6 +557,10 @@ type
     spriteDY: integer;
     flags5_ex: integer;  // JVAL extended flags (MF5_EX_????)
     flags6_ex: integer;  // JVAL extended flags (MF6_EX_????)
+    playerfollowtime: integer;      // JVAL 20211224 - Dogs follow player
+    tracefollowtimestamp: integer;  // JVAL 20211224 - Dogs follow player
+    tracex: integer;
+    tracey: integer;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;

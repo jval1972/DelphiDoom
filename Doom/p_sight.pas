@@ -39,6 +39,8 @@ uses
 
 function P_CheckSight(t1: Pmobj_t; t2: Pmobj_t): boolean;
 
+function P_CheckSightXYZ(const x, y, z: fixed_t; t2: Pmobj_t): boolean;
+
 function P_CheckCameraSight(const camx, camy, camz: fixed_t; const mo: Pmobj_t): boolean;
 
 function P_CheckVisibility(const atx, aty, atz: fixed_t; const atradious: fixed_t): boolean;
@@ -753,6 +755,125 @@ begin
   begin
     los.bbox[BOXTOP] := mo.y;
     los.bbox[BOXBOTTOM] := camy;
+  end;
+
+  // the head node is the last node output
+  result := P_CrossBSPNode(numnodes - 1, @los);
+end;
+
+function P_CheckSightXYZ(const x, y, z: fixed_t; t2: Pmobj_t): boolean;
+var
+  s1: integer;
+  s2: integer;
+  hsec1: integer;
+  hsec2: integer;
+  pnum: integer;
+  bytenum: integer;
+  bitnum: integer;
+  los: los_t;
+  mid: Psector_t; // JVAL: 3d Floors
+  midn: integer;
+begin
+  if t2 = nil then
+  begin
+    result := false;
+    exit;
+  end;
+
+  // First check for trivial rejection.
+
+  // Determine subsector entries in REJECT table.
+  s1 := R_PointInSubsector(x, y).sector.iSectorID;
+  s2 := Psubsector_t(t2.subsector).sector.iSectorID;
+
+  if numsectors > 1 then
+  begin
+    pnum := s1 * numsectors + s2;
+    bytenum := pnum div 8;
+    bitnum := 1 shl (pnum and 7);
+
+    // Check in REJECT table.
+    if bytenum >= 0 then
+      if bytenum < rejectmatrixsize then
+        if rejectmatrix[bytenum] and bitnum <> 0 then
+        begin
+          // can't possibly be connected
+          result := false;
+          exit;
+        end;
+
+  end;
+
+  // JVAL: 3D floors
+  midn := sectors[s2].midsec;
+  if midn > -1 then
+  begin
+    mid := @sectors[midn];
+    if ((z <= mid.floorheight) and (t2.z >= mid.floorheight)) or
+       ((z >= mid.ceilingheight) and (t2.z <= mid.ceilingheight)) then
+    begin
+      result := false;
+      exit;
+    end;
+  end;
+
+  hsec1 := sectors[s1].heightsec;
+  if (hsec1 <> -1) and
+       (((z <= sectors[hsec1].floorheight) and
+         (t2.z >= sectors[hsec1].floorheight)) or
+        ((z >= sectors[hsec1].ceilingheight) and
+         (t2.z <= sectors[hsec1].ceilingheight))) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  hsec2 := sectors[s2].heightsec;
+  if (hsec2 <> -1) and
+       (((t2.z + t2.height <= sectors[hsec2].floorheight) and
+         (z >= sectors[hsec2].floorheight)) or
+        ((t2.z >= sectors[hsec2].ceilingheight) and
+         (z + t2.height <= sectors[hsec2].ceilingheight))) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  // An unobstructed LOS is possible.
+  // Now look from eyes of t1 to any part of t2.
+  inc(validcount);
+
+  los.sightzstart := z;
+  los.topslope := (t2.z + t2.height) - los.sightzstart;
+  los.bottomslope := t2.z - los.sightzstart;
+
+  los.strace.x := x;
+  los.strace.y := y;
+  los.t2x := t2.x;
+  los.t2y := t2.y;
+  los.strace.dx := t2.x - x;
+  los.strace.dy := t2.y - y;
+
+  if x > t2.x then
+  begin
+    los.bbox[BOXRIGHT] := x;
+    los.bbox[BOXLEFT] := t2.x;
+  end
+  else
+  begin
+    los.bbox[BOXRIGHT] := t2.x;
+    los.bbox[BOXLEFT] := x;
+  end;
+
+  if y > t2.y then
+  begin
+    los.bbox[BOXTOP] := y;
+    los.bbox[BOXBOTTOM] := t2.y;
+  end
+  else
+  begin
+    los.bbox[BOXTOP] := t2.y;
+    los.bbox[BOXBOTTOM] := y;
   end;
 
   // the head node is the last node output

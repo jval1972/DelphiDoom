@@ -21892,7 +21892,7 @@ const // Doom Original mobjinfo
     friction: ORIG_FRICTION;                                                    // friction
     scale: FRACUNIT;                                                            // scale
     gravity: FRACUNIT;                                                          // gravity
-    flags3_ex: 0;                                                               // flags3_ex
+    flags3_ex: MF3_EX_SLIDEONWALLS;                                             // flags3_ex
     flags4_ex: 0;                                                               // flags4_ex
     minmissilechance: 0;                                                        // minmissilechance
     floatspeed: 0;                                                              // floatspeed

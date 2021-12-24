@@ -202,6 +202,7 @@ uses
   info,
   info_common,
   m_rnd,
+  p_dogs,
   p_map,
   p_maputl,
   p_setup,
@@ -964,6 +965,29 @@ end;
 // ACTION ROUTINES
 //
 
+function P_DogFollowPlayerHandler(actor: Pmobj_t): boolean;
+begin
+  // JVAL: 20200512 - Drones follow player 's trace
+  if actor.info.doomednum = 888 then
+    if leveltime > actor.playerfollowtime then
+      if actor.flags2_ex and MF2_EX_FRIEND <> 0 then
+      begin
+        if P_FollowPlayer(actor, P_NearestPlayer(actor)) then
+        begin
+          result := true;
+          exit;
+        end;
+        if P_Random < 24 then
+        begin
+          actor.target := nil;
+          A_Wander(actor);
+          result := true;
+          exit;
+        end;
+      end;
+  result := false;
+end;
+
 //
 // A_Look
 // Stay in state until a player is sighted.
@@ -974,6 +998,9 @@ var
   seeyou: boolean;
   sound: integer;
 begin
+  if P_DogFollowPlayerHandler(actor) then
+    exit;
+
   actor.threshold := 0; // any shot will wake up
   targ := Psubsector_t(actor.subsector).sector.soundtarget;
   seeyou := false;
@@ -1047,6 +1074,9 @@ var
 begin
   if actor.reactiontime <> 0 then
     actor.reactiontime := actor.reactiontime - 1;
+
+  if P_DogFollowPlayerHandler(actor) then
+    exit;
 
   // modify target threshold
   if actor.threshold <> 0 then

@@ -90,6 +90,7 @@ uses
   i_tmp,
   p_3dfloors, // JVAL: 3d floors
   p_local,    // JVAL: sector gravity (VERSION 204)
+  p_dogs,
   p_pspr_h,
   p_setup,
   p_mobj_h,
@@ -147,6 +148,10 @@ begin
     for j := 0 to Ord(NUMPSPRITES) - 1 do
       if dest.psprites[j].state <> nil then
         dest.psprites[j].state := Pstate_t(pDiff(dest.psprites[j].state, @states[0], SizeOf(dest.psprites[j].state^)));
+
+    // JVAL: 20211224 - Save player history
+    memcpy(save_p, @playerhistory[i], SizeOf(playertracehistory_t));
+    incp(pointer(save_p), SizeOf(playertracehistory_t));
   end;
 end;
 
@@ -187,6 +192,7 @@ begin
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
+    P_ClearPlayerHistory(p);
 
     result := true;
   end
@@ -220,6 +226,7 @@ begin
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
+    P_ClearPlayerHistory(p);
 
     result := true;
   end
@@ -246,6 +253,7 @@ begin
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
+    P_ClearPlayerHistory(p);
 
     result := true;
   end
@@ -269,6 +277,7 @@ begin
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
+    P_ClearPlayerHistory(p);
 
     result := true;
   end
@@ -284,6 +293,13 @@ begin
       p.quakeintensity := 0;
     p.nextoof := 0;  // JVAL: version 206
 
+    // ver 207
+    p.oldcrouch := 0;
+    p.lastongroundtime := 0;
+    p.lastautocrouchtime := 0;
+    p.crouchheight := 0;
+    P_ClearPlayerHistory(p);
+
     result := true;
   end
   else if savegameversion <= VERSION206 then
@@ -296,6 +312,7 @@ begin
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
+    P_ClearPlayerHistory(p);
 
     result := true;
   end
@@ -334,6 +351,13 @@ begin
     for j := 0 to Ord(NUMPSPRITES) - 1 do
       if players[i].psprites[j].state <> nil then
         players[i].psprites[j].state := @states[integer(players[i].psprites[j].state)];
+
+    // JVAL: 202111224 - Load player history
+    if savegameversion >= VERSION207 then
+    begin
+      memcpy(@playerhistory[i], save_p, SizeOf(playertracehistory_t));
+      incp(pointer(save_p), SizeOf(playertracehistory_t));
+    end;
   end;
 end;
 
@@ -859,8 +883,6 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -881,6 +903,12 @@ begin
     mobj.painchance := mobjinfo[mobj._type].painchance;
     mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
     mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
+    mobj.playerfollowtime := 0;
+    mobj.tracefollowtimestamp := 0;
+    mobj.tracex := 0;
+    mobj.tracey := 0;
 
     Z_Free(mobj113);
     result := true
@@ -951,8 +979,6 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -973,6 +999,12 @@ begin
     mobj.painchance := mobjinfo[mobj._type].painchance;
     mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
     mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
+    mobj.playerfollowtime := 0;
+    mobj.tracefollowtimestamp := 0;
+    mobj.tracex := 0;
+    mobj.tracey := 0;
 
     Z_Free(mobj114);
     result := true
@@ -1043,8 +1075,6 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -1065,6 +1095,12 @@ begin
     mobj.painchance := mobjinfo[mobj._type].painchance;
     mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
     mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
+    mobj.playerfollowtime := 0;
+    mobj.tracefollowtimestamp := 0;
+    mobj.tracex := 0;
+    mobj.tracey := 0;
 
     Z_Free(mobj115);
     result := true
@@ -1135,8 +1171,6 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -1157,6 +1191,12 @@ begin
     mobj.painchance := mobjinfo[mobj._type].painchance;
     mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
     mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
+    mobj.playerfollowtime := 0;
+    mobj.tracefollowtimestamp := 0;
+    mobj.tracex := 0;
+    mobj.tracey := 0;
 
     Z_Free(mobj117);
     result := true
@@ -1227,8 +1267,6 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -1249,6 +1287,12 @@ begin
     mobj.painchance := mobjinfo[mobj._type].painchance;
     mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
     mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
+    mobj.playerfollowtime := 0;
+    mobj.tracefollowtimestamp := 0;
+    mobj.tracex := 0;
+    mobj.tracey := 0;
 
     Z_Free(mobj118);
     result := true;
@@ -1276,8 +1320,6 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -1298,6 +1340,12 @@ begin
     mobj.painchance := mobjinfo[mobj._type].painchance;
     mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
     mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
+    mobj.playerfollowtime := 0;
+    mobj.tracefollowtimestamp := 0;
+    mobj.tracex := 0;
+    mobj.tracey := 0;
 
     result := true;
   end
@@ -1313,8 +1361,6 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -1335,6 +1381,12 @@ begin
     mobj.painchance := mobjinfo[mobj._type].painchance;
     mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
     mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
+    mobj.playerfollowtime := 0;
+    mobj.tracefollowtimestamp := 0;
+    mobj.tracex := 0;
+    mobj.tracey := 0;
 
     result := true;
   end
@@ -1349,8 +1401,6 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
     mobj.rendervalidcount := 0;
 
     // ver 206
@@ -1371,6 +1421,12 @@ begin
     mobj.painchance := mobjinfo[mobj._type].painchance;
     mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
     mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
+    mobj.flags5_ex := 0;
+    mobj.flags6_ex := 0;
+    mobj.playerfollowtime := 0;
+    mobj.tracefollowtimestamp := 0;
+    mobj.tracex := 0;
+    mobj.tracey := 0;
 
     result := true;
   end
@@ -1399,6 +1455,10 @@ begin
     mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
     mobj.flags5_ex := 0;
     mobj.flags6_ex := 0;
+    mobj.playerfollowtime := 0;
+    mobj.tracefollowtimestamp := 0;
+    mobj.tracex := 0;
+    mobj.tracey := 0;
 
     result := true;
   end
@@ -1413,6 +1473,10 @@ begin
     mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
     mobj.flags5_ex := 0;
     mobj.flags6_ex := 0;
+    mobj.playerfollowtime := 0;
+    mobj.tracefollowtimestamp := 0;
+    mobj.tracex := 0;
+    mobj.tracey := 0;
 
     result := true;
   end

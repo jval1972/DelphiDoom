@@ -105,4 +105,3 @@ initialization
   startmsg[4] := '';
 
 end.
-
