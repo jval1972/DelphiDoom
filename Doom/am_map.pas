@@ -1564,13 +1564,14 @@ begin
   end;
 end;
 
-procedure AM_drawThings(colors: integer; colorrange: integer);
+procedure AM_drawThings;
 var
   i: integer;
   t: Pmobj_t;
   x, y: fixed_t;
   plrx, plry: fixed_t;
   plra: angle_t;
+  color: integer;
 begin
   plrx := plr.mo.x div FRACTOMAPUNIT;
   plry := plr.mo.y div FRACTOMAPUNIT;
@@ -1586,9 +1587,19 @@ begin
       if allowautomaprotate then
         AM_rotate(@x, @y, plra, plrx, plry);
 
-      AM_drawLineCharacter
-        (@thintriangle_guy, NUMTHINTRIANGLEGUYLINES,
-        16 * FRACUNIT, t.angle, colors + lightlev, x, y);
+      if t.flags2_ex and MF2_EX_FRIEND <> 0 then
+        color := WHITE
+      else
+        color := THINGCOLORS + lightlev;
+
+      if t.radius >= 40 * FRACUNIT then
+        AM_drawLineCharacter
+          (@triangle_guy, NUMTHINTRIANGLEGUYLINES,
+          16 * FRACUNIT, t.angle, color, x, y)
+      else
+        AM_drawLineCharacter
+          (@thintriangle_guy, NUMTHINTRIANGLEGUYLINES,
+          16 * FRACUNIT, t.angle, color, x, y);
       t := t.snext;
     end;
   end;
@@ -1670,7 +1681,7 @@ begin
 
   AM_drawPlayers;
   if am_cheating = 2 then
-    AM_drawThings(THINGCOLORS, THINGRANGE);
+    AM_drawThings;
   AM_drawCrosshair(XHAIRCOLORS);
 
   {$IFDEF OPENGL}
