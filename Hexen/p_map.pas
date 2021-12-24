@@ -502,7 +502,7 @@ begin
         exit;
       end;
 
-    if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
+    if (tmthing.player = nil) and (ld.flags and ML_BLOCKMONSTERS <> 0) then
     begin
       if tmthing.flags2 and MF2_BLASTED <> 0 then
         P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
@@ -609,7 +609,7 @@ begin
         exit;
       end;
 
-    if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
+    if (tmthing.player = nil) and (ld.flags and ML_BLOCKMONSTERS <> 0) then
     begin
       if tmthing.flags2 and MF2_BLASTED <> 0 then
         P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));

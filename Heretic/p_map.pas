@@ -370,7 +370,7 @@ begin
       end;
     end;
 
-    if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
+    if (tmthing.player = nil) and (ld.flags and ML_BLOCKMONSTERS <> 0) then
     begin
       result := false;  // block monsters only
       tmbounceline := ld;
