@@ -109,8 +109,11 @@ begin
   begin
     item := @history.data[history.rover];
     dist := P_AproxDistance(pmo.x - item.x, pmo.y - item.y);
-    if dist < HISTORYIGNOREDISTANCE then
+    if dist < HISTORYIGNOREDISTANCE div 2 then
       exit;
+    if dist < HISTORYIGNOREDISTANCE then
+      if P_CheckSightXYZ(item.x, item.y, item.z, pmo) then
+        exit;
     nrover := history.rover + 1;
     if nrover >= NUMPLAYERTRACEHISTORY then
       nrover := nrover - NUMPLAYERTRACEHISTORY;
@@ -146,12 +149,13 @@ var
   i: integer;
   hpos: integer;
   item: Pplayertrace_t;
+  tmp: playertrace_t;
   bestitem: Pplayertrace_t;
   bestitem2: Pplayertrace_t;
   bestitem3: Pplayertrace_t;
   bestleveltime: fixed_t;
   bestleveltime2: fixed_t;
-  dist, maxdist: fixed_t;
+  dist: fixed_t;
   distfromplayer: fixed_t;
   tracefromplayer: fixed_t;
   tics: integer;
@@ -179,6 +183,7 @@ var
     mo.flags4_ex := mo.flags4_ex or MF4_EX_TRACEDEFINED;
     mo.tracex := item.x;
     mo.tracey := item.y;
+    mo.tracez := item.z;
   end;
 
 begin
@@ -200,6 +205,22 @@ begin
   pid := PlayerToId(p);
   if (pid < 0) or not playeringame[pid] then
     exit;
+
+  if mo.flags4_ex and MF4_EX_TRACEDEFINED <> 0 then
+  begin
+    dist := P_AproxDistance(mo.tracex - mo.x, mo.tracey - mo.y);
+    if (dist > HISTORYIGNOREDISTANCE) and P_CheckSightXYZ(mo.tracex, mo.tracey, mo.tracez, mo) then
+    begin
+      tmp.x := mo.tracex;
+      tmp.y := mo.tracey;
+      tmp.z := mo.tracez;
+      tmp.leveltime := mo.tracefollowtimestamp;
+      item := @tmp;
+      _follow_item;
+      result := true;
+      exit;
+    end;
+  end;
 
   history := @playerhistory[pid];
   bestitem := nil;
@@ -226,11 +247,8 @@ begin
         tracefromplayer := P_AproxDistance(item.x - p.mo.x, item.y - p.mo.y);
         if tracefromplayer < distfromplayer then
         begin
-{          bestitem3 := item;
+          bestitem3 := item;
           distfromplayer := tracefromplayer;
-{          _follow_item;
-          result := true;
-          exit;}
         end;
       end
       else if Sys_Random < 32 then
@@ -246,11 +264,8 @@ begin
           tracefromplayer := P_AproxDistance(item.x - p.mo.x, item.y - p.mo.y);
           if tracefromplayer < distfromplayer then
           begin
-{            bestitem3 := item;
+            bestitem3 := item;
             distfromplayer := tracefromplayer;
-{            _follow_item;
-            result := true;
-            exit;}
           end;
         end;
       end;
@@ -276,35 +291,6 @@ begin
   if bestitem3 <> nil then
   begin
     item := bestitem3;
-    _follow_item;
-    result := true;
-    exit;
-  end;
-
-  maxdist := MAXINT;
-
-  for i := history.rover downto history.rover - history.numitems + 1 do
-  begin
-    if i < 0 then
-      hpos := NUMPLAYERTRACEHISTORY + i
-    else
-      hpos := i;
-    item := @history.data[hpos];
-    if item.leveltime > mo.tracefollowtimestamp then
-    begin
-      dist := P_AproxDistance(item.x - mo.x, item.y - mo.y);
-      if dist < maxdist then
-        if dist <> 0 then
-        begin
-          bestitem := item;
-          maxdist := dist;
-        end;
-    end;
-  end;
-
-  if bestitem <> nil then
-  begin
-    item := bestitem;
     _follow_item;
     result := true;
     exit;

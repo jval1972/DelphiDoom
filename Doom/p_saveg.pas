@@ -909,6 +909,7 @@ begin
     mobj.tracefollowtimestamp := 0;
     mobj.tracex := 0;
     mobj.tracey := 0;
+    mobj.tracez := 0;
 
     Z_Free(mobj113);
     result := true
@@ -1005,6 +1006,7 @@ begin
     mobj.tracefollowtimestamp := 0;
     mobj.tracex := 0;
     mobj.tracey := 0;
+    mobj.tracez := 0;
 
     Z_Free(mobj114);
     result := true
@@ -1101,6 +1103,7 @@ begin
     mobj.tracefollowtimestamp := 0;
     mobj.tracex := 0;
     mobj.tracey := 0;
+    mobj.tracez := 0;
 
     Z_Free(mobj115);
     result := true
@@ -1197,6 +1200,7 @@ begin
     mobj.tracefollowtimestamp := 0;
     mobj.tracex := 0;
     mobj.tracey := 0;
+    mobj.tracez := 0;
 
     Z_Free(mobj117);
     result := true
@@ -1293,6 +1297,7 @@ begin
     mobj.tracefollowtimestamp := 0;
     mobj.tracex := 0;
     mobj.tracey := 0;
+    mobj.tracez := 0;
 
     Z_Free(mobj118);
     result := true;
@@ -1346,6 +1351,7 @@ begin
     mobj.tracefollowtimestamp := 0;
     mobj.tracex := 0;
     mobj.tracey := 0;
+    mobj.tracez := 0;
 
     result := true;
   end
@@ -1387,6 +1393,7 @@ begin
     mobj.tracefollowtimestamp := 0;
     mobj.tracex := 0;
     mobj.tracey := 0;
+    mobj.tracez := 0;
 
     result := true;
   end
@@ -1427,6 +1434,7 @@ begin
     mobj.tracefollowtimestamp := 0;
     mobj.tracex := 0;
     mobj.tracey := 0;
+    mobj.tracez := 0;
 
     result := true;
   end
@@ -1459,6 +1467,7 @@ begin
     mobj.tracefollowtimestamp := 0;
     mobj.tracex := 0;
     mobj.tracey := 0;
+    mobj.tracez := 0;
 
     result := true;
   end
@@ -1477,6 +1486,7 @@ begin
     mobj.tracefollowtimestamp := 0;
     mobj.tracex := 0;
     mobj.tracey := 0;
+    mobj.tracez := 0;
 
     result := true;
   end

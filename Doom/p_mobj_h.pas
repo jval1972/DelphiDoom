@@ -561,6 +561,7 @@ type
     tracefollowtimestamp: integer;  // JVAL 20211224 - Dogs follow player
     tracex: integer;
     tracey: integer;
+    tracez: integer;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;
