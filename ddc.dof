@@ -82,7 +82,7 @@ UnsafeCast=0
 [Linker]
 MapFile=0
 OutputObjs=0
-ConsoleApp=1
+ConsoleApp=0
 DebugInfo=0
 RemoteSymbols=0
 MinStackSize=16384
@@ -105,6 +105,10 @@ HostApplication=
 Launcher=
 UseLauncher=0
 DebugCWD=
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
 [Version Info]
 IncludeVerInfo=0
 AutoIncBuild=0
@@ -119,24 +123,22 @@ Private=0
 DLL=0
 Locale=1032
 CodePage=1253
-[Excluded Packages]
-c:\program files (x86)\borland\delphi7\Projects\Bpl\Package1.bpl=(untitled)
 [HistoryLists\hlDebugSourcePath]
 Count=2
 Item0=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
 Item1=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
 [HistoryLists\hlConditionals]
-Count=19
-Item0=STRIFE;ShareMM
-Item1=HEXEN;ShareMM
-Item2=HERETIC;ShareMM
-Item3=DOOM;ShareMM
-Item4=DOOM;OPTIMIZE_FOR_SPEED;
-Item5=OPENGL;STRIFE;
-Item6=STRIFE;OPTIMIZE_FOR_SPEED;
-Item7=DOOM;NO_INLINE_LOOPS;
-Item8=DOOM;OPTIMIZE_FOR_SPEED;NO_INLINE_LOOPS;
-Item9=
+Count=20
+Item0=ShareMM
+Item1=STRIFE;ShareMM
+Item2=HEXEN;ShareMM
+Item3=HERETIC;ShareMM
+Item4=DOOM;ShareMM
+Item5=DOOM;OPTIMIZE_FOR_SPEED;
+Item6=OPENGL;STRIFE;
+Item7=STRIFE;OPTIMIZE_FOR_SPEED;
+Item8=DOOM;NO_INLINE_LOOPS;
+Item9=DOOM;OPTIMIZE_FOR_SPEED;NO_INLINE_LOOPS;
 Item10=
 Item11=
 Item12=
@@ -146,6 +148,7 @@ Item15=
 Item16=
 Item17=
 Item18=
+Item19=
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
@@ -153,16 +156,17 @@ Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 Count=1
 Item0=C:\Program Files\Borland\Delphi7\Lib
 [HistoryLists\hlUnitOutputDirectory]
-Count=9
-Item0=..\dcu\DD_IDE
-Item1=..\dcu\ddc_strife
-Item2=..\dcu\ddc_hexen
-Item3=..\dcu\ddc_heretic
-Item4=..\dcu\ddc_doom
-Item5=..\dcu
-Item6=..\dcu\Doom\soft
-Item7=..\dcu\Strife\GL
-Item8=..\dcu\Strife\soft
+Count=10
+Item0=..\dcu\ddc
+Item1=..\dcu\DD_IDE
+Item2=..\dcu\ddc_strife
+Item3=..\dcu\ddc_hexen
+Item4=..\dcu\ddc_heretic
+Item5=..\dcu\ddc_doom
+Item6=..\dcu
+Item7=..\dcu\Doom\soft
+Item8=..\dcu\Strife\GL
+Item9=..\dcu\Strife\soft
 [HistoryLists\hlOutputDirectorry]
 Count=4
 Item0=..\bin\Tools
