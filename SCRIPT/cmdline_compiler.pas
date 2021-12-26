@@ -43,7 +43,7 @@ begin
   Writeln('  scriptname.ddout     : The output compiled code filename');
   Writeln('Additional parameters:');
   Writeln('  [-game]              : [DOOM/HERETIC/HEXEN/STRIFE/RADIX/MARS]');
-  Writeln('  [-doom]              : Uses DOOM compiler');
+  Writeln('  [-doom]              : Uses DOOM compiler (default)');
   Writeln('  [-heretic]           : Uses HERETIC compiler');
   Writeln('  [-hexen]             : Uses HEXEN compiler');
   Writeln('  [-strife]            : Uses STRIFE compiler');
