@@ -538,7 +538,7 @@ var
   gU: string;
 begin
   gU := LowerCase(Trim(g));
-  if (gU = 'doom') or (gU = 'heretic') or (gU = 'hexen') or (gU = 'strife') or (gU = 'radix') then
+  if (gU = 'doom') or (gU = 'heretic') or (gU = 'hexen') or (gU = 'strife') or (gU = 'radix') or (gU = 'mars') then
     fGame := gU
   else
     LogOutput(LOG_WARNING, 'Unknown game type "%s"'#13#10, [g]);
