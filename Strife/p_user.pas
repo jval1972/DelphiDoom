@@ -881,6 +881,12 @@ begin
       player.teleporttics := 0;
   end;
 
+  // JVAL: MARS - Retrieve Linetarget
+  P_AimLineAttack(player.mo, player.mo.angle, 16 * 64 * FRACUNIT);
+  if (player.plinetarget = nil) and (linetarget <> nil) then
+    player.pcrosstic := leveltime;
+  player.plinetarget := linetarget;
+
   if player.playerstate = PST_DEAD then
   begin
     P_DeathThink(player);

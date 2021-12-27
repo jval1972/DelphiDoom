@@ -70,6 +70,7 @@ Multiple DEHACKED files inside WAD and PK3.
 Use the native monitor resolution as default in software rendering mode.
 When sliding a wall it will take into acount the "maxstepheight" property to decide if it can pass.
 Faster and safer thread de-allocation.
+Display a crosshair. Can be turned on/off by the "drawcrosshair" console variable.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

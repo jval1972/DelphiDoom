@@ -159,6 +159,8 @@ begin
         dest.psprites[j].state := Pstate_t(pDiff(dest.psprites[j].state, @states[0], SizeOf(dest.psprites[j].state^)));
     if dest.lastdialogtalker <> nil then
       dest.lastdialogtalker := Pmobj_t(dest.lastdialogtalker.key);
+    if dest.plinetarget <> nil then
+      dest.plinetarget := Pmobj_t(dest.plinetarget.key);
   end;
 end;
 
@@ -312,6 +314,8 @@ begin
         players[i].lastongroundtime := 0;
         players[i].lastautocrouchtime := 0;
         players[i].crouchheight := 0;
+        players[i].plinetarget := nil;
+        players[i].pcrosstic := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t206));
     end
@@ -431,6 +435,8 @@ begin
         players[i].lastongroundtime := 0;
         players[i].lastautocrouchtime := 0;
         players[i].crouchheight := 0;
+        players[i].plinetarget := nil;
+        players[i].pcrosstic := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t205));
     end
@@ -550,6 +556,8 @@ begin
         players[i].lastongroundtime := 0;
         players[i].lastautocrouchtime := 0;
         players[i].crouchheight := 0;
+        players[i].plinetarget := nil;
+        players[i].pcrosstic := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t203));
     end
@@ -576,6 +584,8 @@ begin
         players[i].lastongroundtime := 0;
         players[i].lastautocrouchtime := 0;
         players[i].crouchheight := 0;
+        players[i].plinetarget := nil;
+        players[i].pcrosstic := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t122));
     end
@@ -602,6 +612,8 @@ begin
         players[i].lastongroundtime := 0;
         players[i].lastautocrouchtime := 0;
         players[i].crouchheight := 0;
+        players[i].plinetarget := nil;
+        players[i].pcrosstic := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t121));
     end
@@ -1105,9 +1117,12 @@ begin
 
             for i := 0 to MAXPLAYERS - 1 do
               if playeringame[i] then
+              begin
                 if players[i].lastdialogtalker <> nil then
                   players[i].lastdialogtalker := P_FindMobjFromKey(integer(players[i].lastdialogtalker));
-
+                if players[i].plinetarget <> nil then
+                  players[i].plinetarget := P_FindMobjFromKey(integer(players[i].plinetarget));
+              end;
           end;
           exit; // end of list
         end;
