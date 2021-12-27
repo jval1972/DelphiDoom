@@ -1212,6 +1212,8 @@ begin
   p.lastongroundtime := 0;
   p.lastautocrouchtime := 0;
   p.crouchheight := 0;
+  p.plinetarget := nil;
+  p.pcrosstic := leveltime;
   // JVAL: 20211224 - Clear player history
   P_ClearPlayerHistory(p);
 

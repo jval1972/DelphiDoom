@@ -1352,6 +1352,8 @@ begin
   p.lastongroundtime := 0;
   p.lastautocrouchtime := 0;
   p.crouchheight := 0;
+  p.plinetarget := nil;
+  p.pcrosstic := leveltime;
 
   // setup gun psprite
   P_SetupPsprites(p);
