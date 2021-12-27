@@ -196,7 +196,7 @@ begin
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
     P_ClearPlayerHistory(p);
-    p.plinetarget := 0;
+    p.plinetarget := nil;
     p.pcrosstic := 0;
 
     result := true;
@@ -232,7 +232,7 @@ begin
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
     P_ClearPlayerHistory(p);
-    p.plinetarget := 0;
+    p.plinetarget := nil;
     p.pcrosstic := 0;
 
     result := true;
@@ -261,7 +261,7 @@ begin
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
     P_ClearPlayerHistory(p);
-    p.plinetarget := 0;
+    p.plinetarget := nil;
     p.pcrosstic := 0;
 
     result := true;
@@ -287,7 +287,7 @@ begin
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
     P_ClearPlayerHistory(p);
-    p.plinetarget := 0;
+    p.plinetarget := nil;
     p.pcrosstic := 0;
 
     result := true;
@@ -310,7 +310,7 @@ begin
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
     P_ClearPlayerHistory(p);
-    p.plinetarget := 0;
+    p.plinetarget := nil;
     p.pcrosstic := 0;
 
     result := true;
@@ -326,7 +326,7 @@ begin
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
     P_ClearPlayerHistory(p);
-    p.plinetarget := 0;
+    p.plinetarget := nil;
     p.pcrosstic := 0;
 
     result := true;
