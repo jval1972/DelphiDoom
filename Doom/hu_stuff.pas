@@ -122,6 +122,7 @@ function HU_FPS: integer;
 
 var
   drawfps: boolean;
+  drawcrosshair: boolean;
 
 implementation
 
@@ -141,7 +142,9 @@ uses
   m_menu,
   m_fixed,
   p_tick,
+  p_mobj_h,
   r_draw,
+  r_main,
   s_sound,
   sounds,
   v_data,
@@ -386,6 +389,9 @@ begin
     result := ch;
 end;
 
+var
+  crosshairs: array[0..4] of Ppatch_t;
+
 procedure HU_Init;
 var
   i: integer;
@@ -418,6 +424,9 @@ begin
   for i := 0 to FPSSIZE2 - 1 do
     FPSHISTORY2[i] := 0;
 
+  for i := 0 to 4 do
+    crosshairs[i] := W_CacheLumpName('CROSS' + itoa(i), PU_STATIC);
+    
   C_AddCmd('fps', @HU_CmdFPS);
   C_AddCmd('playermessage', @HU_CmdPlayerMessage);
 end;
@@ -549,6 +558,37 @@ begin
 {$ENDIF}
 end;
 
+procedure HU_DrawCrossHair;
+var
+  cidx: integer;
+  p: Ppatch_t;
+begin
+  if not drawcrosshair then
+    exit;
+
+  if (amstate = am_only) or (amstate = am_overlay) then
+    exit;
+
+  if plr = nil then
+    exit;
+
+  if plr.playerstate = PST_DEAD then
+    exit;
+
+  if plr.plinetarget = nil then
+    cidx := 0
+  else if plr.plinetarget.flags2_ex and MF2_EX_FRIEND <> 0 then
+    cidx := 0
+  else
+    cidx := (((leveltime - plr.pcrosstic) div 8) mod 4) + 1;
+
+  p := crosshairs[cidx];
+  if screenblocks > 10 then
+    V_DrawPatch(160, 100, SCN_FG, p, true)
+  else
+    V_DrawPatch(160, 84, SCN_FG, p, true);
+end;
+
 // 19/9/2009 JVAL: For drawing demo progress
 procedure HU_DrawDemoProgress;
 var
@@ -588,6 +628,8 @@ begin
     HU_DrawFPS;
   if demoplayback and showdemoplaybackprogress then
     HU_DrawDemoProgress;
+
+  HU_DrawCrossHair;
 
   HUlib_drawSText(@w_message);
   {$IFDEF OPENGL}

@@ -165,7 +165,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}204{$ELSE}206{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}205{$ELSE}207{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -320,6 +320,14 @@ const
      defaultsvalue: '';
      defaultivalue: 0;
      defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'drawcrosshair';
+     location: @drawcrosshair;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
      _type: tBoolean),
 
     (name: 'shademenubackground';
