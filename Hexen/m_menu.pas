@@ -955,6 +955,7 @@ var
 type
   optionsdisplayappearance_e = (
     od_drawfps,
+    od_drawcrosshair,
     od_shademenubackground,
     od_displaydiskbusyicon,
     od_showobituaries,
@@ -4723,6 +4724,14 @@ begin
   pmi.pBoolVal := @drawfps;
   pmi.alphaKey := 'f';
 
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Display Crosshair';
+  pmi.cmd := 'drawcrosshair';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @drawcrosshair;
+  pmi.alphaKey := 'c';
+  
   inc(pmi);
   pmi.status := 1;
   pmi.name := '!Menu background';

@@ -724,6 +724,8 @@ begin
         tempPlayer.psprites[j].state := Pstate_t((longword(tempPlayer.psprites[j].state) - longword(@states[0])) div SizeOf(state_t));
       end;
     end;
+    if tempPlayer.plinetarget <> nil then
+      tempPlayer.plinetarget := Pmobj_t(tempPlayer.plinetarget.key);
     StreamOutBuffer(@tempPlayer, SizeOf(player_t));
   end;
 end;
@@ -1381,6 +1383,11 @@ begin
     RestoreMobj(mobj);
     P_AddThinker(@mobj.thinker);
   end;
+
+  for i := 0 to MAXPLAYERS - 1 do
+    if playeringame[i] then
+      players[i].plinetarget := P_FindMobjFromKey(integer(players[i].plinetarget));
+
   P_CreateTIDList;
   P_InitCreatureCorpseQueue(true); // true := scan for corpses
 end;
