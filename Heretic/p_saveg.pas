@@ -146,6 +146,9 @@ begin
     for j := 0 to Ord(NUMPSPRITES) - 1 do
       if dest.psprites[j].state <> nil then
         dest.psprites[j].state := Pstate_t(pDiff(dest.psprites[j].state, @states[0], SizeOf(dest.psprites[j].state^)));
+
+    if dest.plinetarget <> nil then
+      dest.plinetarget := Pmobj_t(dest.plinetarget.key);
   end;
 end;
 
@@ -179,6 +182,8 @@ begin
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
+    p.plinetarget := nil;
+    p.pcrosstic := 0;
 
     result := true;
   end
@@ -205,6 +210,8 @@ begin
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
+    p.plinetarget := nil;
+    p.pcrosstic := 0;
 
     result := true;
   end
@@ -228,6 +235,8 @@ begin
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
+    p.plinetarget := nil;
+    p.pcrosstic := 0;
 
     result := true;
   end
@@ -247,6 +256,8 @@ begin
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
+    p.plinetarget := nil;
+    p.pcrosstic := 0;
 
     result := true;
   end
@@ -260,6 +271,8 @@ begin
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
     p.crouchheight := 0;
+    p.plinetarget := nil;
+    p.pcrosstic := 0;
 
     result := true;
   end
@@ -696,6 +709,7 @@ end;
 //
 procedure P_UnArchiveThinkers;
 var
+  i: integer;
   tclass: byte;
   currentthinker: Pthinker_t;
   next: Pthinker_t;
@@ -741,6 +755,10 @@ begin
 
             currentthinker := next;
           end;
+
+          for i := 0 to MAXPLAYERS - 1 do
+            if playeringame[i] then
+              players[i].plinetarget := P_FindMobjFromKey(integer(players[i].plinetarget));
 
           exit; // end of list
         end;

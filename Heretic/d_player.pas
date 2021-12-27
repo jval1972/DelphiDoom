@@ -203,6 +203,9 @@ type
     lastongroundtime: integer;
     lastautocrouchtime: integer;
     crouchheight: fixed_t;
+    // JVAL: For the crosshair target
+    plinetarget: Pmobj_t;
+    pcrosstic: integer;
   end;
   Pplayer_t = ^player_t;
 
