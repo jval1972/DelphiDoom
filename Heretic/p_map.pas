@@ -360,21 +360,41 @@ begin
 
   if tmthing.flags and MF_MISSILE = 0 then
   begin
-    if ld.flags and ML_BLOCKING <> 0 then
+    if G_PlayingEngineVersion <= VERSION206 then
     begin
-      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+      if ld.flags and ML_BLOCKING <> 0 then
+      begin
+        if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+        begin
+          result := false;  // explicitly blocking everything
+          tmbounceline := ld;
+          exit;
+        end;
+      end;
+
+      if (tmthing.player = nil) and (ld.flags and ML_BLOCKMONSTERS <> 0) then
+      begin
+        result := false;  // block monsters only
+        tmbounceline := ld;
+        exit;
+      end;
+    end
+    else
+    begin
+      if ld.flags and ML_BLOCKING <> 0 then
       begin
         result := false;  // explicitly blocking everything
         tmbounceline := ld;
         exit;
       end;
-    end;
 
-    if (tmthing.player = nil) and (ld.flags and ML_BLOCKMONSTERS <> 0) then
-    begin
-      result := false;  // block monsters only
-      tmbounceline := ld;
-      exit;
+      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+        if (tmthing.player = nil) and (ld.flags and ML_BLOCKMONSTERS <> 0) then
+        begin
+          result := false;  // block monsters only
+          tmbounceline := ld;
+          exit;
+        end;
     end;
   end;
 
@@ -461,21 +481,41 @@ begin
 
   if tmthing.flags and MF_MISSILE = 0 then
   begin
-    if ld.flags and ML_BLOCKING <> 0 then
+    if G_PlayingEngineVersion <= VERSION206 then
     begin
-      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+      if ld.flags and ML_BLOCKING <> 0 then
+      begin
+        if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+        begin
+          result := false;  // explicitly blocking everything
+          tmbounceline := ld;
+          exit;
+        end;
+      end;
+
+      if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
+      begin
+        result := false;  // block monsters only
+        tmbounceline := ld;
+        exit;
+      end;
+    end
+    else
+    begin
+      if ld.flags and ML_BLOCKING <> 0 then
       begin
         result := false;  // explicitly blocking everything
         tmbounceline := ld;
         exit;
       end;
-    end;
 
-    if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
-    begin
-      result := false;  // block monsters only
-      tmbounceline := ld;
-      exit;
+      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+        if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
+        begin
+          result := false;  // block monsters only
+          tmbounceline := ld;
+          exit;
+        end;
     end;
   end;
 

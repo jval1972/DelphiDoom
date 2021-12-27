@@ -389,35 +389,66 @@ begin
 
   if tmthing.flags and MF_MISSILE = 0 then
   begin
-    // villsa [STRIFE] include jumpover flag
-    if (ld.flags and ML_BLOCKING <> 0) and
-       ((ld.flags and ML_JUMPOVER = 0) or (tmfloorz + (32 * FRACUNIT) > tmthing.z)) then
+    if G_PlayingEngineVersion <= VERSION206 then
     begin
-      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+      // villsa [STRIFE] include jumpover flag
+      if (ld.flags and ML_BLOCKING <> 0) and
+         ((ld.flags and ML_JUMPOVER = 0) or (tmfloorz + (32 * FRACUNIT) > tmthing.z)) then
+      begin
+        if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+        begin
+          result := false;  // explicitly blocking everything
+          tmbounceline := ld;
+          exit;
+        end;
+      end;
+
+      // villsa [STRIFE] exclude floaters from blockmonster lines
+      if (tmthing.player = nil) and (ld.flags and ML_BLOCKMONSTERS <> 0) and
+         (tmthing.flags and MF_FLOAT = 0) then
+      begin
+        result := false;  // block monsters only
+        tmbounceline := ld;
+        exit;
+      end;
+
+      // villsa [STRIFE]
+      if (ld.flags and ML_BLOCKFLOATERS <> 0) and (tmthing.flags and MF_FLOAT <> 0) then
+      begin
+        result := false;  // block floaters only
+        tmbounceline := ld;
+        exit;
+      end;
+    end
+    else
+    begin
+      // villsa [STRIFE] include jumpover flag
+      if (ld.flags and ML_BLOCKING <> 0) and
+         ((ld.flags and ML_JUMPOVER = 0) or (tmfloorz + (32 * FRACUNIT) > tmthing.z)) then
       begin
         result := false;  // explicitly blocking everything
         tmbounceline := ld;
         exit;
       end;
-    end;
 
-    // villsa [STRIFE] exclude floaters from blockmonster lines
-    if (tmthing.player = nil) and (ld.flags and ML_BLOCKMONSTERS <> 0) and
-       (tmthing.flags and MF_FLOAT = 0) then
-    begin
-      result := false;  // block monsters only
-      tmbounceline := ld;
-      exit;
-    end;
+      // villsa [STRIFE] exclude floaters from blockmonster lines
+      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+        if (tmthing.player = nil) and (ld.flags and ML_BLOCKMONSTERS <> 0) and
+           (tmthing.flags and MF_FLOAT = 0) then
+        begin
+          result := false;  // block monsters only
+          tmbounceline := ld;
+          exit;
+        end;
 
-    // villsa [STRIFE]
-    if (ld.flags and ML_BLOCKFLOATERS <> 0) and (tmthing.flags and MF_FLOAT <> 0) then
-    begin
-      result := false;  // block floaters only
-      tmbounceline := ld;
-      exit;
+      // villsa [STRIFE]
+      if (ld.flags and ML_BLOCKFLOATERS <> 0) and (tmthing.flags and MF_FLOAT <> 0) then
+      begin
+        result := false;  // block floaters only
+        tmbounceline := ld;
+        exit;
+      end;
     end;
-
   end;
 
   // set openrange, opentop, openbottom
@@ -516,12 +547,26 @@ begin
     end;
 
     // villsa [STRIFE] exclude floaters from blockmonster lines
-    if (tmthing.player = nil) and (ld.flags and ML_BLOCKMONSTERS <> 0) and
-       (tmthing.flags and MF_FLOAT = 0) then
+    if G_PlayingEngineVersion <= VERSION206 then
     begin
-      result := false;  // block monsters only
-      tmbounceline := ld;
-      exit;
+      if (tmthing.player = nil) and (ld.flags and ML_BLOCKMONSTERS <> 0) and
+         (tmthing.flags and MF_FLOAT = 0) then
+      begin
+        result := false;  // block monsters only
+        tmbounceline := ld;
+        exit;
+      end;
+    end
+    else
+    begin
+      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+        if (tmthing.player = nil) and (ld.flags and ML_BLOCKMONSTERS <> 0) and
+           (tmthing.flags and MF_FLOAT = 0) then
+        begin
+          result := false;  // block monsters only
+          tmbounceline := ld;
+          exit;
+        end;
     end;
 
     // villsa [STRIFE]
