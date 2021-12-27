@@ -4565,7 +4565,7 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @drawcrosshair;
   pmi.alphaKey := 'c';
-  
+
   inc(pmi);
   pmi.status := 1;
   pmi.name := '!Menu background';

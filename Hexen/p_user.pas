@@ -1116,7 +1116,7 @@ begin
   if (player.plinetarget = nil) and (linetarget <> nil) then
     player.pcrosstic := leveltime;
   player.plinetarget := linetarget;
-  
+
   if player.playerstate = PST_DEAD then
   begin
     P_DeathThink(player);
