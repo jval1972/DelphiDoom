@@ -123,7 +123,7 @@ begin
     ffilename := aname;
   end
   else
-    I_Warning('Invalid WAD file ' + aname);
+    I_Warning('Invalid WAD file ' + aname + #13#10);
 end;
 
 function TWadReader.EntryAsString(const id: integer): string;
