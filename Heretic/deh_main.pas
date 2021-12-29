@@ -2216,6 +2216,7 @@ begin
   mobj_flags4_ex.Add('MF4_EX_FLAMEDAMAGERESIST');
   mobj_flags4_ex.Add('MF4_EX_THRUMONSTERS');
   mobj_flags4_ex.Add('MF4_EX_ABSOLUTEDROPITEMPOS');
+  mobj_flags4_ex.Add('MF4_EX_CANNOTSTEP');
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);

@@ -408,8 +408,9 @@ begin
   if mo.flags and (MF_MISSILE or MF_BOUNCE) <> 0 then
     exit; // no friction for missiles ever
 
-  if (mo.flags3_ex and MF3_EX_BOUNCE) <> 0 then
-    exit; // no friction for bouncing objects
+  if mo.flags3_ex and MF3_EX_BOUNCE <> 0 then
+    if G_PlayingEngineVersion <= VERSION206 then
+      exit; // no friction for bouncing objects
 
   // haleyjd 20110224: [STRIFE] players experience friction even in the air,
   // although less than when on the ground. With this fix, the 1.2-and-up

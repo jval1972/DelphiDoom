@@ -723,7 +723,8 @@ begin
   end;
 
   if mo.flags3_ex and MF3_EX_BOUNCE <> 0 then
-    exit; // no friction for bouncing objects
+    if G_PlayingEngineVersion <= VERSION206 then
+      exit; // no friction for bouncing objects
 
   if (mo.z > mo.floorz) and (mo.flags2 and MF2_FLY = 0) and (mo.flags2 and MF2_ONMOBJ = 0) then
   begin // No friction when falling

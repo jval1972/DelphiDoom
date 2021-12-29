@@ -406,6 +406,8 @@ const
   MF4_EX_THRUMONSTERS = 2;
   // Drop item in actual z
   MF4_EX_ABSOLUTEDROPITEMPOS = 4;
+  // Can not step up
+  MF4_EX_CANNOTSTEP = 8;
 
 type
 // Map Object definition.

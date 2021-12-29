@@ -442,8 +442,9 @@ begin
   if mo.flags and (MF_MISSILE or MF_SKULLFLY) <> 0 then
     exit; // no friction for missiles ever
 
-  if (mo.flags3_ex and MF3_EX_BOUNCE) <> 0 then
-    exit; // no friction for bouncing objects
+  if mo.flags3_ex and MF3_EX_BOUNCE <> 0 then
+    if G_PlayingEngineVersion <= VERSION206 then
+      exit; // no friction for bouncing objects
 
   if (player <> nil) and (player.laddertics > 0) then
   else

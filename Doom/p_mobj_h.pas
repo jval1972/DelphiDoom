@@ -407,6 +407,8 @@ const
   MF4_EX_ABSOLUTEDROPITEMPOS = 4;
   // Follow trace
   MF4_EX_TRACEDEFINED = 8;
+  // Can not step up
+  MF4_EX_CANNOTSTEP = $10;
 
 type
 // Map Object definition.

@@ -73,6 +73,7 @@ Faster and safer thread de-allocation.
 Display a crosshair. Can be turned on/off by the "drawcrosshair" console variable.
 Fixed MF3_EX_NOBLOCKMONST flag behavior.
 Fix gravity field inheritance in ACTORDEF declarations.
+Added MF4_EX_CANNOTSTEP flag, actors with this flag can not step-up.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

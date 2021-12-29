@@ -1111,14 +1111,19 @@ begin
         end;
 
     // JVAL: 20210210 - maxstepheight field
-    if thing.info.maxstepheight > 0 then
-    begin
-      jumpupmargin := thing.info.maxstepheight;
-      if jumpupmargin < 64 then
-        jumpupmargin := jumpupmargin * FRACUNIT;
-    end
+    if thing.flags4_ex and MF4_EX_CANNOTSTEP <> 0 then
+      jumpupmargin := 0
     else
-      jumpupmargin := 24 * FRACUNIT;
+    begin
+      if thing.info.maxstepheight > 0 then
+      begin
+        jumpupmargin := thing.info.maxstepheight;
+        if jumpupmargin < 64 then
+          jumpupmargin := jumpupmargin * FRACUNIT;
+      end
+      else
+        jumpupmargin := 24 * FRACUNIT;
+    end;
 
     // JVAL: Version 205
     if G_PlayingEngineVersion >= VERSION205 then
@@ -1489,15 +1494,21 @@ begin
     exit;
   end;
 
-  // villsa [STRIFE] change from 24 to 16
-  margin := 16 * FRACUNIT;
-  if G_PlayingEngineVersion >= VERSION207 then
-    if slidemo.info.maxstepheight > 0 then
-    begin
-      margin := slidemo.info.maxstepheight;
-      if margin < 64 then
-        margin := margin * FRACUNIT
-    end;
+
+  if slidemo.flags4_ex and MF4_EX_CANNOTSTEP <> 0 then
+    margin := 0
+  else
+  begin
+    // villsa [STRIFE] change from 24 to 16
+    margin := 16 * FRACUNIT;
+    if G_PlayingEngineVersion >= VERSION207 then
+      if slidemo.info.maxstepheight > 0 then
+      begin
+        margin := slidemo.info.maxstepheight;
+        if margin < 64 then
+          margin := margin * FRACUNIT
+      end;
+  end;
 
   if openbottom - slidemo.z > margin then
   begin
