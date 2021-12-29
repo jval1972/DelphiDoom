@@ -76,6 +76,7 @@ Display a crosshair. Can be turned on/off by the "drawcrosshair" console variabl
 Fixed MF3_EX_NOBLOCKMONST flag behavior.
 Fix gravity field inheritance in ACTORDEF declarations.
 Added MF4_EX_CANNOTSTEP flag, actors with this flag can not step-up.
+String evaluation in parameters of ACTORDEF functions.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
