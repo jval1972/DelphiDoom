@@ -2461,6 +2461,7 @@ begin
           mobj.vspeed := pinf.vspeed / FRACUNIT;
           mobj.pushfactor := pinf.pushfactor / FRACUNIT;
           mobj.scale := pinf.scale / FRACUNIT;
+          mobj.gravity := pinf.gravity / FRACUNIT;
           mobj.minmissilechance := pinf.minmissilechance;
           mobj.floatspeed := pinf.floatspeed;
           mobj.normalspeed := pinf.normalspeed;

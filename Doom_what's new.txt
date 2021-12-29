@@ -72,6 +72,7 @@ Added A_TurretChase() ACTORDEF function.
 Display items with various colors in automap cheat.
 Display a crosshair. Can be turned on/off by the "drawcrosshair" console variable.
 Fixed MF3_EX_NOBLOCKMONST flag behavior.
+Fix gravity field inheritance in ACTORDEF declarations.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
