@@ -1764,15 +1764,20 @@ begin
       exit;
     end;
 
-    // JVAL: 20210210 - maxdropoffheight field
-    if thing.info.maxdropoffheight > 0 then
+    if thing.flags4_ex and MF4_EX_CANNOTDROPOFF <> 0 then
     begin
-      dropoffmargin := thing.info.maxdropoffheight;
-      if dropoffmargin < 64 then
-        dropoffmargin := dropoffmargin * FRACUNIT;
+      // JVAL: 20210210 - maxdropoffheight field
+      if thing.info.maxdropoffheight > 0 then
+      begin
+        dropoffmargin := thing.info.maxdropoffheight;
+        if dropoffmargin < 64 then
+          dropoffmargin := dropoffmargin * FRACUNIT;
+      end
+      else
+        dropoffmargin := 24 * FRACUNIT;
     end
     else
-      dropoffmargin := 24 * FRACUNIT;
+      dropoffmargin := 0;
 
     // JVAL: Version 204
     if G_PlayingEngineVersion >= VERSION204 then

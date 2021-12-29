@@ -445,7 +445,9 @@ const
   // Drop item in actual z
   MF4_EX_ABSOLUTEDROPITEMPOS = 4;
   // Can not step up
-  MF4_EX_CANNOTSTEP = $10;
+  MF4_EX_CANNOTSTEP = 8;
+  // Can not drop off
+  MF4_EX_CANNOTDROPOFF = $10;
 
 type
 // Map Object definition.

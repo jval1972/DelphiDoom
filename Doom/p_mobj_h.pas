@@ -409,6 +409,8 @@ const
   MF4_EX_TRACEDEFINED = 8;
   // Can not step up
   MF4_EX_CANNOTSTEP = $10;
+  // Can not drop off
+  MF4_EX_CANNOTDROPOFF = $20;
 
 type
 // Map Object definition.
