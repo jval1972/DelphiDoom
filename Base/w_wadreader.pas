@@ -125,10 +125,10 @@ begin
       ffilename := aname;
     end
     else
-      I_Warning('Invalid WAD file ' + aname + #13#10);
+      I_Warning('TWadReader.OpenWadFile(): Invalid WAD file ' + aname + #13#10);
   end
   else
-    I_Warning('Can not find WAD file ' + aname + #13#10);
+    I_Warning('TWadReader.OpenWadFile(): Can not find WAD file ' + aname + #13#10);
 end;
 
 function TWadReader.EntryAsString(const id: integer): string;
