@@ -546,6 +546,7 @@ var
   grav: integer;
   ladderticks: integer;
   player: Pplayer_t;
+  oldz: fixed_t;
 begin
   ladderticks := 0;
   player := Pplayer_t(mo.player);
@@ -624,6 +625,7 @@ begin
     begin // Spawn splashes, etc.
       P_HitFloor(mo);
     end;
+    oldz := mo.z;
     mo.z := mo.floorz;
     if mo.momz < 0 then
     begin
@@ -634,7 +636,12 @@ begin
         player.centering := true; // JVAL: check
       end;
       if mo.flags3_ex and MF3_EX_FLOORBOUNCE <> 0 then
-        mo.momz := -mo.momz div 2
+      begin
+        mo.momz := -mo.momz div 2;
+        if G_PlayingEngineVersion >= VERSION207 then
+          if mo.momz + oldz <= mo.floorz then
+            mo.momz := 0;
+      end
       else
         mo.momz := 0;
     end;

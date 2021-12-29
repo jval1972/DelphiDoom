@@ -398,7 +398,8 @@ begin
     exit; // no friction for missiles ever
 
   if mo.flags3_ex and MF3_EX_BOUNCE <> 0 then
-    exit; // no friction for bouncing objects
+    if G_PlayingEngineVersion <= VERSION206 then
+      exit; // no friction for bouncing objects
 
   if (player <> nil) and (player.laddertics > 0) then
   else
@@ -527,6 +528,13 @@ begin
       // momz is also shifted by 1
       mo.momz := -mo.momz div 2;
       mo.reactiontime := mo.reactiontime div 2;
+
+      if G_PlayingEngineVersion >= VERSION207 then
+        if mo.momz + mo.z <= mo.floorz then
+        begin
+          mo.momz := 0;
+          mo.z := mo.floorz;
+        end;
 
       // villsa [STRIFE] get terrain type
       if P_GetThingFloorType(mo) <> FLOOR_SOLID then

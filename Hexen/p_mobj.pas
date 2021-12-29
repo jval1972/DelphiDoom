@@ -906,6 +906,7 @@ var
   delta: integer;
   pl: Pplayer_t;
   laddertics: integer;
+  oldz: fixed_t;
 begin
   pl := mo.player;
 
@@ -1003,6 +1004,7 @@ begin
       P_HitFloor(mo);
     end;
 
+    oldz := mo.z;
     mo.z := mo.floorz;
     if mo.momz < 0 then
     begin
@@ -1023,7 +1025,7 @@ begin
           // JVAL: 20211101 - Crouch
           if G_PlayingEngineVersion >= VERSION207 then
             pl.deltaviewheight := FixedMul(pl.deltaviewheight, FixedDiv(mo.height, mo.info.height));
-	  if mo.momz < -23 * FRACUNIT then
+          if mo.momz < -23 * FRACUNIT then
           begin
             P_FallingDamage(mo.player);
             P_NoiseAlert(mo, mo);
@@ -1073,7 +1075,12 @@ begin
         end;
       end;
       if mo.flags3_ex and MF3_EX_FLOORBOUNCE <> 0 then
-        mo.momz := -mo.momz div 2
+      begin
+        mo.momz := -mo.momz div 2;
+        if G_PlayingEngineVersion >= VERSION207 then
+          if mo.momz + oldz <= mo.floorz then
+            mo.momz := 0;
+      end
       else
         mo.momz := 0;
     end;
@@ -1127,7 +1134,6 @@ begin
     begin
       // Maybe reverse momentum here for ceiling bounce
       // Currently won't happen
-
       A_SeeSound(mo, mo);
       exit;
     end;

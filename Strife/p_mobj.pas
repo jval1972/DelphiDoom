@@ -555,6 +555,13 @@ begin
       mo.momz := -mo.momz div 2;
       mo.reactiontime := mo.reactiontime div 2;
 
+      if G_PlayingEngineVersion >= VERSION207 then
+        if mo.momz + mo.z <= mo.floorz then
+        begin
+          mo.momz := 0;
+          mo.z := mo.floorz;
+        end;
+
       // villsa [STRIFE] get terrain type
       if P_GetTerrainType(mo) <> FLOOR_SOLID then
         mo.flags := mo.flags and not MF_BOUNCE;
