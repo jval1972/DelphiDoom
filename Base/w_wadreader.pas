@@ -112,18 +112,23 @@ begin
   print('Opening WAD file ' + aname + #13#10);
   {$ENDIF}
   Clear;
-  fs := TFile.Create(aname, fOpenReadOnly);
-
-  fs.Read(h, SizeOf(wadinfo_t));
-  if (h.numlumps > 0) and (h.infotableofs < fs.Size) and ((h.identification = IWAD) or (h.identification = PWAD)) then
+  if fexists(aname) then
   begin
-    fs.Seek(h.infotableofs, sFromBeginning);
-    la := malloc(h.numlumps * SizeOf(filelump_t));
-    fs.Read(la^, h.numlumps * SizeOf(filelump_t));
-    ffilename := aname;
+    fs := TFile.Create(aname, fOpenReadOnly);
+
+    fs.Read(h, SizeOf(wadinfo_t));
+    if (h.numlumps > 0) and (h.infotableofs < fs.Size) and ((h.identification = IWAD) or (h.identification = PWAD)) then
+    begin
+      fs.Seek(h.infotableofs, sFromBeginning);
+      la := malloc(h.numlumps * SizeOf(filelump_t));
+      fs.Read(la^, h.numlumps * SizeOf(filelump_t));
+      ffilename := aname;
+    end
+    else
+      I_Warning('Invalid WAD file ' + aname + #13#10);
   end
   else
-    I_Warning('Invalid WAD file ' + aname + #13#10);
+    I_Warning('Can not find WAD file ' + aname + #13#10);
 end;
 
 function TWadReader.EntryAsString(const id: integer): string;
