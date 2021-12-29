@@ -589,6 +589,8 @@ begin
   if (index >= 0) and (index < fNumItems) then
   begin
     case fList[index].globalidx of
+      GLBF_EVALUATE:
+        result := RemoveQuotesFromString(SC_EvaluateActorExpression(fActor, fList[index].s_param));
       GLBF_MAP_STRING:
         result := PS_GetMapStr(fList[index].s_param);
       GLBF_MAP_INTEGER:
