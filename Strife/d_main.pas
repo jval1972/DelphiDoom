@@ -212,6 +212,7 @@ uses
   r_lights,
   sounds,
   s_sound,
+  s_pk3sounds,
   sc_actordef,
   sc_states,
   m_saves,
@@ -2340,6 +2341,13 @@ begin
 
   {$IFNDEF FPC}
   SUC_Progress(69);
+  {$ENDIF}
+
+  printf('W_InitPK3Sounds: Initializing sound files in pk3 filesystem'#13#10);
+  W_InitPK3Sounds;
+
+  {$IFNDEF FPC}
+  SUC_Progress(70);
   {$ENDIF}
 
   printf('R_Init: Init STRIFE refresh daemon.'#13#10);

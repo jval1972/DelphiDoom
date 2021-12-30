@@ -188,6 +188,7 @@ uses
   r_lights,
   sounds,
   s_sound,
+  s_pk3sounds,
   sc_actordef,
   sc_states,
   t_main,
@@ -2093,6 +2094,11 @@ begin
   MT_Init;
 
   SUC_Progress(69);
+
+  printf('W_InitPK3Sounds: Initializing sound files in pk3 filesystem'#13#10);
+  W_InitPK3Sounds;
+
+  SUC_Progress(70);
 
   printf('R_Init: Init HERETIC refresh daemon.'#13#10);
   R_Init;
