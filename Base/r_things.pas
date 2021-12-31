@@ -579,7 +579,7 @@ begin
         colfunc;
 
       if domaskedzbuffer then
-        if renderflags and VSF_TRANSPARENCY <> 0 then
+        if renderflags and VSF_TRANSPARENCY = 0 then
           R_DrawMaskedColumnToZBuffer;
     end;
     if not tallpatch then
@@ -641,9 +641,9 @@ end;
 
 // JVAL: batch column drawing
 type
-  DrawMaskedColumn_Batch_t = procedure (column: Pcolumn_t; baseclip: integer = -1);
+  DrawMaskedColumn_Batch_t = procedure (column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
 
-procedure R_DrawMaskedColumn_Batch(column: Pcolumn_t; baseclip: integer = -1);
+procedure R_DrawMaskedColumn_Batch(column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
 var
   topscreen: int64;
   bottomscreen: int64;
@@ -695,7 +695,8 @@ begin
       batchcolfunc;
 
       if domaskedzbuffer then
-        R_DrawBatchMaskedColumnToZBuffer;
+        if renderflags and VSF_TRANSPARENCY = 0 then
+          R_DrawBatchMaskedColumnToZBuffer;
     end;
     if not tallpatch then
     begin
@@ -747,7 +748,7 @@ begin
   parms.proc := batchspritefunc_mt;
 end;
 
-procedure R_DrawMaskedColumn_BatchMT(column: Pcolumn_t; baseclip: integer = -1);
+procedure R_DrawMaskedColumn_BatchMT(column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
 var
   topscreen: int64;
   bottomscreen: int64;
@@ -796,7 +797,8 @@ begin
       R_FillSpriteInfo_BatchMT(R_SpriteAddMTInfo);
 
       if domaskedzbuffer then
-        R_DrawBatchMaskedColumnToZBuffer;
+        if renderflags and VSF_TRANSPARENCY = 0 then
+          R_DrawBatchMaskedColumnToZBuffer;
     end;
     if not tallpatch then
     begin
@@ -877,7 +879,7 @@ begin
         R_FillSpriteInfo_MT(R_SpriteAddMTInfo);
 
       if domaskedzbuffer then
-        if renderflags and VSF_TRANSPARENCY <> 0 then
+        if renderflags and VSF_TRANSPARENCY = 0 then
           R_DrawMaskedColumnToZBuffer;
     end;
     if not tallpatch then
@@ -1103,7 +1105,7 @@ begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
         dc_x := save_dc_x;
         if num_batch_columns > 1 then
-          dmcproc_batch(column, baseclip)
+          dmcproc_batch(column, baseclip, vis.renderflags)
         else
           dmcproc(column, dbscale, baseclip, vis.renderflags);
         dc_x := last_dc_x;
@@ -1117,7 +1119,7 @@ begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[last_texturecolumn]);
       dc_x := last_dc_x;
       if num_batch_columns > 1 then
-        dmcproc_batch(column, baseclip)
+        dmcproc_batch(column, baseclip, vis.renderflags)
       else
         dmcproc(column, dbscale, baseclip, vis.renderflags);
     end;

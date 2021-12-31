@@ -79,6 +79,7 @@ Added MF4_EX_CANNOTDROPOFF flag, actors with this flag can not drop-off.
 Use sound files in pk3 without WAD equivalent. Supported file formats are WAV, OGG, FLAC, OGA, AU, VOC & SND.
 Speed optimizations to DD_IDE tool.
 Infinite state cycle error message will display the actor's name.
+Software rendering lights affect masked, sprites and voxels.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

@@ -94,6 +94,7 @@ uses
   r_intrpl,
   r_3dfloors, // JVAL: 3d Floors
   r_depthbuffer, // JVAL: 3d Floors
+  r_zbuffer,
   p_setup,
   p_pspr,
   p_tick,
@@ -1733,6 +1734,10 @@ begin
                 end
                 else
                   putpixelfunc(left, top);
+
+                if domaskedzbuffer then
+                  if renderflags and VSF_TRANSPARENCY = 0 then
+                    R_DrawVoxelPixelToZBuffer(depth, left, top);
               end;
 
           col := col.next;
@@ -1939,6 +1944,10 @@ begin
           else
             batchcolfunc;
 
+          if domaskedzbuffer then
+            if renderflags and VSF_TRANSPARENCY = 0 then
+              R_DrawBatchVoxelColumnToZBuffer(depth);
+
           col := col.next;
 
           Continue;
@@ -1981,6 +1990,10 @@ begin
             else
               batchcolfunc;
 
+            if domaskedzbuffer then
+              if renderflags and VSF_TRANSPARENCY = 0 then
+                R_DrawBatchVoxelColumnToZBuffer(depth);
+
             last_top := cur_top;
             last_bot := cur_bot;
             dc_x := last_dc_x;
@@ -2004,6 +2017,10 @@ begin
           end
           else
             batchcolfunc;
+
+          if domaskedzbuffer then
+            if renderflags and VSF_TRANSPARENCY = 0 then
+              R_DrawBatchVoxelColumnToZBuffer(depth);
         end;
 
         col := col.next;
