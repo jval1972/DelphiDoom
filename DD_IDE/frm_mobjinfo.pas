@@ -190,6 +190,10 @@ begin
     x1 := 35
   else if Pos('flags4_ex:', s1) >= 1 then
     x1 := 36
+  else if Pos('flags5_ex:', s1) >= 1 then
+    x1 := 37
+  else if Pos('flags6_ex:', s1) >= 1 then
+    x1 := 38
   else if Pos('sound', s1) >= 1 then
     x1 := 40
   else
@@ -217,6 +221,10 @@ begin
     x2 := 35
   else if Pos('flags4_ex:', s2) >= 1 then
     x2 := 36
+  else if Pos('flags5_ex:', s2) >= 1 then
+    x2 := 37
+  else if Pos('flags6_ex:', s2) >= 1 then
+    x2 := 38
   else if Pos('sound', s2) >= 1 then
     x2 := 40
   else
