@@ -107,6 +107,9 @@ var
   vissprite_p: integer;
   visspritessize: Integer = 0;
 
+var
+  domaskedzbuffer: boolean;
+
 implementation
 
 uses
@@ -146,6 +149,7 @@ uses
   r_dynlights,
   r_vislight,
   r_softlights,
+  r_zbuffer,
 {$ENDIF}
   r_camera,
   r_renderstyle,
@@ -573,6 +577,10 @@ begin
       end
       else
         colfunc;
+
+      if domaskedzbuffer then
+        if renderflags and VSF_TRANSPARENCY <> 0 then
+          R_DrawMaskedColumnToZBuffer;
     end;
     if not tallpatch then
     begin
@@ -623,6 +631,9 @@ begin
       R_DrawColumnWithDepthBufferCheckWrite(colfunc) // JVAL: 3d Floors
     else
       colfunc;
+
+    if domaskedzbuffer then
+      R_DrawMaskedColumnToZBuffer;
   end;
 
   dc_texturemid := basetexturemid;
@@ -682,6 +693,9 @@ begin
       //  or R_DrawColumnAverage
       //  or R_DrawTranslatedColumn
       batchcolfunc;
+
+      if domaskedzbuffer then
+        R_DrawBatchMaskedColumnToZBuffer;
     end;
     if not tallpatch then
     begin
@@ -780,6 +794,9 @@ begin
       R_MaskedAdjustY(dc_yl, dc_yh);
 
       R_FillSpriteInfo_BatchMT(R_SpriteAddMTInfo);
+
+      if domaskedzbuffer then
+        R_DrawBatchMaskedColumnToZBuffer;
     end;
     if not tallpatch then
     begin
@@ -858,6 +875,10 @@ begin
       end
       else
         R_FillSpriteInfo_MT(R_SpriteAddMTInfo);
+
+      if domaskedzbuffer then
+        if renderflags and VSF_TRANSPARENCY <> 0 then
+          R_DrawMaskedColumnToZBuffer;
     end;
     if not tallpatch then
     begin
@@ -2376,7 +2397,6 @@ begin
   mceilingclip := @cliptop;
 
   R_DrawVisSpriteLight(spr, x1, x2);
-
 end;
 
 procedure R_MarkLights;
@@ -2439,9 +2459,23 @@ begin
   if r_uselightmaps then
   begin
     R_MarkLights;
-    R_DrawLightsSingleThread;
+    if numdlitems > 0 then
+    begin
+      if not r_lightmaponmasked then
+        R_DrawLightsSingleThread;
+      domaskedzbuffer := r_lightmaponmasked;
+      R_DoDrawMasked;
+      if r_lightmaponmasked then
+        R_DrawLightsSingleThread;
+    end
+    else
+      R_DoDrawMasked;
+  end
+  else
+  begin
+    domaskedzbuffer := false;
+    R_DoDrawMasked;
   end;
-  R_DoDrawMasked;
 end;
 
 procedure R_DrawMasked_MultiThread;
@@ -2450,9 +2484,23 @@ begin
   if r_uselightmaps then
   begin
     R_MarkLights;
-    R_DrawLightsMultiThread
+    if numdlitems > 0 then
+    begin
+      if not r_lightmaponmasked then
+        R_DrawLightsMultiThread;
+      domaskedzbuffer := r_lightmaponmasked;
+      R_DoDrawMasked;
+      if r_lightmaponmasked then
+        R_DrawLightsMultiThread;
+    end
+    else
+      R_DoDrawMasked;
+  end
+  else
+  begin
+    domaskedzbuffer := false;
+    R_DoDrawMasked;
   end;
-  R_DoDrawMasked;
 end;
 {$ENDIF}
 
