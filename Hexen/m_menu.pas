@@ -1051,6 +1051,7 @@ var
 type
   optionslightmap_e = (
     ol_uselightmaps,
+    ol_lightmaponmasked,
     ol_lightmapfunc,
     ol_colorintensity,
     ol_filler1,
@@ -5059,6 +5060,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @r_uselightmaps;
   pmi.alphaKey := 'l';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Lightmap on masked';
+  pmi.cmd := 'r_lightmaponmasked';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @r_lightmaponmasked;
+  pmi.alphaKey := 'm';
 
   inc(pmi);
   pmi.status := 1;
