@@ -95,6 +95,7 @@ uses
   r_clipper,
   r_cliputils,
   r_depthbuffer,
+  r_zbuffer,
   tables,
   z_zone;
 
@@ -378,6 +379,9 @@ begin
           R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
         else
           wallcolfunc;
+
+        if domaskedzbuffer then
+          R_DrawColumnToZBuffer;
       end;
 
       maskedtexturecol[dc_x] := MAXSHORT;
@@ -582,6 +586,9 @@ begin
           R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
         else
           wallcolfunc;
+
+        if domaskedzbuffer then
+          R_DrawColumnToZBuffer;
       end;
 
       if fixedcolormap = nil then
@@ -608,6 +615,9 @@ begin
           R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
         else
           wallcolfunc;
+
+        if domaskedzbuffer then
+          R_DrawColumnToZBuffer;
       end;
 
       maskedtexturecol[dc_x] := MAXSHORT;
@@ -769,6 +779,9 @@ begin
           R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
         else
           wallcolfunc;
+
+        if domaskedzbuffer then
+          R_DrawColumnToZBuffer;
       end;
 
       maskedtexturecol[dc_x] := MAXSHORT;
@@ -957,6 +970,9 @@ begin
           R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
         else
           wallcolfunc;
+
+        if domaskedzbuffer then
+          R_DrawColumnToZBuffer;
       end;
 
       sprtopscreen := centeryfrac - texscale[1];
@@ -984,6 +1000,9 @@ begin
           R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
         else
           wallcolfunc;
+
+        if domaskedzbuffer then
+          R_DrawColumnToZBuffer;
       end;
 
       maskedtexturecol[dc_x] := MAXSHORT;

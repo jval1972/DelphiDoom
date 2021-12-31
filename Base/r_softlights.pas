@@ -597,7 +597,10 @@ begin
     dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
     if dls <> 0 then
     begin
-      db := R_FastZBufferAt(x, y, @fastzbuf);
+      if r_lightmaponmasked then
+        db := R_ZBufferAt(x, y)
+      else
+        db := R_FastZBufferAt(x, y, @fastzbuf);
       depth := db.depth;
       if (depth >= dbmin) and (depth <= dbmax) then
       begin
@@ -726,7 +729,10 @@ begin
     dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
     if dls <> 0 then
     begin
-      db := R_FastZBufferAt(x, y, @fastzbuf);
+      if r_lightmaponmasked then
+        db := R_ZBufferAt(x, y)
+      else
+        db := R_FastZBufferAt(x, y, @fastzbuf);
       depth := db.depth;
       if (depth >= dbmin) and (depth <= dbmax) then
       begin

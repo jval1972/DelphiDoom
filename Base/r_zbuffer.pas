@@ -66,6 +66,10 @@ procedure R_DrawSlopeToZBuffer;
 
 procedure R_DrawColumnToZBuffer;
 
+procedure R_DrawMaskedColumnToZBuffer;
+
+procedure R_DrawBatchMaskedColumnToZBuffer;
+
 // Returns the z buffer value at (x, y) or screen
 // Lower value means far away
 // no z-buffer is sky (or render glitch) - we do not write o zbuffer in skycolfunc
@@ -90,6 +94,7 @@ uses
   i_system,
   {$ENDIF}
   m_fixed,
+  r_batchcolumn,
   r_bsp,
   r_draw,
   r_plane,
@@ -190,11 +195,65 @@ begin
   item.stop := dc_yh;
 end;
 
+procedure R_DrawMaskedColumnToZBuffer;
+var
+  item: Pzbufferitem_t;
+begin
+{$IFDEF DEBUG}
+  if not IsIntegerInRange(dc_x, 0, viewwidth - 1) then
+    I_Warning('R_DrawMaskedColumnToZBuffer(): ds_x=%d not in range [0..viewwidth(=%d) - 1]'#13#10, [dc_x, viewwidth]);
+  if not IsIntegerInRange(dc_yl, 0, viewheight - 1) then
+    I_Warning('R_DrawMaskedColumnToZBuffer(): ds_yl=%d not in range [0..viewheight(=%d) - 1]'#13#10, [dc_yl, viewheight]);
+  if not IsIntegerInRange(dc_yh, 0, viewwidth - 1) then
+    I_Warning('R_DrawMaskedColumnToZBuffer(): ds_yh=%d not in range [0..viewheight(=%d) - 1]'#13#10, [dc_yh, viewheight]);
+  if dc_yh < dc_yl then
+    I_Warning('R_DrawMaskedColumnToZBuffer(): dc_yh=%d < dc_yl=%d'#13#10, [dc_yh, dc_yl]);
+{$ENDIF}
+
+  item := R_NewZBufferItem(@Zcolumns[dc_x]);
+
+  item.depth := trunc((FRACUNIT / dc_iscale) * FRACUNIT);
+  item.seg := nil;
+
+  item.start := dc_yl;
+  item.stop := dc_yh;
+end;
+
+procedure R_DrawBatchMaskedColumnToZBuffer;
+var
+  item: Pzbufferitem_t;
+  i: integer;
+  depth: integer;
+begin
+{$IFDEF DEBUG}
+  if not IsIntegerInRange(dc_x, 0, viewwidth - 1) then
+    I_Warning('R_DrawBatchMaskedColumnToZBuffer(): ds_x=%d not in range [0..viewwidth(=%d) - 1]'#13#10, [dc_x, viewwidth]);
+  if not IsIntegerInRange(dc_yl, 0, viewheight - 1) then
+    I_Warning('R_DrawBatchMaskedColumnToZBuffer(): ds_yl=%d not in range [0..viewheight(=%d) - 1]'#13#10, [dc_yl, viewheight]);
+  if not IsIntegerInRange(dc_yh, 0, viewwidth - 1) then
+    I_Warning('R_DrawBatchMaskedColumnToZBuffer(): ds_yh=%d not in range [0..viewheight(=%d) - 1]'#13#10, [dc_yh, viewheight]);
+  if dc_yh < dc_yl then
+    I_Warning('R_DrawBatchMaskedColumnToZBuffer(): dc_yh=%d < dc_yl=%d'#13#10, [dc_yh, dc_yl]);
+{$ENDIF}
+
+  depth := trunc((FRACUNIT / dc_iscale) * FRACUNIT);
+  for i := dc_x to dc_x + num_batch_columns - 1 do
+  begin
+    item := R_NewZBufferItem(@Zcolumns[i]);
+
+    item.depth := depth;
+    item.seg := nil;
+
+    item.start := dc_yl;
+    item.stop := dc_yh;
+  end;
+end;
+
 var
   stubzitem: zbufferitem_t = (
     start: 0;
     stop: 0;
-    depth: 0;
+    depth: $F0000000;
     seg: nil;
   );
 
