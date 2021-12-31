@@ -276,6 +276,7 @@ begin
   if sprinfo = nil then
     Exit;
 
+  TreeView1.OnChange := nil;
   TreeView1.Items.BeginUpdate;
   try
     TreeView1.Items.Clear;
@@ -292,6 +293,7 @@ begin
 
   finally
     TreeView1.Items.EndUpdate;
+    TreeView1.OnChange := TreeView1Change;
     FocusAndSelectFirstItem;
   end;
 end;

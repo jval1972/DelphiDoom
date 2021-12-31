@@ -875,6 +875,7 @@ procedure TForm1.ChangeGame(const newgame: string);
 begin
   Screen.Cursor := crHourGlass;
   try
+    dll_loadlibrary(LowerCase(newgame));
     Frame_UnitFunctions1.UpdateGameControls(LowerCase(newgame));
     Frame_Constants1.UpdateGameControls(LowerCase(newgame));
     Frame_Variables1.UpdateGameControls(LowerCase(newgame));
@@ -884,6 +885,7 @@ begin
     Frame_Mobjinfo1.UpdateGameControls(LowerCase(newgame));
     Frame_States1.UpdateGameControls(LowerCase(newgame));
     Frame_Sprites1.UpdateGameControls(LowerCase(newgame));
+    dll_freelibrary;
   finally
     Screen.Cursor := crDefault;
   end;

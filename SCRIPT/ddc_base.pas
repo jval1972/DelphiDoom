@@ -36,6 +36,10 @@ uses
 const
   DDCVERSION = 103;
 
+procedure dll_loadlibrary(const game: string);
+
+procedure dll_freelibrary;
+
 function dll_compile(const game: string; const code: string; var pcode: string; var msgs: string): Boolean;
 
 function dll_getuntisfuncdeclarations(const game: string): TStringList;
@@ -74,6 +78,53 @@ uses
   Windows,
   SysUtils;
 
+var
+  inst: THandle = 0;
+
+procedure dll_loadlibrary(const game: string);
+var
+  libname: string;
+begin
+  libname := 'ddc_' + game + '.dll';
+  inst := LoadLibrary(PChar(libname));
+end;
+
+procedure dll_freelibrary;
+begin
+  if inst <> 0 then
+  begin
+    FreeLibrary(inst);
+    inst := 0;
+  end;
+end;
+
+var
+  localload: Boolean = False;
+
+function localLoadLibrary(lpLibFileName: PChar): HMODULE; stdcall;
+begin
+  if inst = 0 then
+  begin
+    inst := LoadLibrary(lpLibFileName);
+    localload := True;
+  end
+  else
+    localload := False;
+  Result := inst;
+end;
+
+function localFreeLibrary(var hLibModule: HMODULE): BOOL; stdcall;
+begin
+  if localload then
+  begin
+    Result := FreeLibrary(hLibModule);
+    localload := False;
+    hLibModule := 0;
+  end
+  else
+    Result := False;
+end;
+
 type
   dllcompilefunc_t =
     function (
@@ -93,7 +144,7 @@ var
   _inp, _out, _msgs: PChar;
 begin
   libname := 'ddc_' + game + '.dll';
-  inst := LoadLibrary(PChar(libname));
+  inst := localLoadLibrary(PChar(libname));
   if inst = 0 then
   begin
     msgs := 'ERROR: ' + libname + ' not found.';
@@ -105,7 +156,7 @@ begin
   func := GetProcAddress(inst, PChar(funcname));
   if not Assigned(func) then
   begin
-    FreeLibrary(inst);
+    localFreeLibrary(inst);
     msgs := 'ERROR: ' + funcname + '() could not be loaded. (incorrect version?)';
     Result := False;
     Exit;
@@ -149,7 +200,7 @@ begin
   FreeMem(_msgs, mlen1);
   FreeMem(_inp, clen);
 
-  FreeLibrary(inst);
+  localFreeLibrary(inst);
 end;
 
 // Returns a TStringList with the unit names
@@ -183,7 +234,7 @@ var
   funclist: TStringList;
 begin
   libname := 'ddc_' + game + '.dll';
-  inst := LoadLibrary(PChar(libname));
+  inst := localLoadLibrary(PChar(libname));
   if inst = 0 then
   begin
     Result := nil;
@@ -194,7 +245,7 @@ begin
   funcunits := GetProcAddress(inst, PChar(funcname));
   if not Assigned(funcunits) then
   begin
-    FreeLibrary(inst);
+    localFreeLibrary(inst);
     Result := nil;
     Exit;
   end;
@@ -203,7 +254,7 @@ begin
   funcunitfunctions := GetProcAddress(inst, PChar(funcname));
   if not Assigned(funcunitfunctions) then
   begin
-    FreeLibrary(inst);
+    localFreeLibrary(inst);
     Result := nil;
     Exit;
   end;
@@ -243,7 +294,7 @@ begin
   FreeMem(unitnames, MAXALLOCSIZE);
   FreeMem(unitdecls, MAXALLOCSIZE);
 
-  FreeLibrary(inst);
+  localFreeLibrary(inst);
 end;
 
 type
@@ -263,7 +314,7 @@ var
   i: integer;
 begin
   libname := 'ddc_' + game + '.dll';
-  inst := LoadLibrary(PChar(libname));
+  inst := localLoadLibrary(PChar(libname));
   if inst = 0 then
   begin
     Result := nil;
@@ -274,7 +325,7 @@ begin
   func := GetProcAddress(inst, PChar(funcname));
   if not Assigned(func) then
   begin
-    FreeLibrary(inst);
+    localFreeLibrary(inst);
     Result := nil;
     Exit;
   end;
@@ -295,7 +346,7 @@ begin
   Result.Text := tmpstr;
 
   FreeMem(outp, MAXALLOCSIZE);
-  FreeLibrary(inst);
+  localFreeLibrary(inst);
 end;
 
 function dll_getconstants(const game: string): TStringList;
@@ -378,7 +429,7 @@ begin
   Result := '';
 
   libname := 'ddc_' + game + '.dll';
-  inst := LoadLibrary(PChar(libname));
+  inst := localLoadLibrary(PChar(libname));
   if inst = 0 then
   begin
     Exit;
@@ -388,7 +439,7 @@ begin
   func := GetProcAddress(inst, PChar(funcname));
   if not Assigned(func) then
   begin
-    FreeLibrary(inst);
+    localFreeLibrary(inst);
     Exit;
   end;
 
@@ -409,7 +460,7 @@ begin
 
   FreeMem(outp, MAXALLOCSIZE);
   FreeMem(inpp, inplen);
-  FreeLibrary(inst);
+  localFreeLibrary(inst);
 end;
 
 function dll_getevents(const game: string): string;
