@@ -210,7 +210,7 @@ begin
 
     inc(cycle_counter);
     if cycle_counter > MOBJ_CYCLE_LIMIT then
-      I_Error('P_SetMobjState(): Infinite state cycle detected!');
+      I_Error('P_SetMobjState(): Infinite state cycle detected in object "%s"!', [Info_GetMobjName(mobj.info)]);
   until mobj.tics <> 0;
 
   result := true;
