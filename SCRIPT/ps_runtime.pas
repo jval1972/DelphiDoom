@@ -8774,8 +8774,7 @@ end;
 
 function TPSExec.GetType(const Name: TbtString): Cardinal;
 var
-  MM,
-    I: Longint;
+  MM, I: Longint;
   n: PIFTypeRec;
   s: TbtString;
 begin
