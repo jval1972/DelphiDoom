@@ -80,6 +80,7 @@ type
     function GetFixed(index: integer): fixed_t; virtual;
     function GetBool(index: integer): boolean; virtual;
     function GetString(index: integer): string; virtual;
+    function GetEvaluateString(index: integer): string; virtual;
   public
     constructor Create(const tx: string); virtual;
     destructor Destroy; override;
@@ -91,6 +92,7 @@ type
     property FixedVal[index: integer]: fixed_t read GetFixed;
     property BoolVal[index: integer]: boolean read GetBool;
     property StrVal[index: integer]: string read GetString;
+    property EvaluateStrVal[index: integer]: string read GetEvaluateString;
     property Declaration: string read fdeclaration;
     property Actor: pointer read fActor write fActor;
   end;
@@ -583,6 +585,54 @@ begin
 end;
 
 function TCustomParamList.GetString(index: integer): string;
+var
+  parm: Pmobjcustomparam_t;
+begin
+  if (index >= 0) and (index < fNumItems) then
+  begin
+    case fList[index].globalidx of
+      GLBF_MAP_STRING:
+        result := PS_GetMapStr(fList[index].s_param);
+      GLBF_MAP_INTEGER:
+        result := itoa(PS_GetMapInt(fList[index].s_param));
+      GLBF_MAP_FLOAT:
+        result := ftoa(PS_GetMapFloat(fList[index].s_param));
+      GLBF_WORLD_STRING:
+        result := PS_GetWorldStr(fList[index].s_param);
+      GLBF_WORLD_INTEGER:
+        result := itoa(PS_GetWorldInt(fList[index].s_param));
+      GLBF_WORLD_FLOAT:
+        result := ftoa(PS_GetWorldFloat(fList[index].s_param));
+      GLBF_MOBJ_CUSTOMPARM:
+        begin
+          result := '';
+          if fActor <> nil then
+          begin
+            parm := P_GetMobjCustomParam(fActor, fList[index].s_param);
+            if parm <> nil then
+              result := itoa(parm.value);
+          end;
+        end;
+      GLBF_MOBJ_TARGETCUSTOMPARM:
+        begin
+          result := '';
+          if fActor <> nil then
+            if Pmobj_t(fActor).target <> nil then
+            begin
+              parm := P_GetMobjCustomParam(Pmobj_t(fActor).target, fList[index].s_param);
+              if parm <> nil then
+                result := itoa(parm.value);
+            end;
+        end;
+      else
+        result := fList[index].s_param
+    end;
+  end
+  else
+    result := '';
+end;
+
+function TCustomParamList.GetEvaluateString(index: integer): string;
 var
   parm: Pmobjcustomparam_t;
 begin
