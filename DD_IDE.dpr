@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 //
 //  DD_IDE: DelphiDoom Script IDE
-//  Copyright (C) 2016-2021 by Jim Valavanis
+//  Copyright (C) 2016-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  Site  : http://sourceforge.net/projects/delphidoom/
+//  Site  : https://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 program DD_IDE;
