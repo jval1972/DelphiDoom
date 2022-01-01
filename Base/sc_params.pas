@@ -49,6 +49,8 @@ const
   GLBF_RANDOM = 9;
   GLBF_FRANDOM = 10;
   GLBF_EVALUATE = 11;
+  GLBF_MOBJ_MASTERCUSTOMPARM = 12;
+  GLBF_MOBJ_TRACERCUSTOMPARM = 13;
 
 type
   customparam_t = record
@@ -208,6 +210,10 @@ begin
               AddParam(GLBF_MOBJ_CUSTOMPARM, 'CUSTOMPARAM ' + RemoveQuotesFromString(lstparam[1]))
             else if utoken = 'TARGETCUSTOMPARAM' then
               AddParam(GLBF_MOBJ_TARGETCUSTOMPARM, 'TARGETCUSTOMPARAM ' + RemoveQuotesFromString(lstparam[1]))
+            else if utoken = 'MASTERCUSTOMPARAM' then
+              AddParam(GLBF_MOBJ_MASTERCUSTOMPARM, 'MASTERCUSTOMPARAM ' + RemoveQuotesFromString(lstparam[1]))
+            else if utoken = 'TRACERCUSTOMPARAM' then
+              AddParam(GLBF_MOBJ_TRACERCUSTOMPARM, 'TRACERCUSTOMPARAM ' + RemoveQuotesFromString(lstparam[1]))
           end
           else
           begin
@@ -340,6 +346,16 @@ begin
       fList[fNumItems].globalidx := GLBF_MOBJ_TARGETCUSTOMPARM;
       fList[fNumItems].s_param := token;
     end
+    else if (utoken = 'MASTERCUSTOMPARAM') and (parmtype = GLBF_MOBJ_MASTERCUSTOMPARM) then
+    begin
+      fList[fNumItems].globalidx := GLBF_MOBJ_MASTERCUSTOMPARM;
+      fList[fNumItems].s_param := token;
+    end
+    else if (utoken = 'TRACERCUSTOMPARAM') and (parmtype = GLBF_MOBJ_TRACERCUSTOMPARM) then
+    begin
+      fList[fNumItems].globalidx := GLBF_MOBJ_TRACERCUSTOMPARM;
+      fList[fNumItems].s_param := token;
+    end
     else
     begin
       fList[fNumItems].globalidx := parmtype;
@@ -426,6 +442,28 @@ begin
                 result := parm.value;
             end;
         end;
+      GLBF_MOBJ_MASTERCUSTOMPARM:
+        begin
+          result := 0;
+          if fActor <> nil then
+            if Pmobj_t(fActor).master <> nil then
+            begin
+              parm := P_GetMobjCustomParam(Pmobj_t(fActor).master, fList[index].s_param);
+              if parm <> nil then
+                result := parm.value;
+            end;
+        end;
+      GLBF_MOBJ_TRACERCUSTOMPARM:
+        begin
+          result := 0;
+          if fActor <> nil then
+            if Pmobj_t(fActor).tracer <> nil then
+            begin
+              parm := P_GetMobjCustomParam(Pmobj_t(fActor).tracer, fList[index].s_param);
+              if parm <> nil then
+                result := parm.value;
+            end;
+        end;
     else
       result := fList[index].i_param;
     end;
@@ -491,6 +529,28 @@ begin
             if Pmobj_t(fActor).target <> nil then
             begin
               parm := P_GetMobjCustomParam(Pmobj_t(fActor).target, fList[index].s_param);
+              if parm <> nil then
+                result := parm.value;
+            end;
+        end;
+      GLBF_MOBJ_MASTERCUSTOMPARM:
+        begin
+          result := 0.0;
+          if fActor <> nil then
+            if Pmobj_t(fActor).master <> nil then
+            begin
+              parm := P_GetMobjCustomParam(Pmobj_t(fActor).master, fList[index].s_param);
+              if parm <> nil then
+                result := parm.value;
+            end;
+        end;
+      GLBF_MOBJ_TRACERCUSTOMPARM:
+        begin
+          result := 0.0;
+          if fActor <> nil then
+            if Pmobj_t(fActor).tracer <> nil then
+            begin
+              parm := P_GetMobjCustomParam(Pmobj_t(fActor).tracer, fList[index].s_param);
               if parm <> nil then
                 result := parm.value;
             end;
@@ -565,6 +625,28 @@ begin
                 result := parm.value * FRACUNIT;
             end;
         end;
+      GLBF_MOBJ_MASTERCUSTOMPARM:
+        begin
+          result := 0;
+          if fActor <> nil then
+            if Pmobj_t(fActor).master <> nil then
+            begin
+              parm := P_GetMobjCustomParam(Pmobj_t(fActor).master, fList[index].s_param);
+              if parm <> nil then
+                result := parm.value * FRACUNIT;
+            end;
+        end;
+      GLBF_MOBJ_TRACERCUSTOMPARM:
+        begin
+          result := 0;
+          if fActor <> nil then
+            if Pmobj_t(fActor).tracer <> nil then
+            begin
+              parm := P_GetMobjCustomParam(Pmobj_t(fActor).tracer, fList[index].s_param);
+              if parm <> nil then
+                result := parm.value * FRACUNIT;
+            end;
+        end;
     else
       result := fList[index].fx_param;
     end;
@@ -626,6 +708,28 @@ begin
                 result := itoa(parm.value);
             end;
         end;
+      GLBF_MOBJ_MASTERCUSTOMPARM:
+        begin
+          result := '';
+          if fActor <> nil then
+            if Pmobj_t(fActor).master <> nil then
+            begin
+              parm := P_GetMobjCustomParam(Pmobj_t(fActor).master, fList[index].s_param);
+              if parm <> nil then
+                result := itoa(parm.value);
+            end;
+        end;
+      GLBF_MOBJ_TRACERCUSTOMPARM:
+        begin
+          result := '';
+          if fActor <> nil then
+            if Pmobj_t(fActor).tracer <> nil then
+            begin
+              parm := P_GetMobjCustomParam(Pmobj_t(fActor).tracer, fList[index].s_param);
+              if parm <> nil then
+                result := itoa(parm.value);
+            end;
+        end;
       else
         result := fList[index].s_param
     end;
@@ -672,6 +776,28 @@ begin
             if Pmobj_t(fActor).target <> nil then
             begin
               parm := P_GetMobjCustomParam(Pmobj_t(fActor).target, fList[index].s_param);
+              if parm <> nil then
+                result := itoa(parm.value);
+            end;
+        end;
+      GLBF_MOBJ_MASTERCUSTOMPARM:
+        begin
+          result := '';
+          if fActor <> nil then
+            if Pmobj_t(fActor).master <> nil then
+            begin
+              parm := P_GetMobjCustomParam(Pmobj_t(fActor).master, fList[index].s_param);
+              if parm <> nil then
+                result := itoa(parm.value);
+            end;
+        end;
+      GLBF_MOBJ_TRACERCUSTOMPARM:
+        begin
+          result := '';
+          if fActor <> nil then
+            if Pmobj_t(fActor).tracer <> nil then
+            begin
+              parm := P_GetMobjCustomParam(Pmobj_t(fActor).tracer, fList[index].s_param);
               if parm <> nil then
                 result := itoa(parm.value);
             end;

@@ -82,6 +82,7 @@ Use sound files in pk3 without WAD equivalent. Supported file formats are WAV, O
 Speed optimizations to DD_IDE tool.
 Infinite state cycle error message will display the actor's name.
 Software rendering lights affect masked, sprites and voxels.
+Master and tracer custom parameters are accessible by ACTORDEF functions. MASTERCUSTOMPARAM(), MASTERPARAM(), TRACERCUSTOMPARAM() & TRACERPARAM()
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
