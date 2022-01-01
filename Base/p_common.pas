@@ -75,6 +75,18 @@ procedure A_AddTargetCustomParam(actor: Pmobj_t);
 
 procedure A_SubtractTargetCustomParam(actor: Pmobj_t);
 
+procedure A_SetMasterCustomParam(actor: Pmobj_t);
+
+procedure A_AddMasterCustomParam(actor: Pmobj_t);
+
+procedure A_SubtractMasterCustomParam(actor: Pmobj_t);
+
+procedure A_SetTracerCustomParam(actor: Pmobj_t);
+
+procedure A_AddTracerCustomParam(actor: Pmobj_t);
+
+procedure A_SubtractTracerCustomParam(actor: Pmobj_t);
+
 procedure A_JumpIf(actor: Pmobj_t);
 
 procedure A_JumpIfCustomParam(actor: Pmobj_t);
@@ -88,6 +100,18 @@ procedure A_JumpIfTargetCustomParam(actor: Pmobj_t);
 procedure A_JumpIfTargetCustomParamLess(actor: Pmobj_t);
 
 procedure A_JumpIfTargetCustomParamGreater(actor: Pmobj_t);
+
+procedure A_JumpIfMasterCustomParam(actor: Pmobj_t);
+
+procedure A_JumpIfMasterCustomParamLess(actor: Pmobj_t);
+
+procedure A_JumpIfMasterCustomParamGreater(actor: Pmobj_t);
+
+procedure A_JumpIfTracerCustomParam(actor: Pmobj_t);
+
+procedure A_JumpIfTracerCustomParamLess(actor: Pmobj_t);
+
+procedure A_JumpIfTracerCustomParamGreater(actor: Pmobj_t);
 
 procedure A_JumpIfMapStringEqual(actor: Pmobj_t);
 procedure A_JumpIfMapStringLess(actor: Pmobj_t);
@@ -124,6 +148,18 @@ procedure A_GoToIfTargetCustomParam(actor: Pmobj_t);
 procedure A_GoToIfTargetCustomParamLess(actor: Pmobj_t);
 
 procedure A_GoToIfTargetCustomParamGreater(actor: Pmobj_t);
+
+procedure A_GoToIfMasterCustomParam(actor: Pmobj_t);
+
+procedure A_GoToIfMasterCustomParamLess(actor: Pmobj_t);
+
+procedure A_GoToIfMasterCustomParamGreater(actor: Pmobj_t);
+
+procedure A_GoToIfTracerCustomParam(actor: Pmobj_t);
+
+procedure A_GoToIfTracerCustomParamLess(actor: Pmobj_t);
+
+procedure A_GoToIfTracerCustomParamGreater(actor: Pmobj_t);
 
 procedure A_GoToIfMapStringEqual(actor: Pmobj_t);
 procedure A_GoToIfMapStringLess(actor: Pmobj_t);
@@ -967,6 +1003,104 @@ begin
     P_SetMobjCustomParam(actor.target, sparm, - actor.state.params.IntVal[1])
 end;
 
+procedure A_SetMasterCustomParam(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  if actor.master = nil then
+    exit;
+
+  P_SetMobjCustomParam(actor.master, actor.state.params.StrVal[0], actor.state.params.IntVal[1]);
+end;
+
+procedure A_AddMasterCustomParam(actor: Pmobj_t);
+var
+  parm: Pmobjcustomparam_t;
+  sparm: string;
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  if actor.master = nil then
+    exit;
+
+  sparm := actor.state.params.StrVal[0];
+  parm := P_GetMobjCustomParam(actor.master, sparm);
+  if parm = nil then
+    P_SetMobjCustomParam(actor.master, sparm, actor.state.params.IntVal[1])
+  else
+    P_SetMobjCustomParam(actor.master, sparm, parm.value + actor.state.params.IntVal[1])
+end;
+
+procedure A_SubtractMasterCustomParam(actor: Pmobj_t);
+var
+  parm: Pmobjcustomparam_t;
+  sparm: string;
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  if actor.master = nil then
+    exit;
+
+  sparm := actor.state.params.StrVal[0];
+  parm := P_GetMobjCustomParam(actor.master, sparm);
+  if parm <> nil then
+    P_SetMobjCustomParam(actor.master, sparm, parm.value - actor.state.params.IntVal[1])
+  else
+    P_SetMobjCustomParam(actor.master, sparm, - actor.state.params.IntVal[1])
+end;
+
+procedure A_SetTracerCustomParam(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  if actor.tracer = nil then
+    exit;
+
+  P_SetMobjCustomParam(actor.tracer, actor.state.params.StrVal[0], actor.state.params.IntVal[1]);
+end;
+
+procedure A_AddTracerCustomParam(actor: Pmobj_t);
+var
+  parm: Pmobjcustomparam_t;
+  sparm: string;
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  if actor.tracer = nil then
+    exit;
+
+  sparm := actor.state.params.StrVal[0];
+  parm := P_GetMobjCustomParam(actor.tracer, sparm);
+  if parm = nil then
+    P_SetMobjCustomParam(actor.tracer, sparm, actor.state.params.IntVal[1])
+  else
+    P_SetMobjCustomParam(actor.tracer, sparm, parm.value + actor.state.params.IntVal[1])
+end;
+
+procedure A_SubtractTracerCustomParam(actor: Pmobj_t);
+var
+  parm: Pmobjcustomparam_t;
+  sparm: string;
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  if actor.tracer = nil then
+    exit;
+
+  sparm := actor.state.params.StrVal[0];
+  parm := P_GetMobjCustomParam(actor.tracer, sparm);
+  if parm <> nil then
+    P_SetMobjCustomParam(actor.tracer, sparm, parm.value - actor.state.params.IntVal[1])
+  else
+    P_SetMobjCustomParam(actor.tracer, sparm, - actor.state.params.IntVal[1])
+end;
+
 //
 // JVAL
 // Conditionally change state offset
@@ -1123,6 +1257,144 @@ begin
     exit;
 
   if P_GetMobjCustomParamValue(actor.target, actor.state.params.StrVal[0]) > actor.state.params.IntVal[1] then
+  begin
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
+  end;
+end;
+
+//
+// JVAL
+// Change state offset
+// A_JumpIfMasterCustomParam(customparam, value of customparam, offset)
+//
+procedure A_JumpIfMasterCustomParam(actor: Pmobj_t);
+var
+  offset: integer;
+begin
+  if actor.master = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.master, actor.state.params.StrVal[0]) = actor.state.params.IntVal[1] then
+  begin
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
+  end;
+end;
+
+//
+// JVAL
+// Change state offset
+// A_JumpIfMasterCustomParamLess(customparam, value of customparam, offset)
+//
+procedure A_JumpIfMasterCustomParamLess(actor: Pmobj_t);
+var
+  offset: integer;
+begin
+  if actor.master = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.master, actor.state.params.StrVal[0]) < actor.state.params.IntVal[1] then
+  begin
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
+  end;
+end;
+
+//
+// JVAL
+// Change state offset
+// A_JumpIfMasterCustomParamGreater(customparam, value of customparam, offset)
+//
+procedure A_JumpIfMasterCustomParamGreater(actor: Pmobj_t);
+var
+  offset: integer;
+begin
+  if actor.master = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.master, actor.state.params.StrVal[0]) > actor.state.params.IntVal[1] then
+  begin
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
+  end;
+end;
+
+//
+// JVAL
+// Change state offset
+// A_JumpIfTracerCustomParam(customparam, value of customparam, offset)
+//
+procedure A_JumpIfTracerCustomParam(actor: Pmobj_t);
+var
+  offset: integer;
+begin
+  if actor.tracer = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.tracer, actor.state.params.StrVal[0]) = actor.state.params.IntVal[1] then
+  begin
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
+  end;
+end;
+
+//
+// JVAL
+// Change state offset
+// A_JumpIfTracerCustomParamLess(customparam, value of customparam, offset)
+//
+procedure A_JumpIfTracerCustomParamLess(actor: Pmobj_t);
+var
+  offset: integer;
+begin
+  if actor.tracer = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.tracer, actor.state.params.StrVal[0]) < actor.state.params.IntVal[1] then
+  begin
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
+  end;
+end;
+
+//
+// JVAL
+// Change state offset
+// A_JumpIfTracerCustomParamGreater(customparam, value of customparam, offset)
+//
+procedure A_JumpIfTracerCustomParamGreater(actor: Pmobj_t);
+var
+  offset: integer;
+begin
+  if actor.tracer = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.tracer, actor.state.params.StrVal[0]) > actor.state.params.IntVal[1] then
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
     if @states[offset] <> actor.state then
@@ -1555,6 +1827,180 @@ begin
     exit;
 
   if P_GetMobjCustomParamValue(actor.target, actor.state.params.StrVal[0]) > actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+    begin
+      newstate := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+      actor.state.params.IntVal[2] := newstate;
+    end
+    else
+      newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfMasterCustomParam(customparam, value of customparam, newstate)
+//
+procedure A_GoToIfMasterCustomParam(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.master = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.master, actor.state.params.StrVal[0]) = actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+    begin
+      newstate := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+      actor.state.params.IntVal[2] := newstate;
+    end
+    else
+      newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfMasterCustomParamLess(customparam, value of customparam, newstate)
+//
+procedure A_GoToIfMasterCustomParamLess(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.master = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.master, actor.state.params.StrVal[0]) < actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+    begin
+      newstate := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+      actor.state.params.IntVal[2] := newstate;
+    end
+    else
+      newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfMasterCustomParamGreater(customparam, value of customparam, newstate)
+//
+procedure A_GoToIfMasterCustomParamGreater(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.master = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.master, actor.state.params.StrVal[0]) > actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+    begin
+      newstate := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+      actor.state.params.IntVal[2] := newstate;
+    end
+    else
+      newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfTracerCustomParam(customparam, value of customparam, newstate)
+//
+procedure A_GoToIfTracerCustomParam(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.tracer = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.tracer, actor.state.params.StrVal[0]) = actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+    begin
+      newstate := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+      actor.state.params.IntVal[2] := newstate;
+    end
+    else
+      newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfTracerCustomParamLess(customparam, value of customparam, newstate)
+//
+procedure A_GoToIfTracerCustomParamLess(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.tracer = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.tracer, actor.state.params.StrVal[0]) < actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+    begin
+      newstate := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+      actor.state.params.IntVal[2] := newstate;
+    end
+    else
+      newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfTracerCustomParamGreater(customparam, value of customparam, newstate)
+//
+procedure A_GoToIfTracerCustomParamGreater(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.tracer = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.tracer, actor.state.params.StrVal[0]) > actor.state.params.IntVal[1] then
   begin
     if not actor.state.params.IsComputed[2] then
     begin
