@@ -2722,7 +2722,7 @@ begin
   flags := actor.state.params.IntVal[8];
 
   if flags and SIXF_ABSOLUTEANGLE = 0 then
-    ang1 := ang1 + Actor.angle;
+    ang1 := ang1 + actor.angle;
 
   ang := ang1 shr ANGLETOFINESHIFT;
 

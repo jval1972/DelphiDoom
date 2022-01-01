@@ -51,6 +51,7 @@ const
   GLBF_EVALUATE = 11;
   GLBF_MOBJ_MASTERCUSTOMPARM = 12;
   GLBF_MOBJ_TRACERCUSTOMPARM = 13;
+  GLBF_FORCE_STRING_EVALUATE = 14;
 
 type
   customparam_t = record
@@ -731,7 +732,7 @@ begin
             end;
         end;
       else
-        result := fList[index].s_param
+        result := RemoveQuotesFromString(fList[index].s_param);
     end;
   end
   else
@@ -803,7 +804,7 @@ begin
             end;
         end;
       else
-        result := fList[index].s_param
+        result := RemoveQuotesFromString(fList[index].s_param);
     end;
   end
   else
@@ -820,13 +821,13 @@ begin
     if strupper(sl.strings[0]) = 'RANDOMPICK' then
     begin
       sl.Delete(0);
-      Result := sl.Strings[N_Random mod sl.Count];
+      Result := RemoveQuotesFromString(sl.Strings[N_Random mod sl.Count]);
       sl.Free;
       Exit;
     end;
   end;
   sl.Free;
-  Result := token;
+  Result := RemoveQuotesFromString(token);
 end;
 
 end.
