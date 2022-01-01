@@ -434,7 +434,7 @@ begin
     mobj_no := actor.state.params.IntVal[0]
   else
   begin
-    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    mobj_no := Info_GetMobjNumForName(actor.state.params.EvaluateStrVal[0]);
     actor.state.params.IntVal[0] := mobj_no;
   end;
 
@@ -760,7 +760,7 @@ begin
         typ := actor.state.params.IntVal[0]
       else
       begin
-        typ := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+        typ := Info_GetMobjNumForName(actor.state.params.EvaluateStrVal[0]);
         actor.state.params.IntVal[0] := typ;
       end;
     end;
@@ -787,7 +787,7 @@ begin
         typ := actor.state.params.IntVal[0]
       else
       begin
-        typ := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+        typ := Info_GetMobjNumForName(actor.state.params.EvaluateStrVal[0]);
         actor.state.params.IntVal[0] := typ;
       end;
     end;

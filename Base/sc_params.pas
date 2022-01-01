@@ -97,6 +97,8 @@ type
     property Actor: pointer read fActor write fActor;
   end;
 
+function SC_EvalString(const token: string): string;
+
 implementation
 
 uses
@@ -680,6 +682,25 @@ begin
   end
   else
     result := '';
+end;
+
+function SC_EvalString(const token: string): string;
+var
+  sl: TDStringList;
+begin
+  sl := wordstolist(token, ['(', ')', ' ', ',', '[', ']']);
+  if sl.Count > 1 then
+  begin
+    if strupper(sl.strings[0]) = 'RANDOMPICK' then
+    begin
+      sl.Delete(0);
+      Result := sl.Strings[N_Random mod sl.Count];
+      sl.Free;
+      Exit;
+    end;
+  end;
+  sl.Free;
+  Result := token;
 end;
 
 end.
