@@ -902,7 +902,7 @@ begin
   else if (v1 = 'INF') or (v2 = 'INF') then
     Result := 'INF'
   else
-      _err_incompatible_types('OP_Add', v1, v2);
+    _err_incompatible_types('OP_Add', v1, v2);
 end;
 
 function TEvaluator.OP_Subtract(v1, v2: string): string;

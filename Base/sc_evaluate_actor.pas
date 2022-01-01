@@ -144,6 +144,8 @@ type
     function PF_CRASH(p: TDStrings): string;
     function PF_INTERACT(p: TDStrings): string;
     function PF_RAISE(p: TDStrings): string;
+    // Special
+    function PF_EVAL(p: TDStrings): string;
   public
     constructor Create; override;
     function EvaluateActor(const actor: pmobj_t; const aexpr: string): string;
@@ -248,6 +250,7 @@ begin
   AddFunc('CRASH', PF_CRASH, 0);
   AddFunc('INTERACT', PF_INTERACT, 0);
   AddFunc('RAISE', PF_RAISE, 0);
+  AddFunc('EVAL', PF_EVAL, -1);
 end;
 
 procedure TActorEvaluator.AddFunc(aname: string; afunc: TObjFunc; anump: integer);
@@ -722,6 +725,17 @@ end;
 function TActorEvaluator.PF_RAISE(p: TDStrings): string;
 begin
   result := itoa(factor.info.raisestate);
+end;
+
+function TActorEvaluator.PF_EVAL(p: TDStrings): string;
+begin
+  if p.Count = 0 then
+  begin
+    result := '0';
+    exit;
+  end;
+
+  result := p.Strings[N_Random mod p.Count];
 end;
 
 function TActorEvaluator.EvaluateActor(const actor: pmobj_t; const aexpr: string): string;

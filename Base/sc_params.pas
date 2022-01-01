@@ -51,7 +51,7 @@ const
   GLBF_EVALUATE = 11;
   GLBF_MOBJ_MASTERCUSTOMPARM = 12;
   GLBF_MOBJ_TRACERCUSTOMPARM = 13;
-  GLBF_FORCE_STRING_EVALUATE = 14;
+  GLBF_FORCE_EVALUATE = 14;
 
 type
   customparam_t = record
@@ -180,6 +180,8 @@ begin
           else
             AddParam(GLBF_EVALUATE, lst[i]);
         end
+        else if utoken = 'EVAL' then
+          AddParam(GLBF_FORCE_EVALUATE, lst[i])
         else if (utoken = 'MAPSTR') or
                 (utoken = 'WORLDSTR') or
                 (utoken = 'MAPINT') or
@@ -305,6 +307,12 @@ begin
       end;
     end;
   end
+  else if (utoken = 'EVAL') and (parmtype = GLBF_FORCE_EVALUATE) then
+  begin
+    fList[fNumItems].globalidx := GLBF_FORCE_EVALUATE;
+    fList[fNumItems].computed := false;
+    fList[fNumItems].s_param := value;
+  end
   else
   begin
     if (utoken = 'MAPSTR') and (parmtype = GLBF_MAP_STRING) then
@@ -408,7 +416,8 @@ begin
         result := fList[index].i_parm1 + (N_Random * (fList[index].i_parm2 - fList[index].i_parm1 + 1)) div 256;
       GLBF_FRANDOM:
         result := round(fList[index].f_parm1 + (N_Random * (fList[index].f_parm2 - fList[index].f_parm1 + 1)) / 256);
-      GLBF_EVALUATE:
+      GLBF_EVALUATE,
+      GLBF_FORCE_EVALUATE:
         result := round(atof(SC_EvaluateActorExpression(fActor, fList[index].s_param)));
       GLBF_MAP_STRING:
         result := atoi(PS_GetMapStr(fList[index].s_param), 0);
@@ -499,7 +508,8 @@ begin
         result := (fList[index].i_parm1 * FRACUNIT + N_Random * (fList[index].i_parm2 - fList[index].i_parm1 + 1) * 256) / FRACUNIT;
       GLBF_FRANDOM:
         result := (fList[index].f_parm1 * FRACUNIT + N_Random * (fList[index].f_parm2 - fList[index].f_parm1 + 1) * 256) / FRACUNIT;
-      GLBF_EVALUATE:
+      GLBF_EVALUATE,
+      GLBF_FORCE_EVALUATE:
         result := atof(SC_EvaluateActorExpression(fActor, fList[index].s_param));
       GLBF_MAP_STRING:
         result := atof(PS_GetMapStr(fList[index].s_param), 0.0);
@@ -591,7 +601,8 @@ begin
         result := fList[index].i_parm1 * FRACUNIT + N_Random * (fList[index].i_parm2 - fList[index].i_parm1 + 1) * 256;
       GLBF_FRANDOM:
         result := round(fList[index].f_parm1 * FRACUNIT + N_Random * (fList[index].f_parm2 - fList[index].f_parm1 + 1) * 256);
-      GLBF_EVALUATE:
+      GLBF_EVALUATE,
+      GLBF_FORCE_EVALUATE:
         result := round(atof(SC_EvaluateActorExpression(fActor, fList[index].s_param)) * FRACUNIT);
       GLBF_MAP_STRING:
         result := round(atof(PS_GetMapStr(fList[index].s_param), 0.0) * FRACUNIT);
@@ -676,6 +687,8 @@ begin
   if (index >= 0) and (index < fNumItems) then
   begin
     case fList[index].globalidx of
+      GLBF_FORCE_EVALUATE:
+        result := RemoveQuotesFromString(SC_EvaluateActorExpression(fActor, fList[index].s_param));
       GLBF_MAP_STRING:
         result := PS_GetMapStr(fList[index].s_param);
       GLBF_MAP_INTEGER:
@@ -746,7 +759,8 @@ begin
   if (index >= 0) and (index < fNumItems) then
   begin
     case fList[index].globalidx of
-      GLBF_EVALUATE:
+      GLBF_EVALUATE,
+      GLBF_FORCE_EVALUATE:
         result := RemoveQuotesFromString(SC_EvaluateActorExpression(fActor, fList[index].s_param));
       GLBF_MAP_STRING:
         result := PS_GetMapStr(fList[index].s_param);
