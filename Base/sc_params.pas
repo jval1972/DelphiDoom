@@ -189,7 +189,9 @@ begin
                 (utoken = 'MAPFLOAT') or
                 (utoken = 'WORLDFLOAT') or
                 (utoken = 'CUSTOMPARAM') or
-                (utoken = 'TARGETCUSTOMPARAM') then
+                (utoken = 'TARGETCUSTOMPARAM') or
+                (utoken = 'MASTERCUSTOMPARAM') or
+                (utoken = 'TRACERCUSTOMPARAM') then
         begin
           ok := false;
           if lstparam.Count = 2 then
