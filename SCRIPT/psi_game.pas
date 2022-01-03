@@ -530,6 +530,13 @@ function PS_GetPlayerActor(const plnum: Integer): LongWord;
 
 function PS_ConsolePlayer: Integer;
 
+{$IFDEF STRIFE}
+function PS_CheckPlayerQuest(const plnum: Integer; const quest: LongWord): Boolean;
+
+procedure PS_SetPlayerQuest(const plnum: Integer; const quest: LongWord);
+
+procedure PS_UnSetPlayerQuest(const plnum: Integer; const quest: LongWord);
+{$ENDIF}
 // -------------------------- TEXTURES -----------------------------------------
 
 function PS_IsValidTexture(const tex: string): Boolean;
@@ -5437,6 +5444,36 @@ function PS_ConsolePlayer: Integer;
 begin
   Result := consoleplayer;
 end;
+
+{$IFDEF STRIFE}
+function PS_CheckPlayerQuest(const plnum: Integer; const quest: LongWord): Boolean;
+begin
+  if not PS_PlayerInGame(plnum) then
+  begin
+    Result := False;
+    Exit;
+  end;
+
+  Result := players[plnum].questflags and quest <> 0;
+end;
+
+procedure PS_SetPlayerQuest(const plnum: Integer; const quest: LongWord);
+begin
+  if not PS_PlayerInGame(plnum) then
+    Exit;
+
+  players[plnum].questflags := players[plnum].questflags or quest;
+end;
+
+procedure PS_UnSetPlayerQuest(const plnum: Integer; const quest: LongWord);
+begin
+  if not PS_PlayerInGame(plnum) then
+    Exit;
+
+  players[plnum].questflags := players[plnum].questflags and not quest;
+end;
+{$ENDIF}
+
 
 // -------------------------- TEXTURES -----------------------------------------
 

@@ -454,6 +454,11 @@ begin
   baseproclist.Add('function GetPlayerViewZ(const plnum: integer): fixed_t;', @PS_GetPlayerViewZ);
   baseproclist.Add('function GetPlayerViewHeight(const plnum: integer): fixed_t;', @PS_GetPlayerViewHeight);
   baseproclist.Add('function ConsolePlayer: Integer;', @PS_ConsolePlayer);
+  {$IFDEF STRIFE}
+  baseproclist.Add('function CheckPlayerQuest(const plnum: Integer; const quest: LongWord): Boolean;', @PS_CheckPlayerQuest);
+  baseproclist.Add('procedure SetPlayerQuest(const plnum: Integer; const quest: LongWord);', @PS_SetPlayerQuest);
+  baseproclist.Add('procedure UnSetPlayerQuest(const plnum: Integer; const quest: LongWord);', @PS_UnSetPlayerQuest);
+  {$ENDIF}
 // -------------------------- TEXTURES -----------------------------------------
   baseproclist.Add('function GetTextureWidth(const tex: string): Integer;', @PS_GetTextureWidth);
   baseproclist.Add('function GetTextureHeight(const tex: string): Integer;', @PS_GetTextureHeight);
@@ -876,6 +881,40 @@ begin
     {$IFDEF STRIFE}
     for m := 0 to Ord(tk_numquests) do
       Sender.AddConstant(GetENumName(TypeInfo(questtype_t), m), uT_integer).Value.ts32 := m;
+
+    Sender.AddConstant('QF_QUEST1', uT_longword).Value.tu32 := QF_QUEST1;
+    Sender.AddConstant('QF_QUEST2', uT_longword).Value.tu32 := QF_QUEST2;
+    Sender.AddConstant('QF_QUEST3', uT_longword).Value.tu32 := QF_QUEST3;
+    Sender.AddConstant('QF_QUEST4', uT_longword).Value.tu32 := QF_QUEST4;
+    Sender.AddConstant('QF_QUEST5', uT_longword).Value.tu32 := QF_QUEST5;
+    Sender.AddConstant('QF_QUEST6', uT_longword).Value.tu32 := QF_QUEST6;
+    Sender.AddConstant('QF_QUEST7', uT_longword).Value.tu32 := QF_QUEST7;
+    Sender.AddConstant('QF_QUEST8', uT_longword).Value.tu32 := QF_QUEST8;
+    Sender.AddConstant('QF_QUEST9', uT_longword).Value.tu32 := QF_QUEST9;
+    Sender.AddConstant('QF_QUEST10', uT_longword).Value.tu32 := QF_QUEST10;
+    Sender.AddConstant('QF_QUEST11', uT_longword).Value.tu32 := QF_QUEST11;
+    Sender.AddConstant('QF_QUEST12', uT_longword).Value.tu32 := QF_QUEST12;
+    Sender.AddConstant('QF_QUEST13', uT_longword).Value.tu32 := QF_QUEST13;
+    Sender.AddConstant('QF_QUEST14', uT_longword).Value.tu32 := QF_QUEST14;
+    Sender.AddConstant('QF_QUEST15', uT_longword).Value.tu32 := QF_QUEST15;
+    Sender.AddConstant('QF_QUEST16', uT_longword).Value.tu32 := QF_QUEST16;
+    Sender.AddConstant('QF_QUEST17', uT_longword).Value.tu32 := QF_QUEST17;
+    Sender.AddConstant('QF_QUEST18', uT_longword).Value.tu32 := QF_QUEST18;
+    Sender.AddConstant('QF_QUEST19', uT_longword).Value.tu32 := QF_QUEST19;
+    Sender.AddConstant('QF_QUEST20', uT_longword).Value.tu32 := QF_QUEST20;
+    Sender.AddConstant('QF_QUEST21', uT_longword).Value.tu32 := QF_QUEST21;
+    Sender.AddConstant('QF_QUEST22', uT_longword).Value.tu32 := QF_QUEST22;
+    Sender.AddConstant('QF_QUEST23', uT_longword).Value.tu32 := QF_QUEST23;
+    Sender.AddConstant('QF_QUEST24', uT_longword).Value.tu32 := QF_QUEST24;
+    Sender.AddConstant('QF_QUEST25', uT_longword).Value.tu32 := QF_QUEST25;
+    Sender.AddConstant('QF_QUEST26', uT_longword).Value.tu32 := QF_QUEST26;
+    Sender.AddConstant('QF_QUEST27', uT_longword).Value.tu32 := QF_QUEST27;
+    Sender.AddConstant('QF_QUEST28', uT_longword).Value.tu32 := QF_QUEST28;
+    Sender.AddConstant('QF_QUEST29', uT_longword).Value.tu32 := QF_QUEST29;
+    Sender.AddConstant('QF_QUEST30', uT_longword).Value.tu32 := QF_QUEST30;
+    Sender.AddConstant('QF_QUEST31', uT_longword).Value.tu32 := QF_QUEST31;
+    Sender.AddConstant('QF_QUEST32', uT_longword).Value.tu32 := QF_QUEST32;
+    Sender.AddConstant('QF_ALLQUESTS', uT_longword).Value.tu32 := QF_ALLQUESTS;
     {$ENDIF}
 
     // consts p_local
