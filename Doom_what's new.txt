@@ -103,6 +103,7 @@ Added ACTORDEF functions:
  -A_GoToIfTracerCustomParamGreater(param: string, value: integer, state: state_t)
 Evalueate actor flags in ACTORDEF functions parameters with the FLAG() function.
 A_JumpXXXX() ACTORDEF functions will recognize the RANDOM keyword for setting offset.
+Actor evaluator can access player's mobj in weapon functions.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

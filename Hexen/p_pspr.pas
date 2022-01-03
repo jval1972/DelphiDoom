@@ -288,6 +288,8 @@ begin
     // Modified handling.
     if Assigned(state.action.acp2) then
     begin
+      if state.params <> nil then
+        state.params.actor := player.mo;
       state.action.acp2(player, psp);
       if psp.state = nil then
         break;
