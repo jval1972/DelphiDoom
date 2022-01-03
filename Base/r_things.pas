@@ -2458,6 +2458,7 @@ end;
 procedure R_DrawMasked_SingleThread;
 begin
   R_SortVisSprites;
+  domaskedzbuffer := false;
   if r_uselightmaps then
   begin
     R_MarkLights;
@@ -2474,15 +2475,13 @@ begin
       R_DoDrawMasked;
   end
   else
-  begin
-    domaskedzbuffer := false;
     R_DoDrawMasked;
-  end;
 end;
 
 procedure R_DrawMasked_MultiThread;
 begin
   R_WaitSortVisSpritesMT;
+  domaskedzbuffer := false;
   if r_uselightmaps then
   begin
     R_MarkLights;
@@ -2499,10 +2498,7 @@ begin
       R_DoDrawMasked;
   end
   else
-  begin
-    domaskedzbuffer := false;
     R_DoDrawMasked;
-  end;
 end;
 {$ENDIF}
 
