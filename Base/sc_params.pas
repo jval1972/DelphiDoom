@@ -830,6 +830,7 @@ end;
 function SC_EvalString(const token: string): string;
 var
   sl: TDStringList;
+  r1, r2: integer;
 begin
   sl := wordstolist(token, ['(', ')', ' ', ',', '[', ']']);
   if sl.Count > 1 then
@@ -838,6 +839,27 @@ begin
     begin
       sl.Delete(0);
       Result := RemoveQuotesFromString(sl.Strings[N_Random mod sl.Count]);
+      sl.Free;
+      Exit;
+    end
+    else if strupper(sl.strings[0]) = 'RANDOM' then
+    begin
+      if sl.Count > 2 then
+      begin
+        r1 := atoi(sl.strings[1]);
+        r2 := atoi(sl.strings[2]);
+      end
+      else if sl.count = 2 then
+      begin
+        r1 := 0;
+        r2 := atoi(sl.strings[1]);
+      end
+      else
+      begin
+        r1 := 0;
+        r2 := 255;
+      end;
+      Result := itoa(r1 + (N_Random * (r2 - r1 + 1)) div 256);
       sl.Free;
       Exit;
     end;
