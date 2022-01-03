@@ -643,6 +643,8 @@ procedure P_LocalEarthQuake(const actor: Pmobj_t; const tics: integer; const int
 
 function P_NearestPlayer(const mo: Pmobj_t): Pplayer_t;
 
+function P_CheckFlag(const mo: Pmobj_t; const aflag: string): boolean;
+
 implementation
 
 uses
@@ -6908,6 +6910,133 @@ begin
             result := @players[i];
           end;
         end;
+end;
+
+function P_CheckFlag(const mo: Pmobj_t; const aflag: string): boolean;
+var
+  sflag: string;
+  flg: LongWord;
+  m: boolean;
+  idx: integer;
+begin
+  if mo = nil then
+  begin
+    result := false;
+    exit;
+  end;
+
+  sflag := strtrim(strupper(aflag));
+  if sflag = '' then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if sflag[1] = '+' then
+  begin
+    Delete(sflag, 1, 1);
+    if sflag = '' then
+    begin
+      result := false;
+      exit;
+    end;
+  end;
+
+  m := sflag[1] = 'M';
+
+  idx := -1;
+
+  if m then
+    idx := mobj_flags.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags.IndexOf('MF_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    result := mo.flags and flg <> 0;
+    exit;
+  end;
+
+  {$IFDEF HERETIC_OR_HEXEN}
+  if m then
+    idx := mobj_flags2.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags2.IndexOf('MF2_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    result := mo.flags2 and flg <> 0;
+    exit;
+  end;
+  {$ENDIF}
+
+  if m then
+    idx := mobj_flags_ex.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags_ex.IndexOf('MF_EX_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    result := mo.flags_ex and flg <> 0;
+    exit;
+  end;
+
+  if m then
+    idx := mobj_flags2_ex.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags2_ex.IndexOf('MF2_EX_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    result := mo.flags2_ex and flg <> 0;
+    exit;
+  end;
+
+  if m then
+    idx := mobj_flags3_ex.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags3_ex.IndexOf('MF3_EX_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    result := mo.flags3_ex and flg <> 0;
+    exit;
+  end;
+
+  if m then
+    idx := mobj_flags4_ex.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags4_ex.IndexOf('MF4_EX_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    result := mo.flags4_ex and flg <> 0;
+    exit;
+  end;
+
+  if m then
+    idx := mobj_flags5_ex.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags5_ex.IndexOf('MF5_EX_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    result := mo.flags5_ex and flg <> 0;
+    exit;
+  end;
+
+  if m then
+    idx := mobj_flags6_ex.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags6_ex.IndexOf('MF6_EX_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    result := mo.flags6_ex and flg <> 0;
+    exit;
+  end;
+
+  result := false;
 end;
 
 end.
