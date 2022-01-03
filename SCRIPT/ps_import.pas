@@ -913,7 +913,6 @@ begin
     Sender.AddConstant('QF_QUEST29', uT_longword).Value.tu32 := QF_QUEST29;
     Sender.AddConstant('QF_QUEST30', uT_longword).Value.tu32 := QF_QUEST30;
     Sender.AddConstant('QF_QUEST31', uT_longword).Value.tu32 := QF_QUEST31;
-    Sender.AddConstant('QF_QUEST32', uT_longword).Value.tu32 := QF_QUEST32;
     Sender.AddConstant('QF_ALLQUESTS', uT_longword).Value.tu32 := QF_ALLQUESTS;
     {$ENDIF}
 
