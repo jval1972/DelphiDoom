@@ -1947,8 +1947,8 @@ begin
   mobj_tokens.Add('FRICTION');           // .Friction                 // 64
   mobj_tokens.Add('SPRITE DX');          // .spriteDX                 // 65
   mobj_tokens.Add('SPRITE DY');          // .spriteDY                 // 66
-  mobj_tokens.Add('FLAGS5_EX');          // .flags5_ex (DelphiDoom)   // 66
-  mobj_tokens.Add('FLAGS6_EX');          // .flags6_ex (DelphiDoom)   // 67
+  mobj_tokens.Add('FLAGS5_EX');          // .flags5_ex (DelphiDoom)   // 67
+  mobj_tokens.Add('FLAGS6_EX');          // .flags6_ex (DelphiDoom)   // 68
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);

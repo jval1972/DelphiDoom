@@ -1928,8 +1928,8 @@ begin
   mobj_tokens.Add('SPRITE DX');          // .spriteDX                 // 62
   mobj_tokens.Add('SPRITE DY');          // .spriteDY                 // 63
   mobj_tokens.Add('INTERACT FRAME');     // .interactstate (DelphiDoom) // 64
-  mobj_tokens.Add('FLAGS5_EX');          // .flags5_ex (DelphiDoom)   // 66
-  mobj_tokens.Add('FLAGS6_EX');          // .flags6_ex (DelphiDoom)   // 67
+  mobj_tokens.Add('FLAGS5_EX');          // .flags5_ex (DelphiDoom)   // 65
+  mobj_tokens.Add('FLAGS6_EX');          // .flags6_ex (DelphiDoom)   // 66
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);
