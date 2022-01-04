@@ -58,8 +58,11 @@ var
   constshashtable: array[0..CONSTSHASHSIZE - 1] of TDStringList;
 
 function _hash(const s: string): integer;
+var
+  len: integer;
 begin
-  result := (Ord(s[1]) + Ord(s[Length(s)])) and (CONSTSHASHSIZE - 1);
+  len := Length(s);
+  result := (len + Ord(s[1]) + Ord(s[len])) and (CONSTSHASHSIZE - 1);
 end;
 
 procedure SC_InitConsts;
