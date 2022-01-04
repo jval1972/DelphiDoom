@@ -367,7 +367,7 @@ begin
           19: mobjinfo[mobj_no].damage := mobj_val;
           20: mobjinfo[mobj_no].activesound := S_GetSoundNumForName(token2);
           21: begin
-                if mobj_val >= 0 then
+                if itoa(mobj_val) = token2 then
                   mobjinfo[mobj_no].flags := mobj_val
                 else
                 begin
@@ -402,7 +402,7 @@ begin
               end;
           23: mobjinfo[mobj_no].raisestate := mobj_val;
           24: begin
-                if mobj_val >= 0 then
+                if itoa(mobj_val) = token2 then
                   mobjinfo[mobj_no].flags_ex := mobj_val  // DelphiDoom specific (lighting, transparency, etc)
                 else
                 begin
@@ -464,7 +464,7 @@ begin
           37: mobjinfo[mobj_no].missiletype := Info_GetMobjNumForName(token2);
           38: mobjinfo[mobj_no].healstate := mobj_val;
           39: begin
-                if mobj_val >= 0 then
+                if itoa(mobj_val) = token2 then
                   mobjinfo[mobj_no].flags2_ex := mobj_val  // DelphiDoom specific
                 else
                 begin
@@ -496,7 +496,7 @@ begin
           45: mobjinfo[mobj_no].scale := DEH_FixedOrFloat(token2, 64);
           46: mobjinfo[mobj_no].gravity := DEH_FixedOrFloat(token2, 64);
           47: begin
-                if mobj_val >= 0 then
+                if itoa(mobj_val) = token2 then
                   mobjinfo[mobj_no].flags3_ex := mobj_val  // DelphiDoom specific
                 else
                 begin
@@ -521,7 +521,7 @@ begin
                 end;
               end;
           48: begin
-                if mobj_val >= 0 then
+                if itoa(mobj_val) = token2 then
                   mobjinfo[mobj_no].flags4_ex := mobj_val  // DelphiDoom specific
                 else
                 begin
@@ -579,7 +579,7 @@ begin
           64: mobjinfo[mobj_no].spriteDX := DEH_FixedOrFloat(token2, 256);
           65: mobjinfo[mobj_no].spriteDY := DEH_FixedOrFloat(token2, 256);
           66: begin
-                if mobj_val >= 0 then
+                if itoa(mobj_val) = token2 then
                   mobjinfo[mobj_no].flags5_ex := mobj_val  // DelphiDoom specific
                 else
                 begin
@@ -604,7 +604,7 @@ begin
                 end;
               end;
           67: begin
-                if mobj_val >= 0 then
+                if itoa(mobj_val) = token2 then
                   mobjinfo[mobj_no].flags6_ex := mobj_val  // DelphiDoom specific
                 else
                 begin
@@ -781,7 +781,7 @@ begin
            5: states[state_no].misc1 := state_val;
            6: states[state_no].misc2 := state_val;
            7: begin
-                if state_val >= 0 then
+                if itoa(state_val) = token2 then
                   states[state_no].flags_ex := state_val  // DelphiDoom specific (lighting, transparency, etc)
                 else
                 begin
