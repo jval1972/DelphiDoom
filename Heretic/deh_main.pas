@@ -921,10 +921,10 @@ begin
                     Chr(sprnames[j] shr 24 and $FF);
             if stmp = token1 then
             begin
-              sprnames[j] := Ord(token2[1]) +
-                             Ord(token2[2]) shl 8 +
-                             Ord(token2[3]) shl 16 +
-                             Ord(token2[4]) shl 24;
+              sprnames[j] := Ord(toupper(token2[1])) +
+                             Ord(toupper(token2[2])) shl 8 +
+                             Ord(toupper(token2[3])) shl 16 +
+                             Ord(toupper(token2[4])) shl 24;
               foundtext := true;
               break;
             end;
