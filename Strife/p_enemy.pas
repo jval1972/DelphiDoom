@@ -576,7 +576,14 @@ begin
       result := false; // too far away
       exit;
     end;
-  
+
+  if actor.flags4_ex and MF4_EX_LONGMELEE <> 0 then
+    if dist < 196 then
+    begin
+      result := false; // close for fist attack
+      exit;
+    end;
+    
   // villsa [STRIFE] checks for acolytes
   //  haleyjd 09/05/10: Repaired to match disassembly: Was including
   //  SHADOWGUARD in the wrong case, was missing MT_SENTINEL entirely.

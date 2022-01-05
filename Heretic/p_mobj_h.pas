@@ -426,6 +426,8 @@ const
   MF4_EX_RANGEHALF = $200;
   // no targeting threshold
   MF4_EX_NOTHRESHOLD = $400;
+  // long melee range
+  MF4_EX_LONGMELEE = $800;
 
 // MBF21 flags
 const

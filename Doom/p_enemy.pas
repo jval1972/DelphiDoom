@@ -461,16 +461,12 @@ begin
       exit;
     end;
 
-  if actor._type = Ord(MT_UNDEAD) then
-  begin
+  if actor.flags4_ex and MF4_EX_LONGMELEE <> 0 then
     if dist < 196 then
     begin
       result := false; // close for fist attack
       exit;
     end;
-    dist := _SHR1(dist);
-  end;
-
 
   if actor.flags4_ex and MF4_EX_RANGEHALF <> 0 then
     dist := _SHR1(dist);
