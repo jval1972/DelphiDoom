@@ -1074,7 +1074,7 @@ begin
   target.reactiontime := 0; // we're awake now...
 
   if ((target.threshold = 0) or (target._type = Ord(MT_VILE))) and
-     (source <> nil) and (source <> target) and (source._type <> Ord(MT_VILE)) then
+     (source <> nil) and (source <> target) and (source.flags4_ex and MF4_EX_DMGIGNORED = 0) then
   begin
     // if not intent on another player,
     // chase after this one

@@ -1458,7 +1458,7 @@ begin
     if (target._type <> Ord(MT_PROGRAMMER)) and
        ((target.threshold = 0) or (target._type = Ord(MT_ENTITY))) and
        (source <> target) and
-       (source._type <> Ord(MT_ENTITY)) and
+       (source.flags4_ex and MF4_EX_DMGIGNORED = 0) and
        ((source.flags and MF_ALLY) <> (target.flags and MF_ALLY)) then
     begin
       // if not intent on another player,

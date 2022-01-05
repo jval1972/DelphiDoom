@@ -2357,6 +2357,7 @@ begin
   mobj_flags4_ex.Add('MF4_EX_CANNOTDROPOFF');
   mobj_flags4_ex.Add('MF4_EX_FORCERADIUSDMG');
   mobj_flags4_ex.Add('MF4_EX_SHORTMRANGE');
+  mobj_flags4_ex.Add('MF4_EX_DMGIGNORED');
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);

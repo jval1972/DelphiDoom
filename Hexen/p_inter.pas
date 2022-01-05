@@ -2299,11 +2299,14 @@ begin
       end;
     end;
   end;
+
   target.reactiontime := 0; // we're awake now...
+
   if (target.threshold = 0) and
      (source <> nil) and
      (source.flags2 and MF2_BOSS = 0) and
      (source.flags_ex and MF_EX_BOSS = 0) and
+     (source.flags4_ex and MF4_EX_DMGIGNORED = 0) and
      (target._type <> Ord(MT_BISHOP)) and
      (target._type <> Ord(MT_MINOTAUR)) then
   begin

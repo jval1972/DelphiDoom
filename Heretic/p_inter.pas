@@ -1607,6 +1607,7 @@ begin
   if (target.threshold = 0) and
      (source <> nil) and
      (source.flags2 and MF2_BOSS = 0) and
+     (source.flags4_ex and MF4_EX_DMGIGNORED = 0) and
      not ((target._type = Ord(MT_SORCERER2)) and (source._type = Ord(MT_WIZARD))) then
   begin
     // if not intent on another player,

@@ -416,6 +416,8 @@ const
   MF4_EX_FORCERADIUSDMG = $20;
   // short missile range (14 * 64)
   MF4_EX_SHORTMRANGE = $40;
+  // other things ignore its attacks
+  MF4_EX_DMGIGNORED = $80;
 
 // MBF21 flags
 const
