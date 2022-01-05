@@ -472,9 +472,7 @@ begin
   end;
 
 
-  if (actor._type = Ord(MT_CYBORG)) or
-     (actor._type = Ord(MT_SPIDER)) or
-     (actor._type = Ord(MT_SKULL)) then
+  if actor.flags4_ex and MF4_EX_RANGEHALF <> 0 then
     dist := _SHR1(dist);
 
   if dist > 200 then

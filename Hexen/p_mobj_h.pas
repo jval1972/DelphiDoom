@@ -460,6 +460,8 @@ const
   MF4_EX_DMGIGNORED = $80;
   // higher missile attack probability
   MF4_EX_HIGHERMPROB = $100;
+  // use half distance for missile attack probability
+  MF4_EX_RANGEHALF = $200;
 
 // MBF21 flags
 const

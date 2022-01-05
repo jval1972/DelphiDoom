@@ -2361,6 +2361,7 @@ begin
   mobj_flags4_ex.Add('MF4_EX_SHORTMRANGE');
   mobj_flags4_ex.Add('MF4_EX_DMGIGNORED');
   mobj_flags4_ex.Add('MF4_EX_HIGHERMPROB');
+  mobj_flags4_ex.Add('MF4_EX_RANGEHALF');
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);

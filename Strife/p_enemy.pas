@@ -593,13 +593,10 @@ begin
         // oddly, not all Acolytes are included here...
         dist := dist div 16;
       end;
-    Ord(MT_SHADOWGUARD),
-    Ord(MT_CRUSADER),
-    Ord(MT_SENTINEL):
-      begin
-        dist := dist div 2;
-      end;
   end;
+
+  if actor.flags4_ex and MF4_EX_RANGEHALF <> 0 then
+    dist := dist div 2;
 
   // villsa [STRIFE] changed to 150
   if dist > 150 then

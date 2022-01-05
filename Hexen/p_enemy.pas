@@ -697,6 +697,9 @@ begin
       exit;
     end;
 
+  if actor.flags4_ex and MF4_EX_RANGEHALF <> 0 then
+    dist := _SHR1(dist);
+    
   if dist > 200 then
     dist := 200;
 
