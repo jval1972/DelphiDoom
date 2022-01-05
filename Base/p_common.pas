@@ -7107,7 +7107,10 @@ begin
 
   if m.mbf21bits and MF_MBF21_BOSS <> 0 then
   begin
-
+    {$IFDEF HERETIC_OR_HEXEN}
+    m.flags2 := m.flags2 or MF2_BOSS;
+    {$ENDIF}
+    m.flags_ex := m.flags_ex or MF_EX_BOSS;
   end;
 
   if m.mbf21bits and MF_MBF21_MAP07BOSS1 <> 0 then
