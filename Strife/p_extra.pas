@@ -91,10 +91,6 @@ procedure A_SetInteractive(actor: Pmobj_t);
 
 procedure A_UnSetInteractive(actor: Pmobj_t);
 
-procedure A_SetMonsterInfight(actor: Pmobj_t);
-
-procedure A_UnSetMonsterInfight(actor: Pmobj_t);
-
 procedure A_NoiseAlert(actor: Pmobj_t);
 
 procedure A_SetShootable(actor: Pmobj_t);
@@ -483,16 +479,6 @@ end;
 procedure A_UnSetInteractive(actor: Pmobj_t);
 begin
   actor.flags2_ex := actor.flags2_ex and not MF2_EX_INTERACTIVE;
-end;
-
-procedure A_SetMonsterInfight(actor: Pmobj_t);
-begin
-  actor.flags2_ex := actor.flags2_ex or MF2_EX_DONTINFIGHTMONSTERS;
-end;
-
-procedure A_UnSetMonsterInfight(actor: Pmobj_t);
-begin
-  actor.flags2_ex := actor.flags2_ex and not MF2_EX_DONTINFIGHTMONSTERS;
 end;
 
 procedure A_NoiseAlert(actor: Pmobj_t);

@@ -527,6 +527,10 @@ procedure A_SetInteractive(actor: Pmobj_t);
 
 procedure A_UnSetInteractive(actor: Pmobj_t);
 
+procedure A_SetMonsterInfight(actor: Pmobj_t);
+
+procedure A_UnSetMonsterInfight(actor: Pmobj_t);
+
 // MBF21
 procedure P_ResolveMBF21Flags(const m: Pmobjinfo_t);
 
@@ -7045,6 +7049,16 @@ begin
   end;
 
   result := false;
+end;
+
+procedure A_SetMonsterInfight(actor: Pmobj_t);
+begin
+  actor.flags2_ex := actor.flags2_ex or MF2_EX_DONTINFIGHTMONSTERS;
+end;
+
+procedure A_UnSetMonsterInfight(actor: Pmobj_t);
+begin
+  actor.flags2_ex := actor.flags2_ex and not MF2_EX_DONTINFIGHTMONSTERS;
 end;
 
 // MBF21
