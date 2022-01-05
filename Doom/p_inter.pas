@@ -1073,7 +1073,7 @@ begin
 
   target.reactiontime := 0; // we're awake now...
 
-  if ((target.threshold = 0) or (target._type = Ord(MT_VILE))) and
+  if ((target.threshold = 0) or (target.flags4_ex and MF4_EX_NOTHRESHOLD <> 0)) and
      (source <> nil) and (source <> target) and (source.flags4_ex and MF4_EX_DMGIGNORED = 0) then
   begin
     // if not intent on another player,

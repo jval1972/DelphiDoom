@@ -113,6 +113,7 @@ Added MF4_EX_SHORTMRANGE mobj flag. When set the actor does not fire missile in 
 Added MF4_EX_DMGIGNORED mobj flag. When set the other actors ignore its attacks.
 Added MF4_EX_HIGHERMPROB mobj flag. When set the actor has higher missile attack probability.
 Added MF4_EX_RANGEHALF mobj flag. When set the actor use half distance for missile attack probability.
+Added MF4_EX_NOTHRESHOLD mobj flag. When set the actor can target other actors without checking threshold.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

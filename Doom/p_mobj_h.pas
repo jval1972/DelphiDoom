@@ -423,6 +423,8 @@ const
   MF4_EX_HIGHERMPROB = $400;
   // use half distance for missile attack probability
   MF4_EX_RANGEHALF = $800;
+  // no targeting threshold
+  MF4_EX_NOTHRESHOLD = $1000;
 
 // MBF21 flags
 const

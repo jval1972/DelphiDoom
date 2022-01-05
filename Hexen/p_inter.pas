@@ -2302,7 +2302,7 @@ begin
 
   target.reactiontime := 0; // we're awake now...
 
-  if (target.threshold = 0) and
+  if ((target.threshold = 0) or (target.flags4_ex and MF4_EX_NOTHRESHOLD <> 0)) and
      (source <> nil) and
      (source.flags2 and MF2_BOSS = 0) and
      (source.flags_ex and MF_EX_BOSS = 0) and

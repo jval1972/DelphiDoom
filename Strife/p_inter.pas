@@ -1456,7 +1456,7 @@ begin
 
   if source <> nil then
     if (target._type <> Ord(MT_PROGRAMMER)) and
-       ((target.threshold = 0) or (target._type = Ord(MT_ENTITY))) and
+       ((target.threshold = 0) or (target.flags4_ex and MF4_EX_NOTHRESHOLD <> 0)) and
        (source <> target) and
        (source.flags4_ex and MF4_EX_DMGIGNORED = 0) and
        ((source.flags and MF_ALLY) <> (target.flags and MF_ALLY)) then
