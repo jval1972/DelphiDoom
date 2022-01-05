@@ -726,7 +726,7 @@ begin
   begin
     if actor.state.flags_ex and MF_EX_STATE_PARAMS_ERROR = 0 then
     begin
-      I_Warning('P_CheckStateParams(): Expected params can not be 0'#13#10);
+      I_Warning('P_CheckStateParams(): Expected params can not be 0 in actor "%s"'#13#10, [Info_GetMobjName(actor.info)]);
       actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_PARAMS_ERROR;
     end;
     result := false;
@@ -737,7 +737,7 @@ begin
   begin
     if actor.state.flags_ex and MF_EX_STATE_PARAMS_ERROR = 0 then
     begin
-      I_Warning('P_CheckStateParams(): Parameter list is null');
+      I_Warning('P_CheckStateParams(): Parameter list is null in actor "%s"', [Info_GetMobjName(actor.info)]);
       if numparms > 0 then
         I_Warning(', %d parameters expected', [numparms]);
       I_Warning(#13#10);
@@ -753,7 +753,7 @@ begin
     begin
       if actor.state.flags_ex and MF_EX_STATE_PARAMS_ERROR = 0 then
       begin
-        I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but %d parameters expected'#13#10, [actor.state.params.Count, numparms]);
+        I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but %d parameters expected in actor "%s"'#13#10, [actor.state.params.Count, numparms, Info_GetMobjName(actor.info)]);
         actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_PARAMS_ERROR;
       end;
       result := false;
@@ -763,7 +763,7 @@ begin
     begin
       if actor.state.flags_ex and MF_EX_STATE_PARAMS_ERROR = 0 then
       begin
-        I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but at least %d parameters expected'#13#10, [actor.state.params.Count, numparms]);
+        I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but at least %d parameters expected in actor "%s"'#13#10, [actor.state.params.Count, numparms, Info_GetMobjName(actor.info)]);
         actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_PARAMS_ERROR;
       end;
       result := false;
@@ -773,7 +773,7 @@ begin
     begin
       if actor.state.flags_ex and MF_EX_STATE_PARAMS_ERROR = 0 then
       begin
-        I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but at most %d parameters expected'#13#10, [actor.state.params.Count, numparms]);
+        I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but at most %d parameters expected in actor "%s"'#13#10, [actor.state.params.Count, numparms, Info_GetMobjName(actor.info)]);
         actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_PARAMS_ERROR;
       end;
       result := false;
