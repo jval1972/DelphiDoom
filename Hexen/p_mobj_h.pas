@@ -194,8 +194,6 @@ const
   // Hmm ???.
   MF_TRANSSHIFT = 26;
 
-  MF_JUSTAPPEARED = $40000000;
-
 const
   MF2_LOGRAV = $00000001;           // alternate gravity setting
 
@@ -382,6 +380,8 @@ const
   MF2_EX_DONTBLOCKPLAYER = $40000;
   // Interactive mobj - can be set to interactstate
   MF2_EX_INTERACTIVE = $80000;
+  // Just appeared
+  MF2_EX_JUSTAPPEARED = $100000;
 
 const
   // Bounce on floor

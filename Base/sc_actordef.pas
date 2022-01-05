@@ -2776,7 +2776,7 @@ begin
         else if sc.MatchString('FULLVOLSOUND') or sc.MatchString('FULLVOLSOUNDS') or
                 sc.MatchString('+FULLVOLSOUND') or sc.MatchString('+FULLVOLSOUNDS') then
         begin
-          mobj.flags2_ex := mobj.flags2_ex + 'FULLVOLACTIVE FULLVOLDEATH FULLVOLSEE FULLVOLPAIN FULLVOLATTACK ';
+          mobj.flags2_ex := mobj.flags2_ex + ' FULLVOLDEATH FULLVOLSEE';
           sc.GetString;
         end
 

@@ -1336,7 +1336,7 @@ var
   pl: Pplayer_t;
 begin
   // JVAL: Clear just spawned flag
-  mobj.flags := mobj.flags and not MF_JUSTAPPEARED;
+  mobj.flags2_ex := mobj.flags2_ex and not MF2_EX_JUSTAPPEARED;
 
   // Handle X and Y momentums
   BlockingMobj := nil;
@@ -1449,11 +1449,11 @@ begin
   mobj.y := y;
   mobj.radius := info.radius;
   mobj.height := info.height;
-  // JVAL: Set MF_JUSTAPPEARED flag
-  mobj.flags := info.flags or MF_JUSTAPPEARED;
+  mobj.flags := info.flags;
   mobj.flags2 := info.flags2;
   mobj.flags_ex := info.flags_ex;
-  mobj.flags2_ex := info.flags2_ex;
+  // JVAL: Set MF_JUSTAPPEARED flag
+  mobj.flags2_ex := info.flags2_ex or MF2_EX_JUSTAPPEARED;
   mobj.flags3_ex := info.flags3_ex;
   mobj.flags4_ex := info.flags4_ex;
   mobj.flags5_ex := info.flags5_ex;

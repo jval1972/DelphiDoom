@@ -194,8 +194,6 @@ const
   MF_TRANSLATION = $c000000;
   // Hmm ???.
   MF_TRANSSHIFT = 26;
-  // Just appeard - new spawn monsters or just teleported monsters
-  MF_JUSTAPPEARED = $10000000;
 
 const
   // Sprite is transparent
@@ -413,6 +411,8 @@ const
   MF4_EX_CANNOTSTEP = $10;
   // Can not drop off
   MF4_EX_CANNOTDROPOFF = $20;
+  // Just appeard - new spawn monsters or just teleported monsters
+  MF4_EX_JUSTAPPEARED = $40;
 
 // MBF21 flags
 const

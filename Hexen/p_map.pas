@@ -368,7 +368,7 @@ begin
   if thing.player = viewplayer then
     R_SetInterpolateSkipTicks(1);
 
-  thing.flags := thing.flags or MF_JUSTAPPEARED;
+  thing.flags2_ex := thing.flags2_ex or MF2_EX_JUSTAPPEARED;
   thing.intrplcnt := 0;
 
   result := true;

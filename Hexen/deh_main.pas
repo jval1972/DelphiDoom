@@ -206,6 +206,12 @@ var
   settext: string;
   mustnextline: boolean;
 
+  // Extra xlat
+  istransparent: boolean;
+  isfriend: boolean;
+  isbouncy: boolean;
+  istouchy: boolean;
+
   mobj_no: integer;
   mobj_idx: integer;
   mobj_val: integer;
@@ -311,6 +317,11 @@ begin
         dec(mobj_no); // JVAL DEH patches start Think numbers from 1
       end;
 
+      istransparent := false;
+      isfriend := false;
+      isbouncy := false;
+      istouchy := false;
+
       while true do
       begin
         if not DEH_NextLine(s, str, i) then
@@ -384,7 +395,17 @@ begin
           20: mobjinfo[mobj_no].activesound := S_GetSoundNumForName(token2);
           21: begin
                 if itoa(mobj_val) = token2 then
-                  mobjinfo[mobj_no].flags := mobj_val
+                begin
+                  mobjinfo[mobj_no].flags := mobj_val;
+                  if not istransparent then
+                    istransparent := mobj_val < 0;
+                  if not isfriend then
+                    isfriend := mobj_val and (1 shl 30) <> 0;
+                  if not isbouncy then
+                    isbouncy := mobj_val and (1 shl 29) <> 0;
+                  if not istouchy then
+                    istouchy := mobj_val and (1 shl 28) <> 0;
+                end
                 else
                 begin
                   mobj_setflag := -1;
@@ -397,7 +418,13 @@ begin
                     if mobj_flag >= 0 then
                     begin
                       if mobj_flag = 31 then
-                        mobjinfo[mobj_no].flags_ex := mobjinfo[mobj_no].flags_ex or MF_EX_TRANSPARENT
+                        istransparent := true
+                      else if mobj_flag = 30 then
+                        isfriend := true
+                      else if mobj_flag = 29 then
+                        isbouncy := true
+                      else if mobj_flag = 28 then
+                        istouchy := true
                       else
                       begin
                         if mobj_setflag = -1 then
@@ -409,8 +436,17 @@ begin
                     token2 := strtrim(token4);
                   until token2 = '';
                   if mobj_setflag <> -1 then
+                  begin
                     mobjinfo[mobj_no].flags := mobj_setflag;
-
+                    if not istransparent then
+                      istransparent := mobj_setflag < 0;
+                    if not isfriend then
+                      isfriend := mobj_setflag and (1 shl 30) <> 0;
+                    if not isbouncy then
+                      isbouncy := mobj_setflag and (1 shl 29) <> 0;
+                    if not istouchy then
+                      istouchy := mobj_setflag and (1 shl 28) <> 0;
+                  end;
                 end;
               end;
           22: begin
@@ -717,6 +753,12 @@ begin
         end;
       end;
 
+      if istransparent then
+        mobjinfo[mobj_no].flags_ex := mobjinfo[mobj_no].flags_ex or MF_EX_TRANSPARENT;
+//      if isfriend then
+//        mobjinfo[mobj_no].flags2_ex := mobjinfo[mobj_no].flags2_ex or MF2_EX_FRIEND;
+      if isbouncy then
+        mobjinfo[mobj_no].flags3_ex := mobjinfo[mobj_no].flags3_ex or MF3_EX_BOUNCE;
     end
 
 
@@ -2268,6 +2310,7 @@ begin
   mobj_flags2_ex.Add('MF2_EX_JUMPUP');
   mobj_flags2_ex.Add('MF2_EX_DONTBLOCKPLAYER');
   mobj_flags2_ex.Add('MF2_EX_INTERACTIVE'); // JVAL: VERSION 207
+  mobj_flags2_ex.Add('MF2_EX_JUSTAPPEARED');
 
   mobj_flags2_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags2_ex_hash.AssignList(mobj_flags2_ex);

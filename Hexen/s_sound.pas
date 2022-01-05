@@ -230,7 +230,7 @@ var
 //
 // Internals.
 //
-function S_getChannel(origin: pointer; sfxinfo: Psfxinfo_t): integer; forward;
+function S_GetChannel(origin: pointer; sfxinfo: Psfxinfo_t): integer; forward;
 
 function S_AdjustSoundParams(listener: Pmobj_t; source:Pmobj_t;
   vol: Pinteger; sep: Pinteger; pitch:Pinteger): boolean; forward;

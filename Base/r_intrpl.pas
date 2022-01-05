@@ -441,10 +441,10 @@ begin
   while (th <> nil) and (th <> @thinkercap) do
   begin
     if @th._function.acp1 = @P_MobjThinker then
-    {$IFDEF STRIFE}
-      if Pmobj_t(th).flags2_ex and MF2_EX_JUSTAPPEARED = 0 then
+    {$IFDEF DOOM}
+      if Pmobj_t(th).flags4_ex and MF4_EX_JUSTAPPEARED = 0 then
     {$ELSE}
-      if Pmobj_t(th).flags and MF_JUSTAPPEARED = 0 then
+      if Pmobj_t(th).flags2_ex and MF2_EX_JUSTAPPEARED = 0 then
     {$ENDIF}
     // JVAL: 20200105 - Interpolate only mobjs that the renderer touched
       if (Pmobj_t(th).rendervalidcount = rendervalidcount) or (Pmobj_t(th).player <> nil) then
