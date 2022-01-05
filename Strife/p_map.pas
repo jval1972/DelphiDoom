@@ -2493,6 +2493,12 @@ begin
     exit;
   end;
 
+  if thing.flags_ex and MF_EX_NORADIUSDMG <> 0 then
+  begin
+    result := true;
+    exit;
+  end;
+
   if bombsource.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
     if thing.flags3_ex and MF3_EX_NOFREEZEDAMAGE <> 0 then
     begin
