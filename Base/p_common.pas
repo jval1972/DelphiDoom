@@ -7152,6 +7152,8 @@ begin
 
   if m.mbf21bits and MF_MBF21_FULLVOLSOUNDS <> 0 then
   begin
+    m.flags2_ex := m.flags2_ex or MF2_EX_FULLVOLDEATH;
+    m.flags2_ex := m.flags2_ex or MF2_EX_FULLVOLSEE;
   end;
 end;
 
