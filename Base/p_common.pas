@@ -527,7 +527,9 @@ procedure A_SetInteractive(actor: Pmobj_t);
 
 procedure A_UnSetInteractive(actor: Pmobj_t);
 
-// MBF21 codeptrs
+// MBF21
+procedure P_ResolveMBF21Flags(const m: Pmobjinfo_t);
+
 function P_CheckStateArgs(actor: Pmobj_t): boolean;
 
 procedure A_SpawnObject(actor: Pmobj_t);
@@ -7046,6 +7048,112 @@ begin
 end;
 
 // MBF21
+
+//
+// P_ResolveMBF21Flags
+// JVAL: Convert MBF21 flags to DelphiDoom flags
+//
+procedure P_ResolveMBF21Flags(const m: Pmobjinfo_t);
+begin
+  if m.mbf21bits and MF_MBF21_LOGRAV <> 0 then
+  begin
+    m.flags := m.flags and not MF_NOGRAVITY;
+    {$IFDEF HERETIC_OR_HEXEN}
+    m.flags2 := m.flags2 or MF2_LOGRAV;
+    {$ENDIF}
+    m.flags_ex := m.flags_ex or MF_EX_LOWGRAVITY;
+    m.flags2_ex := m.flags2_ex and not MF2_EX_MEDIUMGRAVITY;
+  end;
+
+  if m.mbf21bits and MF_MBF21_SHORTMRANGE <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_DMGIGNORED <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_NORADIUSDMG <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_FORCERADIUSDMG <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_HIGHERMPROB <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_RANGEHALF <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_NOTHRESHOLD <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_LONGMELEE <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_BOSS <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_MAP07BOSS1 <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_MAP07BOSS2 <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_E1M8BOSS <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_E2M8BOSS <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_E3M8BOSS <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_E4M6BOSS <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_E4M8BOSS <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_RIP <> 0 then
+  begin
+
+  end;
+
+  if m.mbf21bits and MF_MBF21_FULLVOLSOUNDS <> 0 then
+  begin
+  end;
+end;
 
 //
 // P_CheckStateArgs
