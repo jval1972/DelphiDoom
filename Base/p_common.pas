@@ -7046,6 +7046,11 @@ begin
 end;
 
 // MBF21
+
+//
+// P_CheckStateArgs
+// JVAL: Check arguments for MBF21 codeprs 
+//
 function P_CheckStateArgs(actor: Pmobj_t): boolean;
 var
   deh_action: Pdeh_action_t;
@@ -7116,7 +7121,7 @@ begin
   end;
 
   actor.state.params := TCustomParamList.Create(sargs);
-  result := true;
+  result := actor.state.params.Count = deh_action.argcount;
 end;
 
 // A_SpawnObject
