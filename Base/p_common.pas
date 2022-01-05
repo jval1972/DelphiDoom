@@ -7136,11 +7136,16 @@ end;
 //   args[7]: Z velocity (fixed point)
 //
 procedure A_SpawnObject(actor: Pmobj_t);
+var
+  typ, ofs_x, ofs_y, ofs_z, vel_x, vel_y, vel_z: integer;
+  angle, an: angle_t;
+  fan, dx, dy: integer;
+  mo: Pmobj_t;
 begin
   if not P_CheckStateArgs(actor) then
     exit;
 
-  
+    
 end;
 
 end.

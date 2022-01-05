@@ -1936,6 +1936,13 @@ begin
     else
       result.Add('%s = %s', [capitalizedstring(mobj_tokens[66]), str]);
 
+    // MBF21
+    // JVAL: 20220105 - Ignore mbf21bits since they are merged into flagsXX
+    result.Add('%s = %s', [capitalizedstring(mobj_tokens[68]), Info_InfightingGroupToString(mobjinfo[i].infighting_group]));
+    result.Add('%s = %s', [capitalizedstring(mobj_tokens[60]), Info_ProjectileGroupToString(mobjinfo[i].projectile_group]));
+    result.Add('%s = %s', [capitalizedstring(mobj_tokens[70]), Info_SplashGroupToString(mobjinfo[i].splash_group]));
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[71]), mobjinfo[i].ripsound]);
+
     result.Add('');
   end;
 
