@@ -7067,7 +7067,7 @@ begin
 
   if m.mbf21bits and MF_MBF21_SHORTMRANGE <> 0 then
   begin
-
+    m.flags4_ex := m.flags4_ex or MF4_EX_SHORTMRANGE;
   end;
 
   if m.mbf21bits and MF_MBF21_DMGIGNORED <> 0 then
