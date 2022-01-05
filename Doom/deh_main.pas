@@ -394,7 +394,7 @@ begin
           21: begin
                 if itoa(mobj_val) = token2 then
                 begin
-                  mobjinfo[mobj_no].flags := mobj_val
+                  mobjinfo[mobj_no].flags := mobj_val;
                   if not istransparent then
                     istransparent := mobj_val < 0;
                   if not isfriend then
