@@ -2397,8 +2397,19 @@ begin
 
   if thing.flags_ex and MF_EX_NORADIUSDMG <> 0 then
   begin
-    result := true;
-    exit;
+    if bombsource <> nil then
+    begin
+      if bombsource.flags4_ex and MF4_EX_FORCERADIUSDMG = 0 then
+      begin
+        result := true;
+        exit;
+      end;
+    end
+    else
+    begin
+      result := true;
+      exit;
+    end;
   end;
 
   if bombsource <> nil then
@@ -2568,9 +2579,21 @@ begin
 
   if thing.flags_ex and MF_EX_NORADIUSDMG <> 0 then
   begin
-    result := true;
-    exit;
+    if bombsource <> nil then
+    begin
+      if bombsource.flags4_ex and MF4_EX_FORCERADIUSDMG = 0 then
+      begin
+        result := true;
+        exit;
+      end;
+    end
+    else
+    begin
+      result := true;
+      exit;
+    end;
   end;
+
 
   if bombsource.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
     if thing.flags3_ex and MF3_EX_NOFREEZEDAMAGE <> 0 then

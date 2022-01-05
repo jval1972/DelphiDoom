@@ -424,6 +424,8 @@ const
   MF4_EX_CANNOTSTEP = 8;
   // Can not drop off
   MF4_EX_CANNOTDROPOFF = $10;
+  // Force radius damage
+  MF4_EX_FORCERADIUSDMG = $20;
 
 // MBF21 flags
 const

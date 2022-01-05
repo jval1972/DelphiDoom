@@ -109,6 +109,7 @@ Actor evaluator can access player's mobj in weapon functions.
 Ensure that the sprite names that are overwritten by the "TEXT" dehacked keyword are in uppercase.
 Fixed angle field (#8) in A_SpawnItemEx(), also the field can be a floating point value.
 Warning message in state parameters check displays actor message.
+Added MF4_EX_FORCERADIUSDMG mobj flag. When set the bomb hurts actors with the MF_EX_NORADIUSDMG flag.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

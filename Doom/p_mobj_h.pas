@@ -413,6 +413,8 @@ const
   MF4_EX_CANNOTDROPOFF = $20;
   // Just appeard - new spawn monsters or just teleported monsters
   MF4_EX_JUSTAPPEARED = $40;
+  // Force radius damage
+  MF4_EX_FORCERADIUSDMG = $80;
 
 // MBF21 flags
 const
