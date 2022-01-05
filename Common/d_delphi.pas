@@ -496,7 +496,7 @@ type
   public
     constructor Create; virtual;
     destructor Destroy; override;
-    procedure Add(const value: string); overload; virtual;
+    function Add(const value: string): integer; overload; virtual;
     procedure Add(const nlist: TDTextList); overload; virtual;
     function Delete(const Index: integer): boolean;
     function IndexOf(const value: string): integer;
@@ -2751,10 +2751,11 @@ begin
   fList[Index] := value;
 end;
 
-procedure TDTextList.Add(const value: string);
+function TDTextList.Add(const value: string): integer;
 begin
   realloc(pointer(fList), fNumItems * 256, (fNumItems + 1) * 256);
   Put(fNumItems, value);
+  result := fNumItems;
   inc(fNumItems);
 end;
 

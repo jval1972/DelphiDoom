@@ -92,9 +92,13 @@ uses
   psi_globals,
   doomdef,
   deh_main,
+  {$IFDEF DOOM_OR_STRIFE}
+  d_items,
+  {$ENDIF}
   d_main,
   g_game,
   info_h,
+  info_common,
   i_system,
   m_base,
   m_fixed,
@@ -259,6 +263,13 @@ begin
   baseproclist.Add('function CheckActorFlag(const key: LongWord; const flag: LongWord): boolean;', @PS_CheckActorFlag);
   baseproclist.Add('procedure SetActorFlag(const key: LongWord; const flag: LongWord);', @PS_SetActorFlag);
   baseproclist.Add('procedure UnSetActorFlag(const key: LongWord; const flag: LongWord);', @PS_UnSetActorFlag);
+  baseproclist.Add('function GetActorInfightingGroup(const key: LongWord): Integer;', @PS_GetActorInfightingGroup);
+  baseproclist.Add('procedure SetActorInfightingGroup(const key: LongWord; const value: Integer);', @PS_SetActorInfightingGroup);
+  baseproclist.Add('function GetActorProjectileGroup(const key: LongWord): Integer;', @PS_GetActorProjectileGroup);
+  baseproclist.Add('procedure SetActorProjectileGroup(const key: LongWord; const value: Integer);', @PS_SetActorProjectileGroup);
+  baseproclist.Add('function GetActorSplashGroup(const key: LongWord): Integer;', @PS_GetActorSplashGroup);
+  baseproclist.Add('procedure SetActorSplashGroup(const key: LongWord; const value: Integer);', @PS_SetActorSplashGroup);
+  baseproclist.Add('function GetActorRipSound(const key: LongWord): string;', @PS_GetActorRipSound);
   baseproclist.Add('function GetActorName(const key: LongWord): string;', @PS_GetActorName);
   {$IFDEF STRIFE}
   baseproclist.Add('function GetActorName2(const key: LongWord): string;', @PS_GetActorName2);
@@ -533,6 +544,10 @@ begin
   baseproclist.Add('function GetMobjInfoFriction(const typ: integer): integer;', @PS_GetMobjInfoFriction);
   baseproclist.Add('function GetMobjInfoSpriteDX(const dx: integer): integer;', @PS_GetMobjInfoSpriteDX);
   baseproclist.Add('function GetMobjInfoSpriteDY(const dy: integer): integer;', @PS_GetMobjInfoSpriteDY);
+  baseproclist.Add('function GetMobjInfoInfightingGroup(const typ: integer): Integer;', @PS_GetMobjInfoInfightingGroup);
+  baseproclist.Add('function GetMobjInfoProjectileGroup(const typ: integer): Integer;', @PS_GetMobjInfoProjectileGroup);
+  baseproclist.Add('function GetMobjInfoSplashGroup(const typ: integer): Integer;', @PS_GetMobjInfoSplashGroup);
+  baseproclist.Add('function GetMobjInfoRipSound(const typ: integer): string;', @PS_GetMobjInfoRipSound);
 // ------------------------------ GAME -----------------------------------------
   {$IFDEF HEXEN}
   baseproclist.Add('procedure G_Completed(map, position: integer);', @G_Completed);
@@ -1071,6 +1086,35 @@ begin
     Sender.AddConstant('LockedKeyShift', uT_integer).Value.ts32 := 6;
     Sender.AddConstant('LockedKindShift', uT_integer).Value.ts32 := 5;
     Sender.AddConstant('LockedSpeedShift', uT_integer).Value.ts32 := 3;
+
+    // MBF21 groups
+    // infighting groups
+    Sender.AddConstant('IG_INVALID', uT_integer).Value.ts32 := IG_INVALID;
+    for i := 0 to infighting_groups.Count - 1 do
+      Sender.AddConstant(infighting_groups.Strings[i], uT_integer).Value.ts32 := i;
+    Sender.AddConstant('IG_END', uT_integer).Value.ts32 := IG_END;
+
+    // projectile groups
+    Sender.AddConstant('PG_INVALID', uT_integer).Value.ts32 := PG_INVALID;
+    Sender.AddConstant('PG_GROUPLESS', uT_integer).Value.ts32 := PG_GROUPLESS;
+    for i := 0 to projectile_groups.Count - 1 do
+      Sender.AddConstant(projectile_groups.Strings[i], uT_integer).Value.ts32 := i;
+    Sender.AddConstant('PG_END', uT_integer).Value.ts32 := PG_END;
+
+    // Splash groups
+    Sender.AddConstant('SG_INVALID', uT_integer).Value.ts32 := SG_INVALID;
+    for i := 0 to splash_groups.Count - 1 do
+      Sender.AddConstant(splash_groups.Strings[i], uT_integer).Value.ts32 := i;
+    Sender.AddConstant('SG_END', uT_integer).Value.ts32 := SG_END;
+
+    // MBF21 Weapon Flags
+    Sender.AddConstant('WPF_NOFLAG', uT_integer).Value.ts32 := WPF_NOFLAG;
+    Sender.AddConstant('WPF_NOTHRUST', uT_integer).Value.ts32 := WPF_NOTHRUST;
+    Sender.AddConstant('WPF_SILENT', uT_integer).Value.ts32 := WPF_SILENT;
+    Sender.AddConstant('WPF_NOAUTOFIRE', uT_integer).Value.ts32 := WPF_NOAUTOFIRE;
+    Sender.AddConstant('WPF_FLEEMELEE', uT_integer).Value.ts32 := WPF_FLEEMELEE;
+    Sender.AddConstant('WPF_AUTOSWITCHFROM', uT_integer).Value.ts32 := WPF_AUTOSWITCHFROM;
+    Sender.AddConstant('WPF_NOAUTOSWITCHTO', uT_integer).Value.ts32 := WPF_NOAUTOSWITCHTO;
 
     Result := True;
   end

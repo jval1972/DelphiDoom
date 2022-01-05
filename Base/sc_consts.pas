@@ -48,6 +48,7 @@ uses
   d_delphi,
   doomdef,
   i_system,
+  info_common,
   p_aaptr,
   p_common;
 
@@ -196,6 +197,23 @@ begin
   SC_AddConst('SK_MEDIUM', Ord(sk_medium));
   SC_AddConst('SK_HARD', Ord(sk_hard));
   SC_AddConst('SK_NIGHTMARE', Ord(sk_nightmare));
+
+  // infighting groups
+  SC_AddConst('IG_INVALID', IG_INVALID);
+  SC_AddConst('IG_DEFAULT', IG_DEFAULT);
+  SC_AddConst('IG_END', IG_END);
+  // projectile groups
+  SC_AddConst('PG_INVALID', PG_INVALID);
+  SC_AddConst('PG_GROUPLESS', PG_GROUPLESS);
+  SC_AddConst('PG_DEFAULT', PG_DEFAULT);
+  {$IFDEF  DOOM}
+  SC_AddConst('PG_BARON', PG_BARON);
+  {$ENDIF}
+  SC_AddConst('PG_END', PG_END);
+  // Splash groups
+  SC_AddConst('SG_INVALID', SG_INVALID);
+  SC_AddConst('SG_DEFAULT', SG_DEFAULT);
+  SC_AddConst('SG_END', SG_END);
 end;
 
 procedure SC_ShutDownConsts;

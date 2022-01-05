@@ -43,7 +43,8 @@ interface
 
 uses
   d_delphi,
-  d_think;
+  d_think,
+  info_h;
 
 procedure DEH_Parse(const s: TDStringList);
 
@@ -64,7 +65,11 @@ type
     action: actionf_t;
     originalname: string;
     name: string;
-    {$IFDEF DLL}decl: string;{$ENDIF}
+    argcount: integer;
+    default_args: array[0..MAX_STATE_ARGS - 1] of integer; // mbf21
+    {$IFDEF DLL}
+    decl: string;
+    {$ENDIF}
   end;
   Pdeh_action_t = ^deh_action_t;
 
@@ -93,18 +98,28 @@ var
   mobj_flags4_ex: TDTextList;
   mobj_flags5_ex: TDTextList;
   mobj_flags6_ex: TDTextList;
+  mobj_flags_mbf21: TDTextList; // MBF21
   state_tokens: TDTextList;
   state_flags_ex: TDTextList;
+  state_flags_mbf21: TDTextList;  // MBF21
   ammo_tokens: TDTextList;
   weapon_tokens: TDTextList;
+  weapon_flags_mbf21: TDTextList; // MBF21
   sound_tokens: TDTextList;
   renderstyle_tokens: TDTextList;
   misc_tokens: TDTextList;
   weapontype_tokens: TDTextList;
   ammotype_tokens: TDTextList;
+  // MBF21
+  infighting_groups: TDTextList;
+  projectile_groups: TDTextList;
+  splash_groups: TDTextList;
 
   deh_actions: array[0..DEHMAXACTIONS - 1] of deh_action_t;
   deh_strings: deh_strings_t;
+
+var
+  ismbf21: boolean = false; // MBF21
 
 function Deh_ActionName(action: actionf_t): string;
 
@@ -126,7 +141,6 @@ uses
   g_game,
   hu_stuff,
   i_system,
-  info_h,
   info,
   info_common,
   m_argv,
@@ -163,6 +177,7 @@ var
   mobj_flags4_ex_hash: TDEHStringsHashTable;
   mobj_flags5_ex_hash: TDEHStringsHashTable;
   mobj_flags6_ex_hash: TDEHStringsHashTable;
+  mobj_flags_mbf21_hash: TDEHStringsHashTable;
 
 
 var
@@ -208,6 +223,7 @@ var
   token3: string;
   token4: string;
   token5: string;
+  group: integer; // MBF21
   fw: string;
   settext: string;
   mustnextline: boolean;
@@ -234,6 +250,7 @@ var
   weapon_no: integer;
   weapon_idx: integer;
   weapon_val: integer;
+  weapon_flag: integer;
 
   sound_no: integer;
   sound_idx: integer;
@@ -418,7 +435,7 @@ begin
           23: mobjinfo[mobj_no].raisestate := mobj_val;
           24: begin
                 if itoa(mobj_val) = token2 then
-                  mobjinfo[mobj_no].flags_ex := mobj_val  // DelphiDoom specific (lighting, transparency, etc)
+                  mobjinfo[mobj_no].flags_ex := mobj_val  // DelphiStrife specific (lighting, transparency, etc)
                 else
                 begin
                   mobj_setflag := -1;
@@ -480,7 +497,7 @@ begin
           38: mobjinfo[mobj_no].healstate := mobj_val;
           39: begin
                 if itoa(mobj_val) = token2 then
-                  mobjinfo[mobj_no].flags2_ex := mobj_val  // DelphiDoom specific
+                  mobjinfo[mobj_no].flags2_ex := mobj_val  // DelphiStrife specific
                 else
                 begin
                   mobj_setflag := -1;
@@ -653,6 +670,52 @@ begin
 
                 end;
               end;
+          69: begin // .mbf21flags
+                ismbf21 := true;
+                if itoa(mobj_val) = token2 then
+                  mobjinfo[mobj_no].mbf21bits := mobj_val
+                else
+                begin
+                  mobj_setflag := -1;
+                  repeat
+                    splitstring(token2, token3, token4, [' ', '|', ',', '+']);
+                    if Pos('MF2_', token3) = 1 then
+                      Delete(token3, 1, 4);
+                    if Pos('MBM21_', token3) = 1 then
+                      Delete(token3, 1, 6);
+                    if token3 <> '' then
+                    begin
+                      mobj_flag := mobj_flags_mbf21_hash.IndexOf(token3);
+                      if mobj_flag >= 0 then
+                      begin
+                        if mobj_setflag = -1 then
+                          mobj_setflag := 0;
+                        mobj_flag := _SHL(1, mobj_flag);
+                        mobj_setflag := mobj_setflag or mobj_flag;
+                      end;
+                    end;
+                    token2 := token4;
+                  until token2 = '';
+                  if mobj_setflag <> -1 then
+                    mobjinfo[mobj_no].mbf21bits := mobj_setflag;
+                end;
+              end;
+          70: begin // .infighting_group (MBF21)
+                group := Info_InfightingGroupToInt(token2);
+                if group <> IG_INVALID then
+                  mobjinfo[mobj_no].infighting_group := group;
+              end;
+          71: begin // .projectile_group (MBF21)
+                group := Info_ProjectileGroupToInt(token2);
+                if group <> PG_INVALID then
+                  mobjinfo[mobj_no].projectile_group := group;
+              end;
+          72: begin // .splash_group (MBF21)
+                group := Info_SplashGroupToInt(token2);
+                if group <> SG_INVALID then
+                  mobjinfo[mobj_no].splash_group := group;
+              end;
+          73: mobjinfo[mobj_no].ripsound := S_GetSoundNumForName(token2); // .ripsound (MBF21)
         end;
       end;
 
@@ -796,6 +859,8 @@ begin
 
                 if foundaction then
                 begin
+                  if states[state_no].params <> nil then
+                    states[state_no].params.Free;
                   if token4 <> '' then
                     states[state_no].params := TCustomParamList.Create(SC_FixParenthesisLevel(token4));
                 end
@@ -834,8 +899,67 @@ begin
               end;
            8: Info_AddStateOwner(@states[state_no], Info_GetMobjNumForName(token2));
            9: states[state_no].tics2 := state_val;
+          10: begin
+                states[state_no].args[0] := state_val;  // MBF21
+                states[state_no].argsdefined := states[state_no].argsdefined or ARG1_DEFINED;
+              end;
+          11: begin
+                states[state_no].args[1] := state_val;  // MBF21
+                states[state_no].argsdefined := states[state_no].argsdefined or ARG2_DEFINED;
+              end;
+          12: begin
+                states[state_no].args[2] := state_val;  // MBF21
+                states[state_no].argsdefined := states[state_no].argsdefined or ARG3_DEFINED;
+              end;
+          13: begin
+                states[state_no].args[3] := state_val;  // MBF21
+                states[state_no].argsdefined := states[state_no].argsdefined or ARG4_DEFINED;
+              end;
+          14: begin
+                states[state_no].args[4] := state_val;  // MBF21
+                states[state_no].argsdefined := states[state_no].argsdefined or ARG5_DEFINED;
+              end;
+          15: begin
+                states[state_no].args[5] := state_val;  // MBF21
+                states[state_no].argsdefined := states[state_no].argsdefined or ARG6_DEFINED;
+              end;
+          16: begin
+                states[state_no].args[6] := state_val;  // MBF21
+                states[state_no].argsdefined := states[state_no].argsdefined or ARG7_DEFINED;
+              end;
+          17: begin
+                states[state_no].args[7] := state_val;  // MBF21
+                states[state_no].argsdefined := states[state_no].argsdefined or ARG8_DEFINED;
+              end;
+          18: begin // MBF21
+                if itoa(state_val) = token2 then
+                  states[state_no].mbf21bits := state_val
+                else
+                begin
+                  state_setflag := -1;
+                  repeat
+                    splitstring(token2, token3, token4, [' ', '|', ',', '+']);
+                    state_flag := state_flags_mbf21.IndexOf(token3);
+                    if state_flag >= 0 then
+                    begin
+                      if state_setflag = -1 then
+                        state_setflag := 0;
+                      state_flag := _SHL(1, state_flag);
+                      state_setflag := state_setflag or state_flag;
+                    end;
+                    token2 := token4;
+                  until token2 = '';
+                  if state_setflag <> -1 then
+                    states[state_no].mbf21bits := state_setflag;
+
+                end;
+              end;
         end;
       end;
+
+      // MBF21
+      if states[state_no].mbf21bits <> 0 then
+        ismbf21 := true;
     end
 
 
@@ -1199,6 +1323,31 @@ begin
            4: weaponinfo[weapon_no].atkstate := weapon_val;
            6: weaponinfo[weapon_no].holdatkstate := weapon_val;
            5: weaponinfo[weapon_no].flashstate := weapon_val;
+           7: weaponinfo[weapon_no].ammopershot := weapon_val;  // MBF21
+           8: begin // MBF21
+                if itoa(weapon_val) = token2 then
+                  weaponinfo[weapon_no].mbf21bits := weapon_val
+                else
+                begin
+                  weapon_val := -1;
+                  repeat
+                    splitstring(token2, token3, token4, [' ', '|', ',', '+']);
+                    weapon_flag := weapon_flags_mbf21.IndexOf(token3);
+                    if weapon_flag >= 0 then
+                    begin
+                      if weapon_val = -1 then
+                        weapon_val := 0;
+                      weapon_flag := _SHL(1, weapon_flag);
+                      weapon_val := weapon_val or weapon_flag;
+                    end;
+                    token2 := token4;
+                  until token2 = '';
+                  if weapon_val <> -1 then
+                    weaponinfo[weapon_no].mbf21bits := weapon_val;
+
+                end;
+              end;
+
         end;
       end;
 
@@ -1372,6 +1521,8 @@ begin
               end;
           end;
 
+          if states[state_no].params <> nil then
+            states[state_no].params.Free;
           if token5 <> '' then
             states[state_no].params := TCustomParamList.Create(SC_FixParenthesisLevel(token5));
         end;
@@ -1759,13 +1910,30 @@ begin
         str := str + state_flags_ex[j];
       end;
     end;
+
+    if i = 1 then
+      result.Add('# Flags_ex is DelphiStrife specific and declares transparency and light effects');
+
     if str = '' then
       result.Add('%s = 0', [capitalizedstring(state_tokens[7])])
     else
       result.Add('%s = %s', [capitalizedstring(state_tokens[7]), str]);
 
-    if i = 1 then
-      result.Add('# Flags_ex declares transparency and light effects');
+    // MBF21
+    str := '';
+    for j := 0 to state_flags_mbf21.Count - 1 do
+    begin
+      if states[i].mbf21bits and _SHL(1, j) <> 0 then
+      begin
+        if str <> '' then
+          str := str + ', ';
+        str := str + state_flags_mbf21[j];
+      end;
+    end;
+    if str = '' then
+      result.Add('%s = 0', [capitalizedstring(state_tokens[18])])
+    else
+      result.Add('%s = %s', [capitalizedstring(state_tokens[18]), str]);
 
     result.Add('');
   end;
@@ -1788,6 +1956,24 @@ begin
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[4]), weaponinfo[i].atkstate]);
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[6]), weaponinfo[i].holdatkstate]);
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[5]), weaponinfo[i].flashstate]);
+
+    // MBF
+    str := '';
+    for j := 0 to weapon_flags_mbf21.Count - 1 do
+    begin
+      if weaponinfo[i].mbf21bits and _SHL(1, j) <> 0 then
+      begin
+        if str <> '' then
+          str := str + ', ';
+        str := str + weapon_flags_mbf21[j];
+      end;
+    end;
+
+    // MBF
+    if str = '' then
+      result.Add('%s = 0', [capitalizedstring(weapon_tokens[8])])
+    else
+      result.Add('%s = %s', [capitalizedstring(weapon_tokens[8]), str]);
 
     result.Add('');
   end;
@@ -1949,6 +2135,11 @@ begin
   mobj_tokens.Add('SPRITE DY');          // .spriteDY                 // 66
   mobj_tokens.Add('FLAGS5_EX');          // .flags5_ex (DelphiDoom)   // 67
   mobj_tokens.Add('FLAGS6_EX');          // .flags6_ex (DelphiDoom)   // 68
+  mobj_tokens.Add('MBF21 BITS');         // .mbf21flags               // 69
+  mobj_tokens.Add('INFIGHTING GROUP');   // .infighting_group         // 70
+  mobj_tokens.Add('PROJECTILE GROUP');   // .projectile_group         // 71
+  mobj_tokens.Add('SPLASH GROUP');       // .splash_group             // 72
+  mobj_tokens.Add('RIP SOUND');          // .ripsound                 // 73
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);
@@ -2121,6 +2312,40 @@ begin
   mobj_flags6_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags6_ex_hash.AssignList(mobj_flags6_ex);
 
+  // MBF21
+  mobj_flags_mbf21 := TDTextList.Create;
+  mobj_flags_mbf21.Add('LOGRAV');
+  mobj_flags_mbf21.Add('SHORTMRANGE');
+  mobj_flags_mbf21.Add('DMGIGNORED');
+  mobj_flags_mbf21.Add('NORADIUSDMG');
+  mobj_flags_mbf21.Add('FORCERADIUSDMG');
+  mobj_flags_mbf21.Add('HIGHERMPROB');
+  mobj_flags_mbf21.Add('RANGEHALF');
+  mobj_flags_mbf21.Add('NOTHRESHOLD');
+  mobj_flags_mbf21.Add('LONGMELEE');
+  mobj_flags_mbf21.Add('BOSS');
+  mobj_flags_mbf21.Add('MAP07BOSS1');
+  mobj_flags_mbf21.Add('MAP07BOSS2');
+  mobj_flags_mbf21.Add('E1M8BOSS');
+  mobj_flags_mbf21.Add('E2M8BOSS');
+  mobj_flags_mbf21.Add('E3M8BOSS');
+  mobj_flags_mbf21.Add('E4M6BOSS');
+  mobj_flags_mbf21.Add('E4M8BOSS');
+  mobj_flags_mbf21.Add('RIP');
+  mobj_flags_mbf21.Add('FULLVOLSOUNDS');
+
+  mobj_flags_mbf21_hash := TDEHStringsHashTable.Create;
+  mobj_flags_mbf21_hash.AssignList(mobj_flags_mbf21);
+
+  infighting_groups := TDTextList.Create;
+  infighting_groups.Add('IG_DEFAULT');
+
+  projectile_groups := TDTextList.Create;
+  projectile_groups.Add('PG_DEFAULT');
+  projectile_groups.Add('PG_BARON');
+
+  splash_groups := TDTextList.Create;
+  splash_groups.Add('SG_DEFAULT');
 
   // JVAL: 20200330 - State flags
   state_flags_ex := TDTextList.Create;
@@ -2133,6 +2358,9 @@ begin
   state_flags_ex.Add('MF_EX_STATE_RANDOM_SELECT');
   state_flags_ex.Add('MF_EX_STATE_RANDOM_RANGE');
 
+  state_flags_mbf21 := TDTextList.Create; // MBF21
+  state_flags_mbf21.Add('STATEF_SKILL5FAST'); // MBF21
+
   state_tokens := TDTextList.Create;
   state_tokens.Add('SPRITE NUMBER');    // 0 //.sprite
   state_tokens.Add('SPRITE SUBNUMBER'); // 1 //.frame
@@ -2144,6 +2372,15 @@ begin
   state_tokens.Add('FLAGS_EX');         // 7 //.flags_ex (DelphiDoom)
   state_tokens.Add('OWNER');            // 8 //.Add an owner (DelphiDoom)
   state_tokens.Add('DURATION 2');       // 9 //.tics2
+  state_tokens.Add('ARGS1');            // 10 // .args[0]
+  state_tokens.Add('ARGS2');            // 11 // .args[1]
+  state_tokens.Add('ARGS3');            // 12 // .args[2]
+  state_tokens.Add('ARGS4');            // 13 // .args[3]
+  state_tokens.Add('ARGS5');            // 14 // .args[4]
+  state_tokens.Add('ARGS6');            // 15 // .args[5]
+  state_tokens.Add('ARGS7');            // 16 // .args[6]
+  state_tokens.Add('ARGS8');            // 17 // .args[7]
+  state_tokens.Add('MBF21 BITS');       // 18 // .mbf21bits
 
   deh_actions[0].action.acp1 := nil;
   deh_actions[0].name := 'NULL';
@@ -2785,7 +3022,17 @@ begin
   weapon_tokens.Add('SHOOTING FRAME');// .atkstate
   weapon_tokens.Add('FIRING FRAME');  // .flashstate
   weapon_tokens.Add('HOLD SHOOTING FRAME');// .holdatkstate
+  weapon_tokens.Add('AMMO PER SHOT'); // .ammopershot (MBF21)
+  weapon_tokens.Add('MBF21 BITS');  // .mbf21bits (MBF21)
 
+  // MBF21
+  weapon_flags_mbf21 := TDTextList.Create;
+  weapon_flags_mbf21.Add('NOTHRUST');
+  weapon_flags_mbf21.Add('SILENT');
+  weapon_flags_mbf21.Add('NOAUTOFIRE');
+  weapon_flags_mbf21.Add('FLEEMELEE');
+  weapon_flags_mbf21.Add('AUTOSWITCHFROM');
+  weapon_flags_mbf21.Add('NOAUTOSWITCHTO');
 
   sound_tokens := TDTextList.Create;
 
@@ -2840,15 +3087,23 @@ begin
   FreeAndNil(mobj_flags4_ex);
   FreeAndNil(mobj_flags5_ex);
   FreeAndNil(mobj_flags6_ex);
+  FreeAndNil(mobj_flags_mbf21); // MBF21
   FreeAndNil(state_flags_ex);
+  FreeAndNil(state_flags_mbf21);  // MBF21
   FreeAndNil(state_tokens);
   FreeAndNil(ammo_tokens);
   FreeAndNil(weapon_tokens);
+  FreeAndNil(weapon_flags_mbf21); // MBF21
   FreeAndNil(sound_tokens);
   FreeAndNil(renderstyle_tokens);
   FreeAndNil(misc_tokens);
   FreeAndNil(weapontype_tokens);
   FreeAndNil(ammotype_tokens);
+  // MBF21
+  FreeAndNil(infighting_groups);
+  FreeAndNil(projectile_groups);
+  FreeAndNil(splash_groups);
+
 
   FreeAndNil(mobj_tokens_hash);
   FreeAndNil(mobj_flags_hash);
@@ -2858,6 +3113,7 @@ begin
   FreeAndNil(mobj_flags4_ex_hash);
   FreeAndNil(mobj_flags5_ex_hash);
   FreeAndNil(mobj_flags6_ex_hash);
+  FreeAndNil(mobj_flags_mbf21_hash); // MBF21
 
   DEH_ShutDownActionsHash;
 

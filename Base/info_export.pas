@@ -48,6 +48,7 @@ uses
   deh_main,
   info,
   info_h,
+  info_common,
   m_argv,
   m_fixed,
   p_gender,
@@ -327,6 +328,10 @@ begin
     AddLn('mobjinfo[' + mname + '].spriteDY := ' + itoa_FRACUNIT(mobjinfo[i].spriteDY) + ';');
     AddLn('mobjinfo[' + mname + '].flags5_ex := ' + itoa_FLAGS(mobjinfo[i].flags5_ex, mobj_flags5_ex) + ';');
     AddLn('mobjinfo[' + mname + '].flags6_ex := ' + itoa_FLAGS(mobjinfo[i].flags6_ex, mobj_flags6_ex) + ';');
+    AddLn('mobjinfo[' + mname + '].infighting_group := ' + Info_InfightingGroupToString(mobjinfo[i].infighting_group) + ';');
+    AddLn('mobjinfo[' + mname + '].projectile_group := ' + Info_ProjectileGroupToString(mobjinfo[i].projectile_group) + ';');
+    AddLn('mobjinfo[' + mname + '].splash_group := ' + Info_SplashGroupToString(mobjinfo[i].splash_group) + ';');
+    AddLn('mobjinfo[' + mname + '].ripsound := ' + _sound_name_Ord(mobjinfo[i].ripsound) + ';');
     AddLn('');
   end;
 
@@ -471,6 +476,10 @@ begin
     AddField('spriteDY', itoa_FRACUNIT(fmobjinfo[i].spriteDY));
     AddField('flags5_ex', itoa_FLAGS(fmobjinfo[i].flags5_ex, mobj_flags5_ex));
     AddField('flags6_ex', itoa_FLAGS(fmobjinfo[i].flags6_ex, mobj_flags6_ex));
+    AddField('infighting_group', Info_InfightingGroupToString(mobjinfo[i].infighting_group));
+    AddField('projectile_group', Info_ProjectileGroupToString(mobjinfo[i].projectile_group));
+    AddField('splash_group', Info_SplashGroupToString(mobjinfo[i].splash_group));
+    AddField('ripsound', _sound_name_Ord(fmobjinfo[i].ripsound));
     if i = finish then
       AddLn(' )')
     else

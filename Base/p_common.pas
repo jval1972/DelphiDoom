@@ -527,6 +527,11 @@ procedure A_SetInteractive(actor: Pmobj_t);
 
 procedure A_UnSetInteractive(actor: Pmobj_t);
 
+// MBF21 codeptrs
+function P_CheckStateArgs(actor: Pmobj_t): boolean;
+
+procedure A_SpawnObject(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -680,6 +685,7 @@ uses
   r_defs,
   r_main,
   sc_engine,
+  sc_params,
   sc_tokens,
   sc_states,
   tables,
@@ -7037,6 +7043,99 @@ begin
   end;
 
   result := false;
+end;
+
+// MBF21
+function P_CheckStateArgs(actor: Pmobj_t): boolean;
+var
+  deh_action: Pdeh_action_t;
+  i: integer;
+  tmpargs: array[0..MAX_STATE_ARGS - 1] of integer;
+  sargs: string;
+begin
+  if actor.state.flags_ex and MF_EX_STATE_ARGS_CHECKED <> 0 then
+  begin
+    result := actor.state.flags_ex and MF_EX_STATE_ARGS_ERROR <> 0;
+    Exit;
+  end;
+
+  actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_ARGS_CHECKED;
+
+  deh_action := nil;
+  for i := 0 to dehnumactions - 1 do
+    if @deh_actions[i].action.acp1 = @actor.state.action.acp1 then
+      deh_action := @deh_actions[i];
+
+  if deh_action = nil then
+  begin
+    I_Warning('P_CheckStateArgs(): Unregistered function found in actor "%s"'#13#10, [Info_GetMobjName(actor.info)]);
+    actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_ARGS_ERROR;
+    result := false;
+    exit;
+  end;
+
+  if actor.state.params <> nil then
+  begin
+    if actor.state.params.Count = deh_action.argcount then
+    begin
+      result := true;
+      exit;
+    end
+    else if actor.state.params.Count >= deh_action.argcount then
+    begin
+      I_Warning('P_CheckStateArgs(): Action has more than %d parameters in actor "%s"'#13#10, [actor.state.params.Count, Info_GetMobjName(actor.info)]);
+      actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_ARGS_ERROR;
+      result := false;
+      exit;
+    end
+    else
+    begin
+      I_Warning('P_CheckStateArgs(): Action has less than %d parameters in actor "%s"'#13#10, [actor.state.params.Count, Info_GetMobjName(actor.info)]);
+      result := true;
+      exit;
+    end;
+  end;
+
+  if deh_action.argcount = 0 then
+  begin
+    result := true;
+    exit;
+  end;
+
+  sargs := '';
+  for i := 0 to deh_action.argcount - 1 do
+  begin
+    if actor.state.argsdefined and (1 shl i) <> 0 then
+      tmpargs[i] := actor.state.args[i]
+    else
+      tmpargs[i] := deh_action.default_args[i];
+    if i = 0 then
+      sargs := itoa(tmpargs[i])
+    else
+      sargs := sargs + ', ' + itoa(tmpargs[i]);
+  end;
+
+  actor.state.params := TCustomParamList.Create(sargs);
+  result := true;
+end;
+
+// A_SpawnObject
+// Basically just A_Spawn with better behavior and more args.
+//   args[0]: Type of actor to spawn
+//   args[1]: Angle (degrees, in fixed point), relative to calling actor's angle
+//   args[2]: X spawn offset (fixed point), relative to calling actor
+//   args[3]: Y spawn offset (fixed point), relative to calling actor
+//   args[4]: Z spawn offset (fixed point), relative to calling actor
+//   args[5]: X velocity (fixed point)
+//   args[6]: Y velocity (fixed point)
+//   args[7]: Z velocity (fixed point)
+//
+procedure A_SpawnObject(actor: Pmobj_t);
+begin
+  if not P_CheckStateArgs(actor) then
+    exit;
+
+  
 end;
 
 end.

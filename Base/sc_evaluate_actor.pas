@@ -122,6 +122,10 @@ type
     function PF_WeaveIndexZ(p: TDStrings): string;
     function PF_SpriteDX(p: TDStrings): string;
     function PF_SpriteDY(p: TDStrings): string;
+    // MBF21
+    function PF_InfightingGroup(p: TDStrings): string;
+    function PF_ProjectileGroup(p: TDStrings): string;
+    function PF_SplashGroup(p: TDStrings): string;
     // Pascalscript map & world variables
     function PF_MAPSTR(p: TDStrings): string;
     function PF_WORLDSTR(p: TDStrings): string;
@@ -225,6 +229,10 @@ begin
   AddFunc('WEAVEINDEXZ', PF_WeaveIndexZ, 0);
   AddFunc('SPRITEDX', PF_SpriteDX, 0);
   AddFunc('SPRITEDY', PF_SpriteDY, 0);
+  // MBF21
+  AddFunc('INFIGHTINGGROUP', PF_InfightingGroup, 0);
+  AddFunc('PROJECTILEGROUP', PF_ProjectileGroup, 0);
+  AddFunc('SPLASHGROUP', PF_SplashGroup, 0);
   // Pascalscript map & world variables
   AddFunc('MAPSTR', PF_MAPSTR, 1);
   AddFunc('WORLDSTR', PF_WORLDSTR, 1);
@@ -594,6 +602,22 @@ end;
 function TActorEvaluator.PF_SpriteDY(p: TDStrings): string;
 begin
   result := itoa(factor.spriteDY);
+end;
+
+// MBF21
+function TActorEvaluator.PF_InfightingGroup(p: TDStrings): string;
+begin
+  result := itoa(factor.infighting_group);
+end;
+
+function TActorEvaluator.PF_ProjectileGroup(p: TDStrings): string;
+begin
+  result := itoa(factor.projectile_group);
+end;
+
+function TActorEvaluator.PF_SplashGroup(p: TDStrings): string;
+begin
+  result := itoa(factor.splash_group);
 end;
 
 // Pascalscript map & world variables

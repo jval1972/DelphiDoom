@@ -72,6 +72,7 @@ type
     gotostr_calc: string;
     alias: string;
     savealias: string;
+    fast: boolean; // MBF21
   end;
   Prtl_state_t = ^rtl_state_t;
 
@@ -111,8 +112,8 @@ type
     flags2_ex: string;
     flags3_ex: string;
     flags4_ex: string;
-    flags5_ex: string;
-    flags6_ex: string;
+    flags5_ex: string;  // VERSION 207
+    flags6_ex: string;  // VERSION 207
     raisestate: integer;
     customsound1: string;
     customsound2: string;
@@ -154,6 +155,12 @@ type
     WeaveIndexZ: integer;
     spriteDX: float;
     spriteDY: float;
+    // MBF21
+    infighting_group: integer;
+    projectile_group: integer;
+    splash_group: integer;
+    mbf21bits: integer; // not actually flags, the bits will be converted to DelphiDoom flags
+    ripsound: integer;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 
@@ -173,6 +180,7 @@ type
     attackstate: integer;
     holdattackstate: integer;
     flashstate: integer;
+    ammopershot: integer;
     statesdefined: LongWord;
   end;
   Prtl_weaponinfo_t = ^rtl_weaponinfo_t;

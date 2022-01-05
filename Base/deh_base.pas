@@ -105,7 +105,9 @@ function DEH_AmmoType(const str: string): integer;
 
 function DEH_WeaponType(const str: string): integer;
 
-procedure DEH_AddAction(const acp1: actionf_p1; const desc: string);
+procedure DEH_AddAction(const acp1: actionf_p1; const desc: string); overload;
+
+procedure DEH_AddAction(const acp1: actionf_p1; const desc: string; const def_args: array of integer); overload;
 
 {$IFDEF  HEXEN}
 function DEH_PlayerClass(const str: string): integer;
@@ -1072,6 +1074,7 @@ end;
 procedure DEH_AddAction(const acp1: actionf_p1; const desc: string);
 var
   aname: string;
+  i: integer;
 begin
   if dehnumactions >= DEHMAXACTIONS then
     I_Error('DEH_AddAction(): Trying to add more than %d actions', [DEHMAXACTIONS]);
@@ -1082,11 +1085,38 @@ begin
     Delete(aname, 1, 2);
   deh_actions[dehnumactions].originalname := aname;
   deh_actions[dehnumactions].name := strupper(aname);
+  deh_actions[dehnumactions].argcount := 0;
+  for i := 0 to MAX_STATE_ARGS - 1 do
+    deh_actions[dehnumactions].default_args[i] := 0;
   {$IFDEF DLL}deh_actions[dehnumactions].decl := desc;{$ENDIF}
   Inc(dehnumactions);
 end;
 
-{$IFDEF  HEXEN}
+procedure DEH_AddAction(const acp1: actionf_p1; const desc: string; const def_args: array of integer); overload;
+var
+  aname: string;
+  n_args, i: integer;
+begin
+  if dehnumactions >= DEHMAXACTIONS then
+    I_Error('DEH_AddAction(): Trying to add more than %d actions', [DEHMAXACTIONS]);
+
+  deh_actions[dehnumactions].action.acp1 := @acp1;
+  aname := firstword(desc, [' ', ';', '(', '[', ':', #7, #9, #10, #13]);
+  if Pos('A_', strupper(aname)) = 1 then
+    Delete(aname, 1, 2);
+  deh_actions[dehnumactions].originalname := aname;
+  deh_actions[dehnumactions].name := strupper(aname);
+  n_args := Length(def_args);
+  deh_actions[dehnumactions].argcount := n_args;
+  for i := 0 to n_args - 1 do
+    deh_actions[dehnumactions].default_args[i] := def_args[i];
+  for i := n_args to MAX_STATE_ARGS - 1 do
+    deh_actions[dehnumactions].default_args[i] := 0;
+  {$IFDEF DLL}deh_actions[dehnumactions].decl := desc;{$ENDIF}
+  Inc(dehnumactions);
+end;
+
+{$IFDEF HEXEN}
 function DEH_PlayerClass(const str: string): integer;
 var
   stmp: string;

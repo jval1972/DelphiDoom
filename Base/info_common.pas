@@ -32,6 +32,7 @@ interface
 
 uses
   d_delphi,
+  doomtype,
   info_h;
 
 function Info_GetMobjNumForDoomNum(const dn: integer): integer;
@@ -78,13 +79,48 @@ procedure Info_SaveActions;
 
 function Info_RestoreActions: boolean;
 
+// MBF21 groups
+const
+  // infighting groups
+  IG_INVALID = MININT;
+  IG_DEFAULT = 0;
+  IG_END = 1;
+  // projectile groups
+  PG_INVALID = MININT;
+  PG_GROUPLESS = -1;
+  PG_DEFAULT = 0;
+  {$IFDEF DOOM}
+  PG_BARON = 1;
+  PG_END = 2;
+  {$ELSE}
+  PG_END = 1;
+  {$ENDIF}
+  // Splash groups
+  SG_INVALID = MININT;
+  SG_DEFAULT = 0;
+  SG_END = 1;
+
+function Info_InfightingGroupToString(const i: integer): string;
+
+function Info_InfightingGroupToInt(const s: string): integer;
+
+function Info_ProjectileGroupToString(const i: integer): string;
+
+function Info_ProjectileGroupToInt(const s: string): integer;
+
+function Info_SplashGroupToString(const i: integer): string;
+
+function Info_SplashGroupToInt(const s: string): integer;
+
 implementation
 
 uses
   d_think,
+  deh_main,
   i_system,
   m_fixed,
   p_spec,
+  sc_consts,
   info;
 
 var
@@ -264,6 +300,9 @@ begin
   mobjinfo[nummobjtypes].friction := ORIG_FRICTION;
   mobjinfo[nummobjtypes].scale := FRACUNIT;
   mobjinfo[nummobjtypes].gravity := FRACUNIT;
+  mobjinfo[nummobjtypes].infighting_group := IG_DEFAULT;
+  mobjinfo[nummobjtypes].projectile_group := PG_DEFAULT;
+  mobjinfo[nummobjtypes].splash_group := SG_DEFAULT;
   result := nummobjtypes;
   inc(nummobjtypes);
 end;
@@ -620,6 +659,167 @@ begin
 
   for i := 0 to Ord(DO_NUMSTATES) - 1 do
     states[i].action := save_actions[i];
+end;
+
+function Info_InfightingGroupToString(const i: integer): string;
+begin
+  if i = IG_DEFAULT then
+    result := 'IG_DEFAULT'
+  else if i = IG_INVALID then
+    result := 'IG_INVALID'
+  else if IsIntegerInRange(i, 0, infighting_groups.Count - 1) then
+    result := infighting_groups.Strings[i]
+  else
+    result := itoa(i);
+end;
+
+function Info_InfightingGroupToInt(const s: string): integer;
+var
+  check: string;
+begin
+  check := strupper(s);
+  if Pos('IG_', check) <> 1 then
+    check := 'IG_' + check;
+
+  if check = 'IG_DEFAULT' then
+  begin
+    result := IG_DEFAULT;
+    exit;
+  end;
+
+  if check = 'IG_INVALID' then
+  begin
+    result := IG_INVALID;
+    exit;
+  end;
+
+  result := infighting_groups.IndexOf(check);
+  if result >= 0 then
+    exit;
+
+  result := atoi(s);
+  if result < 0 then
+    result := IG_INVALID
+  else
+  begin
+    check := 'IG_' + itoa(result);
+    result := infighting_groups.Add(check);
+    SC_AddConst(check, result); // JVAL: 20220104 - Dynamically add const
+  end;
+end;
+
+function Info_ProjectileGroupToString(const i: integer): string;
+begin
+  if i = PG_GROUPLESS then
+    result := 'PG_GROUPLESS'
+  else if i = PG_INVALID then
+    result := 'PG_INVALID'
+  else if i = PG_DEFAULT then
+    result := 'PG_DEFAULT'
+  {$IFDEF DOOM}
+  else if i = PG_BARON then
+    result := 'PG_BARON'
+  {$ENDIF}
+  else if IsIntegerInRange(i, 0, projectile_groups.Count - 1) then
+    result := projectile_groups.Strings[i]
+  else
+    result := itoa(i);
+end;
+
+function Info_ProjectileGroupToInt(const s: string): integer;
+var
+  check: string;
+begin
+  check := strupper(s);
+  if Pos('PG_', check) <> 1 then
+    check := 'PG_' + check;
+
+  if check = 'PG_GROUPLESS' then
+  begin
+    result := PG_GROUPLESS;
+    exit;
+  end;
+
+  if check = 'PG_INVALID' then
+  begin
+    result := PG_INVALID;
+    exit;
+  end;
+
+  if check = 'PG_DEFAULT' then
+  begin
+    result := PG_DEFAULT;
+    exit;
+  end;
+
+  {$IFDEF DOOM}
+  if check = 'PG_BARON' then
+  begin
+    result := PG_BARON;
+    exit;
+  end;
+  {$ENDIF}
+
+  result := projectile_groups.IndexOf(check);
+  if result >= 0 then
+    exit;
+
+  result := atoi(s);
+  if result < 0 then
+    result := PG_GROUPLESS
+  else
+  begin
+    check := 'PG_' + itoa(result);
+    result := projectile_groups.Add(check);
+    SC_AddConst(check, result); // JVAL: 20220104 - Dynamically add const
+  end;
+end;
+
+function Info_SplashGroupToString(const i: integer): string;
+begin
+  if i = SG_DEFAULT then
+    result := 'SG_DEFAULT'
+  else if i = SG_INVALID then
+    result := 'SG_INVALID'
+  else if IsIntegerInRange(i, 0, splash_groups.Count - 1) then
+    result := splash_groups.Strings[i]
+  else
+    result := itoa(i);
+end;
+
+function Info_SplashGroupToInt(const s: string): integer;
+var
+  check: string;
+begin
+  check := strupper(s);
+  if Pos('SG_', check) <> 1 then
+    check := 'SG_' + check;
+
+  if check = 'SG_DEFAULT' then
+  begin
+    result := SG_DEFAULT;
+    exit;
+  end;
+
+  if check = 'SG_INVALID' then
+  begin
+    result := SG_INVALID;
+    exit;
+  end;
+
+  result := splash_groups.IndexOf(check);
+  if result >= 0 then
+    exit;
+
+  result := atoi(s);
+  if result < 0 then
+    result := SG_INVALID
+  else
+  begin
+    check := 'SG_' + itoa(result);
+    result := projectile_groups.Add(check);
+    SC_AddConst(check, result); // JVAL: 20220104 - Dynamically add const
+  end;
 end;
 
 end.

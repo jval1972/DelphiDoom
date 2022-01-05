@@ -92,6 +92,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NULL
 
    (
@@ -103,6 +104,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FREETARGMOBJ
 
    (
@@ -114,6 +116,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ITEM_PTN1_1
 
    (
@@ -125,6 +128,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ITEM_PTN1_2
 
    (
@@ -136,6 +140,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ITEM_PTN1_3
 
    (
@@ -147,6 +152,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ITEM_SHLD1
 
    (
@@ -158,6 +164,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ITEM_SHD2_1
 
    (
@@ -169,6 +176,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ITEM_BAGH1
 
    (
@@ -180,6 +188,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ITEM_SPMP1
 
    (
@@ -191,6 +200,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HIDESPECIAL1
 
    (
@@ -202,6 +212,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HIDESPECIAL2
 
    (
@@ -213,6 +224,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HIDESPECIAL3
 
    (
@@ -224,6 +236,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HIDESPECIAL4
 
    (
@@ -235,6 +248,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HIDESPECIAL5
 
    (
@@ -246,6 +260,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HIDESPECIAL6
 
    (
@@ -257,6 +272,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HIDESPECIAL7
 
    (
@@ -268,6 +284,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HIDESPECIAL8
 
    (
@@ -279,6 +296,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HIDESPECIAL9
 
    (
@@ -290,6 +308,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HIDESPECIAL10
 
    (
@@ -301,6 +320,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HIDESPECIAL11
 
    (
@@ -312,6 +332,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI1
 
    (
@@ -323,6 +344,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI2
 
    (
@@ -334,6 +356,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI3
 
    (
@@ -345,6 +368,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI4
 
    (
@@ -356,6 +380,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI5
 
    (
@@ -367,6 +392,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI6
 
    (
@@ -378,6 +404,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI7
 
    (
@@ -389,6 +416,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI8
 
    (
@@ -400,6 +428,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI9
 
    (
@@ -411,6 +440,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI10
 
    (
@@ -422,6 +452,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI11
 
    (
@@ -433,6 +464,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI12
 
    (
@@ -444,6 +476,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI13
 
    (
@@ -455,6 +488,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI14
 
    (
@@ -466,6 +500,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI15
 
    (
@@ -477,6 +512,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI16
 
    (
@@ -488,6 +524,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI17
 
    (
@@ -499,6 +536,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI18
 
    (
@@ -510,6 +548,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI19
 
    (
@@ -521,6 +560,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI20
 
    (
@@ -532,6 +572,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DORMANTARTI21
 
    (
@@ -543,6 +584,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DEADARTI1
 
    (
@@ -554,6 +596,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DEADARTI2
 
    (
@@ -565,6 +608,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DEADARTI3
 
    (
@@ -576,6 +620,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DEADARTI4
 
    (
@@ -587,6 +632,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DEADARTI5
 
    (
@@ -598,6 +644,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DEADARTI6
 
    (
@@ -609,6 +656,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DEADARTI7
 
    (
@@ -620,6 +668,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DEADARTI8
 
    (
@@ -631,6 +680,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DEADARTI9
 
    (
@@ -642,6 +692,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DEADARTI10
 
    (
@@ -653,6 +704,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_INVS1
 
    (
@@ -664,6 +716,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_PTN2_1
 
    (
@@ -675,6 +728,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_PTN2_2
 
    (
@@ -686,6 +740,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_PTN2_3
 
    (
@@ -697,6 +752,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_SOAR1
 
    (
@@ -708,6 +764,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_SOAR2
 
    (
@@ -719,6 +776,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_SOAR3
 
    (
@@ -730,6 +788,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_SOAR4
 
    (
@@ -741,6 +800,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_INVU1
 
    (
@@ -752,6 +812,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_INVU2
 
    (
@@ -763,6 +824,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_INVU3
 
    (
@@ -774,6 +836,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_INVU4
 
    (
@@ -785,6 +848,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_PWBK1
 
    (
@@ -796,6 +860,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_EGGC1
 
    (
@@ -807,6 +872,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_EGGC2
 
    (
@@ -818,6 +884,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_EGGC3
 
    (
@@ -829,6 +896,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_EGGC4
 
    (
@@ -840,6 +908,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_EGGFX1
 
    (
@@ -851,6 +920,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_EGGFX2
 
    (
@@ -862,6 +932,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_EGGFX3
 
    (
@@ -873,6 +944,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_EGGFX4
 
    (
@@ -884,6 +956,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_EGGFX5
 
    (
@@ -895,6 +968,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_EGGFXI1_1
 
    (
@@ -906,6 +980,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_EGGFXI1_2
 
    (
@@ -917,6 +992,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_EGGFXI1_3
 
    (
@@ -928,6 +1004,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_EGGFXI1_4
 
    (
@@ -939,6 +1016,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_SPHL1
 
    (
@@ -950,6 +1028,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_TRCH1
 
    (
@@ -961,6 +1040,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_TRCH2
 
    (
@@ -972,6 +1052,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_TRCH3
 
    (
@@ -983,6 +1064,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_FBMB1
 
    (
@@ -994,6 +1076,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBOMB1
 
    (
@@ -1005,6 +1088,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBOMB2
 
    (
@@ -1016,6 +1100,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBOMB3
 
    (
@@ -1027,6 +1112,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBOMB4
 
    (
@@ -1038,6 +1124,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBOMB5
 
    (
@@ -1049,6 +1136,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBOMB6
 
    (
@@ -1060,6 +1148,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBOMB7
 
    (
@@ -1071,6 +1160,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBOMB8
 
    (
@@ -1082,6 +1172,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBOMB9
 
    (
@@ -1093,6 +1184,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBOMB10
 
    (
@@ -1104,6 +1196,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBOMB11
 
    (
@@ -1115,6 +1208,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_ATLP1
 
    (
@@ -1126,6 +1220,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_ATLP2
 
    (
@@ -1137,6 +1232,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_ATLP3
 
    (
@@ -1148,6 +1244,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARTI_ATLP4
 
    (
@@ -1159,6 +1256,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POD_WAIT1
 
    (
@@ -1170,6 +1268,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POD_PAIN1
 
    (
@@ -1181,6 +1280,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POD_DIE1
 
    (
@@ -1192,6 +1292,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POD_DIE2
 
    (
@@ -1203,6 +1304,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POD_DIE3
 
    (
@@ -1214,6 +1316,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POD_DIE4
 
    (
@@ -1225,6 +1328,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POD_GROW1
 
    (
@@ -1236,6 +1340,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POD_GROW2
 
    (
@@ -1247,6 +1352,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POD_GROW3
 
    (
@@ -1258,6 +1364,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POD_GROW4
 
    (
@@ -1269,6 +1376,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POD_GROW5
 
    (
@@ -1280,6 +1388,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POD_GROW6
 
    (
@@ -1291,6 +1400,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POD_GROW7
 
    (
@@ -1302,6 +1412,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POD_GROW8
 
    (
@@ -1313,6 +1424,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PODGOO1
 
    (
@@ -1324,6 +1436,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PODGOO2
 
    (
@@ -1335,6 +1448,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PODGOOX
 
    (
@@ -1346,6 +1460,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PODGENERATOR
 
    (
@@ -1357,6 +1472,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLASH1
 
    (
@@ -1368,6 +1484,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLASH2
 
    (
@@ -1379,6 +1496,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLASH3
 
    (
@@ -1390,6 +1508,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLASH4
 
    (
@@ -1401,6 +1520,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLASHX
 
    (
@@ -1412,6 +1532,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLASHBASE1
 
    (
@@ -1423,6 +1544,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLASHBASE2
 
    (
@@ -1434,6 +1556,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLASHBASE3
 
    (
@@ -1445,6 +1568,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLASHBASE4
 
    (
@@ -1456,6 +1580,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLASHBASE5
 
    (
@@ -1467,6 +1592,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLASHBASE6
 
    (
@@ -1478,6 +1604,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLASHBASE7
 
    (
@@ -1489,6 +1616,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LAVASPLASH1
 
    (
@@ -1500,6 +1628,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LAVASPLASH2
 
    (
@@ -1511,6 +1640,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LAVASPLASH3
 
    (
@@ -1522,6 +1652,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LAVASPLASH4
 
    (
@@ -1533,6 +1664,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LAVASPLASH5
 
    (
@@ -1544,6 +1676,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LAVASPLASH6
 
    (
@@ -1555,6 +1688,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LAVASMOKE1
 
    (
@@ -1566,6 +1700,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LAVASMOKE2
 
    (
@@ -1577,6 +1712,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LAVASMOKE3
 
    (
@@ -1588,6 +1724,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LAVASMOKE4
 
    (
@@ -1599,6 +1736,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LAVASMOKE5
 
    (
@@ -1610,6 +1748,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SLUDGECHUNK1
 
    (
@@ -1621,6 +1760,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SLUDGECHUNK2
 
    (
@@ -1632,6 +1772,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SLUDGECHUNK3
 
    (
@@ -1643,6 +1784,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SLUDGECHUNK4
 
    (
@@ -1654,6 +1796,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SLUDGECHUNKX
 
    (
@@ -1665,6 +1808,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SLUDGESPLASH1
 
    (
@@ -1676,6 +1820,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SLUDGESPLASH2
 
    (
@@ -1687,6 +1832,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SLUDGESPLASH3
 
    (
@@ -1698,6 +1844,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SLUDGESPLASH4
 
    (
@@ -1709,6 +1856,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SKULLHANG70_1
 
    (
@@ -1720,6 +1868,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SKULLHANG60_1
 
    (
@@ -1731,6 +1880,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SKULLHANG45_1
 
    (
@@ -1742,6 +1892,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SKULLHANG35_1
 
    (
@@ -1753,6 +1904,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHANDELIER1
 
    (
@@ -1764,6 +1916,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHANDELIER2
 
    (
@@ -1775,6 +1928,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHANDELIER3
 
    (
@@ -1786,6 +1940,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SERPTORCH1
 
    (
@@ -1797,6 +1952,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SERPTORCH2
 
    (
@@ -1808,6 +1964,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SERPTORCH3
 
    (
@@ -1819,6 +1976,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SMALLPILLAR
 
    (
@@ -1830,6 +1988,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STALAGMITESMALL
 
    (
@@ -1841,6 +2000,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STALAGMITELARGE
 
    (
@@ -1852,6 +2012,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STALACTITESMALL
 
    (
@@ -1863,6 +2024,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STALACTITELARGE
 
    (
@@ -1874,6 +2036,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBRAZIER1
 
    (
@@ -1885,6 +2048,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBRAZIER2
 
    (
@@ -1896,6 +2060,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBRAZIER3
 
    (
@@ -1907,6 +2072,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBRAZIER4
 
    (
@@ -1918,6 +2084,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBRAZIER5
 
    (
@@ -1929,6 +2096,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBRAZIER6
 
    (
@@ -1940,6 +2108,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBRAZIER7
 
    (
@@ -1951,6 +2120,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FIREBRAZIER8
 
    (
@@ -1962,6 +2132,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BARREL
 
    (
@@ -1973,6 +2144,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BRPILLAR
 
    (
@@ -1984,6 +2156,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MOSS1
 
    (
@@ -1995,6 +2168,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MOSS2
 
    (
@@ -2006,6 +2180,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WALLTORCH1
 
    (
@@ -2017,6 +2192,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WALLTORCH2
 
    (
@@ -2028,6 +2204,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WALLTORCH3
 
    (
@@ -2039,6 +2216,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HANGINGCORPSE
 
    (
@@ -2050,6 +2228,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KEYGIZMO1
 
    (
@@ -2061,6 +2240,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KEYGIZMO2
 
    (
@@ -2072,6 +2252,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KEYGIZMO3
 
    (
@@ -2083,6 +2264,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KGZ_START
 
    (
@@ -2094,6 +2276,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KGZ_BLUEFLOAT1
 
    (
@@ -2105,6 +2288,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KGZ_GREENFLOAT1
 
    (
@@ -2116,6 +2300,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KGZ_YELLOWFLOAT1
 
    (
@@ -2127,6 +2312,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANO1
 
    (
@@ -2138,6 +2324,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANO2
 
    (
@@ -2149,6 +2336,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANO3
 
    (
@@ -2160,6 +2348,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANO4
 
    (
@@ -2171,6 +2360,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANO5
 
    (
@@ -2182,6 +2372,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANO6
 
    (
@@ -2193,6 +2384,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANO7
 
    (
@@ -2204,6 +2396,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANO8
 
    (
@@ -2215,6 +2408,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANO9
 
    (
@@ -2226,6 +2420,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOBALL1
 
    (
@@ -2237,6 +2432,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOBALL2
 
    (
@@ -2248,6 +2444,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOBALLX1
 
    (
@@ -2259,6 +2456,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOBALLX2
 
    (
@@ -2270,6 +2468,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOBALLX3
 
    (
@@ -2281,6 +2480,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOBALLX4
 
    (
@@ -2292,6 +2492,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOBALLX5
 
    (
@@ -2303,6 +2504,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOBALLX6
 
    (
@@ -2314,6 +2516,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOTBALL1
 
    (
@@ -2325,6 +2528,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOTBALL2
 
    (
@@ -2336,6 +2540,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOTBALLX1
 
    (
@@ -2347,6 +2552,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOTBALLX2
 
    (
@@ -2358,6 +2564,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOTBALLX3
 
    (
@@ -2369,6 +2576,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOTBALLX4
 
    (
@@ -2380,6 +2588,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOTBALLX5
 
    (
@@ -2391,6 +2600,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOTBALLX6
 
    (
@@ -2402,6 +2612,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VOLCANOTBALLX7
 
    (
@@ -2413,6 +2624,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELEGLITGEN1
 
    (
@@ -2424,6 +2636,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELEGLITGEN2
 
    (
@@ -2435,6 +2648,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELEGLITTER1_1
 
    (
@@ -2446,6 +2660,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELEGLITTER1_2
 
    (
@@ -2457,6 +2672,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELEGLITTER1_3
 
    (
@@ -2468,6 +2684,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELEGLITTER1_4
 
    (
@@ -2479,6 +2696,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELEGLITTER1_5
 
    (
@@ -2490,6 +2708,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELEGLITTER2_1
 
    (
@@ -2501,6 +2720,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELEGLITTER2_2
 
    (
@@ -2512,6 +2732,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELEGLITTER2_3
 
    (
@@ -2523,6 +2744,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELEGLITTER2_4
 
    (
@@ -2534,6 +2756,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELEGLITTER2_5
 
    (
@@ -2545,6 +2768,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG1
 
    (
@@ -2556,6 +2780,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG2
 
    (
@@ -2567,6 +2792,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG3
 
    (
@@ -2578,6 +2804,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG4
 
    (
@@ -2589,6 +2816,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG5
 
    (
@@ -2600,6 +2828,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG6
 
    (
@@ -2611,6 +2840,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG7
 
    (
@@ -2622,6 +2852,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG8
 
    (
@@ -2633,6 +2864,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG9
 
    (
@@ -2644,6 +2876,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG10
 
    (
@@ -2655,6 +2888,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG11
 
    (
@@ -2666,6 +2900,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG12
 
    (
@@ -2677,6 +2912,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG13
 
    (
@@ -2688,6 +2924,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LIGHTDONE
 
    (
@@ -2699,6 +2936,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFREADY
 
    (
@@ -2710,6 +2948,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFDOWN
 
    (
@@ -2721,6 +2960,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFUP
 
    (
@@ -2732,6 +2972,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFREADY2_1
 
    (
@@ -2743,6 +2984,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFREADY2_2
 
    (
@@ -2754,6 +2996,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFREADY2_3
 
    (
@@ -2765,6 +3008,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFDOWN2
 
    (
@@ -2776,6 +3020,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFUP2
 
    (
@@ -2787,6 +3032,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFATK1_1
 
    (
@@ -2798,6 +3044,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFATK1_2
 
    (
@@ -2809,6 +3056,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFATK1_3
 
    (
@@ -2820,6 +3068,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFATK2_1
 
    (
@@ -2831,6 +3080,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFATK2_2
 
    (
@@ -2842,6 +3092,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFATK2_3
 
    (
@@ -2853,6 +3104,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFPUFF1
 
    (
@@ -2864,6 +3116,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFPUFF2
 
    (
@@ -2875,6 +3128,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFPUFF3
 
    (
@@ -2886,6 +3140,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFPUFF4
 
    (
@@ -2897,6 +3152,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFPUFF2_1
 
    (
@@ -2908,6 +3164,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFPUFF2_2
 
    (
@@ -2919,6 +3176,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFPUFF2_3
 
    (
@@ -2930,6 +3188,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFPUFF2_4
 
    (
@@ -2941,6 +3200,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFPUFF2_5
 
    (
@@ -2952,6 +3212,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAFFPUFF2_6
 
    (
@@ -2963,6 +3224,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAKREADY
 
    (
@@ -2974,6 +3236,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAKDOWN
 
    (
@@ -2985,6 +3248,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAKUP
 
    (
@@ -2996,6 +3260,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAKATK1_1
 
    (
@@ -3007,6 +3272,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAKATK2_1
 
    (
@@ -3018,6 +3284,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WGNT
 
    (
@@ -3029,6 +3296,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETREADY
 
    (
@@ -3040,6 +3308,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETDOWN
 
    (
@@ -3051,6 +3320,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETUP
 
    (
@@ -3062,6 +3332,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETREADY2_1
 
    (
@@ -3073,6 +3344,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETREADY2_2
 
    (
@@ -3084,6 +3356,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETREADY2_3
 
    (
@@ -3095,6 +3368,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETDOWN2
 
    (
@@ -3106,6 +3380,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETUP2
 
    (
@@ -3117,6 +3392,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETATK1_1
 
    (
@@ -3128,6 +3404,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETATK1_2
 
    (
@@ -3139,6 +3416,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETATK1_3
 
    (
@@ -3150,6 +3428,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETATK1_4
 
    (
@@ -3161,6 +3440,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETATK1_5
 
    (
@@ -3172,6 +3452,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETATK1_6
 
    (
@@ -3183,6 +3464,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETATK1_7
 
    (
@@ -3194,6 +3476,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETATK2_1
 
    (
@@ -3205,6 +3488,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETATK2_2
 
    (
@@ -3216,6 +3500,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETATK2_3
 
    (
@@ -3227,6 +3512,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETATK2_4
 
    (
@@ -3238,6 +3524,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETATK2_5
 
    (
@@ -3249,6 +3536,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETATK2_6
 
    (
@@ -3260,6 +3548,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETATK2_7
 
    (
@@ -3271,6 +3560,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETPUFF1_1
 
    (
@@ -3282,6 +3572,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETPUFF1_2
 
    (
@@ -3293,6 +3584,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETPUFF1_3
 
    (
@@ -3304,6 +3596,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETPUFF1_4
 
    (
@@ -3315,6 +3608,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETPUFF2_1
 
    (
@@ -3326,6 +3620,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETPUFF2_2
 
    (
@@ -3337,6 +3632,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETPUFF2_3
 
    (
@@ -3348,6 +3644,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GAUNTLETPUFF2_4
 
    (
@@ -3359,6 +3656,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLSR
 
    (
@@ -3370,6 +3668,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERREADY
 
    (
@@ -3381,6 +3680,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERDOWN
 
    (
@@ -3392,6 +3692,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERUP
 
    (
@@ -3403,6 +3704,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERATK1_1
 
    (
@@ -3414,6 +3716,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERATK1_2
 
    (
@@ -3425,6 +3728,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERATK1_3
 
    (
@@ -3436,6 +3740,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERATK1_4
 
    (
@@ -3447,6 +3752,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERATK1_5
 
    (
@@ -3458,6 +3764,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERATK1_6
 
    (
@@ -3469,6 +3776,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERATK2_1
 
    (
@@ -3480,6 +3788,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERATK2_2
 
    (
@@ -3491,6 +3800,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERATK2_3
 
    (
@@ -3502,6 +3812,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERATK2_4
 
    (
@@ -3513,6 +3824,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERATK2_5
 
    (
@@ -3524,6 +3836,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERATK2_6
 
    (
@@ -3535,6 +3848,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERFX1_1
 
    (
@@ -3546,6 +3860,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERFXI1_1
 
    (
@@ -3557,6 +3872,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERFXI1_2
 
    (
@@ -3568,6 +3884,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERFXI1_3
 
    (
@@ -3579,6 +3896,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERFXI1_4
 
    (
@@ -3590,6 +3908,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERFXI1_5
 
    (
@@ -3601,6 +3920,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERFXI1_6
 
    (
@@ -3612,6 +3932,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERFXI1_7
 
    (
@@ -3623,6 +3944,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERSMOKE1
 
    (
@@ -3634,6 +3956,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERSMOKE2
 
    (
@@ -3645,6 +3968,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERSMOKE3
 
    (
@@ -3656,6 +3980,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERSMOKE4
 
    (
@@ -3667,6 +3992,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERSMOKE5
 
    (
@@ -3678,6 +4004,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIPPER1
 
    (
@@ -3689,6 +4016,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIPPER2
 
    (
@@ -3700,6 +4028,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIPPERX1
 
    (
@@ -3711,6 +4040,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIPPERX2
 
    (
@@ -3722,6 +4052,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIPPERX3
 
    (
@@ -3733,6 +4064,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIPPERX4
 
    (
@@ -3744,6 +4076,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIPPERX5
 
    (
@@ -3755,6 +4088,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERPUFF1_1
 
    (
@@ -3766,6 +4100,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERPUFF1_2
 
    (
@@ -3777,6 +4112,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERPUFF1_3
 
    (
@@ -3788,6 +4124,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERPUFF1_4
 
    (
@@ -3799,6 +4136,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERPUFF1_5
 
    (
@@ -3810,6 +4148,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERPUFF2_1
 
    (
@@ -3821,6 +4160,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERPUFF2_2
 
    (
@@ -3832,6 +4172,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERPUFF2_3
 
    (
@@ -3843,6 +4184,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERPUFF2_4
 
    (
@@ -3854,6 +4196,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERPUFF2_5
 
    (
@@ -3865,6 +4208,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERPUFF2_6
 
    (
@@ -3876,6 +4220,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLASTERPUFF2_7
 
    (
@@ -3887,6 +4232,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WMCE
 
    (
@@ -3898,6 +4244,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEREADY
 
    (
@@ -3909,6 +4256,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEDOWN
 
    (
@@ -3920,6 +4268,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEUP
 
    (
@@ -3931,6 +4280,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEATK1_1
 
    (
@@ -3942,6 +4292,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEATK1_2
 
    (
@@ -3953,6 +4304,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEATK1_3
 
    (
@@ -3964,6 +4316,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEATK1_4
 
    (
@@ -3975,6 +4328,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEATK1_5
 
    (
@@ -3986,6 +4340,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEATK1_6
 
    (
@@ -3997,6 +4352,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEATK1_7
 
    (
@@ -4008,6 +4364,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEATK1_8
 
    (
@@ -4019,6 +4376,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEATK1_9
 
    (
@@ -4030,6 +4388,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEATK1_10
 
    (
@@ -4041,6 +4400,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEATK2_1
 
    (
@@ -4052,6 +4412,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEATK2_2
 
    (
@@ -4063,6 +4424,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEATK2_3
 
    (
@@ -4074,6 +4436,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEATK2_4
 
    (
@@ -4085,6 +4448,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEFX1_1
 
    (
@@ -4096,6 +4460,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEFX1_2
 
    (
@@ -4107,6 +4472,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEFXI1_1
 
    (
@@ -4118,6 +4484,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEFXI1_2
 
    (
@@ -4129,6 +4496,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEFXI1_3
 
    (
@@ -4140,6 +4508,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEFXI1_4
 
    (
@@ -4151,6 +4520,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEFXI1_5
 
    (
@@ -4162,6 +4532,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEFX2_1
 
    (
@@ -4173,6 +4544,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEFX2_2
 
    (
@@ -4184,6 +4556,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEFXI2_1
 
    (
@@ -4195,6 +4568,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEFX3_1
 
    (
@@ -4206,6 +4580,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEFX3_2
 
    (
@@ -4217,6 +4592,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEFX4_1
 
    (
@@ -4228,6 +4604,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MACEFXI4_1
 
    (
@@ -4239,6 +4616,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WSKL
 
    (
@@ -4250,6 +4628,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODREADY
 
    (
@@ -4261,6 +4640,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODDOWN
 
    (
@@ -4272,6 +4652,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODUP
 
    (
@@ -4283,6 +4664,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODATK1_1
 
    (
@@ -4294,6 +4676,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODATK1_2
 
    (
@@ -4305,6 +4688,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODATK1_3
 
    (
@@ -4316,6 +4700,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODATK2_1
 
    (
@@ -4327,6 +4712,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODATK2_2
 
    (
@@ -4338,6 +4724,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODATK2_3
 
    (
@@ -4349,6 +4736,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODATK2_4
 
    (
@@ -4360,6 +4748,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODATK2_5
 
    (
@@ -4371,6 +4760,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODATK2_6
 
    (
@@ -4382,6 +4772,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODATK2_7
 
    (
@@ -4393,6 +4784,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODATK2_8
 
    (
@@ -4404,6 +4796,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HORNRODATK2_9
 
    (
@@ -4415,6 +4808,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFX1_1
 
    (
@@ -4426,6 +4820,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFX1_2
 
    (
@@ -4437,6 +4832,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFXI1_1
 
    (
@@ -4448,6 +4844,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFXI1_2
 
    (
@@ -4459,6 +4856,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFXI1_3
 
    (
@@ -4470,6 +4868,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFXI1_4
 
    (
@@ -4481,6 +4880,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFXI1_5
 
    (
@@ -4492,6 +4892,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFXI1_6
 
    (
@@ -4503,6 +4904,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFX2_1
 
    (
@@ -4514,6 +4916,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFX2_2
 
    (
@@ -4525,6 +4928,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFX2_3
 
    (
@@ -4536,6 +4940,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFX2_4
 
    (
@@ -4547,6 +4952,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFXI2_1
 
    (
@@ -4558,6 +4964,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFXI2_2
 
    (
@@ -4569,6 +4976,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFXI2_3
 
    (
@@ -4580,6 +4988,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFXI2_4
 
    (
@@ -4591,6 +5000,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFXI2_5
 
    (
@@ -4602,6 +5012,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFXI2_6
 
    (
@@ -4613,6 +5024,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFXI2_7
 
    (
@@ -4624,6 +5036,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HRODFXI2_8
 
    (
@@ -4635,6 +5048,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR1_1
 
    (
@@ -4646,6 +5060,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR2_1
 
    (
@@ -4657,6 +5072,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR3_1
 
    (
@@ -4668,6 +5084,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR4_1
 
    (
@@ -4679,6 +5096,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR1X_1
 
    (
@@ -4690,6 +5108,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR1X_2
 
    (
@@ -4701,6 +5120,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR1X_3
 
    (
@@ -4712,6 +5132,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR1X_4
 
    (
@@ -4723,6 +5144,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR1X_5
 
    (
@@ -4734,6 +5156,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR2X_1
 
    (
@@ -4745,6 +5168,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR2X_2
 
    (
@@ -4756,6 +5180,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR2X_3
 
    (
@@ -4767,6 +5192,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR2X_4
 
    (
@@ -4778,6 +5204,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR2X_5
 
    (
@@ -4789,6 +5216,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR3X_1
 
    (
@@ -4800,6 +5228,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR3X_2
 
    (
@@ -4811,6 +5240,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR3X_3
 
    (
@@ -4822,6 +5252,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR3X_4
 
    (
@@ -4833,6 +5264,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR3X_5
 
    (
@@ -4844,6 +5276,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR4X_1
 
    (
@@ -4855,6 +5288,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR4X_2
 
    (
@@ -4866,6 +5300,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR4X_3
 
    (
@@ -4877,6 +5312,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR4X_4
 
    (
@@ -4888,6 +5324,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINPLR4X_5
 
    (
@@ -4899,6 +5336,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINAIRXPLR1_1
 
    (
@@ -4910,6 +5348,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINAIRXPLR2_1
 
    (
@@ -4921,6 +5360,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINAIRXPLR3_1
 
    (
@@ -4932,6 +5372,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINAIRXPLR4_1
 
    (
@@ -4943,6 +5384,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINAIRXPLR1_2
 
    (
@@ -4954,6 +5396,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINAIRXPLR2_2
 
    (
@@ -4965,6 +5408,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINAIRXPLR3_2
 
    (
@@ -4976,6 +5420,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINAIRXPLR4_2
 
    (
@@ -4987,6 +5432,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINAIRXPLR1_3
 
    (
@@ -4998,6 +5444,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINAIRXPLR2_3
 
    (
@@ -5009,6 +5456,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINAIRXPLR3_3
 
    (
@@ -5020,6 +5468,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RAINAIRXPLR4_3
 
    (
@@ -5031,6 +5480,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GOLDWANDREADY
 
    (
@@ -5042,6 +5492,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GOLDWANDDOWN
 
    (
@@ -5053,6 +5504,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GOLDWANDUP
 
    (
@@ -5064,6 +5516,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GOLDWANDATK1_1
 
    (
@@ -5075,6 +5528,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GOLDWANDATK1_2
 
    (
@@ -5086,6 +5540,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GOLDWANDATK1_3
 
    (
@@ -5097,6 +5552,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GOLDWANDATK1_4
 
    (
@@ -5108,6 +5564,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GOLDWANDATK2_1
 
    (
@@ -5119,6 +5576,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GOLDWANDATK2_2
 
    (
@@ -5130,6 +5588,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GOLDWANDATK2_3
 
    (
@@ -5141,6 +5600,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GOLDWANDATK2_4
 
    (
@@ -5152,6 +5612,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GWANDFX1_1
 
    (
@@ -5163,6 +5624,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GWANDFX1_2
 
    (
@@ -5174,6 +5636,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GWANDFXI1_1
 
    (
@@ -5185,6 +5648,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GWANDFXI1_2
 
    (
@@ -5196,6 +5660,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GWANDFXI1_3
 
    (
@@ -5207,6 +5672,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GWANDFXI1_4
 
    (
@@ -5218,6 +5684,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GWANDFX2_1
 
    (
@@ -5229,6 +5696,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GWANDFX2_2
 
    (
@@ -5240,6 +5708,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GWANDPUFF1_1
 
    (
@@ -5251,6 +5720,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GWANDPUFF1_2
 
    (
@@ -5262,6 +5732,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GWANDPUFF1_3
 
    (
@@ -5273,6 +5744,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GWANDPUFF1_4
 
    (
@@ -5284,6 +5756,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GWANDPUFF1_5
 
    (
@@ -5295,6 +5768,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WPHX
 
    (
@@ -5306,6 +5780,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXREADY
 
    (
@@ -5317,6 +5792,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXDOWN
 
    (
@@ -5328,6 +5804,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXUP
 
    (
@@ -5339,6 +5816,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXATK1_1
 
    (
@@ -5350,6 +5828,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXATK1_2
 
    (
@@ -5361,6 +5840,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXATK1_3
 
    (
@@ -5372,6 +5852,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXATK1_4
 
    (
@@ -5383,6 +5864,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXATK1_5
 
    (
@@ -5394,6 +5876,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXATK2_1
 
    (
@@ -5405,6 +5888,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXATK2_2
 
    (
@@ -5416,6 +5900,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXATK2_3
 
    (
@@ -5427,6 +5912,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXATK2_4
 
    (
@@ -5438,6 +5924,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFX1_1
 
    (
@@ -5449,6 +5936,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFXI1_1
 
    (
@@ -5460,6 +5948,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFXI1_2
 
    (
@@ -5471,6 +5960,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFXI1_3
 
    (
@@ -5482,6 +5972,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFXI1_4
 
    (
@@ -5493,6 +5984,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFXI1_5
 
    (
@@ -5504,6 +5996,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFXI1_6
 
    (
@@ -5515,6 +6008,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFXI1_7
 
    (
@@ -5526,6 +6020,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFXI1_8
 
    (
@@ -5537,6 +6032,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXPUFF1
 
    (
@@ -5548,6 +6044,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXPUFF2
 
    (
@@ -5559,6 +6056,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXPUFF3
 
    (
@@ -5570,6 +6068,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXPUFF4
 
    (
@@ -5581,6 +6080,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXPUFF5
 
    (
@@ -5592,6 +6092,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFX2_1
 
    (
@@ -5603,6 +6104,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFX2_2
 
    (
@@ -5614,6 +6116,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFX2_3
 
    (
@@ -5625,6 +6128,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFX2_4
 
    (
@@ -5636,6 +6140,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFX2_5
 
    (
@@ -5647,6 +6152,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFX2_6
 
    (
@@ -5658,6 +6164,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFX2_7
 
    (
@@ -5669,6 +6176,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFX2_8
 
    (
@@ -5680,6 +6188,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFX2_9
 
    (
@@ -5691,6 +6200,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFX2_10
 
    (
@@ -5702,6 +6212,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFXI2_1
 
    (
@@ -5713,6 +6224,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFXI2_2
 
    (
@@ -5724,6 +6236,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFXI2_3
 
    (
@@ -5735,6 +6248,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFXI2_4
 
    (
@@ -5746,6 +6260,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PHOENIXFXI2_5
 
    (
@@ -5757,6 +6272,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WBOW
 
    (
@@ -5768,6 +6284,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW1
 
    (
@@ -5779,6 +6296,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW2
 
    (
@@ -5790,6 +6308,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW3
 
    (
@@ -5801,6 +6320,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW4
 
    (
@@ -5812,6 +6332,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW5
 
    (
@@ -5823,6 +6344,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW6
 
    (
@@ -5834,6 +6356,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW7
 
    (
@@ -5845,6 +6368,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW8
 
    (
@@ -5856,6 +6380,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW9
 
    (
@@ -5867,6 +6392,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW10
 
    (
@@ -5878,6 +6404,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW11
 
    (
@@ -5889,6 +6416,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW12
 
    (
@@ -5900,6 +6428,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW13
 
    (
@@ -5911,6 +6440,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW14
 
    (
@@ -5922,6 +6452,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW15
 
    (
@@ -5933,6 +6464,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW16
 
    (
@@ -5944,6 +6476,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW17
 
    (
@@ -5955,6 +6488,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOW18
 
    (
@@ -5966,6 +6500,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWDOWN
 
    (
@@ -5977,6 +6512,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWUP
 
    (
@@ -5988,6 +6524,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK1_1
 
    (
@@ -5999,6 +6536,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK1_2
 
    (
@@ -6010,6 +6548,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK1_3
 
    (
@@ -6021,6 +6560,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK1_4
 
    (
@@ -6032,6 +6572,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK1_5
 
    (
@@ -6043,6 +6584,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK1_6
 
    (
@@ -6054,6 +6596,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK1_7
 
    (
@@ -6065,6 +6608,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK1_8
 
    (
@@ -6076,6 +6620,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK2_1
 
    (
@@ -6087,6 +6632,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK2_2
 
    (
@@ -6098,6 +6644,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK2_3
 
    (
@@ -6109,6 +6656,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK2_4
 
    (
@@ -6120,6 +6668,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK2_5
 
    (
@@ -6131,6 +6680,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK2_6
 
    (
@@ -6142,6 +6692,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK2_7
 
    (
@@ -6153,6 +6704,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWATK2_8
 
    (
@@ -6164,6 +6716,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWFX1
 
    (
@@ -6175,6 +6728,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWFXI1_1
 
    (
@@ -6186,6 +6740,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWFXI1_2
 
    (
@@ -6197,6 +6752,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWFXI1_3
 
    (
@@ -6208,6 +6764,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWFX2
 
    (
@@ -6219,6 +6776,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWFX3
 
    (
@@ -6230,6 +6788,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWFXI3_1
 
    (
@@ -6241,6 +6800,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWFXI3_2
 
    (
@@ -6252,6 +6812,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWFXI3_3
 
    (
@@ -6263,6 +6824,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWFX4_1
 
    (
@@ -6274,6 +6836,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRBOWFX4_2
 
    (
@@ -6285,6 +6848,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOOD1
 
    (
@@ -6296,6 +6860,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOOD2
 
    (
@@ -6307,6 +6872,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOOD3
 
    (
@@ -6318,6 +6884,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOODSPLATTER1
 
    (
@@ -6329,6 +6896,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOODSPLATTER2
 
    (
@@ -6340,6 +6908,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOODSPLATTER3
 
    (
@@ -6351,6 +6920,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOODSPLATTERX
 
    (
@@ -6362,6 +6932,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY
 
    (
@@ -6373,6 +6944,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_RUN1
 
    (
@@ -6384,6 +6956,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_RUN2
 
    (
@@ -6395,6 +6968,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_RUN3
 
    (
@@ -6406,6 +6980,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_RUN4
 
    (
@@ -6417,6 +6992,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_ATK1
 
    (
@@ -6428,6 +7004,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_ATK2
 
    (
@@ -6439,6 +7016,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_PAIN
 
    (
@@ -6450,6 +7028,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_PAIN2
 
    (
@@ -6461,6 +7040,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_DIE1
 
    (
@@ -6472,6 +7052,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_DIE2
 
    (
@@ -6483,6 +7064,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_DIE3
 
    (
@@ -6494,6 +7076,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_DIE4
 
    (
@@ -6505,6 +7088,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_DIE5
 
    (
@@ -6516,6 +7100,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_DIE6
 
    (
@@ -6527,6 +7112,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_DIE7
 
    (
@@ -6538,6 +7124,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_DIE8
 
    (
@@ -6549,6 +7136,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_DIE9
 
    (
@@ -6560,6 +7148,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_XDIE1
 
    (
@@ -6571,6 +7160,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_XDIE2
 
    (
@@ -6582,6 +7172,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_XDIE3
 
    (
@@ -6593,6 +7184,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_XDIE4
 
    (
@@ -6604,6 +7196,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_XDIE5
 
    (
@@ -6615,6 +7208,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_XDIE6
 
    (
@@ -6626,6 +7220,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_XDIE7
 
    (
@@ -6637,6 +7232,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_XDIE8
 
    (
@@ -6648,6 +7244,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_XDIE9
 
    (
@@ -6659,6 +7256,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH1
 
    (
@@ -6670,6 +7268,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH2
 
    (
@@ -6681,6 +7280,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH3
 
    (
@@ -6692,6 +7292,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH4
 
    (
@@ -6703,6 +7304,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH5
 
    (
@@ -6714,6 +7316,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH6
 
    (
@@ -6725,6 +7328,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH7
 
    (
@@ -6736,6 +7340,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH8
 
    (
@@ -6747,6 +7352,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH9
 
    (
@@ -6758,6 +7364,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH10
 
    (
@@ -6769,6 +7376,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH11
 
    (
@@ -6780,6 +7388,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH12
 
    (
@@ -6791,6 +7400,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH13
 
    (
@@ -6802,6 +7412,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH14
 
    (
@@ -6813,6 +7424,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH15
 
    (
@@ -6824,6 +7436,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH16
 
    (
@@ -6835,6 +7448,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH17
 
    (
@@ -6846,6 +7460,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH18
 
    (
@@ -6857,6 +7472,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH19
 
    (
@@ -6868,6 +7484,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_FDTH20
 
    (
@@ -6879,6 +7496,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOODYSKULL1
 
    (
@@ -6890,6 +7508,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOODYSKULL2
 
    (
@@ -6901,6 +7520,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOODYSKULL3
 
    (
@@ -6912,6 +7532,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOODYSKULL4
 
    (
@@ -6923,6 +7544,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOODYSKULL5
 
    (
@@ -6934,6 +7556,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOODYSKULLX1
 
    (
@@ -6945,6 +7568,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOODYSKULLX2
 
    (
@@ -6956,6 +7580,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICPLAY
 
    (
@@ -6967,6 +7592,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICPLAY_RUN1
 
    (
@@ -6978,6 +7604,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICPLAY_RUN2
 
    (
@@ -6989,6 +7616,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICPLAY_RUN3
 
    (
@@ -7000,6 +7628,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICPLAY_RUN4
 
    (
@@ -7011,6 +7640,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICPLAY_ATK1
 
    (
@@ -7022,6 +7652,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICPLAY_PAIN
 
    (
@@ -7033,6 +7664,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICPLAY_PAIN2
 
    (
@@ -7044,6 +7676,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_LOOK1
 
    (
@@ -7055,6 +7688,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_LOOK2
 
    (
@@ -7066,6 +7700,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_WALK1
 
    (
@@ -7077,6 +7712,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_WALK2
 
    (
@@ -7088,6 +7724,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_PAIN1
 
    (
@@ -7099,6 +7736,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_PAIN2
 
    (
@@ -7110,6 +7748,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_ATK1
 
    (
@@ -7121,6 +7760,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_ATK2
 
    (
@@ -7132,6 +7772,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_DIE1
 
    (
@@ -7143,6 +7784,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_DIE2
 
    (
@@ -7154,6 +7796,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_DIE3
 
    (
@@ -7165,6 +7808,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_DIE4
 
    (
@@ -7176,6 +7820,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_DIE5
 
    (
@@ -7187,6 +7832,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_DIE6
 
    (
@@ -7198,6 +7844,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_DIE7
 
    (
@@ -7209,6 +7856,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHICKEN_DIE8
 
    (
@@ -7220,6 +7868,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FEATHER1
 
    (
@@ -7231,6 +7880,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FEATHER2
 
    (
@@ -7242,6 +7892,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FEATHER3
 
    (
@@ -7253,6 +7904,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FEATHER4
 
    (
@@ -7264,6 +7916,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FEATHER5
 
    (
@@ -7275,6 +7928,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FEATHER6
 
    (
@@ -7286,6 +7940,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FEATHER7
 
    (
@@ -7297,6 +7952,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FEATHER8
 
    (
@@ -7308,6 +7964,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FEATHERX
 
    (
@@ -7319,6 +7976,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_LOOK1
 
    (
@@ -7330,6 +7988,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_LOOK2
 
    (
@@ -7341,6 +8000,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_WALK1
 
    (
@@ -7352,6 +8012,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_WALK2
 
    (
@@ -7363,6 +8024,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_WALK3
 
    (
@@ -7374,6 +8036,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_WALK4
 
    (
@@ -7385,6 +8048,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_ATK1
 
    (
@@ -7396,6 +8060,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_ATK2
 
    (
@@ -7407,6 +8072,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_ATK3
 
    (
@@ -7418,6 +8084,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMYL_ATK1
 
    (
@@ -7429,6 +8096,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMYL_ATK2
 
    (
@@ -7440,6 +8108,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMYL_ATK3
 
    (
@@ -7451,6 +8120,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMYL_ATK4
 
    (
@@ -7462,6 +8132,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMYL_ATK5
 
    (
@@ -7473,6 +8144,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMYL_ATK6
 
    (
@@ -7484,6 +8156,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_PAIN1
 
    (
@@ -7495,6 +8168,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_PAIN2
 
    (
@@ -7506,6 +8180,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_DIE1
 
    (
@@ -7517,6 +8192,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_DIE2
 
    (
@@ -7528,6 +8204,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_DIE3
 
    (
@@ -7539,6 +8216,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_DIE4
 
    (
@@ -7550,6 +8228,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_DIE5
 
    (
@@ -7561,6 +8240,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_DIE6
 
    (
@@ -7572,6 +8252,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_DIE7
 
    (
@@ -7583,6 +8264,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_DIE8
 
    (
@@ -7594,6 +8276,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_SOUL1
 
    (
@@ -7605,6 +8288,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_SOUL2
 
    (
@@ -7616,6 +8300,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_SOUL3
 
    (
@@ -7627,6 +8312,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_SOUL4
 
    (
@@ -7638,6 +8324,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_SOUL5
 
    (
@@ -7649,6 +8336,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_SOUL6
 
    (
@@ -7660,6 +8348,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMY_SOUL7
 
    (
@@ -7671,6 +8360,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMYFX1_1
 
    (
@@ -7682,6 +8372,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMYFX1_2
 
    (
@@ -7693,6 +8384,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMYFX1_3
 
    (
@@ -7704,6 +8396,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMYFX1_4
 
    (
@@ -7715,6 +8408,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMYFXI1_1
 
    (
@@ -7726,6 +8420,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMYFXI1_2
 
    (
@@ -7737,6 +8432,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMYFXI1_3
 
    (
@@ -7748,6 +8444,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUMMYFXI1_4
 
    (
@@ -7759,6 +8456,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_LOOK1
 
    (
@@ -7770,6 +8468,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_LOOK2
 
    (
@@ -7781,6 +8480,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_WALK1
 
    (
@@ -7792,6 +8492,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_WALK2
 
    (
@@ -7803,6 +8504,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_WALK3
 
    (
@@ -7814,6 +8516,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_WALK4
 
    (
@@ -7825,6 +8528,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_WALK5
 
    (
@@ -7836,6 +8540,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_WALK6
 
    (
@@ -7847,6 +8552,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_ATK1
 
    (
@@ -7858,6 +8564,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_ATK2
 
    (
@@ -7869,6 +8576,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_PAIN1
 
    (
@@ -7880,6 +8588,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_PAIN2
 
    (
@@ -7891,6 +8600,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_DIE1
 
    (
@@ -7902,6 +8612,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_DIE2
 
    (
@@ -7913,6 +8624,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_DIE3
 
    (
@@ -7924,6 +8636,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_DIE4
 
    (
@@ -7935,6 +8648,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_DIE5
 
    (
@@ -7946,6 +8660,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_DIE6
 
    (
@@ -7957,6 +8672,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_DIE7
 
    (
@@ -7968,6 +8684,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_DIE8
 
    (
@@ -7979,6 +8696,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_DIE9
 
    (
@@ -7990,6 +8708,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_XDIE1
 
    (
@@ -8001,6 +8720,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_XDIE2
 
    (
@@ -8012,6 +8732,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_XDIE3
 
    (
@@ -8023,6 +8744,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_XDIE4
 
    (
@@ -8034,6 +8756,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_XDIE5
 
    (
@@ -8045,6 +8768,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_XDIE6
 
    (
@@ -8056,6 +8780,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_XDIE7
 
    (
@@ -8067,6 +8792,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAST_XDIE8
 
    (
@@ -8078,6 +8804,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEASTBALL1
 
    (
@@ -8089,6 +8816,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEASTBALL2
 
    (
@@ -8100,6 +8828,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEASTBALL3
 
    (
@@ -8111,6 +8840,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEASTBALL4
 
    (
@@ -8122,6 +8852,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEASTBALL5
 
    (
@@ -8133,6 +8864,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEASTBALL6
 
    (
@@ -8144,6 +8876,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEASTBALLX1
 
    (
@@ -8155,6 +8888,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEASTBALLX2
 
    (
@@ -8166,6 +8900,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEASTBALLX3
 
    (
@@ -8177,6 +8912,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEASTBALLX4
 
    (
@@ -8188,6 +8924,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEASTBALLX5
 
    (
@@ -8199,6 +8936,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALL1
 
    (
@@ -8210,6 +8948,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALL2
 
    (
@@ -8221,6 +8960,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALL3
 
    (
@@ -8232,6 +8972,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALL4
 
    (
@@ -8243,6 +8984,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALL5
 
    (
@@ -8254,6 +8996,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALL6
 
    (
@@ -8265,6 +9008,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALL7
 
    (
@@ -8276,6 +9020,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALL8
 
    (
@@ -8287,6 +9032,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALLFB1
 
    (
@@ -8298,6 +9044,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALLFB2
 
    (
@@ -8309,6 +9056,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALLFB3
 
    (
@@ -8320,6 +9068,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALLFB4
 
    (
@@ -8331,6 +9080,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALLFB5
 
    (
@@ -8342,6 +9092,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALLFB6
 
    (
@@ -8353,6 +9104,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALLFB7
 
    (
@@ -8364,6 +9116,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURNBALLFB8
 
    (
@@ -8375,6 +9128,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PUFFY1
 
    (
@@ -8386,6 +9140,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PUFFY2
 
    (
@@ -8397,6 +9152,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PUFFY3
 
    (
@@ -8408,6 +9164,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PUFFY4
 
    (
@@ -8419,6 +9176,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PUFFY5
 
    (
@@ -8430,6 +9188,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_LOOK1
 
    (
@@ -8441,6 +9200,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_LOOK2
 
    (
@@ -8452,6 +9212,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_WALK1
 
    (
@@ -8463,6 +9224,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_WALK2
 
    (
@@ -8474,6 +9236,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_WALK3
 
    (
@@ -8485,6 +9248,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_WALK4
 
    (
@@ -8496,6 +9260,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_ATK1
 
    (
@@ -8507,6 +9272,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_ATK2
 
    (
@@ -8518,6 +9284,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_ATK3
 
    (
@@ -8529,6 +9296,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_ATK4
 
    (
@@ -8540,6 +9308,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_ATK5
 
    (
@@ -8551,6 +9320,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_ATK6
 
    (
@@ -8562,6 +9332,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_ATK7
 
    (
@@ -8573,6 +9344,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_ATK8
 
    (
@@ -8584,6 +9356,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_ATK9
 
    (
@@ -8595,6 +9368,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_PAIN1
 
    (
@@ -8606,6 +9380,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_PAIN2
 
    (
@@ -8617,6 +9392,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_DIE1
 
    (
@@ -8628,6 +9404,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_DIE2
 
    (
@@ -8639,6 +9416,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_DIE3
 
    (
@@ -8650,6 +9428,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_DIE4
 
    (
@@ -8661,6 +9440,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_DIE5
 
    (
@@ -8672,6 +9452,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_DIE6
 
    (
@@ -8683,6 +9464,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_DIE7
 
    (
@@ -8694,6 +9476,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_DIE8
 
    (
@@ -8705,6 +9488,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_DIE9
 
    (
@@ -8716,6 +9500,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKE_DIE10
 
    (
@@ -8727,6 +9512,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_A1
 
    (
@@ -8738,6 +9524,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_A2
 
    (
@@ -8749,6 +9536,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_A3
 
    (
@@ -8760,6 +9548,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_A4
 
    (
@@ -8771,6 +9560,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_AX1
 
    (
@@ -8782,6 +9572,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_AX2
 
    (
@@ -8793,6 +9584,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_AX3
 
    (
@@ -8804,6 +9596,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_AX4
 
    (
@@ -8815,6 +9608,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_AX5
 
    (
@@ -8826,6 +9620,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_B1
 
    (
@@ -8837,6 +9632,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_B2
 
    (
@@ -8848,6 +9644,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_BX1
 
    (
@@ -8859,6 +9656,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_BX2
 
    (
@@ -8870,6 +9668,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_BX3
 
    (
@@ -8881,6 +9680,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SNAKEPRO_BX4
 
    (
@@ -8892,6 +9692,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEAD_LOOK
 
    (
@@ -8903,6 +9704,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEAD_FLOAT
 
    (
@@ -8914,6 +9716,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEAD_ATK1
 
    (
@@ -8925,6 +9728,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEAD_ATK2
 
    (
@@ -8936,6 +9740,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEAD_PAIN1
 
    (
@@ -8947,6 +9752,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEAD_PAIN2
 
    (
@@ -8958,6 +9764,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEAD_DIE1
 
    (
@@ -8969,6 +9776,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEAD_DIE2
 
    (
@@ -8980,6 +9788,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEAD_DIE3
 
    (
@@ -8991,6 +9800,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEAD_DIE4
 
    (
@@ -9002,6 +9812,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEAD_DIE5
 
    (
@@ -9013,6 +9824,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEAD_DIE6
 
    (
@@ -9024,6 +9836,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEAD_DIE7
 
    (
@@ -9035,6 +9848,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX1_1
 
    (
@@ -9046,6 +9860,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX1_2
 
    (
@@ -9057,6 +9872,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX1_3
 
    (
@@ -9068,6 +9884,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI1_1
 
    (
@@ -9079,6 +9896,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI1_2
 
    (
@@ -9090,6 +9908,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI1_3
 
    (
@@ -9101,6 +9920,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI1_4
 
    (
@@ -9112,6 +9932,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX2_1
 
    (
@@ -9123,6 +9944,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX2_2
 
    (
@@ -9134,6 +9956,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX2_3
 
    (
@@ -9145,6 +9968,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI2_1
 
    (
@@ -9156,6 +9980,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI2_2
 
    (
@@ -9167,6 +9992,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI2_3
 
    (
@@ -9178,6 +10004,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI2_4
 
    (
@@ -9189,6 +10016,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX3_1
 
    (
@@ -9200,6 +10028,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX3_2
 
    (
@@ -9211,6 +10040,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX3_3
 
    (
@@ -9222,6 +10052,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX3_4
 
    (
@@ -9233,6 +10064,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX3_5
 
    (
@@ -9244,6 +10076,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX3_6
 
    (
@@ -9255,6 +10088,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI3_1
 
    (
@@ -9266,6 +10100,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI3_2
 
    (
@@ -9277,6 +10112,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI3_3
 
    (
@@ -9288,6 +10124,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI3_4
 
    (
@@ -9299,6 +10136,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX4_1
 
    (
@@ -9310,6 +10148,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX4_2
 
    (
@@ -9321,6 +10160,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX4_3
 
    (
@@ -9332,6 +10172,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX4_4
 
    (
@@ -9343,6 +10184,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX4_5
 
    (
@@ -9354,6 +10196,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX4_6
 
    (
@@ -9365,6 +10208,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFX4_7
 
    (
@@ -9376,6 +10220,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI4_1
 
    (
@@ -9387,6 +10232,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI4_2
 
    (
@@ -9398,6 +10244,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI4_3
 
    (
@@ -9409,6 +10256,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HEADFXI4_4
 
    (
@@ -9420,6 +10268,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_LOOK1
 
    (
@@ -9431,6 +10280,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_LOOK2
 
    (
@@ -9442,6 +10292,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_WALK1
 
    (
@@ -9453,6 +10304,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_WALK2
 
    (
@@ -9464,6 +10316,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_WALK3
 
    (
@@ -9475,6 +10328,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_WALK4
 
    (
@@ -9486,6 +10340,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_ATK1
 
    (
@@ -9497,6 +10352,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_ATK2
 
    (
@@ -9508,6 +10364,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_ATK3
 
    (
@@ -9519,6 +10376,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_PAIN1
 
    (
@@ -9530,6 +10388,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_PAIN2
 
    (
@@ -9541,6 +10400,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_DIE1
 
    (
@@ -9552,6 +10412,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_DIE2
 
    (
@@ -9563,6 +10424,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_DIE3
 
    (
@@ -9574,6 +10436,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_DIE4
 
    (
@@ -9585,6 +10448,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_DIE5
 
    (
@@ -9596,6 +10460,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_DIE6
 
    (
@@ -9607,6 +10472,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLINK_DIE7
 
    (
@@ -9618,6 +10484,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_LOOK1
 
    (
@@ -9629,6 +10496,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_LOOK2
 
    (
@@ -9640,6 +10508,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_WALK1
 
    (
@@ -9651,6 +10520,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_WALK2
 
    (
@@ -9662,6 +10532,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_WALK3
 
    (
@@ -9673,6 +10544,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_WALK4
 
    (
@@ -9684,6 +10556,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_WALK5
 
    (
@@ -9695,6 +10568,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_WALK6
 
    (
@@ -9706,6 +10580,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_WALK7
 
    (
@@ -9717,6 +10592,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_WALK8
 
    (
@@ -9728,6 +10604,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_ATK1
 
    (
@@ -9739,6 +10616,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_ATK2
 
    (
@@ -9750,6 +10628,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_ATK3
 
    (
@@ -9761,6 +10640,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_ATK4
 
    (
@@ -9772,6 +10652,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_ATK5
 
    (
@@ -9783,6 +10664,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_ATK6
 
    (
@@ -9794,6 +10676,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_ATK7
 
    (
@@ -9805,6 +10688,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_ATK8
 
    (
@@ -9816,6 +10700,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_ATK9
 
    (
@@ -9827,6 +10712,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_PAIN1
 
    (
@@ -9838,6 +10724,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_PAIN2
 
    (
@@ -9849,6 +10736,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_DIE1
 
    (
@@ -9860,6 +10748,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_DIE2
 
    (
@@ -9871,6 +10760,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_DIE3
 
    (
@@ -9882,6 +10772,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_DIE4
 
    (
@@ -9893,6 +10784,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_DIE5
 
    (
@@ -9904,6 +10796,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_DIE6
 
    (
@@ -9915,6 +10808,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_DIE7
 
    (
@@ -9926,6 +10820,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZARD_DIE8
 
    (
@@ -9937,6 +10832,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZFX1_1
 
    (
@@ -9948,6 +10844,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZFX1_2
 
    (
@@ -9959,6 +10856,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZFXI1_1
 
    (
@@ -9970,6 +10868,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZFXI1_2
 
    (
@@ -9981,6 +10880,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZFXI1_3
 
    (
@@ -9992,6 +10892,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZFXI1_4
 
    (
@@ -10003,6 +10904,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WIZFXI1_5
 
    (
@@ -10014,6 +10916,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_LOOK1
 
    (
@@ -10025,6 +10928,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_LOOK2
 
    (
@@ -10036,6 +10940,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_LOOK3
 
    (
@@ -10047,6 +10952,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_LOOK4
 
    (
@@ -10058,6 +10964,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_FLY1
 
    (
@@ -10069,6 +10976,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_FLY2
 
    (
@@ -10080,6 +10988,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_FLY3
 
    (
@@ -10091,6 +11000,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_FLY4
 
    (
@@ -10102,6 +11012,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_FLY5
 
    (
@@ -10113,6 +11024,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_FLY6
 
    (
@@ -10124,6 +11036,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_FLY7
 
    (
@@ -10135,6 +11048,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_FLY8
 
    (
@@ -10146,6 +11060,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_MEATK1
 
    (
@@ -10157,6 +11072,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_MEATK2
 
    (
@@ -10168,6 +11084,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_MEATK3
 
    (
@@ -10179,6 +11096,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_MSATK1_1
 
    (
@@ -10190,6 +11108,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_MSATK1_2
 
    (
@@ -10201,6 +11120,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_MSATK1_3
 
    (
@@ -10212,6 +11132,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_MSATK1_4
 
    (
@@ -10223,6 +11144,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_MSATK1_5
 
    (
@@ -10234,6 +11156,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_MSATK1_6
 
    (
@@ -10245,6 +11168,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_MSATK2_1
 
    (
@@ -10256,6 +11180,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_MSATK2_2
 
    (
@@ -10267,6 +11192,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_MSATK2_3
 
    (
@@ -10278,6 +11204,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_PAIN1
 
    (
@@ -10289,6 +11216,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_PAIN2
 
    (
@@ -10300,6 +11228,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_DIE1
 
    (
@@ -10311,6 +11240,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_DIE2
 
    (
@@ -10322,6 +11252,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_XDIE1
 
    (
@@ -10333,6 +11264,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_XDIE2
 
    (
@@ -10344,6 +11276,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_XDIE3
 
    (
@@ -10355,6 +11288,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_XDIE4
 
    (
@@ -10366,6 +11300,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_XDIE5
 
    (
@@ -10377,6 +11312,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_CRASH1
 
    (
@@ -10388,6 +11324,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_CRASH2
 
    (
@@ -10399,6 +11336,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_CRASH3
 
    (
@@ -10410,6 +11348,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_CRASH4
 
    (
@@ -10421,6 +11360,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_XCRASH1
 
    (
@@ -10432,6 +11372,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_XCRASH2
 
    (
@@ -10443,6 +11384,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_XCRASH3
 
    (
@@ -10454,6 +11396,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_CHUNKA1
 
    (
@@ -10465,6 +11408,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_CHUNKA2
 
    (
@@ -10476,6 +11420,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_CHUNKA3
 
    (
@@ -10487,6 +11432,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_CHUNKB1
 
    (
@@ -10498,6 +11444,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_CHUNKB2
 
    (
@@ -10509,6 +11456,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMP_CHUNKB3
 
    (
@@ -10520,6 +11468,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMPFX1
 
    (
@@ -10531,6 +11480,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMPFX2
 
    (
@@ -10542,6 +11492,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMPFX3
 
    (
@@ -10553,6 +11504,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMPFXI1
 
    (
@@ -10564,6 +11516,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMPFXI2
 
    (
@@ -10575,6 +11528,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMPFXI3
 
    (
@@ -10586,6 +11540,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IMPFXI4
 
    (
@@ -10597,6 +11552,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_STND1
 
    (
@@ -10608,6 +11564,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_STND2
 
    (
@@ -10619,6 +11576,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_WALK1
 
    (
@@ -10630,6 +11588,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_WALK2
 
    (
@@ -10641,6 +11600,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_WALK3
 
    (
@@ -10652,6 +11612,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_WALK4
 
    (
@@ -10663,6 +11624,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_ATK1
 
    (
@@ -10674,6 +11636,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_ATK2
 
    (
@@ -10685,6 +11648,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_ATK3
 
    (
@@ -10696,6 +11660,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_ATK4
 
    (
@@ -10707,6 +11672,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_ATK5
 
    (
@@ -10718,6 +11684,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_ATK6
 
    (
@@ -10729,6 +11696,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_PAIN1
 
    (
@@ -10740,6 +11708,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_PAIN2
 
    (
@@ -10751,6 +11720,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_DIE1
 
    (
@@ -10762,6 +11732,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_DIE2
 
    (
@@ -10773,6 +11744,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_DIE3
 
    (
@@ -10784,6 +11756,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_DIE4
 
    (
@@ -10795,6 +11768,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_DIE5
 
    (
@@ -10806,6 +11780,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_DIE6
 
    (
@@ -10817,6 +11792,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KNIGHT_DIE7
 
    (
@@ -10828,6 +11804,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPINAXE1
 
    (
@@ -10839,6 +11816,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPINAXE2
 
    (
@@ -10850,6 +11828,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPINAXE3
 
    (
@@ -10861,6 +11840,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPINAXEX1
 
    (
@@ -10872,6 +11852,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPINAXEX2
 
    (
@@ -10883,6 +11864,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPINAXEX3
 
    (
@@ -10894,6 +11876,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_REDAXE1
 
    (
@@ -10905,6 +11888,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_REDAXE2
 
    (
@@ -10916,6 +11900,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_REDAXEX1
 
    (
@@ -10927,6 +11912,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_REDAXEX2
 
    (
@@ -10938,6 +11924,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_REDAXEX3
 
    (
@@ -10949,6 +11936,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_LOOK1
 
    (
@@ -10960,6 +11948,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_LOOK2
 
    (
@@ -10971,6 +11960,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_WALK1
 
    (
@@ -10982,6 +11972,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_WALK2
 
    (
@@ -10993,6 +11984,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_WALK3
 
    (
@@ -11004,6 +11996,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_WALK4
 
    (
@@ -11015,6 +12008,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_PAIN1
 
    (
@@ -11026,6 +12020,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_ATK1
 
    (
@@ -11037,6 +12032,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_ATK2
 
    (
@@ -11048,6 +12044,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_ATK3
 
    (
@@ -11059,6 +12056,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_ATK4
 
    (
@@ -11070,6 +12068,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_ATK5
 
    (
@@ -11081,6 +12080,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_ATK6
 
    (
@@ -11092,6 +12092,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_ATK7
 
    (
@@ -11103,6 +12104,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE1
 
    (
@@ -11114,6 +12116,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE2
 
    (
@@ -11125,6 +12128,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE3
 
    (
@@ -11136,6 +12140,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE4
 
    (
@@ -11147,6 +12152,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE5
 
    (
@@ -11158,6 +12164,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE6
 
    (
@@ -11169,6 +12176,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE7
 
    (
@@ -11180,6 +12188,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE8
 
    (
@@ -11191,6 +12200,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE9
 
    (
@@ -11202,6 +12212,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE10
 
    (
@@ -11213,6 +12224,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE11
 
    (
@@ -11224,6 +12236,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE12
 
    (
@@ -11235,6 +12248,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE13
 
    (
@@ -11246,6 +12260,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE14
 
    (
@@ -11257,6 +12272,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE15
 
    (
@@ -11268,6 +12284,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE16
 
    (
@@ -11279,6 +12296,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCR1_DIE17
 
    (
@@ -11290,6 +12308,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCRFX1_1
 
    (
@@ -11301,6 +12320,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCRFX1_2
 
    (
@@ -11312,6 +12332,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCRFX1_3
 
    (
@@ -11323,6 +12344,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCRFXI1_1
 
    (
@@ -11334,6 +12356,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCRFXI1_2
 
    (
@@ -11345,6 +12368,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCRFXI1_3
 
    (
@@ -11356,6 +12380,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCRFXI1_4
 
    (
@@ -11367,6 +12392,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SRCRFXI1_5
 
    (
@@ -11378,6 +12404,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_RISE1
 
    (
@@ -11389,6 +12416,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_RISE2
 
    (
@@ -11400,6 +12428,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_RISE3
 
    (
@@ -11411,6 +12440,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_RISE4
 
    (
@@ -11422,6 +12452,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_RISE5
 
    (
@@ -11433,6 +12464,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_RISE6
 
    (
@@ -11444,6 +12476,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_RISE7
 
    (
@@ -11455,6 +12488,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_LOOK1
 
    (
@@ -11466,6 +12500,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_LOOK2
 
    (
@@ -11477,6 +12512,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_WALK1
 
    (
@@ -11488,6 +12524,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_WALK2
 
    (
@@ -11499,6 +12536,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_WALK3
 
    (
@@ -11510,6 +12548,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_WALK4
 
    (
@@ -11521,6 +12560,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_PAIN1
 
    (
@@ -11532,6 +12572,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_PAIN2
 
    (
@@ -11543,6 +12584,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_ATK1
 
    (
@@ -11554,6 +12596,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_ATK2
 
    (
@@ -11565,6 +12608,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_ATK3
 
    (
@@ -11576,6 +12620,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_TELE1
 
    (
@@ -11587,6 +12632,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_TELE2
 
    (
@@ -11598,6 +12644,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_TELE3
 
    (
@@ -11609,6 +12656,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_TELE4
 
    (
@@ -11620,6 +12668,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_TELE5
 
    (
@@ -11631,6 +12680,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_TELE6
 
    (
@@ -11642,6 +12692,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE1
 
    (
@@ -11653,6 +12704,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE2
 
    (
@@ -11664,6 +12716,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE3
 
    (
@@ -11675,6 +12728,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE4
 
    (
@@ -11686,6 +12740,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE5
 
    (
@@ -11697,6 +12752,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE6
 
    (
@@ -11708,6 +12764,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE7
 
    (
@@ -11719,6 +12776,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE8
 
    (
@@ -11730,6 +12788,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE9
 
    (
@@ -11741,6 +12800,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE10
 
    (
@@ -11752,6 +12812,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE11
 
    (
@@ -11763,6 +12824,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE12
 
    (
@@ -11774,6 +12836,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE13
 
    (
@@ -11785,6 +12848,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE14
 
    (
@@ -11796,6 +12860,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2_DIE15
 
    (
@@ -11807,6 +12872,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FX1_1
 
    (
@@ -11818,6 +12884,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FX1_2
 
    (
@@ -11829,6 +12896,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FX1_3
 
    (
@@ -11840,6 +12908,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FXI1_1
 
    (
@@ -11851,6 +12920,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FXI1_2
 
    (
@@ -11862,6 +12932,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FXI1_3
 
    (
@@ -11873,6 +12944,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FXI1_4
 
    (
@@ -11884,6 +12956,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FXI1_5
 
    (
@@ -11895,6 +12968,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FXI1_6
 
    (
@@ -11906,6 +12980,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FXSPARK1
 
    (
@@ -11917,6 +12992,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FXSPARK2
 
    (
@@ -11928,6 +13004,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FXSPARK3
 
    (
@@ -11939,6 +13016,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FX2_1
 
    (
@@ -11950,6 +13028,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FX2_2
 
    (
@@ -11961,6 +13040,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FX2_3
 
    (
@@ -11972,6 +13052,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FXI2_1
 
    (
@@ -11983,6 +13064,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FXI2_2
 
    (
@@ -11994,6 +13076,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FXI2_3
 
    (
@@ -12005,6 +13088,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FXI2_4
 
    (
@@ -12016,6 +13100,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2FXI2_5
 
    (
@@ -12027,6 +13112,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2TELEFADE1
 
    (
@@ -12038,6 +13124,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2TELEFADE2
 
    (
@@ -12049,6 +13136,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2TELEFADE3
 
    (
@@ -12060,6 +13148,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2TELEFADE4
 
    (
@@ -12071,6 +13160,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2TELEFADE5
 
    (
@@ -12082,6 +13172,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SOR2TELEFADE6
 
    (
@@ -12093,6 +13184,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_LOOK1
 
    (
@@ -12104,6 +13196,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_LOOK2
 
    (
@@ -12115,6 +13208,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_WALK1
 
    (
@@ -12126,6 +13220,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_WALK2
 
    (
@@ -12137,6 +13232,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_WALK3
 
    (
@@ -12148,6 +13244,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_WALK4
 
    (
@@ -12159,6 +13256,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_ATK1_1
 
    (
@@ -12170,6 +13268,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_ATK1_2
 
    (
@@ -12181,6 +13280,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_ATK1_3
 
    (
@@ -12192,6 +13292,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_ATK2_1
 
    (
@@ -12203,6 +13304,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_ATK2_2
 
    (
@@ -12214,6 +13316,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_ATK2_3
 
    (
@@ -12225,6 +13328,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_ATK3_1
 
    (
@@ -12236,6 +13340,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_ATK3_2
 
    (
@@ -12247,6 +13352,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_ATK3_3
 
    (
@@ -12258,6 +13364,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_ATK3_4
 
    (
@@ -12269,6 +13376,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_ATK4_1
 
    (
@@ -12280,6 +13388,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_PAIN1
 
    (
@@ -12291,6 +13400,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_PAIN2
 
    (
@@ -12302,6 +13412,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE1
 
    (
@@ -12313,6 +13424,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE2
 
    (
@@ -12324,6 +13436,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE3
 
    (
@@ -12335,6 +13448,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE4
 
    (
@@ -12346,6 +13460,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE5
 
    (
@@ -12357,6 +13472,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE6
 
    (
@@ -12368,6 +13484,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE7
 
    (
@@ -12379,6 +13496,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE8
 
    (
@@ -12390,6 +13508,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE9
 
    (
@@ -12401,6 +13520,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE10
 
    (
@@ -12412,6 +13532,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE11
 
    (
@@ -12423,6 +13544,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE12
 
    (
@@ -12434,6 +13556,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE13
 
    (
@@ -12445,6 +13568,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE14
 
    (
@@ -12456,6 +13580,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTR_DIE15
 
    (
@@ -12467,6 +13592,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFX1_1
 
    (
@@ -12478,6 +13604,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFX1_2
 
    (
@@ -12489,6 +13616,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFXI1_1
 
    (
@@ -12500,6 +13628,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFXI1_2
 
    (
@@ -12511,6 +13640,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFXI1_3
 
    (
@@ -12522,6 +13652,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFXI1_4
 
    (
@@ -12533,6 +13664,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFXI1_5
 
    (
@@ -12544,6 +13676,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFXI1_6
 
    (
@@ -12555,6 +13688,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFX2_1
 
    (
@@ -12566,6 +13700,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFXI2_1
 
    (
@@ -12577,6 +13712,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFXI2_2
 
    (
@@ -12588,6 +13724,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFXI2_3
 
    (
@@ -12599,6 +13736,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFXI2_4
 
    (
@@ -12610,6 +13748,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFXI2_5
 
    (
@@ -12621,6 +13760,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFX3_1
 
    (
@@ -12632,6 +13772,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFX3_2
 
    (
@@ -12643,6 +13784,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFX3_3
 
    (
@@ -12654,6 +13796,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFX3_4
 
    (
@@ -12665,6 +13808,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFX3_5
 
    (
@@ -12676,6 +13820,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFX3_6
 
    (
@@ -12687,6 +13832,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFX3_7
 
    (
@@ -12698,6 +13844,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFX3_8
 
    (
@@ -12709,6 +13856,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNTRFX3_9
 
    (
@@ -12720,6 +13868,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AKYY1
 
    (
@@ -12731,6 +13880,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AKYY2
 
    (
@@ -12742,6 +13892,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AKYY3
 
    (
@@ -12753,6 +13904,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AKYY4
 
    (
@@ -12764,6 +13916,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AKYY5
 
    (
@@ -12775,6 +13928,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AKYY6
 
    (
@@ -12786,6 +13940,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AKYY7
 
    (
@@ -12797,6 +13952,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AKYY8
 
    (
@@ -12808,6 +13964,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AKYY9
 
    (
@@ -12819,6 +13976,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AKYY10
 
    (
@@ -12830,6 +13988,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BKYY1
 
    (
@@ -12841,6 +14000,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BKYY2
 
    (
@@ -12852,6 +14012,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BKYY3
 
    (
@@ -12863,6 +14024,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BKYY4
 
    (
@@ -12874,6 +14036,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BKYY5
 
    (
@@ -12885,6 +14048,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BKYY6
 
    (
@@ -12896,6 +14060,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BKYY7
 
    (
@@ -12907,6 +14072,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BKYY8
 
    (
@@ -12918,6 +14084,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BKYY9
 
    (
@@ -12929,6 +14096,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BKYY10
 
    (
@@ -12940,6 +14108,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CKYY1
 
    (
@@ -12951,6 +14120,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CKYY2
 
    (
@@ -12962,6 +14132,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CKYY3
 
    (
@@ -12973,6 +14144,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CKYY4
 
    (
@@ -12984,6 +14156,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CKYY5
 
    (
@@ -12995,6 +14168,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CKYY6
 
    (
@@ -13006,6 +14180,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CKYY7
 
    (
@@ -13017,6 +14192,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CKYY8
 
    (
@@ -13028,6 +14204,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CKYY9
 
    (
@@ -13039,6 +14216,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMG1
 
    (
@@ -13050,6 +14228,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMG2_1
 
    (
@@ -13061,6 +14240,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMG2_2
 
    (
@@ -13072,6 +14252,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMG2_3
 
    (
@@ -13083,6 +14264,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMM1
 
    (
@@ -13094,6 +14276,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMM2
 
    (
@@ -13105,6 +14288,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMC1
 
    (
@@ -13116,6 +14300,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMC2_1
 
    (
@@ -13127,6 +14312,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMC2_2
 
    (
@@ -13138,6 +14324,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMC2_3
 
    (
@@ -13149,6 +14336,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMS1_1
 
    (
@@ -13160,6 +14348,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMS1_2
 
    (
@@ -13171,6 +14360,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMS2_1
 
    (
@@ -13182,6 +14372,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMS2_2
 
    (
@@ -13193,6 +14384,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMP1_1
 
    (
@@ -13204,6 +14396,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMP1_2
 
    (
@@ -13215,6 +14408,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMP1_3
 
    (
@@ -13226,6 +14420,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMP2_1
 
    (
@@ -13237,6 +14432,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMP2_2
 
    (
@@ -13248,6 +14444,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMP2_3
 
    (
@@ -13259,6 +14456,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMB1_1
 
    (
@@ -13270,6 +14468,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMB1_2
 
    (
@@ -13281,6 +14480,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMB1_3
 
    (
@@ -13292,6 +14492,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMB2_1
 
    (
@@ -13303,6 +14504,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMB2_2
 
    (
@@ -13314,6 +14516,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AMB2_3
 
    (
@@ -13325,6 +14528,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SND_WIND
 
    (
@@ -13336,6 +14540,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    )                          // S_SND_WATERFALL
 
   );
@@ -13427,6 +14632,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13497,6 +14707,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13567,6 +14782,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13637,6 +14857,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13707,6 +14932,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13777,6 +15007,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13847,6 +15082,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13917,6 +15157,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13987,6 +15232,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14057,6 +15307,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14127,6 +15382,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14197,6 +15457,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14267,6 +15532,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14337,6 +15607,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14407,6 +15682,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14477,6 +15757,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14547,6 +15832,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14617,6 +15907,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14687,6 +15982,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14757,6 +16057,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14827,6 +16132,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14897,6 +16207,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14967,6 +16282,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15037,6 +16357,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15107,6 +16432,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15177,6 +16507,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15247,6 +16582,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15317,6 +16657,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15387,6 +16732,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15457,6 +16807,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15527,6 +16882,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15597,6 +16957,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15667,6 +17032,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15737,6 +17107,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15807,6 +17182,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15877,6 +17257,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15947,6 +17332,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16017,6 +17407,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16087,6 +17482,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16157,6 +17557,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16227,6 +17632,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16297,6 +17707,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16367,6 +17782,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16437,6 +17857,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16507,6 +17932,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16577,6 +18007,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16647,6 +18082,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16717,6 +18157,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16787,6 +18232,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16857,6 +18307,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16927,6 +18382,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16997,6 +18457,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17067,6 +18532,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17137,6 +18607,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17207,6 +18682,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17277,6 +18757,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17347,6 +18832,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17417,6 +18907,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17487,6 +18982,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17557,6 +19057,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17627,6 +19132,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17697,6 +19207,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17767,6 +19282,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17837,6 +19357,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17907,6 +19432,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17977,6 +19507,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18047,6 +19582,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18117,6 +19657,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18187,6 +19732,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18257,6 +19807,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18327,6 +19882,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18397,6 +19957,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18467,6 +20032,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18537,6 +20107,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18607,6 +20182,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18677,6 +20257,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18747,6 +20332,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18817,6 +20407,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18887,6 +20482,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18957,6 +20557,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19027,6 +20632,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19097,6 +20707,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19167,6 +20782,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19237,6 +20857,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19307,6 +20932,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19377,6 +21007,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19447,6 +21082,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19517,6 +21157,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19587,6 +21232,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19657,6 +21307,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19727,6 +21382,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19797,6 +21457,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19867,6 +21532,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19937,6 +21607,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20007,6 +21682,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20077,6 +21757,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20147,6 +21832,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20217,6 +21907,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20287,6 +21982,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20357,6 +22057,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20427,6 +22132,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20497,6 +22207,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20567,6 +22282,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20637,6 +22357,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20707,6 +22432,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20777,6 +22507,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20847,6 +22582,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20917,6 +22657,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20987,6 +22732,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21057,6 +22807,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21127,6 +22882,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21197,6 +22957,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21267,6 +23032,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21337,6 +23107,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21407,6 +23182,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21477,6 +23257,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21547,6 +23332,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21617,6 +23407,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21687,6 +23482,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21757,6 +23557,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21827,6 +23632,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21897,6 +23707,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21967,6 +23782,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22037,6 +23857,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22107,6 +23932,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22177,6 +24007,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22247,6 +24082,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22317,6 +24157,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22387,6 +24232,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22457,6 +24307,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22527,6 +24382,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22597,6 +24457,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22667,6 +24532,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22737,6 +24607,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22807,6 +24682,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22877,6 +24757,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22947,6 +24832,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23017,6 +24907,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23087,6 +24982,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23157,6 +25057,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23227,6 +25132,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23297,6 +25207,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23367,6 +25282,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23437,6 +25357,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23507,6 +25432,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23577,6 +25507,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23647,6 +25582,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23717,6 +25657,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23787,6 +25732,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23857,6 +25807,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23927,6 +25882,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23997,6 +25957,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24067,6 +26032,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24137,6 +26107,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24207,6 +26182,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24277,6 +26257,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24347,6 +26332,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24417,6 +26407,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24487,6 +26482,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24557,6 +26557,11 @@ const // Heretic Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    )
 
   );

@@ -950,6 +950,7 @@ var
     gotostr: string;
     offs: integer;
     bright: boolean;
+    fast: boolean;
     stmp: string;
     p: integer;
     alias: string;
@@ -1261,6 +1262,7 @@ var
     end;
 
     bright := false;
+    fast := false;
     action := '';
     sc.GetString;
     if sc.NewLine then
@@ -1268,6 +1270,8 @@ var
     else
     begin
       if strupper(sc._String) = 'BRIGHT' then
+        stmp := sc._String + ' ' + SC_RemoveLineComments(sc.GetStringEOLUnChanged)
+      else if strupper(sc._String) = 'FAST' then
         stmp := sc._String + ' ' + SC_RemoveLineComments(sc.GetStringEOLUnChanged)
       else
       begin
@@ -1296,6 +1300,22 @@ var
       end
       else
         action := stmp;
+
+      // MBF21 - Fast keyword
+      fast := false;
+      stmp := strtrim(action);
+      if strupper(firstword(stmp)) = 'FAST' then
+      begin
+        fast := true;
+        action := strtrim(Copy(stmp, 6, length(stmp) - 6));
+      end
+      else if strupper(lastword(stmp)) = 'FAST' then
+      begin
+        fast := true;
+        action := strtrim(Copy(stmp, 1, length(stmp) - 5));
+      end
+      else
+        action := stmp;
     end;
 
     if action = '' then
@@ -1318,6 +1338,7 @@ var
         pm_state.action := action;
         pm_state.nextstate := numstates + 1;
         pm_state.bright := bright;
+        pm_state.fast := fast;
         pm_state.alias := alias;
         pm_state.savealias := savealias;
         alias := ''; // Alias only for the first state
@@ -1709,6 +1730,11 @@ var
         AddRes('Unknown 2 = 0');
         AddRes('Flags_ex = ' + itoa(m_states[cnt].flags_ex));
         AddRes('Owner = ' + mobj.name);
+
+        // MBF21
+        if m_states[cnt].fast then
+          AddRes('MBF21 BITS = STATEF_SKILL5FAST');
+
         AddRes('');
       end;
       AddRes('');
@@ -1853,6 +1879,7 @@ var
     AddStateRes(wpn.attackstate, 'SHOOTING');
     AddStateRes(wpn.holdattackstate, 'HOLD SHOOTING');
     AddStateRes(wpn.flashstate, 'FIRING');
+    AddRes('AMMO PER SHOT = ' + itoa(wpn.ammopershot));
 
     AddRes('');
 
@@ -1891,6 +1918,11 @@ var
         {$IFNDEF STRIFE}
         AddRes('Flags_ex = ' + itoa(m_states[cnt].flags_ex));
         {$ENDIF}
+
+        // MBF21
+        if m_states[cnt].fast then
+          AddRes('MBF21 BITS = STATEF_SKILL5FAST');
+
         AddRes('');
       end;
       AddRes('');
@@ -2364,6 +2396,9 @@ begin
       mobj.friction := 0.90625; {ORIG_FRICTION / FRACUNIT;}
       mobj.gravity := 1.0;
       mobj.replacesid := -1;
+      mobj.infighting_group := IG_DEFAULT;
+      mobj.projectile_group := PG_DEFAULT;
+      mobj.splash_group := SG_DEFAULT;
       ismissile := false;
       FillChar(m_states, SizeOf(m_states), 0);
       sc.GetString;
@@ -2478,6 +2513,11 @@ begin
           mobj.WeaveIndexZ := pinf.WeaveIndexZ;
           mobj.spriteDX := pinf.spriteDX;
           mobj.spriteDY := pinf.spriteDY;
+          mobj.infighting_group := pinf.infighting_group;
+          mobj.projectile_group := pinf.projectile_group;
+          mobj.splash_group := pinf.splash_group;
+          mobj.mbf21bits := pinf.mbf21bits;
+          mobj.ripsound := pinf.ripsound;
 
           mobj.spawnstate := ORIGINALSTATEMARKER + pinf.spawnstate;
           mobj.seestate := ORIGINALSTATEMARKER + pinf.seestate;
@@ -3432,7 +3472,8 @@ var
         Chr(Ord('A') + sst.frame and FF_FRAMEMASK) + ' ' +
         stics +
         act +
-        decide(sst.frame and FF_FULLBRIGHT <> 0, ' BRIGHT', '')
+        decide(sst.frame and FF_FULLBRIGHT <> 0, ' BRIGHT', '') +
+        decide(sst.mbf21bits and STATEF_SKILL5FAST <> 0, ' FAST', '')
       );
 
       if sst.tics < 0 then
@@ -3526,6 +3567,8 @@ begin
     AddLn('Customsound3 ' + S_GetSoundNameForNum(m.customsound3));
   if m.meleesound > 0 then
     AddLn('Meleesound ' + S_GetSoundNameForNum(m.meleesound));
+  if m.ripsound > 0 then
+    AddLn('Ripsound ' + S_GetSoundNameForNum(m.ripsound));
   if m.floatspeed > 0 then
     AddLn('Floatspeed ' + itoa(m.floatspeed));
   if m.normalspeed > 0 then
@@ -3566,6 +3609,12 @@ begin
     AddLn('spriteDX ' + itoa(m.spriteDX));
   if m.spriteDY <> 0 then
     AddLn('spriteDY ' + itoa(m.spriteDY));
+  if m.infighting_group <> IG_DEFAULT then
+    AddLn('InfightingGroup ' + Info_InfightingGroupToString(m.infighting_group));
+  if m.projectile_group <> PG_DEFAULT then
+    AddLn('ProjectileGroup ' + Info_ProjectileGroupToString(m.projectile_group));
+  if m.splash_group <> SG_DEFAULT then
+    AddLn('SplashGroup ' + Info_SplashGroupToString(m.splash_group));
 
   for i := 0 to mobj_flags.Count - 1 do
     if m.flags and (1 shl i) <> 0 then
@@ -3731,7 +3780,8 @@ var
         Chr(Ord('A') + sst.frame and FF_FRAMEMASK) + ' ' +
         stics +
         act +
-        decide(sst.frame and FF_FULLBRIGHT <> 0, ' BRIGHT', '')
+        decide(sst.frame and FF_FULLBRIGHT <> 0, ' BRIGHT', '') +
+        decide(sst.mbf21bits and STATEF_SKILL5FAST <> 0, ' FAST', '')
       );
 
       if sst.tics < 0 then

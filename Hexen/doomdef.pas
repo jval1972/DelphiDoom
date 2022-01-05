@@ -153,6 +153,22 @@ const
   MTF_ONMIDSECTOR = 2048;
   MTF_DONOTTRIGGERSCRIPTS = 4096;
 
+const
+  // no flag
+  WPF_NOFLAG = 0;
+  // doesn't thrust Mobj's
+  WPF_NOTHRUST = 1;
+  // weapon is silent
+  WPF_SILENT = 2;
+  // weapon won't autofire in A_WeaponReady
+  WPF_NOAUTOFIRE = 4;
+  // monsters consider it a melee weapon
+  WPF_FLEEMELEE = 8;
+  // can be switched away from when ammo is picked up
+  WPF_AUTOSWITCHFROM = $10;
+  // cannot be switched to when ammo is picked up
+  WPF_NOAUTOSWITCHTO = $20;
+
 type
   skill_t = (
     sk_baby,
@@ -240,6 +256,8 @@ type
     atkstate: integer;
     holdatkstate: integer;
     flashstate: integer;
+    ammopershot: integer; // MBF21
+    mbf21bits: integer; // MBF21
   end;
   Pweaponinfo_t = ^weaponinfo_t;
   weaponinfo_tArray = array[0..$FFF] of weaponinfo_t;

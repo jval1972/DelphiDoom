@@ -44,6 +44,21 @@ uses
   doomdef,
   info_h;
 
+const
+  // no flag
+  WPF_NOFLAG = 0;
+  // doesn't thrust Mobj's
+  WPF_NOTHRUST = 1;
+  // weapon is silent
+  WPF_SILENT = 2;
+  // weapon won't autofire in A_WeaponReady
+  WPF_NOAUTOFIRE = 4;
+  // monsters consider it a melee weapon
+  WPF_FLEEMELEE = 8;
+  // can be switched away from when ammo is picked up
+  WPF_AUTOSWITCHFROM = $10;
+  // cannot be switched to when ammo is picked up
+  WPF_NOAUTOSWITCHTO = $20;
 
 type
   { Weapon info: sprite frames, ammunition use. }
@@ -56,6 +71,8 @@ type
     holdatkstate: integer;
     flashstate: integer;
     availabledemo: boolean;    // villsa [STRIFE]
+    ammopershot: integer; // MBF21
+    mbf21bits: integer; // MBF21
   end;
   Pweaponinfo_t = ^weaponinfo_t;
 

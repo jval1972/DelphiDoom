@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -95,6 +95,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NULL
 
    (                          // #01
@@ -103,6 +105,8 @@ const
     tics: 0;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PNCH_00
 
    (                          // #02
@@ -111,6 +115,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WAVE_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WAVE_00
 
    (                          // #03
@@ -119,6 +125,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WAVE_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WAVE_01
 
    (                          // #04
@@ -127,6 +135,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WAVE_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WAVE_02
 
    (                          // #05
@@ -135,6 +145,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WAVE_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WAVE_03
 
    (                          // #06
@@ -143,6 +155,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RBPY_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RBPY_00
 
    (                          // #07
@@ -151,6 +165,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RBPY_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RBPY_01
 
    (                          // #08
@@ -159,6 +175,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RBPY_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RBPY_02
 
    (                          // #09
@@ -167,6 +185,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RBPY_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RBPY_03
 
    (                          // #10
@@ -175,6 +195,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TRGT_00
 
    (                          // #11
@@ -183,6 +205,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TRGT_01
 
    (                          // #12
@@ -191,6 +215,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TRGT_02
 
    (                          // #13
@@ -199,6 +225,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PNCH_01
 
    (                          // #14
@@ -207,6 +235,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PNCH_02
 
    (                          // #15
@@ -215,6 +245,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PNCH_03
 
    (                          // #16
@@ -223,6 +255,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PNCH_04
 
    (                          // #17
@@ -231,6 +265,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PNCH_05
 
    (                          // #18
@@ -239,6 +275,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PNCH_06
 
    (                          // #19
@@ -247,6 +285,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PNCH_07
 
    (                          // #20
@@ -255,6 +295,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PNCH_08
 
    (                          // #21
@@ -263,6 +305,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_00
 
    (                          // #22
@@ -271,6 +315,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_01
 
    (                          // #23
@@ -279,6 +325,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_02
 
    (                          // #24
@@ -287,6 +335,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_03
 
    (                          // #25
@@ -295,6 +345,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_04
 
    (                          // #26
@@ -303,6 +355,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_05
 
    (                          // #27
@@ -311,6 +365,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_06
 
    (                          // #28
@@ -319,6 +375,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_07
 
    (                          // #29
@@ -327,6 +385,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_08
 
    (                          // #30
@@ -335,6 +395,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_09
 
    (                          // #31
@@ -343,6 +405,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_10
 
    (                          // #32
@@ -351,6 +415,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_11
 
    (                          // #33
@@ -359,6 +425,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_12
 
    (                          // #34
@@ -367,6 +435,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_13
 
    (                          // #35
@@ -375,6 +445,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_14
 
    (                          // #36
@@ -383,6 +455,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_15
 
    (                          // #37
@@ -391,6 +465,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_16
 
    (                          // #38
@@ -399,6 +475,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_17
 
    (                          // #39
@@ -407,6 +485,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_18
 
    (                          // #40
@@ -415,6 +495,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_19
 
    (                          // #41
@@ -423,6 +505,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_20
 
    (                          // #42
@@ -431,6 +515,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_21
 
    (                          // #43
@@ -439,6 +525,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_XBOW_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XBOW_22
 
    (                          // #44
@@ -447,6 +535,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MMIS_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MMIS_00
 
    (                          // #45
@@ -455,6 +545,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MMIS_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MMIS_01
 
    (                          // #46
@@ -463,6 +555,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MMIS_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MMIS_02
 
    (                          // #47
@@ -471,6 +565,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MMIS_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MMIS_03
 
    (                          // #48
@@ -479,6 +575,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MMIS_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MMIS_04
 
    (                          // #49
@@ -487,6 +585,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MMIS_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MMIS_05
 
    (                          // #50
@@ -495,6 +595,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MMIS_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MMIS_06
 
    (                          // #51
@@ -503,6 +605,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MMIS_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MMIS_07
 
    (                          // #52
@@ -511,6 +615,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MMIS_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MMIS_08
 
    (                          // #53
@@ -519,6 +625,8 @@ const
     tics: 0;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MMIS_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MMIS_09
 
    (                          // #54
@@ -527,6 +635,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RIFG_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIFG_00
 
    (                          // #55
@@ -535,6 +645,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RIFG_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIFG_01
 
    (                          // #56
@@ -543,6 +655,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RIFG_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIFG_02
 
    (                          // #57
@@ -551,6 +665,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RIFF_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIFF_00
 
    (                          // #58
@@ -559,6 +675,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RIFG_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIFF_01
 
    (                          // #59
@@ -567,6 +685,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RIFG_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIFG_03
 
    (                          // #60
@@ -575,6 +695,8 @@ const
     tics: 0;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RIFG_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIFG_04
 
    (                          // #61
@@ -583,6 +705,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RIFG_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIFG_05
 
    (                          // #62
@@ -591,6 +715,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLMT_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLMT_00
 
    (                          // #63
@@ -599,6 +725,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLMT_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLMT_01
 
    (                          // #64
@@ -607,6 +735,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLMT_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLMT_02
 
    (                          // #65
@@ -615,6 +745,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLMT_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLMT_03
 
    (                          // #66
@@ -623,6 +755,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLMF_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLMF_00
 
    (                          // #67
@@ -631,6 +765,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLMT_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLMF_01
 
    (                          // #68
@@ -639,6 +775,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_00
 
    (                          // #69
@@ -647,6 +785,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_01
 
    (                          // #70
@@ -655,6 +795,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_02
 
    (                          // #71
@@ -663,6 +805,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_03
 
    (                          // #72
@@ -671,6 +815,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_04
 
    (                          // #73
@@ -679,6 +825,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_05
 
    (                          // #74
@@ -687,6 +835,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLSF_00
 
    (                          // #75
@@ -695,6 +845,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_06
 
    (                          // #76
@@ -703,6 +855,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_07
 
    (                          // #77
@@ -711,6 +865,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_08
 
    (                          // #78
@@ -719,6 +875,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_09
 
    (                          // #79
@@ -727,6 +885,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_10
 
    (                          // #80
@@ -735,6 +895,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_11
 
    (                          // #81
@@ -743,6 +905,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_12
 
    (                          // #82
@@ -751,6 +915,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_13
 
    (                          // #83
@@ -759,6 +925,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_14
 
    (                          // #84
@@ -767,6 +935,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_15
 
    (                          // #85
@@ -775,6 +945,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_16
 
    (                          // #86
@@ -783,6 +955,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_17
 
    (                          // #87
@@ -791,6 +965,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_18
 
    (                          // #88
@@ -799,6 +975,8 @@ const
     tics: 20;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_19
 
    (                          // #89
@@ -807,6 +985,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLSF_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_20
 
    (                          // #90
@@ -815,6 +995,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLSF_01
 
    (                          // #91
@@ -823,6 +1005,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_21
 
    (                          // #92
@@ -831,6 +1015,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_22
 
    (                          // #93
@@ -839,6 +1025,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_24;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_23
 
    (                          // #94
@@ -847,6 +1035,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLST_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLST_24
 
    (                          // #95
@@ -855,6 +1045,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_00
 
    (                          // #96
@@ -863,6 +1055,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_01
 
    (                          // #97
@@ -871,6 +1065,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_02
 
    (                          // #98
@@ -879,6 +1075,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_03
 
    (                          // #99
@@ -887,6 +1085,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_04
 
    (                          // #100
@@ -895,6 +1095,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_05
 
    (                          // #101
@@ -903,6 +1105,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_06
 
    (                          // #102
@@ -911,6 +1115,8 @@ const
     tics: 0;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_07
 
    (                          // #103
@@ -919,6 +1125,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREF_00
 
    (                          // #104
@@ -927,6 +1135,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREF_01
 
    (                          // #105
@@ -935,6 +1145,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREF_02
 
    (                          // #106
@@ -943,6 +1155,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_08
 
    (                          // #107
@@ -951,6 +1165,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_09
 
    (                          // #108
@@ -959,6 +1175,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_10
 
    (                          // #109
@@ -967,6 +1185,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_11
 
    (                          // #110
@@ -975,6 +1195,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_12
 
    (                          // #111
@@ -983,6 +1205,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_13
 
    (                          // #112
@@ -991,6 +1215,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_14
 
    (                          // #113
@@ -999,6 +1225,8 @@ const
     tics: 0;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GREN_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREN_15
 
    (                          // #114
@@ -1007,6 +1235,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREF_03
 
    (                          // #115
@@ -1015,6 +1245,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREF_04
 
    (                          // #116
@@ -1023,6 +1255,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GREF_05
 
    (                          // #117
@@ -1031,6 +1265,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SIGH_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGH_00
 
    (                          // #118
@@ -1039,6 +1275,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGH_01
 
    (                          // #119
@@ -1047,6 +1285,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGH_02
 
    (                          // #120
@@ -1055,6 +1295,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGH_03
 
    (                          // #121
@@ -1063,6 +1305,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGH_04
 
    (                          // #122
@@ -1071,6 +1315,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SIGH_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGH_05
 
    (                          // #123
@@ -1079,6 +1325,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SIGH_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGH_06
 
    (                          // #124
@@ -1087,6 +1335,8 @@ const
     tics: 18;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SIGH_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGH_07
 
    (                          // #125
@@ -1095,6 +1345,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SIGH_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGH_08
 
    (                          // #126
@@ -1103,6 +1355,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SIGH_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGH_09
 
    (                          // #127
@@ -1111,6 +1365,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SIGH_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGH_10
 
    (                          // #128
@@ -1119,6 +1375,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SIGF_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGF_00
 
    (                          // #129
@@ -1127,6 +1385,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SIGF_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGF_01
 
    (                          // #130
@@ -1135,6 +1395,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PNCH_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGF_02
 
    (                          // #131
@@ -1143,6 +1405,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW1_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW1_00
 
    (                          // #132
@@ -1151,6 +1415,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW1_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW1_01
 
    (                          // #133
@@ -1159,6 +1425,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW1_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW1_02
 
    (                          // #134
@@ -1167,6 +1435,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW1_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW1_03
 
    (                          // #135
@@ -1175,6 +1445,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW1_04
 
    (                          // #136
@@ -1183,6 +1455,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW1_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW1_05
 
    (                          // #137
@@ -1191,6 +1465,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW1_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW1_06
 
    (                          // #138
@@ -1199,6 +1475,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW1_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW1_07
 
    (                          // #139
@@ -1207,6 +1485,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW1_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW1_08
 
    (                          // #140
@@ -1215,6 +1495,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW1_09
 
    (                          // #141
@@ -1223,6 +1505,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW2_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW2_00
 
    (                          // #142
@@ -1231,6 +1515,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW2_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW2_01
 
    (                          // #143
@@ -1239,6 +1525,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW2_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW2_02
 
    (                          // #144
@@ -1247,6 +1535,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW2_03
 
    (                          // #145
@@ -1255,6 +1545,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW3_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW3_00
 
    (                          // #146
@@ -1263,6 +1555,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW3_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW3_01
 
    (                          // #147
@@ -1271,6 +1565,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW3_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW3_02
 
    (                          // #148
@@ -1279,6 +1575,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW3_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW3_03
 
    (                          // #149
@@ -1287,6 +1585,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW3_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW3_04
 
    (                          // #150
@@ -1295,6 +1595,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW3_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW3_05
 
    (                          // #151
@@ -1303,6 +1605,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW3_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW3_06
 
    (                          // #152
@@ -1311,6 +1615,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POW3_07
 
    (                          // #153
@@ -1319,6 +1625,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP1_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP1_00
 
    (                          // #154
@@ -1327,6 +1635,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP1_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP1_01
 
    (                          // #155
@@ -1335,6 +1645,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP1_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP1_02
 
    (                          // #156
@@ -1343,6 +1655,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP1_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP1_03
 
    (                          // #157
@@ -1351,6 +1665,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP1_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP1_04
 
    (                          // #158
@@ -1359,6 +1675,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP1_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP1_05
 
    (                          // #159
@@ -1367,6 +1685,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP1_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP1_06
 
    (                          // #160
@@ -1375,6 +1695,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP1_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP1_07
 
    (                          // #161
@@ -1383,6 +1705,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP1_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP1_08
 
    (                          // #162
@@ -1391,6 +1715,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP1_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP1_09
 
    (                          // #163
@@ -1399,6 +1725,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP1_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP1_10
 
    (                          // #164
@@ -1407,6 +1735,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP1_11
 
    (                          // #165
@@ -1415,6 +1745,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPRY_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPRY_00
 
    (                          // #166
@@ -1423,6 +1755,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPRY_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPRY_01
 
    (                          // #167
@@ -1431,6 +1765,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPRY_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPRY_02
 
    (                          // #168
@@ -1439,6 +1775,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPRY_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPRY_03
 
    (                          // #169
@@ -1447,6 +1785,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPRY_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPRY_04
 
    (                          // #170
@@ -1455,6 +1795,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPRY_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPRY_05
 
    (                          // #171
@@ -1463,6 +1805,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPRY_06
 
    (                          // #172
@@ -1471,6 +1815,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLOD_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOD_00
 
    (                          // #173
@@ -1479,6 +1825,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLOD_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOD_01
 
    (                          // #174
@@ -1487,6 +1835,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLOD_02
 
    (                          // #175
@@ -1495,6 +1845,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PUFY_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PUFY_00
 
    (                          // #176
@@ -1503,6 +1855,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PUFY_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PUFY_01
 
    (                          // #177
@@ -1511,6 +1865,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PUFY_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PUFY_02
 
    (                          // #178
@@ -1519,6 +1875,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PUFY_03
 
    (                          // #179
@@ -1527,6 +1885,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SHT1_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHT1_00
 
    (                          // #180
@@ -1535,6 +1895,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SHT1_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHT1_01
 
    (                          // #181
@@ -1543,6 +1905,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SHT2_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHT2_00
 
    (                          // #182
@@ -1551,6 +1915,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POW1_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHT2_01
 
    (                          // #183
@@ -1559,6 +1925,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GRIN_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GRIN_00
 
    (                          // #184
@@ -1567,6 +1935,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GRIN_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GRIN_01
 
    (                          // #185
@@ -1575,6 +1945,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GRAP_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GRAP_00
 
    (                          // #186
@@ -1583,6 +1955,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GRAP_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GRAP_01
 
    (                          // #187
@@ -1591,6 +1965,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_UBAM_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_UBAM_00
 
    (                          // #188
@@ -1599,6 +1975,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_UBAM_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_UBAM_01
 
    (                          // #189
@@ -1607,6 +1985,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG2_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG2_00
 
    (                          // #190
@@ -1615,6 +1995,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG2_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG2_01
 
    (                          // #191
@@ -1623,6 +2005,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG2_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG2_02
 
    (                          // #192
@@ -1631,6 +2015,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG2_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG2_03
 
    (                          // #193
@@ -1639,6 +2025,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG2_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG2_04
 
    (                          // #194
@@ -1647,6 +2035,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG2_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG2_05
 
    (                          // #195
@@ -1655,6 +2045,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG2_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG2_06
 
    (                          // #196
@@ -1663,6 +2055,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG2_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG2_07
 
    (                          // #197
@@ -1671,6 +2065,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG2_08
 
    (                          // #198
@@ -1679,6 +2075,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG4_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG4_00
 
    (                          // #199
@@ -1687,6 +2085,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG4_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG4_01
 
    (                          // #200
@@ -1695,6 +2095,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG4_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG4_02
 
    (                          // #201
@@ -1703,6 +2105,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG4_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG4_03
 
    (                          // #202
@@ -1711,6 +2115,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG4_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG4_04
 
    (                          // #203
@@ -1719,6 +2125,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG4_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG4_05
 
    (                          // #204
@@ -1727,6 +2135,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG4_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG4_06
 
    (                          // #205
@@ -1735,6 +2145,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG4_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG4_07
 
    (                          // #206
@@ -1743,6 +2155,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG4_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG4_08
 
    (                          // #207
@@ -1751,6 +2165,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG4_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG4_09
 
    (                          // #208
@@ -1759,6 +2175,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG4_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG4_10
 
    (                          // #209
@@ -1767,6 +2185,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG4_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG4_11
 
    (                          // #210
@@ -1775,6 +2195,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG4_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG4_12
 
    (                          // #211
@@ -1783,6 +2205,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG4_13
 
    (                          // #212
@@ -1791,6 +2215,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG3_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG3_00
 
    (                          // #213
@@ -1799,6 +2225,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG3_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG3_01
 
    (                          // #214
@@ -1807,6 +2235,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG3_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG3_02
 
    (                          // #215
@@ -1815,6 +2245,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG3_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG3_03
 
    (                          // #216
@@ -1823,6 +2255,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG3_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG3_04
 
    (                          // #217
@@ -1831,6 +2265,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG3_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG3_05
 
    (                          // #218
@@ -1839,6 +2275,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG3_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG3_06
 
    (                          // #219
@@ -1847,6 +2285,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG3_07
 
    (                          // #220
@@ -1855,6 +2295,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG3_08
 
    (                          // #221
@@ -1863,6 +2305,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG3_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG3_09
 
    (                          // #222
@@ -1871,6 +2315,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLBE_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BNG3_10
 
    (                          // #223
@@ -1879,6 +2325,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLBE_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLBE_00
 
    (                          // #224
@@ -1887,6 +2335,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLBE_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLBE_01
 
    (                          // #225
@@ -1895,6 +2345,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLBE_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLBE_02
 
    (                          // #226
@@ -1903,6 +2355,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLBE_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLBE_03
 
    (                          // #227
@@ -1911,6 +2365,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLBE_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLBE_04
 
    (                          // #228
@@ -1919,6 +2375,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLBE_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLBE_05
 
    (                          // #229
@@ -1927,6 +2385,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLBE_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLBE_06
 
    (                          // #230
@@ -1935,6 +2395,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLBE_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLBE_07
 
    (                          // #231
@@ -1943,6 +2405,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLBE_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLBE_08
 
    (                          // #232
@@ -1951,6 +2415,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FLBE_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLBE_09
 
    (                          // #233
@@ -1959,6 +2425,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLBE_10
 
    (                          // #234
@@ -1967,6 +2435,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XPRK_00
 
    (                          // #235
@@ -1975,6 +2445,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_OCLW_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_OCLW_00
 
    (                          // #236
@@ -1983,6 +2455,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CCLW_00
 
    (                          // #237
@@ -1991,6 +2465,8 @@ const
     tics: 20;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TEND_00
 
    (                          // #238
@@ -1999,6 +2475,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MICR_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MICR_00
 
    (                          // #239
@@ -2007,6 +2485,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MISS_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MISS_00
 
    (                          // #240
@@ -2015,6 +2495,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MISS_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MISS_01
 
    (                          // #241
@@ -2023,6 +2505,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AROW_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AROW_00
 
    (                          // #242
@@ -2031,6 +2515,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARWP_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARWP_00
 
    (                          // #243
@@ -2039,6 +2525,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AROW_01
 
    (                          // #244
@@ -2047,6 +2535,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TORP_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TORP_00
 
    (                          // #245
@@ -2055,6 +2545,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TORP_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TORP_01
 
    (                          // #246
@@ -2063,6 +2555,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TORP_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TORP_02
 
    (                          // #247
@@ -2071,6 +2565,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TORP_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TORP_03
 
    (                          // #248
@@ -2079,6 +2575,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_THIT_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_THIT_00
 
    (                          // #249
@@ -2087,6 +2585,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_THIT_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_THIT_01
 
    (                          // #250
@@ -2095,6 +2595,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_THIT_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_THIT_02
 
    (                          // #251
@@ -2103,6 +2605,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_THIT_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_THIT_03
 
    (                          // #252
@@ -2111,6 +2615,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_THIT_04
 
    (                          // #253
@@ -2119,6 +2625,8 @@ const
     tics: 9;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TWAV_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TWAV_00
 
    (                          // #254
@@ -2127,6 +2635,8 @@ const
     tics: 9;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TWAV_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TWAV_01
 
    (                          // #255
@@ -2135,6 +2645,8 @@ const
     tics: 9;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TWAV_02
 
    (                          // #256
@@ -2143,6 +2655,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MISL_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MISL_00
 
    (                          // #257
@@ -2151,6 +2665,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MISL_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MISL_01
 
    (                          // #258
@@ -2159,6 +2675,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MISL_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MISL_02
 
    (                          // #259
@@ -2167,6 +2685,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MISL_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MISL_03
 
    (                          // #260
@@ -2175,6 +2695,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MISL_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MISL_04
 
    (                          // #261
@@ -2183,6 +2705,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MISL_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MISL_05
 
    (                          // #262
@@ -2191,6 +2715,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MISL_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MISL_06
 
    (                          // #263
@@ -2199,6 +2725,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MISL_07
 
    (                          // #264
@@ -2207,6 +2735,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG_00
 
    (                          // #265
@@ -2215,6 +2745,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG_01
 
    (                          // #266
@@ -2223,6 +2755,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG_02
 
    (                          // #267
@@ -2231,6 +2765,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG_03
 
    (                          // #268
@@ -2239,6 +2775,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG_04
 
    (                          // #269
@@ -2247,6 +2785,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG_05
 
    (                          // #270
@@ -2255,6 +2795,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG_06
 
    (                          // #271
@@ -2263,6 +2805,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG_07
 
    (                          // #272
@@ -2271,6 +2815,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG_08
 
    (                          // #273
@@ -2279,6 +2825,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TFOG_09
 
    (                          // #274
@@ -2287,6 +2835,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IFOG_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IFOG_00
 
    (                          // #275
@@ -2295,6 +2845,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IFOG_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IFOG_01
 
    (                          // #276
@@ -2303,6 +2855,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IFOG_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IFOG_02
 
    (                          // #277
@@ -2311,6 +2865,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IFOG_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IFOG_03
 
    (                          // #278
@@ -2319,6 +2875,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IFOG_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IFOG_04
 
    (                          // #279
@@ -2327,6 +2885,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IFOG_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IFOG_05
 
    (                          // #280
@@ -2335,6 +2895,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_IFOG_06
 
    (                          // #281
@@ -2343,6 +2905,8 @@ const
     tics: 128;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHRD_00
 
    (                          // #282
@@ -2351,6 +2915,8 @@ const
     tics: 128;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHRD_01
 
    (                          // #283
@@ -2359,6 +2925,8 @@ const
     tics: 128;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHRD_02
 
    (                          // #284
@@ -2367,6 +2935,8 @@ const
     tics: 128;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHRD_03
 
    (                          // #285
@@ -2375,6 +2945,8 @@ const
     tics: 128;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHRD_04
 
    (                          // #286
@@ -2383,6 +2955,8 @@ const
     tics: 128;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHRD_05
 
    (                          // #287
@@ -2391,6 +2965,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_00
 
    (                          // #288
@@ -2399,6 +2975,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_01
 
    (                          // #289
@@ -2407,6 +2985,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_02
 
    (                          // #290
@@ -2415,6 +2995,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_03
 
    (                          // #291
@@ -2423,6 +3005,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_04
 
    (                          // #292
@@ -2431,6 +3015,8 @@ const
     tics: 12;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_05
 
    (                          // #293
@@ -2439,6 +3025,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_06
 
    (                          // #294
@@ -2447,6 +3035,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_07
 
    (                          // #295
@@ -2455,6 +3045,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_08
 
    (                          // #296
@@ -2463,6 +3055,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_09
 
    (                          // #297
@@ -2471,6 +3065,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_10
 
    (                          // #298
@@ -2479,6 +3075,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_11
 
    (                          // #299
@@ -2487,6 +3085,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_12
 
    (                          // #300
@@ -2495,6 +3095,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_13
 
    (                          // #301
@@ -2503,6 +3105,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_14
 
    (                          // #302
@@ -2511,6 +3115,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_15
 
    (                          // #303
@@ -2519,6 +3125,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_16
 
    (                          // #304
@@ -2527,6 +3135,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_17
 
    (                          // #305
@@ -2535,6 +3145,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_18
 
    (                          // #306
@@ -2543,6 +3155,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_00
 
    (                          // #307
@@ -2551,6 +3165,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_01
 
    (                          // #308
@@ -2559,6 +3175,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_02
 
    (                          // #309
@@ -2567,6 +3185,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_03
 
    (                          // #310
@@ -2575,6 +3195,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_04
 
    (                          // #311
@@ -2583,6 +3205,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_05
 
    (                          // #312
@@ -2591,6 +3215,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_06
 
    (                          // #313
@@ -2599,6 +3225,8 @@ const
     tics: 1400;               // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_07
 
    (                          // #314
@@ -2607,6 +3235,8 @@ const
     tics: 30;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRST_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRYS_00
 
    (                          // #315
@@ -2615,6 +3245,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRNO_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRNO_00
 
    (                          // #316
@@ -2623,6 +3255,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRNO_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRNO_01
 
    (                          // #317
@@ -2631,6 +3265,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRNO_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRNO_02
 
    (                          // #318
@@ -2639,6 +3275,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRNO_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRNO_03
 
    (                          // #319
@@ -2647,6 +3285,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRST_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRNO_04
 
    (                          // #320
@@ -2655,6 +3295,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRST_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRST_00
 
    (                          // #321
@@ -2663,6 +3305,8 @@ const
     tics: 30;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRST_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRLK_00
 
    (                          // #322
@@ -2671,6 +3315,8 @@ const
     tics: 30;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRST_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRLK_01
 
    (                          // #323
@@ -2679,6 +3325,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRBD_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRBD_00
 
    (                          // #324
@@ -2687,6 +3335,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRBD_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRBD_01
 
    (                          // #325
@@ -2695,6 +3345,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRBD_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRBD_02
 
    (                          // #326
@@ -2703,6 +3355,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRBD_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRBD_03
 
    (                          // #327
@@ -2711,6 +3365,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRBD_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRBD_04
 
    (                          // #328
@@ -2719,6 +3375,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRBD_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRBD_05
 
    (                          // #329
@@ -2727,6 +3385,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRBD_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRBD_06
 
    (                          // #330
@@ -2735,6 +3395,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRBD_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRBD_07
 
    (                          // #331
@@ -2743,6 +3405,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRBD_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRBD_08
 
    (                          // #332
@@ -2751,6 +3415,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRST_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRBD_09
 
    (                          // #333
@@ -2759,6 +3425,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRPN_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRPN_00
 
    (                          // #334
@@ -2767,6 +3435,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRPN_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRPN_01
 
    (                          // #335
@@ -2775,6 +3445,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRPN_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRPN_02
 
    (                          // #336
@@ -2783,6 +3455,8 @@ const
     tics: 9;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRPN_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRPN_03
 
    (                          // #337
@@ -2791,6 +3465,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRPN_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRPN_04
 
    (                          // #338
@@ -2799,6 +3475,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRPN_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRPN_05
 
    (                          // #339
@@ -2807,6 +3485,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRST_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRPN_06
 
    (                          // #340
@@ -2815,6 +3495,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRGT_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRGT_00
 
    (                          // #341
@@ -2823,6 +3505,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRGT_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRGT_01
 
    (                          // #342
@@ -2831,6 +3515,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRGT_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRGT_02
 
    (                          // #343
@@ -2839,6 +3525,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRGT_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRGT_03
 
    (                          // #344
@@ -2847,6 +3535,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRGT_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRGT_04
 
    (                          // #345
@@ -2855,6 +3545,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRGT_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRGT_05
 
    (                          // #346
@@ -2863,6 +3555,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRGT_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRGT_06
 
    (                          // #347
@@ -2871,6 +3565,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRGT_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRGT_07
 
    (                          // #348
@@ -2879,6 +3575,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MRST_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MRGT_08
 
    (                          // #349
@@ -2887,6 +3585,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_00
 
    (                          // #350
@@ -2895,6 +3595,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_01
 
    (                          // #351
@@ -2903,6 +3605,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_02
 
    (                          // #352
@@ -2911,6 +3615,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_03
 
    (                          // #353
@@ -2919,6 +3625,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_04
 
    (                          // #354
@@ -2927,6 +3635,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_05
 
    (                          // #355
@@ -2935,6 +3645,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_06
 
    (                          // #356
@@ -2943,6 +3655,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_07
 
    (                          // #357
@@ -2951,6 +3665,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_08
 
    (                          // #358
@@ -2959,6 +3675,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_09
 
    (                          // #359
@@ -2967,6 +3685,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_10
 
    (                          // #360
@@ -2975,6 +3695,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_11
 
    (                          // #361
@@ -2983,6 +3705,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_12
 
    (                          // #362
@@ -2991,6 +3715,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_13
 
    (                          // #363
@@ -2999,6 +3725,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_14
 
    (                          // #364
@@ -3007,6 +3735,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_15
 
    (                          // #365
@@ -3015,6 +3745,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_16
 
    (                          // #366
@@ -3023,6 +3755,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_17
 
    (                          // #367
@@ -3031,6 +3765,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_18
 
    (                          // #368
@@ -3039,6 +3775,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_19
 
    (                          // #369
@@ -3047,6 +3785,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_20
 
    (                          // #370
@@ -3055,6 +3795,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_21
 
    (                          // #371
@@ -3063,6 +3805,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURN_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_22
 
    (                          // #372
@@ -3071,6 +3815,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BURN_23
 
    (                          // #373
@@ -3079,6 +3825,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DISR_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DISR_00
 
    (                          // #374
@@ -3087,6 +3835,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DISR_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DISR_01
 
    (                          // #375
@@ -3095,6 +3845,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DISR_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DISR_02
 
    (                          // #376
@@ -3103,6 +3855,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DISR_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DISR_03
 
    (                          // #377
@@ -3111,6 +3865,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DISR_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DISR_04
 
    (                          // #378
@@ -3119,6 +3875,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DISR_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DISR_05
 
    (                          // #379
@@ -3127,6 +3885,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DISR_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DISR_06
 
    (                          // #380
@@ -3135,6 +3895,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DISR_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DISR_07
 
    (                          // #381
@@ -3143,6 +3905,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DISR_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DISR_08
 
    (                          // #382
@@ -3151,6 +3915,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MEAT_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DISR_09
 
    (                          // #383
@@ -3159,6 +3925,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_00
 
    (                          // #384
@@ -3167,6 +3935,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_01
 
    (                          // #385
@@ -3175,6 +3945,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_02
 
    (                          // #386
@@ -3183,6 +3955,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_03
 
    (                          // #387
@@ -3191,6 +3965,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_04
 
    (                          // #388
@@ -3199,6 +3975,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_05
 
    (                          // #389
@@ -3207,6 +3985,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_06
 
    (                          // #390
@@ -3215,6 +3995,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_07
 
    (                          // #391
@@ -3223,6 +4005,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_08
 
    (                          // #392
@@ -3231,6 +4015,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_09
 
    (                          // #393
@@ -3239,6 +4025,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_10
 
    (                          // #394
@@ -3247,6 +4035,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_11
 
    (                          // #395
@@ -3255,6 +4045,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_12
 
    (                          // #396
@@ -3263,6 +4055,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_13
 
    (                          // #397
@@ -3271,6 +4065,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_14
 
    (                          // #398
@@ -3279,6 +4075,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_15
 
    (                          // #399
@@ -3287,6 +4085,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_16
 
    (                          // #400
@@ -3295,6 +4095,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_17
 
    (                          // #401
@@ -3303,6 +4105,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_18
 
    (                          // #402
@@ -3311,6 +4115,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_19
 
    (                          // #403
@@ -3319,6 +4125,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_20
 
    (                          // #404
@@ -3327,6 +4135,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_21
 
    (                          // #405
@@ -3335,6 +4145,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_22
 
    (                          // #406
@@ -3343,6 +4155,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_24;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_23
 
    (                          // #407
@@ -3351,6 +4165,8 @@ const
     tics: 1400;               // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_24
 
    (                          // #408
@@ -3359,6 +4175,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_00
 
    (                          // #409
@@ -3367,6 +4185,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_01
 
    (                          // #410
@@ -3375,6 +4195,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_02
 
    (                          // #411
@@ -3383,6 +4205,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_03
 
    (                          // #412
@@ -3391,6 +4215,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_04
 
    (                          // #413
@@ -3399,6 +4225,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_05
 
    (                          // #414
@@ -3407,6 +4235,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_06
 
    (                          // #415
@@ -3415,6 +4245,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_07
 
    (                          // #416
@@ -3423,6 +4255,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_08
 
    (                          // #417
@@ -3431,6 +4265,8 @@ const
     tics: 1400;               // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_09
 
    (                          // #418
@@ -3439,6 +4275,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PEAS_25;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PEAS_25
 
    (                          // #419
@@ -3447,6 +4285,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_00
 
    (                          // #420
@@ -3455,6 +4295,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARMR_00
 
    (                          // #421
@@ -3463,6 +4305,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARMR_01
 
    (                          // #422
@@ -3471,6 +4315,8 @@ const
     tics: 175;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PLAY_19
 
    (                          // #423
@@ -3479,6 +4325,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SACR_00
 
    (                          // #424
@@ -3487,6 +4335,8 @@ const
     tics: 15;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK1_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK1_00
 
    (                          // #425
@@ -3495,6 +4345,8 @@ const
     tics: 11;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK1_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK1_01
 
    (                          // #426
@@ -3503,6 +4355,8 @@ const
     tics: 40;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK1_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK1_02
 
    (                          // #427
@@ -3511,6 +4365,8 @@ const
     tics: 15;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK2_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK2_00
 
    (                          // #428
@@ -3519,6 +4375,8 @@ const
     tics: 11;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK2_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK2_01
 
    (                          // #429
@@ -3527,6 +4385,8 @@ const
     tics: 40;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK2_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK2_02
 
    (                          // #430
@@ -3535,6 +4395,8 @@ const
     tics: 15;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK3_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK3_00
 
    (                          // #431
@@ -3543,6 +4405,8 @@ const
     tics: 11;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK3_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK3_01
 
    (                          // #432
@@ -3551,6 +4415,8 @@ const
     tics: 40;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK3_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK3_02
 
    (                          // #433
@@ -3559,6 +4425,8 @@ const
     tics: 15;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK4_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK4_00
 
    (                          // #434
@@ -3567,6 +4435,8 @@ const
     tics: 11;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK4_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK4_01
 
    (                          // #435
@@ -3575,6 +4445,8 @@ const
     tics: 40;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK4_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK4_02
 
    (                          // #436
@@ -3583,6 +4455,8 @@ const
     tics: 15;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK5_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK5_00
 
    (                          // #437
@@ -3591,6 +4465,8 @@ const
     tics: 11;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK5_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK5_01
 
    (                          // #438
@@ -3599,6 +4475,8 @@ const
     tics: 40;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK5_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK5_02
 
    (                          // #439
@@ -3607,6 +4485,8 @@ const
     tics: 15;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK6_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK6_00
 
    (                          // #440
@@ -3615,6 +4495,8 @@ const
     tics: 11;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK6_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK6_01
 
    (                          // #441
@@ -3623,6 +4505,8 @@ const
     tics: 40;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TNK6_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TNK6_02
 
    (                          // #442
@@ -3631,6 +4515,8 @@ const
     tics: 15;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NEAL_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEAL_00
 
    (                          // #443
@@ -3639,6 +4525,8 @@ const
     tics: 40;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NEAL_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEAL_01
 
    (                          // #444
@@ -3647,6 +4535,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NEAL_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEAL_02
 
    (                          // #445
@@ -3655,6 +4545,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NEAL_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEAL_03
 
    (                          // #446
@@ -3663,6 +4555,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NEAL_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEAL_04
 
    (                          // #447
@@ -3671,6 +4565,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NEAL_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEAL_05
 
    (                          // #448
@@ -3679,6 +4575,8 @@ const
     tics: 13;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NEAL_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEAL_06
 
    (                          // #449
@@ -3687,6 +4585,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NEAL_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEAL_07
 
    (                          // #450
@@ -3695,6 +4595,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NEAL_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEAL_08
 
    (                          // #451
@@ -3703,6 +4605,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NEAL_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEAL_09
 
    (                          // #452
@@ -3711,6 +4615,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NEAL_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEAL_10
 
    (                          // #453
@@ -3719,6 +4625,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NEAL_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEAL_11
 
    (                          // #454
@@ -3727,6 +4635,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NEAL_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEAL_12
 
    (                          // #455
@@ -3735,6 +4645,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEAL_13
 
    (                          // #456
@@ -3743,6 +4655,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_00
 
    (                          // #457
@@ -3751,6 +4665,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_01
 
    (                          // #458
@@ -3759,6 +4675,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_02
 
    (                          // #459
@@ -3767,6 +4685,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_03
 
    (                          // #460
@@ -3775,6 +4695,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_04
 
    (                          // #461
@@ -3783,6 +4705,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_05
 
    (                          // #462
@@ -3791,6 +4715,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_06
 
    (                          // #463
@@ -3799,6 +4725,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_07
 
    (                          // #464
@@ -3807,6 +4735,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_08
 
    (                          // #465
@@ -3815,6 +4745,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_09
 
    (                          // #466
@@ -3823,6 +4755,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_10
 
    (                          // #467
@@ -3831,6 +4765,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_11
 
    (                          // #468
@@ -3839,6 +4775,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_12
 
    (                          // #469
@@ -3847,6 +4785,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_13
 
    (                          // #470
@@ -3855,6 +4795,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_14
 
    (                          // #471
@@ -3863,6 +4805,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_15
 
    (                          // #472
@@ -3871,6 +4815,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_16
 
    (                          // #473
@@ -3879,6 +4825,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_17
 
    (                          // #474
@@ -3887,6 +4835,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_18
 
    (                          // #475
@@ -3895,6 +4845,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_19
 
    (                          // #476
@@ -3903,6 +4855,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEGR_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_20
 
    (                          // #477
@@ -3911,6 +4865,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_21
 
    (                          // #478
@@ -3919,6 +4875,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEGR_22
 
    (                          // #479
@@ -3927,6 +4885,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_00
 
    (                          // #480
@@ -3935,6 +4895,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_01
 
    (                          // #481
@@ -3943,6 +4905,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_02
 
    (                          // #482
@@ -3951,6 +4915,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_03
 
    (                          // #483
@@ -3959,6 +4925,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_04
 
    (                          // #484
@@ -3967,6 +4935,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_05
 
    (                          // #485
@@ -3975,6 +4945,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_06
 
    (                          // #486
@@ -3983,6 +4955,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_07
 
    (                          // #487
@@ -3991,6 +4965,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_08
 
    (                          // #488
@@ -3999,6 +4975,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_09
 
    (                          // #489
@@ -4007,6 +4985,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_10
 
    (                          // #490
@@ -4015,6 +4995,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_11
 
    (                          // #491
@@ -4023,6 +5005,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_12
 
    (                          // #492
@@ -4031,6 +5015,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_13
 
    (                          // #493
@@ -4039,6 +5025,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_14
 
    (                          // #494
@@ -4047,6 +5035,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_15
 
    (                          // #495
@@ -4055,6 +5045,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_16
 
    (                          // #496
@@ -4063,6 +5055,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_17
 
    (                          // #497
@@ -4071,6 +5065,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_18
 
    (                          // #498
@@ -4079,6 +5075,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_19
 
    (                          // #499
@@ -4087,6 +5085,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_20
 
    (                          // #500
@@ -4095,6 +5095,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_21
 
    (                          // #501
@@ -4103,6 +5105,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_22
 
    (                          // #502
@@ -4111,6 +5115,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_23
 
    (                          // #503
@@ -4119,6 +5125,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_25;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_24
 
    (                          // #504
@@ -4127,6 +5135,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_26;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_25
 
    (                          // #505
@@ -4135,6 +5145,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_27;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_26
 
    (                          // #506
@@ -4143,6 +5155,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_28;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_27
 
    (                          // #507
@@ -4151,6 +5165,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_29;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_28
 
    (                          // #508
@@ -4159,6 +5175,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_30;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_29
 
    (                          // #509
@@ -4167,6 +5185,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HMN1_31;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_30
 
    (                          // #510
@@ -4175,6 +5195,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HMN1_31
 
    (                          // #511
@@ -4183,6 +5205,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_08
 
    (                          // #512
@@ -4191,6 +5215,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_09
 
    (                          // #513
@@ -4199,6 +5225,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_10
 
    (                          // #514
@@ -4207,6 +5235,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_11
 
    (                          // #515
@@ -4215,6 +5245,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_12
 
    (                          // #516
@@ -4223,6 +5255,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_13
 
    (                          // #517
@@ -4231,6 +5265,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RGIB_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_14
 
    (                          // #518
@@ -4239,6 +5275,8 @@ const
     tics: 1400;               // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RGIB_15
 
    (                          // #519
@@ -4247,6 +5285,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEDR_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEDR_00
 
    (                          // #520
@@ -4255,6 +5295,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEDR_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEDR_01
 
    (                          // #521
@@ -4263,6 +5305,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEDR_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEDR_02
 
    (                          // #522
@@ -4271,6 +5315,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_00
 
    (                          // #523
@@ -4279,6 +5325,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_01
 
    (                          // #524
@@ -4287,6 +5335,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_02
 
    (                          // #525
@@ -4295,6 +5345,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEDR_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_03
 
    (                          // #526
@@ -4303,6 +5355,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_04
 
    (                          // #527
@@ -4311,6 +5365,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_05
 
    (                          // #528
@@ -4319,6 +5375,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_06
 
    (                          // #529
@@ -4327,6 +5385,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_07
 
    (                          // #530
@@ -4335,6 +5395,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_08
 
    (                          // #531
@@ -4343,6 +5405,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_09
 
    (                          // #532
@@ -4351,6 +5415,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_10
 
    (                          // #533
@@ -4359,6 +5425,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_11
 
    (                          // #534
@@ -4367,6 +5435,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_12
 
    (                          // #535
@@ -4375,6 +5445,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_13
 
    (                          // #536
@@ -4383,6 +5455,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_14
 
    (                          // #537
@@ -4391,6 +5465,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_15
 
    (                          // #538
@@ -4399,6 +5475,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_16
 
    (                          // #539
@@ -4407,6 +5485,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_17
 
    (                          // #540
@@ -4415,6 +5495,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_18
 
    (                          // #541
@@ -4423,6 +5505,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_19
 
    (                          // #542
@@ -4431,6 +5515,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_20
 
    (                          // #543
@@ -4439,6 +5525,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_21
 
    (                          // #544
@@ -4447,6 +5535,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_22
 
    (                          // #545
@@ -4455,6 +5545,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_24;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_23
 
    (                          // #546
@@ -4463,6 +5555,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_25;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_24
 
    (                          // #547
@@ -4471,6 +5565,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_26;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_25
 
    (                          // #548
@@ -4479,6 +5575,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_27;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_26
 
    (                          // #549
@@ -4487,6 +5585,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_28;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_27
 
    (                          // #550
@@ -4495,6 +5595,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_29;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_28
 
    (                          // #551
@@ -4503,6 +5605,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_30;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_29
 
    (                          // #552
@@ -4511,6 +5615,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_31;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_30
 
    (                          // #553
@@ -4519,6 +5625,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_32;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_31
 
    (                          // #554
@@ -4527,6 +5635,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_33;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_32
 
    (                          // #555
@@ -4535,6 +5645,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_34;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_33
 
    (                          // #556
@@ -4543,6 +5655,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_35;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_34
 
    (                          // #557
@@ -4551,6 +5665,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_36;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_35
 
    (                          // #558
@@ -4559,6 +5675,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LEAD_37;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_36
 
    (                          // #559
@@ -4567,6 +5685,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LEAD_37
 
    (                          // #560
@@ -4575,6 +5695,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PUFY_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PUFY_04
 
    (                          // #561
@@ -4583,6 +5705,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PUFY_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PUFY_05
 
    (                          // #562
@@ -4591,6 +5715,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PUFY_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PUFY_06
 
    (                          // #563
@@ -4599,6 +5725,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PUFY_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PUFY_07
 
    (                          // #564
@@ -4607,6 +5735,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PUFY_08
 
    (                          // #565
@@ -4615,6 +5745,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MICR_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MICR_01
 
    (                          // #566
@@ -4623,6 +5755,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MICR_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MICR_02
 
    (                          // #567
@@ -4631,6 +5765,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_00
 
    (                          // #568
@@ -4639,6 +5775,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_01
 
    (                          // #569
@@ -4647,6 +5785,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_02
 
    (                          // #570
@@ -4655,6 +5795,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_03
 
    (                          // #571
@@ -4663,6 +5805,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_04
 
    (                          // #572
@@ -4671,6 +5815,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_05
 
    (                          // #573
@@ -4679,6 +5825,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_06
 
    (                          // #574
@@ -4687,6 +5835,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_07
 
    (                          // #575
@@ -4695,6 +5845,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_08
 
    (                          // #576
@@ -4703,6 +5855,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_09
 
    (                          // #577
@@ -4711,6 +5865,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_10
 
    (                          // #578
@@ -4719,6 +5875,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_11
 
    (                          // #579
@@ -4727,6 +5885,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_12
 
    (                          // #580
@@ -4735,6 +5895,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_13
 
    (                          // #581
@@ -4743,6 +5905,8 @@ const
     tics: 11;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_14
 
    (                          // #582
@@ -4751,6 +5915,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_15
 
    (                          // #583
@@ -4759,6 +5925,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_16
 
    (                          // #584
@@ -4767,6 +5935,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_17
 
    (                          // #585
@@ -4775,6 +5945,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_18
 
    (                          // #586
@@ -4783,6 +5955,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_19
 
    (                          // #587
@@ -4791,6 +5965,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_20
 
    (                          // #588
@@ -4799,6 +5975,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_21
 
    (                          // #589
@@ -4807,6 +5985,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_22
 
    (                          // #590
@@ -4815,6 +5995,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_24;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_23
 
    (                          // #591
@@ -4823,6 +6005,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_25;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_24
 
    (                          // #592
@@ -4831,6 +6015,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_25
 
    (                          // #593
@@ -4839,6 +6025,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_27;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_26
 
    (                          // #594
@@ -4847,6 +6035,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_28;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_27
 
    (                          // #595
@@ -4855,6 +6045,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_29;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_28
 
    (                          // #596
@@ -4863,6 +6055,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_30;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_29
 
    (                          // #597
@@ -4871,6 +6065,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_31;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_30
 
    (                          // #598
@@ -4879,6 +6075,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB1_32;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_31
 
    (                          // #599
@@ -4887,6 +6085,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB1_32
 
    (                          // #600
@@ -4895,6 +6095,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_01
 
    (                          // #601
@@ -4903,6 +6105,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_02
 
    (                          // #602
@@ -4911,6 +6115,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_03
 
    (                          // #603
@@ -4919,6 +6125,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_04
 
    (                          // #604
@@ -4927,6 +6135,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_05
 
    (                          // #605
@@ -4935,6 +6145,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_06
 
    (                          // #606
@@ -4943,6 +6155,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_07
 
    (                          // #607
@@ -4951,6 +6165,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_08
 
    (                          // #608
@@ -4959,6 +6175,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_09
 
    (                          // #609
@@ -4967,6 +6185,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_10
 
    (                          // #610
@@ -4975,6 +6195,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_11
 
    (                          // #611
@@ -4983,6 +6205,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_12
 
    (                          // #612
@@ -4991,6 +6215,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_13
 
    (                          // #613
@@ -4999,6 +6225,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_14
 
    (                          // #614
@@ -5007,6 +6235,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_15
 
    (                          // #615
@@ -5015,6 +6245,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_16
 
    (                          // #616
@@ -5023,6 +6255,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_17
 
    (                          // #617
@@ -5031,6 +6265,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_18
 
    (                          // #618
@@ -5039,6 +6275,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_19
 
    (                          // #619
@@ -5047,6 +6285,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_20
 
    (                          // #620
@@ -5055,6 +6295,8 @@ const
     tics: 0;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_21
 
    (                          // #621
@@ -5063,6 +6305,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_22
 
    (                          // #622
@@ -5071,6 +6315,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_23
 
    (                          // #623
@@ -5079,6 +6325,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_25;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_24
 
    (                          // #624
@@ -5087,6 +6335,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_26;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_25
 
    (                          // #625
@@ -5095,6 +6345,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_27;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_26
 
    (                          // #626
@@ -5103,6 +6355,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_28;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_27
 
    (                          // #627
@@ -5111,6 +6365,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_29;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_28
 
    (                          // #628
@@ -5119,6 +6375,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_30;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_29
 
    (                          // #629
@@ -5127,6 +6385,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AGRD_31;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_30
 
    (                          // #630
@@ -5135,6 +6395,8 @@ const
     tics: 1400;               // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AGRD_31
 
    (                          // #631
@@ -5143,6 +6405,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_10
 
    (                          // #632
@@ -5151,6 +6415,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_11
 
    (                          // #633
@@ -5159,6 +6425,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_12
 
    (                          // #634
@@ -5167,6 +6435,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_13
 
    (                          // #635
@@ -5175,6 +6445,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_14
 
    (                          // #636
@@ -5183,6 +6455,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_15
 
    (                          // #637
@@ -5191,6 +6465,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_16
 
    (                          // #638
@@ -5199,6 +6475,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_17
 
    (                          // #639
@@ -5207,6 +6485,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_18
 
    (                          // #640
@@ -5215,6 +6495,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_19
 
    (                          // #641
@@ -5223,6 +6505,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GIBS_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_20
 
    (                          // #642
@@ -5231,6 +6515,8 @@ const
     tics: 1400;               // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GIBS_21
 
    (                          // #643
@@ -5239,6 +6525,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_00
 
    (                          // #644
@@ -5247,6 +6535,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_01
 
    (                          // #645
@@ -5255,6 +6545,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_02
 
    (                          // #646
@@ -5263,6 +6555,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_03
 
    (                          // #647
@@ -5271,6 +6565,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_04
 
    (                          // #648
@@ -5279,6 +6575,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_05
 
    (                          // #649
@@ -5287,6 +6585,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_06
 
    (                          // #650
@@ -5295,6 +6595,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_07
 
    (                          // #651
@@ -5303,6 +6605,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_08
 
    (                          // #652
@@ -5311,6 +6615,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_09
 
    (                          // #653
@@ -5319,6 +6625,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_10
 
    (                          // #654
@@ -5327,6 +6635,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_11
 
    (                          // #655
@@ -5335,6 +6645,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_12
 
    (                          // #656
@@ -5343,6 +6655,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_13
 
    (                          // #657
@@ -5351,6 +6665,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_14
 
    (                          // #658
@@ -5359,6 +6675,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_15
 
    (                          // #659
@@ -5367,6 +6685,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_16
 
    (                          // #660
@@ -5375,6 +6695,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_17
 
    (                          // #661
@@ -5383,6 +6705,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_18
 
    (                          // #662
@@ -5391,6 +6715,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_19
 
    (                          // #663
@@ -5399,6 +6725,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_20
 
    (                          // #664
@@ -5407,6 +6735,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_21
 
    (                          // #665
@@ -5415,6 +6745,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_22
 
    (                          // #666
@@ -5423,6 +6755,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_24;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_23
 
    (                          // #667
@@ -5431,6 +6765,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_25;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_24
 
    (                          // #668
@@ -5439,6 +6775,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_26;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_25
 
    (                          // #669
@@ -5447,6 +6785,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_27;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_26
 
    (                          // #670
@@ -5455,6 +6795,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_28;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_27
 
    (                          // #671
@@ -5463,6 +6805,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_29;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_28
 
    (                          // #672
@@ -5471,6 +6815,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_30;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_29
 
    (                          // #673
@@ -5479,6 +6825,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_31;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_30
 
    (                          // #674
@@ -5487,6 +6835,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_32;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_31
 
    (                          // #675
@@ -5495,6 +6845,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_33;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_32
 
    (                          // #676
@@ -5503,6 +6855,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_34;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_33
 
    (                          // #677
@@ -5511,6 +6865,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_35;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_34
 
    (                          // #678
@@ -5519,6 +6875,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_36;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_35
 
    (                          // #679
@@ -5527,6 +6885,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PGRD_37;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_36
 
    (                          // #680
@@ -5535,6 +6895,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PGRD_37
 
    (                          // #681
@@ -5543,6 +6905,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_00
 
    (                          // #682
@@ -5551,6 +6915,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_01
 
    (                          // #683
@@ -5559,6 +6925,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_02
 
    (                          // #684
@@ -5567,6 +6935,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_03
 
    (                          // #685
@@ -5575,6 +6945,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_04
 
    (                          // #686
@@ -5583,6 +6955,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_05
 
    (                          // #687
@@ -5591,6 +6965,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_06
 
    (                          // #688
@@ -5599,6 +6975,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_07
 
    (                          // #689
@@ -5607,6 +6985,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_08
 
    (                          // #690
@@ -5615,6 +6995,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_09
 
    (                          // #691
@@ -5623,6 +7005,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_10
 
    (                          // #692
@@ -5631,6 +7015,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_11
 
    (                          // #693
@@ -5639,6 +7025,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_12
 
    (                          // #694
@@ -5647,6 +7035,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_13
 
    (                          // #695
@@ -5655,6 +7045,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_14
 
    (                          // #696
@@ -5663,6 +7055,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_15
 
    (                          // #697
@@ -5671,6 +7065,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_16
 
    (                          // #698
@@ -5679,6 +7075,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_17
 
    (                          // #699
@@ -5687,6 +7085,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_18
 
    (                          // #700
@@ -5695,6 +7095,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_19
 
    (                          // #701
@@ -5703,6 +7105,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_20
 
    (                          // #702
@@ -5711,6 +7115,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_21
 
    (                          // #703
@@ -5719,6 +7125,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_22
 
    (                          // #704
@@ -5727,6 +7135,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_24;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_23
 
    (                          // #705
@@ -5735,6 +7145,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_25;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_24
 
    (                          // #706
@@ -5743,6 +7155,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_26;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_25
 
    (                          // #707
@@ -5751,6 +7165,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_27;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_26
 
    (                          // #708
@@ -5759,6 +7175,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_28;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_27
 
    (                          // #709
@@ -5767,6 +7185,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB2_29;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_28
 
    (                          // #710
@@ -5775,6 +7195,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB2_29
 
    (                          // #711
@@ -5783,6 +7205,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_00
 
    (                          // #712
@@ -5791,6 +7215,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_01
 
    (                          // #713
@@ -5799,6 +7225,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_02
 
    (                          // #714
@@ -5807,6 +7235,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_03
 
    (                          // #715
@@ -5815,6 +7245,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_04
 
    (                          // #716
@@ -5823,6 +7255,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_05
 
    (                          // #717
@@ -5831,6 +7265,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_06
 
    (                          // #718
@@ -5839,6 +7275,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_07
 
    (                          // #719
@@ -5847,6 +7285,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_08
 
    (                          // #720
@@ -5855,6 +7295,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_09
 
    (                          // #721
@@ -5863,6 +7305,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_10
 
    (                          // #722
@@ -5871,6 +7315,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_11
 
    (                          // #723
@@ -5879,6 +7325,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_12
 
    (                          // #724
@@ -5887,6 +7335,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_13
 
    (                          // #725
@@ -5895,6 +7345,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_14
 
    (                          // #726
@@ -5903,6 +7355,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_15
 
    (                          // #727
@@ -5911,6 +7365,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_16
 
    (                          // #728
@@ -5919,6 +7375,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_17
 
    (                          // #729
@@ -5927,6 +7385,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_18
 
    (                          // #730
@@ -5935,6 +7395,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_19
 
    (                          // #731
@@ -5943,6 +7405,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_20
 
    (                          // #732
@@ -5951,6 +7415,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_21
 
    (                          // #733
@@ -5959,6 +7425,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_22
 
    (                          // #734
@@ -5967,6 +7435,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_24;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_23
 
    (                          // #735
@@ -5975,6 +7445,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_25;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_24
 
    (                          // #736
@@ -5983,6 +7455,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_26;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_25
 
    (                          // #737
@@ -5991,6 +7465,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MLDR_27;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_26
 
    (                          // #738
@@ -5999,6 +7475,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MLDR_27
 
    (                          // #739
@@ -6007,6 +7485,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_00
 
    (                          // #740
@@ -6015,6 +7495,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_01
 
    (                          // #741
@@ -6023,6 +7505,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_02
 
    (                          // #742
@@ -6031,6 +7515,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_03
 
    (                          // #743
@@ -6039,6 +7525,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_04
 
    (                          // #744
@@ -6047,6 +7535,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_05
 
    (                          // #745
@@ -6055,6 +7545,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_06
 
    (                          // #746
@@ -6063,6 +7555,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_07
 
    (                          // #747
@@ -6071,6 +7565,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_08
 
    (                          // #748
@@ -6079,6 +7575,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_09
 
    (                          // #749
@@ -6087,6 +7585,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_10
 
    (                          // #750
@@ -6095,6 +7595,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_11
 
    (                          // #751
@@ -6103,6 +7605,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_12
 
    (                          // #752
@@ -6111,6 +7615,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_13
 
    (                          // #753
@@ -6119,6 +7625,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_14
 
    (                          // #754
@@ -6127,6 +7635,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ORCL_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_15
 
    (                          // #755
@@ -6135,6 +7645,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORCL_16
 
    (                          // #756
@@ -6143,6 +7655,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_00
 
    (                          // #757
@@ -6151,6 +7665,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_01
 
    (                          // #758
@@ -6159,6 +7675,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_02
 
    (                          // #759
@@ -6167,6 +7685,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_03
 
    (                          // #760
@@ -6175,6 +7695,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_04
 
    (                          // #761
@@ -6183,6 +7705,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_05
 
    (                          // #762
@@ -6191,6 +7715,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_06
 
    (                          // #763
@@ -6199,6 +7725,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_07
 
    (                          // #764
@@ -6207,6 +7735,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_08
 
    (                          // #765
@@ -6215,6 +7745,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_09
 
    (                          // #766
@@ -6223,6 +7755,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_10
 
    (                          // #767
@@ -6231,6 +7765,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_11
 
    (                          // #768
@@ -6239,6 +7775,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_12
 
    (                          // #769
@@ -6247,6 +7785,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_13
 
    (                          // #770
@@ -6255,6 +7795,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_14
 
    (                          // #771
@@ -6263,6 +7805,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRST_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRST_15
 
    (                          // #772
@@ -6271,6 +7815,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_00
 
    (                          // #773
@@ -6279,6 +7825,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_01
 
    (                          // #774
@@ -6287,6 +7835,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_02
 
    (                          // #775
@@ -6295,6 +7845,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_03
 
    (                          // #776
@@ -6303,6 +7855,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_04
 
    (                          // #777
@@ -6311,6 +7865,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_05
 
    (                          // #778
@@ -6319,6 +7875,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_06
 
    (                          // #779
@@ -6327,6 +7885,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_07
 
    (                          // #780
@@ -6335,6 +7895,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_08
 
    (                          // #781
@@ -6343,6 +7905,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_09
 
    (                          // #782
@@ -6351,6 +7915,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_10
 
    (                          // #783
@@ -6359,6 +7925,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_11
 
    (                          // #784
@@ -6367,6 +7935,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_12
 
    (                          // #785
@@ -6375,6 +7945,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_13
 
    (                          // #786
@@ -6383,6 +7955,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_14
 
    (                          // #787
@@ -6391,6 +7965,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_15
 
    (                          // #788
@@ -6399,6 +7975,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_16
 
    (                          // #789
@@ -6407,6 +7985,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_17
 
    (                          // #790
@@ -6415,6 +7995,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_18
 
    (                          // #791
@@ -6423,6 +8005,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_19
 
    (                          // #792
@@ -6431,6 +8015,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_20
 
    (                          // #793
@@ -6439,6 +8025,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_21
 
    (                          // #794
@@ -6447,6 +8035,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PDED_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_22
 
    (                          // #795
@@ -6455,6 +8045,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PDED_23
 
    (                          // #796
@@ -6463,6 +8055,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_00
 
    (                          // #797
@@ -6471,6 +8065,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_01
 
    (                          // #798
@@ -6479,6 +8075,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_02
 
    (                          // #799
@@ -6487,6 +8085,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_03
 
    (                          // #800
@@ -6495,6 +8095,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_04
 
    (                          // #801
@@ -6503,6 +8105,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_05
 
    (                          // #802
@@ -6511,6 +8115,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_06
 
    (                          // #803
@@ -6519,6 +8125,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_07
 
    (                          // #804
@@ -6527,6 +8135,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_08
 
    (                          // #805
@@ -6535,6 +8145,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_09
 
    (                          // #806
@@ -6543,6 +8155,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_10
 
    (                          // #807
@@ -6551,6 +8165,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_11
 
    (                          // #808
@@ -6559,6 +8175,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_12
 
    (                          // #809
@@ -6567,6 +8185,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_13
 
    (                          // #810
@@ -6575,6 +8195,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_14
 
    (                          // #811
@@ -6583,6 +8205,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_15
 
    (                          // #812
@@ -6591,6 +8215,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_16
 
    (                          // #813
@@ -6599,6 +8225,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_17
 
    (                          // #814
@@ -6607,6 +8235,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_18
 
    (                          // #815
@@ -6615,6 +8245,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_19
 
    (                          // #816
@@ -6623,6 +8255,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_00
 
    (                          // #817
@@ -6631,6 +8265,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_01
 
    (                          // #818
@@ -6639,6 +8275,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_02
 
    (                          // #819
@@ -6647,6 +8285,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_03
 
    (                          // #820
@@ -6655,6 +8295,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_04
 
    (                          // #821
@@ -6663,6 +8305,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_05
 
    (                          // #822
@@ -6671,6 +8315,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_06
 
    (                          // #823
@@ -6679,6 +8325,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_07
 
    (                          // #824
@@ -6687,6 +8335,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_08
 
    (                          // #825
@@ -6695,6 +8345,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_09
 
    (                          // #826
@@ -6703,6 +8355,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_10
 
    (                          // #827
@@ -6711,6 +8365,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_11
 
    (                          // #828
@@ -6719,6 +8375,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_12
 
    (                          // #829
@@ -6727,6 +8385,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_13
 
    (                          // #830
@@ -6735,6 +8395,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_14
 
    (                          // #831
@@ -6743,6 +8405,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_15
 
    (                          // #832
@@ -6751,6 +8415,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AL1P_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_16
 
    (                          // #833
@@ -6759,6 +8425,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AL1P_17
 
    (                          // #834
@@ -6767,6 +8435,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NODE_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NODE_00
 
    (                          // #835
@@ -6775,6 +8445,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NODE_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NODE_01
 
    (                          // #836
@@ -6783,6 +8455,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NODE_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NODE_02
 
    (                          // #837
@@ -6791,6 +8465,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NODE_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NODE_03
 
    (                          // #838
@@ -6799,6 +8475,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NODE_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NODE_04
 
    (                          // #839
@@ -6807,6 +8485,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NODE_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NODE_05
 
    (                          // #840
@@ -6815,6 +8495,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NODE_06
 
    (                          // #841
@@ -6823,6 +8505,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MTHD_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MTHD_00
 
    (                          // #842
@@ -6831,6 +8515,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MTHD_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MTHD_01
 
    (                          // #843
@@ -6839,6 +8525,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MTHD_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MTHD_02
 
    (                          // #844
@@ -6847,6 +8535,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MTHD_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MTHD_03
 
    (                          // #845
@@ -6855,6 +8545,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MTHD_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MTHD_04
 
    (                          // #846
@@ -6863,6 +8555,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MTHD_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MTHD_05
 
    (                          // #847
@@ -6871,6 +8565,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MTHD_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MTHD_06
 
    (                          // #848
@@ -6879,6 +8575,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MTHD_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MTHD_07
 
    (                          // #849
@@ -6887,6 +8585,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MTHD_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MTHD_08
 
    (                          // #850
@@ -6895,6 +8595,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MTHD_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MTHD_09
 
    (                          // #851
@@ -6903,6 +8605,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MTHD_10
 
    (                          // #852
@@ -6911,6 +8615,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_20
 
    (                          // #853
@@ -6919,6 +8625,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_21
 
    (                          // #854
@@ -6927,6 +8635,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_22
 
    (                          // #855
@@ -6935,6 +8645,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_24;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_23
 
    (                          // #856
@@ -6943,6 +8655,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_25;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_24
 
    (                          // #857
@@ -6951,6 +8665,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_26;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_25
 
    (                          // #858
@@ -6959,6 +8675,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_27;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_26
 
    (                          // #859
@@ -6967,6 +8685,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_28;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_27
 
    (                          // #860
@@ -6975,6 +8695,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_29;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_28
 
    (                          // #861
@@ -6983,6 +8705,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_30;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_29
 
    (                          // #862
@@ -6991,6 +8715,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_31;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_30
 
    (                          // #863
@@ -6999,6 +8725,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_32;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_31
 
    (                          // #864
@@ -7007,6 +8735,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_33;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_32
 
    (                          // #865
@@ -7015,6 +8745,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_33
 
    (                          // #866
@@ -7023,6 +8755,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_35;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_34
 
    (                          // #867
@@ -7031,6 +8765,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_36;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_35
 
    (                          // #868
@@ -7039,6 +8775,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_37;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_36
 
    (                          // #869
@@ -7047,6 +8785,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_38;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_37
 
    (                          // #870
@@ -7055,6 +8795,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_39;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_38
 
    (                          // #871
@@ -7063,6 +8805,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_40;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_39
 
    (                          // #872
@@ -7071,6 +8815,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_41;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_40
 
    (                          // #873
@@ -7079,6 +8825,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_42;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_41
 
    (                          // #874
@@ -7087,6 +8835,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_43;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_42
 
    (                          // #875
@@ -7095,6 +8845,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_44;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_43
 
    (                          // #876
@@ -7103,6 +8855,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_34;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_44
 
    (                          // #877
@@ -7111,6 +8865,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_46;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_45
 
    (                          // #878
@@ -7119,6 +8875,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_47;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_46
 
    (                          // #879
@@ -7127,6 +8885,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_36;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_47
 
    (                          // #880
@@ -7135,6 +8895,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_49;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_48
 
    (                          // #881
@@ -7143,6 +8905,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_50;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_49
 
    (                          // #882
@@ -7151,6 +8915,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_44;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_50
 
    (                          // #883
@@ -7159,6 +8925,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_40;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_51
 
    (                          // #884
@@ -7167,6 +8935,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_53;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_52
 
    (                          // #885
@@ -7175,6 +8945,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_54;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_53
 
    (                          // #886
@@ -7183,6 +8955,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_54
 
    (                          // #887
@@ -7191,6 +8965,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_56;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_55
 
    (                          // #888
@@ -7199,6 +8975,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_57;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_56
 
    (                          // #889
@@ -7207,6 +8985,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ALN1_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ALN1_57
 
    (                          // #890
@@ -7215,6 +8995,8 @@ const
     tics: 100;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAM_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAM_00
 
    (                          // #891
@@ -7223,6 +9005,8 @@ const
     tics: 60;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAM_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAM_01
 
    (                          // #892
@@ -7231,6 +9015,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAM_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAM_02
 
    (                          // #893
@@ -7239,6 +9025,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAM_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAM_03
 
    (                          // #894
@@ -7247,6 +9035,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAM_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAM_04
 
    (                          // #895
@@ -7255,6 +9045,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAM_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAM_05
 
    (                          // #896
@@ -7263,6 +9055,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAM_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAM_06
 
    (                          // #897
@@ -7271,6 +9065,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAM_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAM_07
 
    (                          // #898
@@ -7279,6 +9075,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAM_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAM_08
 
    (                          // #899
@@ -7287,6 +9085,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAM_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAM_09
 
    (                          // #900
@@ -7295,6 +9095,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAM_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAM_10
 
    (                          // #901
@@ -7303,6 +9105,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAM_11
 
    (                          // #902
@@ -7311,6 +9115,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_00
 
    (                          // #903
@@ -7319,6 +9125,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_01
 
    (                          // #904
@@ -7327,6 +9135,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_02
 
    (                          // #905
@@ -7335,6 +9145,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_03
 
    (                          // #906
@@ -7343,6 +9155,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_04
 
    (                          // #907
@@ -7351,6 +9165,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_05
 
    (                          // #908
@@ -7359,6 +9175,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_06
 
    (                          // #909
@@ -7367,6 +9185,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_07
 
    (                          // #910
@@ -7375,6 +9195,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_08
 
    (                          // #911
@@ -7383,6 +9205,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_09
 
    (                          // #912
@@ -7391,6 +9215,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_10
 
    (                          // #913
@@ -7399,6 +9225,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_11
 
    (                          // #914
@@ -7407,6 +9235,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_12
 
    (                          // #915
@@ -7415,6 +9245,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_13
 
    (                          // #916
@@ -7423,6 +9255,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_14
 
    (                          // #917
@@ -7431,6 +9265,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_15
 
    (                          // #918
@@ -7439,6 +9275,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_16
 
    (                          // #919
@@ -7447,6 +9285,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_17
 
    (                          // #920
@@ -7455,6 +9295,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_18
 
    (                          // #921
@@ -7463,6 +9305,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_19
 
    (                          // #922
@@ -7471,6 +9315,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_20
 
    (                          // #923
@@ -7479,6 +9325,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_21
 
    (                          // #924
@@ -7487,6 +9335,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_22
 
    (                          // #925
@@ -7495,6 +9345,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_24;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_23
 
    (                          // #926
@@ -7503,6 +9355,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_25;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_24
 
    (                          // #927
@@ -7511,6 +9365,8 @@ const
     tics: 64;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_26;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_25
 
    (                          // #928
@@ -7519,6 +9375,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_26
 
    (                          // #929
@@ -7527,6 +9385,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_27;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_27
 
    (                          // #930
@@ -7535,6 +9395,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_29;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_28
 
    (                          // #931
@@ -7543,6 +9405,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_30;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_29
 
    (                          // #932
@@ -7551,6 +9415,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_31;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_30
 
    (                          // #933
@@ -7559,6 +9425,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_32;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_31
 
    (                          // #934
@@ -7567,6 +9435,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_33;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_32
 
    (                          // #935
@@ -7575,6 +9445,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_28;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_33
 
    (                          // #936
@@ -7583,6 +9455,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_35;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_34
 
    (                          // #937
@@ -7591,6 +9465,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_36;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_35
 
    (                          // #938
@@ -7599,6 +9475,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_29;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_36
 
    (                          // #939
@@ -7607,6 +9485,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_38;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_37
 
    (                          // #940
@@ -7615,6 +9495,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_39;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_38
 
    (                          // #941
@@ -7623,6 +9505,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_32;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_39
 
    (                          // #942
@@ -7631,6 +9515,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNAL_28;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MNAL_40
 
    (                          // #943
@@ -7639,6 +9525,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MDTH_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_00
 
    (                          // #944
@@ -7647,6 +9535,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MDTH_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_01
 
    (                          // #945
@@ -7655,6 +9545,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MDTH_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_02
 
    (                          // #946
@@ -7663,6 +9555,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MDTH_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_03
 
    (                          // #947
@@ -7671,6 +9565,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MDTH_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_04
 
    (                          // #948
@@ -7679,6 +9575,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MDTH_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_05
 
    (                          // #949
@@ -7687,6 +9585,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MDTH_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_06
 
    (                          // #950
@@ -7695,6 +9595,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MDTH_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_07
 
    (                          // #951
@@ -7703,6 +9605,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MDTH_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_08
 
    (                          // #952
@@ -7711,6 +9615,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MDTH_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_09
 
    (                          // #953
@@ -7719,6 +9625,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MDTH_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_10
 
    (                          // #954
@@ -7727,6 +9635,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MDTH_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_11
 
    (                          // #955
@@ -7735,6 +9645,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MDTH_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_12
 
    (                          // #956
@@ -7743,6 +9655,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MDTH_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_13
 
    (                          // #957
@@ -7751,6 +9665,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDTH_14
 
    (                          // #958
@@ -7759,6 +9675,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_NEST_00
 
    (                          // #959
@@ -7767,6 +9685,8 @@ const
     tics: 60;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PODD_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PODD_00
 
    (                          // #960
@@ -7775,6 +9695,8 @@ const
     tics: 360;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PODD_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PODD_01
 
    (                          // #961
@@ -7783,6 +9705,8 @@ const
     tics: 9;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PODD_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PODD_02
 
    (                          // #962
@@ -7791,6 +9715,8 @@ const
     tics: 9;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PODD_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PODD_03
 
    (                          // #963
@@ -7799,6 +9725,8 @@ const
     tics: 9;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PODD_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PODD_04
 
    (                          // #964
@@ -7807,6 +9735,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PODD_05
 
    (                          // #965
@@ -7815,6 +9745,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP6_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP6_00
 
    (                          // #966
@@ -7823,6 +9755,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP6_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP6_01
 
    (                          // #967
@@ -7831,6 +9765,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP6_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP6_02
 
    (                          // #968
@@ -7839,6 +9775,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT3_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT3_00
 
    (                          // #969
@@ -7847,6 +9785,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT3_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT3_01
 
    (                          // #970
@@ -7855,6 +9795,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT3_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT3_02
 
    (                          // #971
@@ -7863,6 +9805,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT3_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT3_03
 
    (                          // #972
@@ -7871,6 +9815,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT3_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT3_04
 
    (                          // #973
@@ -7879,6 +9825,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP6_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP6_03
 
    (                          // #974
@@ -7887,6 +9835,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP6_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP6_04
 
    (                          // #975
@@ -7895,6 +9845,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP6_05
 
    (                          // #976
@@ -7903,6 +9855,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP7_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP7_00
 
    (                          // #977
@@ -7911,6 +9865,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP7_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP7_01
 
    (                          // #978
@@ -7919,6 +9875,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP7_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP7_02
 
    (                          // #979
@@ -7927,6 +9885,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP7_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP7_03
 
    (                          // #980
@@ -7935,6 +9895,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP7_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP7_04
 
    (                          // #981
@@ -7943,6 +9905,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT1_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT1_00
 
    (                          // #982
@@ -7951,6 +9915,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT1_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT1_01
 
    (                          // #983
@@ -7959,6 +9925,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT1_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT1_02
 
    (                          // #984
@@ -7967,6 +9935,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT1_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT1_03
 
    (                          // #985
@@ -7975,6 +9945,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT1_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT1_04
 
    (                          // #986
@@ -7983,6 +9955,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP5_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP5_00
 
    (                          // #987
@@ -7991,6 +9965,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP5_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP5_01
 
    (                          // #988
@@ -7999,6 +9975,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP5_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP5_02
 
    (                          // #989
@@ -8007,6 +9985,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZAP5_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZAP5_03
 
    (                          // #990
@@ -8015,6 +9995,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT2_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT2_00
 
    (                          // #991
@@ -8023,6 +10005,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT2_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT2_01
 
    (                          // #992
@@ -8031,6 +10015,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT2_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT2_02
 
    (                          // #993
@@ -8039,6 +10025,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT2_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT2_03
 
    (                          // #994
@@ -8047,6 +10035,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ZOT2_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ZOT2_04
 
    (                          // #995
@@ -8055,6 +10045,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SEWR_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SEWR_00
 
    (                          // #996
@@ -8063,6 +10055,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SEWR_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SEWR_01
 
    (                          // #997
@@ -8071,6 +10065,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SEWR_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SEWR_02
 
    (                          // #998
@@ -8079,6 +10075,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SEWR_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SEWR_03
 
    (                          // #999
@@ -8087,6 +10085,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SEWR_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SEWR_04
 
    (                          // #1000
@@ -8095,6 +10095,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SEWR_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SEWR_05
 
    (                          // #1001
@@ -8103,6 +10105,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SEWR_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SEWR_06
 
    (                          // #1002
@@ -8111,6 +10115,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SEWR_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SEWR_07
 
    (                          // #1003
@@ -8119,6 +10125,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SEWR_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SEWR_08
 
    (                          // #1004
@@ -8127,6 +10135,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SEWR_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SEWR_09
 
    (                          // #1005
@@ -8135,6 +10145,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SEWR_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SEWR_10
 
    (                          // #1006
@@ -8143,6 +10155,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SEWR_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SEWR_11
 
    (                          // #1007
@@ -8151,6 +10165,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SEWR_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SEWR_12
 
    (                          // #1008
@@ -8159,6 +10175,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SEWR_13
 
    (                          // #1009
@@ -8167,6 +10185,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_00
 
    (                          // #1010
@@ -8175,6 +10195,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_01
 
    (                          // #1011
@@ -8183,6 +10205,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_02
 
    (                          // #1012
@@ -8191,6 +10215,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_03
 
    (                          // #1013
@@ -8199,6 +10225,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_04
 
    (                          // #1014
@@ -8207,6 +10235,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_05
 
    (                          // #1015
@@ -8215,6 +10245,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_06
 
    (                          // #1016
@@ -8223,6 +10255,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_07
 
    (                          // #1017
@@ -8231,6 +10265,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_08
 
    (                          // #1018
@@ -8239,6 +10275,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_09
 
    (                          // #1019
@@ -8247,6 +10285,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_10
 
    (                          // #1020
@@ -8255,6 +10295,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_11
 
    (                          // #1021
@@ -8263,6 +10305,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_12
 
    (                          // #1022
@@ -8271,6 +10315,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_13
 
    (                          // #1023
@@ -8279,6 +10325,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_14
 
    (                          // #1024
@@ -8287,6 +10335,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_15
 
    (                          // #1025
@@ -8295,6 +10345,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_16
 
    (                          // #1026
@@ -8303,6 +10355,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_17
 
    (                          // #1027
@@ -8311,6 +10365,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_18
 
    (                          // #1028
@@ -8319,6 +10375,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_19
 
    (                          // #1029
@@ -8327,6 +10385,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_20
 
    (                          // #1030
@@ -8335,6 +10395,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_21
 
    (                          // #1031
@@ -8343,6 +10405,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_22
 
    (                          // #1032
@@ -8351,6 +10415,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_23
 
    (                          // #1033
@@ -8359,6 +10425,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_24
 
    (                          // #1034
@@ -8367,6 +10435,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_26;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_25
 
    (                          // #1035
@@ -8375,6 +10445,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_27;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_26
 
    (                          // #1036
@@ -8383,6 +10455,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_28;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_27
 
    (                          // #1037
@@ -8391,6 +10465,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_29;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_28
 
    (                          // #1038
@@ -8399,6 +10475,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_30;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_29
 
    (                          // #1039
@@ -8407,6 +10485,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_31;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_30
 
    (                          // #1040
@@ -8415,6 +10495,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_32;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_31
 
    (                          // #1041
@@ -8423,6 +10505,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_33;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_32
 
    (                          // #1042
@@ -8431,6 +10515,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_34;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_33
 
    (                          // #1043
@@ -8439,6 +10525,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_35;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_34
 
    (                          // #1044
@@ -8447,6 +10535,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_36;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_35
 
    (                          // #1045
@@ -8455,6 +10545,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPID_37;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_36
 
    (                          // #1046
@@ -8463,6 +10555,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPID_37
 
    (                          // #1047
@@ -8471,6 +10565,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_00
 
    (                          // #1048
@@ -8479,6 +10575,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_01
 
    (                          // #1049
@@ -8487,6 +10585,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_02
 
    (                          // #1050
@@ -8495,6 +10595,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_03
 
    (                          // #1051
@@ -8503,6 +10605,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_04
 
    (                          // #1052
@@ -8511,6 +10615,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_05
 
    (                          // #1053
@@ -8519,6 +10625,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_06
 
    (                          // #1054
@@ -8527,6 +10635,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_07
 
    (                          // #1055
@@ -8535,6 +10645,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_08
 
    (                          // #1056
@@ -8543,6 +10655,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_09
 
    (                          // #1057
@@ -8551,6 +10665,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_10
 
    (                          // #1058
@@ -8559,6 +10675,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_11
 
    (                          // #1059
@@ -8567,6 +10685,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_12
 
    (                          // #1060
@@ -8575,6 +10695,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_13
 
    (                          // #1061
@@ -8583,6 +10705,8 @@ const
     tics: 12;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_14
 
    (                          // #1062
@@ -8591,6 +10715,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_15
 
    (                          // #1063
@@ -8599,6 +10725,8 @@ const
     tics: 12;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_16
 
    (                          // #1064
@@ -8607,6 +10735,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_17
 
    (                          // #1065
@@ -8615,6 +10745,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_18
 
    (                          // #1066
@@ -8623,6 +10755,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_19
 
    (                          // #1067
@@ -8631,6 +10765,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_20
 
    (                          // #1068
@@ -8639,6 +10775,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_21
 
    (                          // #1069
@@ -8647,6 +10785,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_22
 
    (                          // #1070
@@ -8655,6 +10795,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_24;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_23
 
    (                          // #1071
@@ -8663,6 +10805,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_25;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_24
 
    (                          // #1072
@@ -8671,6 +10815,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_26;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_25
 
    (                          // #1073
@@ -8679,6 +10825,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_27;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_26
 
    (                          // #1074
@@ -8687,6 +10835,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_28;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_27
 
    (                          // #1075
@@ -8695,6 +10845,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_29;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_28
 
    (                          // #1076
@@ -8703,6 +10855,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_30;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_29
 
    (                          // #1077
@@ -8711,6 +10865,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_31;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_30
 
    (                          // #1078
@@ -8719,6 +10875,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_32;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_31
 
    (                          // #1079
@@ -8727,6 +10885,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_33;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_32
 
    (                          // #1080
@@ -8735,6 +10895,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_34;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_33
 
    (                          // #1081
@@ -8743,6 +10905,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_35;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_34
 
    (                          // #1082
@@ -8751,6 +10915,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_36;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_35
 
    (                          // #1083
@@ -8759,6 +10925,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ROB3_37;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_36
 
    (                          // #1084
@@ -8767,6 +10935,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RBB3_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROB3_37
 
    (                          // #1085
@@ -8775,6 +10945,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RBB3_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RBB3_00
 
    (                          // #1086
@@ -8783,6 +10955,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RBB3_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RBB3_01
 
    (                          // #1087
@@ -8791,6 +10965,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RBB3_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RBB3_02
 
    (                          // #1088
@@ -8799,6 +10975,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RBB3_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RBB3_03
 
    (                          // #1089
@@ -8807,6 +10985,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RBB3_04
 
    (                          // #1090
@@ -8815,6 +10995,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RBB3_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RBB3_05
 
    (                          // #1091
@@ -8823,6 +11005,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RBB3_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RBB3_06
 
    (                          // #1092
@@ -8831,6 +11015,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RBB3_07
 
    (                          // #1093
@@ -8839,6 +11025,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_00
 
    (                          // #1094
@@ -8847,6 +11035,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_01
 
    (                          // #1095
@@ -8855,6 +11045,8 @@ const
     tics: 160;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_02
 
    (                          // #1096
@@ -8863,6 +11055,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_03
 
    (                          // #1097
@@ -8871,6 +11065,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_04
 
    (                          // #1098
@@ -8879,6 +11075,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_05
 
    (                          // #1099
@@ -8887,6 +11085,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_06
 
    (                          // #1100
@@ -8895,6 +11095,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_07
 
    (                          // #1101
@@ -8903,6 +11105,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_08
 
    (                          // #1102
@@ -8911,6 +11115,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_09
 
    (                          // #1103
@@ -8919,6 +11125,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_10
 
    (                          // #1104
@@ -8927,6 +11135,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_11
 
    (                          // #1105
@@ -8935,6 +11145,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_12
 
    (                          // #1106
@@ -8943,6 +11155,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_13
 
    (                          // #1107
@@ -8951,6 +11165,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_14
 
    (                          // #1108
@@ -8959,6 +11175,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_15
 
    (                          // #1109
@@ -8967,6 +11185,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_16
 
    (                          // #1110
@@ -8975,6 +11195,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_17
 
    (                          // #1111
@@ -8983,6 +11205,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_18
 
    (                          // #1112
@@ -8991,6 +11215,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_19
 
    (                          // #1113
@@ -8999,6 +11225,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_20
 
    (                          // #1114
@@ -9007,6 +11235,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_21
 
    (                          // #1115
@@ -9015,6 +11245,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_22
 
    (                          // #1116
@@ -9023,6 +11255,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_24;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_23
 
    (                          // #1117
@@ -9031,6 +11265,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_25;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_24
 
    (                          // #1118
@@ -9039,6 +11275,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_26;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_25
 
    (                          // #1119
@@ -9047,6 +11285,8 @@ const
     tics: 7;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_27;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_26
 
    (                          // #1120
@@ -9055,6 +11295,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_28;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_27
 
    (                          // #1121
@@ -9063,6 +11305,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_29;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_28
 
    (                          // #1122
@@ -9071,6 +11315,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_30;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_29
 
    (                          // #1123
@@ -9079,6 +11325,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_31;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_30
 
    (                          // #1124
@@ -9087,6 +11335,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_32;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_31
 
    (                          // #1125
@@ -9095,6 +11345,8 @@ const
     tics: 32;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PRGR_33;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_32
 
    (                          // #1126
@@ -9103,6 +11355,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRGR_33
 
    (                          // #1127
@@ -9111,6 +11365,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BASE_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BASE_00
 
    (                          // #1128
@@ -9119,6 +11375,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BASE_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BASE_01
 
    (                          // #1129
@@ -9127,6 +11385,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BASE_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BASE_02
 
    (                          // #1130
@@ -9135,6 +11395,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BASE_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BASE_03
 
    (                          // #1131
@@ -9143,6 +11405,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BASE_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BASE_04
 
    (                          // #1132
@@ -9151,6 +11415,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BASE_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BASE_05
 
    (                          // #1133
@@ -9159,6 +11425,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BASE_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BASE_06
 
    (                          // #1134
@@ -9167,6 +11435,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BASE_07
 
    (                          // #1135
@@ -9175,6 +11445,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FRBL_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FRBL_00
 
    (                          // #1136
@@ -9183,6 +11455,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FRBL_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FRBL_01
 
    (                          // #1137
@@ -9191,6 +11465,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FRBL_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FRBL_02
 
    (                          // #1138
@@ -9199,6 +11475,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FRBL_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FRBL_03
 
    (                          // #1139
@@ -9207,6 +11485,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FRBL_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FRBL_04
 
    (                          // #1140
@@ -9215,6 +11495,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FRBL_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FRBL_05
 
    (                          // #1141
@@ -9223,6 +11505,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FRBL_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FRBL_06
 
    (                          // #1142
@@ -9231,6 +11515,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FRBL_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FRBL_07
 
    (                          // #1143
@@ -9239,6 +11525,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FRBL_08
 
    (                          // #1144
@@ -9247,6 +11535,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KLAX_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KLAX_00
 
    (                          // #1145
@@ -9255,6 +11545,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KLAX_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KLAX_01
 
    (                          // #1146
@@ -9263,6 +11555,8 @@ const
     tics: 60;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KLAX_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KLAX_02
 
    (                          // #1147
@@ -9271,6 +11565,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TURT_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TURT_00
 
    (                          // #1148
@@ -9279,6 +11575,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TURT_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TURT_01
 
    (                          // #1149
@@ -9287,6 +11585,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TURT_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TURT_02
 
    (                          // #1150
@@ -9295,6 +11595,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TURT_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TURT_03
 
    (                          // #1151
@@ -9303,6 +11605,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TURT_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TURT_04
 
    (                          // #1152
@@ -9311,6 +11615,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BALL_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BALL_00
 
    (                          // #1153
@@ -9319,6 +11625,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BALL_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BALL_01
 
    (                          // #1154
@@ -9327,6 +11635,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BALL_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BALL_02
 
    (                          // #1155
@@ -9335,6 +11645,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BALL_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BALL_03
 
    (                          // #1156
@@ -9343,6 +11655,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TURT_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BALL_04
 
    (                          // #1157
@@ -9351,6 +11665,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TURT_05
 
    (                          // #1158
@@ -9359,6 +11675,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PSTN_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PSTN_00
 
    (                          // #1159
@@ -9367,6 +11685,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PSTN_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PSTN_01
 
    (                          // #1160
@@ -9375,6 +11695,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PSTN_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PSTN_02
 
    (                          // #1161
@@ -9383,6 +11705,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PSTN_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PSTN_03
 
    (                          // #1162
@@ -9391,6 +11715,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PSTN_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PSTN_04
 
    (                          // #1163
@@ -9399,6 +11725,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PSTN_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PSTN_05
 
    (                          // #1164
@@ -9407,6 +11735,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PSTN_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PSTN_06
 
    (                          // #1165
@@ -9415,6 +11745,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PSTN_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PSTN_07
 
    (                          // #1166
@@ -9423,6 +11755,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PSTN_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PSTN_08
 
    (                          // #1167
@@ -9431,6 +11765,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PSTN_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PSTN_09
 
    (                          // #1168
@@ -9439,6 +11775,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PSTN_10
 
    (                          // #1169
@@ -9447,6 +11785,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_00
 
    (                          // #1170
@@ -9455,6 +11795,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_01
 
    (                          // #1171
@@ -9463,6 +11805,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_02
 
    (                          // #1172
@@ -9471,6 +11815,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_03
 
    (                          // #1173
@@ -9479,6 +11825,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_04
 
    (                          // #1174
@@ -9487,6 +11835,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_05
 
    (                          // #1175
@@ -9495,6 +11845,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_06
 
    (                          // #1176
@@ -9503,6 +11855,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_07
 
    (                          // #1177
@@ -9511,6 +11865,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_08
 
    (                          // #1178
@@ -9519,6 +11875,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_09
 
    (                          // #1179
@@ -9527,6 +11885,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_10
 
    (                          // #1180
@@ -9535,6 +11895,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_11
 
    (                          // #1181
@@ -9543,6 +11905,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_12
 
    (                          // #1182
@@ -9551,6 +11915,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_13
 
    (                          // #1183
@@ -9559,6 +11925,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SECR_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_14
 
    (                          // #1184
@@ -9567,6 +11935,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECR_15
 
    (                          // #1185
@@ -9575,6 +11945,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XPRK_01
 
    (                          // #1186
@@ -9583,6 +11955,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BNG3_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XPRK_02
 
    (                          // #1187
@@ -9591,6 +11965,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TARG_00
 
    (                          // #1188
@@ -9599,6 +11975,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RING_00
 
    (                          // #1189
@@ -9607,6 +11985,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_EARS_00
 
    (                          // #1190
@@ -9615,6 +11995,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_COMM_00
 
    (                          // #1191
@@ -9623,6 +12005,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_00
 
    (                          // #1192
@@ -9631,6 +12015,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_01
 
    (                          // #1193
@@ -9639,6 +12025,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_02
 
    (                          // #1194
@@ -9647,6 +12035,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_03
 
    (                          // #1195
@@ -9655,6 +12045,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_04
 
    (                          // #1196
@@ -9663,6 +12055,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_05
 
    (                          // #1197
@@ -9671,6 +12065,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_06
 
    (                          // #1198
@@ -9679,6 +12075,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_07
 
    (                          // #1199
@@ -9687,6 +12085,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_08
 
    (                          // #1200
@@ -9695,6 +12095,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_09
 
    (                          // #1201
@@ -9703,6 +12105,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_10
 
    (                          // #1202
@@ -9711,6 +12115,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_12;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_11
 
    (                          // #1203
@@ -9719,6 +12125,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_13;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_12
 
    (                          // #1204
@@ -9727,6 +12135,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_14;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_13
 
    (                          // #1205
@@ -9735,6 +12145,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_15;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_14
 
    (                          // #1206
@@ -9743,6 +12155,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_16;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_15
 
    (                          // #1207
@@ -9751,6 +12165,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_17;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_16
 
    (                          // #1208
@@ -9759,6 +12175,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_18;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_17
 
    (                          // #1209
@@ -9767,6 +12185,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_19;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_18
 
    (                          // #1210
@@ -9775,6 +12195,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_20;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_19
 
    (                          // #1211
@@ -9783,6 +12205,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_21;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_20
 
    (                          // #1212
@@ -9791,6 +12215,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_22;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_21
 
    (                          // #1213
@@ -9799,6 +12225,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_23;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_22
 
    (                          // #1214
@@ -9807,6 +12235,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOOM_24;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_23
 
    (                          // #1215
@@ -9815,6 +12245,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOOM_24
 
    (                          // #1216
@@ -9823,6 +12255,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RATT_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RATT_00
 
    (                          // #1217
@@ -9831,6 +12265,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RATT_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RATT_01
 
    (                          // #1218
@@ -9839,6 +12275,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RATT_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RATT_02
 
    (                          // #1219
@@ -9847,6 +12285,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RATT_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RATT_03
 
    (                          // #1220
@@ -9855,6 +12295,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RATT_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RATT_04
 
    (                          // #1221
@@ -9863,6 +12305,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RATT_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RATT_05
 
    (                          // #1222
@@ -9871,6 +12315,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RATT_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RATT_06
 
    (                          // #1223
@@ -9879,6 +12325,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HOGN_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HOGN_00
 
    (                          // #1224
@@ -9887,6 +12335,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HOGN_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HOGN_01
 
    (                          // #1225
@@ -9895,6 +12345,8 @@ const
     tics: 1;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HOGN_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HOGN_02
 
    (                          // #1226
@@ -9903,6 +12355,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DEAD_00
 
    (                          // #1227
@@ -9911,6 +12365,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SBAN_00
 
    (                          // #1228
@@ -9919,6 +12375,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOTR_00
 
    (                          // #1229
@@ -9927,6 +12385,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HATR_00
 
    (                          // #1230
@@ -9935,6 +12395,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TOPR_00
 
    (                          // #1231
@@ -9943,6 +12405,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_COUP_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_COUP_00
 
    (                          // #1232
@@ -9951,6 +12415,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_COUP_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_COUP_01
 
    (                          // #1233
@@ -9959,6 +12425,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_COUP_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_COUP_02
 
    (                          // #1234
@@ -9967,6 +12435,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BUBB_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BUBB_00
 
    (                          // #1235
@@ -9975,6 +12445,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BUBF_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BUBF_00
 
    (                          // #1236
@@ -9983,6 +12455,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BUBC_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BUBC_00
 
    (                          // #1237
@@ -9991,6 +12465,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ASPR_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ASPR_00
 
    (                          // #1238
@@ -9999,6 +12475,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPDL_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPDL_00
 
    (                          // #1239
@@ -10007,6 +12485,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPDL_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPDL_01
 
    (                          // #1240
@@ -10015,6 +12495,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPDL_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPDL_02
 
    (                          // #1241
@@ -10023,6 +12505,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TOKN_00
 
    (                          // #1242
@@ -10031,6 +12515,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_OTOK_00
 
    (                          // #1243
@@ -10039,6 +12525,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HELT_00
 
    (                          // #1244
@@ -10047,6 +12535,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GUNT_00
 
    (                          // #1245
@@ -10055,6 +12545,8 @@ const
     tics: 35;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FULL_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FULL_00
 
    (                          // #1246
@@ -10063,6 +12555,8 @@ const
     tics: 35;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FULL_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FULL_01
 
    (                          // #1247
@@ -10071,6 +12565,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_00
 
    (                          // #1248
@@ -10079,6 +12575,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_01
 
    (                          // #1249
@@ -10087,6 +12585,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_02
 
    (                          // #1250
@@ -10095,6 +12595,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_03
 
    (                          // #1251
@@ -10103,6 +12605,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_04
 
    (                          // #1252
@@ -10111,6 +12615,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_05
 
    (                          // #1253
@@ -10119,6 +12625,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_06
 
    (                          // #1254
@@ -10127,6 +12635,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_07
 
    (                          // #1255
@@ -10135,6 +12645,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_08
 
    (                          // #1256
@@ -10143,6 +12655,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_09
 
    (                          // #1257
@@ -10151,6 +12665,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_10
 
    (                          // #1258
@@ -10159,6 +12675,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_11
 
    (                          // #1259
@@ -10167,6 +12685,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_12
 
    (                          // #1260
@@ -10175,6 +12695,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_13
 
    (                          // #1261
@@ -10183,6 +12705,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_14
 
    (                          // #1262
@@ -10191,6 +12715,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_15
 
    (                          // #1263
@@ -10199,6 +12725,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_16
 
    (                          // #1264
@@ -10207,6 +12735,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_17
 
    (                          // #1265
@@ -10215,6 +12745,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_18
 
    (                          // #1266
@@ -10223,6 +12755,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MEAT_19
 
    (                          // #1267
@@ -10231,6 +12765,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_00
 
    (                          // #1268
@@ -10239,6 +12775,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_01
 
    (                          // #1269
@@ -10247,6 +12785,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_02
 
    (                          // #1270
@@ -10255,6 +12795,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_03
 
    (                          // #1271
@@ -10263,6 +12805,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_04
 
    (                          // #1272
@@ -10271,6 +12815,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_05
 
    (                          // #1273
@@ -10279,6 +12825,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_06
 
    (                          // #1274
@@ -10287,6 +12835,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_07
 
    (                          // #1275
@@ -10295,6 +12845,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_08
 
    (                          // #1276
@@ -10303,6 +12855,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_09
 
    (                          // #1277
@@ -10311,6 +12865,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_10
 
    (                          // #1278
@@ -10319,6 +12875,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_11
 
    (                          // #1279
@@ -10327,6 +12885,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_12
 
    (                          // #1280
@@ -10335,6 +12895,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_13
 
    (                          // #1281
@@ -10343,6 +12905,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_14
 
    (                          // #1282
@@ -10351,6 +12915,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_15
 
    (                          // #1283
@@ -10359,6 +12925,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_16
 
    (                          // #1284
@@ -10367,6 +12935,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_17
 
    (                          // #1285
@@ -10375,6 +12945,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_18
 
    (                          // #1286
@@ -10383,6 +12955,8 @@ const
     tics: 700;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_JUNK_19
 
    (                          // #1287
@@ -10391,6 +12965,8 @@ const
     tics: 9;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FFOT_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FFOT_00
 
    (                          // #1288
@@ -10399,6 +12975,8 @@ const
     tics: 9;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FFOT_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FFOT_01
 
    (                          // #1289
@@ -10407,6 +12985,8 @@ const
     tics: 9;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FFOT_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FFOT_02
 
    (                          // #1290
@@ -10415,6 +12995,8 @@ const
     tics: 9;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FFOT_03
 
    (                          // #1291
@@ -10423,6 +13005,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DIE1_00
 
    (                          // #1292
@@ -10431,6 +13015,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAC_00
 
    (                          // #1293
@@ -10439,6 +13025,8 @@ const
     tics: 30;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAC_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAC_01
 
    (                          // #1294
@@ -10447,6 +13035,8 @@ const
     tics: 160;                // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAC_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BEAC_02
 
    (                          // #1295
@@ -10455,6 +13045,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARM1_00
 
    (                          // #1296
@@ -10463,6 +13055,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ARM2_00
 
    (                          // #1297
@@ -10471,6 +13065,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BARW_00
 
    (                          // #1298
@@ -10479,6 +13075,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BARW_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BARW_01
 
    (                          // #1299
@@ -10487,6 +13085,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BARW_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BARW_02
 
    (                          // #1300
@@ -10495,6 +13095,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BARW_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BARW_03
 
    (                          // #1301
@@ -10503,6 +13105,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BARW_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BARW_04
 
    (                          // #1302
@@ -10511,6 +13115,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BARW_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BARW_05
 
    (                          // #1303
@@ -10519,6 +13125,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BARW_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BARW_06
 
    (                          // #1304
@@ -10527,6 +13135,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BARW_07
 
    (                          // #1305
@@ -10535,6 +13145,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BART_00
 
    (                          // #1306
@@ -10543,6 +13155,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BART_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BART_01
 
    (                          // #1307
@@ -10551,6 +13165,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BART_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BART_02
 
    (                          // #1308
@@ -10559,6 +13175,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BART_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BART_03
 
    (                          // #1309
@@ -10567,6 +13185,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BART_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BART_04
 
    (                          // #1310
@@ -10575,6 +13195,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BART_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BART_05
 
    (                          // #1311
@@ -10583,6 +13205,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BART_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BART_06
 
    (                          // #1312
@@ -10591,6 +13215,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BART_08;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BART_07
 
    (                          // #1313
@@ -10599,6 +13225,8 @@ const
     tics: 2;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BART_09;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BART_08
 
    (                          // #1314
@@ -10607,6 +13235,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BART_10;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BART_09
 
    (                          // #1315
@@ -10615,6 +13245,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BART_11;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BART_10
 
    (                          // #1316
@@ -10623,6 +13255,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BART_11
 
    (                          // #1317
@@ -10631,6 +13265,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LAMP_00
 
    (                          // #1318
@@ -10639,6 +13275,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LANT_00
 
    (                          // #1319
@@ -10647,6 +13285,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BARL_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BARL_00
 
    (                          // #1320
@@ -10655,6 +13295,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BARL_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BARL_01
 
    (                          // #1321
@@ -10663,6 +13305,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BARL_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BARL_02
 
    (                          // #1322
@@ -10671,6 +13315,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BARL_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BARL_03
 
    (                          // #1323
@@ -10679,6 +13325,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOWL_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOWL_00
 
    (                          // #1324
@@ -10687,6 +13335,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOWL_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOWL_01
 
    (                          // #1325
@@ -10695,6 +13345,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOWL_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOWL_02
 
    (                          // #1326
@@ -10703,6 +13355,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BOWL_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BOWL_03
 
    (                          // #1327
@@ -10711,6 +13365,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BRAZ_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BRAZ_00
 
    (                          // #1328
@@ -10719,6 +13375,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BRAZ_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BRAZ_01
 
    (                          // #1329
@@ -10727,6 +13385,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BRAZ_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BRAZ_02
 
    (                          // #1330
@@ -10735,6 +13395,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BRAZ_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BRAZ_03
 
    (                          // #1331
@@ -10743,6 +13405,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TRCH_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TRCH_00
 
    (                          // #1332
@@ -10751,6 +13415,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TRCH_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TRCH_01
 
    (                          // #1333
@@ -10759,6 +13425,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TRCH_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TRCH_02
 
    (                          // #1334
@@ -10767,6 +13435,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TRCH_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TRCH_03
 
    (                          // #1335
@@ -10775,6 +13445,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LTRH_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LTRH_00
 
    (                          // #1336
@@ -10783,6 +13455,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LTRH_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LTRH_01
 
    (                          // #1337
@@ -10791,6 +13465,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LTRH_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LTRH_02
 
    (                          // #1338
@@ -10799,6 +13475,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LTRH_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LTRH_03
 
    (                          // #1339
@@ -10807,6 +13485,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LMPC_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LMPC_00
 
    (                          // #1340
@@ -10815,6 +13495,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LMPC_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LMPC_01
 
    (                          // #1341
@@ -10823,6 +13505,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LMPC_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LMPC_02
 
    (                          // #1342
@@ -10831,6 +13515,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LMPC_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LMPC_03
 
    (                          // #1343
@@ -10839,6 +13525,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LOGS_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LOGS_00
 
    (                          // #1344
@@ -10847,6 +13535,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LOGS_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LOGS_01
 
    (                          // #1345
@@ -10855,6 +13545,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LOGS_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LOGS_02
 
    (                          // #1346
@@ -10863,6 +13555,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LOGS_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LOGS_03
 
    (                          // #1347
@@ -10871,6 +13565,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TRHO_00
 
    (                          // #1348
@@ -10879,6 +13575,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WATR_00
 
    (                          // #1349
@@ -10887,6 +13585,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MUGG_00
 
    (                          // #1350
@@ -10895,6 +13595,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FUSL_00
 
    (                          // #1351
@@ -10903,6 +13605,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRD1_00
 
    (                          // #1352
@@ -10911,6 +13615,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRD2_00
 
    (                          // #1353
@@ -10919,6 +13625,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TPAS_00
 
    (                          // #1354
@@ -10927,6 +13635,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KY1G_00
 
    (                          // #1355
@@ -10935,6 +13645,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KY2S_00
 
    (                          // #1356
@@ -10943,6 +13655,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_KY3B_00
 
    (                          // #1357
@@ -10951,6 +13665,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HAND_00
 
    (                          // #1358
@@ -10959,6 +13675,8 @@ const
     tics: 16;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRYS_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRYS_00
 
    (                          // #1359
@@ -10967,6 +13685,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRYS_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRYS_01
 
    (                          // #1360
@@ -10975,6 +13695,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRYS_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRYS_02
 
    (                          // #1361
@@ -10983,6 +13705,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRYS_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRYS_03
 
    (                          // #1362
@@ -10991,6 +13715,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRYS_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRYS_04
 
    (                          // #1363
@@ -10999,6 +13725,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRYS_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRYS_05
 
    (                          // #1364
@@ -11007,6 +13735,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PRIS_00
 
    (                          // #1365
@@ -11015,6 +13745,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PWR1_00
 
    (                          // #1366
@@ -11023,6 +13755,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PWR2_00
 
    (                          // #1367
@@ -11031,6 +13765,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PWR3_00
 
    (                          // #1368
@@ -11039,6 +13775,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ORAC_00
 
    (                          // #1369
@@ -11047,6 +13785,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GYID_00
 
    (                          // #1370
@@ -11055,6 +13795,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FUBR_00
 
    (                          // #1371
@@ -11063,6 +13805,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WARE_00
 
    (                          // #1372
@@ -11071,6 +13815,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RCRY_00
 
    (                          // #1373
@@ -11079,6 +13825,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BCRY_00
 
    (                          // #1374
@@ -11087,6 +13835,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHAP_00
 
    (                          // #1375
@@ -11095,6 +13845,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TUNL_00
 
    (                          // #1376
@@ -11103,6 +13855,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLTK_00
 
    (                          // #1377
@@ -11111,6 +13865,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SECK_00
 
    (                          // #1378
@@ -11119,6 +13875,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MINE_00
 
    (                          // #1379
@@ -11127,6 +13885,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_REBL_00
 
    (                          // #1380
@@ -11135,6 +13895,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PROC_00
 
    (                          // #1381
@@ -11143,6 +13905,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ANKH_00
 
    (                          // #1382
@@ -11151,6 +13915,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GOID_00
 
    (                          // #1383
@@ -11159,6 +13925,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STMP_00
 
    (                          // #1384
@@ -11167,6 +13935,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MDKT_00
 
    (                          // #1385
@@ -11175,6 +13945,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_COIN_00
 
    (                          // #1386
@@ -11183,6 +13955,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRED_00
 
    (                          // #1387
@@ -11191,6 +13965,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SACK_00
 
    (                          // #1388
@@ -11199,6 +13975,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHST_00
 
    (                          // #1389
@@ -11207,6 +13985,8 @@ const
     tics: 17;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SHD1_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHD1_00
 
    (                          // #1390
@@ -11215,6 +13995,8 @@ const
     tics: 17;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SHD1_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHD1_01
 
    (                          // #1391
@@ -11223,6 +14005,8 @@ const
     tics: 17;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SHD1_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHD1_02
 
    (                          // #1392
@@ -11231,6 +14015,8 @@ const
     tics: 17;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SHD1_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHD1_03
 
    (                          // #1393
@@ -11239,6 +14025,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MASK_00
 
    (                          // #1394
@@ -11247,6 +14035,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_UNIF_00
 
    (                          // #1395
@@ -11255,6 +14045,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_OFIC_00
 
    (                          // #1396
@@ -11263,6 +14055,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PMAP_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PMAP_00
 
    (                          // #1397
@@ -11271,6 +14065,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PMAP_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PMAP_01
 
    (                          // #1398
@@ -11279,6 +14075,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PMUP_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PMUP_00
 
    (                          // #1399
@@ -11287,6 +14085,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PMUP_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PMUP_01
 
    (                          // #1400
@@ -11295,6 +14095,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BLIT_00
 
    (                          // #1401
@@ -11303,6 +14105,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BBOX_00
 
    (                          // #1402
@@ -11311,6 +14115,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MSSL_00
 
    (                          // #1403
@@ -11319,6 +14125,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROKT_00
 
    (                          // #1404
@@ -11327,6 +14135,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BRY1_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BRY1_00
 
    (                          // #1405
@@ -11335,6 +14145,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BRY1_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BRY1_01
 
    (                          // #1406
@@ -11343,6 +14155,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CPAC_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CPAC_00
 
    (                          // #1407
@@ -11351,6 +14165,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CPAC_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CPAC_01
 
    (                          // #1408
@@ -11359,6 +14175,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_PQRL_00
 
    (                          // #1409
@@ -11367,6 +14185,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_XQRL_00
 
    (                          // #1410
@@ -11375,6 +14195,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GRN1_00
 
    (                          // #1411
@@ -11383,6 +14205,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GRN2_00
 
    (                          // #1412
@@ -11391,6 +14215,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BKPK_00
 
    (                          // #1413
@@ -11399,6 +14225,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RELC_00
 
    (                          // #1414
@@ -11407,6 +14235,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIFL_00
 
    (                          // #1415
@@ -11415,6 +14245,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RIFL_01
 
    (                          // #1416
@@ -11423,6 +14255,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_FLAM_00
 
    (                          // #1417
@@ -11431,6 +14265,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BFLM_00
 
    (                          // #1418
@@ -11439,6 +14275,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MMSL_00
 
    (                          // #1419
@@ -11447,6 +14285,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TRPD_00
 
    (                          // #1420
@@ -11455,6 +14295,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_GRND_00
 
    (                          // #1421
@@ -11463,6 +14305,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CBOW_00
 
    (                          // #1422
@@ -11471,6 +14315,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGL_00
 
    (                          // #1423
@@ -11479,6 +14325,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGL_01
 
    (                          // #1424
@@ -11487,6 +14335,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGL_02
 
    (                          // #1425
@@ -11495,6 +14345,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGL_03
 
    (                          // #1426
@@ -11503,6 +14355,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SIGL_04
 
    (                          // #1427
@@ -11511,6 +14365,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LITE_00
 
    (                          // #1428
@@ -11519,6 +14375,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CNDL_00
 
    (                          // #1429
@@ -11527,6 +14385,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CLBR_00
 
    (                          // #1430
@@ -11535,6 +14395,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LITS_00
 
    (                          // #1431
@@ -11543,6 +14405,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LITB_00
 
    (                          // #1432
@@ -11551,6 +14415,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LITG_00
 
    (                          // #1433
@@ -11559,6 +14425,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROK1_00
 
    (                          // #1434
@@ -11567,6 +14435,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROK2_00
 
    (                          // #1435
@@ -11575,6 +14445,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROK3_00
 
    (                          // #1436
@@ -11583,6 +14455,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ROK4_00
 
    (                          // #1437
@@ -11591,6 +14465,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LOGG_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LOGG_00
 
    (                          // #1438
@@ -11599,6 +14475,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LOGG_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LOGG_01
 
    (                          // #1439
@@ -11607,6 +14485,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LOGG_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LOGG_02
 
    (                          // #1440
@@ -11615,6 +14495,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LOGG_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_LOGG_03
 
    (                          // #1441
@@ -11623,6 +14505,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RUB1_00
 
    (                          // #1442
@@ -11631,6 +14515,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RUB2_00
 
    (                          // #1443
@@ -11639,6 +14525,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RUB3_00
 
    (                          // #1444
@@ -11647,6 +14535,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RUB4_00
 
    (                          // #1445
@@ -11655,6 +14545,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RUB5_00
 
    (                          // #1446
@@ -11663,6 +14555,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RUB6_00
 
    (                          // #1447
@@ -11671,6 +14565,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RUB7_00
 
    (                          // #1448
@@ -11679,6 +14575,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_RUB8_00
 
    (                          // #1449
@@ -11687,6 +14585,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CHAN_00
 
    (                          // #1450
@@ -11695,6 +14595,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAT_00
 
    (                          // #1451
@@ -11703,6 +14605,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DSTA_00
 
    (                          // #1452
@@ -11711,6 +14615,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CRAB_00
 
    (                          // #1453
@@ -11719,6 +14625,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CAGE_00
 
    (                          // #1454
@@ -11727,6 +14635,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TREE_00
 
    (                          // #1455
@@ -11735,6 +14645,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TREE_01
 
    (                          // #1456
@@ -11743,6 +14655,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TREE_02
 
    (                          // #1457
@@ -11751,6 +14665,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TRE1_00
 
    (                          // #1458
@@ -11759,6 +14675,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BUSH_00
 
    (                          // #1459
@@ -11767,6 +14685,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SHRB_00
 
    (                          // #1460
@@ -11775,6 +14695,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STAK_00
 
    (                          // #1461
@@ -11783,6 +14705,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_BAR1_00
 
    (                          // #1462
@@ -11791,6 +14715,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VASE_00
 
    (                          // #1463
@@ -11799,6 +14725,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_VASE_01
 
    (                          // #1464
@@ -11807,6 +14735,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STOL_00
 
    (                          // #1465
@@ -11815,6 +14745,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_POT1_00
 
    (                          // #1466
@@ -11823,6 +14755,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TUB1_00
 
    (                          // #1467
@@ -11831,6 +14765,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_ANVL_00
 
    (                          // #1468
@@ -11839,6 +14775,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TLMP_00
 
    (                          // #1469
@@ -11847,6 +14785,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TLMP_01
 
    (                          // #1470
@@ -11855,6 +14795,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TRAY_00
 
    (                          // #1471
@@ -11863,6 +14805,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_APOW_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_APOW_00
 
    (                          // #1472
@@ -11871,6 +14815,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_AFED_00
 
    (                          // #1473
@@ -11879,6 +14825,8 @@ const
     tics: 6;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DRIP_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DRIP_00
 
    (                          // #1474
@@ -11887,6 +14835,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DRIP_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DRIP_01
 
    (                          // #1475
@@ -11895,6 +14845,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DRIP_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DRIP_02
 
    (                          // #1476
@@ -11903,6 +14855,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DRIP_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DRIP_03
 
    (                          // #1477
@@ -11911,6 +14865,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DRIP_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DRIP_04
 
    (                          // #1478
@@ -11919,6 +14875,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DRIP_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DRIP_05
 
    (                          // #1479
@@ -11927,6 +14885,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DRIP_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DRIP_06
 
    (                          // #1480
@@ -11935,6 +14895,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DRIP_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_DRIP_07
 
    (                          // #1481
@@ -11943,6 +14905,8 @@ const
     tics: 10;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CDRP_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CDRP_00
 
    (                          // #1482
@@ -11951,6 +14915,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CDRP_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CDRP_01
 
    (                          // #1483
@@ -11959,6 +14925,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CDRP_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CDRP_02
 
    (                          // #1484
@@ -11967,6 +14935,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CDRP_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_CDRP_03
 
    (                          // #1485
@@ -11975,6 +14945,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLH_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLH_00
 
    (                          // #1486
@@ -11983,6 +14955,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLH_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLH_01
 
    (                          // #1487
@@ -11991,6 +14965,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLH_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLH_02
 
    (                          // #1488
@@ -11999,6 +14975,8 @@ const
     tics: 8;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLH_04;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLH_03
 
    (                          // #1489
@@ -12007,6 +14985,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLH_05;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLH_04
 
    (                          // #1490
@@ -12015,6 +14995,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLH_06;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLH_05
 
    (                          // #1491
@@ -12023,6 +15005,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLH_07;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLH_06
 
    (                          // #1492
@@ -12031,6 +15015,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLH_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_SPLH_07
 
    (                          // #1493
@@ -12039,6 +15025,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WTFT_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WTFT_00
 
    (                          // #1494
@@ -12047,6 +15035,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WTFT_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WTFT_01
 
    (                          // #1495
@@ -12055,6 +15045,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WTFT_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WTFT_02
 
    (                          // #1496
@@ -12063,6 +15055,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WTFT_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_WTFT_03
 
    (                          // #1497
@@ -12071,6 +15065,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HERT_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HERT_00
 
    (                          // #1498
@@ -12079,6 +15075,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HERT_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HERT_01
 
    (                          // #1499
@@ -12087,6 +15085,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HERT_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HERT_02
 
    (                          // #1500
@@ -12095,6 +15095,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELP_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELP_00
 
    (                          // #1501
@@ -12103,6 +15105,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELP_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELP_01
 
    (                          // #1502
@@ -12111,6 +15115,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELP_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELP_02
 
    (                          // #1503
@@ -12119,6 +15125,8 @@ const
     tics: 3;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELP_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_TELP_03
 
    (                          // #1504
@@ -12127,6 +15135,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_MONI_00
 
    (                          // #1505
@@ -12135,6 +15145,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STEL_00
 
    (                          // #1506
@@ -12143,6 +15155,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STLA_00
 
    (                          // #1507
@@ -12151,6 +15165,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STLE_00
 
    (                          // #1508
@@ -12159,6 +15175,8 @@ const
     tics: 4;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HUGE_01;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HUGE_00
 
    (                          // #1509
@@ -12167,6 +15185,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HUGE_02;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HUGE_01
 
    (                          // #1510
@@ -12175,6 +15195,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HUGE_03;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HUGE_02
 
    (                          // #1511
@@ -12183,6 +15205,8 @@ const
     tics: 5;                  // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HUGE_00;     // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_HUGE_03
 
    (                          // #1512
@@ -12191,6 +15215,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STLG_00
 
    (                          // #1513
@@ -12199,6 +15225,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STLG_01
 
    (                          // #1514
@@ -12207,6 +15235,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STLG_02
 
    (                          // #1515
@@ -12215,6 +15245,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STLG_03
 
    (                          // #1516
@@ -12223,6 +15255,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STLG_04
 
    (                          // #1517
@@ -12231,6 +15265,8 @@ const
     tics: -1;                 // tics
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
    ),                         // S_STLG_05
 
    (
@@ -12827,6 +15863,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -12899,6 +15940,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -12971,6 +16017,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13043,6 +16094,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13115,6 +16171,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13187,6 +16248,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13259,6 +16325,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13331,6 +16402,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13403,6 +16479,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13475,6 +16556,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13547,6 +16633,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13619,6 +16710,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13691,6 +16787,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13763,6 +16864,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13835,6 +16941,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13907,6 +17018,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13979,6 +17095,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14051,6 +17172,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14123,6 +17249,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14195,6 +17326,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14267,6 +17403,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14339,6 +17480,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14411,6 +17557,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14483,6 +17634,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14555,6 +17711,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14627,6 +17788,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14699,6 +17865,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14771,6 +17942,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14843,6 +18019,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14915,6 +18096,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14987,6 +18173,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15059,6 +18250,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15131,6 +18327,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15203,6 +18404,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15275,6 +18481,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15347,6 +18558,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15419,6 +18635,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15491,6 +18712,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15563,6 +18789,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15635,6 +18866,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15707,6 +18943,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15779,6 +19020,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15851,6 +19097,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15923,6 +19174,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15995,6 +19251,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16067,6 +19328,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16139,6 +19405,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16211,6 +19482,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16283,6 +19559,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16355,6 +19636,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16427,6 +19713,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16499,6 +19790,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16571,6 +19867,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16643,6 +19944,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16715,6 +20021,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16787,6 +20098,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16859,6 +20175,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16931,6 +20252,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17003,6 +20329,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17075,6 +20406,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17147,6 +20483,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17219,6 +20560,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17291,6 +20637,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17363,6 +20714,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17435,6 +20791,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17507,6 +20868,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17579,6 +20945,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17651,6 +21022,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17723,6 +21099,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17795,6 +21176,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17867,6 +21253,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17939,6 +21330,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18011,6 +21407,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18083,6 +21484,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18155,6 +21561,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18227,6 +21638,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18299,6 +21715,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18371,6 +21792,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18443,6 +21869,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18515,6 +21946,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18587,6 +22023,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18659,6 +22100,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18731,6 +22177,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18803,6 +22254,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18875,6 +22331,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18947,6 +22408,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19019,6 +22485,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19091,6 +22562,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19163,6 +22639,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19235,6 +22716,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19307,6 +22793,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19379,6 +22870,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19451,6 +22947,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19523,6 +23024,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19595,6 +23101,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19667,6 +23178,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19739,6 +23255,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19811,6 +23332,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19883,6 +23409,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19955,6 +23486,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20027,6 +23563,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20099,6 +23640,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20171,6 +23717,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20243,6 +23794,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20315,6 +23871,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20387,6 +23948,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20459,6 +24025,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20531,6 +24102,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20603,6 +24179,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20675,6 +24256,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20747,6 +24333,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20819,6 +24410,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20891,6 +24487,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20963,6 +24564,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21035,6 +24641,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21107,6 +24718,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21179,6 +24795,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21251,6 +24872,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21323,6 +24949,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21395,6 +25026,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21467,6 +25103,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21539,6 +25180,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21611,6 +25257,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21683,6 +25334,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21755,6 +25411,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21827,6 +25488,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21899,6 +25565,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21971,6 +25642,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22043,6 +25719,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22115,6 +25796,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22187,6 +25873,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22259,6 +25950,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22331,6 +26027,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22403,6 +26104,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22475,6 +26181,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22547,6 +26258,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22619,6 +26335,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22691,6 +26412,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22763,6 +26489,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22835,6 +26566,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22907,6 +26643,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22979,6 +26720,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23051,6 +26797,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23123,6 +26874,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23195,6 +26951,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23267,6 +27028,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23339,6 +27105,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23411,6 +27182,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23483,6 +27259,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23555,6 +27336,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23627,6 +27413,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23699,6 +27490,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23771,6 +27567,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23843,6 +27644,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23915,6 +27721,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23987,6 +27798,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24059,6 +27875,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24131,6 +27952,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24203,6 +28029,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24275,6 +28106,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24347,6 +28183,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24419,6 +28260,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24491,6 +28337,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24563,6 +28414,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24635,6 +28491,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24707,6 +28568,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24779,6 +28645,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24851,6 +28722,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24923,6 +28799,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24995,6 +28876,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25067,6 +28953,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25139,6 +29030,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25211,6 +29107,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25283,6 +29184,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25355,6 +29261,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25427,6 +29338,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25499,6 +29415,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25571,6 +29492,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25643,6 +29569,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25715,6 +29646,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25787,6 +29723,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25859,6 +29800,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25931,6 +29877,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26003,6 +29954,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26075,6 +30031,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26147,6 +30108,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26219,6 +30185,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26291,6 +30262,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26363,6 +30339,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26435,6 +30416,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26507,6 +30493,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26579,6 +30570,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26651,6 +30647,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26723,6 +30724,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26795,6 +30801,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26867,6 +30878,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26939,6 +30955,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27011,6 +31032,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27083,6 +31109,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27155,6 +31186,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27227,6 +31263,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27299,6 +31340,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27371,6 +31417,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27443,6 +31494,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27515,6 +31571,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27587,6 +31648,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27659,6 +31725,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27731,6 +31802,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27803,6 +31879,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27875,6 +31956,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27947,6 +32033,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28019,6 +32110,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28091,6 +32187,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28163,6 +32264,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28235,6 +32341,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28307,6 +32418,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28379,6 +32495,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28451,6 +32572,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28523,6 +32649,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28595,6 +32726,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28667,6 +32803,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28739,6 +32880,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28811,6 +32957,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28883,6 +33034,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28955,6 +33111,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29027,6 +33188,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29099,6 +33265,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29171,6 +33342,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29243,6 +33419,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29315,6 +33496,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29387,6 +33573,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29459,6 +33650,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29531,6 +33727,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29603,6 +33804,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29675,6 +33881,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29747,6 +33958,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29819,6 +34035,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29891,6 +34112,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29963,6 +34189,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30035,6 +34266,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30107,6 +34343,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30179,6 +34420,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30251,6 +34497,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30323,6 +34574,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30395,6 +34651,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30467,6 +34728,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30539,6 +34805,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30611,6 +34882,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30683,6 +34959,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30755,6 +35036,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30827,6 +35113,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30899,6 +35190,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30971,6 +35267,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31043,6 +35344,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31115,6 +35421,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31187,6 +35498,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31259,6 +35575,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31331,6 +35652,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31403,6 +35729,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31475,6 +35806,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31547,6 +35883,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31619,6 +35960,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31691,6 +36037,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31763,6 +36114,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31835,6 +36191,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31907,6 +36268,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31979,6 +36345,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32051,6 +36422,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32123,6 +36499,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32195,6 +36576,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32267,6 +36653,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32339,6 +36730,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32411,6 +36807,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32483,6 +36884,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32555,6 +36961,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32627,6 +37038,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32699,6 +37115,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32771,6 +37192,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32843,6 +37269,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32915,6 +37346,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32987,6 +37423,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33059,6 +37500,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33131,6 +37577,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33203,6 +37654,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33275,6 +37731,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33347,6 +37808,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33419,6 +37885,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33491,6 +37962,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33563,6 +38039,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33635,6 +38116,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33707,6 +38193,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33779,6 +38270,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33851,6 +38347,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33923,6 +38424,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33995,6 +38501,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34067,6 +38578,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34139,6 +38655,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34211,6 +38732,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34283,6 +38809,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34355,6 +38886,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34427,6 +38963,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34499,6 +39040,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34571,6 +39117,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34643,6 +39194,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34715,6 +39271,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34787,6 +39348,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34859,6 +39425,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34931,6 +39502,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35003,6 +39579,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35075,6 +39656,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35147,6 +39733,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35219,6 +39810,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35291,6 +39887,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35363,6 +39964,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35435,6 +40041,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35507,6 +40118,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35579,6 +40195,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35651,6 +40272,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35723,6 +40349,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35795,6 +40426,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35867,6 +40503,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35939,6 +40580,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36011,6 +40657,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36083,6 +40734,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36155,6 +40811,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36227,6 +40888,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36299,6 +40965,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36371,6 +41042,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36443,6 +41119,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36515,6 +41196,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36587,6 +41273,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36659,6 +41350,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36731,6 +41427,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36803,6 +41504,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36875,6 +41581,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36947,6 +41658,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37019,6 +41735,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37091,6 +41812,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37163,6 +41889,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37235,6 +41966,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37307,6 +42043,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37379,6 +42120,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37451,6 +42197,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37523,6 +42274,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37595,6 +42351,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37667,6 +42428,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37739,6 +42505,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37811,6 +42582,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37883,6 +42659,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37955,6 +42736,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38027,6 +42813,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38099,6 +42890,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38171,6 +42967,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38243,6 +43044,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38315,6 +43121,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38387,6 +43198,11 @@ const // Strife Original mobjinfo
     spriteDY: 0;                                                                // spriteDY
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
    )
 
   );

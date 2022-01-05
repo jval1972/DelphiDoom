@@ -422,6 +422,21 @@ type
     DO_NUMSTATES
   );
 
+const
+  STATEF_SKILL5FAST = 1;
+
+const
+  MAX_STATE_ARGS = 8;
+
+const
+  ARG1_DEFINED = 1;
+  ARG2_DEFINED = 2;
+  ARG3_DEFINED = 4;
+  ARG4_DEFINED = 8;
+  ARG5_DEFINED = $10;
+  ARG6_DEFINED = $20;
+  ARG7_DEFINED = $40;
+  ARG8_DEFINED = $80;
 
 type
   state_t = record
@@ -451,6 +466,9 @@ type
     voxelradius: integer;
 {$ENDIF}
     flags_ex: integer;
+    mbf21bits: integer;
+    args: array[0..MAX_STATE_ARGS - 1] of integer;
+    argsdefined: integer;
   end;
   Pstate_t = ^state_t;
 
@@ -577,6 +595,12 @@ type
     spriteDY: integer;
     flags5_ex: integer;
     flags6_ex: integer;
+    // MBF21
+    infighting_group: integer;
+    projectile_group: integer;
+    splash_group: integer;
+    mbf21bits: integer; // not actually flags, the bits will be converted to DelphiDoom flags
+    ripsound: integer;
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;

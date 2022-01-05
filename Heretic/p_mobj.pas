@@ -1059,6 +1059,10 @@ begin
   mobj.painchance := info.painchance;
   mobj.spriteDX := info.spriteDX;
   mobj.spriteDY := info.spriteDY;
+  // mbf21+
+  mobj.infighting_group := info.infighting_group;
+  mobj.projectile_group := info.projectile_group;
+  mobj.splash_group := info.splash_group;
 
   if gameskill <> sk_nightmare then
     mobj.reactiontime := info.reactiontime;

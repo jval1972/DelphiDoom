@@ -163,6 +163,15 @@ procedure PS_SetActorSpriteDX(const key: LongWord; const value: Integer);
 function PS_GetActorSpriteDY(const key: LongWord): Integer;
 procedure PS_SetActorSpriteDY(const key: LongWord; const value: Integer);
 
+function PS_GetActorInfightingGroup(const key: LongWord): Integer;
+procedure PS_SetActorInfightingGroup(const key: LongWord; const value: Integer);
+
+function PS_GetActorProjectileGroup(const key: LongWord): Integer;
+procedure PS_SetActorProjectileGroup(const key: LongWord; const value: Integer);
+
+function PS_GetActorSplashGroup(const key: LongWord): Integer;
+procedure PS_SetActorSplashGroup(const key: LongWord; const value: Integer);
+
 function PS_GetActorName(const key: LongWord): string;
 
 {$IFDEF STRIFE}
@@ -198,6 +207,8 @@ function PS_GetActorCustomSound2(const key: LongWord): string;
 function PS_GetActorCustomSound3(const key: LongWord): string;
 
 function PS_GetActorMeleeSound(const key: LongWord): string;
+
+function PS_GetActorRipSound(const key: LongWord): string;
 
 function PS_GetActorState(const key: LongWord): integer;
 procedure PS_SetActorState(const key: LongWord; const value: Integer);
@@ -678,6 +689,14 @@ function PS_GetMobjInfoSpriteDY(const typ: integer): integer;
 function PS_GetMobjInfoFriction(const typ: integer): integer;
 
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
+
+function PS_GetMobjInfoInfightingGroup(const typ: integer): Integer;
+
+function PS_GetMobjInfoProjectileGroup(const typ: integer): Integer;
+
+function PS_GetMobjInfoSplashGroup(const typ: integer): Integer;
+
+function PS_GetMobjInfoRipSound(const typ: integer): string;
 
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoMissileHeight(const typ: integer): integer;
@@ -2031,6 +2050,75 @@ begin
   mo.spriteDY := value;
 end;
 
+function PS_GetActorInfightingGroup(const key: LongWord): Integer;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := IG_DEFAULT;
+    Exit;
+  end;
+  Result := mo.infighting_group;
+end;
+
+procedure PS_SetActorInfightingGroup(const key: LongWord; const value: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.infighting_group := value;
+end;
+
+function PS_GetActorProjectileGroup(const key: LongWord): Integer;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := PG_DEFAULT;
+    Exit;
+  end;
+  Result := mo.projectile_group;
+end;
+
+procedure PS_SetActorProjectileGroup(const key: LongWord; const value: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.projectile_group := value;
+end;
+
+function PS_GetActorSplashGroup(const key: LongWord): Integer;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := SG_DEFAULT;
+    Exit;
+  end;
+  Result := mo.splash_group;
+end;
+
+procedure PS_SetActorSplashGroup(const key: LongWord; const value: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.splash_group := value;
+end;
+
 function PS_GetActorName(const key: LongWord): string;
 var
   mo: Pmobj_t;
@@ -2267,6 +2355,19 @@ begin
 end;
 
 function PS_GetActorMeleeSound(const key: LongWord): string;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := '';
+    Exit;
+  end;
+  Result := S_GetSoundNameForNum(mo.info.meleesound);
+end;
+
+function PS_GetActorRipSound(const key: LongWord): string;
 var
   mo: Pmobj_t;
 begin
@@ -3355,6 +3456,36 @@ begin
   T := PS_GetActorSpriteDY(LongWord(Self));
 end;
 
+procedure TRTLActorInfightingGroup_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorInfightingGroup(LongWord(Self), T);
+end;
+
+procedure TRTLActorInfightingGroup_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorInfightingGroup(LongWord(Self));
+end;
+
+procedure TRTLActorProjectileGroup_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorProjectileGroup(LongWord(Self), T);
+end;
+
+procedure TRTLActorProjectileGroup_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorProjectileGroup(LongWord(Self));
+end;
+
+procedure TRTLActorSplashGroup_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorSplashGroup(LongWord(Self), T);
+end;
+
+procedure TRTLActorSplashGroup_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorSplashGroup(LongWord(Self));
+end;
+
 procedure TRTLActorFlags_W(Self: TRTLActor; const T: Boolean; const t1: LongWord);
 begin
   if T then
@@ -3438,6 +3569,11 @@ end;
 procedure TRTLActorMeleeSound_R(Self: TRTLActor; var T: string);
 begin
   T := PS_GetActorMeleeSound(LongWord(Self));
+end;
+
+procedure TRTLActorRipSound_R(Self: TRTLActor; var T: string);
+begin
+  T := PS_GetActorRipSound(LongWord(Self));
 end;
 
 procedure TRTLActorState_R(Self: TRTLActor; var T: Integer);
@@ -6167,6 +6303,46 @@ begin
   Result := mobjinfo[typ].interactstate;
 end;
 
+function PS_GetMobjInfoInfightingGroup(const typ: integer): Integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := IG_DEFAULT;
+    Exit;
+  end;
+  Result := mobjinfo[typ].infighting_group;
+end;
+
+function PS_GetMobjInfoProjectileGroup(const typ: integer): Integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := PG_DEFAULT;
+    Exit;
+  end;
+  Result := mobjinfo[typ].projectile_group;
+end;
+
+function PS_GetMobjInfoSplashGroup(const typ: integer): Integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := SG_DEFAULT;
+    Exit;
+  end;
+  Result := mobjinfo[typ].splash_group;
+end;
+
+function PS_GetMobjInfoRipSound(const typ: integer): string;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := '';
+    Exit;
+  end;
+  Result := S_GetSoundNameForNum(mobjinfo[typ].ripsound);
+end;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoMissileHeight(const typ: integer): integer;
 begin
@@ -6499,6 +6675,26 @@ end;
 procedure TRTLMobjInfoItemSpriteDY_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoSpriteDY(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemInfightingGroup_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoInfightingGroup(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemProjectileGroup_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoProjectileGroup(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemSplashGroup_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoSplashGroup(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemRipSound_R(Self: TRTLMobjInfoItem; var T: string);
+begin
+  T := PS_GetMobjInfoRipSound(Integer(Self) - 1);
 end;
 
 procedure TRTLMobjInfoItemInteractState_R(Self: TRTLMobjInfoItem; var T: integer);
@@ -7124,6 +7320,9 @@ begin
   cactor.RegisterProperty('PainChance', 'fixed_t', iptRW);
   cactor.RegisterProperty('SpriteDX', 'fixed_t', iptRW);
   cactor.RegisterProperty('SpriteDY', 'fixed_t', iptRW);
+  cactor.RegisterProperty('InfightingGroup', 'Integer', iptRW);
+  cactor.RegisterProperty('ProjectileGroup', 'Integer', iptRW);
+  cactor.RegisterProperty('SplashGroup', 'Integer', iptRW);
   cactor.RegisterProperty('CustomDropItem', 'Integer', iptRW);
   cactor.RegisterProperty('CustomParams', 'Integer String', iptRW);
   cactor.RegisterProperty('Flag', 'Boolean LongWord', iptRW);
@@ -7143,6 +7342,7 @@ begin
   cactor.RegisterProperty('CustomSound2', 'string', iptR);
   cactor.RegisterProperty('CustomSound3', 'string', iptR);
   cactor.RegisterProperty('MeleeSound', 'string', iptR);
+  cactor.RegisterProperty('RipSound', 'string', iptR);
   cactor.RegisterProperty('State', 'Integer', iptRW);
 
   cactor.RegisterMethod('procedure PlaySound(const snd: string);');
@@ -7313,6 +7513,10 @@ begin
   cmobjinfoitem.RegisterProperty('Friction', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('SpriteDX', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('SpriteDY', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('InfightingGroup', 'Integer', iptRW);
+  cmobjinfoitem.RegisterProperty('ProjectileGroup', 'Integer', iptRW);
+  cmobjinfoitem.RegisterProperty('SplashGroup', 'Integer', iptRW);
+  cmobjinfoitem.RegisterProperty('RipSound', 'string', iptRW);
 
   cmobjinfo.RegisterProperty('Item', '!TMobjInfoItem integer', iptR);
   cmobjinfo.SetDefaultPropery('Item');
@@ -7390,6 +7594,9 @@ begin
   ractor.RegisterPropertyHelper(@TRTLActorPainChance_R, @TRTLActorPainChance_W, 'PainChance');
   ractor.RegisterPropertyHelper(@TRTLActorSpriteDX_R, @TRTLActorSpriteDX_W, 'SpriteDX');
   ractor.RegisterPropertyHelper(@TRTLActorSpriteDY_R, @TRTLActorSpriteDY_W, 'SpriteDY');
+  ractor.RegisterPropertyHelper(@TRTLActorInfightingGroup_R, @TRTLActorInfightingGroup_W, 'InfightingGroup');
+  ractor.RegisterPropertyHelper(@TRTLActorProjectileGroup_R, @TRTLActorProjectileGroup_W, 'ProjectileGroup');
+  ractor.RegisterPropertyHelper(@TRTLActorSplashGroup_R, @TRTLActorSplashGroup_W, 'SplashGroup');
   ractor.RegisterPropertyHelper(@TRTLActorCustomParams_R, @TRTLActorCustomParams_W, 'CustomParams');
   ractor.RegisterPropertyHelper(@TRTLActorFlags_R, @TRTLActorFlags_W, 'Flag');
   ractor.RegisterPropertyHelper(@TRTLActorName_R, nil, 'Name');
@@ -7408,6 +7615,7 @@ begin
   ractor.RegisterPropertyHelper(@TRTLActorCustomSound2_R, nil, 'CustomSound2');
   ractor.RegisterPropertyHelper(@TRTLActorCustomSound3_R, nil, 'CustomSound3');
   ractor.RegisterPropertyHelper(@TRTLActorMeleeSound_R, nil, 'MeleeSound');
+  ractor.RegisterPropertyHelper(@TRTLActorRipSound_R, nil, 'RipSound');
   ractor.RegisterPropertyHelper(@TRTLActorState_R, @TRTLActorState_W, 'State');
   ractor.RegisterMethod(@TRTLActor.PlaySound, 'PlaySound');
   ractor.RegisterMethod(@TRTLActor.Remove, 'Remove');
@@ -7570,6 +7778,10 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemFriction_R, nil, 'Friction');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemSpriteDX_R, nil, 'SpriteDX');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemSpriteDY_R, nil, 'SpriteDY');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemInfightingGroup_R, nil, 'InfightingGroup');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemProjectileGroup_R, nil, 'ProjectileGroup');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemSplashGroup_R, nil, 'SplashGroup');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemRipSound_R, nil, 'RipSound');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemInteractState_R, nil, 'InteractState');
   {$IFDEF DOOM_OR_STRIFE}
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMissileHeight_R, nil, 'MissileHeight');
