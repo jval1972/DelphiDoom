@@ -7101,7 +7101,7 @@ begin
 
   if m.mbf21bits and MF_MBF21_HIGHERMPROB <> 0 then
   begin
-
+    m.flags4_ex := m.flags4_ex or MF4_EX_HIGHERMPROB;
   end;
 
   if m.mbf21bits and MF_MBF21_RANGEHALF <> 0 then
