@@ -382,6 +382,8 @@ const
   MF2_EX_INTERACTIVE = $80000;
   // Just appeared
   MF2_EX_JUSTAPPEARED = $100000;
+  // Don't return fire
+  MF2_EX_DONTINFIGHTMONSTERS = $200000;
 
 const
   // Bounce on floor

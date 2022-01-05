@@ -2312,14 +2312,17 @@ begin
   begin
     // Target actor is not intent on another actor,
     // so make him chase after source
-    if ((target._type = Ord(MT_CENTAUR)) and (source._type = Ord(MT_CENTAURLEADER))) or
-       ((target._type = Ord(MT_CENTAURLEADER)) and (source._type = Ord(MT_CENTAUR))) then
-      exit;
+    if target.flags2_ex and MF2_EX_DONTINFIGHTMONSTERS = 0 then
+    begin
+      if ((target._type = Ord(MT_CENTAUR)) and (source._type = Ord(MT_CENTAURLEADER))) or
+         ((target._type = Ord(MT_CENTAURLEADER)) and (source._type = Ord(MT_CENTAUR))) then
+        exit;
 
-    target.target := source;
-    target.threshold := BASETHRESHOLD;
-    if (target.state = @states[target.info.spawnstate]) and (target.info.seestate <> Ord(S_NULL)) then
-      P_SetMobjState(target, statenum_t(target.info.seestate));
+      target.target := source;
+      target.threshold := BASETHRESHOLD;
+      if (target.state = @states[target.info.spawnstate]) and (target.info.seestate <> Ord(S_NULL)) then
+        P_SetMobjState(target, statenum_t(target.info.seestate));
+    end;
   end;
 end;
 
