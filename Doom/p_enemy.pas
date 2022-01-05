@@ -454,13 +454,12 @@ begin
 
   dist := FixedInt(dist);
 
-  if actor._type = Ord(MT_VILE) then
+  if actor.flags4_ex and MF4_EX_SHORTMRANGE <> 0 then  // MT_VILE
     if dist > 14 * 64 then
     begin
       result := false; // too far away
       exit;
     end;
-
 
   if actor._type = Ord(MT_UNDEAD) then
   begin

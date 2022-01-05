@@ -570,6 +570,13 @@ begin
 
   dist := FixedInt(dist);
 
+  if actor.flags4_ex and MF4_EX_SHORTMRANGE <> 0 then
+    if dist > 14 * 64 then
+    begin
+      result := false; // too far away
+      exit;
+    end;
+  
   // villsa [STRIFE] checks for acolytes
   //  haleyjd 09/05/10: Repaired to match disassembly: Was including
   //  SHADOWGUARD in the wrong case, was missing MT_SENTINEL entirely.

@@ -426,6 +426,8 @@ const
   MF4_EX_CANNOTDROPOFF = $10;
   // Force radius damage
   MF4_EX_FORCERADIUSDMG = $20;
+  // short missile range (14 * 64)
+  MF4_EX_SHORTMRANGE = $40;
 
 // MBF21 flags
 const

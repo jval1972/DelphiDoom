@@ -690,6 +690,13 @@ begin
   if actor.info.meleestate = 0 then // No melee attack, so fire more frequently
     dist := dist - 128;
 
+  if actor.flags4_ex and MF4_EX_SHORTMRANGE <> 0 then
+    if dist > 14 * 64 then
+    begin
+      result := false; // too far away
+      exit;
+    end;
+
   if dist > 200 then
     dist := 200;
 
