@@ -7145,7 +7145,35 @@ begin
   if not P_CheckStateArgs(actor) then
     exit;
 
-    
+  typ := actor.state.params.IntVal[0] - 1;
+  if typ < 0 then
+    Exit;
+  angle := actor.state.params.IntVal[1];
+  ofs_x := actor.state.params.IntVal[2];
+  ofs_y := actor.state.params.IntVal[3];
+  ofs_z := actor.state.params.IntVal[4];
+  vel_x := actor.state.params.IntVal[5];
+  vel_y := actor.state.params.IntVal[6];
+  vel_z := actor.state.params.IntVal[7];
+
+  // calculate position offsets
+  an := actor.angle + angle * ANG1;
+  fan := an shr ANGLETOFINESHIFT;
+  dx := FixedMul(ofs_x, finecosine[fan]) - FixedMul(ofs_y, finesine[fan]);
+  dy := FixedMul(ofs_x, finesine[fan]) + FixedMul(ofs_y, finecosine[fan]);
+
+  // spawn it, yo
+  mo := P_SpawnMobj(actor.x + dx, actor.y + dy, actor.z + ofs_z, typ);
+  if mo = nil then
+    exit;
+
+  // angle dangle
+  mo.angle := an;
+
+  // set velocity
+  mo.momx := FixedMul(vel_x, finecosine[fan]) - FixedMul(vel_y, finesine[fan]);
+  mo.momy := FixedMul(vel_x, finesine[fan]) + FixedMul(vel_y, finecosine[fan]);
+  mo.momz := vel_z;
 end;
 
 end.
