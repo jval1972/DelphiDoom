@@ -430,6 +430,8 @@ const
   MF4_EX_SHORTMRANGE = $40;
   // other things ignore its attacks
   MF4_EX_DMGIGNORED = $80;
+  // higher missile attack probability
+  MF4_EX_HIGHERMPROB = $100;
 
 // MBF21 flags
 const

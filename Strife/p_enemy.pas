@@ -606,8 +606,12 @@ begin
     dist := 150;
 
   // haleyjd 20100910: Hex-Rays was leaving this out completely:
-  if (actor._type = Ord(MT_CRUSADER)) and (dist > 120) then
-    dist := 120;
+  // JVAL: 20220105 - Added the MF4_EX_HIGHERMPROB to MT_CRUSADER
+  //if (actor._type = Ord(MT_CRUSADER)) and (dist > 120) then
+  //  dist := 120;
+
+  if (actor.flags4_ex and MF4_EX_HIGHERMPROB <> 0) and (dist > 120) then
+    dist := 120;  // JVAL: Changed to 120
 
   if actor.flags3_ex and MF3_EX_MISSILEMORE <> 0 then
     dist := dist div 2;

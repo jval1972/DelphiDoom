@@ -517,6 +517,9 @@ begin
   if dist > 200 then
     dist := 200;
 
+  if (actor.flags4_ex and MF4_EX_HIGHERMPROB <> 0) and (dist > 160) then
+    dist := 160;
+
   if actor.flags3_ex and MF3_EX_MISSILEMORE <> 0 then
     dist := dist div 2;
   if actor.flags3_ex and MF3_EX_MISSILEEVENMORE <> 0 then

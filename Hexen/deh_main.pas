@@ -2338,6 +2338,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_NOBLOCKMONST');
   mobj_flags3_ex.Add('MF3_EX_NOTAUTOAIMED');
   mobj_flags3_ex.Add('MF3_EX_SLIDING');
+  // JVAL: VERSION 207
   mobj_flags3_ex.Add('MF3_EX_ABSOLUTEDAMAGE');
   mobj_flags3_ex.Add('MF3_EX_NOGRAVITYDEATH');
   mobj_flags3_ex.Add('MF3_EX_FREEZEDAMAGE');
@@ -2359,6 +2360,7 @@ begin
   mobj_flags4_ex.Add('MF4_EX_FORCERADIUSDMG');
   mobj_flags4_ex.Add('MF4_EX_SHORTMRANGE');
   mobj_flags4_ex.Add('MF4_EX_DMGIGNORED');
+  mobj_flags4_ex.Add('MF4_EX_HIGHERMPROB');
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);
