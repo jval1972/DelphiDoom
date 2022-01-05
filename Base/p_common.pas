@@ -3134,7 +3134,7 @@ var
   momx, momy, momz: fixed_t;
   newxmom: fixed_t;
   mo: Pmobj_t;
-  ang, ang1: angle_t;
+  ang, pang1: angle_t;
   flags: integer;
   chance: integer;
 begin
@@ -3166,13 +3166,13 @@ begin
   momx := actor.state.params.FixedVal[4];
   momy := actor.state.params.FixedVal[5];
   momz := actor.state.params.FixedVal[6];
-  ang1 := actor.state.params.IntVal[7];
+  pang1 := round(actor.state.params.FloatVal[7] * ANG1);
   flags := actor.state.params.IntVal[8];
 
   if flags and SIXF_ABSOLUTEANGLE = 0 then
-    ang1 := ang1 + actor.angle;
+    pang1 := pang1 + actor.angle;
 
-  ang := ang1 shr ANGLETOFINESHIFT;
+  ang := pang1 shr ANGLETOFINESHIFT;
 
   if flags and SIXF_ABSOLUTEPOSITION <> 0 then
   begin
