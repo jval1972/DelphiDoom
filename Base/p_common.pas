@@ -7077,7 +7077,7 @@ begin
 
   if m.mbf21bits and MF_MBF21_NORADIUSDMG <> 0 then
   begin
-
+    m.flags_ex := m.flags_ex or MF_EX_NORADIUSDMG;
   end;
 
   if m.mbf21bits and MF_MBF21_FORCERADIUSDMG <> 0 then
