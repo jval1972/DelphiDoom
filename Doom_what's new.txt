@@ -106,6 +106,7 @@ A_JumpXXXX() ACTORDEF functions will recognize the RANDOM keyword for setting of
 Actor evaluator can access player's mobj in weapon functions.
 Ensure that the sprite names that are overwritten by the "TEXT" dehacked keyword are in uppercase.
 Fixed angle field (#8) in A_SpawnItemEx(), also the field can be a floating point value.
+Warning message in state parameters check displays actor message.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
