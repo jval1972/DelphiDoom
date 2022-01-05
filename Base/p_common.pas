@@ -7082,7 +7082,7 @@ begin
 
   if m.mbf21bits and MF_MBF21_FORCERADIUSDMG <> 0 then
   begin
-
+    m.flags4_ex := m.flags4_ex or MF4_EX_FORCERADIUSDMG;
   end;
 
   if m.mbf21bits and MF_MBF21_HIGHERMPROB <> 0 then
