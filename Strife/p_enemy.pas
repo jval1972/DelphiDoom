@@ -3185,6 +3185,20 @@ var
   junk: line_t;
   i: integer;
 begin
+  if gamemap = 7 then
+  begin
+    if actor.flags4_ex and MF4_EX_MAP07BOSS1 <> 0 then
+    begin
+      junk.tag := 666;
+      EV_DoFloor(@junk, lowerFloorToLowest);
+    end
+    else if actor.flags4_ex and MF4_EX_MAP07BOSS2 <> 0 then
+    begin
+      junk.tag := 667;
+      EV_DoFloor(@junk, raiseToTexture);
+    end;
+  end;
+
   // only the following types can be a boss:
   if actor._type <> Ord(MT_CRUSADER) then
     if actor._type <> Ord(MT_SPECTRE_A) then

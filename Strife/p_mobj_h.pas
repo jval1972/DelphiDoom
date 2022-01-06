@@ -442,6 +442,12 @@ const
   MF4_EX_RIP = $1000;
   // Follow trace
   MF4_EX_TRACEDEFINED = $2000;
+  // Tag 666 "boss" on doom 2 map 7
+  MF4_EX_MAP07BOSS1 = $4000;
+  // Tag 667 "boss" on doom 2 map 7
+  MF4_EX_MAP07BOSS2 = $8000;
+  // Tag 666 or 667 "boss" on doom 2 map 7
+  MF4_EX_MAP07BOSS = MF4_EX_MAP07BOSS1 or MF4_EX_MAP07BOSS2;
 
 // MBF21 flags
 const
