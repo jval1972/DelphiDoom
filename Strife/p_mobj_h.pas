@@ -438,6 +438,8 @@ const
   MF4_EX_NOTHRESHOLD = $400;
   // long melee range
   MF4_EX_LONGMELEE = $800;
+  // projectile rips through targets
+  MF4_EX_RIP = $1000;
 
 // MBF21 flags
 const

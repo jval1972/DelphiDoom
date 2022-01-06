@@ -843,6 +843,48 @@ begin
       exit;
     end;
 
+    // mbf21: ripper projectile
+    if tmthing.flags4_ex and MF4_EX_RIP <> 0 then
+    begin
+      damage := ((P_Random and 3) + 2) * tmthing.info.damage;
+      if (thing.flags and MF_NOBLOOD = 0) and
+         (thing.flags_ex and MF_EX_INVULNERABLE = 0) then
+      begin
+        if thing.flags2_ex and MF2_EX_BLUEBLOOD <> 0 then
+          P_SpawnBlueBlood(tmthing.x, tmthing.y, tmthing.z, damage)
+        else if thing.flags2_ex and MF2_EX_GREENBLOOD <> 0 then
+          P_SpawnGreenBlood(tmthing.x, tmthing.y, tmthing.z, damage)
+        else
+          P_SpawnBlood(tmthing.x, tmthing.y, tmthing.z, damage);
+      end;
+
+      if tmthing.info.ripsound <> 0 then
+        S_StartSound(tmthing, tmthing.info.ripsound);
+
+      P_DamageMobj(thing, tmthing, tmthing.target, damage);
+
+      // JVAL: Pushable things
+      if (thing.flags2_ex and MF2_EX_PUSHABLE <> 0) and (tmthing.flags2_ex and MF2_EX_CANNOTPUSH = 0) then
+      begin // Push thing
+        pushfactor := thing.pushfactor;
+        if pushfactor <= 0 then
+        begin
+          thing.momx := thing.momx + tmthing.momx div 4;
+          thing.momy := thing.momy + tmthing.momy div 4;
+        end
+        else
+        begin
+          thing.momx := thing.momx + FixedMul(tmthing.momx, pushfactor);
+          thing.momy := thing.momy + FixedMul(tmthing.momy, pushfactor);
+        end;
+      end;
+
+      numspechit := 0;
+
+      result := true;
+      exit;
+    end;
+
     // damage / explode
     if tmthing.flags3_ex and MF3_EX_ABSOLUTEDAMAGE <> 0 then
       damage := tmthing.info.damage
