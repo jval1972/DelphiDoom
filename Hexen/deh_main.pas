@@ -759,6 +759,8 @@ begin
 //        mobjinfo[mobj_no].flags2_ex := mobjinfo[mobj_no].flags2_ex or MF2_EX_FRIEND;
       if isbouncy then
         mobjinfo[mobj_no].flags3_ex := mobjinfo[mobj_no].flags3_ex or MF3_EX_BOUNCE;
+
+      P_ResolveMBF21Flags(@mobjinfo[mobj_no]);
     end
 
 

@@ -719,6 +719,7 @@ begin
         end;
       end;
 
+      P_ResolveMBF21Flags(@mobjinfo[mobj_no]);
     end
 
 
