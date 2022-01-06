@@ -7165,7 +7165,7 @@ begin
   if m.mbf21bits and MF_MBF21_RIP <> 0 then
   begin
     {$IFDEF HERETIC_OR_HEXEN}
-    m.flags2 := m.flags2 or MF2_RIF;
+    m.flags2 := m.flags2 or MF2_RIP;
     {$ELSE}
     m.flags4_ex := m.flags4_ex or MF4_EX_RIP;
     {$ENDIF}
