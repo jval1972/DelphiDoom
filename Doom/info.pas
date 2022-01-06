@@ -13701,7 +13701,7 @@ const // Doom Original mobjinfo
     scale: FRACUNIT;                                                            // scale
     gravity: FRACUNIT;                                                          // gravity
     flags3_ex: 0;                                                               // flags3_ex
-    flags4_ex: 0;                                                               // flags4_ex
+    flags4_ex: MF4_EX_MAP07BOSS1;                                               // flags4_ex
     minmissilechance: 0;                                                        // minmissilechance
     floatspeed: 0;                                                              // floatspeed
     normalspeed: 0;                                                             // normalspeed
@@ -14613,7 +14613,7 @@ const // Doom Original mobjinfo
     scale: FRACUNIT;                                                            // scale
     gravity: FRACUNIT;                                                          // gravity
     flags3_ex: 0;                                                               // flags3_ex
-    flags4_ex: 0;                                                               // flags4_ex
+    flags4_ex: MF4_EX_MAP07BOSS2;                                               // flags4_ex
     minmissilechance: 0;                                                        // minmissilechance
     floatspeed: 0;                                                              // floatspeed
     normalspeed: 0;                                                             // normalspeed

@@ -2196,7 +2196,7 @@ begin
     if gamemap <> 7 then
       exit;
 
-    if (mo._type <> Ord(MT_FATSO)) and (mo._type <> Ord(MT_BABY)) then
+    if mo.flags4_ex and MF4_EX_MAP07BOSS = 0 then
       exit;
   end
   else
@@ -2279,13 +2279,13 @@ begin
   begin
     if gamemap = 7 then
     begin
-      if mo._type = Ord(MT_FATSO) then
+      if mo.flags4_ex and MF4_EX_MAP07BOSS1 <> 0 then
       begin
         junk.tag := 666;
         EV_DoFloor(@junk, lowerFloorToLowest);
         exit;
       end;
-      if mo._type = Ord(MT_BABY) then
+      if mo.flags4_ex and MF4_EX_MAP07BOSS2 <> 0 then
       begin
         junk.tag := 667;
         EV_DoFloor(@junk, raiseToTexture);

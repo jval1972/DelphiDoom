@@ -2479,6 +2479,8 @@ begin
   mobj_flags4_ex.Add('MF4_EX_NOTHRESHOLD');
   mobj_flags4_ex.Add('MF4_EX_LONGMELEE');
   mobj_flags4_ex.Add('MF4_EX_RIP');
+  mobj_flags4_ex.Add('MF4_EX_MAP07BOSS1');
+  mobj_flags4_ex.Add('MF4_EX_MAP07BOSS2');
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);
