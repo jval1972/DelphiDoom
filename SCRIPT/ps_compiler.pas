@@ -2048,7 +2048,7 @@ begin
     raise EPSCompilerException.Create(RPS_OnUseEventOnly);
   end;
 
-  if not(AllowDuplicateRegister) and IsDuplicate(FastUpperCase(Name),[dcTypes, dcProcs, dcVars]) then
+  if not AllowDuplicateRegister and IsDuplicate(FastUpperCase(Name),[dcTypes, dcProcs, dcVars]) then
       raise EPSCompilerException.CreateFmt(RPS_DuplicateIdent, [Name]);
 
   case BaseType of
@@ -13077,7 +13077,7 @@ begin
   if FType = nil then
     raise EPSCompilerException.CreateFmt(RPS_UnableToRegisterConst, [Name]);
 
-  if not(AllowDuplicateRegister) and IsDuplicate(FastUpperCase(Name),[dcProcs, dcVars, dcConsts]) then
+  if not AllowDuplicateRegister and IsDuplicate(FastUpperCase(Name),[dcProcs, dcVars, dcConsts]) then
       raise EPSCompilerException.CreateFmt(RPS_DuplicateIdent, [Name]);
 
   pc := TPSConstant.Create;
@@ -14119,7 +14119,7 @@ begin
   Parser := TPSPascalParser.Create(fkeywords, fnumkeywords);
   Parser.SetText(Decl);
 
-  if not(AllowDuplicateRegister) and (FindType(Name) <> nil) then
+  if not AllowDuplicateRegister and (FindType(Name) <> nil) then
       raise EPSCompilerException.CreateFmt(RPS_DuplicateIdent, [Name]);
 
   Result := ReadType(Name, Parser);
@@ -14244,7 +14244,7 @@ begin
     if not ParseMethod(Self, '', Decl, DOrgName, pDecl, FT) then
       raise EPSCompilerException.CreateFmt(RPS_UnableToRegisterFunction, [Decl]);
 
-    if (FindProc(DOrgName) <> InvalidVal) and not(FAllowDuplicateRegister) then
+    if (FindProc(DOrgName) <> InvalidVal) and not FAllowDuplicateRegister then
       raise EPSCompilerException.CreateFmt(RPS_DuplicateIdent, [Decl]);
 
     p := TPSRegProc.Create;
@@ -14290,7 +14290,7 @@ begin
     if not ParseMethod(Self, '', Decl, DOrgName, pDecl, FT) then
       raise EPSCompilerException.CreateFmt(RPS_UnableToRegisterFunction, [Decl]);
 
-    if (FindProc(DOrgName) <> InvalidVal) and not(FAllowDuplicateRegister) then
+    if (FindProc(DOrgName) <> InvalidVal) and not FAllowDuplicateRegister then
       raise EPSCompilerException.CreateFmt(RPS_DuplicateIdent, [Decl]);
 
     if pDecl.Result <> nil then
@@ -14335,7 +14335,7 @@ begin
   if FProcs = nil then
     raise EPSCompilerException.Create(RPS_OnUseEventOnly);
   f := FindType(Name);
-  if (f <> nil) and not(FAllowDuplicateRegister) then
+  if (f <> nil) and not FAllowDuplicateRegister then
     raise EPSCompilerException.CreateFmt(RPS_DuplicateIdent, [Name]);
 
   if (f <> nil) and (f is TPSInterfaceType) then
@@ -14377,7 +14377,7 @@ begin
   if FProcs = nil then
     raise EPSCompilerException.Create(RPS_OnUseEventOnly);
   Result := FindClass(TbtString(aClass.ClassName));
-  if (Result <> nil) and not(FAllowDuplicateRegister) then
+  if (Result <> nil) and not FAllowDuplicateRegister then
     raise EPSCompilerException.CreateFmt(RPS_DuplicateIdent, [aClass.ClassName]);
   if Result <> nil then
   begin
@@ -14400,7 +14400,7 @@ begin
   if FProcs = nil then
     raise EPSCompilerException.Create(RPS_OnUseEventOnly);
   Result := FindClass(aClass);
-  if (Result <> nil) and (Result.FInheritsFrom <> nil) and not(FAllowDuplicateRegister) then
+  if (Result <> nil) and (Result.FInheritsFrom <> nil) and not FAllowDuplicateRegister then
     raise EPSCompilerException.CreateFmt(RPS_DuplicateIdent, [aClass]);
   if Result <> nil then
   begin
