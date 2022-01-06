@@ -360,25 +360,46 @@ var
   begin
     result := '';
     acheck := strupper(aflag);
-    if Pos('MF2_EX_', acheck) = 1 then
-      acheck := Copy(acheck, 8, length(acheck) - 7)
-    else if Pos('MF_EX_', acheck) = 1 then
-      acheck := Copy(acheck, 7, length(acheck) - 6)
-    {$IFDEF HERETIC_OR_HEXEN}
-    else if Pos('MF2_', acheck) = 1 then
-      acheck := Copy(acheck, 5, length(acheck) - 4)
-    {$ENDIF}
-    else if Pos('MF_', acheck) = 1 then
-      acheck := Copy(acheck, 4, length(acheck) - 3);
+    if acheck = '' then
+    begin
+      result := inp;
+      exit;
+    end;
+    if acheck[1] = 'M' then
+    begin
+      if Pos('MF6_EX_', acheck) = 1 then
+        acheck := Copy(acheck, 8, length(acheck) - 7)
+      else if Pos('MF5_EX_', acheck) = 1 then
+        acheck := Copy(acheck, 8, length(acheck) - 7)
+      else if Pos('MF4_EX_', acheck) = 1 then
+        acheck := Copy(acheck, 8, length(acheck) - 7)
+      else if Pos('MF3_EX_', acheck) = 1 then
+        acheck := Copy(acheck, 8, length(acheck) - 7)
+      else if Pos('MF2_EX_', acheck) = 1 then
+        acheck := Copy(acheck, 8, length(acheck) - 7)
+      else if Pos('MF_EX_', acheck) = 1 then
+        acheck := Copy(acheck, 7, length(acheck) - 6)
+      {$IFDEF HERETIC_OR_HEXEN}
+      else if Pos('MF2_', acheck) = 1 then
+        acheck := Copy(acheck, 5, length(acheck) - 4)
+      {$ENDIF}
+      else if Pos('MF_', acheck) = 1 then
+        acheck := Copy(acheck, 4, length(acheck) - 3);
+    end;
     sctmp := TScriptEngine.Create(inp);
     while sctmp.GetString do
     begin
       icheck := strupper(sctmp._String);
-      if (icheck <> acheck) and
-         (icheck <> 'MF_' + acheck) and
+      if (icheck <> acheck) and (icheck[1] <> 'M') then
+        result := result + icheck + ' '
+      else if (icheck <> 'MF_' + acheck) and
          (icheck <> 'MF2_' + acheck) and
          (icheck <> 'MF_EX_' + acheck) and
-         (icheck <> 'MF2_EX_' + acheck) then
+         (icheck <> 'MF2_EX_' + acheck) and
+         (icheck <> 'MF3_EX_' + acheck) and
+         (icheck <> 'MF4_EX_' + acheck) and
+         (icheck <> 'MF5_EX_' + acheck) and
+         (icheck <> 'MF6_EX_' + acheck) then
         result := result + icheck + ' ';
     end;
     sctmp.Free;
@@ -2776,7 +2797,7 @@ begin
         else if sc.MatchString('FULLVOLSOUND') or sc.MatchString('FULLVOLSOUNDS') or
                 sc.MatchString('+FULLVOLSOUND') or sc.MatchString('+FULLVOLSOUNDS') then
         begin
-          mobj.flags2_ex := mobj.flags2_ex + ' FULLVOLDEATH FULLVOLSEE';
+          mobj.flags2_ex := mobj.flags2_ex + 'FULLVOLDEATH FULLVOLSEE ';
           sc.GetString;
         end
 
