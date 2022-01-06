@@ -2648,6 +2648,23 @@ var
   think: Pthinker_t;
   dummyLine: line_t;
 begin
+  if gamemap = 7 then
+  begin
+    if actor.flags4_ex and MF4_EX_MAP07BOSS = 0 then
+      exit;
+    if actor.flags4_ex and MF4_EX_MAP07BOSS1 <> 0 then
+    begin
+      dummyLine.tag := 666;
+      EV_DoFloor(@dummyLine, lowerFloorToLowest);
+    end
+    else if actor.flags4_ex and MF4_EX_MAP07BOSS2 <> 0 then
+    begin
+      dummyLine.tag := 667;
+      EV_DoFloor(@dummyLine, raiseToTexture);
+    end;
+    exit;
+  end;
+
   if gamemap <> 8 then  // Not a boss level
     exit;
 
