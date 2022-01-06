@@ -822,7 +822,8 @@ begin
 
     if tmthing.flags2 and MF2_RIP <> 0 then
     begin
-      if thing.flags and MF_NOBLOOD = 0 then
+      if (thing.flags and MF_NOBLOOD = 0) and
+         (thing.flags_ex and MF_EX_INVULNERABLE = 0) then
       begin // Ok to spawn some blood
         P_RipperBlood(tmthing);
       end;

@@ -118,6 +118,7 @@ Added MF4_EX_HIGHERMPROB mobj flag. When set the actor has higher missile attack
 Added MF4_EX_RANGEHALF mobj flag. When set the actor use half distance for missile attack probability.
 Added MF4_EX_NOTHRESHOLD mobj flag. When set the actor can target other actors without checking threshold.
 Added MF4_EX_LONGMELEE mobj flag. When set the actor has long melee range.
+Ripper projectile will not spawn blood to invulnerable things.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
