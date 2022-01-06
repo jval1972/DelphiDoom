@@ -1282,6 +1282,14 @@ begin
       mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
       mobj.flags5_ex := 0;
       mobj.flags6_ex := 0;
+      mobj.playerfollowtime := 0;
+      mobj.tracefollowtimestamp := 0;
+      mobj.tracex := 0;
+      mobj.tracey := 0;
+      mobj.tracez := 0;
+      mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
+      mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
+      mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
     end
     else if LOADVERSION = VERSION141 then
     begin
@@ -1311,6 +1319,14 @@ begin
       mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
       mobj.flags5_ex := 0;
       mobj.flags6_ex := 0;
+      mobj.playerfollowtime := 0;
+      mobj.tracefollowtimestamp := 0;
+      mobj.tracex := 0;
+      mobj.tracey := 0;
+      mobj.tracez := 0;
+      mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
+      mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
+      mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
     end
     else if LOADVERSION <= VERSION204 then
     begin
@@ -1338,6 +1354,14 @@ begin
       mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
       mobj.flags5_ex := 0;
       mobj.flags6_ex := 0;
+      mobj.playerfollowtime := 0;
+      mobj.tracefollowtimestamp := 0;
+      mobj.tracex := 0;
+      mobj.tracey := 0;
+      mobj.tracez := 0;
+      mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
+      mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
+      mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
     end
     else if LOADVERSION <= VERSION205 then
     begin
@@ -1355,6 +1379,14 @@ begin
       mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
       mobj.flags5_ex := 0;
       mobj.flags6_ex := 0;
+      mobj.playerfollowtime := 0;
+      mobj.tracefollowtimestamp := 0;
+      mobj.tracex := 0;
+      mobj.tracey := 0;
+      mobj.tracez := 0;
+      mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
+      mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
+      mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
     end
     else if LOADVERSION <= VERSION206 then
     begin
@@ -1367,6 +1399,14 @@ begin
       mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
       mobj.flags5_ex := 0;
       mobj.flags6_ex := 0;
+      mobj.playerfollowtime := 0;
+      mobj.tracefollowtimestamp := 0;
+      mobj.tracex := 0;
+      mobj.tracey := 0;
+      mobj.tracez := 0;
+      mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
+      mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
+      mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
     end
     else
     begin
