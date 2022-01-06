@@ -258,6 +258,8 @@ var
 
   music_idx: integer;
 
+  sprite_idx: integer;
+
   misc_idx: integer;
   misc_val: integer;
 
@@ -1363,6 +1365,55 @@ begin
     ////////////////////////////////////////////////////////////////////////////
     // Parse sprite ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
+      while true do
+      begin
+        if not DEH_NextLine(s, str, i) then
+          break;
+
+        if Pos('=', str) = 0 then
+        begin
+          mustnextline := false; // Already got line
+          break;
+        end;
+
+        splitstring(str, token1, token2, '=');
+
+        if length(token1) <> 4 then
+        begin
+          I_Warning('DEH_Parse(): Sprite name with %d characters = %s'#13#10, [length(token1), token1]);
+          Continue;
+        end;
+
+        if length(token2) <> 4 then
+        begin
+          I_Warning('DEH_Parse(): Sprite name with %d characters = %s'#13#10, [length(token2), token2]);
+          Continue;
+        end;
+
+        token1 := strupper(token1);
+        token2 := strupper(token2);
+
+        // JVAL: Check the original sprite names (https://eternity.youfailit.net/wiki/DeHackEd_/_BEX_Reference/Eternity_Extension:_SPRITES_Block)
+        sprite_idx := -1;
+        for j := 0 to Ord(DO_NUMSPRITES) - 1 do
+          if DO_sprnames[j] = token1 then
+          begin
+            sprite_idx := j;
+            break;
+          end;
+
+        if sprite_idx = -1 then
+        begin
+          I_Warning('DEH_Parse(): Can not find sprite = %s'#13#10, [token1]);
+          Continue;
+        end;
+
+        sprnames[sprite_idx] :=
+          Ord(token2[1]) +
+          Ord(token2[2]) shl 8 +
+          Ord(token2[3]) shl 16 +
+          Ord(token2[4]) shl 24;
+      end;
     end
 
 
