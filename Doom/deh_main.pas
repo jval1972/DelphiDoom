@@ -240,7 +240,7 @@ var
   music_idx: integer;
 
   sprite_idx: integer;
-  
+
   misc_idx: integer;
   misc_val: integer;
 
