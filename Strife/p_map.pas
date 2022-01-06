@@ -1186,6 +1186,8 @@ begin
     end;
 
     if thing.flags4_ex and MF4_EX_CANNOTDROPOFF <> 0 then
+      dropoffmargin := 0
+    else
     begin
       // JVAL: 20210210 - maxdropoffheight field
       if thing.info.maxdropoffheight > 0 then
@@ -1196,9 +1198,7 @@ begin
       end
       else
         dropoffmargin := 32 * FRACUNIT; // haleyjd 20110204 [STRIFE]: dropoff height changed 24 -> 32
-    end
-    else
-      dropoffmargin := 0;
+    end;
 
     // JVAL: Version 204
     if G_PlayingEngineVersion >= VERSION204 then
