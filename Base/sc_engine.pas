@@ -64,6 +64,7 @@ type
     faliases: TDStringList;
   protected
     function fToken: string;
+    function fuToken: string; // Upercase token
   public
     constructor Create(const tx: string); virtual;
     destructor Destroy; override;
@@ -157,6 +158,16 @@ var
 begin
   result := StringVal(sc_String);
   idx := faliases.IndexOfName(strupper(result));
+  if idx >= 0 then
+    result := faliases.ValuesIdx[idx];
+end;
+
+function TScriptEngine.fuToken: string; // Upercase token
+var
+  idx: integer;
+begin
+  result := strupper(StringVal(sc_String));
+  idx := faliases.IndexOfName(result);
   if idx >= 0 then
     result := faliases.ValuesIdx[idx];
 end;
@@ -385,7 +396,7 @@ end;
 
 function TScriptEngine.Compare(const txt: string): boolean;
 begin
-  result := strupper(txt) = strupper(fToken);
+  result := strupper(txt) = fuToken;
 end;
 
 procedure TScriptEngine.AddAlias(const src, dest: string);
