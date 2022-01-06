@@ -77,10 +77,8 @@ uses
   g_game,
   m_rnd,
   p_common,
-  p_local,
   p_maputl,
   p_tick,
-  p_setup,
   p_sight,
   r_main,
   tables;

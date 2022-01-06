@@ -45,7 +45,6 @@ uses
   p_local,
   p_mobj_h,
   p_maputl,
-  p_playertrace,
   p_setup,
   r_main,
   tables;
