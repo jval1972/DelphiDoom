@@ -54,6 +54,10 @@ uses
 
 function getNextSector(line: Pline_t; sec: Psector_t): Psector_t;
 
+function twoSided(sector: integer; line: integer): boolean;
+
+function getSide(currentSector: integer; line: integer; side: integer): Pside_t;
+
 function P_FindLowestFloorSurrounding(sec: Psector_t): fixed_t;
 
 function P_FindHighestFloorSurrounding(sec: Psector_t): fixed_t;
@@ -288,7 +292,7 @@ type
     FLEV_LOWERFLOORTOLOWEST,     // lower floor to lowest surrounding floor
     FLEV_LOWERFLOORBYVALUE,
     FLEV_RAISEFLOOR,             // raise floor to lowest surrounding CEILING
-    FLEV_RAISEFLOORTONEAREST,  // raise floor to next highest surrounding floor
+    FLEV_RAISEFLOORTONEAREST,    // raise floor to next highest surrounding floor
     FLEV_RAISEFLOORBYVALUE,
     FLEV_RAISEFLOORCRUSH,
     FLEV_RAISEBUILDSTEP,        // One step of a staircase
@@ -296,7 +300,8 @@ type
     FLEV_LOWERBYVALUETIMES8,
     FLEV_LOWERTIMES8INSTANT,
     FLEV_RAISETIMES8INSTANT,
-    FLEV_MOVETOVALUETIMES8
+    FLEV_MOVETOVALUETIMES8,
+    FLEV_RAISETOTEXTURE
   );
 
   floormove_t = record
@@ -419,6 +424,27 @@ begin
   memset(@LavaInflictor, 0, SizeOf(mobj_t));
   LavaInflictor._type := Ord(MT_CIRCLEFLAME);
   LavaInflictor.flags2 := MF2_FIREDAMAGE or MF2_NODMGTHRUST;
+end;
+
+//
+// getSide()
+// Will return a side_t*
+//  given the number of the current sector,
+//  the line number, and the side (0/1) that you want.
+//
+function getSide(currentSector: integer; line: integer; side: integer): Pside_t;
+begin
+  result := @sides[(sectors[currentSector].lines[line]).sidenum[side]];
+end;
+
+//
+// twoSided()
+// Given the sector number and the line number,
+//  it will tell you whether the line is two-sided or not.
+//
+function twoSided(sector: integer; line: integer): boolean;
+begin
+  result := sectors[sector].lines[line].sidenum[1] <> -1;
 end;
 
 //

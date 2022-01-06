@@ -55,7 +55,7 @@ function T_MovePlane(sector: Psector_t; speed: fixed_t; dest: fixed_t;
 
 procedure T_MoveFloor(floor: Pfloormove_t);
 
-function EV_DoFloor(line: Pline_t; args: PByteArray; floortype: floor_e): boolean;
+function EV_DoFloor(line: Pline_t; args: PByteArray; floortype: floor_e; const tag1: integer = -1): boolean;
 
 function EV_BuildStairs(line: Pline_t; args: PByteArray; dir: integer;
   stairsType: stairs_e): boolean;
@@ -284,15 +284,21 @@ end;
 //
 //      HANDLE FLOOR TYPES
 //
-function EV_DoFloor(line: Pline_t; args: PByteArray; floortype: floor_e): boolean;
+function EV_DoFloor(line: Pline_t; args: PByteArray; floortype: floor_e; const tag1: integer = -1): boolean;
 var
   secnum: integer;
   sec: Psector_t;
   floor: Pfloormove_t;
+  minsize: integer;
+  side: Pside_t;
+  i: integer;
 
   function _FindSectorFromTag: integer;
   begin
-    secnum := P_FindSectorFromTag(args[0], secnum);
+    if tag1 < 0 then
+      secnum := P_FindSectorFromTag(args[0], secnum)
+    else
+      secnum := P_FindSectorFromTag(tag1, secnum);
     result := secnum;
   end;
 
@@ -396,6 +402,31 @@ begin
             floor.direction := -1
           else // already at lowest position
             result := false;
+        end;
+      FLEV_RAISETOTEXTURE:
+        begin
+          floor.direction := 1;
+          floor.sector := sec;
+          minsize := 32000 * FRACUNIT; // Don't overflow
+          for i := 0 to sec.linecount - 1 do
+          begin
+            if twoSided(secnum, i) then
+            begin
+              side := getSide(secnum, i, 0);
+              if side.bottomtexture >= 0 then
+                if textureheight[side.bottomtexture] < minsize then
+                  minsize := textureheight[side.bottomtexture];
+              side := getSide(secnum, i, 1);
+              if side.bottomtexture >= 0 then
+                if textureheight[side.bottomtexture] < minsize then
+                  minsize := textureheight[side.bottomtexture];
+            end;
+          end;
+          floor.floordestheight := FixedInt(floor.sector.floorheight) + FixedInt(minsize);
+          if floor.floordestheight > 32000 then
+            floor.floordestheight := 32000 * FRACUNIT
+          else
+            floor.floordestheight := floor.floordestheight * FRACUNIT;
         end;
       else
         result := false;

@@ -375,6 +375,7 @@ function P_TryWalk(actor: Pmobj_t): boolean;
 
 function P_UpdateMorphedMonster(actor: Pmobj_t; tics: integer): boolean;
 
+procedure A_BossDeath(actor: Pmobj_t);
 
 type
   dirtype_t = (
@@ -409,6 +410,7 @@ uses
   p_mobj,
   p_common,
   p_extra,
+  p_floor,
   p_tick,
   p_inter,
   p_map,
@@ -5565,5 +5567,34 @@ begin
   end;
 end;
 
+procedure A_BossDeath(actor: Pmobj_t);
+var
+  dummyLine: Pline_t;
+  args: array[0..4] of byte;
+begin
+  if gamemap = 7 then
+  begin
+    if actor.flags4_ex and MF4_EX_MAP07BOSS1 <> 0 then
+    begin
+      args[0] := 0;
+      args[1] := 8;
+      args[2] := 0;
+      args[3] := 0;
+      args[4] := 0;
+      EV_DoFloor(@dummyLine, @args, FLEV_LOWERFLOORTOLOWEST, 666);
+      exit;
+    end;
+    if actor.flags4_ex and MF4_EX_MAP07BOSS2 <> 0 then
+    begin
+      args[0] := 0;
+      args[1] := 8;
+      args[2] := 0;
+      args[3] := 0;
+      args[4] := 0;
+      EV_DoFloor(@dummyLine, @args, FLEV_RAISETOTEXTURE, 667);
+      exit;
+    end;
+  end;
+end;
 
 end.

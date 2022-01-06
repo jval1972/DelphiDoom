@@ -468,6 +468,12 @@ const
   MF4_EX_LONGMELEE = $800;
   // Follow trace
   MF4_EX_TRACEDEFINED = $1000;
+  // Tag 666 "boss" on map 7
+  MF4_EX_MAP07BOSS1 = $2000;
+  // Tag 667 "boss" on map 7
+  MF4_EX_MAP07BOSS2 = $4000;
+  // Tag 666 or 667 "boss" on map 7
+  MF4_EX_MAP07BOSS = MF4_EX_MAP07BOSS1 or MF4_EX_MAP07BOSS2;
 
 // MBF21 flags
 const

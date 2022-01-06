@@ -2418,6 +2418,8 @@ begin
   mobj_flags4_ex.Add('MF4_EX_NOTHRESHOLD');
   mobj_flags4_ex.Add('MF4_EX_LONGMELEE');
   mobj_flags4_ex.Add('MF4_EX_TRACEDEFINED');
+  mobj_flags4_ex.Add('MF4_EX_MAP07BOSS1');
+  mobj_flags4_ex.Add('MF4_EX_MAP07BOSS2');
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);
@@ -3023,6 +3025,7 @@ begin
   DEH_AddAction(@A_GoToIfTracerCustomParamGreater, 'A_GoToIfTracerCustomParamGreater(param: string, value: integer, state: state_t)');
   DEH_AddAction(@A_SetMonsterInfight, 'A_SetMonsterInfight()');
   DEH_AddAction(@A_UnSetMonsterInfight, 'A_UnSetMonsterInfight()');
+  DEH_AddAction(@A_BossDeath, 'A_BossDeath()');
 
   for i := 0 to dehnumactions - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
