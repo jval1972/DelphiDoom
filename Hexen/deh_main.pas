@@ -2205,8 +2205,8 @@ begin
   mobj_flags.Add('MF_SKULLFLY');
   mobj_flags.Add('MF_NOTDMATCH');
   mobj_flags.Add('MF_TRANSLATION');
-  mobj_flags.Add('MF_UNUSED1');
-  mobj_flags.Add('MF_UNUSED2');
+  mobj_flags.Add('MF_TRANSLATION2');
+  mobj_flags.Add('MF_TRANSLATION3');
   mobj_flags.Add('MF_UNUSED3');
   mobj_flags.Add('MF_UNUSED4');
   mobj_flags.Add('MF_TRANSLUCENT');
