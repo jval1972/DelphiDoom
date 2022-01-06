@@ -115,6 +115,7 @@ Added MF4_EX_RANGEHALF mobj flag. When set the actor use half distance for missi
 Added MF4_EX_NOTHRESHOLD mobj flag. When set the actor can target other actors without checking threshold.
 Added MF4_EX_LONGMELEE mobj flag. When set the actor has long melee range.
 Added MF4_EX_RIP mobj flag. When set the projectile rips through targets.
+Parse [SPRITES] DEHACKED/BEX extention.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
