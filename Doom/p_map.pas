@@ -614,6 +614,45 @@ begin
     IsIntegerInRange(Bz2, Az1, Az2);
 end;
 
+type
+  bloodtype_t = (bt_puff, bt_red, bt_blue, bt_green);
+
+function P_BloodType(const th: Pmobj_t): bloodtype_t;
+var
+  confcoloredblood: boolean;
+begin
+  if th.flags and MF_NOBLOOD <> 0 then
+    result := bt_puff
+  else
+  begin
+    // JVAL 18/09/2009 Added Blue and Green blood spawners
+    if G_PlayingEngineVersion < VERSION110 then
+      result := bt_red
+    else if G_PlayingEngineVersion < VERSION206 then
+    begin
+      if th.flags2_ex and MF2_EX_BLUEBLOOD <> 0 then
+        result := bt_blue
+      else if th.flags2_ex and MF2_EX_GREENBLOOD <> 0 then
+        result := bt_green
+      else
+        result := bt_red;
+    end
+    else
+    begin
+      if demoplayback or demorecording then
+        confcoloredblood := true
+      else
+        confcoloredblood := p_confcoloredblood;
+      if (th.flags2_ex and MF2_EX_BLUEBLOOD <> 0) or (confcoloredblood and (th.flags3_ex and MF3_EX_CONFBLUEBLOOD <> 0)) then
+        result := bt_blue
+      else if (th.flags2_ex and MF2_EX_GREENBLOOD <> 0) or (confcoloredblood and (th.flags3_ex and MF3_EX_CONFGREENBLOOD <> 0)) then
+        result := bt_green
+      else
+        result := bt_red
+    end;
+  end;
+end;
+
 //
 // PIT_CheckThing
 //
@@ -842,6 +881,47 @@ begin
         result := true;
         exit;
       end;
+
+    // mbf21: ripper projectile
+    if tmthing.flags4_ex and MF4_EX_RIP <> 0 then
+    begin
+      damage := ((P_Random and 3) + 2) * tmthing.info.damage;
+      if (thing.flags and MF_NOBLOOD = 0) and
+         (thing.flags_ex and MF_EX_INVULNERABLE = 0) then
+      begin
+        case P_BloodType(thing) of
+          bt_red: P_SpawnBlood(tmthing.x, tmthing.y, tmthing.z, damage);
+          bt_blue: P_SpawnBlueBlood(tmthing.x, tmthing.y, tmthing.z, damage);
+          bt_green: P_SpawnGreenBlood(tmthing.x, tmthing.y, tmthing.z, damage);
+        end;
+      end;
+
+      if tmthing.info.ripsound <> 0 then
+        S_StartSound(tmthing, tmthing.info.ripsound);
+
+      P_DamageMobj(thing, tmthing, tmthing.target, damage);
+
+      // JVAL: Pushable things
+      if (thing.flags2_ex and MF2_EX_PUSHABLE <> 0) and (tmthing.flags2_ex and MF2_EX_CANNOTPUSH = 0) then
+      begin // Push thing
+        pushfactor := thing.pushfactor;
+        if pushfactor <= 0 then
+        begin
+          thing.momx := thing.momx + tmthing.momx div 4;
+          thing.momy := thing.momy + tmthing.momy div 4;
+        end
+        else
+        begin
+          thing.momx := thing.momx + FixedMul(tmthing.momx, pushfactor);
+          thing.momy := thing.momy + FixedMul(tmthing.momy, pushfactor);
+        end;
+      end;
+
+      numspechit := 0;
+
+      result := true;
+      exit;
+    end;
 
     // damage / explode
     if tmthing.flags3_ex and MF3_EX_ABSOLUTEDAMAGE <> 0 then
@@ -1882,45 +1962,6 @@ begin
   linetarget := th;
 
   result := false; // don't go any farther
-end;
-
-type
-  bloodtype_t = (bt_puff, bt_red, bt_blue, bt_green);
-
-function P_BloodType(const th: Pmobj_t): bloodtype_t;
-var
-  confcoloredblood: boolean;
-begin
-  if th.flags and MF_NOBLOOD <> 0 then
-    result := bt_puff
-  else
-  begin
-    // JVAL 18/09/2009 Added Blue and Green blood spawners
-    if G_PlayingEngineVersion < VERSION110 then
-      result := bt_red
-    else if G_PlayingEngineVersion < VERSION206 then
-    begin
-      if th.flags2_ex and MF2_EX_BLUEBLOOD <> 0 then
-        result := bt_blue
-      else if th.flags2_ex and MF2_EX_GREENBLOOD <> 0 then
-        result := bt_green
-      else
-        result := bt_red;
-    end
-    else
-    begin
-      if demoplayback or demorecording then
-        confcoloredblood := true
-      else
-        confcoloredblood := p_confcoloredblood;
-      if (th.flags2_ex and MF2_EX_BLUEBLOOD <> 0) or (confcoloredblood and (th.flags3_ex and MF3_EX_CONFBLUEBLOOD <> 0)) then
-        result := bt_blue
-      else if (th.flags2_ex and MF2_EX_GREENBLOOD <> 0) or (confcoloredblood and (th.flags3_ex and MF3_EX_CONFGREENBLOOD <> 0)) then
-        result := bt_green
-      else
-        result := bt_red
-    end;
-  end;
 end;
 
 //
