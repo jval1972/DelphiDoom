@@ -76,6 +76,7 @@ uses
   p_tick,
   p_pspr,
   p_local,
+  p_playertrace,
   p_setup,    // JVAL: 3d Floors
   p_slopes,   // JVAL: Slopes
   p_3dfloors, // JVAL: Slopes
@@ -864,6 +865,8 @@ begin
     exit;
   end;
 
+  P_PlayerHistoryNotify(player);  // JVAL: 20211224 - Notify player history
+  
   if player.chickenTics <> 0 then
     P_ChickenPlayerThink(player);
 

@@ -40,6 +40,8 @@ uses
 
 function P_CheckSight(t1: Pmobj_t; t2: Pmobj_t): boolean;
 
+function P_CheckSightXYZ(const x, y, z: fixed_t; t2: Pmobj_t): boolean;
+
 function P_SightPathTraverse(x1, y1, x2, y2: fixed_t): boolean;
 
 function P_CheckCameraSight(camx, camy, camz: fixed_t; mo: Pmobj_t): boolean;
@@ -653,9 +655,9 @@ begin
         exit;
       end;
     end
-    else
     // JVAL 20191206 - Fix problem reported by slayermbm
     // https://www.doomworld.com/forum/topic/92113-delphidoom-204720-updated-oct-12-2019/?do=findComment&comment=2051252
+    else
     begin
       if midn > -1 then
         if Psubsector_t(t1.subsector).sector = Psubsector_t(t2.subsector).sector then
@@ -675,6 +677,11 @@ begin
   bottomslope := t2.z - sightzstart;
 
   result := P_SightPathTraverse(t1.x, t1.y, t2.x, t2.y);
+end;
+
+function P_CheckSightXYZ(const x, y, z: fixed_t; t2: Pmobj_t): boolean;
+begin
+  Result := P_CheckCameraSight(x, y, z, t2);
 end;
 
 //

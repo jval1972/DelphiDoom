@@ -90,7 +90,7 @@ uses
   i_tmp,
   p_3dfloors, // JVAL: 3d floors
   p_local,    // JVAL: sector gravity (VERSION 204)
-  p_dogs,
+  p_playertrace,
   p_pspr_h,
   p_setup,
   p_mobj_h,

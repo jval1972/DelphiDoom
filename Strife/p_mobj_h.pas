@@ -440,6 +440,8 @@ const
   MF4_EX_LONGMELEE = $800;
   // projectile rips through targets
   MF4_EX_RIP = $1000;
+  // Follow trace
+  MF4_EX_TRACEDEFINED = $2000;
 
 // MBF21 flags
 const
@@ -637,6 +639,11 @@ type
     spriteDY: integer;
     flags5_ex: integer;  // JVAL extended flags (MF5_EX_????)
     flags6_ex: integer;  // JVAL extended flags (MF6_EX_????)
+    playerfollowtime: integer;      // JVAL 20211224 - Dogs follow player
+    tracefollowtimestamp: integer;  // JVAL 20211224 - Dogs follow player
+    tracex: integer;
+    tracey: integer;
+    tracez: integer;
     // mbf21+
     infighting_group: integer;
     projectile_group: integer;

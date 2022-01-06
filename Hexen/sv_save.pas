@@ -87,6 +87,7 @@ uses
   a_action,
   p_3dfloors,
   p_local,
+  p_playertrace,
   p_mobj_h,
   p_floor,
   p_setup,
@@ -727,6 +728,8 @@ begin
     if tempPlayer.plinetarget <> nil then
       tempPlayer.plinetarget := Pmobj_t(tempPlayer.plinetarget.key);
     StreamOutBuffer(@tempPlayer, SizeOf(player_t));
+    // JVAL: 20211224 - Save player history
+    StreamOutBuffer(@playerhistory[i], SizeOf(playertracehistory_t));
   end;
 end;
 
@@ -774,6 +777,7 @@ begin
       players[i].lookdir16 := players[i].lookdir * 16; // JVAL Smooth Look Up/Down
       Pticcmd_t202(@players[i].cmd)^ := players[i].cmd202;
       players[i].cmd.lookupdown16 := (players[i].cmd.lookfly and 15) * 256;
+      P_ClearPlayerHistory(@players[i]);
       incp(saveptr, SizeOf(player_t141));
     end
     else if LOADVERSION <= VERSION142 then
@@ -787,6 +791,7 @@ begin
       players[i].lookdir16 := players[i].lookdir * 16; // JVAL Smooth Look Up/Down
       Pticcmd_t202(@players[i].cmd)^ := players[i].cmd202;
       players[i].cmd.lookupdown16 := (players[i].cmd.lookfly and 15) * 256;
+      P_ClearPlayerHistory(@players[i]);
       incp(saveptr, SizeOf(player_t142));
     end
     else if LOADVERSION <= VERSION205 then
@@ -797,18 +802,22 @@ begin
         players[i].quakeintensity := FRACUNIT
       else
         players[i].quakeintensity := 0;
+      P_ClearPlayerHistory(@players[i]);
       incp(saveptr, SizeOf(player_t205));
     end
     else if LOADVERSION <= VERSION206 then
     begin
       ZeroMemory(@players[i], SizeOf(player_t));
       memcpy(@players[i], saveptr, SizeOf(player_t206));
+      P_ClearPlayerHistory(@players[i]);
       incp(saveptr, SizeOf(player_t206));
     end
     else
     begin
       memcpy(@players[i], saveptr, SizeOf(player_t));
       incp(saveptr, SizeOf(player_t));
+      memcpy(@playerhistory[i], saveptr, SizeOf(playertracehistory_t));
+      incp(saveptr, SizeOf(playertracehistory_t));
     end;
     players[i].mo := nil; // Will be set when unarc thinker
     P_ClearMessage(@players[i]);

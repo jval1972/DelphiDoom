@@ -123,6 +123,7 @@ uses
   p_mobj,
   p_tick,
   p_pspr,
+  p_playertrace,
   p_local,
   p_setup,    // JVAL: 3d Floors
   p_slopes,   // JVAL: Slopes
@@ -1122,6 +1123,8 @@ begin
     P_DeathThink(player);
     exit;
   end;
+
+  P_PlayerHistoryNotify(player);  // JVAL: 20211224 - Notify player history
 
   if player.jumpTics > 0 then
     dec(player.jumpTics);

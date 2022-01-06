@@ -428,6 +428,8 @@ const
   MF4_EX_NOTHRESHOLD = $400;
   // long melee range
   MF4_EX_LONGMELEE = $800;
+  // Follow trace
+  MF4_EX_TRACEDEFINED = $1000;
 
 // MBF21 flags
 const
@@ -609,6 +611,11 @@ type
     spriteDY: integer;
     flags5_ex: integer;  // JVAL extended flags (MF5_EX_????)
     flags6_ex: integer;  // JVAL extended flags (MF6_EX_????)
+    playerfollowtime: integer;      // JVAL 20211224 - Dogs follow player
+    tracefollowtimestamp: integer;  // JVAL 20211224 - Dogs follow player
+    tracex: integer;
+    tracey: integer;
+    tracez: integer;
     // mbf21+
     infighting_group: integer;
     projectile_group: integer;

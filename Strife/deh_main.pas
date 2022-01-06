@@ -2300,6 +2300,7 @@ begin
   mobj_flags4_ex.Add('MF4_EX_NOTHRESHOLD');
   mobj_flags4_ex.Add('MF4_EX_LONGMELEE');
   mobj_flags4_ex.Add('MF4_EX_RIP');
+  mobj_flags4_ex.Add('MF4_EX_TRACEDEFINED');
 
   mobj_flags3_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags3_ex_hash.AssignList(mobj_flags3_ex);

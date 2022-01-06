@@ -119,7 +119,7 @@ uses
   z_zone,
   m_rnd,
   doomdef,
-  p_dogs,
+  p_playertrace,
   p_gravity,
   p_local,
   p_map,

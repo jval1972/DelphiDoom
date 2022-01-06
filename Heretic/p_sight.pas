@@ -40,6 +40,8 @@ uses
 
 function P_CheckSight(t1: Pmobj_t; t2: Pmobj_t): boolean;
 
+function P_CheckSightXYZ(const x, y, z: fixed_t; t2: Pmobj_t): boolean;
+
 function P_CheckCameraSight(const camx, camy, camz: fixed_t; const mo: Pmobj_t): boolean;
 
 function P_CheckVisibility(const atx, aty, atz: fixed_t; const atradious: fixed_t): boolean;
@@ -460,9 +462,9 @@ begin
         exit;
       end;
     end
-    else
     // JVAL 20191206 - Fix problem reported by slayermbm
     // https://www.doomworld.com/forum/topic/92113-delphidoom-204720-updated-oct-12-2019/?do=findComment&comment=2051252
+    else
     begin
       if midn > -1 then
         if Psubsector_t(t1.subsector).sector = Psubsector_t(t2.subsector).sector then
@@ -512,6 +514,11 @@ begin
 
   // the head node is the last node output
   result := P_CrossBSPNode(numnodes - 1, @los);
+end;
+
+function P_CheckSightXYZ(const x, y, z: fixed_t; t2: Pmobj_t): boolean;
+begin
+  Result := P_CheckCameraSight(x, y, z, t2);
 end;
 
 //

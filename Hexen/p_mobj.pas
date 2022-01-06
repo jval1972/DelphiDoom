@@ -157,6 +157,7 @@ uses
   z_zone,
   m_rnd,
   doomdef,
+  p_playertrace,
   p_gravity,
   p_local,
   p_map,
@@ -1747,6 +1748,8 @@ begin
   p.crouchheight := 0;
   p.plinetarget := nil;
   p.pcrosstic := leveltime;
+  // JVAL: 20211224 - Clear player history
+  P_ClearPlayerHistory(p);
 
   // setup gun psprite
   P_SetupPsprites(p);

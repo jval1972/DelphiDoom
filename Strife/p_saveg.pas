@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -100,6 +100,7 @@ uses
   i_system,
   i_tmp,
   p_3dfloors,
+  p_playertrace,
   p_local,
   p_pspr_h,
   p_setup,
@@ -161,6 +162,10 @@ begin
       dest.lastdialogtalker := Pmobj_t(dest.lastdialogtalker.key);
     if dest.plinetarget <> nil then
       dest.plinetarget := Pmobj_t(dest.plinetarget.key);
+
+    // JVAL: 20211224 - Save player history
+    memcpy(save_p, @playerhistory[i], SizeOf(playertracehistory_t));
+    incp(pointer(save_p), SizeOf(playertracehistory_t));
   end;
 end;
 
@@ -187,6 +192,9 @@ begin
       if userload then
         memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
+      // JVAL: 20211224 - Save player history
+      memcpy(save_p, @playerhistory[i], SizeOf(playertracehistory_t));
+      incp(pointer(save_p), SizeOf(playertracehistory_t));
     end
     else if savegameversion >= VERSION206 then
     begin
@@ -318,6 +326,7 @@ begin
         players[i].pcrosstic := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t206));
+      P_ClearPlayerHistory(@players[i]);
     end
     else if savegameversion >= VERSION204 then
     begin
@@ -439,6 +448,7 @@ begin
         players[i].pcrosstic := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t205));
+      P_ClearPlayerHistory(@players[i]);
     end
     else if savegameversion = VERSION203 then
     begin
@@ -560,6 +570,7 @@ begin
         players[i].pcrosstic := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t203));
+      P_ClearPlayerHistory(@players[i]);
     end
     else if savegameversion = VERSION122 then
     begin
@@ -588,6 +599,7 @@ begin
         players[i].pcrosstic := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t122));
+      P_ClearPlayerHistory(@players[i]);
     end
     else if savegameversion <= VERSION121 then
     begin
@@ -616,6 +628,7 @@ begin
         players[i].pcrosstic := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t121));
+      P_ClearPlayerHistory(@players[i]);
     end
     else
       I_Error('P_UnArchivePlayers(): Unsupported saved game version: %d', [savegameversion]);
@@ -628,7 +641,13 @@ begin
     if userload then
       for j := 0 to Ord(NUMPSPRITES) - 1 do
         if players[i].psprites[j].state <> nil then
-          players[i].psprites[j].state := @states[integer(players[i].psprites[j].state)];
+
+    // JVAL: 202111224 - Load player history
+    if savegameversion >= VERSION207 then
+    begin
+      memcpy(@playerhistory[i], save_p, SizeOf(playertracehistory_t));
+      incp(pointer(save_p), SizeOf(playertracehistory_t));
+    end;
   end;
 end;
 

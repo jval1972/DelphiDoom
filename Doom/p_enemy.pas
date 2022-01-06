@@ -202,7 +202,7 @@ uses
   info,
   info_common,
   m_rnd,
-  p_dogs,
+  p_playertrace,
   p_map,
   p_maputl,
   p_setup,

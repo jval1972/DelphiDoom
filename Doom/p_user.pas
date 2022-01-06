@@ -64,6 +64,7 @@ uses
 {$ENDIF}
   g_game,
   p_genlin,
+  p_playertrace,
   p_dogs,
   p_mobj,
   p_tick,

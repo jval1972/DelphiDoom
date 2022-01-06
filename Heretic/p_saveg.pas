@@ -92,6 +92,7 @@ uses
   i_tmp,
   p_3dfloors,
   p_local,
+  p_playertrace,
   p_pspr_h,
   p_setup,
   p_mobj_h,
@@ -149,6 +150,10 @@ begin
 
     if dest.plinetarget <> nil then
       dest.plinetarget := Pmobj_t(dest.plinetarget.key);
+
+    // JVAL: 20211224 - Save player history
+    memcpy(save_p, @playerhistory[i], SizeOf(playertracehistory_t));
+    incp(pointer(save_p), SizeOf(playertracehistory_t));
   end;
 end;
 
@@ -178,6 +183,7 @@ begin
     p.nextoof := 0;
 
     // version 207
+    P_ClearPlayerHistory(p);
     p.oldcrouch := 0;
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
@@ -206,6 +212,7 @@ begin
     p.nextoof := 0;
 
     // version 207
+    P_ClearPlayerHistory(p);
     p.oldcrouch := 0;
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
@@ -231,6 +238,7 @@ begin
     p.nextoof := 0;
 
     // version 207
+    P_ClearPlayerHistory(p);
     p.oldcrouch := 0;
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
@@ -252,6 +260,7 @@ begin
     p.nextoof := 0;
 
     // version 207
+    P_ClearPlayerHistory(p);
     p.oldcrouch := 0;
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
@@ -267,6 +276,7 @@ begin
     incp(pointer(save_p), SizeOf(player_t206));
 
     // version 207
+    P_ClearPlayerHistory(p);
     p.oldcrouch := 0;
     p.lastongroundtime := 0;
     p.lastautocrouchtime := 0;
@@ -312,6 +322,13 @@ begin
     for j := 0 to Ord(NUMPSPRITES) - 1 do
       if players[i].psprites[j].state <> nil then
         players[i].psprites[j].state := @states[integer(players[i].psprites[j].state)];
+
+    // JVAL: 202111224 - Load player history
+    if savegameversion >= VERSION207 then
+    begin
+      memcpy(@playerhistory[i], save_p, SizeOf(playertracehistory_t));
+      incp(pointer(save_p), SizeOf(playertracehistory_t));
+    end;
   end;
 end;
 
