@@ -119,6 +119,7 @@ Added MF4_EX_RANGEHALF mobj flag. When set the actor use half distance for missi
 Added MF4_EX_NOTHRESHOLD mobj flag. When set the actor can target other actors without checking threshold.
 Added MF4_EX_LONGMELEE mobj flag. When set the actor has long melee range.
 Ripper projectile will not spawn blood to invulnerable things.
+Ripper projectile will play ripsound when rips thru things. If it doesn't have ripsound it will play the default (sfx_ripslop) sound.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
