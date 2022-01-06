@@ -1163,8 +1163,14 @@ begin
       begin // Ok to spawn some blood
         P_RipperBlood(tmthing);
       end;
+
       damage := ((P_Random and 3) + 2) * tmthing.damage;
+
+      if tmthing.info.ripsound <> 0 then
+        S_StartSound(tmthing, tmthing.info.ripsound);
+
       P_DamageMobj(thing, tmthing, tmthing.target, damage);
+
       if (thing.flags2 and MF2_PUSHABLE <> 0) and
          (tmthing.flags2 and MF2_CANNOTPUSH = 0) then
       begin // Push thing
@@ -1180,7 +1186,9 @@ begin
           thing.momy := thing.momy + FixedMul(tmthing.momy, pushfactor);
         end;
       end;
+
       numspechit := 0;
+
       result := true;
       exit;
     end;
