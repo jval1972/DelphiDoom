@@ -190,7 +190,7 @@ const
   //  using an internal color lookup table for re-indexing.
   // If 0x4 0x8 or 0xc,
   //  use a translation table for player colormaps
-  MF_TRANSLATION = $c000000;
+  MF_TRANSLATION = $1c000000;
   // Hmm ???.
   MF_TRANSSHIFT = 26;
 
