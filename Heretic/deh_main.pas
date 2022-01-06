@@ -1656,7 +1656,7 @@ begin
 
         if state_val >= 0 then
         begin
-          if state_val < DEHNUMACTIONS then
+          if state_val < dehnumactions then
             states[state_no].action.acp1 := deh_actions[state_val].action.acp1;
         end
         else
@@ -2525,6 +2525,7 @@ begin
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);
+
 
   mobj_flags5_ex := TDTextList.Create;
 

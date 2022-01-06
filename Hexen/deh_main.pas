@@ -2422,6 +2422,7 @@ begin
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);
 
+
   mobj_flags5_ex := TDTextList.Create;
 
   mobj_flags5_ex_hash := TDEHStringsHashTable.Create;
