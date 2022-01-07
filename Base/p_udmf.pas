@@ -455,6 +455,12 @@ begin
           if token = 'TRUE' then
             pmaplinedef.flags := pmaplinedef.flags or ML_TRIGGERSCRIPTS;
         end
+        else if (token = 'NOCLIPPING') then
+        begin
+          GetToken;
+          if token = 'TRUE' then
+            pmaplinedef.flags := pmaplinedef.flags or ML_NOCLIPPING;
+        end
         {$IFDEF DOOM_OR_STRIFE}
         else if (token = 'PASSUSE') then
         begin

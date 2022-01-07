@@ -121,6 +121,7 @@ Added MF4_EX_MAP07BOSS1 & MF4_EX_MAP07BOSS2 mobj flags.
 Dynamic ceiling slope check correction.
 3D floor logic corrections.
 Auto fix interpolation for instant changes in sectors heights and texture offsets.
+Read the NOCLIPPING line flag in UDMF maps.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
