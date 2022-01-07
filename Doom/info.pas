@@ -14514,7 +14514,7 @@ const // Doom Original mobjinfo
     activesound: 77;                                                            // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
     flags_ex: 0;                                                                // flags_ex
-    flags2_ex: 0;                                                               // flags2_ex
+    flags2_ex: MF2_EX_FULLVOLDEATH or MF2_EX_FULLVOLSEE;                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
     customsound1: Ord(sfx_None);                                                // customsound1
     customsound2: Ord(sfx_None);                                                // customsound2
@@ -14666,7 +14666,7 @@ const // Doom Original mobjinfo
     activesound: 77;                                                            // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
     flags_ex: 0;                                                                // flags_ex
-    flags2_ex: 0;                                                               // flags2_ex
+    flags2_ex: MF2_EX_FULLVOLDEATH or MF2_EX_FULLVOLSEE;                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
     customsound1: Ord(sfx_None);                                                // customsound1
     customsound2: Ord(sfx_None);                                                // customsound2
