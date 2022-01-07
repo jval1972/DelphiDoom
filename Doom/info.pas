@@ -14233,7 +14233,7 @@ const // Doom Original mobjinfo
     scale: FRACUNIT;                                                            // scale
     gravity: FRACUNIT;                                                          // gravity
     flags3_ex: MF3_EX_CONFGREENBLOOD;                                           // flags3_ex
-    flags4_ex: 0;                                                               // flags4_ex
+    flags4_ex: MF4_EX_E1M8BOSS;                                                 // flags4_ex
     minmissilechance: 0;                                                        // minmissilechance
     floatspeed: 0;                                                              // floatspeed
     normalspeed: 0;                                                             // normalspeed
@@ -14537,7 +14537,7 @@ const // Doom Original mobjinfo
     scale: FRACUNIT;                                                            // scale
     gravity: FRACUNIT;                                                          // gravity
     flags3_ex: 0;                                                               // flags3_ex
-    flags4_ex: MF4_EX_RANGEHALF;                                                // flags4_ex
+    flags4_ex: MF4_EX_RANGEHALF or MF4_EX_E3M8BOSS or MF4_EX_E4M8BOSS;          // flags4_ex
     minmissilechance: 0;                                                        // minmissilechance
     floatspeed: 0;                                                              // floatspeed
     normalspeed: 0;                                                             // normalspeed
@@ -14689,7 +14689,7 @@ const // Doom Original mobjinfo
     scale: FRACUNIT;                                                            // scale
     gravity: FRACUNIT;                                                          // gravity
     flags3_ex: 0;                                                               // flags3_ex
-    flags4_ex: MF4_EX_HIGHERMPROB or MF4_EX_RANGEHALF;                          // flags4_ex
+    flags4_ex: MF4_EX_HIGHERMPROB or MF4_EX_RANGEHALF or MF4_EX_E2M8BOSS or MF4_EX_E4M6BOSS; // flags4_ex
     minmissilechance: 0;                                                        // minmissilechance
     floatspeed: 0;                                                              // floatspeed
     normalspeed: 0;                                                             // normalspeed

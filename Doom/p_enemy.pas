@@ -2206,29 +2206,29 @@ begin
         begin
           if gamemap <> 8 then
             exit;
-          if mo._type <> Ord(MT_BRUISER) then
+          if mo.flags4_ex and MF4_EX_E1M8BOSS <> 0 then
             exit;
         end;
       2:
         begin
           if gamemap <> 8 then
             exit;
-          if mo._type <> Ord(MT_CYBORG) then
+          if mo.flags4_ex and MF4_EX_E2M8BOSS <> 0 then
             exit;
         end;
       3:
         begin
           if gamemap <> 8 then
             exit;
-          if mo._type <> Ord(MT_SPIDER) then
+          if mo.flags4_ex and MF4_EX_E3M8BOSS <> 0 then
             exit;
         end;
       4:
         begin
           case gamemap of
-            6: if mo._type <> Ord(MT_CYBORG) then
+            6: if mo.flags4_ex and MF4_EX_E4M6BOSS <> 0 then
                  exit;
-            8: if mo._type <> Ord(MT_SPIDER) then
+            8: if mo.flags4_ex and MF4_EX_E4M8BOSS <> 0 then
                  exit;
           else  // JVAL 21/9/2007 Fixed bug that ended E4M2 after cyberdeamon death
             begin

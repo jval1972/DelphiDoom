@@ -435,6 +435,16 @@ const
   MF4_EX_MAP07BOSS2 = $10000;
   // Tag 666 or 667 "boss" on doom 2 map 7
   MF4_EX_MAP07BOSS = MF4_EX_MAP07BOSS1 or MF4_EX_MAP07BOSS2;
+  // E1M8 boss
+  MF4_EX_E1M8BOSS = $20000;
+  // E2M8 boss
+  MF4_EX_E2M8BOSS = $40000;
+  // E3M8 boss
+  MF4_EX_E3M8BOSS = $80000;
+  // E4M6 boss
+  MF4_EX_E4M6BOSS = $100000;
+  // E4M8 boss
+  MF4_EX_E4M8BOSS = $200000;
 
 // MBF21 flags
 const
