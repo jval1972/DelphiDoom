@@ -5855,7 +5855,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
-    mbf21bits: 0;             // mbf21bits
+    mbf21bits: STATEF_SKILL5FAST; // mbf21bits
    ),                         // S_SARG_RUN1
 
    (
@@ -5867,7 +5867,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
-    mbf21bits: 0;             // mbf21bits
+    mbf21bits: STATEF_SKILL5FAST; // mbf21bits
    ),                         // S_SARG_RUN2
 
    (
@@ -5879,7 +5879,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
-    mbf21bits: 0;             // mbf21bits
+    mbf21bits: STATEF_SKILL5FAST; // mbf21bits
    ),                         // S_SARG_RUN3
 
    (
@@ -5891,7 +5891,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
-    mbf21bits: 0;             // mbf21bits
+    mbf21bits: STATEF_SKILL5FAST; // mbf21bits
    ),                         // S_SARG_RUN4
 
    (
@@ -5903,7 +5903,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
-    mbf21bits: 0;             // mbf21bits
+    mbf21bits: STATEF_SKILL5FAST; // mbf21bits
    ),                         // S_SARG_RUN5
 
    (
@@ -5915,7 +5915,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
-    mbf21bits: 0;             // mbf21bits
+    mbf21bits: STATEF_SKILL5FAST; // mbf21bits
    ),                         // S_SARG_RUN6
 
    (
@@ -5927,7 +5927,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
-    mbf21bits: 0;             // mbf21bits
+    mbf21bits: STATEF_SKILL5FAST; // mbf21bits
    ),                         // S_SARG_RUN7
 
    (
@@ -5939,7 +5939,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
-    mbf21bits: 0;             // mbf21bits
+    mbf21bits: STATEF_SKILL5FAST; // mbf21bits
    ),                         // S_SARG_RUN8
 
    (
@@ -5951,7 +5951,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
-    mbf21bits: 0;             // mbf21bits
+    mbf21bits: STATEF_SKILL5FAST; // mbf21bits
    ),                         // S_SARG_ATK1
 
    (
@@ -5963,7 +5963,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
-    mbf21bits: 0;             // mbf21bits
+    mbf21bits: STATEF_SKILL5FAST; // mbf21bits
    ),                         // S_SARG_ATK2
 
    (
@@ -5975,7 +5975,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
-    mbf21bits: 0;             // mbf21bits
+    mbf21bits: STATEF_SKILL5FAST; // mbf21bits
    ),                         // S_SARG_ATK3
 
    (
@@ -5987,7 +5987,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
-    mbf21bits: 0;             // mbf21bits
+    mbf21bits: STATEF_SKILL5FAST; // mbf21bits
    ),                         // S_SARG_PAIN
 
    (
@@ -5999,7 +5999,7 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
-    mbf21bits: 0;             // mbf21bits
+    mbf21bits: STATEF_SKILL5FAST; // mbf21bits
    ),                         // S_SARG_PAIN2
 
    (

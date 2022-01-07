@@ -2482,29 +2482,25 @@ begin
 
   if fastparm or ((skill = sk_nightmare) and (gameskill <> sk_nightmare)) then
   begin
-    for i := Ord(S_SARG_RUN1) to Ord(S_SARG_PAIN2) do
-    begin
-      states[i].tics := _SHR(states[i].tics, 1);
-      if states[i].tics < 1 then
-        states[i].tics := 1;
-    end;
+    for i := 0 to numstates - 1 do
+      if states[i].mbf21bits and STATEF_SKILL5FAST <> 0 then
+      begin
+        states[i].tics := _SHR(states[i].tics, 1);
+        if states[i].tics < 1 then
+          states[i].tics := 1;
+      end;
     for i := 0 to nummobjtypes - 1 do
       if mobjinfo[i].fastspeed <> 0 then
         mobjinfo[i].speed := mobjinfo[i].fastspeed;
-{    mobjinfo[Ord(MT_BRUISERSHOT)].speed := 20 * FRACUNIT;
-    mobjinfo[Ord(MT_HEADSHOT)].speed := 20 * FRACUNIT;
-    mobjinfo[Ord(MT_TROOPSHOT)].speed := 20 * FRACUNIT;}
   end
   else if (skill <> sk_nightmare) and (gameskill = sk_nightmare) then
   begin
-    for i := Ord(S_SARG_RUN1) to Ord(S_SARG_PAIN2) do
-      states[i].tics := _SHL(states[i].tics, 1);
+    for i := 0 to numstates - 1 do
+      if states[i].mbf21bits and STATEF_SKILL5FAST <> 0 then
+        states[i].tics := _SHL(states[i].tics, 1);
     for i := 0 to nummobjtypes - 1 do
       if mobjinfo[i].normalspeed <> 0 then
         mobjinfo[i].speed := mobjinfo[i].normalspeed;
-{    mobjinfo[Ord(MT_BRUISERSHOT)].speed := 15 * FRACUNIT;
-    mobjinfo[Ord(MT_HEADSHOT)].speed := 10 * FRACUNIT;
-    mobjinfo[Ord(MT_TROOPSHOT)].speed := 10 * FRACUNIT;}
   end;
 
 
