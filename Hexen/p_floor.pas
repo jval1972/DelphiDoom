@@ -431,13 +431,12 @@ begin
       else
         result := false;
     end;
+    P_DynamicSlope(sec);  // JVAL: Slopes
   end;
 
   if result then
   begin
     S_StartSequence(Pmobj_t(@floor.sector.soundorg), Ord(SEQ_PLATFORM) + Ord(floor.sector.seqType));  // JVAL SOS
-    if sec <> nil then
-      P_DynamicSlope(sec);  // JVAL: Slopes
   end;
 end;
 
