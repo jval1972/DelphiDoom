@@ -50,13 +50,6 @@ uses
   tables,
   m_fixed;
 
-//-----------------------------------------------------------------------------
-//
-// DESCRIPTION:
-//  AutoMap module.
-//
-//-----------------------------------------------------------------------------
-
 const
   AM_MSGHEADER = (Ord('a') shl 24) + (Ord('m') shl 16);
   AM_MSGENTERED = AM_MSGHEADER or (Ord('e') shl 8);
