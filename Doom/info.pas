@@ -14253,7 +14253,7 @@ const // Doom Original mobjinfo
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
-    projectile_group: PG_DEFAULT;                                               // projectile_group
+    projectile_group: PG_BARON;                                               // projectile_group
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
@@ -14405,7 +14405,7 @@ const // Doom Original mobjinfo
     flags5_ex: 0;                                                               // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
-    projectile_group: PG_DEFAULT;                                               // projectile_group
+    projectile_group: PG_BARON;                                                 // projectile_group
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
