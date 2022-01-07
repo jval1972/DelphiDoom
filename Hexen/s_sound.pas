@@ -996,6 +996,7 @@ begin
       Add1(inf.customsound1);
       Add1(inf.customsound2);
       Add1(inf.customsound3);
+      Add1(inf.ripsound);
     end;
     th := th.next;
   end;
