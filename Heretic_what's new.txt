@@ -122,6 +122,7 @@ Ripper projectile will not spawn blood to invulnerable things.
 Ripper projectile will play ripsound when rips thru things. If it doesn't have ripsound it will play the default (sfx_ripslop) sound.
 Parse [SPRITES] DEHACKED/BEX extention.
 Added MF4_EX_MAP07BOSS1 & MF4_EX_MAP07BOSS2 mobj flags.
+Dynamic ceiling slope check correction.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

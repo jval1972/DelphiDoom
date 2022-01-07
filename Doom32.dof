@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=-noactordef -nodehextra -internalgamedef -iwad doomu.wad
+RunParams=EXAMPLE_17_DYNAMIC_SLOPES.wad
 HostApplication=
 Launcher=
 UseLauncher=0

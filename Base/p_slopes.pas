@@ -345,8 +345,8 @@ begin
 
     if mo.z - grav < mo.floorz then
       mo.z := mo.floorz
-    else if (grav = 0) or (mo.z > mo.ceilingz) then
-      mo.z := mo.ceilingz;
+    else if mo.z + mo.height > mo.ceilingz then
+      mo.z := mo.ceilingz - mo.height;
 
     mo := mo.snext;
   end;

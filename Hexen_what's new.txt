@@ -123,6 +123,7 @@ Fixed translation table for translations 4-7.
 Parse [SPRITES] DEHACKED/BEX extention.
 Added MF4_EX_MAP07BOSS1 & MF4_EX_MAP07BOSS2 mobj flags.
 Added A_BossDeath() ACTORDEF function.
+Dynamic ceiling slope check correction.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
