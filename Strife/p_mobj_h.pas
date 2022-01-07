@@ -350,6 +350,8 @@ const
   MF2_EX_JUMPUP = $4000000;
   // Does not block player
   MF2_EX_DONTBLOCKPLAYER = $8000000;
+  // Friendly monsters
+  MF2_EX_FRIEND = $10000000;
 
 const
   // Bounce on floor

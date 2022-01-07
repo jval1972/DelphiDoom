@@ -149,6 +149,7 @@ const
   MTF_AMBUSH = 8;
   MTF_ONMIDSECTOR = 32;
   MTF_DONOTTRIGGERSCRIPTS = 64;
+  MTF_FRIEND = 128; // JVAL: version 207
 
 const
   // no flag

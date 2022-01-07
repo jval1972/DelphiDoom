@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -553,6 +553,8 @@ begin
   if plr.plinetarget = nil then
     cidx := 0
   else if plr.plinetarget.flags and MF_ALLY <> 0 then
+    cidx := 0
+  else if plr.plinetarget.flags2_ex and MF2_EX_FRIEND <> 0 then
     cidx := 0
   else
     cidx := (((leveltime - plr.pcrosstic) div 8) mod 4) + 1;

@@ -152,6 +152,7 @@ const
   MTF_GDEATHMATCH = 1024;
   MTF_ONMIDSECTOR = 2048;
   MTF_DONOTTRIGGERSCRIPTS = 4096;
+  MTF_FRIEND = 8192; // JVAL: version 207
 
 const
   // no flag

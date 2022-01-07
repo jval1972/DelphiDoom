@@ -240,20 +240,18 @@ begin
           if token = 'TRUE' then
             pthing.options := pthing.options or MTF_ONMIDSECTOR;
         end
-        else if (token = 'TRIGGERSCRIPTS') then
+        else if (token = 'NOTRIGGERSCRIPTS') then
         begin
           GetToken;
-          if token = 'FALSE' then
+          if token = 'TRUE' then
             pthing.options := pthing.options or MTF_DONOTTRIGGERSCRIPTS;
         end
-        {$IFDEF DOOM}
         else if (token = 'FRIEND') then
         begin
           GetToken;
           if token = 'TRUE' then
             pthing.options := pthing.options or MTF_FRIEND;
         end
-        {$ENDIF}
         {$IFDEF HEXEN}
         else if (token = 'SINGLE') then
         begin
@@ -455,11 +453,25 @@ begin
           if token = 'TRUE' then
             pmaplinedef.flags := pmaplinedef.flags or ML_TRIGGERSCRIPTS;
         end
+        {$IFDEF DOOM_OR_HERETIC}
+        else if (token = 'BLOCKLANDMONSTERS') then
+        begin
+          GetToken;
+          if token = 'TRUE' then
+            pmaplinedef.flags := pmaplinedef.flags or ML_BLOCKLANDMONSTERS;
+        end
+        else if (token = 'BLOCKPLAYERS') then
+        begin
+          GetToken;
+          if token = 'TRUE' then
+            pmaplinedef.flags := pmaplinedef.flags or ML_BLOCKPLAYERS;
+        end
+        {$ENDIF}
         else if (token = 'NOCLIPPING') then
         begin
           GetToken;
           if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_NOCLIPPING;
+            pmaplinedef.flags := pmaplinedef.flags or ML_NOCLIP;
         end
         {$IFDEF DOOM_OR_STRIFE}
         else if (token = 'PASSUSE') then

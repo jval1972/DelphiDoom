@@ -1970,6 +1970,9 @@ begin
   result := P_SpawnMobj(x, y, z, i, mthing);
   result.spawnpoint := mthing^;
 
+  if mthing.options and MTF_FRIEND <> 0 then
+    result.flags2_ex := result.flags2_ex or MF2_EX_FRIEND;
+
   if z = ONFLOORZ then
     result.z := result.z + mthing.height * FRACUNIT
   else if z = ONCEILINGZ then

@@ -756,8 +756,8 @@ begin
 
       if istransparent then
         mobjinfo[mobj_no].flags_ex := mobjinfo[mobj_no].flags_ex or MF_EX_TRANSPARENT;
-//      if isfriend then
-//        mobjinfo[mobj_no].flags2_ex := mobjinfo[mobj_no].flags2_ex or MF2_EX_FRIEND;
+      if isfriend then
+        mobjinfo[mobj_no].flags2_ex := mobjinfo[mobj_no].flags2_ex or MF2_EX_FRIEND;
       if isbouncy then
         mobjinfo[mobj_no].flags3_ex := mobjinfo[mobj_no].flags3_ex or MF3_EX_BOUNCE;
 
@@ -2468,6 +2468,7 @@ begin
   mobj_flags2_ex.Add('MF2_EX_INTERACTIVE'); // JVAL: VERSION 207
   mobj_flags2_ex.Add('MF2_EX_JUSTAPPEARED');
   mobj_flags2_ex.Add('MF2_EX_DONTINFIGHTMONSTERS'); // JVAL: VERSION 207
+  mobj_flags2_ex.Add('MF2_EX_FRIEND'); // JVAL: VERSION 207
 
   mobj_flags2_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags2_ex_hash.AssignList(mobj_flags2_ex);

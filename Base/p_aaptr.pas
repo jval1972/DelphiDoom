@@ -172,11 +172,9 @@ begin
                 exit;
               end;
 
-      {$IFDEF DOOM_OR_STRIFE}
       {$IFDEF STRIFE}
-      if origin.flags and MF_ALLY <> 0 then
-      {$ENDIF}
-      {$IFDEF DOOM}
+      if (origin.flags and MF_ALLY <> 0) or (origin.flags2_ex and MF2_EX_FRIEND <> 0) then
+      {$ELSE}
       if origin.flags2_ex and MF2_EX_FRIEND <> 0 then
       {$ENDIF}
         for i := 0 to MAXPLAYERS - 1 do
@@ -185,7 +183,6 @@ begin
             result := players[i].mo;
             exit;
           end;
-      {$ENDIF}
 
       result := nil;
       exit;

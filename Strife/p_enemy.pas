@@ -687,7 +687,7 @@ begin
   end;
 
   if Ord(actor.movedir) >= 8 then
-    I_Error('P_Move(): Weird actor->movedir = %d', [Ord(actor.movedir)]);
+    I_Error('P_Move(): Weird actor.movedir = %d', [Ord(actor.movedir)]);
 
   tryx := actor.x + actor.info.speed * xspeed[actor.movedir];
   tryy := actor.y + actor.info.speed * yspeed[actor.movedir];

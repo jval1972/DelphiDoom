@@ -656,6 +656,8 @@ function P_NearestPlayer(const mo: Pmobj_t): Pplayer_t;
 
 function P_CheckFlag(const mo: Pmobj_t; const aflag: string): boolean;
 
+function P_BothFriends(mo1, mo2: Pmobj_t): boolean;
+
 implementation
 
 uses
@@ -5522,12 +5524,10 @@ begin
   else
     dest.flags := dest.flags and not MF_ALLY;
   {$ENDIF}
-  {$IFDEF DOOM}
   if src.flags2_ex and MF2_EX_FRIEND <> 0 then
     dest.flags2_ex := dest.flags2_ex or MF2_EX_FRIEND
   else
     dest.flags2_ex := dest.flags2_ex and not MF2_EX_FRIEND;
-  {$ENDIF}
 end;
 
 //
@@ -5882,9 +5882,7 @@ begin
     {$IFDEF STRIFE}
     mo.flags := (mo.flags and not MF_ALLY) or (originator.flags and MF_ALLY);
     {$ENDIF}
-    {$IFDEF DOOM}
     mo.flags2_ex := (mo.flags2_ex and not MF2_EX_FRIEND) or (originator.flags2_ex and MF2_EX_FRIEND);
-    {$ENDIF}
   end
   else if originator.player <> nil then
   begin
@@ -5892,9 +5890,7 @@ begin
     {$IFDEF STRIFE}
     mo.flags := mo.flags or MF_ALLY;
     {$ENDIF}
-    {$IFDEF DOOM}
     mo.flags2_ex := mo.flags2_ex or MF2_EX_FRIEND;
-    {$ENDIF}
   end;
 end;
 
@@ -7059,6 +7055,46 @@ end;
 procedure A_UnSetMonsterInfight(actor: Pmobj_t);
 begin
   actor.flags2_ex := actor.flags2_ex and not MF2_EX_DONTINFIGHTMONSTERS;
+end;
+
+//
+// P_BothFriends
+//
+// JVAL: New function
+//
+function P_BothFriends(mo1, mo2: Pmobj_t): boolean;
+var
+  f1, f2: boolean;
+begin
+  if (mo1 = nil) or (mo2 = nil) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  f1 := (mo1.player <> nil) or (mo1.flags2_ex and MF2_EX_FRIEND <> 0);
+  if not f1 then
+  begin
+    result := false;
+    exit;
+  end;
+
+  f2 := (mo2.player <> nil) or (mo2.flags2_ex and MF2_EX_FRIEND <> 0);
+  if not f2 then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if deathmatch <> 0 then
+    if mo1.player <> nil then
+      if mo2.player <> nil then
+      begin
+        result := false;
+        exit;
+      end;
+
+  result := true;
 end;
 
 // MBF21

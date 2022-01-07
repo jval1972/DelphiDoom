@@ -153,8 +153,12 @@ const
 //JVAL: Script Events
 //line triggers
   ML_TRIGGERSCRIPTS = 1024;
-//
+// Do not clip
   ML_NOCLIP = 2048;
+// Block monsters without the INFLOAT flag
+  ML_BLOCKLANDMONSTERS = 4096;
+// Block players
+  ML_BLOCKPLAYERS = 8192;
 
 type
 // Sector definition, from editing.

@@ -384,6 +384,8 @@ const
   MF2_EX_JUSTAPPEARED = $100000;
   // Don't return fire
   MF2_EX_DONTINFIGHTMONSTERS = $200000;
+  // Friendly monsters
+  MF2_EX_FRIEND = $400000;
 
 const
   // Bounce on floor

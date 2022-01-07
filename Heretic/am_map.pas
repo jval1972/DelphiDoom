@@ -1651,11 +1651,14 @@ begin
         AM_drawLineCharacter(
           @keysquare, NUMKEYSQUARELINES,
           0, ANGLE_MAX - plra, BLUEKEYCOLOR, x, y)
+      else if (t.flags2_ex and MF2_EX_FRIEND <> 0) or (t.player <> nil) then
+        AM_drawLineCharacter
+          (@thintriangle_guy, NUMTHINTRIANGLEGUYLINES,
+          16 * FRACUNIT, t.angle, WHITE, x, y)
       else
         AM_drawLineCharacter
           (@thintriangle_guy, NUMTHINTRIANGLEGUYLINES,
           16 * FRACUNIT, t.angle, colors + lightlev, x, y);
-
       t := t.snext;
     end;
   end;

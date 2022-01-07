@@ -114,8 +114,6 @@ function PTR_BounceTraverse(intr: Pintercept_t): boolean;
 
 procedure P_BounceWall(mo: Pmobj_t);
 
-function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t = nil): integer;
-
 function P_TestMobjLocation(mobj: Pmobj_t): boolean;
 
 
@@ -144,6 +142,8 @@ var
   ceilingline: Pline_t;
 
   attackrange: fixed_t;
+
+function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t = nil): integer;
 
 // JVAL: 3d Floors move from implementation section to interface
 var
@@ -204,11 +204,9 @@ end;
 // TELEPORT MOVE
 //
 
-
 //
 // PIT_StompThing
 //
-
 function PIT_StompThing(thing: Pmobj_t): boolean;
 var
   blockdist: fixed_t;
@@ -283,11 +281,9 @@ begin
   result := true;
 end;
 
-
 //
 // P_TeleportMove
 //
-
 function P_TeleportMove(thing: Pmobj_t; x, y: fixed_t): boolean;
 var
   xl: integer;
@@ -450,7 +446,6 @@ end;
 // PIT_CheckLine
 // Adjusts tmfloorz and tmceilingz as lines are contacted
 //
-
 function PIT_CheckLine(ld: Pline_t): boolean;
 begin
   if (tmbbox[BOXRIGHT] <= ld.bbox[BOXLEFT]) or
@@ -1253,7 +1248,6 @@ begin
     result := thing.flags and MF_SOLID = 0;
 end;
 
-
 //
 // MOVEMENT CLIPPING
 //
@@ -1797,8 +1791,8 @@ begin
     if (thing.flags and (MF_DROPOFF or MF_FLOAT) = 0) and
        (tmfloorz - tmdropoffz > dropoffmargin) and
        (thing.flags2 and MF2_BLASTED = 0) then
-    begin // Can't move over a dropoff unless it's been blasted
-      result := false;
+    begin
+      result := false; // Can't move over a dropoff unless it's been blasted
       exit;
     end;
 
@@ -1909,7 +1903,6 @@ end;
 // the z will be set to the lowest value
 // and false will be returned.
 //
-
 function P_ThingHeightClip(thing: Pmobj_t): boolean;
 var
   onfloor: boolean;
@@ -1940,12 +1933,10 @@ begin
   result := thing.ceilingz - thing.floorz >= thing.height;
 end;
 
-
 //
 // SLIDE MOVE
 // Allows the player to slide along any angled walls.
 //
-
 var
   bestslidefrac: fixed_t;
   secondslidefrac: fixed_t;
@@ -1958,13 +1949,11 @@ var
   tmxmove: fixed_t;
   tmymove: fixed_t;
 
-
 //
 // P_HitSlideLine
 // Adjusts the xmove / ymove
 // so that the next move will slide along the wall.
 //
-
 procedure P_HitSlideLine(ld: Pline_t);
 var
   side: integer;
@@ -2015,11 +2004,9 @@ begin
   tmymove := FixedMul(newlen, finesine[lineangle]);
 end;
 
-
 //
 // PTR_SlideTraverse
 //
-
 function PTR_SlideTraverse(intr: Pintercept_t): boolean;
 var
   li: Pline_t;
@@ -2109,7 +2096,6 @@ end;
 //
 // This is a kludgy mess.
 //
-
 procedure P_SlideMove(mo: Pmobj_t);
 var
   leadx: fixed_t;
@@ -2238,7 +2224,6 @@ var
 // PTR_AimTraverse
 // Sets linetaget and aimslope when a target is aimed at.
 //
-
 function PTR_AimTraverse(intr: Pintercept_t): boolean;
 var
   li: Pline_t;
@@ -2359,11 +2344,9 @@ begin
   result := false; // don't go any farther
 end;
 
-
 //
 // PTR_ShootTraverse
 //
-
 function PTR_ShootTraverse(intr: Pintercept_t): boolean;
 var
   x: fixed_t;
@@ -2607,11 +2590,9 @@ begin
   result := false; // don't go any farther
 end;
 
-
 //
 // P_AimLineAttack
 //
-
 function P_AimLineAttack(t1: Pmobj_t; angle: angle_t; distance: fixed_t): fixed_t;
 var
   x2: fixed_t;
@@ -2642,7 +2623,6 @@ begin
   else
     result := 0;
 end;
-
 
 //
 // P_LineAttack
@@ -2687,7 +2667,6 @@ end;
 //
 // USE LINES
 //
-
 var
   usething: Pmobj_t;
 
@@ -2817,7 +2796,6 @@ end;
 // P_UseLines
 // Looks for special lines in front of the player to activate.
 //
-
 procedure P_UseLines(player: Pplayer_t);
 var
   angle: angle_t;
@@ -2865,7 +2843,6 @@ var
 // "bombsource" is the creature
 // that caused the explosion at "bombspot".
 //
-
 function PIT_RadiusAttack(thing: Pmobj_t): boolean;
 var
   dx: fixed_t;
@@ -3312,7 +3289,6 @@ end;
 //
 // PTR_PuzzleItemTraverse
 //
-
 const
   USE_PUZZLE_ITEM_SPECIAL = 129;
 
@@ -3398,7 +3374,6 @@ end;
 //
 // Returns true if the puzzle item was used on a line or a thing.
 //
-
 function P_UsePuzzleItem(player: Pplayer_t; itemType: integer): boolean;
 var
   angle: integer;
@@ -3419,7 +3394,6 @@ end;
 //
 // PTR_BounceTraverse
 //
-
 function PTR_BounceTraverse(intr: Pintercept_t): boolean;
 var
   li: Pline_t;
@@ -3474,7 +3448,6 @@ end;
 //
 // P_BounceWall
 //
-
 procedure P_BounceWall(mo: Pmobj_t);
 var
   leadx, leady: fixed_t;
@@ -3521,7 +3494,6 @@ end;
 //
 // JVAL Allow jumps in sectors with sky ceiling.... (7/8/2007)
 //
-
 function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t = nil): integer;
 begin
   // JVAL: 3d floors

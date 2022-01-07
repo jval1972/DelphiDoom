@@ -1606,6 +1606,9 @@ begin
         radius := 16 * FRACUNIT;
       end;
 
+      if t.flags2_ex and MF2_EX_FRIEND <> 0 then
+        colors := GRAYS;
+
       AM_drawLineCharacter
         (@thintriangle_guy, NUMTHINTRIANGLEGUYLINES,
         radius, t.angle, colors, x, y);

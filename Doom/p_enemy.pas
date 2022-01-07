@@ -203,6 +203,8 @@ uses
   info_common,
   m_rnd,
   p_playertrace,
+  p_common,
+  p_floor,
   p_map,
   p_maputl,
   p_setup,
@@ -213,9 +215,7 @@ uses
   p_doors,
   p_spec,
   p_inter,
-  p_floor,
   p_pspr,
-  p_common,
   p_sounds,
   ps_main,
   r_defs,
@@ -312,46 +312,6 @@ begin
   soundtarget := target;
   inc(validcount);
   P_RecursiveSound(Psubsector_t(emmiter.subsector).sector, 0);
-end;
-
-//
-// P_BothFriends
-//
-// JVAL: New function
-//
-function P_BothFriends(mo1, mo2: Pmobj_t): boolean;
-var
-  f1, f2: boolean;
-begin
-  if (mo1 = nil) or (mo2 = nil) then
-  begin
-    result := false;
-    exit;
-  end;
-
-  f1 := (mo1.player <> nil) or (mo1.flags2_ex and MF2_EX_FRIEND <> 0);
-  if not f1 then
-  begin
-    result := false;
-    exit;
-  end;
-
-  f2 := (mo2.player <> nil) or (mo2.flags2_ex and MF2_EX_FRIEND <> 0);
-  if not f2 then
-  begin
-    result := false;
-    exit;
-  end;
-
-  if deathmatch <> 0 then
-    if mo1.player <> nil then
-      if mo2.player <> nil then
-      begin
-        result := false;
-        exit;
-      end;
-
-  result := true;
 end;
 
 //

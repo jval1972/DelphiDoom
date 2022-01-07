@@ -746,8 +746,10 @@ begin
     mo.flags := mo.flags or MF_AMBUSH;
   if mthing.options and MTF_STAND <> 0 then       // [STRIFE] Standing mode, for NPCs
     mo.flags := mo.flags or MF_STAND;
-  if mthing.options and MTF_FRIEND <> 0 then      // [STRIFE] Allies
+  if mthing.options and MTF_ALLY <> 0 then      // [STRIFE] Allies
     mo.flags := mo.flags or MF_ALLY;
+  if mthing.options and MTF_FRIEND <> 0 then
+    mo.flags2_ex := mo.flags2_ex or MF2_EX_FRIEND;
   if mthing.options and MTF_TRANSLUCENT <> 0 then // [STRIFE] Translucent object
     mo.flags := mo.flags or MF_SHADOW;
   if mthing.options and MTF_MVIS <> 0 then        // [STRIFE] Alt. Translucency
@@ -1486,8 +1488,10 @@ begin
     result.flags := result.flags or MF_AMBUSH;
   if mthing.options and MTF_STAND <> 0 then       // [STRIFE] Standing mode, for NPCs
     result.flags := result.flags or MF_STAND;
-  if mthing.options and MTF_FRIEND <> 0 then      // [STRIFE] Allies
+  if mthing.options and MTF_ALLY <> 0 then        // [STRIFE] Allies
     result.flags := result.flags or MF_ALLY;
+  if mthing.options and MTF_FRIEND <> 0 then
+    result.flags2_ex := result.flags2_ex or MF2_EX_FRIEND;
   if mthing.options and MTF_TRANSLUCENT <> 0 then // [STRIFE] Translucent object
     result.flags := result.flags or MF_SHADOW;
   if mthing.options and MTF_MVIS <> 0 then        // [STRIFE] Alt. Translucency

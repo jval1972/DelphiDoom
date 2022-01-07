@@ -2094,7 +2094,6 @@ end;
 //
 // P_AimLineAttack
 //
-
 function P_AimLineAttack(t1: Pmobj_t; angle: angle_t; distance: fixed_t): fixed_t;
 var
   x2: fixed_t;

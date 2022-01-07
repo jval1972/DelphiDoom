@@ -149,7 +149,7 @@ const
 // Deaf monsters/do not react to sound.
   MTF_AMBUSH = 32;
 // villsa [STRIFE] friendly to players
-  MTF_FRIEND = 64;
+  MTF_ALLY = 64;
 // villsa [STRIFE] TODO - identify
   MTF_UNKNOWN1 = 128;
 // villsa [STRIFE] thing is translucent - STRIFE-TODO: But how much?
@@ -162,6 +162,8 @@ const
   MTF_ONMIDSECTOR = 2048;
 // JVAL: Script Events
   MTF_DONOTTRIGGERSCRIPTS = 4096;
+  // Doom Friendly monsters
+  MTF_FRIEND = 8192; // JVAL: version 207
 
 type
   skill_t = (

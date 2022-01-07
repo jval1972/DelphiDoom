@@ -2310,6 +2310,7 @@ begin
   mobj_flags2_ex.Add('MF2_EX_MISSILEHURTSPECIES');
   mobj_flags2_ex.Add('MF2_EX_JUMPUP');
   mobj_flags2_ex.Add('MF2_EX_DONTBLOCKPLAYER');
+  mobj_flags2_ex.Add('MF2_EX_FRIEND'); // JVAL: VERSION 207
 
   mobj_flags2_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags2_ex_hash.AssignList(mobj_flags2_ex);

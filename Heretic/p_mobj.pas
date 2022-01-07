@@ -790,7 +790,7 @@ begin
   ss := R_PointInSubsector(x, y);
 
 // JVAL: 3d floors
-  h := P_FloorHeight(ss, mo.x, mo.y);
+  h := P_FloorHeight(ss.sector, mo.x, mo.y);
   if ss.sector.midsec >= 0 then
     if mobj.spawnpoint.options and MTF_ONMIDSECTOR <> 0 then
       h := sectors[ss.sector.midsec].ceilingheight;
@@ -825,6 +825,12 @@ begin
 
   if mthing.options and MTF_AMBUSH <> 0 then
     mo.flags := mo.flags or MF_AMBUSH;
+
+  // killough 11/98: transfer friendliness from deceased
+  if mobj.flags2_ex and MF2_EX_FRIEND = 0 then
+    mo.flags2_ex := mo.flags2_ex and not MF2_EX_FRIEND
+  else
+    mo.flags2_ex := mo.flags2_ex or MF2_EX_FRIEND;
 
   mo.reactiontime := 18;
 
@@ -1548,6 +1554,9 @@ begin
 
   result := P_SpawnMobj(x, y, z, i, mthing);
   result.spawnpoint := mthing^;
+
+  if mthing.options and MTF_FRIEND <> 0 then
+    result.flags2_ex := result.flags2_ex or MF2_EX_FRIEND;
 
   if musinfoparam >= 0 then
     P_SetMobjCustomParam(result, S_MUSINFO_PARAM, musinfoparam);

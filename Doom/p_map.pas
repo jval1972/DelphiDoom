@@ -400,13 +400,29 @@ begin
         exit;
       end;
 
+      if (tmthing.player <> nil) and (ld.flags and ML_BLOCKPLAYERS <> 0) then
+      begin
+        result := false;  // blocking players
+        tmbounceline := ld;
+        exit;
+      end;
+
       // killough 8/9/98: monster-blockers don't affect friends
       if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
-        if (tmthing.player = nil) and (tmthing.flags2_ex and MF2_EX_FRIEND = 0) and (ld.flags and ML_BLOCKMONSTERS <> 0) then
+        if (tmthing.player = nil) and (tmthing.flags2_ex and MF2_EX_FRIEND = 0) then
         begin
-          result := false;  // block monsters only
-          tmbounceline := ld;
-          exit;
+          if ld.flags and ML_BLOCKMONSTERS <> 0 then
+          begin
+            result := false;  // block monsters only
+            tmbounceline := ld;
+            exit;
+          end;
+          if (ld.flags and ML_BLOCKLANDMONSTERS <> 0) and (tmthing.flags and MF_INFLOAT = 0) then
+          begin
+            result := false;  // block land monsters only
+            tmbounceline := ld;
+            exit;
+          end;
         end;
     end;
   end;
@@ -523,13 +539,29 @@ begin
         exit;
       end;
 
+      if (tmthing.player <> nil) and (ld.flags and ML_BLOCKPLAYERS <> 0) then
+      begin
+        result := false;  // blocking players
+        tmbounceline := ld;
+        exit;
+      end;
+
       // killough 8/9/98: monster-blockers don't affect friends
       if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
-        if (tmthing.player = nil) and (tmthing.flags2_ex and MF2_EX_FRIEND = 0) and (ld.flags and ML_BLOCKMONSTERS <> 0) then
+        if (tmthing.player = nil) and (tmthing.flags2_ex and MF2_EX_FRIEND = 0) then
         begin
-          result := false;  // block monsters only
-          tmbounceline := ld;
-          exit;
+          if ld.flags and ML_BLOCKMONSTERS <> 0 then
+          begin
+            result := false;  // block monsters only
+            tmbounceline := ld;
+            exit;
+          end;
+          if (ld.flags and ML_BLOCKLANDMONSTERS <> 0) and (tmthing.flags and MF_INFLOAT = 0) then
+          begin
+            result := false;  // block land monsters only
+            tmbounceline := ld;
+            exit;
+          end;
         end;
     end;
   end;
@@ -2206,7 +2238,6 @@ end;
 //
 // P_AimLineAttack
 //
-
 function P_AimLineAttack(t1: Pmobj_t; angle: angle_t; distance: fixed_t): fixed_t;
 var
   x2: fixed_t;
@@ -2634,7 +2665,6 @@ begin
       exit;
     end;
   end;
-
 
   if bombsource.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
     if thing.flags3_ex and MF3_EX_NOFREEZEDAMAGE <> 0 then

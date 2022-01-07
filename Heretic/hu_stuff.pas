@@ -132,6 +132,7 @@ uses
   hu_lib,
   m_menu,
   m_fixed,
+  p_mobj_h,
   p_tick,
   r_draw,
   r_main,
@@ -537,6 +538,8 @@ begin
     exit;
 
   if plr.plinetarget = nil then
+    cidx := 0
+  else if plr.plinetarget.flags2_ex and MF2_EX_FRIEND <> 0 then
     cidx := 0
   else
     cidx := (((leveltime - plr.pcrosstic) div 8) mod 4) + 1;
