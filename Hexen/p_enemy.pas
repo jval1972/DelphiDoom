@@ -395,10 +395,10 @@ implementation
 
 uses
   d_delphi,
+  doomdata,
   d_think,
   d_player,
   d_main,
-  doomdata,
   doomdef,
   g_game,
   i_system,
@@ -412,15 +412,15 @@ uses
   p_extra,
   p_floor,
   p_tick,
-  p_inter,
   p_map,
   p_maputl,
   p_setup,
   p_local,
   p_sight,
   p_spec,
-  p_sounds,
+  p_inter,
   p_pspr,
+  p_sounds,
   p_telept,
   p_acs,
   ps_main,
@@ -489,15 +489,15 @@ var
   check: Pline_t;
   other: Psector_t;
 begin
-  // Wake up all monsters in this sector
-  if (sec.validcount = validcount) and (sec.soundtraversed <= soundblocks + 1) then
-  begin // Already flooded
-    exit;
-  end;
+  // wake up all monsters in this sector
+  if (sec.validcount = validcount) and
+     (sec.soundtraversed <= soundblocks + 1) then
+    exit; // already flooded
 
   sec.validcount := validcount;
   sec.soundtraversed := soundblocks + 1;
   sec.soundtarget := soundtarget;
+
   for i := 0 to sec.linecount - 1 do
   begin
     check := sec.lines[i];
@@ -508,29 +508,22 @@ begin
       continue;
 
     P_LineOpening(check, false);
+
     if openrange <= 0 then
-    begin // Closed door
-      continue;
-    end;
+      continue; // closed door
+
     if sides[check.sidenum[0]].sector = sec then
-    begin
-      other := sides[check.sidenum[1]].sector;
-    end
+      other := sides[check.sidenum[1]].sector
     else
-    begin
       other := sides[check.sidenum[0]].sector;
-    end;
+
     if check.flags and ML_SOUNDBLOCK <> 0 then
     begin
       if soundblocks = 0 then
-      begin
         P_RecursiveSound(other, 1);
-      end;
     end
     else
-    begin
       P_RecursiveSound(other, soundblocks);
-    end;
   end;
 end;
 
@@ -675,15 +668,17 @@ begin
   end;
 
   if actor.flags and MF_JUSTHIT <> 0 then
-  begin // The target just hit the enemy, so fight back!
+  begin
+    // The target just hit the enemy,
+    // so fight back!
     actor.flags := actor.flags and not MF_JUSTHIT;
     result := true;
     exit;
   end;
 
   if actor.reactiontime <> 0 then
-  begin // Don't attack yet
-    result := false;
+  begin
+    result := false; // Don't attack yet
     exit;
   end;
 
@@ -708,7 +703,7 @@ begin
 
   if actor.flags4_ex and MF4_EX_RANGEHALF <> 0 then
     dist := _SHR1(dist);
-    
+
   if dist > 200 then
     dist := 200;
 
@@ -725,12 +720,9 @@ begin
       dist := actor.info.minmissilechance;
 
   if P_Random < dist then
-  begin
-    result := false;
-    exit;
-  end;
-
-  result := true;
+    result := false
+  else
+    result := true;
 end;
 
 //*
@@ -776,20 +768,24 @@ begin
   if not P_TryMove(actor, tryx, tryy) then
   begin // open any specials
     if (actor.flags and MF_FLOAT <> 0) and floatok then
-    begin // must adjust height
+    begin
+      // must adjust height
       if actor.z < tmfloorz then
         actor.z := actor.z + P_FloatSpeed(actor)
       else
         actor.z := actor.z - P_FloatSpeed(actor);
+
       actor.flags := actor.flags or MF_INFLOAT;
       result := true;
       exit;
     end;
+
     if numspechit = 0 then
     begin
       result := false;
       exit;
     end;
+
     actor.movedir := Ord(DI_NODIR);
     good := false;
     while numspechit > 0 do
@@ -817,6 +813,7 @@ begin
       P_HitFloor(actor);
     actor.z := actor.floorz;
   end;
+
   result := true;
 end;
 

@@ -37,18 +37,9 @@ unit p_enemy;
 interface
 
 uses
-  doomdef,
-  p_local,
-  p_mobj_h,
-  s_sound,
-  d_player,
-  p_pspr_h,
-// State.
-  doomstat,
   m_fixed,
-  tables,
-// Data.
-  sounds;
+  p_mobj_h,
+  tables;
 
 procedure A_Fall(actor: Pmobj_t);
 
@@ -251,6 +242,11 @@ implementation
 uses
   d_delphi,
   doomdata,
+  doomdef,
+  p_local,
+  s_sound,
+  d_player,
+  sounds,
   d_think,
   d_main,
   g_game,
@@ -260,6 +256,7 @@ uses
   info_common,
   m_rnd,
   p_common,
+  p_floor,
   p_map,
   p_maputl,
   p_setup,
@@ -267,12 +264,8 @@ uses
   p_switch,
   p_tick,
   p_mobj,
-  p_doors,
   p_spec,
   p_inter,
-  p_floor,
-  p_pspr,
-  p_extra,
   p_sounds,
   ps_main,
   r_defs,
@@ -510,7 +503,7 @@ begin
       result := false; // too far away
       exit;
     end;
-  
+
   if actor.flags4_ex and MF4_EX_LONGMELEE <> 0 then
     if dist < 196 then
     begin
@@ -627,6 +620,7 @@ begin
       P_HitFloor(actor);
     actor.z := actor.floorz;
   end;
+
   result := true;
 end;
 

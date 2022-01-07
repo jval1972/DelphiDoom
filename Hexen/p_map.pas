@@ -494,6 +494,7 @@ begin
     if G_PlayingEngineVersion <= VERSION206 then
     begin
       if ld.flags and ML_BLOCKING <> 0 then
+      begin
         if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
         begin
           if tmthing.flags2 and MF2_BLASTED <> 0 then
@@ -503,6 +504,7 @@ begin
           tmbounceline := ld;
           exit;
         end;
+      end;
 
       if (tmthing.player = nil) and (ld.flags and ML_BLOCKMONSTERS <> 0) then
       begin

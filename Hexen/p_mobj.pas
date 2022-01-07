@@ -1993,7 +1993,6 @@ begin
 
   if result.tics > 0 then
     result.tics := 1 + (P_Random mod result.tics);
-
   if result.flags and MF_COUNTKILL <> 0 then
   begin
     // Quantize angle to 45 degree increments
