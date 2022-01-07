@@ -85,6 +85,7 @@ uses
   g_game,
   p_genlin,
   p_playertrace,
+  p_friends,
   p_mobj,
   p_tick,
   p_pspr,
@@ -895,6 +896,7 @@ begin
   end;
 
   P_PlayerHistoryNotify(player);
+  P_HandleFriendsNearMe(player);  // JVAL: 20220107 - Handle nearby friends
 
   P_AngleTarget(player);
 

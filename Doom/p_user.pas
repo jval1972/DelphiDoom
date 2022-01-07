@@ -65,7 +65,7 @@ uses
   g_game,
   p_genlin,
   p_playertrace,
-  p_dogs,
+  p_friends,
   p_mobj,
   p_tick,
   p_pspr,
@@ -876,7 +876,7 @@ begin
   end;
 
   P_PlayerHistoryNotify(player);  // JVAL: 20211224 - Notify player history
-  P_HandleDogsNearMe(player); // JVAL: 20211224 - Handle nearby dogs
+  P_HandleFriendsNearMe(player);  // JVAL: 20220107 - Handle nearby friends
 
   P_AngleTarget(player);
 

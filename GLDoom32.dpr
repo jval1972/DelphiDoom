@@ -367,9 +367,9 @@ uses
   info_export in 'Base\info_export.pas',
   p_bouncing in 'Base\p_bouncing.pas',
   p_simpledialog in 'Base\p_simpledialog.pas',
-  p_dogs in 'Doom\p_dogs.pas',
   s_pk3sounds in 'Base\s_pk3sounds.pas',
-  p_playertrace in 'Base\p_playertrace.pas';
+  p_playertrace in 'Base\p_playertrace.pas',
+  p_friends in 'Base\p_friends.pas';
 
 var
   Saved8087CW: Word;

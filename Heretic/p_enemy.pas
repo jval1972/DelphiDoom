@@ -242,13 +242,12 @@ implementation
 uses
   d_delphi,
   doomdata,
-  doomdef,
-  p_local,
   s_sound,
   d_player,
   sounds,
   d_think,
   d_main,
+  doomdef,
   g_game,
   i_system,
   info_h,
@@ -257,9 +256,11 @@ uses
   m_rnd,
   p_common,
   p_floor,
+  p_friends,
   p_map,
   p_maputl,
   p_setup,
+  p_local,
   p_sight,
   p_switch,
   p_tick,
@@ -414,18 +415,25 @@ end;
 //
 function P_CheckMeleeRange(actor: Pmobj_t): boolean;
 var
-  pl: Pmobj_t;
+  mo: Pmobj_t;
   dist: fixed_t;
   mrange: integer;
 begin
-  if actor.target = nil then
+  mo := actor.target;
+  if mo = nil then
   begin
     result := false;
     exit;
   end;
 
-  pl := actor.target;
-  dist := P_AproxDistance(pl.x - actor.x, pl.y - actor.y);
+  // Friendly monsters do not attack each other
+  if P_BothFriends(mo, actor) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  dist := P_AproxDistance(mo.x - actor.x, mo.y - actor.y);
 
   mrange := actor.info.meleerange;
   if mrange = 0 then
@@ -445,12 +453,12 @@ begin
     exit;
   end;
 
-  if pl.z > actor.z + actor.height then
+  if mo.z > actor.z + actor.height then
   begin // Target is higher than the attacker
     result := false;
     exit;
   end
-  else if actor.z > pl.z + pl.height then
+  else if actor.z > mo.z + mo.height then
   begin // Attacker is higher
     result := false;
     exit;
@@ -475,7 +483,7 @@ begin
 
   if actor.flags and MF_JUSTHIT <> 0 then
   begin
-    // the target just hit the enemy,
+    // The target just hit the enemy,
     // so fight back!
     actor.flags := actor.flags and not MF_JUSTHIT;
     result := true;
@@ -484,7 +492,14 @@ begin
 
   if actor.reactiontime <> 0 then
   begin
-    result := false; // do not attack yet
+    result := false; // Don't attack yet
+    exit;
+  end;
+
+  // Friendly monsters do not attack each other
+  if P_BothFriends(actor, actor.target) then
+  begin
+    result := false;
     exit;
   end;
 
@@ -776,88 +791,6 @@ begin
   actor.movedir := Ord(DI_NODIR); // can not move
 end;
 
-const
-  MONS_LOOK_RANGE = 20 * 64 * FRACUNIT;
-  MONS_LOOK_LIMIT = 64;
-
-function P_LookForMonsters(actor: Pmobj_t): boolean;
-var
-  count: integer;
-  mo: Pmobj_t;
-  think: Pthinker_t;
-  maxrange: fixed_t;
-begin
-  if not P_CheckSight(players[0].mo, actor) then
-  begin // Player can't see monster
-    result := false;
-    exit;
-  end;
-
-  count := 0;
-  think := thinkercap.next;
-  while think <> @thinkercap do
-  begin
-    if @think._function.acp1 <> @P_MobjThinker then
-    begin
-      think := think.next;
-      continue;
-    end;
-
-    mo := Pmobj_t(think);
-
-    if (mo.flags and MF_COUNTKILL = 0) or (mo = actor) or (mo.health <= 0) then
-    begin // Not a valid monster
-      think := think.next;
-      continue;
-    end;
-
-    // JVAL
-    // Same monsters does not kill each other
-    if Info_GetInheritance(mo.info) = Info_GetInheritance(actor.info) then
-    begin
-      think := think.next;
-      continue;
-    end;
-
-    if actor.info.maxtargetrange > 0 then
-      maxrange := actor.info.maxtargetrange * FRACUNIT
-    else
-      maxrange := MONS_LOOK_RANGE;
-
-    if P_AproxDistance(actor.x - mo.x, actor.y - mo.y) > maxrange then
-    begin // Out of range
-      think := think.next;
-      continue;
-    end;
-
-    if P_Random < 16 then
-    begin // Skip
-      think := think.next;
-      continue;
-    end;
-
-    inc(count);
-    if count > MONS_LOOK_LIMIT then
-    begin // Stop searching
-      result := false;
-      exit;
-    end;
-
-    if not P_CheckSight(actor, mo) then
-    begin // Out of sight
-      think := think.next;
-      continue;
-    end;
-
-    // Found a target monster
-    actor.target := mo;
-    result := true;
-    exit;
-  end;
-
-  result := false;
-end;
-
 //
 // P_LookForPlayers
 // If allaround is false, only look 180 degrees in front.
@@ -914,12 +847,7 @@ begin
 
     if not allaround then
     begin
-      an := R_PointToAngle2(
-              actor.x,
-              actor.y,
-              player.mo.x,
-              player.mo.y)
-          - actor.angle;
+      an := R_PointToAngle2(actor.x, actor.y, player.mo.x, player.mo.y) - actor.angle;
 
       if (an > ANG90) and (an < ANG270) then
       begin
@@ -955,6 +883,19 @@ begin
   result := false;
 end;
 
+function P_LookForTargets(actor: Pmobj_t; allaround: boolean): boolean;
+begin
+  if actor.flags2_ex and MF2_EX_FRIEND <> 0 then
+  begin
+    result := P_LookForMonsters(actor);
+    if not result then
+      if P_Random < 200 then
+        result := P_LookForPlayers(actor, true);
+  end
+  else
+    result := P_LookForPlayers(actor, allaround);
+end;
+
 //
 // ACTION ROUTINES
 //
@@ -986,7 +927,7 @@ begin
 
   if not seeyou then
   begin
-    if not P_LookForPlayers(actor, actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) then
+    if not P_LookForTargets(actor, actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) then
       exit;
   end;
 
@@ -1035,7 +976,7 @@ begin
      (actor.target.flags and MF_SHOOTABLE = 0) then
   begin
     // look for a new target
-    if P_LookForPlayers(actor, true) then
+    if P_LookForTargets(actor, true) then
       exit; // got a new target
 
     if actor.state <> @states[actor.info.spawnstate] then
@@ -1081,7 +1022,7 @@ begin
     (actor.threshold = 0) and
     not P_CheckSight(actor, actor.target) then
   begin
-    if P_LookForPlayers(actor, true) then
+    if P_LookForTargets(actor, true) then
       exit;  // got a new target
   end;
 

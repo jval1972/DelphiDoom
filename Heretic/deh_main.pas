@@ -49,7 +49,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHMAXACTIONS = 400;
+  DEHMAXACTIONS = 500;
 
 var
   dehnumactions: integer = 0;

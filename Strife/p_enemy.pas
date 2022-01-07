@@ -289,6 +289,7 @@ uses
   p_common,
   p_extra,
   p_floor,
+  p_friends,
   p_map,
   p_maputl,
   p_setup,
@@ -494,24 +495,31 @@ end;
 //
 function P_CheckMeleeRange(actor: Pmobj_t): boolean;
 var
-  pl: Pmobj_t;
+  mo: Pmobj_t;
   dist: fixed_t;
   mrange: integer;
 begin
-  if actor.target = nil then
+  mo := actor.target;
+  if mo = nil then
   begin
     result := false;
     exit;
   end;
 
-  pl := actor.target;
-  if actor.z + 3 * actor.height div 2 < pl.z then // villsa [STRIFE]
+  // Friendly monsters do not attack each other
+  if P_BothFriends(mo, actor) then
   begin
     result := false;
     exit;
   end;
 
-  dist := P_AproxDistance(pl.x - actor.x, pl.y - actor.y);
+  if actor.z + 3 * actor.height div 2 < mo.z then // villsa [STRIFE]
+  begin
+    result := false;
+    exit;
+  end;
+
+  dist := P_AproxDistance(mo.x - actor.x, mo.y - actor.y);
 
   mrange := actor.info.meleerange;
   if mrange = 0 then
@@ -519,7 +527,7 @@ begin
   else if mrange < FRACUNIT then
     mrange := mrange * FRACUNIT;
 
-  if dist >= mrange - 20 * FRACUNIT + pl.info.radius then
+  if dist >= mrange - 20 * FRACUNIT + mo.info.radius then
   begin
     result := false;
     exit;
@@ -548,7 +556,7 @@ begin
 
   if actor.flags and MF_JUSTHIT <> 0 then
   begin
-    // the target just hit the enemy,
+    // The target just hit the enemy,
     // so fight back!
     actor.flags := actor.flags and not MF_JUSTHIT;
     result := true;
@@ -557,7 +565,14 @@ begin
 
   if actor.reactiontime <> 0 then
   begin
-    result := false; // do not attack yet
+    result := false; // Don't attack yet
+    exit;
+  end;
+
+  // Friendly monsters do not attack each other
+  if P_BothFriends(actor, actor.target) then
+  begin
+    result := false;
     exit;
   end;
 
@@ -640,6 +655,13 @@ var
   dist: fixed_t;
 begin
   if not P_CheckSight(actor, actor.target) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  // Friendly monsters do not attack each other
+  if P_BothFriends(actor, actor.target) then
   begin
     result := false;
     exit;
@@ -1067,7 +1089,7 @@ begin
       P_BulletSlope(actor);
 
       // Clear target if nothing is visible, or if the target is an ally.
-      if (linetarget = nil) or (actor.target.flags and MF_ALLY <> 0) then
+      if (linetarget = nil) or (actor.target.flags and MF_ALLY <> 0) or P_BothFriends(actor, actor.target) then
       begin
         actor.target := nil;
         result := false;
@@ -1134,6 +1156,19 @@ begin
   result := false;
 end;
 
+function P_LookForTargets(actor: Pmobj_t; allaround: boolean): boolean;
+begin
+  if actor.flags2_ex and MF2_EX_FRIEND <> 0 then
+  begin
+    result := P_LookForMonsters(actor);
+    if not result then
+      if P_Random < 200 then
+        result := P_LookForPlayers(actor, true);
+  end
+  else
+    result := P_LookForPlayers(actor, allaround);
+end;
+
 //
 // ACTION ROUTINES
 //
@@ -1176,7 +1211,7 @@ begin
     // as a parameter to control allaround look behavior. Did they just run out of
     // flags, or what?
     // STRIFE-TODO: Needs serious verification.
-    if not P_LookForPlayers(actor, (actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) or
+    if not P_LookForTargets(actor, (actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) or
                                    (actor.flags and MF_GIVEQUEST <> 0)) then
       exit;
   end;
@@ -1274,7 +1309,7 @@ begin
        ((gamemap <> 3) and (gamemap <> 34)) then
     begin
       // STRIFE-TODO: Needs serious verification.
-      if P_LookForPlayers(actor, (actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) or
+      if P_LookForTargets(actor, (actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) or
                                  (actor.flags and MF_GIVEQUEST <> 0)) then
       begin
         P_SetMobjState(actor, statenum_t(actor.info.seestate));
@@ -1374,7 +1409,7 @@ begin
      (actor.target.flags and MF_SHOOTABLE = 0) then
   begin
     // look for a new target
-    if P_LookForPlayers(actor, true) then
+    if P_LookForTargets(actor, true) then
       exit; // got a new target
 
     if actor.state <> @states[actor.info.spawnstate] then
@@ -1420,7 +1455,7 @@ begin
     (actor.threshold = 0) and
     not P_CheckSight(actor, actor.target) then
   begin
-    if P_LookForPlayers(actor, true) then
+    if P_LookForTargets(actor, true) then
       exit;  // got a new target
   end;
 

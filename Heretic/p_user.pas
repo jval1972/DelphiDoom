@@ -77,6 +77,7 @@ uses
   p_pspr,
   p_local,
   p_playertrace,
+  p_friends,
   p_setup,    // JVAL: 3d Floors
   p_slopes,   // JVAL: Slopes
   p_3dfloors, // JVAL: Slopes
@@ -866,7 +867,8 @@ begin
   end;
 
   P_PlayerHistoryNotify(player);  // JVAL: 20211224 - Notify player history
-  
+  P_HandleFriendsNearMe(player);  // JVAL: 20220107 - Handle nearby friends
+
   if player.chickenTics <> 0 then
     P_ChickenPlayerThink(player);
 

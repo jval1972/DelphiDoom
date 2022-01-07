@@ -205,6 +205,7 @@ uses
   p_playertrace,
   p_common,
   p_floor,
+  p_friends,
   p_map,
   p_maputl,
   p_setup,
@@ -319,25 +320,25 @@ end;
 //
 function P_CheckMeleeRange(actor: Pmobj_t): boolean;
 var
-  pl: Pmobj_t;
+  mo: Pmobj_t;
   dist: fixed_t;
   mrange: integer;
 begin
-  pl := actor.target;
-  if pl = nil then
+  mo := actor.target;
+  if mo = nil then
   begin
     result := false;
     exit;
   end;
 
   // Friendly monsters do not attack each other
-  if P_BothFriends(pl, actor) then
+  if P_BothFriends(mo, actor) then
   begin
     result := false;
     exit;
   end;
 
-  dist := P_AproxDistance(pl.x - actor.x, pl.y - actor.y);
+  dist := P_AproxDistance(mo.x - actor.x, mo.y - actor.y);
 
   mrange := actor.info.meleerange;
   if mrange = 0 then
@@ -345,7 +346,7 @@ begin
   else if mrange < FRACUNIT then
     mrange := mrange * FRACUNIT;
 
-  if dist >= mrange - 20 * FRACUNIT + pl.info.radius then
+  if dist >= mrange - 20 * FRACUNIT + mo.info.radius then
   begin
     result := false;
     exit;
@@ -354,13 +355,13 @@ begin
   // JVAL: 20210207 - Added MF3_EX_MELEECHECKZ
   if actor.flags3_ex and MF3_EX_MELEECHECKZ <> 0 then
   begin
-    if pl.z > actor.z + actor.height then
+    if mo.z > actor.z + actor.height then
     begin // Target is higher than the attacker
       result := false;
       exit;
     end;
 
-    if actor.z > pl.z + pl.height then
+    if actor.z > mo.z + mo.height then
     begin // Attacker is higher
       result := false;
       exit;
@@ -385,7 +386,7 @@ begin
 
   if actor.flags and MF_JUSTHIT <> 0 then
   begin
-    // the target just hit the enemy,
+    // The target just hit the enemy,
     // so fight back!
     actor.flags := actor.flags and not MF_JUSTHIT;
     result := true;
@@ -394,7 +395,7 @@ begin
 
   if actor.reactiontime <> 0 then
   begin
-    result := false; // do not attack yet
+    result := false; // Don't attack yet
     exit;
   end;
 
@@ -689,108 +690,6 @@ begin
   end;
 
   actor.movedir := Ord(DI_NODIR); // can not move
-end;
-
-//---------------------------------------------------------------------------
-//
-// FUNC P_LookForMonsters
-//
-//---------------------------------------------------------------------------
-const
-  MONS_LOOK_RANGE = 20 * 64 * FRACUNIT;
-  MONS_LOOK_LIMIT = 64;
-
-function P_LookForMonsters(actor: Pmobj_t): boolean;
-var
-  count: integer;
-  mo: Pmobj_t;
-  think: Pthinker_t;
-  inher: integer;
-  maxrange: fixed_t;
-begin
-  if actor.flags2_ex and MF2_EX_FRIEND = 0 then
-    if not P_CheckSight(players[0].mo, actor) then
-    begin // Player can't see monster
-      result := false;
-      exit;
-    end;
-
-  count := 0;
-  think := thinkercap.next;
-  while think <> @thinkercap do
-  begin
-    if @think._function.acp1 <> @P_MobjThinker then
-    begin
-      think := think.next;
-      continue;
-    end;
-
-    mo := Pmobj_t(think);
-
-    if (mo.flags and MF_COUNTKILL = 0) or (mo = actor) or (mo.health <= 0) then
-    begin // Not a valid monster
-      think := think.next;
-      continue;
-    end;
-
-    if P_BothFriends(mo, actor) then
-    begin // Friendly monsters do not hurt each other
-      think := think.next;
-      continue;
-    end;
-
-    inher := Info_GetInheritance(mo.info);
-    if inher = Info_GetInheritance(actor.info) then
-    begin
-    // JVAL
-    // Same monsters does not kill each other,
-    // only humanoids with weapons.
-      if (inher <> Ord(MT_POSSESSED)) and
-         (inher <> Ord(MT_SHOTGUY)) and
-         (inher <> Ord(MT_CHAINGUY)) then
-      begin
-        think := think.next;
-        continue;
-      end;
-    end;
-
-    if actor.info.maxtargetrange > 0 then
-      maxrange := actor.info.maxtargetrange * FRACUNIT
-    else
-      maxrange := MONS_LOOK_RANGE;
-
-    if P_AproxDistance(actor.x - mo.x, actor.y - mo.y) > maxrange then
-    begin // Out of range
-      think := think.next;
-      continue;
-    end;
-
-    if P_Random < 16 then
-    begin // Skip
-      think := think.next;
-      continue;
-    end;
-
-    inc(count);
-    if count > MONS_LOOK_LIMIT then
-    begin // Stop searching
-      result := false;
-      exit;
-    end;
-
-    if not P_CheckSight(actor, mo) then
-    begin // Out of sight
-      think := think.next;
-      continue;
-    end;
-
-    // Found a target monster
-    actor.target := mo;
-    result := true;
-    exit;
-  end;
-
-  result := false;
 end;
 
 //

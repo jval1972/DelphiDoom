@@ -656,8 +656,6 @@ function P_NearestPlayer(const mo: Pmobj_t): Pplayer_t;
 
 function P_CheckFlag(const mo: Pmobj_t; const aflag: string): boolean;
 
-function P_BothFriends(mo1, mo2: Pmobj_t): boolean;
-
 implementation
 
 uses
@@ -7055,46 +7053,6 @@ end;
 procedure A_UnSetMonsterInfight(actor: Pmobj_t);
 begin
   actor.flags2_ex := actor.flags2_ex and not MF2_EX_DONTINFIGHTMONSTERS;
-end;
-
-//
-// P_BothFriends
-//
-// JVAL: New function
-//
-function P_BothFriends(mo1, mo2: Pmobj_t): boolean;
-var
-  f1, f2: boolean;
-begin
-  if (mo1 = nil) or (mo2 = nil) then
-  begin
-    result := false;
-    exit;
-  end;
-
-  f1 := (mo1.player <> nil) or (mo1.flags2_ex and MF2_EX_FRIEND <> 0);
-  if not f1 then
-  begin
-    result := false;
-    exit;
-  end;
-
-  f2 := (mo2.player <> nil) or (mo2.flags2_ex and MF2_EX_FRIEND <> 0);
-  if not f2 then
-  begin
-    result := false;
-    exit;
-  end;
-
-  if deathmatch <> 0 then
-    if mo1.player <> nil then
-      if mo2.player <> nil then
-      begin
-        result := false;
-        exit;
-      end;
-
-  result := true;
 end;
 
 // MBF21

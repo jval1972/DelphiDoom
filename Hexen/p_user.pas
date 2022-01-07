@@ -124,6 +124,7 @@ uses
   p_tick,
   p_pspr,
   p_playertrace,
+  p_friends,
   p_local,
   p_setup,    // JVAL: 3d Floors
   p_slopes,   // JVAL: Slopes
@@ -1125,6 +1126,7 @@ begin
   end;
 
   P_PlayerHistoryNotify(player);  // JVAL: 20211224 - Notify player history
+  P_HandleFriendsNearMe(player);  // JVAL: 20220107 - Handle nearby friends
 
   if player.jumpTics > 0 then
     dec(player.jumpTics);
