@@ -128,6 +128,7 @@ Bug fix: Now correctly adjust all sectors affected by floor raise/lower.
 3D floor logic corrections.
 Auto fix interpolation for instant changes in sectors heights and texture offsets.
 Read the NOCLIPPING line flag in UDMF maps.
+Spawn monsters with precise angle if they have the MF2_EX_PRECISESPAWNANGLE flag set.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

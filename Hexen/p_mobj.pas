@@ -1997,7 +1997,10 @@ begin
   if result.flags and MF_COUNTKILL <> 0 then
   begin
     // Quantize angle to 45 degree increments
-    result.angle := ANG45 * (mthing.angle div 45);
+    if result.flags2_ex and MF2_EX_PRECISESPAWNANGLE <> 0 then
+      result.angle := ANG1 * mthing.angle
+    else
+      result.angle := ANG45 * (mthing.angle div 45);
   end
   else
   begin
