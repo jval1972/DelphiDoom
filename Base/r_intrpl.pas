@@ -80,7 +80,7 @@ uses
   tables;
 
 type
-  itype = (iinteger, ismallint, ibyte, iangle, ifloat, imobj);
+  itype = (iinteger, iinteger2, ismallint, ibyte, iangle, ifloat, imobj);
 
   // Interpolation item
   //  Holds information about the previous and next values and interpolation type
@@ -89,6 +89,7 @@ type
     address: pointer;
     case _type: itype of
       iinteger: (iprev, inext: integer);
+      iinteger2: (iprev2, inext2: integer);
       ismallint: (siprev, sinext: smallint);
       ibyte: (bprev, bnext: byte);
       iangle: (aprev, anext: LongWord);
@@ -197,6 +198,27 @@ begin
   PInteger(pi.address)^ := pi.iprev + round((pi.inext - pi.iprev) / FRACUNIT * frac);
 end;
 
+procedure R_InterpolationCalcI2(const pi: Piitem_t; const frac: fixed_t);
+const
+  II2MARGIN = 32 * 1024;
+var
+  diff: integer;
+begin
+  if pi.inext2 = pi.iprev2 then
+    exit;
+
+  diff := pi.inext2 - pi.iprev2;
+  if (diff > II2MARGIN) or (diff < -II2MARGIN) then
+  begin
+    if frac < FRACUNIT div 2 then
+      PInteger(pi.address)^ := pi.iprev2
+    else
+      PInteger(pi.address)^ := pi.inext2
+  end
+  else
+    PInteger(pi.address)^ := pi.iprev2 + round((pi.inext2 - pi.iprev2) / FRACUNIT * frac);
+end;
+
 procedure R_InterpolationCalcSI(const pi: Piitem_t; const frac: fixed_t);
 begin
   if pi.sinext = pi.siprev then
@@ -298,6 +320,11 @@ begin
         pi.iprev := pi.inext;
         pi.inext := PInteger(addr)^;
       end;
+    iinteger2:
+      begin
+        pi.iprev2 := pi.inext;
+        pi.inext2 := PInteger(addr)^;
+      end;
     ismallint:
       begin
         pi.siprev := pi.sinext;
@@ -372,16 +399,18 @@ begin
   begin
     if sec.renderflags and SRF_NO_INTERPOLATE = 0 then
     begin
-      R_AddInterpolationItem(@sec.floorheight, iinteger);
-      R_AddInterpolationItem(@sec.ceilingheight, iinteger);
+      // JVAL: 20220107 - Auto fix instant moving sectors
+      //  See also: https://www.doomworld.com/forum/topic/110185-eternity-uncapped-framerate-issue/?tab=comments#comment-2044505
+      R_AddInterpolationItem(@sec.floorheight, iinteger2);
+      R_AddInterpolationItem(@sec.ceilingheight, iinteger2);
       R_AddInterpolationItem(@sec.lightlevel, ismallint);
       {$IFDEF DOOM_OR_STRIFE}
       // JVAL: 30/9/2009
       // JVAL: 9/11/2015 Added strife offsets
-      R_AddInterpolationItem(@sec.floor_xoffs, iinteger);
-      R_AddInterpolationItem(@sec.floor_yoffs, iinteger);
-      R_AddInterpolationItem(@sec.ceiling_xoffs, iinteger);
-      R_AddInterpolationItem(@sec.ceiling_yoffs, iinteger);
+      R_AddInterpolationItem(@sec.floor_xoffs, iinteger2);
+      R_AddInterpolationItem(@sec.floor_yoffs, iinteger2);
+      R_AddInterpolationItem(@sec.ceiling_xoffs, iinteger2);
+      R_AddInterpolationItem(@sec.ceiling_yoffs, iinteger2);
       {$ENDIF}
       if sec.renderflags and SRF_INTERPOLATE_ROTATE <> 0 then
       begin
@@ -429,8 +458,8 @@ begin
         if li.sidenum[j] > -1 then
         begin
           si := @sides[li.sidenum[j]];
-          R_AddInterpolationItem(@si.textureoffset, iinteger);
-          R_AddInterpolationItem(@si.rowoffset, iinteger);
+          R_AddInterpolationItem(@si.textureoffset, iinteger2);
+          R_AddInterpolationItem(@si.rowoffset, iinteger2);
         end;
       end;
     inc(li);
@@ -469,6 +498,7 @@ begin
   begin
     case pi._type of
       iinteger: PInteger(pi.address)^ := pi.inext;
+      iinteger2: PInteger(pi.address)^ := pi.inext2;
       ismallint: PSmallInt(pi.address)^ := pi.sinext;
       ibyte: PByte(pi.address)^ := pi.bnext;
       iangle: Pangle_t(pi.address)^ := pi.anext;
@@ -506,6 +536,7 @@ begin
   begin
     case pi._type of
       iinteger: PInteger(pi.address)^ := pi.inext;
+      iinteger2: PInteger(pi.address)^ := pi.inext2;
       ismallint: PSmallInt(pi.address)^ := pi.sinext;
       ibyte: PByte(pi.address)^ := pi.bnext;
       iangle: Pangle_t(pi.address)^ := pi.anext;
@@ -559,6 +590,7 @@ begin
     begin
       case pi._type of
         iinteger: R_InterpolationCalcI(pi, ticfrac);
+        iinteger2: R_InterpolationCalcI2(pi, ticfrac);
         ismallint: R_InterpolationCalcSI(pi, ticfrac);
         ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
         iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
@@ -651,6 +683,7 @@ begin
         begin
           case pi._type of
             iinteger: R_InterpolationCalcI(pi, ticfrac);
+            iinteger2: R_InterpolationCalcI2(pi, ticfrac);
             ismallint: R_InterpolationCalcSI(pi, ticfrac);
             ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
             iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);

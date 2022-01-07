@@ -126,6 +126,7 @@ Added A_BossDeath() ACTORDEF function.
 Dynamic ceiling slope check correction.
 Bug fix: Now correctly adjust all sectors affected by floor raise/lower.
 3D floor logic corrections.
+Auto fix interpolation for instant changes in sectors heights and texture offsets.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

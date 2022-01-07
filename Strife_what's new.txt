@@ -120,6 +120,7 @@ Parse [SPRITES] DEHACKED/BEX extention.
 Added MF4_EX_MAP07BOSS1 & MF4_EX_MAP07BOSS2 mobj flags.
 Dynamic ceiling slope check correction.
 3D floor logic corrections.
+Auto fix interpolation for instant changes in sectors heights and texture offsets.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
