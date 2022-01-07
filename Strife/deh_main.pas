@@ -2347,13 +2347,6 @@ begin
   mobj_flags3_ex.Add('MF3_EX_FREEZEDAMAGERESIST');
   mobj_flags3_ex.Add('MF3_EX_FLAMEDAMAGE');
   mobj_flags3_ex.Add('MF3_EX_NOFLAMEDAMAGE');
-  mobj_flags4_ex.Add('MF4_EX_RANGEHALF');
-  mobj_flags4_ex.Add('MF4_EX_NOTHRESHOLD');
-  mobj_flags4_ex.Add('MF4_EX_LONGMELEE');
-  mobj_flags4_ex.Add('MF4_EX_RIP');
-  mobj_flags4_ex.Add('MF4_EX_TRACEDEFINED');
-  mobj_flags4_ex.Add('MF4_EX_MAP07BOSS1');
-  mobj_flags4_ex.Add('MF4_EX_MAP07BOSS2');
 
   mobj_flags3_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags3_ex_hash.AssignList(mobj_flags3_ex);
@@ -2369,6 +2362,13 @@ begin
   mobj_flags4_ex.Add('MF4_EX_SHORTMRANGE');
   mobj_flags4_ex.Add('MF4_EX_DMGIGNORED');
   mobj_flags4_ex.Add('MF4_EX_HIGHERMPROB');
+  mobj_flags4_ex.Add('MF4_EX_RANGEHALF');
+  mobj_flags4_ex.Add('MF4_EX_NOTHRESHOLD');
+  mobj_flags4_ex.Add('MF4_EX_LONGMELEE');
+  mobj_flags4_ex.Add('MF4_EX_RIP');
+  mobj_flags4_ex.Add('MF4_EX_TRACEDEFINED');
+  mobj_flags4_ex.Add('MF4_EX_MAP07BOSS1');
+  mobj_flags4_ex.Add('MF4_EX_MAP07BOSS2');
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);
