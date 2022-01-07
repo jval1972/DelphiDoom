@@ -7139,27 +7139,37 @@ begin
 
   if m.mbf21bits and MF_MBF21_E1M8BOSS <> 0 then
   begin
-
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex or MF4_EX_E1M8BOSS;
+    {$ENDIF}
   end;
 
   if m.mbf21bits and MF_MBF21_E2M8BOSS <> 0 then
   begin
-
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex or MF4_EX_E2M8BOSS;
+    {$ENDIF}
   end;
 
   if m.mbf21bits and MF_MBF21_E3M8BOSS <> 0 then
   begin
-
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex or MF4_EX_E3M8BOSS;
+    {$ENDIF}
   end;
 
   if m.mbf21bits and MF_MBF21_E4M6BOSS <> 0 then
   begin
-
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex or MF4_EX_E4M6BOSS;
+    {$ENDIF}
   end;
 
   if m.mbf21bits and MF_MBF21_E4M8BOSS <> 0 then
   begin
-
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex or MF4_EX_E4M8BOSS;
+    {$ENDIF}
   end;
 
   if m.mbf21bits and MF_MBF21_RIP <> 0 then
