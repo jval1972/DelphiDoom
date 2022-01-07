@@ -790,7 +790,7 @@ begin
   ss := R_PointInSubsector(x, y);
 
 // JVAL: 3d floors
-  h := ss.sector.floorheight;
+  h := P_FloorHeight(ss, mo.x, mo.y);
   if ss.sector.midsec >= 0 then
     if mobj.spawnpoint.options and MTF_ONMIDSECTOR <> 0 then
       h := sectors[ss.sector.midsec].ceilingheight;
