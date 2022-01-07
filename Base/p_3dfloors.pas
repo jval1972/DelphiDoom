@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2021 by Jim Valavanis
+//  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -88,7 +88,7 @@ begin
   if ss.sector.midsec >= 0 then
   begin
     msec := @sectors[ss.sector.midsec];
-    if m.z < msec.ceilingheight then
+    if m.z <= msec.floorheight then
       result := 0
     else
       result := 1;
@@ -104,7 +104,7 @@ begin
   if s.midsec >= 0 then
   begin
     msec := @sectors[s.midsec];
-    if z < msec.ceilingheight then
+    if z <= msec.floorheight then
       result := 0
     else
       result := 1;
@@ -195,7 +195,7 @@ begin
   if ss.sector.midsec >= 0 then
   begin
     msec := @sectors[ss.sector.midsec];
-    if z < msec.ceilingheight then
+    if z <= msec.floorheight then
       result := P_FloorHeight(ss.sector, x, y)
     else
       result := msec.ceilingheight;
@@ -239,7 +239,7 @@ begin
   if s.midsec >= 0 then
   begin
     msec := @sectors[s.midsec];
-    if z < msec.ceilingheight then
+    if z <= msec.floorheight then
       result := P_FloorHeight(s, x, y)
     else
       result := msec.ceilingheight;
