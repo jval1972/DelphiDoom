@@ -31,7 +31,7 @@
 //  Items: key cards, artifacts, weapon, ammunition.
 //
 //------------------------------------------------------------------------------
-//  Site  : http://sourceforge.net/projects/delphidoom/
+//  Site  : https://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}

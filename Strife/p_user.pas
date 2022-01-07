@@ -33,7 +33,7 @@
 //  Pending weapon.
 //
 //------------------------------------------------------------------------------
-//  Site  : http://sourceforge.net/projects/delphidoom/
+//  Site  : https://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}

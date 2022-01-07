@@ -33,7 +33,7 @@
 //  that are associated with states/frames.
 //
 //------------------------------------------------------------------------------
-//  Site  : http://sourceforge.net/projects/delphidoom/
+//  Site  : https://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -583,7 +583,7 @@ begin
       result := false; // close for fist attack
       exit;
     end;
-    
+
   // villsa [STRIFE] checks for acolytes
   //  haleyjd 09/05/10: Repaired to match disassembly: Was including
   //  SHADOWGUARD in the wrong case, was missing MT_SENTINEL entirely.
