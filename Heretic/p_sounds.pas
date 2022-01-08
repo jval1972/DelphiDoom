@@ -1,8 +1,8 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiHexen: A modified and improved Hexen port for Windows
+//  DelphiHeretic: A modified and improved Heretic port for Windows
 //  based on original Linux Doom as published by "id Software", on
-//  Hexen source as published by "Raven" software and DelphiDoom
+//  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
 //  Copyright (C) 2004-2022 by Jim Valavanis
 //
