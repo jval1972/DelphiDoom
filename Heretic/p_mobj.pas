@@ -1227,8 +1227,12 @@ begin
   // unlink from sector and block lists
   P_UnsetThingPosition(mobj);
 
-  // stop any playing sound
-  S_StopSound(mobj);
+  // From Woof: [FG] removed map objects may finish their sounds
+  if full_sounds then
+    S_UnlinkSound(mobj)
+  else
+    // stop any playing sound
+    S_StopSound(mobj);
 
   P_RemoveMobjCustomParams(mobj.customparams);
 
