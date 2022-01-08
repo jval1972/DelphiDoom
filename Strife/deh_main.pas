@@ -2371,6 +2371,8 @@ begin
   mobj_flags4_ex.Add('MF4_EX_MAP07BOSS1');
   mobj_flags4_ex.Add('MF4_EX_MAP07BOSS2');
   mobj_flags4_ex.Add('MF4_EX_SELFAPPLYINGLIGHT');
+  mobj_flags4_ex.Add('MF4_EX_FULLVOLRIP');
+  mobj_flags4_ex.Add('MF4_EX_RANDOMRIPSOUND');
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);
@@ -2882,6 +2884,7 @@ begin
   DEH_AddAction(@A_GoToIfTracerCustomParam, 'A_GoToIfTracerCustomParam(param: string, value: integer, state: state_t)');
   DEH_AddAction(@A_GoToIfTracerCustomParamLess, 'A_GoToIfTracerCustomParamLess(param: string, value: integer, state: state_t)');
   DEH_AddAction(@A_GoToIfTracerCustomParamGreater, 'A_GoToIfTracerCustomParamGreater(param: string, value: integer, state: state_t)');
+  DEH_AddAction(@A_RipSound1, 'A_RipSound()');
 
   for i := 0 to dehnumactions - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
