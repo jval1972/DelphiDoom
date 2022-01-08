@@ -38,6 +38,7 @@ uses
   d_delphi,
   {$IFNDEF OPENGL}
   r_vislight,
+  p_mobj_h,
   {$ENDIF}
   m_fixed;
 
@@ -108,6 +109,7 @@ type
     {$IFNDEF OPENGL}
     radius: fixed_t;
     vis: Pvislight_t;
+    mo: Pmobj_t;
     {$ENDIF}
   end;
   Pdlsortitem_t = ^dlsortitem_t;

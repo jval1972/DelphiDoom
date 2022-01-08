@@ -37,13 +37,16 @@ interface
 uses
   p_mobj_h;
 
+type
+  lightmappass_t = (lp_solid, lp_masked);
+
 procedure R_MarkDLights(const mo: Pmobj_t);
 
 procedure R_AddAdditionalLights;
 
-procedure R_DrawLightsSingleThread;
+procedure R_DrawLightsSingleThread(const pass: lightmappass_t);
 
-procedure R_DrawLightsMultiThread;
+procedure R_DrawLightsMultiThread(const pass: lightmappass_t);
 
 var
   lightmapcolorintensity: integer = 128;
@@ -220,6 +223,7 @@ begin
         psl.y := mo.y + trunc(FRACUNIT * l.z);
         psl.z := mo.z + trunc(FRACUNIT * l.y);
         psl.radius := trunc(l.radius * FRACUNIT);
+        psl.mo := mo;
         inc(numdlitems);
       end;
     end;
@@ -269,7 +273,7 @@ const
   DEPTHBUFFER_FAR = 256;
 
 function R_GetVisLightProjection(const x, y, z: fixed_t; const radius: fixed_t;
-  const color: LongWord): Pvislight_t;
+  const color: LongWord; mo: Pmobj_t): Pvislight_t;
 var
   tr_x: fixed_t;
   tr_y: fixed_t;
@@ -333,6 +337,7 @@ begin
   result.gx := x;
   result.gy := y;
   result.gz := z;
+  result.mo := mo;
   result.texturemid := z + radius - viewz;
   result.xiscale := FixedDiv(FRACUNIT, xscale);
 
@@ -460,6 +465,7 @@ type
   lightparams_t = record
     lightsourcex: fixed_t;
     lightsourcey: fixed_t;
+    lightsourcemo: Pmobj_t;
     r, g, b: byte;
     dl_iscale: fixed_t;
     dl_scale: fixed_t;
@@ -735,7 +741,7 @@ begin
     begin
       db := R_ZBufferAt(x, y);
       depth := db.depth;
-      if (depth >= dbmin) and (depth <= dbmax) then
+      if (db.mo <> parms.lightsourcemo) and (depth >= dbmin) and (depth <= dbmax) then
       begin
         if seg <> db.seg then
         begin
@@ -975,7 +981,7 @@ begin
     begin
       db := R_ZBufferAt(x, y);
       depth := db.depth;
-      if (depth >= dbmin) and (depth <= dbmax) then
+      if (db.mo <> parms.lightsourcemo) and (depth >= dbmin) and (depth <= dbmax) then
       begin
         if seg <> db.seg then
         begin
@@ -1053,6 +1059,7 @@ begin
   lcolumn := @lcolumns[threadid];
   lcolumn.lightsourcex := psl.x;
   lcolumn.lightsourcey := psl.y;
+  lcolumn.lightsourcemo := psl.mo;
   lcolumn.dl_iscale := FixedDivEx(FRACUNIT, spryscale);
   lcolumn.dl_fracstep := FixedDivEx(FRACUNIT, spryscale); //trunc(vis.scale * w / LIGHTTEXTURESIZE));
   lcolumn.dl_scale := vis.scale;
@@ -1101,7 +1108,7 @@ var
   old_lightwidthfactor: integer = -1;
   old_lightmapfadeoutfunc: integer = -1;
 
-procedure R_SetUpLightEffects;
+procedure R_SetUpLightEffects(const pass: lightmappass_t);
 begin
   lightmapcolorintensity := ibetween(lightmapcolorintensity, MINLMCOLORSENSITIVITY, MAXLMCOLORSENSITIVITY);
   lightwidthfactor := ibetween(lightwidthfactor, MINLIGHTWIDTHFACTOR, MAXLIGHTWIDTHFACTOR);
@@ -1113,7 +1120,7 @@ begin
     R_InitLightTexture;
   end;
   calc_precalc32op1;
-  if r_lightmaponmasked then
+  if pass = lp_masked then
   begin
     if videomode = vm32bit then
       drawcolumnlightmap := R_DrawColumnLightmap32Masked
@@ -1153,7 +1160,7 @@ begin
     for i := numdlitems - 1 downto 0 do
     begin
       psl := @dlbuffer[i];
-      psl.vis := R_GetVisLightProjection(psl.x, psl.y, psl.z, psl.radius * lightwidthfactor div DEFLIGHTWIDTHFACTOR, $FFFFFF);
+      psl.vis := R_GetVisLightProjection(psl.x, psl.y, psl.z, psl.radius * lightwidthfactor div DEFLIGHTWIDTHFACTOR, $FFFFFF, psl.mo);
     end;
   end
   else
@@ -1162,7 +1169,7 @@ begin
     begin
       psl := @dlbuffer[i];
       c := f2b(psl.l.b) + f2b(psl.l.g) shl 8 + f2b(psl.l.r) shl 16;
-      psl.vis := R_GetVisLightProjection(psl.x, psl.y, psl.z, psl.radius * lightwidthfactor div DEFLIGHTWIDTHFACTOR, c);
+      psl.vis := R_GetVisLightProjection(psl.x, psl.y, psl.z, psl.radius * lightwidthfactor div DEFLIGHTWIDTHFACTOR, c, psl.mo);
     end;
   end;
 end;
@@ -1173,11 +1180,11 @@ begin
     R_DrawVisLight(psl, 0, 1);
 end;
 
-procedure R_DrawLightsSingleThread;
+procedure R_DrawLightsSingleThread(const pass: lightmappass_t);
 var
   i: integer;
 begin
-  R_SetUpLightEffects;
+  R_SetUpLightEffects(pass);
   R_SortDlights;
   R_GetVisLightProjections;
   for i := 0 to numdlitems - 1 do
@@ -1199,9 +1206,9 @@ begin
   result := 0;
 end;
 
-procedure R_DrawLightsMultiThread;
+procedure R_DrawLightsMultiThread(const pass: lightmappass_t);
 begin
-  R_SetUpLightEffects;
+  R_SetUpLightEffects(pass);
   R_SortDlights;
   R_GetVisLightProjections;
   MT_Iterate(@_DrawLightsMultiThread_thr, nil);

@@ -34,13 +34,15 @@ unit r_vislight;
 interface
 
 uses
-  m_fixed;
+  m_fixed,
+  p_mobj_h;
 
 type
   Pvislight_t = ^vislight_t;
   vislight_t = record
     x1: integer;
     x2: integer;
+    mo: Pmobj_t;
 
     // for line side calculation
     gx: fixed_t;
