@@ -2,10 +2,10 @@
   pitch := SCREENWIDTH * SizeOf(LongWord);
   pitch1 := pitch;
   {$IFDEF TBL_R}
-  pitch1 := pitch - 2;
+  pitch1 := pitch1 - 2;
   {$ELSE}
   {$IFDEF TBL_G}
-  pitch1 := pitch - 1;
+  pitch1 := pitch1 - 1;
   {$ENDIF}
   {$ENDIF}
   for y := parms.dl_yl to parms.dl_yh do
