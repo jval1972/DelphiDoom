@@ -456,6 +456,10 @@ const
   MF4_EX_FULLVOLRIP = $20000;
   // Random rip sound
   MF4_EX_RANDOMRIPSOUND = $40000;
+  // Ignore full_sounds console variable and always finishes sounds
+  MF4_EX_ALWAYSFINISHSOUND = $80000;
+  // Ignore full_sounds console variable and never finishes sounds
+  MF4_EX_NEVERFINISHSOUND = $100000;
 
 // MBF21 flags
 const
