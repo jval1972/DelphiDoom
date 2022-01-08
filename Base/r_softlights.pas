@@ -64,6 +64,7 @@ var
   r_uselightmaps: boolean = true;
   r_lightmaponmasked: boolean = true;
   r_lightmapfadeoutfunc: integer = 0;
+  r_lightmaponemitters: boolean = false;
 
 const
   LIGHTMAPFADEOUT_LINEAR = 0;
@@ -708,7 +709,9 @@ begin
   sameseg := false;
   source32 := parms.dl_source32;
 
-  if parms.lightsourcemo <> nil then
+  if r_lightmaponemitters then
+    okself := True
+  else if parms.lightsourcemo <> nil then
     okself := parms.lightsourcemo.flags4_ex and MF4_EX_SELFAPPLYINGLIGHT <> 0
   else
     okself := False;
@@ -931,7 +934,9 @@ begin
   sameseg := false;
   source32 := parms.dl_source32;
 
-  if parms.lightsourcemo <> nil then
+  if r_lightmaponemitters then
+    okself := True
+  else if parms.lightsourcemo <> nil then
     okself := parms.lightsourcemo.flags4_ex and MF4_EX_SELFAPPLYINGLIGHT <> 0
   else
     okself := False;

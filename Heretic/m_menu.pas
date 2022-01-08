@@ -983,6 +983,7 @@ type
   optionslightmap_e = (
     ol_uselightmaps,
     ol_lightmaponmasked,
+    ol_lightmaponemitters,
     ol_lightmapfunc,
     ol_colorintensity,
     ol_filler1,
@@ -2586,6 +2587,7 @@ begin
   lightmapcolorintensity := DEFLMCOLORSENSITIVITY;
   lightwidthfactor := DEFLIGHTWIDTHFACTOR;
   r_lightmaponmasked := true;
+  r_lightmaponemitters := false;
   r_lightmapfadeoutfunc := 0;
 end;
 
@@ -4888,6 +4890,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @r_lightmaponmasked;
   pmi.alphaKey := 'm';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Always cast light to its emitter';
+  pmi.cmd := 'r_lightmaponemitters';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @r_lightmaponemitters;
+  pmi.alphaKey := 'e';
 
   inc(pmi);
   pmi.status := 1;

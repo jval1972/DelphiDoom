@@ -122,6 +122,7 @@ var
   r_bltasync: boolean = true;
   r_blitmultiplier: integer = 1;
   r_lightmaponmasked: boolean = true;
+  r_lightmaponemitters: boolean = false;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -165,7 +166,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}205{$ELSE}207{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}206{$ELSE}208{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -561,6 +562,14 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tInteger),
+
+    (name: 'r_lightmaponemitters';
+     location: @r_lightmaponemitters;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
 
     (name: 'lightmapcolorintensity';
      location: @lightmapcolorintensity;
