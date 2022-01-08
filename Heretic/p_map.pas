@@ -133,6 +133,7 @@ uses
   p_slopes, // JVAL: Slopes
   p_switch,
   p_tick,
+  p_sounds,
   ps_main,  // JVAL: Script Events
   r_main,
   r_sky,
@@ -863,7 +864,7 @@ begin
       end;
 
       if tmthing.info.ripsound <> 0 then
-        S_StartSound(tmthing, tmthing.info.ripsound)
+        A_RipSound1(tmthing)
       else
         S_StartSound(tmthing, Ord(sfx_ripslop));
 

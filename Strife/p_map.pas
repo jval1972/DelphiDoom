@@ -154,6 +154,7 @@ uses
   p_tick,
   p_terrain,
   p_enemy,
+  p_sounds,
   ps_main,
   r_main,
   r_sky,
@@ -858,8 +859,7 @@ begin
           P_SpawnBlood(tmthing.x, tmthing.y, tmthing.z, damage);
       end;
 
-      if tmthing.info.ripsound <> 0 then
-        S_StartSound(tmthing, tmthing.info.ripsound);
+      A_RipSound1(tmthing);
 
       P_DamageMobj(thing, tmthing, tmthing.target, damage);
 

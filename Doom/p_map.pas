@@ -145,6 +145,7 @@ uses
   p_switch,
   p_tick,
   p_terrain,
+  p_sounds,
   ps_main,  // JVAL: Script Events
   r_main,
   r_sky,
@@ -928,8 +929,7 @@ begin
         end;
       end;
 
-      if tmthing.info.ripsound <> 0 then
-        S_StartSound(tmthing, tmthing.info.ripsound);
+      A_RipSound1(tmthing);
 
       P_DamageMobj(thing, tmthing, tmthing.target, damage);
 
