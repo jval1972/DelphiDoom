@@ -530,7 +530,7 @@ begin
   end;
   result := R_ZBufferAt(x, y);
   pfdb.db := result;
-  if result.seg <> nil then
+  if LongWord(result.seg) > 1 then
     pfdb.next := result.stop
   else
     pfdb.next := y;
@@ -603,9 +603,9 @@ begin
       begin
         if seg <> db.seg then
         begin
-          sameseg := (seg = db.seg) and (seg <> nil);
+          sameseg := (seg = db.seg) and (LongWord(seg) > 1);
           seg := db.seg;
-          if seg <> nil then
+          if LongWord(seg) > 1 then
             skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg)
           else
             skip := false;
@@ -737,7 +737,9 @@ begin
       depth := db.depth;
       if (depth >= dbmin) and (depth <= dbmax) then
       begin
-        if seg <> db.seg then
+        if LongWord(db.seg) = 1 then
+          skip := true
+        else if seg <> db.seg then
         begin
           sameseg := (seg = db.seg) and (seg <> nil);
           seg := db.seg;
@@ -868,9 +870,9 @@ begin
       begin
         if seg <> db.seg then
         begin
-          sameseg := (seg = db.seg) and (seg <> nil);
+          sameseg := (seg = db.seg) and (LongWord(seg) > 1);
           seg := db.seg;
-          if seg <> nil then
+          if LongWord(seg) > 1 then
             skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg)
           else
             skip := false;
@@ -977,7 +979,9 @@ begin
       depth := db.depth;
       if (depth >= dbmin) and (depth <= dbmax) then
       begin
-        if seg <> db.seg then
+        if LongWord(db.seg) = 1 then
+          skip := true
+        else if seg <> db.seg then
         begin
           sameseg := (seg = db.seg) and (seg <> nil);
           seg := db.seg;

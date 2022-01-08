@@ -66,15 +66,15 @@ procedure R_DrawSlopeToZBuffer;
 
 procedure R_DrawColumnToZBuffer;
 
-procedure R_DrawMaskedColumnToZBuffer;
+procedure R_DrawMaskedColumnToZBuffer(const transparent: Boolean);
 
-procedure R_DrawBatchMaskedColumnToZBuffer;
+procedure R_DrawBatchMaskedColumnToZBuffer(const transparent: Boolean);
 
-procedure R_DrawVoxelPixelToZBuffer(const depth: LongWord; const x, y: integer);
+procedure R_DrawVoxelPixelToZBuffer(const depth: LongWord; const x, y: integer; const transparent: Boolean);
 
-procedure R_DrawVoxelColumnToZBuffer(const depth: LongWord);
+procedure R_DrawVoxelColumnToZBuffer(const depth: LongWord; const transparent: Boolean);
 
-procedure R_DrawBatchVoxelColumnToZBuffer(const depth: LongWord);
+procedure R_DrawBatchVoxelColumnToZBuffer(const depth: LongWord; const transparent: Boolean);
 
 // Returns the z buffer value at (x, y) or screen
 // Lower value means far away
@@ -203,7 +203,7 @@ begin
   item.stop := dc_yh;
 end;
 
-procedure R_DrawMaskedColumnToZBuffer;
+procedure R_DrawMaskedColumnToZBuffer(const transparent: Boolean);
 var
   item: Pzbufferitem_t;
 begin
@@ -221,17 +221,21 @@ begin
   item := R_NewZBufferItem(@Zcolumns[dc_x]);
 
   item.depth := trunc((FRACUNIT / dc_iscale) * FRACUNIT);
-  item.seg := nil;
+  if transparent then
+    item.seg := Pointer($1)
+  else
+    item.seg := nil;
 
   item.start := dc_yl;
   item.stop := dc_yh;
 end;
 
-procedure R_DrawBatchMaskedColumnToZBuffer;
+procedure R_DrawBatchMaskedColumnToZBuffer(const transparent: Boolean);
 var
   item: Pzbufferitem_t;
   i: integer;
   depth: integer;
+  aseg: Pointer;
 begin
 {$IFDEF DEBUG}
   if not IsIntegerInRange(dc_x, 0, viewwidth - 1) then
@@ -245,19 +249,23 @@ begin
 {$ENDIF}
 
   depth := trunc((FRACUNIT / dc_iscale) * FRACUNIT);
+  if transparent then
+    aseg := Pointer($1)
+  else
+    aseg := nil;
   for i := dc_x to dc_x + num_batch_columns - 1 do
   begin
     item := R_NewZBufferItem(@Zcolumns[i]);
 
     item.depth := depth;
-    item.seg := nil;
+    item.seg := aseg;
 
     item.start := dc_yl;
     item.stop := dc_yh;
   end;
 end;
 
-procedure R_DrawVoxelPixelToZBuffer(const depth: LongWord; const x, y: integer);
+procedure R_DrawVoxelPixelToZBuffer(const depth: LongWord; const x, y: integer; const transparent: Boolean);
 var
   item: Pzbufferitem_t;
 begin
@@ -271,13 +279,16 @@ begin
   item := R_NewZBufferItem(@Zcolumns[x]);
 
   item.depth := depth;
-  item.seg := nil;
+  if transparent then
+    item.seg := Pointer($1)
+  else
+    item.seg := nil;
 
   item.start := y;
   item.stop := y;
 end;
 
-procedure R_DrawVoxelColumnToZBuffer(const depth: LongWord);
+procedure R_DrawVoxelColumnToZBuffer(const depth: LongWord; const transparent: Boolean);
 var
   Z: Pzbuffer_t;
   item: Pzbufferitem_t;
@@ -312,17 +323,21 @@ begin
   item := R_NewZBufferItem(Z);
 
   item.depth := depth;
-  item.seg := nil;
+  if transparent then
+    item.seg := Pointer($1)
+  else
+    item.seg := nil;
 
   item.start := dc_yl;
   item.stop := dc_yh;
 end;
 
-procedure R_DrawBatchVoxelColumnToZBuffer(const depth: LongWord);
+procedure R_DrawBatchVoxelColumnToZBuffer(const depth: LongWord; const transparent: Boolean);
 var
   Z: Pzbuffer_t;
   item: Pzbufferitem_t;
   i: integer;
+  aseg: Pointer;
 begin
 {$IFDEF DEBUG}
   if not IsIntegerInRange(dc_x, 0, viewwidth - 1) then
@@ -335,6 +350,10 @@ begin
     I_Warning('R_DrawBatchVoxelColumnToZBuffer(): dc_yh=%d < dc_yl=%d'#13#10, [dc_yh, dc_yl]);
 {$ENDIF}
 
+  if transparent then
+    aseg := Pointer($1)
+  else
+    aseg := nil;
   for i := dc_x to dc_x + num_batch_columns - 1 do
   begin
     Z := @Zcolumns[i];
@@ -356,7 +375,7 @@ begin
     item := R_NewZBufferItem(Z);
 
     item.depth := depth;
-    item.seg := nil;
+    item.seg := aseg;
 
     item.start := dc_yl;
     item.stop := dc_yh;

@@ -1736,8 +1736,7 @@ begin
                   putpixelfunc(left, top);
 
                 if domaskedzbuffer then
-                  if renderflags and VSF_TRANSPARENCY = 0 then
-                    R_DrawVoxelPixelToZBuffer(depth, left, top);
+                  R_DrawVoxelPixelToZBuffer(depth, left, top, renderflags and VSF_TRANSPARENCY <> 0);
               end;
 
           col := col.next;
@@ -1945,8 +1944,7 @@ begin
             batchcolfunc;
 
           if domaskedzbuffer then
-            if renderflags and VSF_TRANSPARENCY = 0 then
-              R_DrawBatchVoxelColumnToZBuffer(depth);
+            R_DrawBatchVoxelColumnToZBuffer(depth, renderflags and VSF_TRANSPARENCY <> 0);
 
           col := col.next;
 
@@ -1991,8 +1989,7 @@ begin
               batchcolfunc;
 
             if domaskedzbuffer then
-              if renderflags and VSF_TRANSPARENCY = 0 then
-                R_DrawBatchVoxelColumnToZBuffer(depth);
+              R_DrawBatchVoxelColumnToZBuffer(depth, renderflags and VSF_TRANSPARENCY <> 0);
 
             last_top := cur_top;
             last_bot := cur_bot;
@@ -2019,8 +2016,7 @@ begin
             batchcolfunc;
 
           if domaskedzbuffer then
-            if renderflags and VSF_TRANSPARENCY = 0 then
-              R_DrawBatchVoxelColumnToZBuffer(depth);
+            R_DrawBatchVoxelColumnToZBuffer(depth, renderflags and VSF_TRANSPARENCY <> 0);
         end;
 
         col := col.next;

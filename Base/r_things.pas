@@ -579,8 +579,7 @@ begin
         colfunc;
 
       if domaskedzbuffer then
-        if renderflags and VSF_TRANSPARENCY = 0 then
-          R_DrawMaskedColumnToZBuffer;
+        R_DrawMaskedColumnToZBuffer(renderflags and VSF_TRANSPARENCY <> 0);
     end;
     if not tallpatch then
     begin
@@ -633,7 +632,7 @@ begin
       colfunc;
 
     if domaskedzbuffer then
-      R_DrawMaskedColumnToZBuffer;
+      R_DrawMaskedColumnToZBuffer(False);
   end;
 
   dc_texturemid := basetexturemid;
@@ -695,8 +694,7 @@ begin
       batchcolfunc;
 
       if domaskedzbuffer then
-        if renderflags and VSF_TRANSPARENCY = 0 then
-          R_DrawBatchMaskedColumnToZBuffer;
+        R_DrawBatchMaskedColumnToZBuffer(renderflags and VSF_TRANSPARENCY <> 0);
     end;
     if not tallpatch then
     begin
@@ -797,8 +795,7 @@ begin
       R_FillSpriteInfo_BatchMT(R_SpriteAddMTInfo);
 
       if domaskedzbuffer then
-        if renderflags and VSF_TRANSPARENCY = 0 then
-          R_DrawBatchMaskedColumnToZBuffer;
+        R_DrawBatchMaskedColumnToZBuffer(renderflags and VSF_TRANSPARENCY <> 0);
     end;
     if not tallpatch then
     begin
@@ -879,8 +876,7 @@ begin
         R_FillSpriteInfo_MT(R_SpriteAddMTInfo);
 
       if domaskedzbuffer then
-        if renderflags and VSF_TRANSPARENCY = 0 then
-          R_DrawMaskedColumnToZBuffer;
+        R_DrawMaskedColumnToZBuffer(renderflags and VSF_TRANSPARENCY <> 0);
     end;
     if not tallpatch then
     begin
@@ -2487,9 +2483,11 @@ begin
     R_MarkLights;
     if numdlitems > 0 then
     begin
-      if not r_lightmaponmasked then
+//      if not r_lightmaponmasked then
         R_DrawLightsMultiThread;
       domaskedzbuffer := r_lightmaponmasked;
+      if r_lightmaponmasked then
+        R_StopZBuffer;
       R_DoDrawMasked;
       if r_lightmaponmasked then
         R_DrawLightsMultiThread;
