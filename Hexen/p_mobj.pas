@@ -1636,6 +1636,8 @@ begin
   // stop any playing sound
   S_StopSound(mobj);
 
+  P_RemoveMobjCustomParams(mobj.customparams);
+
   // free block
   P_RemoveThinker(Pthinker_t(mobj));
 end;
