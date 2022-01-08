@@ -1227,8 +1227,12 @@ begin
   // unlink from sector and block lists
   P_UnsetThingPosition(mobj);
 
+  if mobj.flags4_ex and MF4_EX_ALWAYSFINISHSOUND <> 0 then
+    S_UnlinkSound(mobj)
+  else if mobj.flags4_ex and MF4_EX_NEVERFINISHSOUND <> 0 then
+    S_StopSound(mobj)
   // From Woof: [FG] removed map objects may finish their sounds
-  if full_sounds then
+  else if full_sounds then
     S_UnlinkSound(mobj)
   else
     // stop any playing sound
