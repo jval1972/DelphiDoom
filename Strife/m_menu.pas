@@ -1123,6 +1123,7 @@ type
     snd_preferemp3namesingamedirectory,
     snd_usewav,
     snd_preferewavnamesingamedirectory,
+    snd_fullsounds,
     sound_end
   );
 
@@ -5569,6 +5570,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @preferewavnamesingamedirectory;
   pmi.alphaKey := 's';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Removed Actors finish sounds';
+  pmi.cmd := 'full_sounds';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @full_sounds;
+  pmi.alphaKey := 'r';
 
 ////////////////////////////////////////////////////////////////////////////////
 //SoundDef
