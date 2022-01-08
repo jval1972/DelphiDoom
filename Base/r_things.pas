@@ -50,7 +50,7 @@ var
 {$IFNDEF OPENGL}
 procedure R_DrawMaskedColumn(column: Pcolumn_t; const depthscale: fixed_t; const mo: Pmobj_t = nil;
   baseclip: integer = -1; const renderflags: LongWord = 0);
-procedure R_DrawMaskedColumn2(const mc2h: integer); // Use dc_source32
+procedure R_DrawMaskedColumn2(const mc2h: integer; const depthscale: fixed_t); // Use dc_source32
 {$ENDIF}
 
 procedure R_AddSprites(sec: Psector_t);
@@ -580,7 +580,7 @@ begin
 
       if domaskedzbuffer then
         if renderflags and VSF_TRANSPARENCY = 0 then
-          R_DrawMaskedColumnToZBuffer(mo);
+          R_DrawMaskedColumnToZBuffer(mo, depthscale);
     end;
     if not tallpatch then
     begin
@@ -598,7 +598,7 @@ begin
 end;
 
 // For Walls only
-procedure R_DrawMaskedColumn2(const mc2h: integer); // Use dc_source32
+procedure R_DrawMaskedColumn2(const mc2h: integer; const depthscale: fixed_t); // Use dc_source32
 var
   topscreen: int64;
   bottomscreen: int64;
@@ -633,7 +633,7 @@ begin
       colfunc;
 
     if domaskedzbuffer then
-      R_DrawMaskedColumnToZBuffer(nil);
+      R_DrawMaskedColumnToZBuffer(nil, depthscale);
   end;
 
   dc_texturemid := basetexturemid;
@@ -641,9 +641,9 @@ end;
 
 // JVAL: batch column drawing
 type
-  DrawMaskedColumn_Batch_t = procedure (column: Pcolumn_t; mo: Pmobj_t; baseclip: integer = -1; const renderflags: LongWord = 0);
+  DrawMaskedColumn_Batch_t = procedure (column: Pcolumn_t; mo: Pmobj_t; const depthscale: integer; baseclip: integer = -1; const renderflags: LongWord = 0);
 
-procedure R_DrawMaskedColumn_Batch(column: Pcolumn_t; mo: Pmobj_t; baseclip: integer = -1; const renderflags: LongWord = 0);
+procedure R_DrawMaskedColumn_Batch(column: Pcolumn_t; mo: Pmobj_t; const depthscale: integer; baseclip: integer = -1; const renderflags: LongWord = 0);
 var
   topscreen: int64;
   bottomscreen: int64;
@@ -696,7 +696,7 @@ begin
 
       if domaskedzbuffer then
         if renderflags and VSF_TRANSPARENCY = 0 then
-          R_DrawBatchMaskedColumnToZBuffer(mo);
+          R_DrawBatchMaskedColumnToZBuffer(mo, depthscale);
     end;
     if not tallpatch then
     begin
@@ -748,7 +748,7 @@ begin
   parms.proc := batchspritefunc_mt;
 end;
 
-procedure R_DrawMaskedColumn_BatchMT(column: Pcolumn_t; mo: Pmobj_t; baseclip: integer = -1; const renderflags: LongWord = 0);
+procedure R_DrawMaskedColumn_BatchMT(column: Pcolumn_t; mo: Pmobj_t; const depthscale: integer; baseclip: integer = -1; const renderflags: LongWord = 0);
 var
   topscreen: int64;
   bottomscreen: int64;
@@ -798,7 +798,7 @@ begin
 
       if domaskedzbuffer then
         if renderflags and VSF_TRANSPARENCY = 0 then
-          R_DrawBatchMaskedColumnToZBuffer(mo);
+          R_DrawBatchMaskedColumnToZBuffer(mo, depthscale);
     end;
     if not tallpatch then
     begin
@@ -880,7 +880,7 @@ begin
 
       if domaskedzbuffer then
         if renderflags and VSF_TRANSPARENCY = 0 then
-          R_DrawMaskedColumnToZBuffer(mo);
+          R_DrawMaskedColumnToZBuffer(mo, depthscale);
     end;
     if not tallpatch then
     begin
@@ -1105,7 +1105,7 @@ begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
         dc_x := save_dc_x;
         if num_batch_columns > 1 then
-          dmcproc_batch(column, vis.mo, baseclip, vis.renderflags)
+          dmcproc_batch(column, vis.mo, dbscale, baseclip, vis.renderflags)
         else
           dmcproc(column, dbscale, vis.mo, baseclip, vis.renderflags);
         dc_x := last_dc_x;
@@ -1119,7 +1119,7 @@ begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[last_texturecolumn]);
       dc_x := last_dc_x;
       if num_batch_columns > 1 then
-        dmcproc_batch(column, vis.mo, baseclip, vis.renderflags)
+        dmcproc_batch(column, vis.mo, dbscale, baseclip, vis.renderflags)
       else
         dmcproc(column, dbscale, vis.mo, baseclip, vis.renderflags);
     end;

@@ -499,7 +499,7 @@ begin
         dc_mod := 0;
         dc_texturemod := maskedtexturecol[dc_x] and (DC_HIRESFACTOR - 1);
         R_GetDCs(texnum, texturecolumn);
-        R_DrawMaskedColumn2(mc2height);
+        R_DrawMaskedColumn2(mc2height, spryscale);
       end
       else
       begin

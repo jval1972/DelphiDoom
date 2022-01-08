@@ -68,9 +68,9 @@ procedure R_DrawSlopeToZBuffer;
 
 procedure R_DrawColumnToZBuffer;
 
-procedure R_DrawMaskedColumnToZBuffer(const mo: Pmobj_t);
+procedure R_DrawMaskedColumnToZBuffer(const mo: Pmobj_t; const depth: LongWord);
 
-procedure R_DrawBatchMaskedColumnToZBuffer(const mo: Pmobj_t);
+procedure R_DrawBatchMaskedColumnToZBuffer(const mo: Pmobj_t; const depth: LongWord);
 
 procedure R_DrawVoxelPixelToZBuffer(const depth: LongWord; const x, y: integer; const mo: Pmobj_t);
 
@@ -210,7 +210,7 @@ begin
   item.stop := dc_yh;
 end;
 
-procedure R_DrawMaskedColumnToZBuffer(const mo: Pmobj_t);
+procedure R_DrawMaskedColumnToZBuffer(const mo: Pmobj_t; const depth: LongWord);
 var
   item: Pzbufferitem_t;
 begin
@@ -227,7 +227,7 @@ begin
 
   item := R_NewZBufferItem(@Zcolumns[dc_x]);
 
-  item.depth := trunc((FRACUNIT / dc_iscale) * FRACUNIT);
+  item.depth := depth;
   item.seg := nil;
   item.mo := mo;
 
@@ -235,11 +235,10 @@ begin
   item.stop := dc_yh;
 end;
 
-procedure R_DrawBatchMaskedColumnToZBuffer(const mo: Pmobj_t);
+procedure R_DrawBatchMaskedColumnToZBuffer(const mo: Pmobj_t; const depth: LongWord);
 var
   item: Pzbufferitem_t;
   i: integer;
-  depth: integer;
 begin
 {$IFDEF DEBUG}
   if not IsIntegerInRange(dc_x, 0, viewwidth - 1) then
@@ -252,7 +251,6 @@ begin
     I_Warning('R_DrawBatchMaskedColumnToZBuffer(): dc_yh=%d < dc_yl=%d'#13#10, [dc_yh, dc_yl]);
 {$ENDIF}
 
-  depth := trunc((FRACUNIT / dc_iscale) * FRACUNIT);
   for i := dc_x to dc_x + num_batch_columns - 1 do
   begin
     item := R_NewZBufferItem(@Zcolumns[i]);
