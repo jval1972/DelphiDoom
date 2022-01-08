@@ -440,6 +440,10 @@ const
   MF4_EX_MAP07BOSS = MF4_EX_MAP07BOSS1 or MF4_EX_MAP07BOSS2;
   // Self applying lighmap
   MF4_EX_SELFAPPLYINGLIGHT = $8000;
+  // Full volume rip sound
+  MF4_EX_FULLVOLRIP = $10000;
+  // Random rip sound
+  MF4_EX_RANDOMRIPSOUND = $20000;
 
 // MBF21 flags
 const

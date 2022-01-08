@@ -52,6 +52,9 @@ procedure A_DeathSound1(actor: Pmobj_t);
 procedure A_ActiveSound(actor: Pmobj_t; origin: Pmobj_t);
 procedure A_ActiveSound1(actor: Pmobj_t);
 
+procedure A_RipSound(actor: Pmobj_t; origin: Pmobj_t);
+procedure A_RipSound1(actor: Pmobj_t);
+
 implementation
 
 uses
@@ -183,6 +186,25 @@ begin
     A_ActiveSound(actor, nil)
   else
     A_ActiveSound(actor, actor);
+end;
+
+procedure A_RipSound(actor: Pmobj_t; origin: Pmobj_t);
+begin
+  if actor.info.ripsound = 0 then
+    exit;
+
+  if actor.info.flags4_ex and MF4_EX_RANDOMRIPSOUND <> 0 then
+    P_RandomSound(origin, actor.info.ripsound)
+  else
+    S_StartSound(origin, actor.info.ripsound);
+end;
+
+procedure A_RipSound1(actor: Pmobj_t);
+begin
+  if actor.info.flags4_ex and MF4_EX_FULLVOLRIP <> 0 then
+    A_RipSound(actor, nil)
+  else
+    A_RipSound(actor, actor);
 end;
 
 end.
