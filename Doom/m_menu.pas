@@ -2548,6 +2548,7 @@ procedure M_LightmapDefaults(choice: integer);
 begin
   lightmapcolorintensity := DEFLMCOLORSENSITIVITY;
   lightwidthfactor := DEFLIGHTWIDTHFACTOR;
+  r_lightmaponmasked := true;
   r_lightmapfadeoutfunc := 0;
 end;
 
