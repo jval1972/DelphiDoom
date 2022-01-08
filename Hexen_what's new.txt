@@ -131,6 +131,7 @@ Read the NOCLIPPING line flag in UDMF maps.
 Spawn monsters with precise angle if they have the MF2_EX_PRECISESPAWNANGLE flag set.
 Added the MF2_EX_FRIEND mask (friendly monsters). The difference with the MF_ALLY flag is that monsters with the MF2_EX_FRIEND flag will attack other monsters.
 Speed optimizations to the software rendering lights.
+Added MF4_EX_SELFAPPLYINGLIGHT flag. When set, the lightmap in software rendering mode will apply the light to the emitter.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

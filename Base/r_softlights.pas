@@ -683,6 +683,7 @@ var
   rr, gg, bb: integer;
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
   tblflags: Byte;
+  okself: Boolean;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
@@ -706,6 +707,11 @@ begin
   skip := false;
   sameseg := false;
   source32 := parms.dl_source32;
+
+  if parms.lightsourcemo <> nil then
+    okself := parms.lightsourcemo.flags4_ex and MF4_EX_SELFAPPLYINGLIGHT <> 0
+  else
+    okself := False;
 
   tbl_r := precalc32op1A[parms.r];
   tbl_g := precalc32op1A[parms.g];
@@ -903,6 +909,7 @@ var
   pitch, pitch1: integer;
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
   tblflags: Byte;
+  okself: Boolean;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
@@ -923,6 +930,11 @@ begin
   skip := false;
   sameseg := false;
   source32 := parms.dl_source32;
+
+  if parms.lightsourcemo <> nil then
+    okself := parms.lightsourcemo.flags4_ex and MF4_EX_SELFAPPLYINGLIGHT <> 0
+  else
+    okself := False;
 
   tbl_r := precalc32op1A[parms.r];
   tbl_g := precalc32op1A[parms.g];

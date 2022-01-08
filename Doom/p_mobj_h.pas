@@ -445,6 +445,8 @@ const
   MF4_EX_E4M6BOSS = $100000;
   // E4M8 boss
   MF4_EX_E4M8BOSS = $200000;
+  // Self applying lighmap
+  MF4_EX_SELFAPPLYINGLIGHT = $400000;
 
 // MBF21 flags
 const

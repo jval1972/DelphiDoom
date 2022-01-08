@@ -15,7 +15,7 @@
     begin
       db := R_ZBufferAt(x, y);
       depth := db.depth;
-      if (db.mo <> parms.lightsourcemo) and (depth >= dbmin) and (depth <= dbmax) then
+      if (okself or (db.mo <> parms.lightsourcemo)) and (depth >= dbmin) and (depth <= dbmax) then
       begin
         if seg <> db.seg then
         begin
