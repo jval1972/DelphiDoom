@@ -447,6 +447,10 @@ const
   MF4_EX_E4M8BOSS = $200000;
   // Self applying lighmap
   MF4_EX_SELFAPPLYINGLIGHT = $400000;
+  // Full volume rip sound
+  MF4_EX_FULLVOLRIP = $800000;
+  // Random rip sound
+  MF4_EX_RANDOMRIPSOUND = $1000000;
 
 // MBF21 flags
 const
