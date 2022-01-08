@@ -107,6 +107,8 @@ type
     z: fixed_t;
   end;
   Pdegenmobj_t = ^degenmobj_t;
+  degenmobj_tArray = array[0..$FFF] of degenmobj_t;
+  Pdegenmobj_tArray = ^degenmobj_tArray;
 
   Pline_t = ^line_t;
   Pline_tArray = ^line_tArray;

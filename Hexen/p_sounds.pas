@@ -70,6 +70,10 @@ begin
     P_RandomSound(origin, actor.info.seesound)
   else
     S_StartSound(origin, actor.info.seesound);
+
+  // From Woof: [FG] make seesounds uninterruptible
+  if full_sounds then
+    S_UnlinkSound(origin);
 end;
 
 procedure A_SeeSound1(actor: Pmobj_t);
