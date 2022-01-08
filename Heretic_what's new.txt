@@ -127,6 +127,7 @@ Dynamic ceiling slope check correction.
 Auto fix interpolation for instant changes in sectors heights and texture offsets.
 Read the NOCLIPPING line flag in UDMF maps.
 Added the MF2_EX_FRIEND mask (friendly monsters).
+Speed optimizations to the software rendering lights.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

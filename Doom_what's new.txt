@@ -122,6 +122,7 @@ Dynamic ceiling slope check correction.
 Auto fix interpolation for instant changes in sectors heights and texture offsets.
 Added MF4_EX_E1M8BOSS, MF4_EX_E2M8BOSS, MF4_EX_E3M8BOSS, MF4_EX_E4M6BOSS & MF4_EX_E4M8BOSS mobj flags.
 Read the NOCLIPPING line flag in UDMF maps.
+Speed optimizations to the software rendering lights.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

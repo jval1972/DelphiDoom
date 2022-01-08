@@ -567,6 +567,7 @@ var
   c: LongWord;
   rr, gg, bb: integer;
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
+  tblflags: Byte;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
@@ -595,86 +596,65 @@ begin
   tbl_g := precalc32op1A[parms.g];
   tbl_b := precalc32op1A[parms.b];
 
-  dest := @((ylookup[parms.dl_yl]^)[columnofs[x]]);
-  pitch := SCREENWIDTH;
-  fastzbuf.next := parms.dl_yl - 1;
-  for y := parms.dl_yl to parms.dl_yh do
-  begin
-    dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
-    if dls <> 0 then
-    begin
-      db := R_FastZBufferAt(x, y, @fastzbuf);
-      depth := db.depth;
-      if (depth >= dbmin) and (depth <= dbmax) then
+  if tbl_r <> nil then
+    tblflags := 1
+  else
+    tblflags := 0;
+  if tbl_g <> nil then
+    tblflags := tblflags or 2;
+  if tbl_b <> nil then
+    tblflags := tblflags or 4;
+
+  case tblflags of
+    1:
       begin
-        if seg <> db.seg then
-        begin
-          sameseg := (seg = db.seg) and (seg <> nil);
-          seg := db.seg;
-          if seg <> nil then
-            skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg)
-          else
-            skip := false;
-        end;
-
-        if not skip then
-        begin
-          if not sameseg then
-          begin
-            dfactor := depth - scale;
-            if dfactor < 0 then
-              dfactor := FRACUNIT - FixedDiv(-dfactor, dbdmin)
-            else
-              dfactor := FRACUNIT - FixedDiv(dfactor, dbdmax);
-          end;
-
-          if dfactor > 0 then
-          begin
-            factor := FixedMulDiv256(dls, dfactor);
-
-            if factor > 0 then
-            begin
-              {$IFDEF DOOM_OR_STRIFE}
-              c := cvideopal[dest^];
-              {$ELSE}
-              c := curpal[dest^];
-              {$ENDIF}
-
-              rr := (c shr 16) and $FF;
-              if tbl_r <> nil then
-                rr := rr + (tbl_r[rr] * factor) shr 16;
-              rr := rr shr FASTTABLESHIFT;
-
-              gg := (c shr 8) and $FF;
-              if tbl_g <> nil then
-                gg := gg + (tbl_g[gg] * factor) shr 16;
-              gg := gg shr FASTTABLESHIFT;
-
-              bb := (c) and $FF;
-              if tbl_b <> nil then
-                bb := bb + (tbl_b[bb] * factor) shr 16;
-              bb := bb shr FASTTABLESHIFT;
-
-              dest^ := approxcolorindexarray[rr shl (16 - FASTTABLESHIFT - FASTTABLESHIFT) + gg shl (8 - FASTTABLESHIFT) + bb];
-            end;
-
-
-        {  Slower code:
-            factor := FixedMul(dls, dfactor);
-            if factor > 0 then
-            begin
-              r1 := FixedMul(r, factor);
-              g1 := FixedMul(g, factor);
-              b1 := FixedMul(b, factor);
-              dest^ := R_FastApproxColorIndex(R_ColorLightAdd(curpal[dest^], r1, g1, b1));
-            end; }
-
-          end;
-        end;
+        {$DEFINE TBL_R}
+        {$UNDEF TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap8_Main.inc}
       end;
-    end;
-    inc(dest, pitch);
-    inc(frac, fracstep);
+    2:
+      begin
+        {$UNDEF TBL_R}
+        {$DEFINE TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap8_Main.inc}
+      end;
+    3:
+      begin
+        {$DEFINE TBL_R}
+        {$DEFINE TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap8_Main.inc}
+      end;
+    4:
+      begin
+        {$UNDEF TBL_R}
+        {$UNDEF TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap8_Main.inc}
+      end;
+    5:
+      begin
+        {$DEFINE TBL_R}
+        {$UNDEF TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap8_Main.inc}
+      end;
+    6:
+      begin
+        {$UNDEF TBL_R}
+        {$DEFINE TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap8_Main.inc}
+      end;
+    7:
+      begin
+        {$DEFINE TBL_R}
+        {$DEFINE TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap8_Main.inc}
+      end;
   end;
 end;
 
@@ -683,7 +663,6 @@ var
   count, x, y: integer;
   frac: fixed_t;
   fracstep: fixed_t;
-  fastzbuf: fastzbuf_t;
   db: Pzbufferitem_t;
   depth: LongWord;
   dbmin, dbmax: LongWord;
@@ -703,6 +682,7 @@ var
   c: LongWord;
   rr, gg, bb: integer;
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
+  tblflags: Byte;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
@@ -731,86 +711,65 @@ begin
   tbl_g := precalc32op1A[parms.g];
   tbl_b := precalc32op1A[parms.b];
 
-  dest := @((ylookup[parms.dl_yl]^)[columnofs[x]]);
-  pitch := SCREENWIDTH;
-  fastzbuf.next := parms.dl_yl - 1;
-  for y := parms.dl_yl to parms.dl_yh do
-  begin
-    dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
-    if dls <> 0 then
-    begin
-      db := R_ZBufferAt(x, y);
-      depth := db.depth;
-      if (db.mo <> parms.lightsourcemo) and (depth >= dbmin) and (depth <= dbmax) then
+  if tbl_r <> nil then
+    tblflags := 1
+  else
+    tblflags := 0;
+  if tbl_g <> nil then
+    tblflags := tblflags or 2;
+  if tbl_b <> nil then
+    tblflags := tblflags or 4;
+
+  case tblflags of
+    1:
       begin
-        if seg <> db.seg then
-        begin
-          sameseg := (seg = db.seg) and (seg <> nil);
-          seg := db.seg;
-          if seg <> nil then
-            skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg)
-          else
-            skip := false;
-        end;
-
-        if not skip then
-        begin
-          if not sameseg then
-          begin
-            dfactor := depth - scale;
-            if dfactor < 0 then
-              dfactor := FRACUNIT - FixedDiv(-dfactor, dbdmin)
-            else
-              dfactor := FRACUNIT - FixedDiv(dfactor, dbdmax);
-          end;
-
-          if dfactor > 0 then
-          begin
-            factor := FixedMulDiv256(dls, dfactor);
-
-            if factor > 0 then
-            begin
-              {$IFDEF DOOM_OR_STRIFE}
-              c := cvideopal[dest^];
-              {$ELSE}
-              c := curpal[dest^];
-              {$ENDIF}
-
-              rr := (c shr 16) and $FF;
-              if tbl_r <> nil then
-                rr := rr + (tbl_r[rr] * factor) shr 16;
-              rr := rr shr FASTTABLESHIFT;
-
-              gg := (c shr 8) and $FF;
-              if tbl_g <> nil then
-                gg := gg + (tbl_g[gg] * factor) shr 16;
-              gg := gg shr FASTTABLESHIFT;
-
-              bb := (c) and $FF;
-              if tbl_b <> nil then
-                bb := bb + (tbl_b[bb] * factor) shr 16;
-              bb := bb shr FASTTABLESHIFT;
-
-              dest^ := approxcolorindexarray[rr shl (16 - FASTTABLESHIFT - FASTTABLESHIFT) + gg shl (8 - FASTTABLESHIFT) + bb];
-            end;
-
-
-        {  Slower code:
-            factor := FixedMul(dls, dfactor);
-            if factor > 0 then
-            begin
-              r1 := FixedMul(r, factor);
-              g1 := FixedMul(g, factor);
-              b1 := FixedMul(b, factor);
-              dest^ := R_FastApproxColorIndex(R_ColorLightAdd(curpal[dest^], r1, g1, b1));
-            end; }
-
-          end;
-        end;
+        {$DEFINE TBL_R}
+        {$UNDEF TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap8Masked_Main.inc}
       end;
-    end;
-    inc(dest, pitch);
-    inc(frac, fracstep);
+    2:
+      begin
+        {$UNDEF TBL_R}
+        {$DEFINE TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap8Masked_Main.inc}
+      end;
+    3:
+      begin
+        {$DEFINE TBL_R}
+        {$DEFINE TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap8Masked_Main.inc}
+      end;
+    4:
+      begin
+        {$UNDEF TBL_R}
+        {$UNDEF TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap8Masked_Main.inc}
+      end;
+    5:
+      begin
+        {$DEFINE TBL_R}
+        {$UNDEF TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap8Masked_Main.inc}
+      end;
+    6:
+      begin
+        {$UNDEF TBL_R}
+        {$DEFINE TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap8Masked_Main.inc}
+      end;
+    7:
+      begin
+        {$DEFINE TBL_R}
+        {$DEFINE TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap8Masked_Main.inc}
+      end;
   end;
 end;
 
@@ -833,8 +792,9 @@ var
   sameseg: boolean;
   destb: PByte;
   source32: PLongWordArray;
-  pitch: integer;
+  pitch, pitch1: integer;
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
+  tblflags: Byte;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
@@ -860,68 +820,65 @@ begin
   tbl_g := precalc32op1A[parms.g];
   tbl_b := precalc32op1A[parms.b];
 
-  destb := @((ylookupl[parms.dl_yl]^)[columnofs[x]]);
-  pitch := SCREENWIDTH * SizeOf(LongWord);
-  fastzbuf.next := parms.dl_yl - 1;
-  for y := parms.dl_yl to parms.dl_yh do
-  begin
-    dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
-    if dls <> 0 then
-    begin
-      db := R_FastZBufferAt(x, y, @fastzbuf);
-      depth := db.depth;
-      if (depth >= dbmin) and (depth <= dbmax) then
+  if tbl_r <> nil then
+    tblflags := 1
+  else
+    tblflags := 0;
+  if tbl_g <> nil then
+    tblflags := tblflags or 2;
+  if tbl_b <> nil then
+    tblflags := tblflags or 4;
+
+  case tblflags of
+    1:
       begin
-        if seg <> db.seg then
-        begin
-          sameseg := (seg = db.seg) and (seg <> nil);
-          seg := db.seg;
-          if seg <> nil then
-            skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg)
-          else
-            skip := false;
-        end;
-
-        if not skip then
-        begin
-          if not sameseg then
-          begin
-            dfactor := depth - scale;
-            if dfactor < 0 then
-              dfactor := FRACUNIT - FixedDiv(-dfactor, dbdmin)
-            else
-              dfactor := FRACUNIT - FixedDiv(dfactor, dbdmax);
-          end;
-
-          if dfactor > 0 then
-          begin
-            factor := FixedMulDiv256(dls, dfactor);
-
-            if factor > 0 then
-            begin
-              if tbl_b <> nil then
-                destb^ := destb^ + (tbl_b[destb^] * factor) shr 16;
-              inc(destb);
-
-              if tbl_g <> nil then
-                destb^ := destb^ + (tbl_g[destb^] * factor) shr 16;
-
-              if tbl_r <> nil then
-              begin
-                inc(destb);
-                destb^ := destb^ + (tbl_r[destb^] * factor) shr 16;
-                dec(destb, 2);
-              end
-              else
-                dec(destb);
-            end;
-
-          end;
-        end;
+        {$DEFINE TBL_R}
+        {$UNDEF TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap32_Main.inc}
       end;
-    end;
-    inc(destb, pitch);
-    inc(frac, fracstep);
+    2:
+      begin
+        {$UNDEF TBL_R}
+        {$DEFINE TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap32_Main.inc}
+      end;
+    3:
+      begin
+        {$DEFINE TBL_R}
+        {$DEFINE TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap32_Main.inc}
+      end;
+    4:
+      begin
+        {$UNDEF TBL_R}
+        {$UNDEF TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap32_Main.inc}
+      end;
+    5:
+      begin
+        {$DEFINE TBL_R}
+        {$UNDEF TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap32_Main.inc}
+      end;
+    6:
+      begin
+        {$UNDEF TBL_R}
+        {$DEFINE TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap32_Main.inc}
+      end;
+    7:
+      begin
+        {$DEFINE TBL_R}
+        {$DEFINE TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap32_Main.inc}
+      end;
   end;
 end;
 
@@ -930,7 +887,6 @@ var
   count, x, y: integer;
   frac: fixed_t;
   fracstep: fixed_t;
-  fastzbuf: fastzbuf_t;
   db: Pzbufferitem_t;
   depth: LongWord;
   dbmin, dbmax: LongWord;
@@ -944,8 +900,9 @@ var
   sameseg: boolean;
   destb: PByte;
   source32: PLongWordArray;
-  pitch: integer;
+  pitch, pitch1: integer;
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
+  tblflags: Byte;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
@@ -971,68 +928,65 @@ begin
   tbl_g := precalc32op1A[parms.g];
   tbl_b := precalc32op1A[parms.b];
 
-  destb := @((ylookupl[parms.dl_yl]^)[columnofs[x]]);
-  pitch := SCREENWIDTH * SizeOf(LongWord);
-  fastzbuf.next := parms.dl_yl - 1;
-  for y := parms.dl_yl to parms.dl_yh do
-  begin
-    dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
-    if dls <> 0 then
-    begin
-      db := R_ZBufferAt(x, y);
-      depth := db.depth;
-      if (db.mo <> parms.lightsourcemo) and (depth >= dbmin) and (depth <= dbmax) then
+  if tbl_r <> nil then
+    tblflags := 1
+  else
+    tblflags := 0;
+  if tbl_g <> nil then
+    tblflags := tblflags or 2;
+  if tbl_b <> nil then
+    tblflags := tblflags or 4;
+
+  case tblflags of
+    1:
       begin
-        if seg <> db.seg then
-        begin
-          sameseg := (seg = db.seg) and (seg <> nil);
-          seg := db.seg;
-          if seg <> nil then
-            skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg)
-          else
-            skip := false;
-        end;
-
-        if not skip then
-        begin
-          if not sameseg then
-          begin
-            dfactor := depth - scale;
-            if dfactor < 0 then
-              dfactor := FRACUNIT - FixedDiv(-dfactor, dbdmin)
-            else
-              dfactor := FRACUNIT - FixedDiv(dfactor, dbdmax);
-          end;
-
-          if dfactor > 0 then
-          begin
-            factor := FixedMulDiv256(dls, dfactor);
-
-            if factor > 0 then
-            begin
-              if tbl_b <> nil then
-                destb^ := destb^ + (tbl_b[destb^] * factor) shr 16;
-              inc(destb);
-
-              if tbl_g <> nil then
-                destb^ := destb^ + (tbl_g[destb^] * factor) shr 16;
-
-              if tbl_r <> nil then
-              begin
-                inc(destb);
-                destb^ := destb^ + (tbl_r[destb^] * factor) shr 16;
-                dec(destb, 2);
-              end
-              else
-                dec(destb);
-            end;
-
-          end;
-        end;
+        {$DEFINE TBL_R}
+        {$UNDEF TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap32Masked_Main.inc}
       end;
-    end;
-    inc(destb, pitch);
-    inc(frac, fracstep);
+    2:
+      begin
+        {$UNDEF TBL_R}
+        {$DEFINE TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap32Masked_Main.inc}
+      end;
+    3:
+      begin
+        {$DEFINE TBL_R}
+        {$DEFINE TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap32Masked_Main.inc}
+      end;
+    4:
+      begin
+        {$UNDEF TBL_R}
+        {$UNDEF TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap32Masked_Main.inc}
+      end;
+    5:
+      begin
+        {$DEFINE TBL_R}
+        {$UNDEF TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap32Masked_Main.inc}
+      end;
+    6:
+      begin
+        {$UNDEF TBL_R}
+        {$DEFINE TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap32Masked_Main.inc}
+      end;
+    7:
+      begin
+        {$DEFINE TBL_R}
+        {$DEFINE TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap32Masked_Main.inc}
+      end;
   end;
 end;
 
