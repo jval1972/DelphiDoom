@@ -344,7 +344,7 @@ begin
 
     if missile <> nil then
     begin
-      if missile.info.flags_ex and MF_EX_SEEKERMISSILE <> 0 then
+      if missile.flags_ex and MF_EX_SEEKERMISSILE <> 0 then
         missile.tracer := actor.target;
     end;
   end;

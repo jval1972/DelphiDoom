@@ -224,7 +224,7 @@ begin
 
   slope := P_AimLineAttack(actor, bangle, range);
 
-  if actor.info.flags_ex and MF_EX_RANDOMATTACKSOUND <> 0 then
+  if actor.flags_ex and MF_EX_RANDOMATTACKSOUND <> 0 then
     P_RandomSound(actor, actor.info.attacksound)
   else
     S_StartSound(actor, actor.info.attacksound);
@@ -325,7 +325,7 @@ begin
 
     if missile <> nil then
     begin
-      if missile.info.flags_ex and MF_EX_SEEKERMISSILE <> 0 then
+      if missile.flags_ex and MF_EX_SEEKERMISSILE <> 0 then
         missile.tracer := actor.target;
     end;
   end;
@@ -350,7 +350,7 @@ begin
 
   slope := P_AimLineAttack(actor, bangle, MISSILERANGE);
 
-  if actor.info.flags_ex and MF_EX_RANDOMATTACKSOUND <> 0 then
+  if actor.flags_ex and MF_EX_RANDOMATTACKSOUND <> 0 then
     P_RandomSound(actor, actor.info.attacksound)
   else
     S_StartSound(actor, actor.info.attacksound);

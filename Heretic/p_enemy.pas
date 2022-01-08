@@ -2417,7 +2417,7 @@ procedure A_Explode(actor: Pmobj_t);
 var
   damage: integer;
 begin
-  if actor.info.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
+  if actor.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
     P_RadiusAttackEx(actor, actor.target, actor.info.explosiondamage, actor.info.explosionradius)
   else if actor.state.params <> nil then
     P_RadiusAttackEx(actor, actor.target, actor.state.params.IntVal[0], actor.state.params.IntVal[1])

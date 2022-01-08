@@ -724,9 +724,9 @@ begin
   mthing := @(mobj.spawnpoint);
 
   // spawn it
-  if mobj.info.flags and MF_SPAWNCEILING <> 0 then
+  if mobj.flags and MF_SPAWNCEILING <> 0 then
     z := ONCEILINGZ
-  else if mobj.info.flags_ex and MF_EX_SPAWNFLOAT <> 0 then
+  else if mobj.flags_ex and MF_EX_SPAWNFLOAT <> 0 then
     z := ONFLOATZ
   else
     z := ONFLOORZ;

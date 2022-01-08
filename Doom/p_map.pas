@@ -2503,7 +2503,7 @@ begin
     if thing.player = nil then
       if bombsource.info.doomednum > 0 then
       begin
-        if bombsource.info.flags_ex and MF_EX_DONTHURTSPECIES <> 0 then
+        if bombsource.flags_ex and MF_EX_DONTHURTSPECIES <> 0 then
           if Info_GetInheritance(thing.info) = Info_GetInheritance(bombsource.info) then
           begin
             result := true;

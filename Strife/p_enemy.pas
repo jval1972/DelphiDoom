@@ -1221,9 +1221,9 @@ begin
   begin
     sound := actor.info.seesound;
 
-    if actor.info.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
+    if actor.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
     begin
-      if (actor._type = Ord(MT_INQUISITOR)) or (actor.info.flags_ex and MF_EX_BOSS <> 0) then
+      if (actor._type = Ord(MT_INQUISITOR)) or (actor.flags_ex and MF_EX_BOSS <> 0) then
         // full volume
         P_RandomSound(nil, sound)
       else
@@ -1231,7 +1231,7 @@ begin
     end
     else
     begin
-      if (actor._type = Ord(MT_INQUISITOR)) or (actor.info.flags_ex and MF_EX_BOSS <> 0) then
+      if (actor._type = Ord(MT_INQUISITOR)) or (actor.flags_ex and MF_EX_BOSS <> 0) then
         // full volume
         S_StartSound(nil, sound)
       else
@@ -2566,7 +2566,7 @@ begin
   if (sound >= Ord(sfx_pespna)) and (sound <= Ord(sfx_pespnd)) then
   begin
     sound := Ord(sfx_pespna) + (P_Random mod 4);
-    if actor.info.flags2_ex and MF2_EX_FULLVOLPAIN <> 0 then
+    if actor.flags2_ex and MF2_EX_FULLVOLPAIN <> 0 then
      S_StartSound(nil, sound)
     else
      S_StartSound(actor, sound);
@@ -3193,7 +3193,7 @@ end;
 //
 procedure A_Explode(thingy: Pmobj_t);
 begin
-  if thingy.info.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
+  if thingy.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
     P_RadiusAttackEx(thingy, thingy.target, thingy.info.explosiondamage, thingy.info.explosionradius)
   else if thingy.state.params <> nil then
     P_RadiusAttackEx(thingy, thingy.target, thingy.state.params.IntVal[0], thingy.state.params.IntVal[1])
@@ -3606,7 +3606,7 @@ begin
   if actor.info.activesound <> 0 then
     if leveltime and 7 = 0 then // haleyjd: added parens
     begin
-      if (actor.info.flags2_ex and MF2_EX_FULLVOLACTIVE <> 0) then
+      if (actor.flags2_ex and MF2_EX_FULLVOLACTIVE <> 0) then
         S_StartSound(actor, actor.info.activesound)
       else
         S_StartSound(actor, actor.info.activesound);

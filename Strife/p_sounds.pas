@@ -73,14 +73,14 @@ begin
   if actor.info.seesound = 0 then
     exit;
 
-  if actor.info.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
+  if actor.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
     P_RandomSound(origin, actor.info.seesound)
   else
     S_StartSound(origin, actor.info.seesound);
 
-  if actor.info.flags4_ex and MF4_EX_ALWAYSFINISHSOUND <> 0 then
+  if actor.flags4_ex and MF4_EX_ALWAYSFINISHSOUND <> 0 then
     S_UnlinkSound(origin)
-  else if actor.info.flags4_ex and MF4_EX_NEVERFINISHSOUND <> 0 then
+  else if actor.flags4_ex and MF4_EX_NEVERFINISHSOUND <> 0 then
   // From Woof: [FG] make seesounds uninterruptible
   else if full_sounds then
     S_UnlinkSound(origin);
@@ -90,8 +90,8 @@ procedure A_SeeSound1(actor: Pmobj_t);
 begin
   if (actor._type = Ord(MT_ENTITY)) or
      (actor._type = Ord(MT_INQUISITOR)) or
-     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
-     (actor.info.flags2_ex and MF2_EX_FULLVOLSEE <> 0) then
+     (actor.flags_ex and MF_EX_BOSS <> 0) or
+     (actor.flags2_ex and MF2_EX_FULLVOLSEE <> 0) then
     A_SeeSound(actor, nil)
   else
     A_SeeSound(actor, actor);
@@ -102,7 +102,7 @@ begin
   if actor.info.painsound = 0 then
     exit;
 
-  if actor.info.flags_ex and MF_EX_RANDOMPAINSOUND <> 0 then
+  if actor.flags_ex and MF_EX_RANDOMPAINSOUND <> 0 then
     P_RandomSound(origin, actor.info.painsound)
   else
     S_StartSound(origin, actor.info.painsound);
@@ -112,8 +112,8 @@ procedure A_PainSound1(actor: Pmobj_t);
 begin
   if (actor._type = Ord(MT_ENTITY)) or
      (actor._type = Ord(MT_INQUISITOR)) or
-     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
-     (actor.info.flags2_ex and MF2_EX_FULLVOLPAIN <> 0) then
+     (actor.flags_ex and MF_EX_BOSS <> 0) or
+     (actor.flags2_ex and MF2_EX_FULLVOLPAIN <> 0) then
     A_PainSound(actor, nil)
   else
     A_PainSound(actor, actor);
@@ -124,7 +124,7 @@ begin
   if actor.info.attacksound = 0 then
     exit;
 
-  if actor.info.flags_ex and MF_EX_RANDOMATTACKSOUND <> 0 then
+  if actor.flags_ex and MF_EX_RANDOMATTACKSOUND <> 0 then
     P_RandomSound(origin, actor.info.attacksound)
   else
     S_StartSound(origin, actor.info.attacksound);
@@ -134,8 +134,8 @@ procedure A_AttackSound1(actor: Pmobj_t);
 begin
   if (actor._type = Ord(MT_ENTITY)) or
      (actor._type = Ord(MT_INQUISITOR)) or
-     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
-     (actor.info.flags2_ex and MF2_EX_FULLVOLATTACK <> 0) then
+     (actor.flags_ex and MF_EX_BOSS <> 0) or
+     (actor.flags2_ex and MF2_EX_FULLVOLATTACK <> 0) then
     A_AttackSound(actor, nil)
   else
     A_AttackSound(actor, actor);
@@ -146,7 +146,7 @@ begin
   if actor.info.meleesound = 0 then
     exit;
 
-  if actor.info.flags_ex and MF_EX_RANDOMMELEESOUND <> 0 then
+  if actor.flags_ex and MF_EX_RANDOMMELEESOUND <> 0 then
     P_RandomSound(origin, actor.info.meleesound)
   else
     S_StartSound(origin, actor.info.meleesound);
@@ -156,8 +156,8 @@ procedure A_MeleeSound1(actor: Pmobj_t);
 begin
   if (actor._type = Ord(MT_ENTITY)) or
      (actor._type = Ord(MT_INQUISITOR)) or
-     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
-     (actor.info.flags2_ex and MF2_EX_FULLVOLATTACK <> 0) then
+     (actor.flags_ex and MF_EX_BOSS <> 0) or
+     (actor.flags2_ex and MF2_EX_FULLVOLATTACK <> 0) then
     A_MeleeSound(actor, nil)
   else
     A_MeleeSound(actor, actor);
@@ -168,7 +168,7 @@ begin
   if actor.info.deathsound = 0 then
     exit;
 
-  if actor.info.flags_ex and MF_EX_RANDOMDEATHSOUND <> 0 then
+  if actor.flags_ex and MF_EX_RANDOMDEATHSOUND <> 0 then
     P_RandomSound(origin, actor.info.deathsound)
   else
     S_StartSound(origin, actor.info.deathsound);
@@ -178,8 +178,8 @@ procedure A_DeathSound1(actor: Pmobj_t);
 begin
   if (actor._type = Ord(MT_ENTITY)) or
      (actor._type = Ord(MT_INQUISITOR)) or
-     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
-     (actor.info.flags2_ex and MF2_EX_FULLVOLDEATH <> 0) then
+     (actor.flags_ex and MF_EX_BOSS <> 0) or
+     (actor.flags2_ex and MF2_EX_FULLVOLDEATH <> 0) then
     A_DeathSound(actor, nil)
   else
     A_DeathSound(actor, actor);
@@ -190,7 +190,7 @@ begin
   if actor.info.activesound = 0 then
     exit;
 
-  if actor.info.flags_ex and MF_EX_RANDOMACTIVESOUND <> 0 then
+  if actor.flags_ex and MF_EX_RANDOMACTIVESOUND <> 0 then
     P_RandomSound(origin, actor.info.activesound)
   else
     S_StartSound(origin, actor.info.activesound);
@@ -200,8 +200,8 @@ procedure A_ActiveSound1(actor: Pmobj_t);
 begin
   if (actor._type = Ord(MT_ENTITY)) or
      (actor._type = Ord(MT_INQUISITOR)) or
-     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
-     (actor.info.flags2_ex and MF2_EX_FULLVOLACTIVE <> 0) then
+     (actor.flags_ex and MF_EX_BOSS <> 0) or
+     (actor.flags2_ex and MF2_EX_FULLVOLACTIVE <> 0) then
     A_ActiveSound(actor, nil)
   else
     A_ActiveSound(actor, actor);
@@ -212,7 +212,7 @@ begin
   if actor.info.ripsound = 0 then
     exit;
 
-  if actor.info.flags4_ex and MF4_EX_RANDOMRIPSOUND <> 0 then
+  if actor.flags4_ex and MF4_EX_RANDOMRIPSOUND <> 0 then
     P_RandomSound(origin, actor.info.ripsound)
   else
     S_StartSound(origin, actor.info.ripsound);
@@ -220,7 +220,7 @@ end;
 
 procedure A_RipSound1(actor: Pmobj_t);
 begin
-  if actor.info.flags4_ex and MF4_EX_FULLVOLRIP <> 0 then
+  if actor.flags4_ex and MF4_EX_FULLVOLRIP <> 0 then
     A_RipSound(actor, nil)
   else
     A_RipSound(actor, actor);

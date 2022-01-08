@@ -891,9 +891,9 @@ begin
       sound := actor.info.seesound;
     end;
 
-    if actor.info.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
+    if actor.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
     begin
-      if (actor._type = Ord(MT_SPIDER)) or (actor._type = Ord(MT_CYBORG)) or (actor.info.flags_ex and MF_EX_BOSS <> 0) then
+      if (actor._type = Ord(MT_SPIDER)) or (actor._type = Ord(MT_CYBORG)) or (actor.flags_ex and MF_EX_BOSS <> 0) then
         // full volume
         P_RandomSound(nil, sound)
       else
@@ -901,7 +901,7 @@ begin
     end
     else
     begin
-      if (actor._type = Ord(MT_SPIDER)) or (actor._type = Ord(MT_CYBORG)) or (actor.info.flags_ex and MF_EX_BOSS <> 0) then
+      if (actor._type = Ord(MT_SPIDER)) or (actor._type = Ord(MT_CYBORG)) or (actor.flags_ex and MF_EX_BOSS <> 0) then
         // full volume
         S_StartSound(nil, sound)
       else
@@ -1991,7 +1991,7 @@ begin
   if (actor._type = Ord(MT_SPIDER)) or
      (actor._type = Ord(MT_CYBORG)) or
      (actor.flags_ex and MF_EX_BOSS <> 0) or
-     (actor.info.flags2_ex and MF2_EX_FULLVOLDEATH <> 0) then
+     (actor.flags2_ex and MF2_EX_FULLVOLDEATH <> 0) then
     // full volume
     S_StartSound(nil, sound)
   else
@@ -2015,7 +2015,7 @@ procedure A_Explode(thingy: Pmobj_t);
 begin
   if G_PlayingEngineVersion >= VERSION205 then
   begin
-    if thingy.info.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
+    if thingy.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
       P_RadiusAttackEx(thingy, thingy.target, thingy.info.explosiondamage, thingy.info.explosionradius)
     else if thingy.state.params <> nil then
       P_RadiusAttackEx(thingy, thingy.target, thingy.state.params.IntVal[0], thingy.state.params.IntVal[1])
@@ -2026,7 +2026,7 @@ begin
   end
   else
   begin
-    if thingy.info.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
+    if thingy.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
       P_RadiusAttackEx(thingy, thingy.target, thingy.info.explosiondamage, thingy.info.explosionradius)
     else if thingy.state.params <> nil then
       P_RadiusAttackEx(thingy, thingy.target, thingy.state.params.IntVal[0], thingy.state.params.IntVal[1])

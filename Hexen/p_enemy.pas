@@ -1993,7 +1993,7 @@ var
   distance: integer;
   damageSelf: boolean;
 begin
-  if actor.info.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
+  if actor.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
   begin
     damage := actor.info.explosiondamage;
     distance := actor.info.explosionradius;

@@ -266,7 +266,7 @@ begin
 
   if mo.info.deathsound <> 0 then
   begin
-    if mo.info.flags_ex and MF_EX_RANDOMDEATHSOUND <> 0 then
+    if mo.flags_ex and MF_EX_RANDOMDEATHSOUND <> 0 then
       P_RandomSound(mo, mo.info.deathsound)
     else
       S_StartSound(mo, mo.info.deathsound);
@@ -803,11 +803,11 @@ begin
   mthing := @(mobj.spawnpoint);
 
   // spawn it
-  if mobj.info.flags and MF_SPAWNCEILING <> 0 then
+  if mobj.flags and MF_SPAWNCEILING <> 0 then
     z := ONCEILINGZ
-  else if mobj.info.flags_ex and MF_EX_SPAWNFLOAT <> 0 then
+  else if mobj.flags_ex and MF_EX_SPAWNFLOAT <> 0 then
     z := ONFLOATZ
-  else if mobj.info.flags2 and MF2_SPAWNFLOAT <> 0 then
+  else if mobj.flags2 and MF2_SPAWNFLOAT <> 0 then
     z := ONFLOATZ
   else
     z := ONFLOORZ;
@@ -1744,7 +1744,7 @@ begin
 
   if th.info.seesound <> 0 then
   begin
-    if th.info.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
+    if th.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
       P_RandomSound(th, th.info.seesound)
     else
       S_StartSound(th, th.info.seesound);
@@ -1816,7 +1816,7 @@ begin
   th := P_SpawnMobj(source.x, source.y, z, _type);
   if th.info.seesound <> 0 then
   begin
-    if th.info.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
+    if th.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
       P_RandomSound(th, th.info.seesound)
     else
       S_StartSound(th, th.info.seesound);
@@ -1867,7 +1867,7 @@ begin
 
   if th.info.seesound <> 0 then
   begin
-    if th.info.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
+    if th.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
       P_RandomSound(th, th.info.seesound)
     else
       S_StartSound(th, th.info.seesound);
@@ -1945,7 +1945,7 @@ begin
 
   if mo.info.seesound <> 0 then
   begin
-    if mo.info.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
+    if mo.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
       P_RandomSound(mo, mo.info.seesound)
     else
       S_StartSound(mo, mo.info.seesound);
@@ -2026,7 +2026,7 @@ begin
   begin
     if MissileMobj.info.seesound <> 0 then
     begin
-      if MissileMobj.info.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
+      if MissileMobj.flags_ex and MF_EX_RANDOMSEESOUND <> 0 then
         P_RandomSound(MissileMobj, MissileMobj.info.seesound)
       else
         S_StartSound(MissileMobj, MissileMobj.info.seesound);
