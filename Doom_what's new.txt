@@ -128,6 +128,7 @@ Added r_lightmaponemitters console variable. When set, the lightmap in software 
 Added A_RipSound() ACTORDEF function.
 Added MF4_EX_FULLVOLRIP & MF4_EX_RANDOMRIPSOUND mobj flags.
 Added full_sounds console variable. When true, the mobjs will finish their sounds when removed.
+Added MF4_EX_ALWAYSFINISHSOUND & MF4_EX_NEVERFINISHSOUND mobj flags to overwrite the full_sounds console variable.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

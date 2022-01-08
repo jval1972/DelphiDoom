@@ -71,8 +71,11 @@ begin
   else
     S_StartSound(origin, actor.info.seesound);
 
+  if actor.info.flags4_ex and MF4_EX_ALWAYSFINISHSOUND <> 0 then
+    S_UnlinkSound(origin)
+  else if actor.info.flags4_ex and MF4_EX_NEVERFINISHSOUND <> 0 then
   // From Woof: [FG] make seesounds uninterruptible
-  if full_sounds then
+  else if full_sounds then
     S_UnlinkSound(origin);
 end;
 
