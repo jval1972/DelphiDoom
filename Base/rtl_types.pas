@@ -160,7 +160,7 @@ type
     projectile_group: integer;
     splash_group: integer;
     mbf21bits: integer; // not actually flags, the bits will be converted to DelphiDoom flags
-    ripsound: integer;
+    ripsound: string;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

@@ -1714,6 +1714,7 @@ var
     AddRes('Sprite DY = ' + itoa(round(mobj.spriteDY * FRACUNIT)));
     AddRes('flags5_ex = ' + mobj.flags5_ex);
     AddRes('flags6_ex = ' + mobj.flags6_ex);
+    AddRes('Rip Sound = ' + SC_SoundAlias(mobj.ripsound));
 
     AddRes('');
 
@@ -2538,7 +2539,7 @@ begin
           mobj.projectile_group := pinf.projectile_group;
           mobj.splash_group := pinf.splash_group;
           mobj.mbf21bits := pinf.mbf21bits;
-          mobj.ripsound := pinf.ripsound;
+          mobj.ripsound := itoa(pinf.ripsound);
 
           mobj.spawnstate := ORIGINALSTATEMARKER + pinf.spawnstate;
           mobj.seestate := ORIGINALSTATEMARKER + pinf.seestate;
@@ -2969,6 +2970,12 @@ begin
         begin
           sc.GetString;
           mobj.customsound3 := sc._String;
+          sc.GetString;
+        end
+        else if sc.MatchString('ripsound') then
+        begin
+          sc.GetString;
+          mobj.ripsound := sc._String;
           sc.GetString;
         end
         else if sc.MatchString('meleesound') then
