@@ -2980,6 +2980,7 @@ begin
     demo_p := @demo_p[1];
   end;
 
+  sysrndseed := 0;
   oldspawnrandommonsters := spawnrandommonsters;
   if demoversion >= VERSION114 then
   begin
