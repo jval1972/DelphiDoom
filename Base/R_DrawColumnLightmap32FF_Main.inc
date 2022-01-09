@@ -14,14 +14,8 @@
     if dls <> 0 then
     begin
       db := R_ZBufferAt(x, y);
-      if db.pass = 0 then
-      begin
-        inc(destb, pitch);
-        inc(frac, fracstep);
-        Continue;
-      end;
       depth := db.depth;
-      if (okself or (db.mo <> parms.lightsourcemo)) and (depth >= dbmin) and (depth <= dbmax) then
+      if (depth >= dbmin) and (depth <= dbmax) then
       begin
         if seg <> db.seg then
         begin
@@ -32,6 +26,10 @@
           else
             skip := false;
         end;
+
+        if not skip and (seg = nil) and (db.planeheightz < MAXINT) then
+          if (parms.lightplanez < 0) = (db.planeheightz < 0) then
+            skip := abslightplanez > abs(db.planeheightz);
 
         if not skip then
         begin

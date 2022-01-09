@@ -129,6 +129,7 @@ var
 //
   planezlight: PBytePArray;
   planeheight: fixed_t;
+  planeheightz: fixed_t;
 {$ENDIF}
 
 {$IFNDEF OPENGL}
@@ -1009,7 +1010,8 @@ begin
   // regular flat
   R_GetDSs(pl.picnum);
 
-  planeheight := abs(pl.height - viewz);
+  planeheightz := pl.height - viewz;
+  planeheight := abs(planeheightz);
   light := _SHR(pl.lightlevel, LIGHTSEGSHIFT) + extralight;
 
   if light >= LIGHTLEVELS then

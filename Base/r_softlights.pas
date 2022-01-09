@@ -89,6 +89,7 @@ uses
   p_local,
   p_setup,
   p_maputl,
+  r_3dfloors,
   r_draw,
   r_dynlights,
   r_vislight,
@@ -467,6 +468,7 @@ type
     lightsourcex: fixed_t;
     lightsourcey: fixed_t;
     lightsourcemo: Pmobj_t;
+    lightplanez: fixed_t;
     r, g, b: byte;
     dl_iscale: fixed_t;
     dl_scale: fixed_t;
@@ -474,6 +476,7 @@ type
     dl_x: integer;
     dl_yl: integer;
     dl_yh: integer;
+    centery: integer;
     db_min: LongWord;
     db_max: LongWord;
     db_dmin: LongWord;
@@ -655,6 +658,123 @@ begin
         {$DEFINE TBL_G}
         {$DEFINE TBL_B}
         {$I R_DrawColumnLightmap8_Main.inc}
+      end;
+  end;
+end;
+
+procedure R_DrawColumnLightmap8FF(const parms: Plightparams_t);
+var
+  count, x, y: integer;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  db: Pzbufferitem_t;
+  depth: LongWord;
+  dbmin, dbmax: LongWord;
+  dbdmin, dbdmax: LongWord;
+  factor: fixed_t;
+  dfactor: fixed_t;
+  scale: fixed_t;
+  dls: fixed_t;
+  seg: Pseg_t;
+  skip: boolean;
+  sameseg: boolean;
+  dest: PByte;
+  source32: PLongWordArray;
+  pitch: integer;
+  r1, g1, b1: LongWord;
+  r, g, b: LongWord;
+  c: LongWord;
+  rr, gg, bb: integer;
+  tbl_r, tbl_g, tbl_b: precalc32op1_p;
+  tblflags: Byte;
+  abslightplanez: Integer;
+begin
+  count := parms.dl_yh - parms.dl_yl;
+
+  if count < 0 then
+    exit;
+
+  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  fracstep := parms.dl_fracstep;
+
+  dbmin := parms.db_min;
+  dbmax := parms.db_max;
+  dbdmin := parms.db_dmin;
+  dbdmax := parms.db_dmax;
+  r := parms.r;
+  g := parms.g;
+  b := parms.b;
+  x := parms.dl_x;
+  scale := parms.dl_scale;
+  seg := nil;
+  dfactor := 0;
+  skip := false;
+  sameseg := false;
+  source32 := parms.dl_source32;
+  abslightplanez := abs(parms.lightplanez);
+
+  tbl_r := precalc32op1A[parms.r];
+  tbl_g := precalc32op1A[parms.g];
+  tbl_b := precalc32op1A[parms.b];
+
+  if tbl_r <> nil then
+    tblflags := 1
+  else
+    tblflags := 0;
+  if tbl_g <> nil then
+    tblflags := tblflags or 2;
+  if tbl_b <> nil then
+    tblflags := tblflags or 4;
+
+  case tblflags of
+    1:
+      begin
+        {$DEFINE TBL_R}
+        {$UNDEF TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap8FF_Main.inc}
+      end;
+    2:
+      begin
+        {$UNDEF TBL_R}
+        {$DEFINE TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap8FF_Main.inc}
+      end;
+    3:
+      begin
+        {$DEFINE TBL_R}
+        {$DEFINE TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap8FF_Main.inc}
+      end;
+    4:
+      begin
+        {$UNDEF TBL_R}
+        {$UNDEF TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap8FF_Main.inc}
+      end;
+    5:
+      begin
+        {$DEFINE TBL_R}
+        {$UNDEF TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap8FF_Main.inc}
+      end;
+    6:
+      begin
+        {$UNDEF TBL_R}
+        {$DEFINE TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap8FF_Main.inc}
+      end;
+    7:
+      begin
+        {$DEFINE TBL_R}
+        {$DEFINE TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap8FF_Main.inc}
       end;
   end;
 end;
@@ -891,6 +1011,116 @@ begin
   end;
 end;
 
+procedure R_DrawColumnLightmap32FF(const parms: Plightparams_t);
+var
+  count, x, y: integer;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  db: Pzbufferitem_t;
+  depth: LongWord;
+  dbmin, dbmax: LongWord;
+  dbdmin, dbdmax: LongWord;
+  factor: fixed_t;
+  dfactor: fixed_t;
+  scale: fixed_t;
+  dls: fixed_t;
+  seg: Pseg_t;
+  skip: boolean;
+  sameseg: boolean;
+  destb: PByte;
+  source32: PLongWordArray;
+  pitch, pitch1: integer;
+  tbl_r, tbl_g, tbl_b: precalc32op1_p;
+  tblflags: Byte;
+  abslightplanez: Integer;
+begin
+  count := parms.dl_yh - parms.dl_yl;
+
+  if count < 0 then
+    exit;
+
+  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  fracstep := parms.dl_fracstep;
+
+  dbmin := parms.db_min;
+  dbmax := parms.db_max;
+  dbdmin := parms.db_dmin;
+  dbdmax := parms.db_dmax;
+  x := parms.dl_x;
+  scale := parms.dl_scale;
+  seg := nil;
+  dfactor := 0;
+  skip := false;
+  sameseg := false;
+  source32 := parms.dl_source32;
+  abslightplanez := abs(parms.lightplanez);
+
+  tbl_r := precalc32op1A[parms.r];
+  tbl_g := precalc32op1A[parms.g];
+  tbl_b := precalc32op1A[parms.b];
+
+  if tbl_r <> nil then
+    tblflags := 1
+  else
+    tblflags := 0;
+  if tbl_g <> nil then
+    tblflags := tblflags or 2;
+  if tbl_b <> nil then
+    tblflags := tblflags or 4;
+
+  case tblflags of
+    1:
+      begin
+        {$DEFINE TBL_R}
+        {$UNDEF TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap32FF_Main.inc}
+      end;
+    2:
+      begin
+        {$UNDEF TBL_R}
+        {$DEFINE TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap32FF_Main.inc}
+      end;
+    3:
+      begin
+        {$DEFINE TBL_R}
+        {$DEFINE TBL_G}
+        {$UNDEF TBL_B}
+        {$I R_DrawColumnLightmap32FF_Main.inc}
+      end;
+    4:
+      begin
+        {$UNDEF TBL_R}
+        {$UNDEF TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap32FF_Main.inc}
+      end;
+    5:
+      begin
+        {$DEFINE TBL_R}
+        {$UNDEF TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap32FF_Main.inc}
+      end;
+    6:
+      begin
+        {$UNDEF TBL_R}
+        {$DEFINE TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap32FF_Main.inc}
+      end;
+    7:
+      begin
+        {$DEFINE TBL_R}
+        {$DEFINE TBL_G}
+        {$DEFINE TBL_B}
+        {$I R_DrawColumnLightmap32FF_Main.inc}
+      end;
+  end;
+end;
+
 procedure R_DrawColumnLightmap32Masked(const parms: Plightparams_t);
 var
   count, x, y: integer;
@@ -1030,6 +1260,7 @@ begin
   lcolumn := @lcolumns[threadid];
   lcolumn.lightsourcex := psl.x;
   lcolumn.lightsourcey := psl.y;
+  lcolumn.lightplanez := psl.z - viewz;
   lcolumn.lightsourcemo := psl.mo;
   lcolumn.dl_iscale := FixedDivEx(FRACUNIT, spryscale);
   lcolumn.dl_fracstep := FixedDivEx(FRACUNIT, spryscale); //trunc(vis.scale * w / LIGHTTEXTURESIZE));
@@ -1060,6 +1291,7 @@ begin
 
       lcolumn.dl_yl := FixedInt64(topscreen + (FRACUNIT - 1));
       lcolumn.dl_yh := FixedInt64(bottomscreen - 1);
+      lcolumn.centery := lcolumn.dl_yl div 2 + lcolumn.dl_yh div 2;
       lcolumn.dl_texturemid := (centery - lcolumn.dl_yl) * lcolumn.dl_iscale;
 
       if lcolumn.dl_yh >= viewheight then
@@ -1100,10 +1332,20 @@ begin
   end
   else
   begin
-    if videomode = vm32bit then
-      drawcolumnlightmap := R_DrawColumnLightmap32
+    if lastvisplane3d = 0 then
+    begin
+      if videomode = vm32bit then
+        drawcolumnlightmap := R_DrawColumnLightmap32
+      else
+        drawcolumnlightmap := R_DrawColumnLightmap8;
+    end
     else
-      drawcolumnlightmap := R_DrawColumnLightmap8;
+    begin
+      if videomode = vm32bit then
+        drawcolumnlightmap := R_DrawColumnLightmap32FF
+      else
+        drawcolumnlightmap := R_DrawColumnLightmap8FF;
+    end
   end;
 end;
 
