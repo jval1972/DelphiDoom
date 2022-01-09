@@ -105,6 +105,8 @@ uses
   m_fixed,
   d_items,
   g_game,
+  p_friends,
+  p_common,
   p_mobj,
   p_obituaries,
   p_3dfloors,
