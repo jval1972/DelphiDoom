@@ -533,6 +533,8 @@ procedure A_SetMonsterInfight(actor: Pmobj_t);
 
 procedure A_UnSetMonsterInfight(actor: Pmobj_t);
 
+function P_CheckCustomMeleeRange(actor: Pmobj_t; mrange: integer): boolean;
+
 // MBF21
 procedure P_ResolveMBF21Flags(const m: Pmobjinfo_t);
 
@@ -549,6 +551,8 @@ procedure A_SpawnObject(actor: Pmobj_t);
 procedure A_MonsterProjectile(actor: Pmobj_t);
 
 procedure A_MonsterBulletAttack(actor: Pmobj_t);
+
+procedure A_MonsterMeleeAttack(actor: Pmobj_t);
 
 const
   FLOATBOBSIZE = 64;
@@ -686,6 +690,7 @@ uses
   p_aaptr,
   p_enemy,
   p_extra,
+  p_friends,
   p_inter,
   p_local,
   p_mobj,
@@ -7092,6 +7097,54 @@ begin
   actor.flags2_ex := actor.flags2_ex and not MF2_EX_DONTINFIGHTMONSTERS;
 end;
 
+function P_CheckCustomMeleeRange(actor: Pmobj_t; mrange: integer): boolean;
+var
+  mo: Pmobj_t;
+  dist: fixed_t;
+begin
+  mo := actor.target;
+  if mo = nil then
+  begin
+    result := false;
+    exit;
+  end;
+
+  // Friendly monsters do not attack each other
+  if P_BothFriends(mo, actor) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  dist := P_AproxDistance(mo.x - actor.x, mo.y - actor.y);
+
+  if dist >= mrange then
+  begin
+    result := false;
+    exit;
+  end;
+
+  {$IFDEF DOOM}
+  // JVAL: 20210207 - Added MF3_EX_MELEECHECKZ
+  if actor.flags3_ex and MF3_EX_MELEECHECKZ <> 0 then
+  {$ENDIF}
+  begin
+    if mo.z > actor.z + actor.height then
+    begin // Target is higher than the attacker
+      result := false;
+      exit;
+    end;
+
+    if actor.z > mo.z + mo.height then
+    begin // Attacker is higher
+      result := false;
+      exit;
+    end;
+  end;
+
+  result := P_CheckSight(actor, actor.target);
+end;
+
 // MBF21
 
 //
@@ -7481,6 +7534,60 @@ begin
 
     P_LineAttack(actor, angle, MISSILERANGE, slope, damage);
   end;
+end;
+
+//
+// A_MonsterMeleeAttack
+// A parameterized monster melee attack.
+//   args[0]: Base damage of attack (e.g. for 3d8, customize the 3); if not set, defaults to 3
+//   args[1]: Attack damage modulus (e.g. for 3d8, customize the 8); if not set, defaults to 8
+//   args[2]: Sound to play if attack hits
+//   args[3]: Range (fixed point); if not set, defaults to monster's melee range
+//
+procedure A_MonsterMeleeAttack(actor: Pmobj_t);
+var
+  damagebase, damagemod, hitsound, range: integer;
+  damage: integer;
+begin
+  if not P_CheckStateArgs(actor) then
+    exit;
+
+  if actor.target = nil then
+    exit;
+
+  damagebase := actor.state.params.IntVal[0];
+  damagemod := actor.state.params.IntVal[1];
+
+  if actor.state.params.IsComputed[2] then
+    hitsound := actor.state.params.IntVal[2]
+  else
+  begin
+    hitsound := S_GetSoundNumForName(actor.state.params.StrVal[2]);
+    actor.state.params.IntVal[2] := hitsound;
+  end;
+
+  range := actor.state.params.IntVal[3];
+  if range < 1024 then
+    range := range * FRACUNIT;
+
+  if range <= 0 then
+  begin
+    range := actor.info.meleerange;
+    if range = 0 then
+      range := MELEERANGE;
+  end;
+
+  range := range + actor.target.radius - 20 * FRACUNIT;
+
+  A_FaceTarget(actor);
+  if not P_CheckCustomMeleeRange(actor, range) then
+    exit;
+
+  if hitsound > 0 then
+    S_StartSound(actor, hitsound);
+
+  damage := (N_Random mod damagemod + 1) * damagebase;
+  P_DamageMobj(actor.target, actor, actor, damage);
 end;
 
 end.
