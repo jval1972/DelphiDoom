@@ -546,6 +546,8 @@ function P_SplashImmune(target, spot: Pmobj_t): boolean;
 
 procedure A_SpawnObject(actor: Pmobj_t);
 
+procedure A_MonsterProjectile(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -7342,7 +7344,8 @@ end;
 procedure A_SpawnObject(actor: Pmobj_t);
 var
   typ, ofs_x, ofs_y, ofs_z, vel_x, vel_y, vel_z: integer;
-  angle, an: angle_t;
+  angle: Int64;
+  an: angle_t;
   fan, dx, dy: integer;
   mo: Pmobj_t;
 begin
@@ -7361,7 +7364,7 @@ begin
   vel_z := actor.state.params.IntVal[7];
 
   // calculate position offsets
-  an := actor.angle + angle * ANG1;
+  an := actor.angle + (angle * FRACUNIT) div 360;
   fan := an shr ANGLETOFINESHIFT;
   dx := FixedMul(ofs_x, finecosine[fan]) - FixedMul(ofs_y, finesine[fan]);
   dy := FixedMul(ofs_x, finesine[fan]) + FixedMul(ofs_y, finecosine[fan]);
@@ -7378,6 +7381,61 @@ begin
   mo.momx := FixedMul(vel_x, finecosine[fan]) - FixedMul(vel_y, finesine[fan]);
   mo.momy := FixedMul(vel_x, finesine[fan]) + FixedMul(vel_y, finecosine[fan]);
   mo.momz := vel_z;
+end;
+
+// A_MonsterProjectile
+// A parameterized monster projectile attack.
+//   args[0]: Type of actor to spawn
+//   args[1]: Angle (degrees, in fixed point), relative to calling actor's angle
+//   args[2]: Pitch (degrees, in fixed point), relative to calling actor's pitch; approximated
+//   args[3]: X/Y spawn offset, relative to calling actor's angle
+//   args[4]: Z spawn offset, relative to actor's default projectile fire height
+//
+procedure A_MonsterProjectile(actor: Pmobj_t);
+var
+  typ, pitch, spawnofs_xy, spawnofs_z: integer;
+  angle: Int64;
+  mo: Pmobj_t;
+  an: angle_t;
+begin
+  if not P_CheckStateArgs(actor) then
+    exit;
+
+  if actor.target = nil then
+    exit;
+
+  typ := actor.state.params.IntVal[0] - 1;
+  if typ < 0 then
+    exit;
+  angle := actor.state.params.IntVal[1];
+  pitch := actor.state.params.IntVal[2];
+  spawnofs_xy := actor.state.params.IntVal[3];
+  spawnofs_z := actor.state.params.IntVal[4];
+
+  A_FaceTarget(actor);
+  mo := P_SpawnMissile(actor, actor.target, typ);
+  if mo = nil then
+    exit;
+
+  // adjust angle
+  mo.angle := mo.angle + (angle * FRACUNIT) div 360;
+  an := mo.angle shr ANGLETOFINESHIFT;
+  mo.momx := FixedMul(mo.info.speed, finecosine[an]);
+  mo.momy := FixedMul(mo.info.speed, finesine[an]);
+
+  // adjust pitch (approximated, using Doom's ye olde
+  // finetangent table; same method as monster aim)
+  mo.momz := mo.momz + FixedMul(mo.info.speed, DegToSlope(pitch));
+
+  // adjust position
+  an := (actor.angle - ANG90) div ANGLETOFINEUNIT;
+  mo.x := mo.x + FixedMul(spawnofs_xy, finecosine[an]);
+  mo.y := mo.y + FixedMul(spawnofs_xy, finesine[an]);
+  mo.z := mo.z + spawnofs_z;
+
+  // always set the 'tracer' field, so this pointer
+  // can be used to fire seeker missiles at will.
+  mo.tracer := actor.target;
 end;
 
 end.

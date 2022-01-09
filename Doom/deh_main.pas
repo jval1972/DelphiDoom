@@ -2968,6 +2968,8 @@ begin
   DEH_AddAction(@A_GoToIfTracerCustomParamGreater, 'A_GoToIfTracerCustomParamGreater(param: string, value: integer, state: state_t)');
   DEH_AddAction(@A_RipSound1, 'A_RipSound()');
   DEH_AddAction(@A_ChangeSpriteFlip, 'A_ChangeSpriteFlip(propability: integer)');
+  DEH_AddAction(@A_SpawnObject, 'A_SpawnObject(dehackedtyp: integer; anglefixeddeg: integer; xoffs, yoffs, zoffs: integer; xvel, yvel, zvel: integer)', [0, 0, 0, 0, 0, 0, 0, 0]);
+  DEH_AddAction(@A_MonsterProjectile, 'A_MonsterProjectile(dehackedtyp: integer; anglefixeddeg: integer; pitchfixeddeg: integer; xyoffs, zoffs: integer)', [0, 0, 0, 0, 0]);
 
   for i := 0 to dehnumactions - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
