@@ -7330,6 +7330,7 @@ begin
   result := actor.state.params.Count = deh_action.argcount;
 end;
 
+//
 // A_SpawnObject
 // Basically just A_Spawn with better behavior and more args.
 //   args[0]: Type of actor to spawn
@@ -7383,6 +7384,7 @@ begin
   mo.momz := vel_z;
 end;
 
+//
 // A_MonsterProjectile
 // A parameterized monster projectile attack.
 //   args[0]: Type of actor to spawn
