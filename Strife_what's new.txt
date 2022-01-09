@@ -136,6 +136,7 @@ Added A_ChangeSpriteFlip(propability: integer) ACTORDEF function.
 Infinite state cycle detection while moving player sprites.
 Infightining group and mechanics.
 Projectile group and mechanics.
+Splash group and mechanics.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

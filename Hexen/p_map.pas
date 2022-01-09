@@ -2860,6 +2860,12 @@ begin
     exit;
   end;
 
+  if P_SplashImmune(thing, bombspot) then
+  begin
+    result := true;
+    exit;
+  end;
+
   // Bosses take no damage from concussion.
   if thing.flags2 and MF2_BOSS <> 0 then
   begin
@@ -3052,6 +3058,12 @@ var
   damage: integer;
 begin
   if thing.player = nil then
+  begin
+    result := true;
+    exit;
+  end;
+
+  if P_SplashImmune(thing, bombspot) then
   begin
     result := true;
     exit;

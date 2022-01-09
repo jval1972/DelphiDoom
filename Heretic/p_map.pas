@@ -2397,6 +2397,12 @@ begin
     exit;
   end;
 
+  if P_SplashImmune(thing, bombspot) then
+  begin
+    result := true;
+    exit;
+  end;
+
   // Boss spider and cyborg
   // take no damage from concussion.
   if (thing._type = Ord(MT_MINOTAUR)) or (thing._type = Ord(MT_SORCERER1)) or (thing._type = Ord(MT_SORCERER2)) then
@@ -2576,6 +2582,12 @@ begin
     exit;
   end;
 
+  if P_SplashImmune(thing, bombspot) then
+  begin
+    result := true;
+    exit;
+  end;
+  
   dx := abs(thing.x - bombspot.x);
   dy := abs(thing.y - bombspot.y);
 

@@ -2477,6 +2477,12 @@ begin
     exit;
   end;
 
+  if P_SplashImmune(thing, bombspot) then
+  begin
+    result := true;
+    exit;
+  end;
+
   // Boss spider and cyborg
   // take no damage from concussion.
   if (thing._type = Ord(MT_CYBORG)) or (thing._type = Ord(MT_SPIDER)) then
@@ -2651,6 +2657,12 @@ var
   damage: integer;
 begin
   if thing.player = nil then
+  begin
+    result := true;
+    exit;
+  end;
+
+  if P_SplashImmune(thing, bombspot) then
   begin
     result := true;
     exit;

@@ -542,6 +542,8 @@ function P_InfightingImmune(target, source: Pmobj_t): boolean;
 
 function P_ProjectileImmune(target, source: Pmobj_t): boolean;
 
+function P_SplashImmune(target, spot: Pmobj_t): boolean;
+
 procedure A_SpawnObject(actor: Pmobj_t);
 
 const
@@ -7239,6 +7241,14 @@ begin
         (target.projectile_group = source.projectile_group)
       )
     );
+end;
+
+// mbf21: dehacked splash groups
+function P_SplashImmune(target, spot: Pmobj_t): boolean;
+begin
+  result := // not default behaviour and same group
+    (target.splash_group <> SG_DEFAULT) and
+    (target.splash_group = spot.splash_group);
 end;
 
 //

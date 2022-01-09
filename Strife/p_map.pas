@@ -2323,6 +2323,12 @@ begin
     exit;
   end;
 
+  if P_SplashImmune(thing, bombspot) then
+  begin
+    result := true;
+    exit;
+  end;
+
   // haleyjd 10/04/10: Spectrals are not damaged by blast radii
   if thing.flags and MF_SPECTRAL <> 0 then
   begin
@@ -2526,6 +2532,12 @@ var
   damage: integer;
 begin
   if thing.player = nil then
+  begin
+    result := true;
+    exit;
+  end;
+
+  if P_SplashImmune(thing, bombspot) then
   begin
     result := true;
     exit;
