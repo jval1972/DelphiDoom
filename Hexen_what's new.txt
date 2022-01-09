@@ -141,6 +141,7 @@ Added MF4_EX_ALWAYSFINISHSOUND & MF4_EX_NEVERFINISHSOUND mobj flags to overwrite
 Always check the actor's instance flags, not its info flags.
 Corrected software rendering lights clipping in 3d floors.
 Added A_ChangeSpriteFlip(propability: integer) ACTORDEF function.
+Infinite state cycle detection while moving player sprites.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
