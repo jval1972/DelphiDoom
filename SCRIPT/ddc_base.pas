@@ -135,7 +135,6 @@ type
 function dll_compile(const game: string; const code: string; var pcode: string; var msgs: string): Boolean;
 var
   func: dllcompilefunc_t;
-  inst: THandle;
   libname: string;
   funcname: string;
   clen, plen, mlen: integer;
@@ -143,10 +142,10 @@ var
   i: integer;
   _inp, _out, _msgs: PChar;
 begin
-  libname := 'ddc_' + game + '.dll';
-  inst := localLoadLibrary(PChar(libname));
+  dll_LoadLibrary(PChar(game));
   if inst = 0 then
   begin
+    libname := 'ddc_' + game + '.dll';
     msgs := 'ERROR: ' + libname + ' not found.';
     Result := False;
     Exit;
@@ -200,7 +199,7 @@ begin
   FreeMem(_msgs, mlen1);
   FreeMem(_inp, clen);
 
-  localFreeLibrary(inst);
+  dll_FreeLibrary;
 end;
 
 // Returns a TStringList with the unit names
