@@ -21,7 +21,7 @@
 //  02111-1307, USA.
 //
 // DESCRIPTION:
-// Random number LUT.
+//  Random number LUT.
 //
 //------------------------------------------------------------------------------
 //  Site  : https://sourceforge.net/projects/delphidoom/
