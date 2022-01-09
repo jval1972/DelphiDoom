@@ -74,6 +74,7 @@ uses
   i_system,
   info,
   m_misc,
+  m_rnd,
   m_argv,
   p_mobj_h,
   doomdef,
