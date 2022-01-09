@@ -12416,7 +12416,11 @@ var
   fixedcosine: Pfixed_tArray;
 
 function DegToSlope(a: fixed_t): fixed_t;
-  
+
+function FixedToAngle(a: fixed_t): angle_t;
+
+function AngleToFixed(a: angle_t): fixed_t;
+
 implementation
 
 uses

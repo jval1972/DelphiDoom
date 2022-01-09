@@ -548,6 +548,8 @@ procedure A_SpawnObject(actor: Pmobj_t);
 
 procedure A_MonsterProjectile(actor: Pmobj_t);
 
+procedure A_MonsterBulletAttack(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -7438,6 +7440,47 @@ begin
   // always set the 'tracer' field, so this pointer
   // can be used to fire seeker missiles at will.
   mo.tracer := actor.target;
+end;
+
+//
+// A_MonsterBulletAttack
+// A parameterized monster bullet attack.
+//   args[0]: Horizontal spread (degrees, in fixed point)
+//   args[1]: Vertical spread (degrees, in fixed point)
+//   args[2]: Number of bullets to fire; if not set, defaults to 1
+//   args[3]: Base damage of attack (e.g. for 3d5, customize the 3); if not set, defaults to 3
+//   args[4]: Attack damage modulus (e.g. for 3d5, customize the 5); if not set, defaults to 5
+//
+procedure A_MonsterBulletAttack(actor: Pmobj_t);
+var
+  hspread, vspread, numbullets, damagebase, damagemod: integer;
+  aimslope, i, damage, angle, slope: integer;
+begin
+  if not P_CheckStateArgs(actor) then
+    exit;
+
+  if actor.target = nil then
+    exit;
+
+  hspread := actor.state.params.IntVal[0];
+  vspread := actor.state.params.IntVal[1];
+  numbullets := actor.state.params.IntVal[2];
+  damagebase := actor.state.params.IntVal[3];
+  damagemod := actor.state.params.IntVal[4];
+
+  A_FaceTarget(actor);
+  S_StartSound(actor, actor.info.attacksound);
+
+  aimslope := P_AimLineAttack(actor, actor.angle, MISSILERANGE);
+
+  for i := 0 to numbullets - 1 do
+  begin
+    damage := ((N_Random mod damagemod) + 1) * damagebase;
+    angle := actor.angle + P_RandomHitscanAngle(hspread);
+    slope := aimslope + P_RandomHitscanSlope(vspread);
+
+    P_LineAttack(actor, angle, MISSILERANGE, slope, damage);
+  end;
 end;
 
 end.

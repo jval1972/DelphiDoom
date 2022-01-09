@@ -37,6 +37,9 @@ unit m_rnd;
 
 interface
 
+uses
+  m_fixed;
+
 // Returns a number from 0 to 255,
 // from a lookup table.
 function M_Random: integer;
@@ -64,6 +67,10 @@ procedure P_RestoreRandom;
 // JVAL: Random number for seed
 function P_RandomFromSeed(const seed: integer): integer;
 
+function P_RandomHitscanAngle(spread: fixed_t): integer;
+
+function P_RandomHitscanSlope(spread: fixed_t): integer;
+
 var
   rndindex: integer = 0;
   prndindex: integer = 0;
@@ -74,11 +81,12 @@ var
 implementation
 
 uses
-  {$IFDEF DEBUG}
   d_delphi,
+  {$IFDEF DEBUG}
   g_game,
   {$ENDIF}
   i_system,
+  tables,
   m_stack;
 
 const
@@ -860,6 +868,48 @@ procedure P_RestoreRandom;
 begin
   if not stack.Pop(prndindex) then
     I_DevError('P_RestoreRandom(): Stack is empty!'#13#10);
+end;
+
+// mbf21: [XA] Common random formulas used by codepointers
+
+//
+// P_RandomHitscanAngle
+// Outputs a random angle between (-spread, spread), as an int ('cause it can be negative).
+//   spread: Maximum angle (degrees, in fixed point -- not BAM!)
+//
+function P_RandomHitscanAngle(spread: fixed_t): integer;
+var
+  t: integer;
+  spread_bam: double;
+begin
+  // FixedToAngle doesn't work for negative numbers,
+  // so for convenience take just the absolute value.
+  if spread < 0 then
+    spread_bam := FixedToAngle(-spread)
+  else
+    spread_bam := FixedToAngle(spread);
+  t := N_Random;
+  result := round((spread_bam * (t - N_Random)) / 255);
+end;
+
+//
+// P_RandomHitscanSlope
+// Outputs a random angle between (-spread, spread), converted to values used for slope
+//   spread: Maximum vertical angle (degrees, in fixed point -- not BAM!)
+//
+function P_RandomHitscanSlope(spread: fixed_t): integer;
+var
+  angle: integer;
+begin
+  angle := P_RandomHitscanAngle(spread);
+
+  // clamp it, yo
+  if angle > ANG90 then
+    result := finetangent[0]
+  else if -angle > ANG90 then
+    result := finetangent[FINEANGLES div 2 - 1]
+  else
+    result := finetangent[(ANG90 - angle) div ANGLETOFINEUNIT];
 end;
 
 initialization
