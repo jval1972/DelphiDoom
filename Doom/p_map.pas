@@ -2784,7 +2784,7 @@ begin
       if (bt = bt_green) and (MT_GREENGIBS <> Ord(MT_NONE)) then
         st := mobjinfo[MT_GREENGIBS].spawnstate
       else if (bt = bt_blue) and (MT_BLUEGIBS <> Ord(MT_NONE)) then
-        st := mobjinfo[MT_GREENGIBS].spawnstate
+        st := mobjinfo[MT_BLUEGIBS].spawnstate
       else
         st := Ord(S_GIBS);
       P_SetMobjState(thing, statenum_t(st));
