@@ -1890,7 +1890,7 @@ var
     weaponpending := false;
     res := '';
 
-    AddRes('WEAPON ' + itoa(wpn.weaponno) {$IFDEF  HEXEN} + ' ' + itoa(wpn.pclass){$ENDIF});
+    AddRes('WEAPON ' + itoa(wpn.weaponno) {$IFDEF HEXEN} + ' ' + itoa(wpn.pclass){$ENDIF});
     {$IFDEF HERETIC}
     AddRes('Level ' + itoa(wpn.level));
     {$ENDIF}
