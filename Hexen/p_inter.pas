@@ -142,6 +142,8 @@ uses
   g_demo,
   g_game,
   p_mobj,
+  p_friends,
+  p_common,
   p_obituaries,
   p_3dfloors,
   p_pspr,
@@ -1928,6 +1930,7 @@ var
   thrust: fixed_t;
   i: integer;
   mass: integer;
+  ignore: boolean;
 begin
   if target.flags and MF_SHOOTABLE = 0 then
   begin
@@ -2312,7 +2315,12 @@ begin
   begin
     // Target actor is not intent on another actor,
     // so make him chase after source
-    if target.flags2_ex and MF2_EX_DONTINFIGHTMONSTERS = 0 then
+    if G_PlayingEngineVersion >= VERSION207 then
+      ignore := P_BothFriends(target, source) or P_InfightingImmune(target, source)
+    else
+      ignore := false;
+
+    if (target.flags2_ex and MF2_EX_DONTINFIGHTMONSTERS = 0) and not ignore then
     begin
       if ((target._type = Ord(MT_CENTAUR)) and (source._type = Ord(MT_CENTAURLEADER))) or
          ((target._type = Ord(MT_CENTAURLEADER)) and (source._type = Ord(MT_CENTAUR))) then

@@ -138,6 +138,8 @@ uses
   m_fixed,
   m_menu,
   g_game,
+  p_friends,
+  p_common,
   p_mobj,
   p_obituaries,
   p_3dfloors,
@@ -1337,6 +1339,7 @@ var
   player: Pplayer_t;
   thrust: fixed_t;
   mass: integer;
+  ignore: boolean;
 begin
   if target.flags and MF_SHOOTABLE = 0 then
   begin
@@ -1612,7 +1615,12 @@ begin
   begin
     // if not intent on another player,
     // chase after this one
-    if target.flags2_ex and MF2_EX_DONTINFIGHTMONSTERS = 0 then
+    if G_PlayingEngineVersion >= VERSION207 then
+      ignore := P_BothFriends(target, source) or P_InfightingImmune(target, source)
+    else
+      ignore := false;
+
+    if (target.flags2_ex and MF2_EX_DONTINFIGHTMONSTERS = 0) and not ignore then
     begin
       target.target := source;
       target.threshold := BASETHRESHOLD;

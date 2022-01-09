@@ -540,6 +540,8 @@ function P_CheckStateArgs(actor: Pmobj_t): boolean;
 
 procedure A_SpawnObject(actor: Pmobj_t);
 
+function P_InfightingImmune(target, source: Pmobj_t): boolean;
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -7209,9 +7211,17 @@ begin
   end;
 end;
 
+// mbf21: dehacked infighting groups
+function P_InfightingImmune(target, source: Pmobj_t): boolean;
+begin
+  result :=  // not default behaviour, and same group
+    (target.infighting_group <> IG_DEFAULT) and
+    (target.infighting_group = source.infighting_group);
+end;
+
 //
 // P_CheckStateArgs
-// JVAL: Check arguments for MBF21 codeprs 
+// JVAL: Check arguments for MBF21 codeprs
 //
 function P_CheckStateArgs(actor: Pmobj_t): boolean;
 var
