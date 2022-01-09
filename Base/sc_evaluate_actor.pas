@@ -71,9 +71,7 @@ type
     flastvalue: string;
     // Random functions
     function PF_rand(p: TDStrings): string;
-    {$IFNDEF HEXEN}
     function PF_sysrand(p: TDStrings): string;
-    {$ENDIF}
     function PF_random(p: TDStrings): string;
     function PF_random2(p: TDStrings): string;
     function PF_frandom(p: TDStrings): string;
@@ -173,9 +171,7 @@ begin
   flastvalue := '';
   // Ramdom functions
   AddFunc('RAND', PF_rand, 0);
-  {$IFNDEF HEXEN}
   AddFunc('SYSRAND', PF_sysrand, -1);
-  {$ENDIF}
   AddFunc('RANDOM', PF_random, -1);
   AddFunc('RANDOM2', PF_random2, -1);
   AddFunc('FLOATRANDOM', PF_frandom, -1);
@@ -308,7 +304,6 @@ begin
   result := ftoa(P_Random / 255);
 end;
 
-{$IFNDEF HEXEN}
 function TActorEvaluator.PF_sysrand(p: TDStrings): string;
 var
   f1, f2: float;
@@ -327,7 +322,6 @@ begin
     result := itoa(round(f1) + Sys_Random * (round(f2) - round(f1) + 1) div 256);
   end;
 end;
-{$ENDIF}
 
 function TActorEvaluator.PF_random(p: TDStrings): string;
 var

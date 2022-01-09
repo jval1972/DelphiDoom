@@ -147,6 +147,7 @@ Projectile group and mechanics.
 Splash group and mechanics.
 Added A_SpawnObject() ACTORDEF function (mbf21).
 Added A_MonsterProjectile() ACTORDEF function (mbf21).
+SYSRAND function in ACTORDEF parameters evaluation (uses random seed from system's clock)
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

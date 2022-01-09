@@ -49,9 +49,7 @@ function N_Random: integer;
 
 function I_Random: integer;
 
-{$IFNDEF HEXEN}
 function Sys_Random: integer;
-{$ENDIF}
 
 // JVAL: Using custom seed
 function C_Random(var idx: integer): integer;
@@ -70,10 +68,8 @@ var
   rndindex: integer = 0;
   prndindex: integer = 0;
   nrndindex: integer = 0; // JVAL new random index
-{$IFNDEF HEXEN}
   sysrndindex: integer = 0;
   sysrndseed: integer = 0;
-{$ENDIF}
 
 implementation
 
@@ -108,7 +104,6 @@ const
     120, 163, 236, 249
   );
 
-{$IFNDEF HEXEN}
 const
   SYSRNDSIZE = 10007;
 
@@ -782,7 +777,6 @@ const
     $3C, $3D, $3A, $FC, $A6, $E0, $4D, $0C, $94, $59, $86, $CE, $C4, $17, $54,
     $B0, $71
   );
-{$ENDIF}
 
 // Which one is deterministic?
 function M_Random: integer;
@@ -820,7 +814,6 @@ begin
   {$ENDIF}
 end;
 
-{$IFNDEF HEXEN}
 function Sys_Random: integer;
 begin
   sysrndindex := sysrndindex + sysrndseed + 1;
@@ -828,7 +821,6 @@ begin
     sysrndindex := sysrndindex - SYSRNDSIZE;
   result := sysrndtable[sysrndindex];
 end;
-{$ENDIF}
 
 function C_Random(var idx: integer): integer;
 begin
@@ -855,9 +847,7 @@ begin
   rndindex := 0;
   prndindex := 0;
   nrndindex := 0;
-{$IFNDEF HEXEN}
   sysrndindex := 0;
-{$ENDIF}
   stack.Clear;
 end;
 
