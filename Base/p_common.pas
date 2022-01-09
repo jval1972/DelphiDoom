@@ -457,6 +457,8 @@ procedure A_NoFlipSprite(actor: Pmobj_t);
 
 procedure A_RandomNoFlipSprite(actor: Pmobj_t);
 
+procedure A_ChangeSpriteFlip(actor: Pmobj_t);
+
 procedure A_CustomMeleeAttack(actor: Pmobj_t);
 
 procedure A_CustomComboAttack(actor: Pmobj_t);
@@ -5686,6 +5688,31 @@ begin
   chance := actor.state.params.IntVal[0];
   if chance < P_Random then
     actor.flags3_ex := actor.flags3_ex and not MF3_EX_FLIPSPRITE;
+end;
+
+//
+// A_ChangeSpriteFlip(propability: integer)
+//
+procedure A_ChangeSpriteFlip(actor: Pmobj_t);
+var
+  ok: Boolean;
+begin
+  if actor.state.params = nil then
+    ok := True
+  else if actor.state.params.Count = 0 then
+    ok := True
+  else if actor.state.params.EvaluateStrVal[0] = 'TRUE' then
+    ok := True
+  else
+    ok := N_Random < actor.state.params.IntVal[0];
+
+  if not ok then
+    Exit;
+
+  if actor.flags3_ex or MF3_EX_FLIPSPRITE <> 0 then
+    actor.flags3_ex := actor.flags3_ex and not MF3_EX_FLIPSPRITE
+  else
+    actor.flags3_ex := actor.flags3_ex or MF3_EX_FLIPSPRITE;
 end;
 
 //

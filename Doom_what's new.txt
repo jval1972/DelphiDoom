@@ -131,6 +131,7 @@ Added full_sounds console variable. When true, the mobjs will finish their sound
 Added MF4_EX_ALWAYSFINISHSOUND & MF4_EX_NEVERFINISHSOUND mobj flags to overwrite the full_sounds console variable.
 Always check the actor's instance flags, not its info flags.
 Corrected software rendering lights clipping in 3d floors.
+Added A_ChangeSpriteFlip(propability: integer) ACTORDEF function.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

@@ -3033,6 +3033,7 @@ begin
   DEH_AddAction(@A_UnSetMonsterInfight, 'A_UnSetMonsterInfight()');
   DEH_AddAction(@A_BossDeath, 'A_BossDeath()');
   DEH_AddAction(@A_RipSound1, 'A_RipSound()');
+  DEH_AddAction(@A_ChangeSpriteFlip, 'A_ChangeSpriteFlip(propability: integer)');
 
   for i := 0 to dehnumactions - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
