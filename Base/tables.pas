@@ -12415,6 +12415,8 @@ var
   // Re-use data, is just PI/2 pahse shift.
   fixedcosine: Pfixed_tArray;
 
+function DegToSlope(a: fixed_t): fixed_t;
+  
 implementation
 
 uses
@@ -12429,6 +12431,49 @@ begin
     result := (num * 8) div _SHR8(den);
     if result >= SLOPERANGE then
       result := SLOPERANGE;
+  end;
+end;
+
+// mbf21: More utility functions, courtesy of Quasar (James Haley).
+// These are straight from Eternity so demos stay in sync.
+function FixedToAngle(a: fixed_t): angle_t;
+var
+  a64: Int64;
+begin
+  a64 := a;
+  result := (a64 * ANG1) div FRACUNIT;
+end;
+
+function AngleToFixed(a: angle_t): fixed_t;
+var
+  a64: double;
+begin
+  a64 := a;
+  result := trunc((a64 * FRACUNIT) / ANG1);
+end;
+
+// [XA] Clamped angle->slope, for convenience
+function AngleToSlope(a: integer): fixed_t;
+begin
+  if a > ANG90 then
+    result := finetangent[0]
+  else if -a > ANG90 then
+    result := finetangent[FINEANGLES div 2 - 1]
+  else
+    result := finetangent[(ANG90 - a) div ANGLETOFINEUNIT];
+end;
+
+// [XA] Ditto, using fixed-point-degrees input
+function DegToSlope(a: fixed_t): fixed_t;
+var
+  i: integer;
+begin
+  if a >= 0 then
+    result := AngleToSlope(FixedToAngle(a))
+  else
+  begin
+    i := FixedToAngle(-a);
+    result := AngleToSlope(-i);
   end;
 end;
 
