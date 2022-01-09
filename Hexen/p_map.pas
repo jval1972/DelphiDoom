@@ -1130,18 +1130,22 @@ begin
 	   (tmthing.target._type = thing._type) or
        // JVAL: 20211126 - Inherited actors do not hurt each other
        (Info_GetInheritance(tmthing.target.info) = Info_GetInheritance(thing.info))) then
-    begin // Don't hit same species as originator
-      if thing = tmthing.target then
-      begin // Don't missile self
-        result := true;
-        exit;
-      end;
-
-      // Hit same species as originator, explode, no damage
-      if (thing.player = nil) and (thing.flags2_ex and MF2_EX_MISSILEHURTSPECIES = 0) then
+    begin
+      if (G_PlayingEngineVersion <= VERSION206) or P_ProjectileImmune(thing, tmthing.target) then
       begin
-        result := false;
-        exit;
+        // Don't hit same species as originator
+        if thing = tmthing.target then
+        begin // Don't missile self
+          result := true;
+          exit;
+        end;
+
+        // Hit same species as originator, explode, no damage
+        if (thing.player = nil) and (thing.flags2_ex and MF2_EX_MISSILEHURTSPECIES = 0) then
+        begin
+          result := false;
+          exit;
+        end;
       end;
     end;
 

@@ -871,26 +871,51 @@ begin
       exit;
     end;
 
-    if (tmthing.target <> nil) and (
-        (tmthing.target._type = thing._type) or
-        ((tmthing.target._type = Ord(MT_KNIGHT)) and (thing._type = Ord(MT_BRUISER))) or
-        ((tmthing.target._type = Ord(MT_BRUISER)) and (thing._type = Ord(MT_KNIGHT))) or
-        // JVAL: 20211126 - Inherited actors do not hurt each other
-		(Info_GetInheritance(tmthing.target.info) = Info_GetInheritance(thing.info))) then
+    if G_PlayingEngineVersion <= VERSION206 then
     begin
-      // Don't hit same species as originator.
-      if thing = tmthing.target then
+      if (tmthing.target <> nil) and (
+          (tmthing.target._type = thing._type) or
+          ((tmthing.target._type = Ord(MT_KNIGHT)) and (thing._type = Ord(MT_BRUISER))) or
+          ((tmthing.target._type = Ord(MT_BRUISER)) and (thing._type = Ord(MT_KNIGHT))) or
+          // JVAL: 20211126 - Inherited actors do not hurt each other
+      (Info_GetInheritance(tmthing.target.info) = Info_GetInheritance(thing.info))) then
       begin
-        result := true;
-        exit;
-      end;
+        // Don't hit same species as originator.
+        if thing = tmthing.target then
+        begin
+          result := true;
+          exit;
+        end;
 
-      if (thing._type <> Ord(MT_PLAYER)) and (thing.flags2_ex and MF2_EX_MISSILEHURTSPECIES = 0) then
+        if (thing._type <> Ord(MT_PLAYER)) and (thing.flags2_ex and MF2_EX_MISSILEHURTSPECIES = 0) then
+        begin
+          // Explode, but do no damage.
+          // Let players missile other players.
+          result := false;
+          exit;
+        end;
+      end;
+    end
+    else
+    begin
+      if (tmthing.target <> nil) and
+        (P_ProjectileImmune(thing, tmthing.target) or
+         (Info_GetInheritance(tmthing.target.info) = Info_GetInheritance(thing.info))) then
       begin
-        // Explode, but do no damage.
-        // Let players missile other players.
-        result := false;
-        exit;
+        // Don't hit same species as originator.
+        if thing = tmthing.target then
+        begin
+          result := true;
+          exit;
+        end;
+
+        if (thing._type <> Ord(MT_PLAYER)) and (thing.flags2_ex and MF2_EX_MISSILEHURTSPECIES = 0) then
+        begin
+          // Explode, but do no damage.
+          // Let players missile other players.
+          result := false;
+          exit;
+        end;
       end;
     end;
 

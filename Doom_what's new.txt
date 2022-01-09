@@ -134,6 +134,7 @@ Corrected software rendering lights clipping in 3d floors.
 Added A_ChangeSpriteFlip(propability: integer) ACTORDEF function.
 Infinite state cycle detection while moving player sprites.
 Infightining group and mechanics.
+Projectile group and mechanics.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

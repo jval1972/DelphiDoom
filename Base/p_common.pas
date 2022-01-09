@@ -538,9 +538,11 @@ procedure P_ResolveMBF21Flags(const m: Pmobjinfo_t);
 
 function P_CheckStateArgs(actor: Pmobj_t): boolean;
 
-procedure A_SpawnObject(actor: Pmobj_t);
-
 function P_InfightingImmune(target, source: Pmobj_t): boolean;
+
+function P_ProjectileImmune(target, source: Pmobj_t): boolean;
+
+procedure A_SpawnObject(actor: Pmobj_t);
 
 const
   FLOATBOBSIZE = 64;
@@ -7219,7 +7221,27 @@ begin
     (target.infighting_group = source.infighting_group);
 end;
 
-//
+// mbf21: dehacked projectile groups
+function P_ProjectileImmune(target, source: Pmobj_t): boolean;
+begin
+  result :=
+    ( // PG_GROUPLESS means no immunity, even to own species
+      (target.projectile_group <> PG_GROUPLESS) or
+      (target = source)
+    ) and
+    (
+      ( // target type has default behaviour, and things are the same type
+        (target.projectile_group = PG_DEFAULT) and
+        (source._type = target._type)
+      ) or
+      ( // target type has special behaviour, and things have the same group
+        (target.projectile_group <> PG_DEFAULT) and
+        (target.projectile_group = source.projectile_group)
+      )
+    );
+end;
+
+//
 // P_CheckStateArgs
 // JVAL: Check arguments for MBF21 codeprs
 //
