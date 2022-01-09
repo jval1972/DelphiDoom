@@ -1308,6 +1308,8 @@ var
       end;
 
       bright := false;
+      fast := false;
+
       stmp := strtrim(stmp);
       if strupper(firstword(stmp)) = 'BRIGHT' then
       begin
@@ -1323,7 +1325,6 @@ var
         action := stmp;
 
       // MBF21 - Fast keyword
-      fast := false;
       stmp := strtrim(action);
       if strupper(firstword(stmp)) = 'FAST' then
       begin
@@ -1337,6 +1338,24 @@ var
       end
       else
         action := stmp;
+
+      // The fast keywork was first or last word
+      if not bright and fast then
+      begin
+        stmp := strtrim(action);
+        if strupper(firstword(stmp)) = 'BRIGHT' then
+        begin
+          bright := true;
+          action := strtrim(Copy(stmp, 7, length(stmp) - 6));
+        end
+        else if strupper(lastword(stmp)) = 'BRIGHT' then
+        begin
+          bright := true;
+          action := strtrim(Copy(stmp, 1, length(stmp) - 6));
+        end
+        else
+          action := stmp;
+      end;
     end;
 
     if action = '' then
