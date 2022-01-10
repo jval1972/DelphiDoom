@@ -538,6 +538,8 @@ function P_CheckCustomMeleeRange(actor: Pmobj_t; mrange: integer): boolean;
 
 function P_FaceMobj(source: Pmobj_t; target: Pmobj_t; var delta: angle_t): integer;
 
+function P_CheckFov(t1, t2: Pmobj_t; fov: angle_t): boolean;
+
 // MBF21
 procedure P_ResolveMBF21Flags(const m: Pmobjinfo_t);
 
@@ -7212,6 +7214,28 @@ begin
       result := 0;
     end;
   end;
+end;
+
+//
+// mbf21: P_CheckFov
+// Returns true if t2 is within t1's field of view.
+// Not directly related to P_CheckSight, but often
+// used in tandem.
+//
+// Adapted from Eternity, so big thanks to Quasar
+//
+function P_CheckFov(t1, t2: Pmobj_t; fov: angle_t): boolean;
+var
+  angle, minang, maxang: angle_t;
+begin
+  angle := R_PointToAngle2(t1.x, t1.y, t2.x, t2.y);
+  minang := t1.angle - fov div 2;
+  maxang := t1.angle + fov div 2;
+
+  if minang > maxang then
+    result := (angle >= minang) or (angle <= maxang)
+  else
+    result := (angle >= minang) and (angle <= maxang);
 end;
 
 // MBF21
