@@ -2895,6 +2895,7 @@ begin
   DEH_AddAction(@A_RadiusDamage, 'A_RadiusDamage(damage: integer; radius: integer);', [0, 0]);
   DEH_AddAction(@A_HealChase, 'A_HealChase(state: state_t; sound: sound_t);', [0, 0]);
   DEH_AddAction(@A_SeekTracer, 'A_SeekTracer(anglefixed_threshold: integer; anglefixed_maxturn: integer)', [0, 0]);
+  DEH_AddAction(@A_FindTracer, 'A_FindTracer(anglefixed_fov: integer; mapblocks: integer);', [0, 10]);
 
   for i := 0 to dehnumactions - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
