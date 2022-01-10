@@ -33,6 +33,7 @@ interface
 uses
   d_player,
   m_fixed,
+  tables,
   info_h,
   p_pspr_h,
   p_mobj_h;
@@ -558,7 +559,14 @@ procedure A_RadiusDamage(actor: Pmobj_t);
 
 procedure A_NoiseAlert(actor: Pmobj_t);
 
+function P_HealCorpse(actor: Pmobj_t; radius: integer; healstate: integer; healsound: integer): boolean;
+
 procedure A_HealChase(actor: Pmobj_t);
+
+function P_SeekerMissileEx(actor: Pmobj_t; var tracer: Pmobj_t; const thresh, turnMax: angle_t;
+  const centerseek: boolean): boolean;
+
+procedure A_SeekTracer(actor: Pmobj_t);
 
 const
   FLOATBOBSIZE = 64;
@@ -724,7 +732,6 @@ uses
   sc_params,
   sc_tokens,
   sc_states,
-  tables,
   s_sound,
   sounds,
   m_rnd;
@@ -7797,6 +7804,88 @@ begin
 
   if not P_HealCorpse(actor, actor.radius, state, sound) then
     A_Chase(actor);
+end;
+
+function P_SeekerMissileEx(actor: Pmobj_t; var tracer: Pmobj_t; const thresh, turnMax: angle_t;
+  const centerseek: boolean): boolean;
+var
+  dir: integer;
+  dist: integer;
+  delta: angle_t;
+  angle: angle_t;
+  target: Pmobj_t;
+  speed: fixed_t;
+  h2: fixed_t;
+begin
+  target := tracer;
+  speed := P_AproxDistance(actor.momx, actor.momy);
+  if (target = nil) or (speed = 0) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if target.flags and MF_SHOOTABLE = 0 then
+  begin // Target died
+    tracer := nil;
+    result := false;
+    exit;
+  end;
+
+  dir := P_FaceMobj(actor, target, delta);
+  if delta > thresh then
+  begin
+    delta := delta shr 1;
+    if delta > turnMax then
+      delta := turnMax;
+  end;
+
+  if dir <> 0 then
+  begin // Turn clockwise
+    actor.angle := actor.angle + delta;
+  end
+  else
+  begin // Turn counter clockwise
+    actor.angle := actor.angle - delta;
+  end;
+
+  angle := actor.angle shr ANGLETOFINESHIFT;
+  actor.momx := FixedMul(speed, finecosine[angle]);
+  actor.momy := FixedMul(speed, finesine[angle]);
+  if (actor.z + actor.height < target.z) or
+     (target.z + target.height < actor.z) or
+     centerseek then
+  begin // Need to seek vertically
+    dist := P_AproxDistance(target.x - actor.x, target.y - actor.y);
+    dist := dist div speed;
+    if dist < 1 then
+      dist := 1;
+    if centerseek then
+      h2 := target.height div 2
+    else
+      h2 := 0;
+    actor.momz := ((target.z + h2) - (actor.z + actor.height div 2)) div dist;
+  end;
+  result := true;
+end;
+
+//
+// A_SeekTracer
+// A parameterized seeker missile function.
+//   args[0]: direct-homing threshold angle (degrees, in fixed point)
+//   args[1]: maximum turn angle (degrees, in fixed point)
+//
+procedure A_SeekTracer(actor: Pmobj_t);
+var
+  threshold, maxturnangle: angle_t;
+begin
+  if not P_CheckStateArgs(actor) then
+    exit;
+
+  threshold := FixedToAngle(actor.state.params.IntVal[0]);
+  maxturnangle := FixedToAngle(actor.state.params.IntVal[1]);
+
+  P_SeekerMissileEx(actor, actor.tracer, threshold, maxturnangle, true);
 end;
 
 end.
