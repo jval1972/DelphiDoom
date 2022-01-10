@@ -592,6 +592,8 @@ procedure A_JumpIfTracerCloserMBF21(actor: Pmobj_t);
 
 procedure A_JumpIfFlagsSet(actor: Pmobj_t);
 
+procedure A_AddFlags(actor: Pmobj_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -9107,6 +9109,25 @@ begin
 
     P_SetMobjState(actor, statenum_t(newstate));
   end;
+end;
+
+//
+// A_AddFlags
+// Adds the specified thing flags to the caller.
+//   args[0]: Standard Flag(s) to add
+//   args[1]: MBF21 Flag(s) to add
+//
+procedure A_AddFlags(actor: Pmobj_t);
+var
+  bits, mbf21bits: integer;
+begin
+  if not P_CheckStateArgs(actor) then
+    exit;
+
+  bits := actor.state.params.IntVal[1];
+  mbf21bits := actor.state.params.IntVal[2];
+
+  P_SetMBF21Flags(actor, bits, mbf21bits);
 end;
 
 end.

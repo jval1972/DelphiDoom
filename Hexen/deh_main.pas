@@ -3051,6 +3051,7 @@ begin
   DEH_AddAction(@A_JumpIfTracerCloserMBF21, 'A_JumpIfTracerCloserMBF21(state: state_t; distance: fixed_t)', [0, 0]);
   DEH_AddAction(@A_RandomRipSound, 'A_RandomRipSound();');
   DEH_AddAction(@A_JumpIfFlagsSet, 'A_JumpIfFlagsSet(state: state_t; bits, mbf21bits: integer);', [0, 0, 0]);
+  DEH_AddAction(@A_AddFlags, 'A_AddFlags(bits, mbf21bits: integer);', [0, 0]);
 
   for i := 0 to dehnumactions - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
