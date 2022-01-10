@@ -556,6 +556,8 @@ procedure A_MonsterMeleeAttack(actor: Pmobj_t);
 
 procedure A_RadiusDamage(actor: Pmobj_t);
 
+procedure A_NoiseAlert(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -7607,6 +7609,18 @@ begin
     exit;
 
   P_RadiusAttackEx(actor, actor.target, actor.state.params.IntVal[0], actor.state.params.IntVal[1]);
+end;
+
+//
+// A_NoiseAlert
+// Alerts nearby monsters (via sound) to the calling actor's target's presence.
+//
+procedure A_NoiseAlert(actor: Pmobj_t);
+begin
+  if actor.target = nil then
+    exit;
+
+  P_NoiseAlert(actor.target, actor);
 end;
 
 end.
