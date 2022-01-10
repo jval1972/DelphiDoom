@@ -2911,7 +2911,7 @@ begin
   result := flats[s.floorpic].terraintype;
 end;
 
-procedure CmdSpwanMobj(const parm1, parm2: string);
+procedure CmdSpawnMobj(const parm1, parm2: string);
 var
   sc: TScriptEngine;
   x, y, z: fixed_t;
@@ -3040,7 +3040,7 @@ end;
 procedure MObj_Init;
 begin
   mobjlist := TMobjList.Create;
-  C_AddCmd('spawnmobj, p_spawnmobj', @CmdSpwanMobj);
+  C_AddCmd('spawnmobj, p_spawnmobj', @CmdSpawnMobj);
   C_AddCmd('summon', @CmdSummon);
 end;
 
