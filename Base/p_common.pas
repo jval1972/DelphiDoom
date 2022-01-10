@@ -578,6 +578,8 @@ procedure A_FindTracer(actor: Pmobj_t);
 
 procedure A_ClearTracer(actor: Pmobj_t);
 
+procedure A_JumpIfHealthBelow(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -8168,6 +8170,35 @@ end;
 procedure A_ClearTracer(actor: Pmobj_t);
 begin
   actor.tracer := nil;
+end;
+
+//
+// A_JumpIfHealthBelow
+// Jumps to a state if caller's health is below the specified threshold.
+//   args[0]: State to jump to
+//   args[1]: Health threshold
+//
+procedure A_JumpIfHealthBelow(actor: Pmobj_t);
+var
+  newstate, health: integer;
+begin
+  if not P_CheckStateArgs(actor) then
+    exit;
+
+  health := actor.state.params.IntVal[1];
+
+  if actor.health < health then
+  begin
+    if not actor.state.params.IsComputed[0] then
+    begin
+      newstate := P_GetStateFromName(actor, actor.state.params.StrVal[0]);
+      actor.state.params.IntVal[0] := newstate;
+    end
+    else
+      newstate := actor.state.params.IntVal[0];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
 end;
 
 end.
