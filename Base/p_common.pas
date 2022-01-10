@@ -204,6 +204,8 @@ procedure A_RandomDeathSound(actor: Pmobj_t);
 
 procedure A_RandomActiveSound(actor: Pmobj_t);
 
+procedure A_RandomRipSound(actor: Pmobj_t);
+
 procedure A_RandomCustomSound1(actor: Pmobj_t);
 
 procedure A_RandomCustomSound2(actor: Pmobj_t);
@@ -2586,6 +2588,14 @@ begin
     P_RandomSound(nil, actor.info.activesound)
   else
     P_RandomSound(actor, actor.info.activesound);
+end;
+
+procedure A_RandomRipSound(actor: Pmobj_t);
+begin
+  if actor.flags4_ex and MF4_EX_FULLVOLRIP <> 0 then
+    P_RandomSound(nil, actor.info.ripsound)
+  else
+    P_RandomSound(actor, actor.info.ripsound);
 end;
 
 procedure A_RandomCustomSound1(actor: Pmobj_t);
