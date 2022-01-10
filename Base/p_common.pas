@@ -9124,8 +9124,8 @@ begin
   if not P_CheckStateArgs(actor) then
     exit;
 
-  bits := actor.state.params.IntVal[1];
-  mbf21bits := actor.state.params.IntVal[2];
+  bits := actor.state.params.IntVal[0];
+  mbf21bits := actor.state.params.IntVal[1];
 
   P_SetMBF21Flags(actor, bits, mbf21bits);
 end;
