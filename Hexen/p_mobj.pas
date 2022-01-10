@@ -56,8 +56,6 @@ procedure P_ExplodeMissile(mo: Pmobj_t);
 
 procedure P_ThrustMobj(mo: Pmobj_t; angle: angle_t; const move: fixed_t);
 
-function P_FaceMobj(source: Pmobj_t; target: Pmobj_t; var delta: angle_t): integer;
-
 function P_SeekerMissile(actor: Pmobj_t; thresh, turnMax: angle_t): boolean;
 
 procedure P_FloorBounceMissile(mo: Pmobj_t);
@@ -313,54 +311,6 @@ begin
   angle := angle shr ANGLETOFINESHIFT;
   mo.momx := mo.momx + FixedMul(move, finecosine[angle]);
   mo.momy := mo.momy + FixedMul(move, finesine[angle]);
-end;
-
-
-//----------------------------------------------------------------------------
-//
-// FUNC P_FaceMobj
-//
-// Returns 1 if 'source' needs to turn clockwise, or 0 if 'source' needs
-// to turn counter clockwise.  'delta' is set to the amount 'source'
-// needs to turn.
-//
-//----------------------------------------------------------------------------
-function P_FaceMobj(source: Pmobj_t; target: Pmobj_t; var delta: angle_t): integer;
-var
-  diff: angle_t;
-  angle1: angle_t;
-  angle2: angle_t;
-begin
-  angle1 := source.angle;
-  angle2 := R_PointToAngle2(source.x, source.y, target.x, target.y);
-  if angle2 > angle1 then
-  begin
-    diff := angle2 - angle1;
-    if diff > ANG180 then
-    begin
-      delta := ANGLE_MAX - diff;
-      result := 0;
-    end
-    else
-    begin
-      delta := diff;
-      result := 1;
-    end;
-  end
-  else
-  begin
-    diff := angle1 - angle2;
-    if diff > ANG180 then
-    begin
-      delta := ANGLE_MAX - diff;
-      result := 1;
-    end
-    else
-    begin
-      delta := diff;
-      result := 0;
-    end;
-  end;
 end;
 
 //----------------------------------------------------------------------------

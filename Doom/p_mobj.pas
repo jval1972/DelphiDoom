@@ -76,8 +76,6 @@ function P_SpawnMissileAngleZSpeed(source: Pmobj_t; z: fixed_t; _type: integer; 
 
 procedure P_SpawnPlayerMissile(source: Pmobj_t; _type: integer);
 
-function P_FaceMobj(source: Pmobj_t; target: Pmobj_t; var delta: angle_t): integer;
-
 procedure P_RespawnSpecials;
 
 procedure P_SpawnBlood(x, y, z: fixed_t; damage: integer);
@@ -1856,53 +1854,6 @@ begin
   th.momz := FixedMul(speed, slope);
 
   P_CheckMissileSpawn(th);
-end;
-
-//----------------------------------------------------------------------------
-//
-// FUNC P_FaceMobj
-//
-// Returns 1 if 'source' needs to turn clockwise, or 0 if 'source' needs
-// to turn counter clockwise.  'delta' is set to the amount 'source'
-// needs to turn.
-//
-//----------------------------------------------------------------------------
-function P_FaceMobj(source: Pmobj_t; target: Pmobj_t; var delta: angle_t): integer;
-var
-  diff: angle_t;
-  angle1: angle_t;
-  angle2: angle_t;
-begin
-  angle1 := source.angle;
-  angle2 := R_PointToAngle2(source.x, source.y, target.x, target.y);
-  if angle2 > angle1 then
-  begin
-    diff := angle2 - angle1;
-    if diff > ANG180 then
-    begin
-      delta := ANGLE_MAX - diff;
-      result := 0;
-    end
-    else
-    begin
-      delta := diff;
-      result := 1;
-    end;
-  end
-  else
-  begin
-    diff := angle1 - angle2;
-    if diff > ANG180 then
-    begin
-      delta := ANGLE_MAX - diff;
-      result := 1;
-    end
-    else
-    begin
-      delta := diff;
-      result := 0;
-    end;
-  end;
 end;
 
 //----------------------------------------------------------------------------
