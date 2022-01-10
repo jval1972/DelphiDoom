@@ -580,6 +580,8 @@ procedure A_ClearTracer(actor: Pmobj_t);
 
 procedure A_JumpIfHealthBelow(actor: Pmobj_t);
 
+procedure A_JumpIfTargetInSight(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -8188,6 +8190,42 @@ begin
   health := actor.state.params.IntVal[1];
 
   if actor.health < health then
+  begin
+    if not actor.state.params.IsComputed[0] then
+    begin
+      newstate := P_GetStateFromName(actor, actor.state.params.StrVal[0]);
+      actor.state.params.IntVal[0] := newstate;
+    end
+    else
+      newstate := actor.state.params.IntVal[0];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// A_JumpIfTargetInSight
+// Jumps to a state if caller's target is in line-of-sight.
+//   args[0]: State to jump to
+//   args[1]: Field-of-view to check (degrees, in fixed point); if zero, will check in all directions
+//
+procedure A_JumpIfTargetInSight(actor: Pmobj_t);
+var
+  newstate: integer;
+  ffov: angle_t;
+begin
+  if not P_CheckStateArgs(actor) then
+    exit;
+
+  if actor.target = nil then
+
+  ffov := FixedToAngle(actor.state.params.IntVal[1]);
+
+  // Check FOV first since it's faster
+  if (ffov > 0) and not P_CheckFov(actor, actor.target, ffov) then
+    exit;
+
+  if P_CheckSight(actor, actor.target) then
   begin
     if not actor.state.params.IsComputed[0] then
     begin
