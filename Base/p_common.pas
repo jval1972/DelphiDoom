@@ -590,6 +590,47 @@ procedure A_JumpIfTracerInSight(actor: Pmobj_t);
 
 procedure A_JumpIfTracerCloserMBF21(actor: Pmobj_t);
 
+// MBF21 flags
+const
+  // low gravity
+  MF_MBF21_LOGRAV = 1;
+  // short missile range
+  MF_MBF21_SHORTMRANGE = 2;
+  // other things ignore its attacks
+  MF_MBF21_DMGIGNORED = 4;
+  // doesn't take splash damage
+  MF_MBF21_NORADIUSDMG = 8;
+  // causes splash damage even if target immune
+  MF_MBF21_FORCERADIUSDMG = $10;
+  // higher missile attack probability
+  MF_MBF21_HIGHERMPROB = $20;
+  // use half distance for missile attack probability
+  MF_MBF21_RANGEHALF = $40;
+  // no targeting threshold
+  MF_MBF21_NOTHRESHOLD = $80;
+  // long melee range
+  MF_MBF21_LONGMELEE = $100;
+  // full volume see/death sound + splash immunity
+  MF_MBF21_BOSS = $200;
+  // Tag 666 "boss" on doom 2 map 7
+  MF_MBF21_MAP07BOSS1 = $400;
+  // Tag 667 "boss" on doom 2 map 7
+  MF_MBF21_MAP07BOSS2 = $800;
+  // E1M8 boss
+  MF_MBF21_E1M8BOSS = $1000;
+  // E2M8 boss
+  MF_MBF21_E2M8BOSS = $2000;
+  // E3M8 boss
+  MF_MBF21_E3M8BOSS = $4000;
+  // E4M6 boss
+  MF_MBF21_E4M6BOSS = $8000;
+  // E4M8 boss
+  MF_MBF21_E4M8BOSS = $10000;
+  // projectile rips through targets
+  MF_MBF21_RIP = $20000;
+  // full volume see/death sound
+  MF_MBF21_FULLVOLSOUNDS = $40000;
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
