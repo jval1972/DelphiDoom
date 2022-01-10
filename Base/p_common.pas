@@ -586,6 +586,8 @@ procedure A_JumpIfTargetCloser(actor: Pmobj_t);
 
 procedure A_JumpIfTracerInSight(actor: Pmobj_t);
 
+procedure A_JumpIfTracerCloserMBF21(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4697,6 +4699,12 @@ var
   dist: fixed_t;
   offset: integer;
 begin
+  if ismbf21 then
+  begin
+    A_JumpIfTracerCloserMBF21(actor);
+    exit;
+  end;
+
   if not P_CheckStateParams(actor, 2) then
     exit;
 
@@ -7259,8 +7267,6 @@ end;
 function RoughBlockCheck(mo: Pmobj_t; index: integer; ffov: angle_t): Pmobj_t;
 var
   mobj: Pmobj_t;
-  master: Pmobj_t;
-  angle: angle_t;
   link: Pblocklinkitem_t;
   i: integer;
 begin
@@ -8301,6 +8307,39 @@ begin
     exit;
 
   if P_CheckSight(actor, actor.tracer) then
+  begin
+    if not actor.state.params.IsComputed[0] then
+    begin
+      newstate := P_GetStateFromName(actor, actor.state.params.StrVal[0]);
+      actor.state.params.IntVal[0] := newstate;
+    end
+    else
+      newstate := actor.state.params.IntVal[0];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// A_JumpIfTracerCloser
+// Jumps to a state if caller's tracer (seek target) is closer than the specified distance.
+//   args[0]: State to jump to
+//   args[1]: Distance threshold (fixed point)
+//
+procedure A_JumpIfTracerCloserMBF21(actor: Pmobj_t);
+var
+  newstate: integer;
+  distance: integer;
+begin
+  if not P_CheckStateArgs(actor) then
+    exit;
+
+  if actor.tracer = nil then
+    exit;
+
+  distance := actor.state.params.IntVal[1];
+
+  if distance > P_AproxDistance(actor.x - actor.tracer.x, actor.y - actor.tracer.y) then
   begin
     if not actor.state.params.IsComputed[0] then
     begin

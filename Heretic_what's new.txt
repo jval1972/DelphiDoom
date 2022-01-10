@@ -186,6 +186,7 @@ FastMM upgrated to ver. 4.993.
 Bug fix: Corrected potential issue while loading text files.
 ZDoom compatibility constants for A_SpawnItemEx() & A_CustomMissile() ACTORDEF functions.
 Actor friction is available in ACTORDEF functions parameters.
+Added A_JumpIfTracerCloserMBF21() ACTORDEF function (mbf21).
 
 Version 2.0.6 build 728 - (20210219)
 -----------------------
