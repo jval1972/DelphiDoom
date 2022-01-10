@@ -558,6 +558,8 @@ procedure A_RadiusDamage(actor: Pmobj_t);
 
 procedure A_NoiseAlert(actor: Pmobj_t);
 
+procedure A_HealChase(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -675,6 +677,13 @@ procedure P_LocalEarthQuake(const actor: Pmobj_t; const tics: integer; const int
 function P_NearestPlayer(const mo: Pmobj_t): Pplayer_t;
 
 function P_CheckFlag(const mo: Pmobj_t; const aflag: string): boolean;
+
+const
+  xspeed: array[0..7] of fixed_t =
+    (FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000, 0, 47000);
+
+  yspeed: array[0..7] of fixed_t =
+    (0, 47000, FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000);
 
 implementation
 
@@ -7621,6 +7630,173 @@ begin
     exit;
 
   P_NoiseAlert(actor.target, actor);
+end;
+
+//
+// mbf21: P_HealCorpse
+// Check for ressurecting a body
+//
+var
+  healtryx, healtryy: integer;
+  healerobj: Pmobj_t;
+  healcorpsehit: Pmobj_t;
+  healtryradius: integer;
+
+function PIT_HealCheck(thing: Pmobj_t): boolean;
+var
+  maxdist: integer;
+  check: boolean;
+begin
+  if thing.flags and MF_CORPSE = 0 then
+  begin
+    result := true; // not a monster
+    exit;
+  end;
+
+  if thing.tics <> -1 then
+  begin
+    result := true; // not lying still yet
+    exit;
+  end;
+
+  if thing.info.raisestate = Ord(S_NULL) then
+  begin
+    result := true; // monster doesn't have a raise state
+    exit;
+  end;
+
+  maxdist := thing.info.radius + healtryradius;
+
+  if (abs(thing.x - healtryx) > maxdist) or
+     (abs(thing.y - healtryy) > maxdist) then
+  begin
+    result := true; // not actually touching
+    exit;
+  end;
+
+  healcorpsehit := thing;
+  healcorpsehit.momx := 0;
+  healcorpsehit.momy := 0;
+  healcorpsehit.height := _SHL(healcorpsehit.height, 2);
+  check := P_CheckPosition(healcorpsehit, healcorpsehit.x, healcorpsehit.y);
+  healcorpsehit.height := _SHR2(healcorpsehit.height);
+
+  if not check then
+    result := true    // doesn't fit here
+  else
+    result := false;  // got one, so stop checking
+end;
+
+function P_HealCorpse(actor: Pmobj_t; radius: integer; healstate: integer; healsound: integer): boolean;
+var
+  xl, xh: integer;
+  yl, yh: integer;
+  bx, by: integer;
+  info: Pmobjinfo_t;
+  temp: Pmobj_t;
+begin
+  if actor.movedir <> Ord(DI_NODIR) then
+  begin
+    // check for corpses to raise
+    healtryx := actor.x + actor.info.speed * xspeed[actor.movedir];
+    healtryy := actor.y + actor.info.speed * yspeed[actor.movedir];
+
+    if internalblockmapformat then
+    begin
+      xl := MapBlockIntX(int64(healtryx) - int64(bmaporgx) - MAXRADIUS * 2);
+      xh := MapBlockIntX(int64(healtryx) - int64(bmaporgx) + MAXRADIUS * 2);
+      yl := MapBlockIntY(int64(healtryy) - int64(bmaporgy) - MAXRADIUS * 2);
+      yh := MapBlockIntY(int64(healtryy) - int64(bmaporgy) + MAXRADIUS * 2);
+    end
+    else
+    begin
+      xl := MapBlockInt(healtryx - bmaporgx - MAXRADIUS * 2);
+      xh := MapBlockInt(healtryx - bmaporgx + MAXRADIUS * 2);
+      yl := MapBlockInt(healtryy - bmaporgy - MAXRADIUS * 2);
+      yh := MapBlockInt(healtryy - bmaporgy + MAXRADIUS * 2);
+    end;
+
+    healerobj := actor;
+    healtryradius := radius;
+    for bx := xl to xh do
+    begin
+      for by := yl to yh do
+      begin
+        // Call PIT_HealCheck to check
+        // whether object is a corpse
+        // that canbe raised.
+        if not P_BlockThingsIterator(bx, by, PIT_HealCheck) then
+        begin
+          // got one!
+          temp := actor.target;
+          actor.target := healcorpsehit;
+          A_FaceTarget(actor);
+          actor.target := temp;
+
+          P_SetMobjState(actor, statenum_t(healstate));
+          S_StartSound(healcorpsehit, healsound);
+          info := healcorpsehit.info;
+
+          P_SetMobjState(healcorpsehit, statenum_t(info.raisestate));
+
+          // phares
+          healcorpsehit.height := info.height; // fix Ghost bug
+          healcorpsehit.radius := info.radius; // fix Ghost bug
+          healcorpsehit.flags := info.flags;
+          healcorpsehit.flags_ex := info.flags_ex;
+          healcorpsehit.flags2_ex := info.flags2_ex;
+          // Inherit friend flag
+          if actor.flags2_ex and MF2_EX_FRIEND = 0 then
+            healcorpsehit.flags2_ex := healcorpsehit.flags2_ex and not MF2_EX_FRIEND
+          else
+            healcorpsehit.flags2_ex := healcorpsehit.flags2_ex or MF2_EX_FRIEND;
+          healcorpsehit.flags3_ex := info.flags3_ex;
+          healcorpsehit.flags4_ex := info.flags4_ex;
+          healcorpsehit.flags5_ex := info.flags5_ex;
+          healcorpsehit.flags6_ex := info.flags6_ex;
+          healcorpsehit.health := info.spawnhealth;
+          healcorpsehit.target := nil;
+          result := true;
+          exit;
+        end;
+      end;
+    end;
+  end;
+
+  result := false;
+end;
+
+//
+// A_HealChase
+// A parameterized version of A_VileChase.
+//   args[0]: State to jump to on the calling actor when resurrecting a corpse
+//   args[1]: Sound to play when resurrecting a corpse
+//
+procedure A_HealChase(actor: Pmobj_t);
+var
+  state, sound: integer;
+begin
+  if not P_CheckStateArgs(actor) then
+    exit;
+
+  if not actor.state.params.IsComputed[0] then
+  begin
+    state := P_GetStateFromName(actor, actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := state;
+  end
+  else
+    state := actor.state.params.IntVal[0];
+
+  if actor.state.params.IsComputed[2] then
+    sound := actor.state.params.IntVal[2]
+  else
+  begin
+    sound := S_GetSoundNumForName(actor.state.params.StrVal[1]);
+    actor.state.params.IntVal[1] := sound;
+  end;
+
+  if not P_HealCorpse(actor, actor.radius, state, sound) then
+    A_Chase(actor);
 end;
 
 end.

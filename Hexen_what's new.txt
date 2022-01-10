@@ -152,6 +152,7 @@ Added A_MonsterBulletAttack() ACTORDEF function (mbf21).
 Added A_MonsterMeleeAttack() ACTORDEF function (mbf21).
 Added A_RadiusDamage() ACTORDEF function (mbf21).
 Added A_NoiseAlert() ACTORDEF function (mbf21).
+Added A_HealChase() ACTORDEF function (mbf21).
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

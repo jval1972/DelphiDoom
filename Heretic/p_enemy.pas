@@ -556,12 +556,6 @@ end;
 // returns false if the move is blocked.
 //
 const
-  xspeed: array[0..7] of fixed_t =
-    (FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000, 0, 47000);
-
-  yspeed: array[0..7] of fixed_t =
-    (0, 47000, FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000);
-
   MAXSPECIALCROSS = 8;
 
 function P_Move(actor: Pmobj_t): boolean;

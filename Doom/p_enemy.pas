@@ -458,13 +458,6 @@ end;
 // Move in the current direction,
 // returns false if the move is blocked.
 //
-const
-  xspeed: array[0..7] of fixed_t =
-    (FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000, 0, 47000);
-
-  yspeed: array[0..7] of fixed_t =
-    (0, 47000, FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000);
-
 function P_Move(actor: Pmobj_t): boolean;
 var
   tryx: fixed_t;
