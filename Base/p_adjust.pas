@@ -54,11 +54,6 @@ begin
   ld := @lines[0];
   for i := 0 to numlines - 1 do
   begin
-  if i = 740 then
-  begin
-    inc(ld);
-    dec(ld);
-  end;
     if (ld.frontsector <> nil) and (ld.backsector <> nil) then
       if (ld.sidenum[0] >= 0) and (ld.sidenum[1] >= 0) then
       begin
@@ -112,6 +107,14 @@ begin
                   end;
               end;
             end;
+            if sides[ld.sidenum[1]].toptexture = 0 then
+              sides[ld.sidenum[1]].toptexture := sides[ld.sidenum[1]].bottomtexture;
+            if sides[ld.sidenum[1]].toptexture = 0 then
+              if ld.sidenum[0] >= 0 then
+                sides[ld.sidenum[1]].toptexture := sides[ld.sidenum[0]].bottomtexture;
+            if sides[ld.sidenum[1]].toptexture = 0 then
+              if ld.sidenum[0] >= 0 then
+                sides[ld.sidenum[1]].toptexture := sides[ld.sidenum[0]].toptexture;
           end;
 
         if (ld.frontsector.floorheight > ld.backsector.floorheight) then
@@ -148,6 +151,14 @@ begin
                   end;
               end;
             end;
+            if sides[ld.sidenum[1]].bottomtexture = 0 then
+              sides[ld.sidenum[1]].bottomtexture := sides[ld.sidenum[1]].toptexture;
+            if sides[ld.sidenum[1]].bottomtexture = 0 then
+              if ld.sidenum[0] >= 0 then
+                sides[ld.sidenum[1]].bottomtexture := sides[ld.sidenum[0]].toptexture;
+            if sides[ld.sidenum[1]].bottomtexture = 0 then
+              if ld.sidenum[0] >= 0 then
+                sides[ld.sidenum[1]].bottomtexture := sides[ld.sidenum[0]].bottomtexture;
           end;
 
         if (ld.frontsector.ceilingheight > ld.backsector.ceilingheight) then
@@ -184,6 +195,14 @@ begin
                   end;
               end;
             end;
+            if sides[ld.sidenum[0]].toptexture = 0 then
+              sides[ld.sidenum[0]].toptexture := sides[ld.sidenum[0]].bottomtexture;
+            if sides[ld.sidenum[0]].toptexture = 0 then
+              if ld.sidenum[1] > 0 then
+                sides[ld.sidenum[0]].toptexture := sides[ld.sidenum[1]].bottomtexture;
+            if sides[ld.sidenum[0]].toptexture = 0 then
+              if ld.sidenum[1] > 0 then
+                sides[ld.sidenum[0]].toptexture := sides[ld.sidenum[1]].toptexture;
           end;
 
         if (ld.frontsector.floorheight < ld.backsector.floorheight) then
@@ -220,6 +239,14 @@ begin
                   end;
               end;
             end;
+            if sides[ld.sidenum[0]].bottomtexture = 0 then
+              sides[ld.sidenum[0]].bottomtexture := sides[ld.sidenum[0]].toptexture;
+            if sides[ld.sidenum[0]].bottomtexture = 0 then
+              if ld.sidenum[1] >= 0 then
+                sides[ld.sidenum[0]].bottomtexture := sides[ld.sidenum[1]].toptexture;
+            if sides[ld.sidenum[0]].bottomtexture = 0 then
+              if ld.sidenum[1] >= 0 then
+                sides[ld.sidenum[0]].bottomtexture := sides[ld.sidenum[1]].bottomtexture;
           end;
 
       end;
