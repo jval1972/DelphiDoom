@@ -576,6 +576,8 @@ procedure A_SeekTracer(actor: Pmobj_t);
 
 procedure A_FindTracer(actor: Pmobj_t);
 
+procedure A_ClearTracer(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -8157,6 +8159,15 @@ begin
   dist := actor.state.params.IntVal[1];
 
   actor.tracer := P_RoughTargetSearch(actor, ffov, dist);
+end;
+
+//
+// A_ClearTracer
+// Clear current tracer (seek target).
+//
+procedure A_ClearTracer(actor: Pmobj_t);
+begin
+  actor.tracer := nil;
 end;
 
 end.
