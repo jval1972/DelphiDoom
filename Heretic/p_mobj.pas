@@ -81,6 +81,8 @@ function P_SpawnMissileAngleZSpeed(source: Pmobj_t; z: fixed_t; _type: integer; 
 
 function P_SpawnPlayerMissile(source: Pmobj_t; _type: integer): Pmobj_t;
 
+function P_FaceMobj(source: Pmobj_t; target: Pmobj_t; var delta: angle_t): integer;
+
 procedure P_RespawnSpecials;
 
 procedure P_SpawnBlood(x, y, z: fixed_t; damage: integer);

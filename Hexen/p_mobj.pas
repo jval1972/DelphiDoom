@@ -56,7 +56,7 @@ procedure P_ExplodeMissile(mo: Pmobj_t);
 
 procedure P_ThrustMobj(mo: Pmobj_t; angle: angle_t; const move: fixed_t);
 
-function P_FaceMobj(source: Pmobj_t; target: Pmobj_t; delta: Pangle_t): integer;
+function P_FaceMobj(source: Pmobj_t; target: Pmobj_t; var delta: angle_t): integer;
 
 function P_SeekerMissile(actor: Pmobj_t; thresh, turnMax: angle_t): boolean;
 
@@ -325,7 +325,7 @@ end;
 // needs to turn.
 //
 //----------------------------------------------------------------------------
-function P_FaceMobj(source: Pmobj_t; target: Pmobj_t; delta: Pangle_t): integer;
+function P_FaceMobj(source: Pmobj_t; target: Pmobj_t; var delta: angle_t): integer;
 var
   diff: angle_t;
   angle1: angle_t;
@@ -338,12 +338,12 @@ begin
     diff := angle2 - angle1;
     if diff > ANG180 then
     begin
-      delta^ := ANGLE_MAX - diff;
+      delta := ANGLE_MAX - diff;
       result := 0;
     end
     else
     begin
-      delta^ := diff;
+      delta := diff;
       result := 1;
     end;
   end
@@ -352,12 +352,12 @@ begin
     diff := angle1 - angle2;
     if diff > ANG180 then
     begin
-      delta^ := ANGLE_MAX - diff;
+      delta := ANGLE_MAX - diff;
       result := 1;
     end
     else
     begin
-      delta^ := diff;
+      delta := diff;
       result := 0;
     end;
   end;
@@ -394,7 +394,7 @@ begin
     exit;
   end;
 
-  dir := P_FaceMobj(actor, target, @delta);
+  dir := P_FaceMobj(actor, target, delta);
   if delta > thresh then
   begin
     delta := delta shr 1;

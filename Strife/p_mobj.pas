@@ -107,6 +107,8 @@ function P_FindMobjFromKey(const key: LongWord): Pmobj_t;
 
 function P_SpawnMortar(source: Pmobj_t; _type: integer): Pmobj_t;
 
+function P_FaceMobj(source: Pmobj_t; target: Pmobj_t; var delta: angle_t): integer;
+
 function P_SpawnFacingMissile(source: Pmobj_t; target: Pmobj_t; _type: integer): Pmobj_t;
 
 function P_CheckMissileSpawn(th: Pmobj_t): boolean;

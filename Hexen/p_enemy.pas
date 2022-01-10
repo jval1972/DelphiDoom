@@ -3104,7 +3104,7 @@ begin
   if target = nil then
     exit;
 
-  dir := P_FaceMobj(actor, target, @delta);
+  dir := P_FaceMobj(actor, target, delta);
   if delta > thresh then
   begin
     delta := _SHR1(delta);
@@ -5424,7 +5424,7 @@ begin
   if target = nil then
     exit;
 
-  dir := P_FaceMobj(actor, target, @delta);
+  dir := P_FaceMobj(actor, target, delta);
   if delta > thresh then
   begin
     delta := _SHR1(delta);
