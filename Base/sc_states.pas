@@ -229,6 +229,9 @@ var
 
     sss1 := 'S_' + strupper(actor.info.name) + '_' + sss;
     result := statenames.IndexOfToken(sss1);
+    if result < 0 then
+      if StrIsLongWord(s1) then
+        result := atoi(s1);
   end;
 
 begin
