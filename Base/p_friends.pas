@@ -135,10 +135,20 @@ begin
   if dplayermo = nil then
     exit;
 
-  yh := MapBlockIntY(int64(viewy) + MAXFRIENDRADIUS - int64(bmaporgy));
-  yl := MapBlockIntY(int64(viewy) - MAXFRIENDRADIUS - int64(bmaporgy));
-  xh := MapBlockIntX(int64(viewx) + MAXFRIENDRADIUS - int64(bmaporgx));
-  xl := MapBlockIntX(int64(viewx) - MAXFRIENDRADIUS - int64(bmaporgx));
+  if internalblockmapformat then
+  begin
+    yh := MapBlockIntY(int64(viewy) + MAXFRIENDRADIUS - int64(bmaporgy));
+    yl := MapBlockIntY(int64(viewy) - MAXFRIENDRADIUS - int64(bmaporgy));
+    xh := MapBlockIntX(int64(viewx) + MAXFRIENDRADIUS - int64(bmaporgx));
+    xl := MapBlockIntX(int64(viewx) - MAXFRIENDRADIUS - int64(bmaporgx));
+  end
+  else
+  begin
+    yh := MapBlockInt(viewy + MAXFRIENDRADIUS - bmaporgy);
+    yl := MapBlockInt(viewy - MAXFRIENDRADIUS - bmaporgy);
+    xh := MapBlockInt(viewx + MAXFRIENDRADIUS - bmaporgx);
+    xl := MapBlockInt(viewx - MAXFRIENDRADIUS - bmaporgx);
+  end;
 
   for y := yl to yh do
     for x := xl to xh do
