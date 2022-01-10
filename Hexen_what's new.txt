@@ -150,6 +150,7 @@ Added A_MonsterProjectile() ACTORDEF function (mbf21).
 SYSRAND function in ACTORDEF parameters evaluation (uses random seed from system's clock)
 Added A_MonsterBulletAttack() ACTORDEF function (mbf21).
 Added A_MonsterMeleeAttack() ACTORDEF function (mbf21).
+Added A_RadiusDamage() ACTORDEF function (mbf21).
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

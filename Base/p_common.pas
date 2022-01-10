@@ -554,6 +554,8 @@ procedure A_MonsterBulletAttack(actor: Pmobj_t);
 
 procedure A_MonsterMeleeAttack(actor: Pmobj_t);
 
+procedure A_RadiusDamage(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -7588,6 +7590,23 @@ begin
 
   damage := (N_Random mod damagemod + 1) * damagebase;
   P_DamageMobj(actor.target, actor, actor, damage);
+end;
+
+//
+// A_RadiusDamage
+// A parameterized version of A_Explode. Friggin' finally. :P
+//   args[0]: Damage (int)
+//   args[1]: Radius (also int; no real need for fractional precision here)
+//
+procedure A_RadiusDamage(actor: Pmobj_t);
+begin
+  if not P_CheckStateArgs(actor) then
+    exit;
+
+  if actor.target = nil then
+    exit;
+
+  P_RadiusAttackEx(actor, actor.target, actor.state.params.IntVal[0], actor.state.params.IntVal[1]);
 end;
 
 end.

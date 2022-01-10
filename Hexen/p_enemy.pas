@@ -1997,13 +1997,13 @@ begin
   begin
     damage := actor.info.explosiondamage;
     distance := actor.info.explosionradius;
-    P_RadiusAttack2(actor, actor.target, damage, distance);
+    P_RadiusAttackEx(actor, actor.target, damage, distance);
   end
   else if actor.state.params <> nil then
   begin
     damage := actor.state.params.IntVal[0];
     distance := actor.state.params.IntVal[1];
-    P_RadiusAttack2(actor, actor.target, damage, distance);
+    P_RadiusAttackEx(actor, actor.target, damage, distance);
   end
   else
   begin

@@ -98,7 +98,7 @@ function PIT_RadiusAttack(thing: Pmobj_t): boolean;
 procedure P_RadiusAttack(spot: Pmobj_t; source: Pmobj_t; const damage: integer;
   const distance: integer; const dmsource: boolean);
 
-procedure P_RadiusAttack2(spot: Pmobj_t; source: Pmobj_t; const damage, distance: integer);
+procedure P_RadiusAttackEx(spot: Pmobj_t; source: Pmobj_t; const damage, distance: integer);
 
 procedure P_RadiusAttackPlayer(spot: Pmobj_t; source: Pmobj_t; const damage, distance: integer);
 
@@ -3014,7 +3014,7 @@ end;
 // P_RadiusAttack
 // Source is the creature that caused the explosion at spot.
 //
-procedure P_RadiusAttack2(spot: Pmobj_t; source: Pmobj_t; const damage, distance: integer);
+procedure P_RadiusAttackEx(spot: Pmobj_t; source: Pmobj_t; const damage, distance: integer);
 var
   x: integer;
   y: integer;
