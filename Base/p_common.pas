@@ -8218,6 +8218,7 @@ begin
     exit;
 
   if actor.target = nil then
+    exit;
 
   ffov := FixedToAngle(actor.state.params.IntVal[1]);
 
