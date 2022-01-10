@@ -5399,7 +5399,9 @@ begin
   end;
 
   mo := P_SpawnMobj(actor.x, actor.y, actor.z, mobj_no);
-  {$IFNDEF HEXEN}
+  {$IFDEF HEXEN}
+  mo.flags2 := mo.flags2 or MF2_DROPPED; // special versions of items
+  {$ELSE}
   mo.flags := mo.flags or MF_DROPPED; // special versions of items
   {$ENDIF}
   // JVAL Dropped items fall down to floor.
