@@ -582,6 +582,8 @@ procedure A_JumpIfHealthBelow(actor: Pmobj_t);
 
 procedure A_JumpIfTargetInSight(actor: Pmobj_t);
 
+procedure A_JumpIfTargetCloser(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -8227,6 +8229,39 @@ begin
     exit;
 
   if P_CheckSight(actor, actor.target) then
+  begin
+    if not actor.state.params.IsComputed[0] then
+    begin
+      newstate := P_GetStateFromName(actor, actor.state.params.StrVal[0]);
+      actor.state.params.IntVal[0] := newstate;
+    end
+    else
+      newstate := actor.state.params.IntVal[0];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// A_JumpIfTargetCloser
+// Jumps to a state if caller's target is closer than the specified distance.
+//   args[0]: State to jump to
+//   args[1]: Distance threshold
+//
+procedure A_JumpIfTargetCloser(actor: Pmobj_t);
+var
+  newstate: integer;
+  distance: integer;
+begin
+  if not P_CheckStateArgs(actor) then
+    exit;
+
+  if actor.target = nil then
+    exit;
+
+  distance := actor.state.params.IntVal[1];
+
+  if distance > P_AproxDistance(actor.x - actor.target.x, actor.y - actor.target.y) then
   begin
     if not actor.state.params.IsComputed[0] then
     begin
