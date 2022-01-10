@@ -594,6 +594,8 @@ procedure A_JumpIfFlagsSet(actor: Pmobj_t);
 
 procedure A_AddFlags(actor: Pmobj_t);
 
+procedure A_RemoveFlags(actor: Pmobj_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -9128,6 +9130,25 @@ begin
   mbf21bits := actor.state.params.IntVal[1];
 
   P_SetMBF21Flags(actor, bits, mbf21bits);
+end;
+
+//
+// A_RemoveFlags
+// Removes the specified thing flags from the caller.
+//   args[0]: Flag(s) to remove
+//   args[1]: MBF21 Flag(s) to remove
+//
+procedure A_RemoveFlags(actor: Pmobj_t);
+var
+  bits, mbf21bits: integer;
+begin
+  if not P_CheckStateArgs(actor) then
+    exit;
+
+  bits := actor.state.params.IntVal[0];
+  mbf21bits := actor.state.params.IntVal[1];
+
+  P_UnSetMBF21Flags(actor, bits, mbf21bits);
 end;
 
 end.
