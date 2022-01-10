@@ -590,6 +590,8 @@ procedure A_JumpIfTracerInSight(actor: Pmobj_t);
 
 procedure A_JumpIfTracerCloserMBF21(actor: Pmobj_t);
 
+procedure A_JumpIfFlagsSet(actor: Pmobj_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -8393,6 +8395,707 @@ begin
   distance := actor.state.params.IntVal[1];
 
   if distance > P_AproxDistance(actor.x - actor.tracer.x, actor.y - actor.tracer.y) then
+  begin
+    if not actor.state.params.IsComputed[0] then
+    begin
+      newstate := P_GetStateFromName(actor, actor.state.params.StrVal[0]);
+      actor.state.params.IntVal[0] := newstate;
+    end
+    else
+      newstate := actor.state.params.IntVal[0];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+{$IFDEF HEXEN}
+const
+  MF_MBF21_DROPPED = $20000;
+{$ENDIF}
+
+{$IFDEF STRIFE}
+const
+  MF_MBF21_PICKUP = $800;
+  MF_MBF21_SLIDE = $2000;
+{$ENDIF}
+
+procedure P_SetMBF21Flags(const m: Pmobj_t; const bits, mbf21bits: integer);
+var
+  istransparent: boolean;
+  isfriend: boolean;
+  isbouncy: boolean;
+  istouchy: boolean;
+  flags: integer;
+begin
+  istransparent := bits < 0;
+  isfriend := bits and (1 shl 30) <> 0;
+  isbouncy := bits and (1 shl 29) <> 0;
+  istouchy := bits and (1 shl 28) <> 0;
+
+  flags := bits and (
+    MF_SPECIAL or
+    MF_SOLID or
+    MF_SHOOTABLE or
+    MF_NOSECTOR or
+    MF_NOBLOCKMAP or
+    MF_AMBUSH or
+    MF_JUSTHIT or
+    MF_JUSTATTACKED or
+    MF_SPAWNCEILING or
+    MF_NOGRAVITY or
+    MF_DROPOFF or
+    {$IFNDEF STRIFE}
+    MF_PICKUP or
+    {$ENDIF}
+    MF_NOCLIP or
+    {$IFDEF DOOM}
+    MF_SLIDE or
+    {$ENDIF}
+    {$IFDEF HERETIC_OR_HEXEN}
+    MF_SLIDEONWALLS or
+    {$ENDIF}
+    MF_FLOAT or
+    {$IFNDEF STRIFE}
+    MF_TELEPORT or
+    {$ENDIF}
+    MF_MISSILE or
+    {$IFNDEF HEXEN}
+    MF_DROPPED or
+    {$ENDIF}
+    MF_SHADOW or
+    MF_NOBLOOD or
+    MF_CORPSE or
+    MF_INFLOAT or
+    MF_COUNTKILL or
+    {$IFDEF DOOM_OR_HERETIC}
+    MF_COUNTITEM or
+    {$ENDIF}
+    {$IFNDEF STRIFE}
+    MF_SKULLFLY or
+    {$ENDIF}
+    MF_NOTDMATCH{$IFNDEF STRIFE} or
+    MF_TRANSLATION or
+    (MF_TRANSLATION * 2){$ENDIF});
+
+  m.flags := m.flags or flags;
+
+  {$IFDEF HEXEN}
+  if flags and MF_MBF21_DROPPED <> 0 then
+    m.flags2 := m.flags2 or MF2_DROPPED;
+  {$ENDIF}
+
+  {$IFDEF STRIFE}
+  if flags and MF_MBF21_SLIDE <> 0 then
+    m.flags3_ex := m.flags3_ex or MF3_EX_SLIDE;
+  {$ENDIF}
+
+  if istransparent then
+    m.flags_ex := m.flags_ex or MF_EX_TRANSPARENT;
+  if isfriend then
+    m.flags2_ex := m.flags2_ex or MF2_EX_FRIEND;
+  if isbouncy then
+    m.flags3_ex := m.flags3_ex or MF3_EX_BOUNCE;
+
+  if mbf21bits and MF_MBF21_LOGRAV <> 0 then
+  begin
+    m.flags := m.flags and not MF_NOGRAVITY;
+    {$IFDEF HERETIC_OR_HEXEN}
+    m.flags2 := m.flags2 or MF2_LOGRAV;
+    {$ENDIF}
+    m.flags_ex := m.flags_ex or MF_EX_LOWGRAVITY;
+    m.flags2_ex := m.flags2_ex and not MF2_EX_MEDIUMGRAVITY;
+  end;
+
+  if mbf21bits and MF_MBF21_SHORTMRANGE <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex or MF4_EX_SHORTMRANGE;
+  end;
+
+  if mbf21bits and MF_MBF21_DMGIGNORED <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex or MF4_EX_DMGIGNORED;
+  end;
+
+  if mbf21bits and MF_MBF21_NORADIUSDMG <> 0 then
+  begin
+    m.flags_ex := m.flags_ex or MF_EX_NORADIUSDMG;
+  end;
+
+  if mbf21bits and MF_MBF21_FORCERADIUSDMG <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex or MF4_EX_FORCERADIUSDMG;
+  end;
+
+  if mbf21bits and MF_MBF21_HIGHERMPROB <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex or MF4_EX_HIGHERMPROB;
+  end;
+
+  if mbf21bits and MF_MBF21_RANGEHALF <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex or MF4_EX_RANGEHALF;
+  end;
+
+  if mbf21bits and MF_MBF21_NOTHRESHOLD <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex or MF4_EX_NOTHRESHOLD;
+  end;
+
+  if mbf21bits and MF_MBF21_LONGMELEE <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex or MF4_EX_LONGMELEE;
+  end;
+
+  if mbf21bits and MF_MBF21_BOSS <> 0 then
+  begin
+    {$IFDEF HERETIC_OR_HEXEN}
+    m.flags2 := m.flags2 or MF2_BOSS;
+    {$ENDIF}
+    m.flags_ex := m.flags_ex or MF_EX_BOSS;
+  end;
+
+  if mbf21bits and MF_MBF21_MAP07BOSS1 <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex or MF4_EX_MAP07BOSS1;
+  end;
+
+  if mbf21bits and MF_MBF21_MAP07BOSS2 <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex or MF4_EX_MAP07BOSS2;
+  end;
+
+  if mbf21bits and MF_MBF21_E1M8BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex or MF4_EX_E1M8BOSS;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_E2M8BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex or MF4_EX_E2M8BOSS;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_E3M8BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex or MF4_EX_E3M8BOSS;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_E4M6BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex or MF4_EX_E4M6BOSS;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_E4M8BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex or MF4_EX_E4M8BOSS;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_RIP <> 0 then
+  begin
+    {$IFDEF HERETIC_OR_HEXEN}
+    m.flags2 := m.flags2 or MF2_RIP;
+    {$ELSE}
+    m.flags4_ex := m.flags4_ex or MF4_EX_RIP;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_FULLVOLSOUNDS <> 0 then
+  begin
+    m.flags2_ex := m.flags2_ex or MF2_EX_FULLVOLDEATH;
+    m.flags2_ex := m.flags2_ex or MF2_EX_FULLVOLSEE;
+  end;
+end;
+
+procedure P_UnSetMBF21Flags(const m: Pmobj_t; const bits, mbf21bits: integer);
+var
+  istransparent: boolean;
+  isfriend: boolean;
+  isbouncy: boolean;
+  istouchy: boolean;
+  flags: integer;
+begin
+  istransparent := bits < 0;
+  isfriend := bits and (1 shl 30) <> 0;
+  isbouncy := bits and (1 shl 29) <> 0;
+  istouchy := bits and (1 shl 28) <> 0;
+
+  flags := bits and (
+    MF_SPECIAL or
+    MF_SOLID or
+    MF_SHOOTABLE or
+    MF_NOSECTOR or
+    MF_NOBLOCKMAP or
+    MF_AMBUSH or
+    MF_JUSTHIT or
+    MF_JUSTATTACKED or
+    MF_SPAWNCEILING or
+    MF_NOGRAVITY or
+    MF_DROPOFF or
+    {$IFNDEF STRIFE}
+    MF_PICKUP or
+    {$ENDIF}
+    MF_NOCLIP or
+    {$IFDEF DOOM}
+    MF_SLIDE or
+    {$ENDIF}
+    {$IFDEF HERETIC_OR_HEXEN}
+    MF_SLIDEONWALLS or
+    {$ENDIF}
+    MF_FLOAT or
+    {$IFNDEF STRIFE}
+    MF_TELEPORT or
+    {$ENDIF}
+    MF_MISSILE or
+    {$IFNDEF HEXEN}
+    MF_DROPPED or
+    {$ENDIF}
+    MF_SHADOW or
+    MF_NOBLOOD or
+    MF_CORPSE or
+    MF_INFLOAT or
+    MF_COUNTKILL or
+    {$IFDEF DOOM_OR_HERETIC}
+    MF_COUNTITEM or
+    {$ENDIF}
+    {$IFNDEF STRIFE}
+    MF_SKULLFLY or
+    {$ENDIF}
+    MF_NOTDMATCH{$IFNDEF STRIFE} or
+    MF_TRANSLATION or
+    (MF_TRANSLATION * 2){$ENDIF});
+
+  m.flags := m.flags and not flags;
+
+  {$IFDEF HEXEN}
+  if flags and MF_MBF21_DROPPED <> 0 then
+    m.flags2 := m.flags2 and not MF2_DROPPED;
+  {$ENDIF}
+
+  {$IFDEF STRIFE}
+  if flags and MF_MBF21_PICKUP <> 0 then
+    m.flags3_ex := m.flags3_ex and not MF3_EX_SLIDE;
+  {$ENDIF}
+
+  if istransparent then
+    m.flags_ex := m.flags_ex and not MF_EX_TRANSPARENT;
+  if isfriend then
+    m.flags2_ex := m.flags2_ex and not MF2_EX_FRIEND;
+  if isbouncy then
+    m.flags3_ex := m.flags3_ex and not MF3_EX_BOUNCE;
+
+  if mbf21bits and MF_MBF21_LOGRAV <> 0 then
+  begin
+    m.flags := m.flags and not MF_NOGRAVITY;
+    {$IFDEF HERETIC_OR_HEXEN}
+    m.flags2 := m.flags2 and not MF2_LOGRAV;
+    {$ENDIF}
+    m.flags_ex := m.flags_ex and not MF_EX_LOWGRAVITY;
+    m.flags2_ex := m.flags2_ex and not MF2_EX_MEDIUMGRAVITY;
+  end;
+
+  if mbf21bits and MF_MBF21_SHORTMRANGE <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex and not MF4_EX_SHORTMRANGE;
+  end;
+
+  if mbf21bits and MF_MBF21_DMGIGNORED <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex and not MF4_EX_DMGIGNORED;
+  end;
+
+  if mbf21bits and MF_MBF21_NORADIUSDMG <> 0 then
+  begin
+    m.flags_ex := m.flags_ex and not MF_EX_NORADIUSDMG;
+  end;
+
+  if mbf21bits and MF_MBF21_FORCERADIUSDMG <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex and not MF4_EX_FORCERADIUSDMG;
+  end;
+
+  if mbf21bits and MF_MBF21_HIGHERMPROB <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex and not MF4_EX_HIGHERMPROB;
+  end;
+
+  if mbf21bits and MF_MBF21_RANGEHALF <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex and not MF4_EX_RANGEHALF;
+  end;
+
+  if mbf21bits and MF_MBF21_NOTHRESHOLD <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex and not MF4_EX_NOTHRESHOLD;
+  end;
+
+  if mbf21bits and MF_MBF21_LONGMELEE <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex and not MF4_EX_LONGMELEE;
+  end;
+
+  if mbf21bits and MF_MBF21_BOSS <> 0 then
+  begin
+    {$IFDEF HERETIC_OR_HEXEN}
+    m.flags2 := m.flags2 and not MF2_BOSS;
+    {$ENDIF}
+    m.flags_ex := m.flags_ex and not MF_EX_BOSS;
+  end;
+
+  if mbf21bits and MF_MBF21_MAP07BOSS1 <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex and not MF4_EX_MAP07BOSS1;
+  end;
+
+  if mbf21bits and MF_MBF21_MAP07BOSS2 <> 0 then
+  begin
+    m.flags4_ex := m.flags4_ex and not MF4_EX_MAP07BOSS2;
+  end;
+
+  if mbf21bits and MF_MBF21_E1M8BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex and not MF4_EX_E1M8BOSS;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_E2M8BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex and not MF4_EX_E2M8BOSS;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_E3M8BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex and not MF4_EX_E3M8BOSS;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_E4M6BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex and not MF4_EX_E4M6BOSS;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_E4M8BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    m.flags4_ex := m.flags4_ex and not MF4_EX_E4M8BOSS;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_RIP <> 0 then
+  begin
+    {$IFDEF HERETIC_OR_HEXEN}
+    m.flags2 := m.flags2 and not MF2_RIP;
+    {$ELSE}
+    m.flags4_ex := m.flags4_ex and not MF4_EX_RIP;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_FULLVOLSOUNDS <> 0 then
+  begin
+    m.flags2_ex := m.flags2_ex and not MF2_EX_FULLVOLDEATH;
+    m.flags2_ex := m.flags2_ex and not MF2_EX_FULLVOLSEE;
+  end;
+end;
+
+function P_CheckMBF21Flags(const m: Pmobj_t; const bits, mbf21bits: integer): boolean;
+var
+  istransparent: boolean;
+  isfriend: boolean;
+  isbouncy: boolean;
+  istouchy: boolean;
+  flags: integer;
+begin
+  istransparent := bits < 0;
+  isfriend := bits and (1 shl 30) <> 0;
+  isbouncy := bits and (1 shl 29) <> 0;
+  istouchy := bits and (1 shl 28) <> 0;
+
+  flags := bits and (
+    MF_SPECIAL or
+    MF_SOLID or
+    MF_SHOOTABLE or
+    MF_NOSECTOR or
+    MF_NOBLOCKMAP or
+    MF_AMBUSH or
+    MF_JUSTHIT or
+    MF_JUSTATTACKED or
+    MF_SPAWNCEILING or
+    MF_NOGRAVITY or
+    MF_DROPOFF or
+    {$IFNDEF STRIFE}
+    MF_PICKUP or
+    {$ENDIF}
+    MF_NOCLIP or
+    {$IFDEF DOOM}
+    MF_SLIDE or
+    {$ENDIF}
+    {$IFDEF HERETIC_OR_HEXEN}
+    MF_SLIDEONWALLS or
+    {$ENDIF}
+    MF_FLOAT or
+    {$IFNDEF STRIFE}
+    MF_TELEPORT or
+    {$ENDIF}
+    MF_MISSILE or
+    {$IFNDEF HEXEN}
+    MF_DROPPED or
+    {$ENDIF}
+    MF_SHADOW or
+    MF_NOBLOOD or
+    MF_CORPSE or
+    MF_INFLOAT or
+    MF_COUNTKILL or
+    {$IFDEF DOOM_OR_HERETIC}
+    MF_COUNTITEM or
+    {$ENDIF}
+    {$IFNDEF STRIFE}
+    MF_SKULLFLY or
+    {$ENDIF}
+    MF_NOTDMATCH{$IFNDEF STRIFE} or
+    MF_TRANSLATION or
+    (MF_TRANSLATION * 2){$ENDIF});
+
+  result := (m.flags and flags = flags);
+  if not result then
+    exit;
+
+  {$IFDEF HEXEN}
+  if flags and MF_MBF21_DROPPED <> 0 then
+  begin
+    result := m.flags2 and MF2_DROPPED <> 0;
+    if not result then
+      exit;
+  end;
+  {$ENDIF}
+
+  {$IFDEF STRIFE}
+  if flags and MF_MBF21_SLIDE <> 0 then
+  begin
+    result := m.flags3_ex and MF3_EX_SLIDE <> 0;
+    if not result then
+      exit;
+  end;
+
+  if flags and MF_MBF21_PICKUP <> 0 then
+  begin
+    result := m.player <> nil;
+    if not result then
+      exit;
+  end;
+  {$ENDIF}
+
+  if istransparent then
+  begin
+    result :=  m.flags_ex and MF_EX_TRANSPARENT <> 0;
+    if not result then
+      exit;
+  end;
+
+  if isfriend then
+  begin
+    result := m.flags2_ex and MF2_EX_FRIEND <> 0;
+    if not result then
+      exit;
+  end;
+
+  if isbouncy then
+  begin
+    result :=  m.flags3_ex and MF3_EX_BOUNCE = MF3_EX_BOUNCE;
+    if not result then
+      exit;
+  end;
+
+  if mbf21bits and MF_MBF21_LOGRAV <> 0 then
+  begin
+    result :=
+      (m.flags and MF_NOGRAVITY = 0) and
+      {$IFDEF HERETIC_OR_HEXEN}
+      (m.flags2 and MF2_LOGRAV <> 0) and
+      {$ENDIF}
+      (m.flags_ex and MF_EX_LOWGRAVITY <> 0) and
+      (m.flags2_ex and MF2_EX_MEDIUMGRAVITY = 0);
+    if not result then
+      exit;
+  end;
+
+  if mbf21bits and MF_MBF21_SHORTMRANGE <> 0 then
+  begin
+    result := m.flags4_ex and MF4_EX_SHORTMRANGE <> 0;
+    if not result then
+      exit;
+  end;
+
+  if mbf21bits and MF_MBF21_DMGIGNORED <> 0 then
+  begin
+    result := m.flags4_ex and MF4_EX_DMGIGNORED <> 0;
+    if not result then
+      exit;
+  end;
+
+  if mbf21bits and MF_MBF21_NORADIUSDMG <> 0 then
+  begin
+    result := m.flags_ex and MF_EX_NORADIUSDMG <> 0;
+    if not result then
+      exit;
+  end;
+
+  if mbf21bits and MF_MBF21_FORCERADIUSDMG <> 0 then
+  begin
+    result := m.flags4_ex and MF4_EX_FORCERADIUSDMG <> 0;
+    if not result then
+      exit;
+  end;
+
+  if mbf21bits and MF_MBF21_HIGHERMPROB <> 0 then
+  begin
+    result := m.flags4_ex and MF4_EX_HIGHERMPROB <> 0;
+    if not result then
+      exit;
+  end;
+
+  if mbf21bits and MF_MBF21_RANGEHALF <> 0 then
+  begin
+    result := m.flags4_ex and MF4_EX_RANGEHALF <> 0;
+    if not result then
+      exit;
+  end;
+
+  if mbf21bits and MF_MBF21_NOTHRESHOLD <> 0 then
+  begin
+    result := m.flags4_ex and MF4_EX_NOTHRESHOLD <> 0;
+    if not result then
+      exit;
+  end;
+
+  if mbf21bits and MF_MBF21_LONGMELEE <> 0 then
+  begin
+    result := m.flags4_ex and MF4_EX_LONGMELEE <> 0;
+    if not result then
+      exit;
+  end;
+
+  if mbf21bits and MF_MBF21_BOSS <> 0 then
+  begin
+    result :=
+      {$IFDEF HERETIC_OR_HEXEN}
+      (m.flags2 and MF2_BOSS <> 0) and
+      {$ENDIF}
+      (m.flags_ex and MF_EX_BOSS <> 0);
+    if not result then
+      exit;
+  end;
+
+  if mbf21bits and MF_MBF21_MAP07BOSS1 <> 0 then
+  begin
+    result := m.flags4_ex and MF4_EX_MAP07BOSS1 <> 0;
+    if not result then
+      exit;
+  end;
+
+  if mbf21bits and MF_MBF21_MAP07BOSS2 <> 0 then
+  begin
+    result := m.flags4_ex and MF4_EX_MAP07BOSS2 <> 0;
+    if not result then
+      exit;
+  end;
+
+  if mbf21bits and MF_MBF21_E1M8BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    result := m.flags4_ex and MF4_EX_E1M8BOSS <> 0;
+    if not result then
+      exit;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_E2M8BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    result := m.flags4_ex and MF4_EX_E2M8BOSS <> 0;
+    if not result then
+      exit;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_E3M8BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    result := m.flags4_ex and MF4_EX_E3M8BOSS <> 0;
+    if not result then
+      exit;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_E4M6BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    result := m.flags4_ex and MF4_EX_E4M6BOSS <> 0;
+    if not result then
+      exit;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_E4M8BOSS <> 0 then
+  begin
+    {$IFDEF DOOM}
+    result := m.flags4_ex and MF4_EX_E4M8BOSS <> 0;
+    if not result then
+      exit;
+    {$ENDIF}
+  end;
+
+  if mbf21bits and MF_MBF21_RIP <> 0 then
+  begin
+    {$IFDEF HERETIC_OR_HEXEN}
+    result := m.flags2 and MF2_RIP <> 0;
+    {$ELSE}
+    result := m.flags4_ex and MF4_EX_RIP <> 0;
+    {$ENDIF}
+    if not result then
+      exit;
+  end;
+
+  if mbf21bits and MF_MBF21_FULLVOLSOUNDS <> 0 then
+  begin
+    result :=
+      (m.flags2_ex and MF2_EX_FULLVOLDEATH <> 0) and
+      (m.flags2_ex and MF2_EX_FULLVOLSEE <> 0);
+  end;
+end;
+
+//
+// A_JumpIfFlagsSet
+// Jumps to a state if caller has the specified thing flags set.
+//   args[0]: State to jump to
+//   args[1]: Standard Flag(s) to check
+//   args[2]: MBF21 Flag(s) to check
+//
+procedure A_JumpIfFlagsSet(actor: Pmobj_t);
+var
+  newstate: integer;
+  bits, mbf21bits: integer;
+begin
+  if not P_CheckStateArgs(actor) then
+    exit;
+
+  bits := actor.state.params.IntVal[1];
+  mbf21bits := actor.state.params.IntVal[2];
+
+  if P_CheckMBF21Flags(actor, bits, mbf21bits) then
   begin
     if not actor.state.params.IsComputed[0] then
     begin
