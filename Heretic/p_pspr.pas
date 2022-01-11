@@ -166,6 +166,8 @@ procedure P_AddMaceSpot(mthing: Pmapthing_t);
 
 procedure P_ActivateBeak(player: Pplayer_t);
 
+function P_CheckAmmo(player: Pplayer_t): boolean;
+
 implementation
 
 uses

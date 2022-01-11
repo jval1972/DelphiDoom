@@ -608,6 +608,8 @@ procedure A_ConsumeAmmo(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_CheckAmmo(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_RefireTo(player: Pplayer_t; psp: Ppspdef_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -785,10 +787,11 @@ uses
   d_delphi,
   doomdata,
   doomdef,
+  deh_main,
+  d_event,
   {$IFDEF DOOM_OR_STRIFE}
   d_items,
   {$ENDIF}
-  deh_main,
   d_think,
   m_vectors,
   i_system,
@@ -9569,6 +9572,26 @@ begin
   if player.ammo[typ] < amount then
     P_SetPspritePtr(player, psp, statenum_t(psp.state.params.IntVal[0]));
   {$ENDIF}
+end;
+
+//
+// A_RefireTo
+// Jumps to a state if the player is holding down the fire button
+//   args[0]: State to jump to
+//   args[1]: If nonzero, skip the ammo check
+//
+procedure A_RefireTo(player: Pplayer_t; psp: Ppspdef_t);
+begin
+  if psp = nil then
+    exit;
+
+  if not P_CheckStateArgs(psp.state) then
+    exit;
+
+  if ((psp.state.params.IntVal[1] <> 0) or P_CheckAmmo(player)) and
+    (player.cmd.buttons and BT_ATTACK <> 0) and
+    ((player.pendingweapon = wp_nochange) and (player.health > 0)) then
+    P_SetPspritePtr(player, psp, statenum_t(psp.state.params.IntVal[0]));
 end;
 
 end.

@@ -188,6 +188,7 @@ procedure P_SetupPsprites(player: Pplayer_t);
 
 procedure P_MovePsprites(player: Pplayer_t);
 
+function P_CheckAmmo(player: Pplayer_t): boolean;
 
 implementation
 
@@ -450,6 +451,11 @@ begin
 
   P_SetPsprite(player, Ord(ps_weapon), statenum_t(WeaponInfo[Ord(player.readyweapon), Ord(player._class)].downstate));
   result := false;
+end;
+
+function P_CheckAmmo(player: Pplayer_t): boolean;
+begin
+  result := P_CheckMana(player);
 end;
 
 //---------------------------------------------------------------------------

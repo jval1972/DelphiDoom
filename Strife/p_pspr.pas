@@ -116,6 +116,8 @@ procedure P_MovePsprites(player: Pplayer_t);
 
 procedure P_SetPsprite(player: Pplayer_t; position: integer; stnum: statenum_t);
 
+function P_CheckAmmo(player: Pplayer_t): boolean;
+
 implementation
 
 uses
