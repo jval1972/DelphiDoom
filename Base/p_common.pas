@@ -610,6 +610,8 @@ procedure A_CheckAmmo(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_RefireTo(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_GunFlashTo(player: Pplayer_t; psp: Ppspdef_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -816,6 +818,7 @@ uses
   p_spec,
   p_switch,
   p_tick,
+  p_user,
   psi_globals,
   r_renderstyle,
   r_defs,
@@ -9592,6 +9595,39 @@ begin
     (player.cmd.buttons and BT_ATTACK <> 0) and
     ((player.pendingweapon = wp_nochange) and (player.health > 0)) then
     P_SetPspritePtr(player, psp, statenum_t(psp.state.params.IntVal[0]));
+end;
+
+//
+// A_GunFlashTo
+// Sets the weapon flash layer to the specified state.
+//   args[0]: State number
+//   args[1]: If nonzero, don't change the player actor state
+//
+procedure A_GunFlashTo(player: Pplayer_t; psp: Ppspdef_t);
+var
+  pstate: integer;
+begin
+  if psp = nil then
+    exit;
+
+  if not P_CheckStateArgs(psp.state) then
+    exit;
+
+  if psp.state.params.IntVal[1] <> 0 then
+  begin
+    {$IFDEF DOOM_OR_STRIFE}
+    pstate := Ord(S_PLAY_ATK2);
+    {$ENDIF}
+    {$IFDEF STRIFE}
+    pstate := Ord(S_PLAY_06);
+    {$ENDIF}
+    {$IFDEF HEXEN}
+    pstate := Ord(PStateAttack[Ord(player._class)]);
+    {$ENDIF}
+    P_SetMobjState(player.mo, statenum_t(pstate));
+  end;
+
+  P_SetPsprite(player, Ord(ps_flash), statenum_t(psp.state.params.IntVal[0]));
 end;
 
 end.
