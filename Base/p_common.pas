@@ -602,6 +602,8 @@ procedure A_WeaponSound(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_WeaponAlert(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_WeaponJump(player: Pplayer_t; psp: Ppspdef_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -9384,6 +9386,33 @@ begin
     exit;
 
   P_NoiseAlert(player.mo, player.mo);
+end;
+
+procedure P_SetPspritePtr(player: Pplayer_t; psp: Ppspdef_t; stnum: statenum_t);
+var
+  position: integer;
+begin
+  position := pdiff(psp, @player.psprites[0], SizeOf(pspdef_t));
+  P_SetPsprite(player, position, stnum);
+end;
+
+//
+// A_WeaponJump
+// Jumps to the specified state, with variable random chance.
+// Basically the same as A_RandomJump, but for weapons.
+//   args[0]: State number
+//   args[1]: Chance, out of 255, to make the jump
+//
+procedure A_WeaponJump(player: Pplayer_t; psp: Ppspdef_t);
+begin
+  if psp = nil then
+    exit;
+
+  if not P_CheckStateArgs(psp.state) then
+    exit;
+
+  if N_Random < psp.state.params.IntVal[1] then
+    P_SetPspritePtr(player, psp, statenum_t(psp.state.params.IntVal[0]));
 end;
 
 end.
