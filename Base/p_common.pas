@@ -9213,5 +9213,43 @@ begin
   mo.tracer := linetarget;
 end;
 
+//
+// A_WeaponBulletAttack
+// A parameterized player weapon bullet attack. Does not consume ammo.
+//   args[0]: Horizontal spread (degrees, in fixed point)
+//   args[1]: Vertical spread (degrees, in fixed point)
+//   args[2]: Number of bullets to fire; if not set, defaults to 1
+//   args[3]: Base damage of attack (e.g. for 5d3, customize the 5); if not set, defaults to 5
+//   args[4]: Attack damage modulus (e.g. for 5d3, customize the 3); if not set, defaults to 3
+//
+procedure A_WeaponBulletAttack(player: Pplayer_t; psp: Ppspdef_t);
+var
+  hspread, vspread, numbullets, damagebase, damagemod: integer;
+  i, damage, angle, slope: integer;
+begin
+  if psp = nil then
+    exit;
+
+  if not P_CheckStateArgs(psp.state) then
+    exit;
+
+  hspread := psp.state.params.IntVal[0];
+  vspread := psp.state.params.IntVal[1];
+  numbullets := psp.state.params.IntVal[2];
+  damagebase := psp.state.params.IntVal[3];
+  damagemod := psp.state.params.IntVal[4];
+
+  P_BulletSlope(player.mo);
+
+  for i := 0 to numbullets - 1 do
+  begin
+    damage := (N_Random mod damagemod + 1) * damagebase;
+    angle := player.mo.angle + P_RandomHitscanAngle(hspread);
+    slope := bulletslope + P_RandomHitscanSlope(vspread);
+
+    P_LineAttack(player.mo, angle, MISSILERANGE, slope, damage);
+  end;
+end;
+
 end.
 
