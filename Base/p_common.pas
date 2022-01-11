@@ -596,6 +596,8 @@ procedure A_WeaponProjectile(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_WeaponBulletAttack(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_WeaponMeleeAttack(player: Pplayer_t; psp: Ppspdef_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -9255,6 +9257,82 @@ begin
 
     P_LineAttack(player.mo, angle, MISSILERANGE, slope, damage);
   end;
+end;
+
+//
+// A_WeaponMeleeAttack
+// A parameterized player weapon melee attack.
+//   args[0]: Base damage of attack (e.g. for 2d10, customize the 2); if not set, defaults to 2
+//   args[1]: Attack damage modulus (e.g. for 2d10, customize the 10); if not set, defaults to 10
+//   args[2]: Berserk damage multiplier (fixed point); if not set, defaults to 1.0 (no change).
+//   args[3]: Sound to play if attack hits
+//   args[4]: Range (fixed point); if not set, defaults to player mobj's melee range
+//
+procedure A_WeaponMeleeAttack(player: Pplayer_t; psp: Ppspdef_t);
+var
+  damagebase, damagemod, zerkfactor, hitsound, range: integer;
+  angle: angle_t;
+  t, slope, damage: integer;
+begin
+  if psp = nil then
+    exit;
+
+  if not P_CheckStateArgs(psp.state) then
+    exit;
+
+  damagebase := psp.state.params.IntVal[0];
+  damagemod := psp.state.params.IntVal[1];
+  zerkfactor := psp.state.params.IntVal[2];
+  range := psp.state.params.IntVal[4];
+
+  if range = 0 then
+  begin
+    range := player.mo.info.meleerange;
+    if range = 0 then
+      range := MELEERANGE;
+  end;
+
+  damage := (N_Random mod damagemod + 1) * damagebase;
+  {$IFDEF DOOM_OR_STRIFE}
+  if player.powers[Ord(pw_strength)] > 0 then
+  {$ENDIF}
+  {$IFDEF HERETIC}
+  if player.powers[Ord(pw_weaponlevel2)] > 0 then
+  {$ENDIF}
+    damage := (damage * zerkfactor) * FRACUNIT;
+
+  // slight randomization; weird vanillaism here. :P
+  angle := player.mo.angle;
+
+  t := N_Random;
+  angle := angle + _SHL((t - N_Random), 18);
+
+  // make autoaim prefer enemies
+  slope := P_AimLineAttack(player.mo, angle, range, MF2_EX_FRIEND);
+  if linetarget = nil then
+    slope := P_AimLineAttack(player.mo, angle, range);
+
+  // attack, dammit!
+  P_LineAttack(player.mo, angle, range, slope, damage);
+
+  // missed? ah, welp.
+  if linetarget = nil then
+    exit;
+
+  // un-missed!
+  if psp.state.params.IsComputed[3] then
+    hitsound := psp.state.params.IntVal[3]
+  else
+  begin
+    hitsound := S_GetSoundNumForName(psp.state.params.StrVal[3]);
+    psp.state.params.IntVal[3] := hitsound;
+  end;
+
+  if hitsound > 0 then
+    S_StartSound(player.mo, hitsound);
+
+  // turn to face target
+  player.mo.angle := R_PointToAngle2(player.mo.x, player.mo.y, linetarget.x, linetarget.y);
 end;
 
 end.

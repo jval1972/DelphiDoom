@@ -56,7 +56,7 @@ function P_CheckPosition(thing: Pmobj_t; x, y: fixed_t): boolean;
 
 function P_TryMove(thing: Pmobj_t; x, y: fixed_t): boolean;
 
-function P_AimLineAttack(t1: Pmobj_t; angle: angle_t; distance: fixed_t): fixed_t;
+function P_AimLineAttack(t1: Pmobj_t; angle: angle_t; distance: fixed_t; mask2_ex: integer = 0): fixed_t;
 
 procedure P_LineAttack(t1: Pmobj_t; angle: angle_t;
   distance: fixed_t; slope: fixed_t; damage: integer);
@@ -1898,6 +1898,8 @@ var
 
   aimslope: fixed_t;
 
+  aim_flags_mask2_ex: integer;  // JVAL: 20220111 - MBF21
+
 // JVAL: 3d floors : Moved from P_Sight
   bottomslope: fixed_t; // slopes to top and bottom of target
   topslope: fixed_t;
@@ -1978,6 +1980,14 @@ begin
   end;
 
   if th.flags and MF_SHOOTABLE = 0 then
+  begin
+    result := true; // corpse or something
+    exit;
+  end;
+
+  // killough 7/19/98, 8/2/98:
+  // friends don't aim at friends (except players), at least not first
+  if (th.flags2_ex and shootthing.flags2_ex and aim_flags_mask2_ex <> 0) and (th.player = nil) then
   begin
     result := true; // corpse or something
     exit;
@@ -2263,7 +2273,7 @@ end;
 //
 // P_AimLineAttack
 //
-function P_AimLineAttack(t1: Pmobj_t; angle: angle_t; distance: fixed_t): fixed_t;
+function P_AimLineAttack(t1: Pmobj_t; angle: angle_t; distance: fixed_t; mask2_ex: integer = 0): fixed_t;
 var
   x2: fixed_t;
   y2: fixed_t;
@@ -2285,6 +2295,9 @@ begin
 
   attackrange := distance;
   linetarget := nil;
+
+  // killough 8/2/98: prevent friends from aiming at friends
+  aim_flags_mask2_ex := mask2_ex;
 
   P_PathTraverse(t1.x, t1.y, x2, y2, PT_ADDLINES or PT_ADDTHINGS, PTR_AimTraverse);
 
