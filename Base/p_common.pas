@@ -9615,7 +9615,7 @@ begin
 
   if psp.state.params.IntVal[1] <> 0 then
   begin
-    {$IFDEF DOOM_OR_STRIFE}
+    {$IFDEF DOOM_OR_HERETIC}
     pstate := Ord(S_PLAY_ATK2);
     {$ENDIF}
     {$IFDEF STRIFE}
