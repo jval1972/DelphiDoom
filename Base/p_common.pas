@@ -598,6 +598,8 @@ procedure A_RemoveFlags(actor: Pmobj_t);
 
 procedure A_WeaponProjectile(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_WeaponBulletAttack(player: Pplayer_t; psp: Ppspdef_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -816,7 +818,6 @@ uses
 var
   bulletslope: fixed_t;
 
-
 procedure P_BulletSlope(mo: Pmobj_t);
 var
   an: angle_t;
@@ -828,7 +829,7 @@ begin
   if linetarget = nil then
   begin
     an := an + $4000000;
-    bulletslope := P_AimLineAttack (mo, an, 16 * 64 * FRACUNIT);
+    bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
     if linetarget = nil then
     begin
       an := an - $8000000;
