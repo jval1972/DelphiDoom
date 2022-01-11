@@ -604,6 +604,8 @@ procedure A_WeaponAlert(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_WeaponJump(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_ConsumeAmmo(player: Pplayer_t; psp: Ppspdef_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -781,6 +783,9 @@ uses
   d_delphi,
   doomdata,
   doomdef,
+  {$IFDEF DOOM_OR_STRIFE}
+  d_items,
+  {$ENDIF}
   deh_main,
   d_think,
   m_vectors,
@@ -9413,6 +9418,83 @@ begin
 
   if N_Random < psp.state.params.IntVal[1] then
     P_SetPspritePtr(player, psp, statenum_t(psp.state.params.IntVal[0]));
+end;
+
+//
+// A_ConsumeAmmo
+// Subtracts ammo from the player's "inventory". 'Nuff said.
+//   args[0]: Amount of ammo to consume. If zero, use the weapon's ammo-per-shot amount.
+//
+procedure A_ConsumeAmmo(player: Pplayer_t; psp: Ppspdef_t);
+var
+  amount: integer;
+  typ: integer;
+  winf: Pweaponinfo_t;
+  {$IFDEF HEXEN}
+  i, i1, i2: integer;
+  {$ENDIF}
+begin
+  if psp = nil then
+    exit;
+
+  if not P_CheckStateArgs(psp.state) then
+    exit;
+
+  // don't do dumb things, kids
+  {$IFDEF DOOM_OR_STRIFE}
+  winf := @weaponinfo[Ord(player.readyweapon)];
+  typ := Ord(winf.ammo);
+  if typ = Ord(am_noammo) then
+	  exit;
+  {$ENDIF}
+  {$IFDEF HERETIC}
+  if player.powers[Ord(pw_weaponlevel2)] <> 0 then
+    winf := @wpnlev2info[Ord(player.readyweapon)]
+  else
+    winf := @wpnlev1info[Ord(player.readyweapon)];
+  typ := Ord(winf.ammo);
+  if typ = Ord(am_noammo) then
+	  exit;
+  {$ENDIF}
+  {$IFDEF HEXEN}
+  winf := @weaponinfo[Ord(player.readyweapon), Ord(player._class)];
+  typ := Ord(winf.mana);
+  if typ = Ord(MANA_NONE) then
+	  exit;
+  {$ENDIF}
+
+  // use the weapon's ammo-per-shot amount if zero.
+  // to subtract zero ammo, don't call this function. ;)
+  amount := psp.state.params.IntVal[0];
+  if amount <= 0 then
+    amount := winf.ammopershot;
+
+  {$IFDEF HEXEN}
+  // subtract ammo, but don't let it get below zero
+  if (typ = Ord(MANA_1)) or (typ = Ord(MANA_2)) then
+  begin
+    i1 := typ;
+    i2 := typ;
+  end
+  else if typ = Ord(MANA_BOTH) then
+  begin
+    i1 := Ord(MANA_1);
+    i2 := Ord(MANA_2);
+  end
+  else
+    exit;
+  for i := i1 to i2 do
+    if player.mana[i] >= amount then
+      player.mana[i] := player.mana[i] - amount
+    else
+      player.mana[i] := 0;
+  {$ELSE}
+  // subtract ammo, but don't let it get below zero
+  if player.ammo[typ] >= amount then
+    player.ammo[typ] := player.ammo[typ] - amount
+  else
+    player.ammo[typ] := 0;
+  {$ENDIF}
 end;
 
 end.
