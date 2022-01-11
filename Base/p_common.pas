@@ -598,6 +598,8 @@ procedure A_WeaponBulletAttack(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_WeaponMeleeAttack(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_WeaponSound(player: Pplayer_t; psp: Ppspdef_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -9333,6 +9335,41 @@ begin
 
   // turn to face target
   player.mo.angle := R_PointToAngle2(player.mo.x, player.mo.y, linetarget.x, linetarget.y);
+end;
+
+//
+// A_WeaponSound
+// Plays a sound. Usable from weapons, unlike A_PlaySound
+//   args[0]: ID of sound to play
+//   args[1]: If 1, play sound at full volume (may be useful in DM?)
+//
+procedure A_WeaponSound(player: Pplayer_t; psp: Ppspdef_t);
+var
+  sndid: integer;
+  fullsound: boolean;
+begin
+  if psp = nil then
+    exit;
+
+  if not P_CheckStateArgs(psp.state) then
+    exit;
+
+  if psp.state.params.IsComputed[0] then
+    sndid := psp.state.params.IntVal[0]
+  else
+  begin
+    sndid := S_GetSoundNumForName(psp.state.params.StrVal[0]);
+    psp.state.params.IntVal[0] := sndid;
+  end;
+
+  if sndid > 0 then
+  begin
+    fullsound := psp.state.params.IntVal[0] <> 0;
+    if fullsound then
+      S_StartSound(nil, sndid)
+    else
+      S_StartSound(player.mo, sndid);
+  end;
 end;
 
 end.
