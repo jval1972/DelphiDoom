@@ -606,6 +606,8 @@ procedure A_WeaponJump(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_ConsumeAmmo(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_CheckAmmo(player: Pplayer_t; psp: Ppspdef_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -9494,6 +9496,78 @@ begin
     player.ammo[typ] := player.ammo[typ] - amount
   else
     player.ammo[typ] := 0;
+  {$ENDIF}
+end;
+
+//
+// A_CheckAmmo
+// Jumps to a state if the player's ammo is lower than the specified amount.
+//   args[0]: State to jump to
+//   args[1]: Minimum required ammo to NOT jump. If zero, use the weapon's ammo-per-shot amount.
+//
+procedure A_CheckAmmo(player: Pplayer_t; psp: Ppspdef_t);
+var
+  amount: integer;
+  typ: integer;
+  winf: Pweaponinfo_t;
+  {$IFDEF HEXEN}
+  i, i1, i2: integer;
+  {$ENDIF}
+begin
+  if psp = nil then
+    exit;
+
+  if not P_CheckStateArgs(psp.state) then
+    exit;
+
+  {$IFDEF DOOM_OR_STRIFE}
+  winf := @weaponinfo[Ord(player.readyweapon)];
+  typ := Ord(winf.ammo);
+  if typ = Ord(am_noammo) then
+	  exit;
+  {$ENDIF}
+  {$IFDEF HERETIC}
+  if player.powers[Ord(pw_weaponlevel2)] <> 0 then
+    winf := @wpnlev2info[Ord(player.readyweapon)]
+  else
+    winf := @wpnlev1info[Ord(player.readyweapon)];
+  typ := Ord(winf.ammo);
+  if typ = Ord(am_noammo) then
+	  exit;
+  {$ENDIF}
+  {$IFDEF HEXEN}
+  winf := @weaponinfo[Ord(player.readyweapon), Ord(player._class)];
+  typ := Ord(winf.mana);
+  if typ = Ord(MANA_NONE) then
+	  exit;
+  {$ENDIF}
+
+  amount := psp.state.params.IntVal[1];
+  if amount <= 0 then
+    amount := winf.ammopershot;
+
+  {$IFDEF HEXEN}
+  if (typ = Ord(MANA_1)) or (typ = Ord(MANA_2)) then
+  begin
+    i1 := typ;
+    i2 := typ;
+  end
+  else if typ = Ord(MANA_BOTH) then
+  begin
+    i1 := Ord(MANA_1);
+    i2 := Ord(MANA_2);
+  end
+  else
+    exit;
+  for i := i1 to i2 do
+    if player.mana[i] < amount then
+    begin
+      P_SetPspritePtr(player, psp, statenum_t(psp.state.params.IntVal[0]));
+      break;
+    end;
+  {$ELSE}
+  if player.ammo[typ] < amount then
+    P_SetPspritePtr(player, psp, statenum_t(psp.state.params.IntVal[0]));
   {$ENDIF}
 end;
 
