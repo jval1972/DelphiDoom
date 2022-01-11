@@ -43,6 +43,8 @@ procedure Info_ShutDownDnLookUp;
 
 procedure Info_CheckStates;
 
+procedure Info_CheckStatesArgs;
+
 function Info_GetNewState: integer;
 
 function Info_GetNewMobjInfo: integer;
@@ -120,6 +122,7 @@ uses
   i_system,
   m_fixed,
   p_spec,
+  p_common,
   sc_consts,
   info;
 
@@ -277,6 +280,14 @@ begin
       end;
     until st.tics <> 0;
   end;
+end;
+
+procedure Info_CheckStatesArgs;
+var
+  i: integer;
+begin
+  for i := 0 to numstates - 1 do
+    P_CheckStateArgs(@states[i]);
 end;
 
 function Info_GetNewState: integer;
