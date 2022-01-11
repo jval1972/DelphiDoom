@@ -1948,9 +1948,10 @@ begin
   th.momy := FixedMul(th.info.speed, finesine[{$IFDEF FPC}_SHRW(an, ANGLETOFINESHIFT){$ELSE}an shr ANGLETOFINESHIFT{$ENDIF}]);
   th.momz := FixedMul(th.info.speed, slope);
 
-  P_CheckMissileSpawn(th);
-
-  result := th;
+  if P_CheckMissileSpawn(th) then
+    result := th
+  else
+    result := nil;
 end;
 
 //

@@ -166,6 +166,7 @@ A_DropItem() sets the MF2_DROPPED flag.
 Added A_JumpIfFlagsSet() ACTORDEF function (mbf21).
 Added A_AddFlags() ACTORDEF function (mbf21).
 Added A_RemoveFlags() ACTORDEF function (mbf21).
+Added A_WeaponProjectile() ACTORDEF function (mbf21).
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

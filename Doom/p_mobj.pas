@@ -74,7 +74,7 @@ function P_SpawnMissileAngleZ(source: Pmobj_t; z: fixed_t; _type: integer; angle
 function P_SpawnMissileAngleZSpeed(source: Pmobj_t; z: fixed_t; _type: integer; angle: angle_t;
   momz: fixed_t; speed: fixed_t; owner: Pmobj_t): Pmobj_t;
 
-procedure P_SpawnPlayerMissile(source: Pmobj_t; _type: integer);
+function P_SpawnPlayerMissile(source: Pmobj_t; _type: integer): Pmobj_t;
 
 procedure P_RespawnSpecials;
 
@@ -1776,7 +1776,7 @@ end;
 // P_SpawnPlayerMissile
 // Tries to aim at a nearby monster
 //
-procedure P_SpawnPlayerMissile(source: Pmobj_t; _type: integer);
+function P_SpawnPlayerMissile(source: Pmobj_t; _type: integer): Pmobj_t;
 var
   th: Pmobj_t;
   an: angle_t;
@@ -1853,7 +1853,10 @@ begin
   th.momy := FixedMul(speed, finesine[an]);
   th.momz := FixedMul(speed, slope);
 
-  P_CheckMissileSpawn(th);
+  if P_CheckMissileSpawn(th) then
+    result := th
+  else
+    result := nil;
 end;
 
 //----------------------------------------------------------------------------

@@ -547,7 +547,7 @@ function P_RoughTargetSearch(mo: Pmobj_t; ffov: angle_t; distance: integer): Pmo
 // MBF21
 procedure P_ResolveMBF21Flags(const m: Pmobjinfo_t);
 
-function P_CheckStateArgs(actor: Pmobj_t): boolean;
+function P_CheckStateArgs(state: Pstate_t): boolean;
 
 function P_InfightingImmune(target, source: Pmobj_t): boolean;
 
@@ -595,6 +595,8 @@ procedure A_JumpIfFlagsSet(actor: Pmobj_t);
 procedure A_AddFlags(actor: Pmobj_t);
 
 procedure A_RemoveFlags(actor: Pmobj_t);
+
+procedure A_WeaponProjectile(player: Pplayer_t; psp: Ppspdef_t);
 
 // MBF21 flags
 const
@@ -7655,51 +7657,57 @@ end;
 // P_CheckStateArgs
 // JVAL: Check arguments for MBF21 codeprs
 //
-function P_CheckStateArgs(actor: Pmobj_t): boolean;
+function P_CheckStateArgs(state: Pstate_t): boolean;
 var
   deh_action: Pdeh_action_t;
   i: integer;
   tmpargs: array[0..MAX_STATE_ARGS - 1] of integer;
   sargs: string;
 begin
-  if actor.state.flags_ex and MF_EX_STATE_ARGS_CHECKED <> 0 then
+  if state = nil then
   begin
-    result := actor.state.flags_ex and MF_EX_STATE_ARGS_ERROR <> 0;
+    result := false;
     Exit;
   end;
 
-  actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_ARGS_CHECKED;
+  if state.flags_ex and MF_EX_STATE_ARGS_CHECKED <> 0 then
+  begin
+    result := state.flags_ex and MF_EX_STATE_ARGS_ERROR <> 0;
+    Exit;
+  end;
+
+  state.flags_ex := state.flags_ex or MF_EX_STATE_ARGS_CHECKED;
 
   deh_action := nil;
   for i := 0 to dehnumactions - 1 do
-    if @deh_actions[i].action.acp1 = @actor.state.action.acp1 then
+    if @deh_actions[i].action.acp1 = @state.action.acp1 then
       deh_action := @deh_actions[i];
 
   if deh_action = nil then
   begin
-    I_Warning('P_CheckStateArgs(): Unregistered function found in actor "%s"'#13#10, [Info_GetMobjName(actor.info)]);
-    actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_ARGS_ERROR;
+    I_Warning('P_CheckStateArgs(): Unregistered function found in state "%d"'#13#10, [(Integer(state) - Integer(states)) div SizeOf(state_t)]);
+    state.flags_ex := state.flags_ex or MF_EX_STATE_ARGS_ERROR;
     result := false;
     exit;
   end;
 
-  if actor.state.params <> nil then
+  if state.params <> nil then
   begin
-    if actor.state.params.Count = deh_action.argcount then
+    if state.params.Count = deh_action.argcount then
     begin
       result := true;
       exit;
     end
-    else if actor.state.params.Count >= deh_action.argcount then
+    else if state.params.Count >= deh_action.argcount then
     begin
-      I_Warning('P_CheckStateArgs(): Action has more than %d parameters in actor "%s"'#13#10, [actor.state.params.Count, Info_GetMobjName(actor.info)]);
-      actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_ARGS_ERROR;
+      I_Warning('P_CheckStateArgs(): Action has more than %d parameters in state "%d"'#13#10, [state.params.Count, (Integer(state) - Integer(states)) div SizeOf(state_t)]);
+      state.flags_ex := state.flags_ex or MF_EX_STATE_ARGS_ERROR;
       result := false;
       exit;
     end
     else
     begin
-      I_Warning('P_CheckStateArgs(): Action has less than %d parameters in actor "%s"'#13#10, [actor.state.params.Count, Info_GetMobjName(actor.info)]);
+      I_Warning('P_CheckStateArgs(): Action has less than %d parameters in state "%d"'#13#10, [state.params.Count, (Integer(state) - Integer(states)) div SizeOf(state_t)]);
       result := true;
       exit;
     end;
@@ -7714,8 +7722,8 @@ begin
   sargs := '';
   for i := 0 to deh_action.argcount - 1 do
   begin
-    if actor.state.argsdefined and (1 shl i) <> 0 then
-      tmpargs[i] := actor.state.args[i]
+    if state.argsdefined and (1 shl i) <> 0 then
+      tmpargs[i] := state.args[i]
     else
       tmpargs[i] := deh_action.default_args[i];
     if i = 0 then
@@ -7724,8 +7732,8 @@ begin
       sargs := sargs + ', ' + itoa(tmpargs[i]);
   end;
 
-  actor.state.params := TCustomParamList.Create(sargs);
-  result := actor.state.params.Count = deh_action.argcount;
+  state.params := TCustomParamList.Create(sargs);
+  result := state.params.Count = deh_action.argcount;
 end;
 
 //
@@ -7748,7 +7756,7 @@ var
   fan, dx, dy: integer;
   mo: Pmobj_t;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   typ := actor.state.params.IntVal[0] - 1;
@@ -7798,7 +7806,7 @@ var
   mo: Pmobj_t;
   an: angle_t;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   if actor.target = nil then
@@ -7852,7 +7860,7 @@ var
   hspread, vspread, numbullets, damagebase, damagemod: integer;
   aimslope, i, damage, angle, slope: integer;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   if actor.target = nil then
@@ -7892,7 +7900,7 @@ var
   damagebase, damagemod, hitsound, range: integer;
   damage: integer;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   if actor.target = nil then
@@ -7941,7 +7949,7 @@ end;
 //
 procedure A_RadiusDamage(actor: Pmobj_t);
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   if actor.target = nil then
@@ -8106,7 +8114,7 @@ procedure A_HealChase(actor: Pmobj_t);
 var
   state, sound: integer;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   if not actor.state.params.IsComputed[0] then
@@ -8202,7 +8210,7 @@ procedure A_SeekTracer(actor: Pmobj_t);
 var
   threshold, maxturnangle: angle_t;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   threshold := FixedToAngle(actor.state.params.IntVal[0]);
@@ -8222,7 +8230,7 @@ var
   ffov: angle_t;
   dist: integer;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   if actor.tracer <> nil then
@@ -8253,7 +8261,7 @@ procedure A_JumpIfHealthBelow(actor: Pmobj_t);
 var
   newstate, health: integer;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   health := actor.state.params.IntVal[1];
@@ -8283,7 +8291,7 @@ var
   newstate: integer;
   ffov: angle_t;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   if actor.target = nil then
@@ -8320,7 +8328,7 @@ var
   newstate: integer;
   distance: integer;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   if actor.target = nil then
@@ -8353,7 +8361,7 @@ var
   newstate: integer;
   ffov: angle_t;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   if actor.tracer = nil then
@@ -8390,7 +8398,7 @@ var
   newstate: integer;
   distance: integer;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   if actor.tracer = nil then
@@ -9093,7 +9101,7 @@ var
   newstate: integer;
   bits, mbf21bits: integer;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   bits := actor.state.params.IntVal[1];
@@ -9123,7 +9131,7 @@ procedure A_AddFlags(actor: Pmobj_t);
 var
   bits, mbf21bits: integer;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   bits := actor.state.params.IntVal[0];
@@ -9142,13 +9150,69 @@ procedure A_RemoveFlags(actor: Pmobj_t);
 var
   bits, mbf21bits: integer;
 begin
-  if not P_CheckStateArgs(actor) then
+  if not P_CheckStateArgs(actor.state) then
     exit;
 
   bits := actor.state.params.IntVal[0];
   mbf21bits := actor.state.params.IntVal[1];
 
   P_UnSetMBF21Flags(actor, bits, mbf21bits);
+end;
+
+//
+// A_WeaponProjectile
+// A parameterized player weapon projectile attack. Does not consume ammo.
+//   args[0]: Type of actor to spawn
+//   args[1]: Angle (degrees, in fixed point), relative to calling player's angle
+//   args[2]: Pitch (degrees, in fixed point), relative to calling player's pitch; approximated
+//   args[3]: X/Y spawn offset, relative to calling player's angle
+//   args[4]: Z spawn offset, relative to player's default projectile fire height
+//
+procedure A_WeaponProjectile(player: Pplayer_t; psp: Ppspdef_t);
+var
+  typ, angle, pitch, spawnofs_xy, spawnofs_z: integer;
+  mo: Pmobj_t;
+  an: integer;
+begin
+  if psp = nil then
+    exit;
+
+  if not P_CheckStateArgs(psp.state) then
+    exit;
+
+  if psp.state.params.IntVal[0] = 0 then
+    exit;
+
+  typ := psp.state.params.IntVal[0] - 1;
+  angle := psp.state.params.IntVal[1];
+  pitch := psp.state.params.IntVal[2];
+  spawnofs_xy := psp.state.params.IntVal[3];
+  spawnofs_z := psp.state.params.IntVal[4];
+
+  mo := P_SpawnPlayerMissile(player.mo, typ);
+  if mo = nil then
+    exit;
+
+  // adjust angle
+  mo.angle := mo.angle + Round(angle / 360 * FRACUNIT);
+  an := mo.angle div ANGLETOFINEUNIT;
+  mo.momx := FixedMul(mo.info.speed, finecosine[an]);
+  mo.momy := FixedMul(mo.info.speed, finesine[an]);
+
+  // adjust pitch (approximated, using Doom's ye olde
+  // finetangent table; same method as autoaim)
+  mo.momz := mo.momz + FixedMul(mo.info.speed, DegToSlope(pitch));
+
+  // adjust position
+  an := (player.mo.angle - ANG90) div ANGLETOFINEUNIT;
+  mo.x := mo.x + FixedMul(spawnofs_xy, finecosine[an]);
+  mo.y := mo.y + FixedMul(spawnofs_xy, finesine[an]);
+  mo.z := mo.z + spawnofs_z;
+
+  // set tracer to the player's autoaim target,
+  // so player seeker missiles prioritizing the
+  // baddie the player is actually aiming at. ;)
+  mo.tracer := linetarget;
 end;
 
 end.
