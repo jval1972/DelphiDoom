@@ -150,8 +150,6 @@ procedure P_SetupPsprites(player: Pplayer_t);
 
 procedure P_MovePsprites(player: Pplayer_t);
 
-procedure P_BulletSlope(mo: Pmobj_t);
-
 procedure P_UpdateBeak(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure P_SetPsprite(player: Pplayer_t; position: integer; stnum: statenum_t);
@@ -696,41 +694,6 @@ begin
     newstate := statenum_t(wpnlev1info[Ord(player.readyweapon)].readystate);
 
   P_SetPsprite(player, Ord(ps_weapon), newstate);
-end;
-
-//
-// WEAPON ATTACKS
-//
-
-
-//
-// P_BulletSlope
-// Sets a slope so a near miss is at aproximately
-// the height of the intended target
-//
-var
-  bulletslope: fixed_t;
-
-procedure P_BulletSlope(mo: Pmobj_t);
-var
-  an: angle_t;
-begin
-  // see which target is to be aimed at
-  an := mo.angle;
-  bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
-
-  if linetarget = nil then
-  begin
-    an := an + $4000000;
-    bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
-    if linetarget = nil then
-    begin
-      an := an - $8000000;
-      bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
-      if zaxisshift and (linetarget = nil) then
-        bulletslope := (Pplayer_t(mo.player).lookdir * FRACUNIT) div 173;
-    end;
-  end;
 end;
 
 //****************************************************************************

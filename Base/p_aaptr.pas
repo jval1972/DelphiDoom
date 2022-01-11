@@ -87,11 +87,7 @@ implementation
 uses
   d_delphi,
   doomdef,
-  {$IFDEF HEXEN}
   p_common,
-  {$ELSE}
-  p_pspr,
-  {$ENDIF}
   d_player,
   g_game,
   p_map;

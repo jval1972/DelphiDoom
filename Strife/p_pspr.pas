@@ -114,8 +114,6 @@ procedure P_SetupPsprites(player: Pplayer_t);
 
 procedure P_MovePsprites(player: Pplayer_t);
 
-procedure P_BulletSlope(mo: Pmobj_t);
-
 procedure P_SetPsprite(player: Pplayer_t; position: integer; stnum: statenum_t);
 
 implementation
@@ -706,45 +704,6 @@ begin
   S_StartSound(player.mo, Ord(sfx_xbow));
 end;
 
-
-//
-// P_BulletSlope
-// Sets a slope so a near miss is at aproximately
-// the height of the intended target
-//
-// haleyjd 09/06/10 [STRIFE] Modified with a little target hack...
-//
-var
-  bulletslope: fixed_t;
-
-procedure P_BulletSlope(mo: Pmobj_t);
-var
-  an: angle_t;
-begin
-  // see which target is to be aimed at
-  an := mo.angle;
-  bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
-
-  if linetarget = nil then
-  begin
-    an := an + $4000000;
-    bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
-    if linetarget = nil then
-    begin
-      an := an - $8000000;
-      bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
-      if zaxisshift and (linetarget = nil) then
-        if mo.player <> nil then
-          bulletslope := (Pplayer_t(mo.player).lookdir * FRACUNIT) div 173;
-    end;
-  end;
-
-  // haleyjd 09/06/10: [STRIFE] Somebody added this here, and without it, you
-  // will get spurious crashing in routines such as P_LookForPlayers!
-  if linetarget <> nil then
-    mo.target := linetarget;
-end;
-
 //
 // P_GunShot
 //
@@ -784,6 +743,8 @@ begin
     P_SetMobjState(player.mo, S_PLAY_06); // 293
     dec(player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)]);
     P_BulletSlope(player.mo);
+    if linetarget <> nil then
+      player.mo.target := linetarget;
     P_GunShot(player.mo, player.refire = 0);
   end;
 end;
@@ -804,6 +765,8 @@ begin
   begin
     dec(player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)], 20);
     P_BulletSlope(player.mo);
+    if linetarget <> nil then
+      player.mo.target := linetarget;
     S_StartSound(player.mo, Ord(sfx_pgrdat));
 
     for i := 0 to 19 do
@@ -873,6 +836,8 @@ begin
       begin
         P_BulletSlope(player.mo);
         if linetarget <> nil then
+          player.mo.target := linetarget;
+        if linetarget <> nil then
         begin
           // haleyjd 09/18/10: corrected z coordinate
           mo := P_SpawnMobj(linetarget.x, linetarget.y, ONFLOORZ,
@@ -914,6 +879,8 @@ begin
     3:
       begin
         P_BulletSlope(player.mo);
+        if linetarget <> nil then
+          player.mo.target := linetarget;
         if linetarget <> nil then
         begin
           mo := P_SpawnPlayerMissile(player.mo, Ord(MT_SIGIL_D_SHOT));

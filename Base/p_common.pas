@@ -44,10 +44,6 @@ const
 
 function P_CheckStateParams(actor: Pmobj_t; const numparms: integer = -1; const flags: LongWord = 0): boolean;
 
-{$IFDEF HEXEN}
-procedure P_BulletSlope(mo: Pmobj_t);
-{$ENDIF}
-
 procedure A_GoTo(actor: Pmobj_t);
 
 procedure A_GoToIfCloser(actor: Pmobj_t);
@@ -766,6 +762,11 @@ const
   yspeed: array[0..7] of fixed_t =
     (0, 47000, FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000);
 
+var
+  bulletslope: fixed_t;
+
+procedure P_BulletSlope(mo: Pmobj_t);
+
 implementation
 
 uses
@@ -809,15 +810,11 @@ uses
   sounds,
   m_rnd;
 
-{$IFDEF HEXEN}
 //
 // P_BulletSlope
 // Sets a slope so a near miss is at aproximately
 // the height of the intended target
 //
-var
-  bulletslope: fixed_t;
-
 procedure P_BulletSlope(mo: Pmobj_t);
 var
   an: angle_t;
@@ -834,12 +831,12 @@ begin
     begin
       an := an - $8000000;
       bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
-      if linetarget = nil then
-        bulletslope := (Pplayer_t(mo.player).lookdir * FRACUNIT) div 173;
+      if mo.player <> nil then
+        if zaxisshift and (linetarget = nil) then
+          bulletslope := (Pplayer_t(mo.player).lookdir * FRACUNIT) div 173;
     end;
   end;
 end;
-{$ENDIF}
 
 function P_CheckStateParams(actor: Pmobj_t; const numparms: integer = -1; const flags: LongWord = 0): boolean;
 begin

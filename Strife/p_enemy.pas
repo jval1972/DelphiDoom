@@ -1054,6 +1054,8 @@ begin
       begin
         // haleyjd 09/06/10: Note that this sets actor->target in Strife!
         P_BulletSlope(actor);
+        if linetarget <> nil then
+          actor.target := linetarget;
 
         // Clear target if nothing is visible, or if the target is a
         // friendly Rebel or the allied player.
@@ -1080,6 +1082,8 @@ begin
 
       // haleyjd 09/06/10: Note that this sets actor->target in Strife!
       P_BulletSlope(actor);
+      if linetarget <> nil then
+        actor.target := linetarget;
 
       // Clear target if nothing is visible, or if the target is an ally.
       if (linetarget = nil) or (actor.target.flags and MF_ALLY <> 0) or P_BothFriends(actor, actor.target) then
