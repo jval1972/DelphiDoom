@@ -120,6 +120,7 @@ type
     function PF_WeaveIndexZ(p: TDStrings): string;
     function PF_SpriteDX(p: TDStrings): string;
     function PF_SpriteDY(p: TDStrings): string;
+    function PF_PainChance(p: TDStrings): string;
     // MBF21
     function PF_InfightingGroup(p: TDStrings): string;
     function PF_ProjectileGroup(p: TDStrings): string;
@@ -225,6 +226,7 @@ begin
   AddFunc('WEAVEINDEXZ', PF_WeaveIndexZ, 0);
   AddFunc('SPRITEDX', PF_SpriteDX, 0);
   AddFunc('SPRITEDY', PF_SpriteDY, 0);
+  AddFunc('PAINCHANCE', PF_PainChance, 0);
   // MBF21
   AddFunc('INFIGHTINGGROUP', PF_InfightingGroup, 0);
   AddFunc('PROJECTILEGROUP', PF_ProjectileGroup, 0);
@@ -596,6 +598,11 @@ end;
 function TActorEvaluator.PF_SpriteDY(p: TDStrings): string;
 begin
   result := itoa(factor.spriteDY);
+end;
+
+function TActorEvaluator.PF_PainChance(p: TDStrings): string;
+begin
+  result := itoa(factor.painchance);
 end;
 
 // MBF21
