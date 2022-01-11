@@ -8904,7 +8904,7 @@ begin
 
   if istransparent then
   begin
-    result :=  m.flags_ex and MF_EX_TRANSPARENT <> 0;
+    result := m.flags_ex and MF_EX_TRANSPARENT <> 0;
     if not result then
       exit;
   end;
@@ -8918,7 +8918,7 @@ begin
 
   if isbouncy then
   begin
-    result :=  m.flags3_ex and MF3_EX_BOUNCE = MF3_EX_BOUNCE;
+    result := m.flags3_ex and MF3_EX_BOUNCE = MF3_EX_BOUNCE;
     if not result then
       exit;
   end;

@@ -484,7 +484,7 @@ begin
     result := 0;
 end;
 
-procedure TCustomParamList.PutInteger(index: Integer; const value: integer);
+procedure TCustomParamList.PutInteger(index: integer; const value: integer);
 begin
   if (index >= 0) and (index < fNumItems) then
   begin
@@ -576,7 +576,7 @@ begin
     result := 0.0;
 end;
 
-procedure TCustomParamList.PutFloat(index: Integer; const value: float);
+procedure TCustomParamList.PutFloat(index: integer; const value: float);
 begin
   if (index >= 0) and (index < fNumItems) then
   begin
