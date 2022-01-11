@@ -600,6 +600,8 @@ procedure A_WeaponMeleeAttack(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_WeaponSound(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_WeaponAlert(player: Pplayer_t; psp: Ppspdef_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -9370,6 +9372,18 @@ begin
     else
       S_StartSound(player.mo, sndid);
   end;
+end;
+
+//
+// A_WeaponAlert
+// Alerts monsters to the player's presence. Handy when combined with WPF_SILENT.
+//
+procedure A_WeaponAlert(player: Pplayer_t; psp: Ppspdef_t);
+begin
+  if psp = nil then
+    exit;
+
+  P_NoiseAlert(player.mo, player.mo);
 end;
 
 end.
