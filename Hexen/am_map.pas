@@ -1680,7 +1680,7 @@ begin
         AM_drawLineCharacter
           (@thintriangle_guy, NUMTHINTRIANGLEGUYLINES,
           16 * FRACUNIT, t.angle, WHITE, x, y)
-      else 
+      else
         AM_drawLineCharacter
           (@thintriangle_guy, NUMTHINTRIANGLEGUYLINES,
           16 * FRACUNIT, t.angle, colors + lightlev, x, y);

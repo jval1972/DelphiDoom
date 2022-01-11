@@ -222,7 +222,7 @@ begin
 
     // Is there any player to see monster?
     if not visible then
-    begin 
+    begin
       result := false;
       exit;
     end;

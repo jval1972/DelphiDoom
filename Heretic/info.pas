@@ -80,7 +80,7 @@ const // Heretic Original Sprite Names
     'FX16', 'MNTR', 'FX12', 'FX13', 'AKYY', 'BKYY', 'CKYY', 'AMG2', 'AMM1', 'AMM2',
     'AMC1', 'AMC2', 'AMS1', 'AMS2', 'AMP1', 'AMP2', 'AMB1', 'AMB2', 'TNT1', ''
   );
-  
+
 implementation
 
 uses
