@@ -405,7 +405,7 @@ begin
   // check for bogus sound #
   if (sfx_id < 1) or (sfx_id > numsfx) then
   begin
-    I_DevError('S_StartSoundAtVolume(): Bad sfx #: %d'#13#10, [sfx_id]);
+    I_DevWarning('S_StartSoundAtVolume(): Bad sfx #: %d'#13#10, [sfx_id]);
     exit;
   end;
 
@@ -533,7 +533,7 @@ begin
   // check for bogus sound #
   if (sfx_id < 1) or (sfx_id > numsfx) then
   begin
-    I_DevError('S_StartVoiceAtVolume(): Bad sfx #: %d'#13#10, [sfx_id]);
+    I_DevWarning('S_StartVoiceAtVolume(): Bad sfx #: %d'#13#10, [sfx_id]);
     exit;
   end;
 
