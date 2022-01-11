@@ -2718,7 +2718,8 @@ begin
     actor.state.params.IntVal[0] := sndidx;
   end;
 
-  S_StartSound(actor, sndidx);
+  if sndidx > 0 then
+    S_StartSound(actor, sndidx);
 end;
 
 procedure A_PlayWeaponsound(actor: Pmobj_t);
@@ -2757,7 +2758,8 @@ begin
       sidxs.Add(sndidx);
     end;
     sndidx := N_Random mod sidxs.Count;
-    S_StartSound(actor, sidxs[sndidx]);
+    if sidxs[sndidx] > 0 then
+      S_StartSound(actor, sidxs[sndidx]);
   finally
     sidxs.Free;
   end;
@@ -5859,7 +5861,8 @@ begin
       sndidx := S_GetSoundNumForName(actor.state.params.StrVal[1]);
       actor.state.params.IntVal[1] := sndidx;
     end;
-    S_StartSound(actor, sndidx);
+    if sndidx > 0 then
+      S_StartSound(actor, sndidx);
     damage := actor.state.params.IntVal[0];
     P_DamageMobj(actor.target, actor, actor, damage);
   end
@@ -5872,7 +5875,8 @@ begin
       sndidx := S_GetSoundNumForName(actor.state.params.StrVal[2]);
       actor.state.params.IntVal[2] := sndidx;
     end;
-    S_StartSound(actor, sndidx);
+    if sndidx > 0 then
+      S_StartSound(actor, sndidx);
   end;
 end;
 
@@ -5904,7 +5908,8 @@ begin
       sndidx := S_GetSoundNumForName(actor.state.params.StrVal[3]);
       actor.state.params.IntVal[3] := sndidx;
     end;
-    S_StartSound(actor, sndidx);
+    if sndidx > 0 then
+      S_StartSound(actor, sndidx);
     damage := actor.state.params.IntVal[2];
     P_DamageMobj(actor.target, actor, actor, damage);
   end
@@ -8070,7 +8075,8 @@ begin
           actor.target := temp;
 
           P_SetMobjState(actor, statenum_t(healstate));
-          S_StartSound(healcorpsehit, healsound);
+          if healsound > 0 then
+            S_StartSound(healcorpsehit, healsound);
           info := healcorpsehit.info;
 
           P_SetMobjState(healcorpsehit, statenum_t(info.raisestate));
