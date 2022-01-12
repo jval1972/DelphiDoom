@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiDoom: A modified and improved DOOM engine for Windows
+//  DelphiDoom is a source port of the game Doom and it is
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2022 by Jim Valavanis
@@ -7670,15 +7670,18 @@ begin
     );
 end;
 
-// mbf21: dehacked splash groups
-function P_SplashImmune(target, spot: Pmobj_t): boolean;
+
+// mbf21: dehacked splash groups
+
+function P_SplashImmune(target, spot: Pmobj_t): boolean;
 begin
   result := // not default behaviour and same group
     (target.splash_group <> SG_DEFAULT) and
     (target.splash_group = spot.splash_group);
 end;
 
-//
+
+//
 // P_CheckStateArgs
 // JVAL: Check arguments for MBF21 codeprs
 //

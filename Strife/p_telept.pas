@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiStrife: A modified and improved Strife source port for Windows.
+//  DelphiStrife is a source port of the game Strife.
 //
 //  Based on:
 //    - Linux Doom by "id Software"

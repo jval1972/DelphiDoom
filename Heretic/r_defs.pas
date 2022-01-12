@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiHeretic: A modified and improved Heretic port for Windows
+//  DelphiHeretic is a source port of the game Heretic and it is
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.

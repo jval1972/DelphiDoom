@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiHexen: A modified and improved Hexen port for Windows
+//  DelphiHexen is a source port of the game Hexen and it is
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and on DelphiDoom
 //  as published by Jim Valavanis.

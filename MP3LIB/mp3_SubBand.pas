@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiDoom: A modified and improved DOOM engine for Windows
+//  DelphiDoom is a source port of the game Doom and it is
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 2004-2022 by Jim Valavanis
 //
