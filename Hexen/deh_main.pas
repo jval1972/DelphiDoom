@@ -1363,10 +1363,8 @@ begin
                     token2 := token4;
                   until token2 = '';
                   if weapon_val <> -1 then
-                  begin
                     WeaponInfo[weapon_no, weapon_class].mbf21bits := weapon_val;
-                    WeaponInfo[weapon_no, weapon_class].intflags := WeaponInfo[weapon_no, weapon_class].intflags or WIF_ENABLEAPS;
-                  end;
+
                 end;
               end;
 
