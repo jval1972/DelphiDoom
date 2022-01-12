@@ -2167,6 +2167,9 @@ begin
   SUC_Progress(41);
   {$ENDIF}
 
+  printf('S_InitDEHExtraSounds: Initializing dehacked sounds.'#13#10);
+  S_InitDEHExtraSounds;
+
   printf('DEH_Init: Initializing dehacked subsystem.'#13#10);
   SC_DefaultStatedefLump;
   DEH_Init;

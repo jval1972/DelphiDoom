@@ -164,6 +164,7 @@ Added A_ConsumeAmmo() ACTORDEF function (mbf21).
 Added A_CheckAmmo() ACTORDEF function (mbf21).
 Added A_RefireTo() ACTORDEF function (mbf21).
 Added A_GunFlashTo() ACTORDEF function (mbf21).
+Correctly initialize DEHEXTRA sounds.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

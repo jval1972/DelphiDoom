@@ -57,16 +57,44 @@ uses
   sc_actordef,
   w_wad;
 
+var
+  lastfreesfx: integer = 1;
+
 function S_GetSoundNumForName(const sfx_name: string): integer;
 var
   i: integer;
   name: string;
   check: string;
   sfx: Psfxinfo_t;
+  isnumber: boolean;
 begin
   result := atoi(sfx_name, -1);
-  if (result >= 0) and (result < numsfx) and (itoa(result) = sfx_name) then
-    exit;
+  isnumber := itoa(result) = sfx_name;
+  if isnumber then
+  begin
+    if (result >= 0) and (result < numsfx) and isnumber then
+      if S_sfx[result].name <> '' then
+        exit;
+
+    if (result >= 500) and (result < 700) then
+      if S_sfx[result].name = 'fre' + IntToStrZfill(3, result) then // DEHEXTRA
+      begin
+        if numsfx <= result then
+          numsfx := result + 1;
+        sfx := @S_sfx[result];
+        sfx.name := 'fre' + IntToStrZfill(3, result);
+        sfx.singularity := false;
+        sfx.priority := 72;
+        sfx.link := nil;
+        sfx.pitch := -1;
+        sfx.volume := -1;
+        sfx.data := nil;
+        sfx.usefulness := 0;
+        sfx.lumpnum := -1; // JVAL: was = 0;
+        sfx.randomsoundlist := nil;
+        exit;
+      end;
+  end;
 
   if sfx_name = '' then
   begin
@@ -86,8 +114,27 @@ begin
     end;
   end;
 
-  // JVAL: Not found, we will add a new sound
+  // JVAL: Not found, trying to find an empty slot
+  for i := lastfreesfx to numsfx - 1 do
+    if S_sfx[i].name = '' then
+    begin
+      result := i;
+      lastfreesfx := i + 1;
+      sfx := @S_sfx[result];
+      sfx.name := name;
+      sfx.singularity := false;
+      sfx.priority := 72;
+      sfx.link := nil;
+      sfx.pitch := -1;
+      sfx.volume := -1;
+      sfx.data := nil;
+      sfx.usefulness := 0;
+      sfx.lumpnum := -1; // JVAL: was = 0;
+      sfx.randomsoundlist := nil;
+      exit;
+    end;
 
+  // JVAL: Not found, we will add a new sound
   if numsfx >= MAX_NUMSFX - 1 then // JVAL: Limit exceeded, we will use default pistol sound :(
   begin
     I_Warning('S_GetSoundNumForName(): Can not add %s sound, limit of %d sounds exceeded'#13#10, [sfx_name, numsfx]);
