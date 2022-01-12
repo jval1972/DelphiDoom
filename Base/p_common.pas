@@ -9461,6 +9461,11 @@ begin
   typ := Ord(winf.ammo);
   if typ = Ord(am_noammo) then
 	  exit;
+  // use the weapon's ammo-per-shot amount if zero.
+  // to subtract zero ammo, don't call this function. ;)
+  amount := psp.state.params.IntVal[0];
+  if amount <= 0 then
+    amount := winf.ammopershot;
   {$ENDIF}
   {$IFDEF HERETIC}
   if player.powers[Ord(pw_weaponlevel2)] <> 0 then
@@ -9470,19 +9475,24 @@ begin
   typ := Ord(winf.ammo);
   if typ = Ord(am_noammo) then
 	  exit;
+  amount := psp.state.params.IntVal[0];
+  if amount <= 0 then
+  begin
+    if (player.powers[Ord(pw_weaponlevel2)] <> 0) and (deathmatch = 0) then
+      amount := WeaponAmmoUsePL2[Ord(player.readyweapon)]
+    else
+      amount := WeaponAmmoUsePL1[Ord(player.readyweapon)];
+  end;
   {$ENDIF}
   {$IFDEF HEXEN}
   winf := @weaponinfo[Ord(player.readyweapon), Ord(player._class)];
   typ := Ord(winf.mana);
   if typ = Ord(MANA_NONE) then
 	  exit;
-  {$ENDIF}
-
-  // use the weapon's ammo-per-shot amount if zero.
-  // to subtract zero ammo, don't call this function. ;)
   amount := psp.state.params.IntVal[0];
   if amount <= 0 then
-    amount := winf.ammopershot;
+    amount := WeaponManaUse[Ord(player._class), Ord(player.readyweapon)];
+  {$ENDIF}
 
   {$IFDEF HEXEN}
   // subtract ammo, but don't let it get below zero
@@ -9538,6 +9548,9 @@ begin
   typ := Ord(winf.ammo);
   if typ = Ord(am_noammo) then
 	  exit;
+  amount := psp.state.params.IntVal[1];
+  if amount <= 0 then
+    amount := winf.ammopershot;
   {$ENDIF}
   {$IFDEF HERETIC}
   if player.powers[Ord(pw_weaponlevel2)] <> 0 then
@@ -9547,17 +9560,24 @@ begin
   typ := Ord(winf.ammo);
   if typ = Ord(am_noammo) then
 	  exit;
+  amount := psp.state.params.IntVal[0];
+  if amount <= 0 then
+  begin
+    if (player.powers[Ord(pw_weaponlevel2)] <> 0) and (deathmatch = 0) then
+      amount := WeaponAmmoUsePL2[Ord(player.readyweapon)]
+    else
+      amount := WeaponAmmoUsePL1[Ord(player.readyweapon)];
+  end;
   {$ENDIF}
   {$IFDEF HEXEN}
   winf := @weaponinfo[Ord(player.readyweapon), Ord(player._class)];
   typ := Ord(winf.mana);
   if typ = Ord(MANA_NONE) then
 	  exit;
-  {$ENDIF}
-
   amount := psp.state.params.IntVal[1];
   if amount <= 0 then
-    amount := winf.ammopershot;
+    amount := WeaponManaUse[Ord(player._class), Ord(player.readyweapon)];
+  {$ENDIF}
 
   {$IFDEF HEXEN}
   if (typ = Ord(MANA_1)) or (typ = Ord(MANA_2)) then

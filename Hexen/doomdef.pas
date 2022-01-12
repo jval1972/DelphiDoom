@@ -263,7 +263,6 @@ type
     atkstate: integer;
     holdatkstate: integer;
     flashstate: integer;
-    ammopershot: integer; // MBF21
     intflags: integer; // MBF21
     mbf21bits: integer; // MBF21
   end;

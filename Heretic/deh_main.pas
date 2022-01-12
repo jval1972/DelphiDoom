@@ -1382,7 +1382,10 @@ begin
            6: weaponinfo_p[weapon_no].holdatkstate := weapon_val;
            5: weaponinfo_p[weapon_no].flashstate := weapon_val;
            8: begin
-                weaponinfo_p[weapon_no].ammopershot := weapon_val;  // MBF21
+                if weapon_level = 1 then
+                  WeaponAmmoUsePL1[weapon_no] := weapon_val
+                else
+                  WeaponAmmoUsePL2[weapon_no] := weapon_val;
                 weaponinfo_p[weapon_no].intflags := weaponinfo_p[weapon_no].intflags or WIF_ENABLEAPS;
               end;
            9: begin // MBF21
@@ -2144,6 +2147,11 @@ begin
       result.Add('%s = %d', [capitalizedstring(weapon_tokens[4]), weaponinfo_p[i].atkstate]);
       result.Add('%s = %d', [capitalizedstring(weapon_tokens[6]), weaponinfo_p[i].holdatkstate]);
       result.Add('%s = %d', [capitalizedstring(weapon_tokens[5]), weaponinfo_p[i].flashstate]);
+
+      if j = 1 then
+        result.Add('%s = %d', [capitalizedstring(weapon_tokens[8]), WeaponAmmoUsePL1[i]])
+      else
+        result.Add('%s = %d', [capitalizedstring(weapon_tokens[8]), WeaponAmmoUsePL2[i]]);
 
       // MBF
       str := '';

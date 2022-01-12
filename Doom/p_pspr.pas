@@ -267,7 +267,9 @@ begin
   ammo := weaponinfo[Ord(player.readyweapon)].ammo;
 
   // Minimal amount for one shot varies.
-  if player.readyweapon = wp_bfg then
+  if weaponinfo[Ord(player.readyweapon)].intflags and WIF_ENABLEAPS <> 0 then
+    count := weaponinfo[Ord(player.readyweapon)].ammopershot
+  else if player.readyweapon = wp_bfg then
     count := p_bfgcells
   else if player.readyweapon = wp_supershotgun then
     count := 2 // Double barrel.

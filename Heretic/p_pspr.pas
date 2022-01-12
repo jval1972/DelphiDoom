@@ -168,6 +168,45 @@ procedure P_ActivateBeak(player: Pplayer_t);
 
 function P_CheckAmmo(player: Pplayer_t): boolean;
 
+const
+  USE_GWND_AMMO_1 = 1;
+  USE_GWND_AMMO_2 = 1;
+  USE_CBOW_AMMO_1 = 1;
+  USE_CBOW_AMMO_2 = 1;
+  USE_BLSR_AMMO_1 = 1;
+  USE_BLSR_AMMO_2 = 5;
+  USE_SKRD_AMMO_1 = 1;
+  USE_SKRD_AMMO_2 = 5;
+  USE_PHRD_AMMO_1 = 1;
+  USE_PHRD_AMMO_2 = 1;
+  USE_MACE_AMMO_1 = 1;
+  USE_MACE_AMMO_2 = 5;
+
+var
+  WeaponAmmoUsePL1: array[0..Ord(NUMWEAPONS) - 1] of integer = (
+    0,          // staff
+    USE_GWND_AMMO_1,  // gold wand
+    USE_CBOW_AMMO_1,  // crossbow
+    USE_BLSR_AMMO_1,  // blaster
+    USE_SKRD_AMMO_1,  // skull rod
+    USE_PHRD_AMMO_1,  // phoenix rod
+    USE_MACE_AMMO_1,  // mace
+    0,          // gauntlets
+    0          // beak
+  );
+
+  WeaponAmmoUsePL2: array[0..Ord(NUMWEAPONS) - 1] of integer = (
+    0,          // staff
+    USE_GWND_AMMO_2,  // gold wand
+    USE_CBOW_AMMO_2,  // crossbow
+    USE_BLSR_AMMO_2,  // blaster
+    USE_SKRD_AMMO_2,  // skull rod
+    USE_PHRD_AMMO_2,  // phoenix rod
+    USE_MACE_AMMO_2,  // mace
+    0,          // gauntlets
+    0          // beak
+  );
+
 implementation
 
 uses
@@ -232,31 +271,6 @@ type
 
 var
   MaceSpots: array[0..MAX_MACE_SPOTS - 1] of macespot_t;
-
-const
-  WeaponAmmoUsePL1: array[0..Ord(NUMWEAPONS) - 1] of integer = (
-    0,          // staff
-    USE_GWND_AMMO_1,  // gold wand
-    USE_CBOW_AMMO_1,  // crossbow
-    USE_BLSR_AMMO_1,  // blaster
-    USE_SKRD_AMMO_1,  // skull rod
-    USE_PHRD_AMMO_1,  // phoenix rod
-    USE_MACE_AMMO_1,  // mace
-    0,          // gauntlets
-    0          // beak
-  );
-
-  WeaponAmmoUsePL2: array[0..Ord(NUMWEAPONS) - 1] of integer = (
-    0,          // staff
-    USE_GWND_AMMO_2,  // gold wand
-    USE_CBOW_AMMO_2,  // crossbow
-    USE_BLSR_AMMO_2,  // blaster
-    USE_SKRD_AMMO_2,  // skull rod
-    USE_PHRD_AMMO_2,  // phoenix rod
-    USE_MACE_AMMO_2,  // mace
-    0,          // gauntlets
-    0          // beak
-  );
 
 //---------------------------------------------------------------------------
 //

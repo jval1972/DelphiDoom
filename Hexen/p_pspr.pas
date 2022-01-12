@@ -190,6 +190,14 @@ procedure P_MovePsprites(player: Pplayer_t);
 
 function P_CheckAmmo(player: Pplayer_t): boolean;
 
+var
+  WeaponManaUse: array[0..Ord(NUMCLASSES) - 1, 0..Ord(NUMWEAPONS) - 1] of integer = (
+    (0, 2, 3, 14),
+    (0, 1, 4, 18),
+    (0, 3, 5, 15),
+    (0, 0, 0, 0 )
+  );
+
 implementation
 
 uses
@@ -246,14 +254,6 @@ const
 const
   LOWERSPEED = 6 * FRACUNIT;
   RAISESPEED = 6 * FRACUNIT;
-
-const
-  WeaponManaUse: array[0..Ord(NUMCLASSES) - 1, 0..Ord(NUMWEAPONS) - 1] of integer = (
-    (0, 2, 3, 14),
-    (0, 1, 4, 18),
-    (0, 3, 5, 15),
-    (0, 0, 0, 0 )
-  );
 
 //---------------------------------------------------------------------------
 //

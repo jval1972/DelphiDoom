@@ -270,7 +270,9 @@ begin
   ammo := weaponinfo[Ord(player.readyweapon)].ammo;
 
   // Minimal amount for one shot varies.
-  if player.readyweapon = wp_torpedo then
+  if weaponinfo[Ord(player.readyweapon)].intflags and WIF_ENABLEAPS <> 0 then
+    count := weaponinfo[Ord(player.readyweapon)].ammopershot
+  else if player.readyweapon = wp_torpedo then
     count := 30
   else if player.readyweapon = wp_mauler then
     count := 20

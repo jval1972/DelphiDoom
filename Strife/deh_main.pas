@@ -2019,6 +2019,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[4]), weaponinfo[i].atkstate]);
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[6]), weaponinfo[i].holdatkstate]);
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[5]), weaponinfo[i].flashstate]);
+    result.Add('%s = %d', [capitalizedstring(weapon_tokens[7]), weaponinfo[i].ammopershot]);
 
     // MBF
     str := '';

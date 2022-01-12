@@ -138,20 +138,6 @@ const
   PT_EARLYOUT = 4;
 
 const
-  USE_GWND_AMMO_1 = 1;
-  USE_GWND_AMMO_2 = 1;
-  USE_CBOW_AMMO_1 = 1;
-  USE_CBOW_AMMO_2 = 1;
-  USE_BLSR_AMMO_1 = 1;
-  USE_BLSR_AMMO_2 = 5;
-  USE_SKRD_AMMO_1 = 1;
-  USE_SKRD_AMMO_2 = 5;
-  USE_PHRD_AMMO_1 = 1;
-  USE_PHRD_AMMO_2 = 1;
-  USE_MACE_AMMO_1 = 1;
-  USE_MACE_AMMO_2 = 5;
-
-const
   FOOTCLIPSIZE = 10 * FRACUNIT;
 
 function MapBlockInt(const x: integer): integer;
