@@ -7723,18 +7723,21 @@ begin
       result := true;
       exit;
     end
-    else if state.params.Count >= deh_action.argcount then
+    else if state.argsdefined <> 0 then
     begin
-      I_Warning('P_CheckStateArgs(): Action has more than %d parameters in state "%d"'#13#10, [state.params.Count, (Integer(state) - Integer(states)) div SizeOf(state_t)]);
-      state.flags_ex := state.flags_ex or MF_EX_STATE_ARGS_ERROR;
-      result := false;
-      exit;
-    end
-    else
-    begin
-      I_Warning('P_CheckStateArgs(): Action has less than %d parameters in state "%d"'#13#10, [state.params.Count, (Integer(state) - Integer(states)) div SizeOf(state_t)]);
-      result := true;
-      exit;
+      if state.params.Count >= deh_action.argcount then
+      begin
+        I_Warning('P_CheckStateArgs(): Action has %d parameters, i.e. more than %d parameters in state "%d"'#13#10, [state.params.Count, deh_action.argcount, (Integer(state) - Integer(states)) div SizeOf(state_t)]);
+        state.flags_ex := state.flags_ex or MF_EX_STATE_ARGS_ERROR;
+        result := false;
+        exit;
+      end
+      else
+      begin
+        I_Warning('P_CheckStateArgs(): Action has %d parameters, i.e. less than %d parameters in state "%d"'#13#10, [state.params.Count, deh_action.argcount, (Integer(state) - Integer(states)) div SizeOf(state_t)]);
+        result := true;
+        exit;
+      end;
     end;
   end;
 
