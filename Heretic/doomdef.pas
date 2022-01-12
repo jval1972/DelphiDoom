@@ -151,6 +151,12 @@ const
   MTF_DONOTTRIGGERSCRIPTS = 64;
   MTF_FRIEND = 128; // JVAL: version 207
 
+//
+// mbf21: Internal weapon flags
+//
+const
+  WIF_ENABLEAPS = 1;  // [XA] enable "ammo per shot" field for native Doom weapon codepointers
+
 const
   // no flag
   WPF_NOFLAG = 0;
@@ -228,6 +234,7 @@ type
     holdatkstate: integer;
     flashstate: integer;
     ammopershot: integer; // MBF21
+    intflags: integer; // MBF21
     mbf21bits: integer; // MBF21
   end;
   Pweaponinfo_t = ^weaponinfo_t;

@@ -37,6 +37,12 @@ uses
   doomdef,
   info_h;
 
+//
+// mbf21: Internal weapon flags
+//
+const
+  WIF_ENABLEAPS = 1;  // [XA] enable "ammo per shot" field for native Doom weapon codepointers
+
 const
   // no flag
   WPF_NOFLAG = 0;
@@ -64,6 +70,7 @@ type
     holdatkstate: integer;
     flashstate: integer;
     ammopershot: integer; // MBF21
+    intflags: integer; // MBF21
     mbf21bits: integer; // MBF21
   end;
   Pweaponinfo_t = ^weaponinfo_t;
@@ -86,39 +93,75 @@ var
   // fist
     (ammo: am_noammo;            upstate: Ord(S_PUNCHUP);   downstate: Ord(S_PUNCHDOWN);
      readystate: Ord(S_PUNCH);   atkstate: Ord(S_PUNCH1);   holdatkstate: Ord(S_NULL);
-     flashstate: Ord(S_NULL)),
+     flashstate: Ord(S_NULL);
+     ammopershot: 1; // MBF21
+     intflags: 0; // MBF21
+     mbf21bits: WPF_FLEEMELEE or WPF_AUTOSWITCHFROM or WPF_NOAUTOSWITCHTO; // MBF21
+    ),
   // pistol
     (ammo: am_clip;              upstate: Ord(S_PISTOLUP);  downstate: Ord(S_PISTOLDOWN);
      readystate: Ord(S_PISTOL);  atkstate: Ord(S_PISTOL1);  holdatkstate: Ord(S_NULL);
-     flashstate: Ord(S_PISTOLFLASH)),
+     flashstate: Ord(S_PISTOLFLASH);
+     ammopershot: 1; // MBF21
+     intflags: 0; // MBF21
+     mbf21bits: WPF_AUTOSWITCHFROM; // MBF21
+    ),
   // shotgun
     (ammo: am_shell;             upstate: Ord(S_SGUNUP);    downstate: Ord(S_SGUNDOWN);
      readystate: Ord(S_SGUN);    atkstate: Ord(S_SGUN1);    holdatkstate: Ord(S_NULL);
-     flashstate: Ord(S_SGUNFLASH1)),
+     flashstate: Ord(S_SGUNFLASH1);
+     ammopershot: 1; // MBF21
+     intflags: 0; // MBF21
+     mbf21bits: WPF_NOFLAG; // MBF21
+    ),
   // chaingun
     (ammo: am_clip;              upstate: Ord(S_CHAINUP);   downstate: Ord(S_CHAINDOWN);
      readystate: Ord(S_CHAIN);   atkstate: Ord(S_CHAIN1);   holdatkstate: Ord(S_NULL);
-     flashstate: Ord(S_CHAINFLASH1)),
+     flashstate: Ord(S_CHAINFLASH1);
+     ammopershot: 1; // MBF21
+     intflags: 0; // MBF21
+     mbf21bits: WPF_NOFLAG; // MBF21
+    ),
   // missile launcher
     (ammo: am_misl;              upstate: Ord(S_MISSILEUP); downstate: Ord(S_MISSILEDOWN);
      readystate: Ord(S_MISSILE); atkstate: Ord(S_MISSILE1); holdatkstate: Ord(S_NULL);
-     flashstate: Ord(S_MISSILEFLASH1)),
+     flashstate: Ord(S_MISSILEFLASH1);
+     ammopershot: 1; // MBF21
+     intflags: 0; // MBF21
+     mbf21bits: WPF_NOAUTOFIRE; // MBF21
+    ),
   // plasma rifle
      (ammo: am_cell;             upstate: Ord(S_PLASMAUP);  downstate: Ord(S_PLASMADOWN);
       readystate: Ord(S_PLASMA); atkstate: Ord(S_PLASMA1);  holdatkstate: Ord(S_NULL);
-      flashstate: Ord(S_PLASMAFLASH1)),
+      flashstate: Ord(S_PLASMAFLASH1);
+      ammopershot: 1; // MBF21
+      intflags: 0; // MBF21
+      mbf21bits: WPF_NOFLAG; // MBF21
+     ),
   // bfg 9000
      (ammo: am_cell;             upstate: Ord(S_BFGUP);     downstate: Ord(S_BFGDOWN);
       readystate: Ord(S_BFG);    atkstate: Ord(S_BFG1);     holdatkstate: Ord(S_NULL);
-      flashstate: Ord(S_BFGFLASH1)),
+      flashstate: Ord(S_BFGFLASH1);
+      ammopershot: 40; // MBF21
+      intflags: 0; // MBF21
+      mbf21bits: WPF_NOAUTOFIRE; // MBF21
+     ),
   // chainsaw
      (ammo: am_noammo;           upstate: Ord(S_SAWUP);     downstate: Ord(S_SAWDOWN);
       readystate: Ord(S_SAW);    atkstate: Ord(S_SAW1);     holdatkstate: Ord(S_NULL);
-      flashstate: Ord(S_NULL)),
+      flashstate: Ord(S_NULL);
+      ammopershot: 1; // MBF21
+      intflags: 0; // MBF21
+      mbf21bits: WPF_NOTHRUST or WPF_FLEEMELEE or WPF_NOAUTOSWITCHTO; // MBF21
+     ),
   // super shotgun
      (ammo: am_shell;            upstate: Ord(S_DSGUNUP);   downstate: Ord(S_DSGUNDOWN);
       readystate: Ord(S_DSGUN);  atkstate: Ord(S_DSGUN1);   holdatkstate: Ord(S_NULL);
-      flashstate: Ord(S_DSGUNFLASH1))
+      flashstate: Ord(S_DSGUNFLASH1);
+      ammopershot: 2; // MBF21
+      intflags: 0; // MBF21
+      mbf21bits: WPF_NOFLAG; // MBF21
+     )
   );
 
 implementation

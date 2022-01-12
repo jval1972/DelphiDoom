@@ -44,6 +44,12 @@ uses
   doomdef,
   info_h;
 
+//
+// mbf21: Internal weapon flags
+//
+const
+  WIF_ENABLEAPS = 1;  // [XA] enable "ammo per shot" field for native Doom weapon codepointers
+  
 const
   // no flag
   WPF_NOFLAG = 0;
@@ -72,6 +78,7 @@ type
     flashstate: integer;
     availabledemo: boolean;    // villsa [STRIFE]
     ammopershot: integer; // MBF21
+    intflags: integer; // MBF21
     mbf21bits: integer; // MBF21
   end;
   Pweaponinfo_t = ^weaponinfo_t;
