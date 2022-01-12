@@ -771,6 +771,8 @@ function P_NearestPlayer(const mo: Pmobj_t): Pplayer_t;
 
 function P_CheckFlag(const mo: Pmobj_t; const aflag: string): boolean;
 
+function P_GetPlayerMeleeRange(const p: Pplayer_t): fixed_t;
+
 const
   xspeed: array[0..7] of fixed_t =
     (FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000, 0, 47000);
@@ -7217,6 +7219,20 @@ begin
   end;
 
   result := false;
+end;
+
+function P_GetPlayerMeleeRange(const p: Pplayer_t): fixed_t;
+begin
+  if G_NeedsCompatibilityMode then
+    result := {$IFDEF STRIFE}PLAYERMELEERANGE{$ELSE}MELEERANGE{$ENDIF}
+  else
+  begin
+    result := p.mo.info.meleerange;
+    if result = 0 then
+      result := {$IFDEF STRIFE}PLAYERMELEERANGE{$ELSE}MELEERANGE{$ENDIF}
+    else if result < FRACUNIT then
+      result := result * FRACUNIT;
+  end;
 end;
 
 procedure A_SetMonsterInfight(actor: Pmobj_t);

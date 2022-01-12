@@ -529,6 +529,7 @@ var
   damage: integer;
   slope: integer;
   stamina: integer;
+  mrange: integer;
 begin
   // villsa [STRIFE] new damage formula
   // haleyjd 09/19/10: seriously corrected...
@@ -540,8 +541,9 @@ begin
 
   angle := player.mo.angle;
   angle := angle + _SHLW(P_Random - P_Random, 18);
-  slope := P_AimLineAttack(player.mo, angle, PLAYERMELEERANGE);
-  P_LineAttack(player.mo, angle, PLAYERMELEERANGE, slope, damage);
+  mrange := P_GetPlayerMeleeRange(player);
+  slope := P_AimLineAttack(player.mo, angle, mrange);
+  P_LineAttack(player.mo, angle, mrange, slope, damage);
 
   // turn to face target
   if linetarget <> nil then

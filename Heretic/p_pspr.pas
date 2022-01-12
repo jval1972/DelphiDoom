@@ -729,12 +729,14 @@ var
   angle: angle_t;
   damage: integer;
   slope: integer;
+  mrange: integer;
 begin
   damage := 1 + (P_Random and 3);
   angle := player.mo.angle;
-  slope := P_AimLineAttack(player.mo, angle, MELEERANGE);
+  mrange := P_GetPlayerMeleeRange(player);
+  slope := P_AimLineAttack(player.mo, angle, mrange);
   PuffType := MT_BEAKPUFF;
-  P_LineAttack(player.mo, angle, MELEERANGE, slope, damage);
+  P_LineAttack(player.mo, angle, mrange, slope, damage);
   if linetarget <> nil then
   begin
     player.mo.angle := R_PointToAngle2(player.mo.x, player.mo.y, linetarget.x, linetarget.y);
@@ -755,12 +757,14 @@ var
   angle: angle_t;
   damage: integer;
   slope: integer;
+  mrange: integer;
 begin
   damage := HITDICE(4);
   angle := player.mo.angle;
-  slope := P_AimLineAttack(player.mo, angle, MELEERANGE);
+  mrange := P_GetPlayerMeleeRange(player);
+  slope := P_AimLineAttack(player.mo, angle, mrange);
   PuffType := MT_BEAKPUFF;
-  P_LineAttack(player.mo, angle, MELEERANGE, slope, damage);
+  P_LineAttack(player.mo, angle, mrange, slope, damage);
   if linetarget <> nil then
     player.mo.angle := R_PointToAngle2(player.mo.x,  player.mo.y, linetarget.x, linetarget.y);
   S_StartSound(player.mo, Ord(sfx_chicpk1) + (P_Random mod 3));
@@ -779,13 +783,15 @@ var
   angle: angle_t;
   damage: integer;
   slope: integer;
+  mrange: integer;
 begin
   damage := 5 + (P_Random and 15);
   angle := player.mo.angle;
   angle := angle + LongWord((P_Random - P_Random) * $40000);
-  slope := P_AimLineAttack(player.mo, angle, MELEERANGE);
+  mrange := P_GetPlayerMeleeRange(player);
+  slope := P_AimLineAttack(player.mo, angle, mrange);
   PuffType := MT_STAFFPUFF;
-  P_LineAttack(player.mo, angle, MELEERANGE, slope, damage);
+  P_LineAttack(player.mo, angle, mrange, slope, damage);
   if linetarget <> nil then
   begin
     //S_StartSound(player.mo, sfx_stfhit);
@@ -805,14 +811,16 @@ var
   angle: angle_t;
   damage: integer;
   slope: integer;
+  mrange: integer;
 begin
   // P_inter.c:P_DamageMobj handles target momentums
   damage := 18 + (P_Random and 63);
   angle := player.mo.angle;
   angle := angle + LongWord((P_Random - P_Random) * $40000);
-  slope := P_AimLineAttack(player.mo, angle, MELEERANGE);
+  mrange := P_GetPlayerMeleeRange(player);
+  slope := P_AimLineAttack(player.mo, angle, mrange);
   PuffType := MT_STAFFPUFF2;
-  P_LineAttack(player.mo, angle, MELEERANGE, slope, damage);
+  P_LineAttack(player.mo, angle, mrange, slope, damage);
   if linetarget <> nil then
   begin
     //S_StartSound(player.mo, sfx_stfpow);
@@ -1618,14 +1626,14 @@ begin
   if player.powers[Ord(pw_weaponlevel2)] <> 0 then
   begin
     damage := HITDICE(2);
-    dist := 4 * MELEERANGE;
+    dist := 4 * P_GetPlayerMeleeRange(player);
     angle := angle + LongWord((P_Random - P_Random) * $20000);
     PuffType := MT_GAUNTLETPUFF2;
   end
   else
   begin
     damage := HITDICE(2);
-    dist := MELEERANGE + 1;
+    dist := P_GetPlayerMeleeRange(player) + 1;
     angle := angle + LongWord((P_Random - P_Random) * $40000);
     PuffType := MT_GAUNTLETPUFF1;
   end;

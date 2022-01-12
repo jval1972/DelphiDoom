@@ -707,13 +707,15 @@ var
   angle: angle_t;
   damage: integer;
   slope: integer;
+  mrange: integer;
 begin
   damage := 3 + (P_Random and 3);
   angle := player.mo.angle;
-  slope := P_AimLineAttack(player.mo, angle, MELEERANGE);
+  mrange := P_GetPlayerMeleeRange(player);
+  slope := P_AimLineAttack(player.mo, angle, mrange);
   PuffType := MT_SNOUTPUFF;
   PuffSpawned := nil;
-  P_LineAttack(player.mo, angle, MELEERANGE, slope, damage);
+  P_LineAttack(player.mo, angle, mrange, slope, damage);
   S_StartSound(player.mo, Ord(SFX_PIG_ACTIVE1) + (P_Random and 1));
   if linetarget <> nil then
   begin
@@ -729,8 +731,13 @@ end;
 // A_FHammerAttack
 //
 
-const
-  HAMMER_RANGE = (MELEERANGE + MELEERANGE div 2);
+function HAMMER_RANGE(const p: Pplayer_t): fixed_t;
+var
+  mrange: integer;
+begin
+  mrange := P_GetPlayerMeleeRange(p);
+  result := (mrange + mrange div 2);
+end;
 
 procedure A_FHammerAttack(player: Pplayer_t; psp: Ppspdef_t);
 var
@@ -759,10 +766,10 @@ begin
   for i := 0 to 15 do
   begin
     angle := pmo.angle + d_an;
-    slope := P_AimLineAttack(pmo, angle, HAMMER_RANGE);
+    slope := P_AimLineAttack(pmo, angle, HAMMER_RANGE(player));
     if linetarget <> nil then
     begin
-      P_LineAttack(pmo, angle, HAMMER_RANGE, slope, damage);
+      P_LineAttack(pmo, angle, HAMMER_RANGE(player), slope, damage);
       P_AdjustPlayerAngle(pmo);
       if (linetarget.flags and MF_COUNTKILL <> 0) or (linetarget.player <> nil) then
       begin
@@ -773,10 +780,10 @@ begin
       exit;
     end;
     angle := pmo.angle - d_an;
-    slope := P_AimLineAttack(pmo, angle, HAMMER_RANGE);
+    slope := P_AimLineAttack(pmo, angle, HAMMER_RANGE(player));
     if linetarget <> nil then
     begin
-      P_LineAttack(pmo, angle, HAMMER_RANGE, slope, damage);
+      P_LineAttack(pmo, angle, HAMMER_RANGE(player), slope, damage);
       P_AdjustPlayerAngle(pmo);
       if (linetarget.flags and MF_COUNTKILL <> 0) or (linetarget.player <> nil) then
       begin
@@ -792,8 +799,8 @@ begin
   // didn't find any targets in meleerange, so set to throw out a hammer
   PuffSpawned := nil;
   angle := pmo.angle;
-  slope := P_AimLineAttack(pmo, angle, HAMMER_RANGE);
-  P_LineAttack(pmo, angle, HAMMER_RANGE, slope, damage);
+  slope := P_AimLineAttack(pmo, angle, HAMMER_RANGE(player));
+  P_LineAttack(pmo, angle, HAMMER_RANGE(player), slope, damage);
   if PuffSpawned <> nil then
   begin
     pmo.special1 := 0;
@@ -1259,6 +1266,7 @@ var
   power: fixed_t;
   i: integer;
   d_an: angle_t;
+  mrange: integer;
 
   procedure punchdone;
   begin
@@ -1276,10 +1284,11 @@ begin
   power := 2 * FRACUNIT;
   PuffType := MT_PUNCHPUFF;
   d_an := 0;
+  mrange := P_GetPlayerMeleeRange(player);
   for i := 0 to 15 do
   begin
     angle := pmo.angle + d_an;
-    slope := P_AimLineAttack(pmo, angle, 2 * MELEERANGE);
+    slope := P_AimLineAttack(pmo, angle, 2 * mrange);
     if linetarget <> nil then
     begin
       inc(player.mo.special1);
@@ -1289,7 +1298,7 @@ begin
         power := 6 * FRACUNIT;
         PuffType := MT_HAMMERPUFF;
       end;
-      P_LineAttack(pmo, angle, 2 * MELEERANGE, slope, damage);
+      P_LineAttack(pmo, angle, 2 * mrange, slope, damage);
       if (linetarget.flags and MF_COUNTKILL <> 0) or (linetarget.player <> nil) then
         P_ThrustMobj(linetarget, angle, power);
       P_AdjustPlayerAngle(pmo);
@@ -1297,7 +1306,7 @@ begin
       exit;
     end;
     angle := pmo.angle - d_an;
-    slope := P_AimLineAttack(pmo, angle, 2 * MELEERANGE);
+    slope := P_AimLineAttack(pmo, angle, 2 * mrange);
     if linetarget <> nil then
     begin
       inc(pmo.special1);
@@ -1307,7 +1316,7 @@ begin
         power := 6 * FRACUNIT;
         PuffType := MT_HAMMERPUFF;
       end;
-      P_LineAttack(pmo, angle, 2 * MELEERANGE, slope, damage);
+      P_LineAttack(pmo, angle, 2 * mrange, slope, damage);
       if (linetarget.flags and MF_COUNTKILL <> 0) or (linetarget.player <> nil) then
         P_ThrustMobj(linetarget, angle, power);
       P_AdjustPlayerAngle(pmo);
@@ -1320,8 +1329,8 @@ begin
   pmo.special1 := 0;
 
   angle := pmo.angle;
-  slope := P_AimLineAttack(pmo, angle, MELEERANGE);
-  P_LineAttack(pmo, angle, MELEERANGE, slope, damage);
+  slope := P_AimLineAttack(pmo, angle, mrange);
+  P_LineAttack(pmo, angle, mrange, slope, damage);
 
   punchdone;
 end;
@@ -1330,8 +1339,13 @@ end;
 // A_FAxeAttack
 //
 
-const
-  AXERANGE = 10 * MELEERANGE div 4;
+function AXERANGE(const p: Pplayer_t): fixed_t;
+var
+  mrange: integer;
+begin
+  mrange := P_GetPlayerMeleeRange(p);
+  result := 10 * mrange div 4;
+end;
 
 procedure A_FAxeAttack(player: Pplayer_t; psp: Ppspdef_t);
 var
@@ -1343,6 +1357,7 @@ var
   slope: integer;
   i: integer;
   useMana: integer;
+  mrange: integer;
 
   procedure axedone;
   begin
@@ -1375,10 +1390,10 @@ begin
   for i := 0 to 15 do
   begin
     angle := pmo.angle + d_an;
-    slope := P_AimLineAttack(pmo, angle, AXERANGE);
+    slope := P_AimLineAttack(pmo, angle, AXERANGE(player));
     if linetarget <> nil then
     begin
-      P_LineAttack(pmo, angle, AXERANGE, slope, damage);
+      P_LineAttack(pmo, angle, AXERANGE(player), slope, damage);
       if (linetarget.flags and MF_COUNTKILL <> 0) or (linetarget.player <> nil) then
         P_ThrustMobj(linetarget, angle, power);
       P_AdjustPlayerAngle(pmo);
@@ -1387,10 +1402,10 @@ begin
       exit;
     end;
     angle := pmo.angle - d_an;
-    slope := P_AimLineAttack(pmo, angle, AXERANGE);
+    slope := P_AimLineAttack(pmo, angle, AXERANGE(player));
     if linetarget <> nil then
     begin
-      P_LineAttack(pmo, angle, AXERANGE, slope, damage);
+      P_LineAttack(pmo, angle, AXERANGE(player), slope, damage);
       if linetarget.flags and MF_COUNTKILL <> 0 then
         P_ThrustMobj(linetarget, angle, power);
       P_AdjustPlayerAngle(pmo);
@@ -1404,8 +1419,9 @@ begin
   pmo.special1 := 0;
 
   angle := pmo.angle;
-  slope := P_AimLineAttack(pmo, angle, MELEERANGE);
-  P_LineAttack(pmo, angle, MELEERANGE, slope, damage);
+  mrange := P_GetPlayerMeleeRange(player);
+  slope := P_AimLineAttack(pmo, angle, mrange);
+  P_LineAttack(pmo, angle, mrange, slope, damage);
 
   axedone;
 end;
@@ -1421,25 +1437,27 @@ var
   damage: integer;
   slope: integer;
   i: integer;
+  mrange: integer;
 begin
   damage := 25 + (P_Random and 15);
   PuffType := MT_HAMMERPUFF;
   d_an := 0;
+  mrange := P_GetPlayerMeleeRange(player);
   for i := 0 to 15 do
   begin
     angle := player.mo.angle + d_an;
-    slope := P_AimLineAttack(player.mo, angle, 2 * MELEERANGE);
+    slope := P_AimLineAttack(player.mo, angle, 2 * mrange);
     if linetarget <> nil then
     begin
-      P_LineAttack(player.mo, angle, 2 * MELEERANGE, slope, damage);
+      P_LineAttack(player.mo, angle, 2 * mrange, slope, damage);
       P_AdjustPlayerAngle(player.mo);
       exit;
     end;
     angle := player.mo.angle - d_an;
-    slope := P_AimLineAttack(player.mo, angle, 2 * MELEERANGE);
+    slope := P_AimLineAttack(player.mo, angle, 2 * mrange);
     if linetarget <> nil then
     begin
-      P_LineAttack(player.mo, angle, 2 * MELEERANGE, slope, damage);
+      P_LineAttack(player.mo, angle, 2 * mrange, slope, damage);
       P_AdjustPlayerAngle(player.mo);
       exit;
     end;
@@ -1449,8 +1467,8 @@ begin
   player.mo.special1 := 0;
 
   angle := player.mo.angle;
-  slope := P_AimLineAttack(player.mo, angle, MELEERANGE);
-  P_LineAttack(player.mo, angle, MELEERANGE, slope, damage);
+  slope := P_AimLineAttack(player.mo, angle, mrange);
+  P_LineAttack(player.mo, angle, mrange, slope, damage);
 end;
 
 //
@@ -1466,18 +1484,20 @@ var
   d_an: angle_t;
   slope: integer;
   i: integer;
+  mrange: integer;
 begin
   pmo := player.mo;
   damage := 20 + (P_Random and 15);
   PuffType := MT_CSTAFFPUFF;
   d_an := 0;
+  mrange := 3 * P_GetPlayerMeleeRange(player) div 2;
   for i := 0 to 2 do
   begin
     angle := pmo.angle + d_an;
-    slope := P_AimLineAttack(pmo, angle, 3 * MELEERANGE div 2);
+    slope := P_AimLineAttack(pmo, angle, mrange);
     if linetarget <> nil then
     begin
-      P_LineAttack(pmo, angle, 3 * MELEERANGE div 2, slope, damage);
+      P_LineAttack(pmo, angle, mrange, slope, damage);
       pmo.angle := R_PointToAngle2(pmo.x, pmo.y, linetarget.x, linetarget.y);
       if ((linetarget.player <> nil) or (linetarget.flags and MF_COUNTKILL <> 0)) and
          (linetarget.flags2 and (MF2_DORMANT + MF2_INVULNERABLE) = 0) then
@@ -1493,10 +1513,10 @@ begin
       break;
     end;
     angle := pmo.angle - d_an;
-    slope := P_AimLineAttack(player.mo, angle, 3 * MELEERANGE div 2);
+    slope := P_AimLineAttack(player.mo, angle, mrange);
     if linetarget <> nil then
     begin
-      P_LineAttack(pmo, angle, 3 * MELEERANGE div 2, slope, damage);
+      P_LineAttack(pmo, angle, mrange, slope, damage);
       pmo.angle := R_PointToAngle2(pmo.x, pmo.y, linetarget.x, linetarget.y);
       if (linetarget.player <> nil) or (linetarget.flags and MF_COUNTKILL <> 0) then
       begin
@@ -2076,6 +2096,7 @@ var
   i: integer;
   pmo, mo: Pmobj_t;
   conedone: boolean;
+  mrange: integer;
 begin
   conedone := false;
   pmo := player.mo;
@@ -2084,9 +2105,10 @@ begin
 
   damage := 90 + (P_Random and 15);
   angle := pmo.angle;
+  mrange := P_GetPlayerMeleeRange(player);
   for i := 0 to 15 do
   begin
-    P_AimLineAttack(pmo, angle, MELEERANGE);
+    P_AimLineAttack(pmo, angle, mrange);
     if linetarget <> nil then
     begin
       pmo.flags2 := pmo.flags2 or MF2_ICEDAMAGE;

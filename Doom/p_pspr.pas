@@ -509,7 +509,6 @@ end;
 // WEAPON ATTACKS
 //
 
-
 //
 // A_Punch
 //
@@ -518,6 +517,7 @@ var
   angle: angle_t;
   damage: integer;
   slope: integer;
+  mrange: integer;
 begin
   damage := (P_Random mod 10 + 1) * 2;
 
@@ -526,8 +526,9 @@ begin
 
   angle := player.mo.angle;
   angle := angle + _SHLW(P_Random - P_Random, 18);
-  slope := P_AimLineAttack(player.mo, angle, MELEERANGE);
-  P_LineAttack(player.mo, angle, MELEERANGE, slope, damage);
+  mrange := P_GetPlayerMeleeRange(player);
+  slope := P_AimLineAttack(player.mo, angle, mrange);
+  P_LineAttack(player.mo, angle, mrange, slope, damage);
 
   // turn to face target
   if linetarget <> nil then
@@ -546,14 +547,16 @@ var
   angle: angle_t;
   damage: integer;
   slope: integer;
+  mrange: integer;
 begin
   damage := 2 * (P_Random mod 10 + 1);
   angle := player.mo.angle;
   angle := angle + _SHLW(P_Random - P_Random, 18);
 
   // use meleerange + 1 so that the puff doesn't skip the flash
-  slope := P_AimLineAttack(player.mo, angle, MELEERANGE + 1);
-  P_LineAttack(player.mo, angle, MELEERANGE + 1, slope, damage);
+  mrange := P_GetPlayerMeleeRange(player);
+  slope := P_AimLineAttack(player.mo, angle, mrange + 1);
+  P_LineAttack(player.mo, angle, mrange + 1, slope, damage);
 
   if linetarget = nil then
   begin

@@ -166,6 +166,7 @@ Added A_CheckAmmo() ACTORDEF function (mbf21).
 Added A_RefireTo() ACTORDEF function (mbf21).
 Added A_GunFlashTo() ACTORDEF function (mbf21).
 Export ammo tokens in DEHACKED.
+Use player mobjinfo meleerange field to determine player's melee range.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
