@@ -51,7 +51,7 @@ uses
   p_common,
   r_defs,
   s_sound,
-  sounds,
+  sounddata,
   v_data,
   v_video,
   w_pak,

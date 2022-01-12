@@ -89,7 +89,7 @@ uses
   w_wad,
   z_zone,
 // Data
-  sounds,
+  sounddata,
 // State
   doomstat;
 

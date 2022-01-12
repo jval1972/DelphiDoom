@@ -173,7 +173,7 @@ uses
   p_map,
   p_inter,
   tables,
-  sounds,
+  sounddata,
   s_sound,
   doomdef;
 

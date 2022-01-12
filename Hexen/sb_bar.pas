@@ -109,7 +109,7 @@ uses
 {$ENDIF}
   r_main,
   s_sound,
-  sounds,
+  sounddata,
   v_data,
   v_video,
   w_wad,

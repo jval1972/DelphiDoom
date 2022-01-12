@@ -68,7 +68,7 @@ uses
   r_data,
   r_sky,
   s_sound,
-  sounds,
+  sounddata,
   sc_engine,
   doomdef,
   w_wad,

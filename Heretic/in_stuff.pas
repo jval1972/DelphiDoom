@@ -64,7 +64,7 @@ uses
   r_defs,
   sb_bar,
   s_sound,
-  sounds,
+  sounddata,
   v_data,
   v_video,
   w_wad,

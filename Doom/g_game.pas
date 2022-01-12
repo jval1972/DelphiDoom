@@ -320,7 +320,7 @@ uses
 // Data.
   dstrings,
   d_englsh,
-  sounds,
+  sounddata,
   r_data,
 // SKY handling - still the wrong place.
   r_sky,

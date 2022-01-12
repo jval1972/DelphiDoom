@@ -160,6 +160,7 @@ uses
   p_local,
   p_maputl,
   r_defs,
+  sounddata,
   sounds,
   s_externalmusic,
   z_zone,

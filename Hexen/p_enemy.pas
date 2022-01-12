@@ -424,7 +424,7 @@ uses
   r_defs,
   r_main,
   s_sound,
-  sounds,
+  sounddata,
   sb_bar;
 
 const

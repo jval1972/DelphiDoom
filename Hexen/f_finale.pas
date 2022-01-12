@@ -71,7 +71,7 @@ uses
   hu_stuff,
   p_inter,
   s_sound,
-  sounds,
+  sounddata,
   v_data,
   v_video,
   doomdef,

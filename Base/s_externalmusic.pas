@@ -35,7 +35,7 @@ interface
 
 uses
   d_delphi,
-  sounds;
+  sounddata;
 
 type
   TExternalMusicInfo = class

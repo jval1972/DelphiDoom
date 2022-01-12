@@ -165,6 +165,7 @@ uses
   p_local,
   p_maputl,
   r_defs,
+  sounddata,
   sounds,
   s_externalmusic,
   s_sndseq,

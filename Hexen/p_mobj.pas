@@ -183,7 +183,7 @@ uses
   r_data,
   hu_stuff,
   s_sound,
-  sounds,
+  sounddata,
   s_sndseq,
   sb_bar,
   info,

@@ -54,7 +54,7 @@ uses
   p_gender,
   p_spec,
   r_renderstyle,
-  sounds;
+  sounddata;
 
 function _state_name_Ord(const x: Integer): string;
 begin

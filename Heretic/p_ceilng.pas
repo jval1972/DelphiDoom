@@ -44,7 +44,7 @@ uses
 // State.
   doomstat,
 // Data.
-  sounds;
+  sounddata;
 
 var
   activeceilings: array[0..MAXCEILINGS - 1] of Pceiling_t;

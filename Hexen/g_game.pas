@@ -302,7 +302,7 @@ uses
   s_sound,
 // Data.
   xn_strings,
-  sounds,
+  sounddata,
 // SKY handling - still the wrong place.
   r_data,
   r_sky,

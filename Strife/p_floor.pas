@@ -47,7 +47,7 @@ uses
   m_fixed,
   r_defs,
   s_sound,
-  sounds;
+  sounddata;
 
 //
 // FLOORS

@@ -244,7 +244,7 @@ uses
   doomdata,
   s_sound,
   d_player,
-  sounds,
+  sounddata,
   d_think,
   d_main,
   doomdef,

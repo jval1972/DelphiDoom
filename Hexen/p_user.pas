@@ -143,7 +143,7 @@ uses
   v_data,
   v_video,
   s_sound,
-  sounds,
+  sounddata,
   xn_strings,
   z_zone;
 

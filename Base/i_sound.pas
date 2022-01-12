@@ -34,7 +34,7 @@ unit i_sound;
 interface
 
 uses
-  sounds;
+  sounddata;
 
 // Init at program start...
 procedure I_InitSound;

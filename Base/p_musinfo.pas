@@ -62,6 +62,7 @@ uses
   p_params,
   p_setup,
   p_levelinfo,
+  sounddata,
   sounds,
   s_sound,
   sc_engine,

@@ -55,7 +55,7 @@ uses
   d_delphi,
   g_game,
   p_setup,
-  sounds,
+  sounddata,
   s_sound,
   z_zone;
 

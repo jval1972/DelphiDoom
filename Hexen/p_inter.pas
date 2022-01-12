@@ -37,7 +37,7 @@ interface
 uses
   doomdef,
   xn_strings,
-  sounds,
+  sounddata,
   doomstat,
   m_fixed,
   i_system,

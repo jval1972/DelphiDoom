@@ -60,7 +60,7 @@ uses
   v_data,
   v_video,
   s_sound,
-  sounds,
+  sounddata,
   s_sndseq,
   doomdef,
   w_wad,

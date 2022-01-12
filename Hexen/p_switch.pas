@@ -62,7 +62,7 @@ uses
   s_sound,
   r_data,
 // Data
-  sounds,
+  sounddata,
 // State
   doomstat;
 

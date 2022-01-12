@@ -85,7 +85,7 @@ uses
   s_sound,
 // Data.
   h_strings,
-  sounds,
+  sounddata,
   doomdef,
   doomstat,
   hu_stuff;

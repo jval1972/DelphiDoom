@@ -45,7 +45,7 @@ uses
 // State.
   doomstat,
 // Data.
-  sounds;
+  sounddata;
 
 procedure T_VerticalDoor(door: Pvldoor_t);
 

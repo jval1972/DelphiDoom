@@ -116,7 +116,7 @@ uses
   g_game,
   i_system,
   m_rnd,
-  sounds,
+  sounddata,
   s_sound,
   sc_engine,
   w_wad,

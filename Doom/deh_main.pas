@@ -149,6 +149,7 @@ uses
   psi_overlay,
   r_renderstyle,
   st_stuff,
+  sounddata,
   sounds,
   sc_params,
   sc_engine,

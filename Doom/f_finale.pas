@@ -100,7 +100,7 @@ uses
 // Data.
   dstrings,
   d_englsh,
-  sounds,
+  sounddata,
   doomdef,
   doomstat,
   hu_stuff;

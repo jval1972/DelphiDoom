@@ -101,6 +101,7 @@ uses
   p_dialog,
   r_main,
   r_defs,
+  sounddata,
   sounds,
   s_sound,
   doomdef,

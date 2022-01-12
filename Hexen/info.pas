@@ -116,7 +116,7 @@ uses
   info_common,
   info_export,
   r_renderstyle,
-  sounds;
+  sounddata;
 
 const
   DO_states: array[0..Ord(DO_NUMSTATES) - 1] of state_t = (

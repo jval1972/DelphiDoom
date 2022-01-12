@@ -416,7 +416,7 @@ uses
   sb_bar,
   s_sound,
   s_sndseq,
-  sounds;
+  sounddata;
 
 
 procedure P_InitLava;

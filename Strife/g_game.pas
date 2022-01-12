@@ -324,7 +324,7 @@ uses
 // Data.
   dstrings,
   d_englsh,
-  sounds,
+  sounddata,
 // SKY handling - still the wrong place.
   r_data,
   r_sky,

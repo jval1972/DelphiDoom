@@ -217,7 +217,7 @@ uses
   hu_stuff,
   sc_actordef,
   s_sound,
-  sounds,
+  sounddata,
   w_wad,
   z_zone;
 

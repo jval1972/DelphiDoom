@@ -82,6 +82,9 @@ uses
   info_common,
   r_renderstyle,
   rtl_types,
+  {$IFDEF HEXEN}
+  sounddata,
+  {$ENDIF}
   sounds,
   sc_consts,
   sc_engine,

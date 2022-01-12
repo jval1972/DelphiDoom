@@ -76,7 +76,7 @@ uses
   p_user,
   r_main,
   s_sound,
-  sounds,
+  sounddata,
   tables;
 
 //

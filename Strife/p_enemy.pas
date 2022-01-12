@@ -48,7 +48,7 @@ uses
   p_mobj_h,
   s_sound,
   d_player,
-  sounds;
+  sounddata;
 
 procedure A_Fall(actor: Pmobj_t);
 

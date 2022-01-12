@@ -126,7 +126,7 @@ uses
   w_wad,
   s_sound,
 // Data.
-  sounds,
+  sounddata,
   doomdef,
   doomstat,
   hu_stuff;

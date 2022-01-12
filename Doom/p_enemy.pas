@@ -45,7 +45,7 @@ uses
 // State.
   doomstat,
 // Data.
-  sounds;
+  sounddata;
 
 procedure A_Fall(actor: Pmobj_t);
 

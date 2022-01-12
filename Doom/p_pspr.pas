@@ -137,7 +137,7 @@ uses
 // State.
   doomstat,
 // Data.
-  sounds;
+  sounddata;
 
 //
 // Adjust weapon bottom and top

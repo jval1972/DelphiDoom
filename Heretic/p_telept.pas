@@ -66,7 +66,7 @@ uses
   p_mobj,
   p_map,
   s_sound,
-  sounds;
+  sounddata;
 
 function EV_Teleport(line: Pline_t; side: integer; thing: Pmobj_t): boolean;
 var

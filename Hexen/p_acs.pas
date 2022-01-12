@@ -141,6 +141,7 @@ uses
   po_man,
   r_data,
   s_sound,
+  sounddata,
   sounds,
   s_sndseq,
   doomdef,

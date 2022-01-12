@@ -149,6 +149,7 @@ uses
   p_simpledialog,
   psi_overlay,
   r_renderstyle,
+  sounddata,
   sounds,
   sc_params,
   sc_engine,

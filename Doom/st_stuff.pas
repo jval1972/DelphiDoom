@@ -137,7 +137,7 @@ uses
 // Data.
   dstrings,
   d_englsh,
-  sounds,
+  sounddata,
 // for mapnames
   hu_stuff;
 

@@ -157,7 +157,7 @@ uses
   st_stuff,
   hu_stuff,
   s_sound,
-  sounds,
+  sounddata,
   info,
   info_rnd,
   info_common;

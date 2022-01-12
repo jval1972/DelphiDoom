@@ -297,7 +297,7 @@ uses
   p_setup,
   p_spec,
   p_tick,
-  sounds,
+  sounddata,
   s_sound,
   z_zone;
 

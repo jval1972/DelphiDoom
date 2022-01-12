@@ -55,7 +55,7 @@ uses
   r_defs,
 // State.
 // Data.
-  sounds;
+  sounddata;
 
 function P_TeleportMove(thing: Pmobj_t; x, y: fixed_t): boolean;
 

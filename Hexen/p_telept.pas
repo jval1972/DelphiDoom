@@ -61,7 +61,7 @@ uses
   p_mobj,
   p_local,
   s_sound,
-  sounds,
+  sounddata,
   doomdef;
 
 function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; useFog: boolean; floorz, ceilingz: fixed_t): boolean;

@@ -828,6 +828,7 @@ uses
   sc_tokens,
   sc_states,
   s_sound,
+  sounddata,
   sounds,
   m_rnd;
 

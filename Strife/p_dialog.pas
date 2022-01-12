@@ -163,7 +163,7 @@ uses
   r_defs,
   r_main,
   tables,
-  sounds,
+  sounddata,
   s_sound,
   v_data,
   v_video;

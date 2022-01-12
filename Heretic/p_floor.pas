@@ -43,7 +43,7 @@ uses
   r_defs,
   s_sound,
   doomstat,
-  sounds;
+  sounddata;
 
 //
 // FLOORS

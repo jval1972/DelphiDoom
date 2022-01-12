@@ -69,7 +69,7 @@ uses
   s_sound,
   r_defs,
   doomstat,
-  sounds,
+  sounddata,
   v_data,
   v_video;
 

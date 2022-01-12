@@ -395,7 +395,8 @@ uses
   p_simpledialog in 'Base\p_simpledialog.pas',
   s_pk3sounds in 'Base\s_pk3sounds.pas',
   p_playertrace in 'Base\p_playertrace.pas',
-  p_friends in 'Base\p_friends.pas';
+  p_friends in 'Base\p_friends.pas',
+  sounddata in 'Doom\sounddata.pas';
 
 var
   Saved8087CW: Word;

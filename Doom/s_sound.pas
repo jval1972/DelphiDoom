@@ -138,6 +138,7 @@ uses
   p_mobj,
   p_tick,
   r_defs,
+  sounddata,
   sounds,
   s_externalmusic,
   z_zone,

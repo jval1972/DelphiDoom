@@ -44,7 +44,7 @@ uses
   doomdef,
   dstrings,
   d_englsh,
-  sounds,
+  sounddata,
   doomstat,
   m_rnd,
   i_system,

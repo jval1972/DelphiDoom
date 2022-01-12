@@ -366,7 +366,7 @@ uses
   tables,
   s_sound,
 // Data.
-  sounds;
+  sounddata;
 
 //
 // Animating textures and planes

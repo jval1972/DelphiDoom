@@ -40,7 +40,7 @@ uses
   p_spec,
   r_defs,
   s_sound,
-  sounds,
+  sounddata,
   dstrings,
   d_englsh;
 

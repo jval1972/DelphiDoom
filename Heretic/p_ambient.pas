@@ -45,7 +45,7 @@ uses
   i_system,
   m_rnd,
   s_sound,
-  sounds;
+  sounddata;
 
 const
   MAX_AMBIENT_SFX = 8; // Per level

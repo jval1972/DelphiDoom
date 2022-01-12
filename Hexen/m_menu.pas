@@ -225,7 +225,7 @@ uses
   hu_stuff,
   sc_actordef,
   s_sound,
-  sounds,
+  sounddata,
   sb_bar,
   w_wad,
   sv_save,

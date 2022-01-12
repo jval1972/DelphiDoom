@@ -230,7 +230,7 @@ uses
 // State.
   doomstat,
 // Data.
-  sounds,
+  sounddata,
   v_data,
   v_video,
   z_zone;

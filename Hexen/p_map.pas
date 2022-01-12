@@ -50,7 +50,7 @@ uses
 // State.
   doomstat,
 // Data.
-  sounds;
+  sounddata;
 
 procedure P_CheckForPushSpecial(line: Pline_t; side: integer; mobj: Pmobj_t);
 

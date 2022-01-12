@@ -146,7 +146,7 @@ uses
   r_draw,
   r_main,
   s_sound,
-  sounds,
+  sounddata,
   v_data,
   v_video;
 

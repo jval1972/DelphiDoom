@@ -89,7 +89,7 @@ uses
   r_defs,
   doomstat,
   sb_bar,
-  sounds,
+  sounddata,
   s_sound;
 
 //

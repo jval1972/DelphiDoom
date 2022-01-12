@@ -45,7 +45,7 @@ uses
   p_spec,
   r_defs,
   s_sound,
-  sounds;
+  sounddata;
 
 var
   activeceilings: array[0..MAXCEILINGS - 1] of Pceiling_t;

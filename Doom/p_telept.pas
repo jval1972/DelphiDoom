@@ -70,7 +70,7 @@ uses
   p_user,
   r_main,
   s_sound,
-  sounds,
+  sounddata,
   tables;
 
 function EV_Teleport(line: Pline_t; side: integer; thing: Pmobj_t): integer;
