@@ -551,7 +551,7 @@ begin
   angle := player.mo.angle;
   angle := angle + _SHLW(P_Random - P_Random, 18);
 
-  // use meleerange + 1 se the puff doesn't skip the flash
+  // use meleerange + 1 so that the puff doesn't skip the flash
   slope := P_AimLineAttack(player.mo, angle, MELEERANGE + 1);
   P_LineAttack(player.mo, angle, MELEERANGE + 1, slope, damage);
 
