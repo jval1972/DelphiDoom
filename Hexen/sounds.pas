@@ -114,7 +114,7 @@ begin
   sfx.pitch := -1;
   sfx.data := nil;
   sfx.usefulness := 0;
-  sfx.lumpnum :=  -1; // JVAL: was = 0;
+  sfx.lumpnum := -1; // JVAL: was = 0;
   sfx.numchannels := 1;
   sfx.changePitch := false;
   sfx.randomsoundlist := nil;
