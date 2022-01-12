@@ -67,11 +67,11 @@ const
 // a weapon is found with two clip loads,
 // a big item has five clip loads
   maxammo: array[0..Ord(NUMAMMO) - 1] of integer = (
-    100, // gold wand
-     50, // crossbow
-    200, // blaster
-    200, // skull rod
-     20, // phoenix rod
+    100,  // gold wand
+     50,  // crossbow
+    200,  // blaster
+    200,  // skull rod
+     20,  // phoenix rod
     150   // mace
   );
 
@@ -105,7 +105,7 @@ const
     7,    // phoenixrod
     8,    // mace
     2,    // gauntlets
-    0    // beak
+    0     // beak
   );
 
 
