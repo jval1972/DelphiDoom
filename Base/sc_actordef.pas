@@ -2315,6 +2315,12 @@ begin
           sc.GetString;
         end
         {$ENDIF}
+        else if sc.MatchString('ammopershot') then
+        begin
+          sc.MustGetInteger;
+          wpn.ammopershot := sc._Integer;
+          sc.GetString;
+        end
         else if sc.MatchString('states') then
         begin
           foundstates := true;
@@ -3917,6 +3923,19 @@ begin
   {$ENDIF}
 
   AddLn('Ammo ' + decide(IsIntegerInRange(aid, 0, mxammo), strupper(GetENumName(TypeInfo({$IFDEF HEXEN}manatype_t{$ELSE}ammotype_t{$ENDIF}), Ord(aid))), itoa(aid)));
+
+  {$IFDEF DOOM_OR_STRIFE}
+  AddLn('AmmoPerShot ' + itoa(w.ammopershot));
+  {$ENDIF}
+  {$IFDEF HERETIC}
+  if lvl = 1 then
+    AddLn('AmmoPerShot ' + itoa(WeaponAmmoUsePL1[wid]))
+  else
+    AddLn('AmmoPerShot ' + itoa(WeaponAmmoUsePL2[wid]));
+  {$ENDIF}
+  {$IFDEF HEXEN}
+  AddLn('AmmoPerShot ' + itoa(WeaponManaUse[pcl, wid]));
+  {$ENDIF}
 
   // States
   AddLn('States');
