@@ -1381,7 +1381,10 @@ begin
            4: weaponinfo_p[weapon_no].atkstate := weapon_val;
            6: weaponinfo_p[weapon_no].holdatkstate := weapon_val;
            5: weaponinfo_p[weapon_no].flashstate := weapon_val;
-           8: weaponinfo_p[weapon_no].ammopershot := weapon_val;  // MBF21
+           8: begin
+                weaponinfo_p[weapon_no].ammopershot := weapon_val;  // MBF21
+                weaponinfo_p[weapon_no].intflags := weaponinfo_p[weapon_no].intflags or WIF_ENABLEAPS;
+              end;
            9: begin // MBF21
                 if itoa(weapon_val) = token2 then
                   weaponinfo_p[weapon_no].mbf21bits := weapon_val
