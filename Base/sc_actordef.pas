@@ -3874,6 +3874,14 @@ begin
   end;
   {$ENDIF}
 
+  {$IFDEF HEXEN}
+  if not IsIntegerInRange(pcl, 0, Ord(NUMCLASSES)) then
+  begin
+    result := '';
+    exit;
+  end;
+  {$ENDIF}
+
   ret := '';
   plevel := 0;
 
