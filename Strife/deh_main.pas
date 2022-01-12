@@ -2042,6 +2042,21 @@ begin
     result.Add('');
   end;
 
+  //////////////////////////////////////////////////////////////////////////////
+  // Add Ammo
+  //////////////////////////////////////////////////////////////////////////////
+  result.Add('');
+  result.Add('# Ammo');
+  result.Add('');
+  for i := 0 to Ord(NUMAMMO) - 1 do
+  begin
+    result.Add('Ammo %d', [i]);
+
+    result.Add('%s = %d', [capitalizedstring(ammo_tokens[0]), maxammo[i]]);
+    result.Add('%s = %d', [capitalizedstring(ammo_tokens[1]), clipammo[i]]);
+
+    result.Add('');
+  end;
 
   //////////////////////////////////////////////////////////////////////////////
   // Add Misc
