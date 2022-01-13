@@ -2755,7 +2755,7 @@ begin
 
     plr := thing.player;
     if plr <> nil then
-     if (plr.cheats and CF_GODMODE <> 0) then
+     if plr.cheats and CF_GODMODE <> 0 then
      begin
        result := true;
        exit;
