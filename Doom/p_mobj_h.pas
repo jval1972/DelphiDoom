@@ -457,6 +457,8 @@ const
   MF4_EX_NEVERFINISHSOUND = $4000000;
   // Do not gib
   MF4_EX_DONTGIB = $8000000;
+  // Recoil
+  MF4_EX_RECOIL = $10000000;
 
 type
 // Map Object definition.
