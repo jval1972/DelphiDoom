@@ -2507,7 +2507,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_CEILINGBOUNCE');
   mobj_flags3_ex.Add('MF3_EX_WALLBOUNCE');
   mobj_flags3_ex.Add('MF3_EX_NOMAXMOVE');
-  mobj_flags3_ex.Add('MF3_EX_NOCRASH');
+  mobj_flags3_ex.Add('MF3_EX_NOCRUSH');
   mobj_flags3_ex.Add('MF3_EX_BLOODIGNOREDAMAGE');
   // JVAL: VERSION 206
   mobj_flags3_ex.Add('MF3_EX_NORENDERINTERPOLATION');

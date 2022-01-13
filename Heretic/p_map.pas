@@ -2736,7 +2736,7 @@ begin
   end;
 
   // JVAL: 20200329 - New flag, can not be crashed by sector
-  if thing.flags3_ex and MF3_EX_NOCRASH <> 0 then
+  if thing.flags3_ex and MF3_EX_NOCRUSH <> 0 then
   begin
     result := true;
     exit;

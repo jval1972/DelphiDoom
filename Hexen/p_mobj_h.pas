@@ -399,7 +399,7 @@ const
   // No max move
   MF3_EX_NOMAXMOVE = 8;
   // No Crush
-  MF3_EX_NOCRASH = 16;
+  MF3_EX_NOCRUSH = 16;
   // No render interpolation
   MF3_EX_NORENDERINTERPOLATION = 32;
   // Line Activate (MBF)

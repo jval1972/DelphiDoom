@@ -344,7 +344,7 @@ const
   // No max move
   MF3_EX_NOMAXMOVE = 8;
   // No Crush
-  MF3_EX_NOCRASH = 16;
+  MF3_EX_NOCRUSH = 16;
   // Blood do not check damage
   MF3_EX_BLOODIGNOREDAMAGE = 32;
   // No render interpolation
