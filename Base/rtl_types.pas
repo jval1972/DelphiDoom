@@ -45,6 +45,7 @@ const
   RTL_ST_HEAL = 256;
   RTL_ST_CRASH = 512;
   RTL_ST_INTERACT = 1024;
+  RTL_ST_CRUSH = 2048;
 
 // Weapon states
 const
@@ -161,6 +162,7 @@ type
     splash_group: integer;
     mbf21bits: integer; // not actually flags, the bits will be converted to DelphiDoom flags
     ripsound: string;
+    crushstate: integer;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

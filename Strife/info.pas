@@ -15836,6 +15836,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -15913,6 +15914,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -15990,6 +15992,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -16067,6 +16070,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -16144,6 +16148,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -16221,6 +16226,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -17992,6 +17998,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -18069,6 +18076,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -18146,6 +18154,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -18223,6 +18232,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -18300,6 +18310,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -18377,6 +18388,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -18454,6 +18466,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -18531,6 +18544,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -18608,6 +18622,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -18762,6 +18777,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -18839,6 +18855,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -18916,6 +18933,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -18993,6 +19011,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -19070,6 +19089,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -19147,6 +19167,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -19224,6 +19245,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -19301,6 +19323,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -19378,6 +19401,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -19455,6 +19479,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -19532,6 +19557,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -19609,6 +19635,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -19686,6 +19713,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -19763,6 +19791,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -19840,6 +19869,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -19917,6 +19947,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -19994,6 +20025,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -20071,6 +20103,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -20148,6 +20181,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -20225,6 +20259,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -20302,6 +20337,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -20379,6 +20415,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -20456,6 +20493,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -20533,6 +20571,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -20610,6 +20649,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -20687,6 +20727,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -20764,6 +20805,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -20841,6 +20883,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -20918,6 +20961,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -20995,6 +21039,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -21072,6 +21117,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -21149,6 +21195,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -21226,6 +21273,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -21303,6 +21351,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -21380,6 +21429,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -21457,6 +21507,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -21534,6 +21585,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -21611,6 +21663,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -21688,6 +21741,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -21765,6 +21819,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -21842,6 +21897,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -21919,6 +21975,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -21996,6 +22053,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -22073,6 +22131,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -22150,6 +22209,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -22227,6 +22287,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -22304,6 +22365,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -22381,6 +22443,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -22458,6 +22521,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -22535,6 +22599,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -22612,6 +22677,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -22689,6 +22755,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -22766,6 +22833,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -22843,6 +22911,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -22920,6 +22989,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -22997,6 +23067,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -23074,6 +23145,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -23151,6 +23223,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -23228,6 +23301,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -23305,6 +23379,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -23382,6 +23457,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -23459,6 +23535,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -23536,6 +23613,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -23613,6 +23691,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -23690,6 +23769,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -23767,6 +23847,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -23844,6 +23925,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -23921,6 +24003,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -23998,6 +24081,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -24075,6 +24159,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -24152,6 +24237,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -24229,6 +24315,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -24306,6 +24393,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -24383,6 +24471,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -24460,6 +24549,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -24537,6 +24627,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -24614,6 +24705,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -24691,6 +24783,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -24768,6 +24861,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -24845,6 +24939,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -24922,6 +25017,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -24999,6 +25095,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -25076,6 +25173,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -25153,6 +25251,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -25230,6 +25329,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -25307,6 +25407,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -25384,6 +25485,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -25461,6 +25563,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -25538,6 +25641,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -25615,6 +25719,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -25692,6 +25797,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -25769,6 +25875,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -25846,6 +25953,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -25923,6 +26031,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -26000,6 +26109,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -26077,6 +26187,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -26154,6 +26265,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -26231,6 +26343,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -26308,6 +26421,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -26385,6 +26499,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -26462,6 +26577,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -26539,6 +26655,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -26616,6 +26733,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -26693,6 +26811,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -26770,6 +26889,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -26847,6 +26967,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -26924,6 +27045,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -27001,6 +27123,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -27078,6 +27201,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -27155,6 +27279,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -27232,6 +27357,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -27309,6 +27435,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -27386,6 +27513,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -27463,6 +27591,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -27540,6 +27669,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -27617,6 +27747,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -27694,6 +27825,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -27771,6 +27903,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -27848,6 +27981,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -27925,6 +28059,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -28002,6 +28137,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -28079,6 +28215,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -28156,6 +28293,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -28233,6 +28371,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -28310,6 +28449,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -28387,6 +28527,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -28464,6 +28605,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -28541,6 +28683,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -28618,6 +28761,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -28695,6 +28839,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -28772,6 +28917,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -28849,6 +28995,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -28926,6 +29073,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -29003,6 +29151,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -29080,6 +29229,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -29157,6 +29307,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -29234,6 +29385,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -29311,6 +29463,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -29388,6 +29541,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -29465,6 +29619,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -29542,6 +29697,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -29619,6 +29775,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -29696,6 +29853,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -29773,6 +29931,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -29850,6 +30009,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -29927,6 +30087,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -30004,6 +30165,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -30081,6 +30243,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -30158,6 +30321,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -30235,6 +30399,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -30312,6 +30477,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -30389,6 +30555,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -30466,6 +30633,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -30543,6 +30711,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -30620,6 +30789,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -30697,6 +30867,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -30774,6 +30945,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -30851,6 +31023,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -30928,6 +31101,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -31005,6 +31179,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -31082,6 +31257,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -31159,6 +31335,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -31236,6 +31413,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -31313,6 +31491,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -31390,6 +31569,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -31467,6 +31647,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -31544,6 +31725,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -31621,6 +31803,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -31698,6 +31881,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -31775,6 +31959,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -31852,6 +32037,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -31929,6 +32115,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -32006,6 +32193,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -32083,6 +32271,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -32160,6 +32349,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -32237,6 +32427,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -32314,6 +32505,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -32391,6 +32583,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -32468,6 +32661,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -32545,6 +32739,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -32622,6 +32817,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -32699,6 +32895,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -32776,6 +32973,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -32853,6 +33051,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -32930,6 +33129,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -33007,6 +33207,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -33084,6 +33285,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -33161,6 +33363,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -33238,6 +33441,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -33315,6 +33519,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -33392,6 +33597,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -33469,6 +33675,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -33546,6 +33753,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -33623,6 +33831,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -33700,6 +33909,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -33777,6 +33987,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -33854,6 +34065,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -33931,6 +34143,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -34008,6 +34221,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -34085,6 +34299,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -34162,6 +34377,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -34239,6 +34455,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -34316,6 +34533,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -34393,6 +34611,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -34470,6 +34689,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -34547,6 +34767,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -34624,6 +34845,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -34701,6 +34923,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -34778,6 +35001,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -34855,6 +35079,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -34932,6 +35157,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -35009,6 +35235,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -35086,6 +35313,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -35163,6 +35391,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -35240,6 +35469,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -35317,6 +35547,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -35394,6 +35625,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -35471,6 +35703,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -35548,6 +35781,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -35625,6 +35859,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -35702,6 +35937,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -35779,6 +36015,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -35856,6 +36093,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -35933,6 +36171,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -36010,6 +36249,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -36087,6 +36327,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -36164,6 +36405,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -36241,6 +36483,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -36318,6 +36561,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -36395,6 +36639,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -36472,6 +36717,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -36549,6 +36795,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -36626,6 +36873,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -36703,6 +36951,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -36780,6 +37029,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -36857,6 +37107,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -36934,6 +37185,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -37011,6 +37263,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -37088,6 +37341,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -37165,6 +37419,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -37242,6 +37497,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -37319,6 +37575,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -37396,6 +37653,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -37473,6 +37731,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -37550,6 +37809,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -37627,6 +37887,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -37704,6 +37965,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -37781,6 +38043,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -37858,6 +38121,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -37935,6 +38199,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -38012,6 +38277,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -38089,6 +38355,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -38166,6 +38433,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -38243,6 +38511,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -38320,6 +38589,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -38397,6 +38667,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -38474,6 +38745,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -38551,6 +38823,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -38628,6 +38901,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -38705,6 +38979,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -38782,6 +39057,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -38859,6 +39135,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -38936,6 +39213,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -39013,6 +39291,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -39090,6 +39369,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -39167,6 +39447,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -39244,6 +39525,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -39321,6 +39603,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -39398,6 +39681,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -39475,6 +39759,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -39552,6 +39837,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -39629,6 +39915,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -39706,6 +39993,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -39783,6 +40071,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -39860,6 +40149,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -39937,6 +40227,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -40014,6 +40305,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -40091,6 +40383,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -40168,6 +40461,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -40245,6 +40539,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -40322,6 +40617,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -40399,6 +40695,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -40476,6 +40773,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -40553,6 +40851,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -40630,6 +40929,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -40707,6 +41007,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -40784,6 +41085,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -40861,6 +41163,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -40938,6 +41241,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -41015,6 +41319,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -41092,6 +41397,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -41169,6 +41475,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -41246,6 +41553,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -41323,6 +41631,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -41400,6 +41709,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -41477,6 +41787,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -41554,6 +41865,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -41631,6 +41943,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -41708,6 +42021,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -41785,6 +42099,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -41862,6 +42177,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -41939,6 +42255,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -42016,6 +42333,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -42093,6 +42411,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -42170,6 +42489,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -42247,6 +42567,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -42324,6 +42645,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -42401,6 +42723,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -42478,6 +42801,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -42555,6 +42879,7 @@ const // Strife Original mobjinfo
     alpha: 40000;                                                               // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -42632,6 +42957,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -42709,6 +43035,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -42786,6 +43113,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -42863,6 +43191,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -42940,6 +43269,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -43017,6 +43347,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -43094,6 +43425,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
@@ -43171,6 +43503,7 @@ const // Strife Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
     missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed

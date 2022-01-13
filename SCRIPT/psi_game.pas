@@ -656,6 +656,8 @@ function PS_GetMobjInfoHealState(const typ: integer): integer;
 
 function PS_GetMobjInfoCrashState(const typ: integer): integer;
 
+function PS_GetMobjInfoCrushState(const typ: integer): integer;
+
 function PS_GetMobjInfoFloatSpeed(const typ: integer): integer;
 
 function PS_GetMobjInfoNormalSpeed(const typ: integer): integer;
@@ -6133,6 +6135,16 @@ begin
   Result := mobjinfo[typ].crashstate;
 end;
 
+function PS_GetMobjInfoCrushState(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := STATE_INVALID;
+    Exit;
+  end;
+  Result := mobjinfo[typ].crushstate;
+end;
+
 function PS_GetMobjInfoFloatSpeed(const typ: integer): integer;
 begin
   if (typ < 0) or (typ >= nummobjtypes) then
@@ -6595,6 +6607,11 @@ end;
 procedure TRTLMobjInfoItemCrashState_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoCrashState(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemCrushState_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoCrushState(Integer(Self) - 1);
 end;
 
 procedure TRTLMobjInfoItemFloatSpeed_R(Self: TRTLMobjInfoItem; var T: integer);
@@ -7488,6 +7505,7 @@ begin
   cmobjinfoitem.RegisterProperty('Alpha', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('HealState', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('CrashState', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('CrushState', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('InteractState', 'Integer', iptR);
 {$IFDEF DOOM_OR_STRIFE}
   cmobjinfoitem.RegisterProperty('MissileHeight', 'Integer', iptR);
@@ -7762,6 +7780,7 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemAlpha_R, nil, 'Alpha');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemHealState_R, nil, 'HealState');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemCrashState_R, nil, 'CrashState');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemCrushState_R, nil, 'CrushState');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemFloatSpeed_R, nil, 'FloatSpeed');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemNormalSpeed_R, nil, 'NormalSpeed');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemFastSpeed_R, nil, 'FastSpeed');

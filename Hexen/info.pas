@@ -34319,6 +34319,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -34394,6 +34395,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -34469,6 +34471,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -34544,6 +34547,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -34619,6 +34623,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -34694,6 +34699,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -34769,6 +34775,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -34844,6 +34851,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -34919,6 +34927,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -34994,6 +35003,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -35069,6 +35079,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -35144,6 +35155,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -35219,6 +35231,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -35294,6 +35307,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -35369,6 +35383,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -35444,6 +35459,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -35519,6 +35535,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -35594,6 +35611,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -35669,6 +35687,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -35744,6 +35763,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -35819,6 +35839,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -35894,6 +35915,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -35969,6 +35991,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -36044,6 +36067,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -36119,6 +36143,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -36194,6 +36219,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -36269,6 +36295,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -36344,6 +36371,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -36419,6 +36447,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -36494,6 +36523,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -36569,6 +36599,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -36644,6 +36675,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -36719,6 +36751,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -36794,6 +36827,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -36869,6 +36903,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -36944,6 +36979,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -37019,6 +37055,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -37094,6 +37131,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -37169,6 +37207,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -37244,6 +37283,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -37319,6 +37359,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -37394,6 +37435,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -37469,6 +37511,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -37544,6 +37587,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -37619,6 +37663,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -37694,6 +37739,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -37769,6 +37815,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -37844,6 +37891,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -37919,6 +37967,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -37994,6 +38043,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -38069,6 +38119,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -38144,6 +38195,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -38219,6 +38271,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -38294,6 +38347,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -38369,6 +38423,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -38444,6 +38499,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -38519,6 +38575,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -38594,6 +38651,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -38669,6 +38727,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -38744,6 +38803,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -38819,6 +38879,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -38894,6 +38955,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -38969,6 +39031,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -39044,6 +39107,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -39119,6 +39183,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -39194,6 +39259,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -39269,6 +39335,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -39344,6 +39411,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -39419,6 +39487,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -39494,6 +39563,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -39569,6 +39639,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -39644,6 +39715,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -39719,6 +39791,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -39794,6 +39867,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -39869,6 +39943,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -39944,6 +40019,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -40019,6 +40095,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -40094,6 +40171,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -40169,6 +40247,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -40244,6 +40323,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -40319,6 +40399,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -40394,6 +40475,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -40469,6 +40551,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -40544,6 +40627,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -40619,6 +40703,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -40694,6 +40779,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -40769,6 +40855,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -40844,6 +40931,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -40919,6 +41007,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -40994,6 +41083,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -41069,6 +41159,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -41144,6 +41235,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -41219,6 +41311,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -41294,6 +41387,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -41369,6 +41463,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -41444,6 +41539,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -41519,6 +41615,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -41594,6 +41691,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -41669,6 +41767,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -41744,6 +41843,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -41819,6 +41919,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -41894,6 +41995,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -41969,6 +42071,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -42044,6 +42147,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -42119,6 +42223,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -42194,6 +42299,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -42269,6 +42375,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -42344,6 +42451,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -42419,6 +42527,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -42494,6 +42603,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -42569,6 +42679,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -42644,6 +42755,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -42719,6 +42831,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -42794,6 +42907,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -42869,6 +42983,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -42944,6 +43059,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -43019,6 +43135,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -43094,6 +43211,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -43169,6 +43287,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -43244,6 +43363,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -43319,6 +43439,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -43394,6 +43515,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -43469,6 +43591,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -43544,6 +43667,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -43619,6 +43743,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -43694,6 +43819,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -43769,6 +43895,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -43844,6 +43971,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -43919,6 +44047,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -43994,6 +44123,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -44069,6 +44199,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -44144,6 +44275,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -44219,6 +44351,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -44294,6 +44427,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -44369,6 +44503,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -44444,6 +44579,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -44519,6 +44655,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -44594,6 +44731,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -44669,6 +44807,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -44744,6 +44883,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -44819,6 +44959,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -44894,6 +45035,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -44969,6 +45111,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -45044,6 +45187,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -45119,6 +45263,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -45194,6 +45339,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -45269,6 +45415,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -45344,6 +45491,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -45419,6 +45567,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -45494,6 +45643,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -45569,6 +45719,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -45644,6 +45795,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -45719,6 +45871,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -45794,6 +45947,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -45869,6 +46023,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -45944,6 +46099,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -46019,6 +46175,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -46094,6 +46251,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -46169,6 +46327,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -46244,6 +46403,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -46319,6 +46479,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -46394,6 +46555,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -46469,6 +46631,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -46544,6 +46707,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -46619,6 +46783,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -46694,6 +46859,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -46769,6 +46935,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -46844,6 +47011,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -46919,6 +47087,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -46994,6 +47163,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -47069,6 +47239,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -47144,6 +47315,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -47219,6 +47391,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -47294,6 +47467,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -47369,6 +47543,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -47444,6 +47619,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -47519,6 +47695,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -47594,6 +47771,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -47669,6 +47847,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -47744,6 +47923,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -47819,6 +47999,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -47894,6 +48075,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -47969,6 +48151,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -48044,6 +48227,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -48119,6 +48303,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -48194,6 +48379,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -48269,6 +48455,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -48344,6 +48531,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -48419,6 +48607,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -48494,6 +48683,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -48569,6 +48759,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -48644,6 +48835,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -48719,6 +48911,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -48794,6 +48987,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -48869,6 +49063,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -48944,6 +49139,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -49019,6 +49215,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -49094,6 +49291,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -49169,6 +49367,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -49244,6 +49443,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -49319,6 +49519,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -49394,6 +49595,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -49469,6 +49671,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -49544,6 +49747,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -49619,6 +49823,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -49694,6 +49899,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -49769,6 +49975,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -49844,6 +50051,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -49919,6 +50127,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -49994,6 +50203,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -50069,6 +50279,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -50144,6 +50355,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -50219,6 +50431,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -50294,6 +50507,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -50369,6 +50583,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -50444,6 +50659,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -50519,6 +50735,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -50594,6 +50811,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -50669,6 +50887,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -50744,6 +50963,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -50819,6 +51039,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -50894,6 +51115,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -50969,6 +51191,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -51044,6 +51267,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -51119,6 +51343,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -51194,6 +51419,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -51269,6 +51495,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -51344,6 +51571,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -51419,6 +51647,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -51494,6 +51723,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -51569,6 +51799,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -51644,6 +51875,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -51719,6 +51951,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -51794,6 +52027,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -51869,6 +52103,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -51944,6 +52179,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -52019,6 +52255,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -52094,6 +52331,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -52169,6 +52407,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -52244,6 +52483,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -52319,6 +52559,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -52394,6 +52635,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -52469,6 +52711,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -52544,6 +52787,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -52619,6 +52863,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -52694,6 +52939,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -52769,6 +53015,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -52844,6 +53091,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -52919,6 +53167,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -52994,6 +53243,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -53069,6 +53319,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -53144,6 +53395,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -53219,6 +53471,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -53294,6 +53547,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -53369,6 +53623,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -53444,6 +53699,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -53519,6 +53775,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -53594,6 +53851,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -53669,6 +53927,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -53744,6 +54003,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -53819,6 +54079,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -53894,6 +54155,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -53969,6 +54231,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -54044,6 +54307,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -54119,6 +54383,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -54194,6 +54459,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -54269,6 +54535,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -54344,6 +54611,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -54419,6 +54687,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -54494,6 +54763,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -54569,6 +54839,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -54644,6 +54915,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -54719,6 +54991,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -54794,6 +55067,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -54869,6 +55143,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -54944,6 +55219,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -55019,6 +55295,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -55094,6 +55371,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -55169,6 +55447,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -55244,6 +55523,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -55319,6 +55599,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -55394,6 +55675,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -55469,6 +55751,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -55544,6 +55827,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -55619,6 +55903,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -55694,6 +55979,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -55769,6 +56055,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -55844,6 +56131,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -55919,6 +56207,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -55994,6 +56283,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -56069,6 +56359,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -56144,6 +56435,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -56219,6 +56511,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -56294,6 +56587,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -56369,6 +56663,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -56444,6 +56739,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -56519,6 +56815,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -56594,6 +56891,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -56669,6 +56967,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -56744,6 +57043,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -56819,6 +57119,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -56894,6 +57195,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -56969,6 +57271,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -57044,6 +57347,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -57119,6 +57423,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -57194,6 +57499,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -57269,6 +57575,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -57344,6 +57651,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -57419,6 +57727,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -57494,6 +57803,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -57569,6 +57879,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -57644,6 +57955,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -57719,6 +58031,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -57794,6 +58107,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -57869,6 +58183,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -57944,6 +58259,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -58019,6 +58335,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -58094,6 +58411,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -58169,6 +58487,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -58244,6 +58563,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -58319,6 +58639,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -58394,6 +58715,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -58469,6 +58791,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -58544,6 +58867,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -58619,6 +58943,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -58694,6 +59019,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -58769,6 +59095,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -58844,6 +59171,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -58919,6 +59247,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -58994,6 +59323,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -59069,6 +59399,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -59144,6 +59475,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -59219,6 +59551,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -59294,6 +59627,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -59369,6 +59703,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -59444,6 +59779,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -59519,6 +59855,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -59594,6 +59931,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -59669,6 +60007,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -59744,6 +60083,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -59819,6 +60159,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -59894,6 +60235,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -59969,6 +60311,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -60044,6 +60387,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -60119,6 +60463,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -60194,6 +60539,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -60269,6 +60615,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -60344,6 +60691,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -60419,6 +60767,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -60494,6 +60843,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -60569,6 +60919,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -60644,6 +60995,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -60794,6 +61146,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -60869,6 +61222,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -60944,6 +61298,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -61019,6 +61374,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -61094,6 +61450,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -61169,6 +61526,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -61244,6 +61602,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -61319,6 +61678,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -61394,6 +61754,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -61469,6 +61830,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -61544,6 +61906,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -61619,6 +61982,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -61694,6 +62058,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -61769,6 +62134,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -61844,6 +62210,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -61919,6 +62286,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -61994,6 +62362,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -62069,6 +62438,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -62144,6 +62514,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -62219,6 +62590,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -62294,6 +62666,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -62369,6 +62742,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -62444,6 +62818,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -62519,6 +62894,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -62594,6 +62970,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -62669,6 +63046,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -62744,6 +63122,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -62819,6 +63198,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -62894,6 +63274,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -62969,6 +63350,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -63044,6 +63426,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -63119,6 +63502,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -63194,6 +63578,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -63269,6 +63654,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -63344,6 +63730,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -63419,6 +63806,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -63494,6 +63882,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -63569,6 +63958,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -63644,6 +64034,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -63719,6 +64110,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -63794,6 +64186,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -63869,6 +64262,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -63944,6 +64338,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -64019,6 +64414,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -64094,6 +64490,7 @@ const // Hexen Original mobjinfo
     alpha: 0;                                                                   // alpha
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction

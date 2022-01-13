@@ -520,6 +520,7 @@ begin
   baseproclist.Add('function GetMobjInfoAlpha(const typ: integer): integer;', @PS_GetMobjInfoAlpha);
   baseproclist.Add('function GetMobjInfoHealState(const typ: integer): integer;', @PS_GetMobjInfoHealState);
   baseproclist.Add('function GetMobjInfoCrashState(const typ: integer): integer;', @PS_GetMobjInfoCrashState);
+  baseproclist.Add('function GetMobjInfoCrushState(const typ: integer): integer;', @PS_GetMobjInfoCrushState);
   baseproclist.Add('function GetMobjInfoVSpeed(const typ: integer): integer;', @PS_GetMobjInfoVSpeed);
   baseproclist.Add('function GetMobjInfoMinMissileChance(const typ: integer): integer;', @PS_GetMobjInfoMinMissileChance);
   baseproclist.Add('function GetMobjInfoPushFactor(const typ: integer): integer;', @PS_GetMobjInfoPushFactor);

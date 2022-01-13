@@ -220,6 +220,11 @@ var
         result := inf.crashstate;
         exit;
       end
+      else if sss1 = 'CRUSH' then
+      begin
+        result := inf.crushstate;
+        exit;
+      end
       else if sss1 = 'INTERACT' then
       begin
         result := inf.interactstate;

@@ -597,6 +597,7 @@ begin
   _AddStates(mobjinfo[mobjno].raisestate);
   _AddStates(mobjinfo[mobjno].healstate);
   _AddStates(mobjinfo[mobjno].crashstate);
+  _AddStates(mobjinfo[mobjno].crushstate);
   _AddStates(mobjinfo[mobjno].interactstate);
 
   for st := 0 to numstates - 1 do

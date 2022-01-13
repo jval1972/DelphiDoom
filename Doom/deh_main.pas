@@ -348,7 +348,7 @@ begin
 
         mobj_val := atoi(token2, -1);
 
-        if mobj_idx in [1, 3, 7, 10, 11, 12, 13, 23, 38, 40, 41] then
+        if mobj_idx in [1, 3, 7, 10, 11, 12, 13, 23, 38, 40, 41, 73] then
         begin
           stmp := firstword(token2);
           if (stmp = 'NEWFRAME') or (stmp = 'NEWSTATE') then  // JVAL: a new defined state
@@ -727,6 +727,7 @@ begin
                   mobjinfo[mobj_no].splash_group := group;
               end;
           72: mobjinfo[mobj_no].ripsound := S_GetSoundNumForName(token2); // .ripsound (MBF21)
+          73: mobjinfo[mobj_no].crushstate := mobj_val;
         end;
       end;
 
@@ -2005,6 +2006,7 @@ begin
     result.Add('%s = %s', [capitalizedstring(mobj_tokens[70]), Info_ProjectileGroupToString(mobjinfo[i].projectile_group)]);
     result.Add('%s = %s', [capitalizedstring(mobj_tokens[71]), Info_SplashGroupToString(mobjinfo[i].splash_group)]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[72]), mobjinfo[i].ripsound]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[73]), mobjinfo[i].crushstate]);
 
     result.Add('');
   end;
@@ -2325,6 +2327,7 @@ begin
   mobj_tokens.Add('PROJECTILE GROUP');   // .projectile_group         // 70
   mobj_tokens.Add('SPLASH GROUP');       // .splash_group             // 71
   mobj_tokens.Add('RIP SOUND');          // .ripsound                 // 72
+  mobj_tokens.Add('CRUSH FRAME');        // .crushstate (DelphiDoom)  // 73
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);

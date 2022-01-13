@@ -3700,6 +3700,7 @@ type
     alpha: integer;
     healstate: integer;
     crashstate: integer;
+    crushstate: integer;
     interactstate: integer;
     vspeed: integer;  // Initial vertical speed
     pushfactor: integer; // How much can be pushed? 1..FRACUNIT

@@ -147,6 +147,7 @@ type
     function PF_XDEATH(p: TDStrings): string;
     function PF_HEAL(p: TDStrings): string;
     function PF_CRASH(p: TDStrings): string;
+    function PF_CRUSH(p: TDStrings): string;
     function PF_INTERACT(p: TDStrings): string;
     function PF_RAISE(p: TDStrings): string;
     // Special
@@ -257,6 +258,7 @@ begin
   AddFunc('XDEATH', PF_XDEATH, 0);
   AddFunc('HEAL', PF_HEAL, 0);
   AddFunc('CRASH', PF_CRASH, 0);
+  AddFunc('CRUSH', PF_CRUSH, 0);
   AddFunc('INTERACT', PF_INTERACT, 0);
   AddFunc('RAISE', PF_RAISE, 0);
   AddFunc('EVAL', PF_EVAL, -1);
@@ -756,6 +758,11 @@ end;
 function TActorEvaluator.PF_CRASH(p: TDStrings): string;
 begin
   result := itoa(factor.info.crashstate);
+end;
+
+function TActorEvaluator.PF_CRUSH(p: TDStrings): string;
+begin
+  result := itoa(factor.info.crushstate);
 end;
 
 function TActorEvaluator.PF_INTERACT(p: TDStrings): string;

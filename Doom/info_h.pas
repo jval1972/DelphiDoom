@@ -568,6 +568,7 @@ type
     alpha: integer;
     healstate: integer;
     crashstate: integer;
+    crushstate: integer;
     interactstate: integer;
     missileheight: integer;
     vspeed: integer;  // Initial vertical speed

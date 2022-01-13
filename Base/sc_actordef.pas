@@ -1129,6 +1129,15 @@ var
           m_states[numstates - 1].nextstate := mobj.crashstate + offs;
           m_states[numstates - 1].has_goto := true;
         end
+        else if (mobj.statesdefined and RTL_ST_CRUSH <> 0) and statecheckPos('CRUSH', gotostr) then
+        begin
+          if length(gotostr) > 5 then
+            offs := atoi(strremovespaces(Copy(gotostr, 6, Length(gotostr) - 5)))
+          else
+            offs := 0;
+          m_states[numstates - 1].nextstate := mobj.crushstate + offs;
+          m_states[numstates - 1].has_goto := true;
+        end
         else if (mobj.statesdefined and RTL_ST_INTERACT <> 0) and statecheckPos('INTERACT', gotostr) then
         begin
           if length(gotostr) > 8 then
@@ -1506,6 +1515,11 @@ var
           result := ORIGINALSTATEMARKER + inf.crashstate;
           exit;
         end
+        else if sss1 = 'CRUSH' then
+        begin
+          result := ORIGINALSTATEMARKER + inf.crushstate;
+          exit;
+        end
         else if sss1 = 'INTERACT' then
         begin
           result := ORIGINALSTATEMARKER + inf.interactstate;
@@ -1572,6 +1586,11 @@ var
         else if sss1 = 'CRASH' then
         begin
           result := mobj.crashstate;
+          exit;
+        end
+        else if sss1 = 'CRUSH' then
+        begin
+          result := mobj.crushstate;
           exit;
         end
         else if sss1 = 'INTERACT' then
@@ -1675,6 +1694,7 @@ var
     AddStateRes(mobj.xdeathstate, 'Exploding');
     AddStateRes(mobj.healstate, 'Heal');
     AddStateRes(mobj.crashstate, 'Crash');
+    AddStateRes(mobj.crushstate, 'Crush');
     AddStateRes(mobj.interactstate, 'Interact');
     AddRes('Death Sound = ' + SC_SoundAlias(mobj.deathsound));
     ismissile := Pos('MF_MISSILE', mobj.flags) > 0;
@@ -2095,6 +2115,7 @@ begin
   m_state_tokens.Add('heal:');
   m_state_tokens.Add('crash:');
   m_state_tokens.Add('interact:');
+  m_state_tokens.Add('crush:');
 
   w_state_tokens := TDStringList.Create;
   w_state_tokens.Add('up:');
@@ -2427,6 +2448,7 @@ begin
       mobj.raisestate := -1;
       mobj.healstate := -1;
       mobj.crashstate := -1;
+      mobj.crushstate := -1;
       mobj.interactstate := -1;
       mobj.flags := '';
       {$IFDEF HERETIC_OR_HEXEN}
@@ -2579,6 +2601,7 @@ begin
           mobj.raisestate := ORIGINALSTATEMARKER + pinf.raisestate;
           mobj.healstate := ORIGINALSTATEMARKER + pinf.healstate;
           mobj.crashstate := ORIGINALSTATEMARKER + pinf.crashstate;
+          mobj.crushstate := ORIGINALSTATEMARKER + pinf.crushstate;
           mobj.interactstate := ORIGINALSTATEMARKER + pinf.interactstate;
           if mobj.spawnstate > ORIGINALSTATEMARKER then
             mobj.statesdefined := mobj.statesdefined or RTL_ST_SPAWN;
@@ -2600,6 +2623,8 @@ begin
             mobj.statesdefined := mobj.statesdefined or RTL_ST_HEAL;
           if mobj.crashstate > ORIGINALSTATEMARKER then
             mobj.statesdefined := mobj.statesdefined or RTL_ST_CRASH;
+          if mobj.crushstate > ORIGINALSTATEMARKER then
+            mobj.statesdefined := mobj.statesdefined or RTL_ST_CRUSH;
           if mobj.interactstate > ORIGINALSTATEMARKER then
             mobj.statesdefined := mobj.statesdefined or RTL_ST_INTERACT;
         end;
@@ -3149,6 +3174,12 @@ begin
           mobj.crashstate := numstates;
           repeat until not ParseState(mobj.crashstate);
         end
+        else if sc.MatchString('crush:') then
+        begin
+          mobj.statesdefined := mobj.statesdefined or RTL_ST_CRUSH;
+          mobj.crushstate := numstates;
+          repeat until not ParseState(mobj.crushstate);
+        end
         else if sc.MatchString('interact:') then
         begin
           mobj.statesdefined := mobj.statesdefined or RTL_ST_INTERACT;
@@ -3462,6 +3493,12 @@ var
       exit;
     end;
 
+    if st = m.crushstate then
+    begin
+      AddLn('Goto Crush');
+      exit;
+    end;
+
     if st = m.interactstate then
     begin
       AddLn('Goto Interact');
@@ -3707,6 +3744,7 @@ begin
   AddState('Raise', m.raisestate);
   AddState('Heal', m.healstate);
   AddState('Crash', m.crashstate);
+  AddState('Crush', m.crashstate);
   AddState('Interact', m.interactstate);
   AddLn('}');
   AddLn('}');
