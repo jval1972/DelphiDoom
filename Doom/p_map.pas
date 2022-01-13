@@ -127,6 +127,7 @@ implementation
 uses
   d_delphi,
   doomdata,
+  doomstat,
   g_game,
   info_h,
   info,
@@ -2830,14 +2831,18 @@ begin
   begin
     if G_PlayingEngineVersion >= VERSION207 then
     begin
-      bt := P_BloodType(thing);
-      if (bt = bt_green) and (MT_GREENGIBS <> Ord(MT_NONE)) then
-        st := mobjinfo[MT_GREENGIBS].spawnstate
-      else if (bt = bt_blue) and (MT_BLUEGIBS <> Ord(MT_NONE)) then
-        st := mobjinfo[MT_BLUEGIBS].spawnstate
-      else
-        st := Ord(S_GIBS);
-      P_SetMobjState(thing, statenum_t(st));
+      // JVAL: 20220113 - Chex Quest doesn't have gibs
+      if not (customgame in [cg_chex, cg_chex2]) then
+      begin
+        bt := P_BloodType(thing);
+        if (bt = bt_green) and (MT_GREENGIBS <> Ord(MT_NONE)) then
+          st := mobjinfo[MT_GREENGIBS].spawnstate
+        else if (bt = bt_blue) and (MT_BLUEGIBS <> Ord(MT_NONE)) then
+          st := mobjinfo[MT_BLUEGIBS].spawnstate
+        else
+          st := Ord(S_GIBS);
+        P_SetMobjState(thing, statenum_t(st));
+      end;
     end
     else
       P_SetMobjState(thing, S_GIBS);
