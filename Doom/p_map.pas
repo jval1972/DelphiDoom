@@ -2831,7 +2831,7 @@ begin
   begin
     if G_PlayingEngineVersion >= VERSION207 then
     begin
-      // JVAL: 20220113 - Chex Quest doesn't have gibs
+      // JVAL: 20220113 - No gibs in Chex Quest
       if not (customgame in [cg_chex, cg_chex2]) then
       begin
         bt := P_BloodType(thing);
