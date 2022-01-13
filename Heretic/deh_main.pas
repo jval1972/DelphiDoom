@@ -1361,12 +1361,11 @@ begin
               end;
             end;
           end
-          else
+          else if weapon_idx = 7 then
           begin
-            I_Warning('DEH_Parse(): Invalid state number (%s) (Weapon number = %d)'#13#10, [token2, weapon_no]);
+            I_Warning('DEH_Parse(): Positive number expected after keyword (%s) - (%s) (Weapon number = %d)'#13#10, [token1, token2, weapon_no]);
             continue;
           end;
-
         end;
 
         if weapon_level = 1 then
