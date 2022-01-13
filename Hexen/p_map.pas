@@ -3206,6 +3206,7 @@ var
 function PIT_ChangeSector(thing: Pmobj_t): boolean;
 var
   mo: Pmobj_t;
+  st: integer;
 begin
   if P_ThingHeightClip(thing) then
   begin
@@ -3228,9 +3229,26 @@ begin
       P_RemoveMobj(thing)
     else
     begin
-      if thing.state <> @states[Ord(S_GIBS1)] then
+      st := Ord(S_GIBS1);
+
+      if G_PlayingEngineVersion >= VERSION207 then
       begin
-        P_SetMobjState(thing, S_GIBS1);
+        if thing.flags4_ex and MF4_EX_DONTGIB = 0 then
+        begin
+          if thing.info.crushstate > 0 then
+            st := thing.info.crushstate;
+          thing.flags4_ex := thing.flags4_ex or MF4_EX_DONTGIB;
+        end
+        else
+        begin
+          result := true;            // keep checking
+          exit;
+        end;
+      end;
+
+      if thing.state <> @states[st] then
+      begin
+        P_SetMobjState(thing, statenum_t(st));
         thing.height := 0;
         thing.radius := 0;
         S_StartSound(thing, Ord(SFX_PLAYER_FALLING_SPLAT));

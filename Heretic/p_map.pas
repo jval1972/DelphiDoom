@@ -2745,6 +2745,15 @@ begin
   // crunch bodies to giblets
   if thing.health <= 0 then
   begin
+    if G_PlayingEngineVersion >= VERSION207 then
+      if thing.flags4_ex and MF4_EX_DONTGIB = 0 then
+      begin
+        if thing.info.crushstate > 0 then
+          if thing.state <> @states[thing.info.crushstate] then
+            P_SetMobjState(thing, statenum_t(thing.info.crushstate));
+        thing.flags4_ex := thing.flags4_ex or MF4_EX_DONTGIB;
+      end;
+
     thing.flags := thing.flags and not MF_SOLID; // JVAL: check
     thing.height := 0;
     thing.radius := 0;

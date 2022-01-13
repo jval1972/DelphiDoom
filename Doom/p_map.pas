@@ -2819,7 +2819,7 @@ begin
     exit;
   end;
 
-  // JVAL: 20200329 - New flag, can not be crashed by sector
+  // JVAL: 20200329 - New flag, can not be crushed by sector
   if thing.flags3_ex and MF3_EX_NOCRUSH <> 0 then
   begin
     result := true;
@@ -2831,17 +2831,27 @@ begin
   begin
     if G_PlayingEngineVersion >= VERSION207 then
     begin
-      // JVAL: 20220113 - No gibs in Chex Quest
-      if not (customgame in [cg_chex, cg_chex2]) then
+      if thing.flags4_ex and MF4_EX_DONTGIB = 0 then
       begin
-        bt := P_BloodType(thing);
-        if (bt = bt_green) and (MT_GREENGIBS <> Ord(MT_NONE)) then
-          st := mobjinfo[MT_GREENGIBS].spawnstate
-        else if (bt = bt_blue) and (MT_BLUEGIBS <> Ord(MT_NONE)) then
-          st := mobjinfo[MT_BLUEGIBS].spawnstate
-        else
-          st := Ord(S_GIBS);
-        P_SetMobjState(thing, statenum_t(st));
+        // JVAL: 20220113 - No gibs in Chex Quest
+        if not (customgame in [cg_chex, cg_chex2]) or (thing.info.crushstate > 0) then
+        begin
+          if thing.info.crushstate > 0 then
+            st := thing.info.crushstate
+          else
+          begin
+            bt := P_BloodType(thing);
+            if (bt = bt_green) and (MT_GREENGIBS <> Ord(MT_NONE)) then
+              st := mobjinfo[MT_GREENGIBS].spawnstate
+            else if (bt = bt_blue) and (MT_BLUEGIBS <> Ord(MT_NONE)) then
+              st := mobjinfo[MT_BLUEGIBS].spawnstate
+            else
+              st := Ord(S_GIBS);
+          end;
+          if thing.state <> @states[st] then
+            P_SetMobjState(thing, statenum_t(st));
+        end;
+        thing.flags4_ex := thing.flags4_ex or MF4_EX_DONTGIB;
       end;
     end
     else

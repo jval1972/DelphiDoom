@@ -486,6 +486,8 @@ const
   MF4_EX_ALWAYSFINISHSOUND = $40000;
   // Ignore full_sounds console variable and never finishes sounds
   MF4_EX_NEVERFINISHSOUND = $80000;
+  // Do not gib
+  MF4_EX_DONTGIB = $100000;
 
 type
 // Map Object definition.
