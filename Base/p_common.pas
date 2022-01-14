@@ -839,22 +839,22 @@ uses
 // Sets a slope so a near miss is at aproximately
 // the height of the intended target
 //
-procedure P_BulletSlope(mo: Pmobj_t);
+procedure P_DoBulletSlope(mo: Pmobj_t; const igflags: integer);
 var
   an: angle_t;
 begin
   // see which target is to be aimed at
   an := mo.angle;
-  bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
+  bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT, igflags);
 
   if linetarget = nil then
   begin
     an := an + $4000000;
-    bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
+    bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT, igflags);
     if linetarget = nil then
     begin
       an := an - $8000000;
-      bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
+      bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT, igflags);
       if mo.player <> nil then
         if zaxisshift and (linetarget = nil) then
           bulletslope := (Pplayer_t(mo.player).lookdir * FRACUNIT) div 173;
@@ -862,6 +862,17 @@ begin
   end;
 end;
 
+procedure P_BulletSlope(mo: Pmobj_t);
+begin
+  if G_PlayingEngineVersion >= 207 then
+  begin
+    P_DoBulletSlope(mo, MF2_EX_FRIEND);
+    if linetarget = nil then
+      P_DoBulletSlope(mo, 0);
+  end
+  else
+    P_DoBulletSlope(mo, 0);
+end;
 function P_CheckStateParams(actor: Pmobj_t; const numparms: integer = -1; const flags: LongWord = 0): boolean;
 begin
   if numparms = 0 then
