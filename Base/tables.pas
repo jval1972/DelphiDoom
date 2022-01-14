@@ -12442,10 +12442,10 @@ end;
 // These are straight from Eternity so demos stay in sync.
 function FixedToAngle(a: fixed_t): angle_t;
 var
-  a64: Int64;
+  a64: int64;
 begin
-  a64 := a;
-  result := (a64 * ANG1) div FRACUNIT;
+  a64 := (a * ANG1);
+  result := FixedInt64(a64);
 end;
 
 function AngleToFixed(a: angle_t): fixed_t;
@@ -12453,7 +12453,7 @@ var
   a64: double;
 begin
   a64 := a;
-  result := trunc((a64 * FRACUNIT) / ANG1);
+  result := trunc((a64 / ANG1) * FRACUNIT);
 end;
 
 // [XA] Clamped angle->slope, for convenience
