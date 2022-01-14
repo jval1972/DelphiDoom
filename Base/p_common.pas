@@ -9262,7 +9262,8 @@ begin
 
   // adjust pitch (approximated, using Doom's ye olde
   // finetangent table; same method as autoaim)
-  mo.momz := mo.momz + FixedMul(mo.info.speed, DegToSlope(pitch));
+  if pitch <> 0 then
+    mo.momz := mo.momz + FixedMul(mo.info.speed, DegToSlope(pitch));
 
   // adjust position
   an := (player.mo.angle - ANG90) div ANGLETOFINEUNIT;
