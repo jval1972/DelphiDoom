@@ -9254,7 +9254,8 @@ begin
     exit;
 
   // adjust angle
-  mo.angle := mo.angle + Round(angle / 360 * FRACUNIT);
+  if angle <> 0 then
+    mo.angle := mo.angle + Round(angle / 360 * FRACUNIT);
   an := mo.angle div ANGLETOFINEUNIT;
   mo.momx := FixedMul(mo.info.speed, finecosine[an]);
   mo.momy := FixedMul(mo.info.speed, finesine[an]);
