@@ -1826,20 +1826,24 @@ begin
         right := aleftx;}
 //------------------------------------------------------
 
+      if right < left then
+        Continue;
+
       left := left + centerx;
       right := right + centerx;
       if left < 0 then
         left := 0
       else if left >= viewwidth then
-        left := viewwidth - 1;
+        Continue;
+
       if right >= viewwidth then
         right := viewwidth - 1
       else if right < 0 then
-        right := 0;
+        Continue;
 
       if vx_simpleclip then
       begin
-        num_batch_columns := right - left;
+        num_batch_columns := right - left + 1;
         dc_x := left;
       end;
 

@@ -170,6 +170,7 @@ Use player mobjinfo meleerange field to determine player's melee range.
 MF3_EX_NOCRUSH flag will set invulnerable an actor on crushing.
 Added crush state for mobjs.
 Added MF4_EX_DONTGIB mobj flag. Actors with this flag will not gib.
+Fixed some glitches in voxel software rendering.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
