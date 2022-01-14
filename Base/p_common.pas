@@ -7727,7 +7727,7 @@ begin
 
   if state.flags_ex and MF_EX_STATE_ARGS_CHECKED <> 0 then
   begin
-    result := state.flags_ex and MF_EX_STATE_ARGS_ERROR <> 0;
+    result := state.flags_ex and MF_EX_STATE_ARGS_ERROR = 0;
     Exit;
   end;
 
@@ -7765,6 +7765,7 @@ begin
       else
       begin
         I_Warning('P_CheckStateArgs(): Action has %d parameters, i.e. less than %d parameters in state "%d"'#13#10, [state.params.Count, deh_action.argcount, (Integer(state) - Integer(states)) div SizeOf(state_t)]);
+        state.flags_ex := state.flags_ex or MF_EX_STATE_ARGS_ERROR;
         result := true;
         exit;
       end;
