@@ -1378,6 +1378,7 @@ var
       if numstates = MAXSTATES then
       begin
         I_Warning('SC_ActordefToDEH(): Object has more than %d states'#13#10, [MAXSTATES]);
+        Break;
       end
       else
       begin
