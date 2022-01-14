@@ -679,6 +679,7 @@ procedure TEvaluator.ProcessExpression(v: string; p: TEvalNode);
   var
     i, bracket: integer;
     quote: boolean;
+    ch: integer;
   begin
     Result := -1;
     i := Length(s);
@@ -686,14 +687,19 @@ procedure TEvaluator.ProcessExpression(v: string; p: TEvalNode);
     quote := false;
     while (Result < 0) and (i > 0) do
     begin
-      if s[i] = '"' then
+      ch := Ord(s[i]);
+      if ch = Ord('"') then
         quote := not quote;
-      if (not quote) and (s[i] = '(') then
-        inc(bracket);
-      if (not quote) and (s[i] = ')') then
-        dec(bracket);
-      if (not quote) and (bracket = 0) and (s[i] in c) then
-        Result := i;
+      if not quote then
+      begin
+        if ch = Ord('(') then
+          inc(bracket)
+        else if ch = Ord(')') then
+          dec(bracket);
+        if bracket = 0 then
+          if Chr(ch) in c then
+            Result := i;
+      end;
       dec(i);
     end;
   end;
