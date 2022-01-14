@@ -36,12 +36,16 @@ unit p_user;
 interface
 
 uses
+  m_fixed,
+  tables,
   p_mobj_h,
   d_player;
 
 procedure P_PlayerThink(player: Pplayer_t);
 
 procedure P_CalcHeight(player: Pplayer_t);
+
+procedure P_Thrust(player: Pplayer_t; angle: angle_t; const move: fixed_t);
 
 procedure P_PlayerFaceMobj(const player: Pplayer_t; const face: Pmobj_t; const ticks: integer);
 
@@ -52,9 +56,7 @@ implementation
 
 uses
   d_delphi,
-  m_fixed,
   m_rnd,
-  tables,
   d_ticcmd,
   d_event,
   info_h,

@@ -107,6 +107,32 @@ const
 // not the individual count (0= 1/2 clip).
 // Returns false if the ammo can't be picked up at all
 //
+
+// mbf21: take into account new weapon autoswitch flags
+function P_GiveAmmoAutoSwitch(player: Pplayer_t; ammo: ammotype_t; oldammo: integer): boolean;
+var
+  i: integer;
+begin
+  if (weaponinfo[Ord(player.readyweapon)].mbf21bits and WPF_AUTOSWITCHFROM <> 0) and
+    (weaponinfo[Ord(player.readyweapon)].ammo <> ammo) then
+  begin
+    for i := Ord(NUMWEAPONS) - 1 downto Ord(player.readyweapon) + 1 do
+    begin
+      if (player.weaponowned[i] <> 0) and
+         (weaponinfo[i].mbf21bits and WPF_NOAUTOSWITCHTO = 0) and
+         (weaponinfo[i].ammo = ammo) and
+         (weaponinfo[i].ammopershot > oldammo) and
+         (weaponinfo[i].ammopershot <= player.ammo[Ord(ammo)]) then
+      begin
+        player.pendingweapon := weapontype_t(i);
+        break;
+      end;
+    end;
+  end;
+
+  result := true;
+end;
+
 function P_GiveAmmo(player: Pplayer_t; ammo: ammotype_t; num: integer): boolean;
 var
   oldammo: integer;
@@ -144,6 +170,12 @@ begin
 
   if player.ammo[Ord(ammo)] > player.maxammo[Ord(ammo)] then
     player.ammo[Ord(ammo)] := player.maxammo[Ord(ammo)];
+
+  if G_PlayingEngineVersion > VERSION207 then
+  begin
+    result := P_GiveAmmoAutoSwitch(player, ammo, oldammo);
+    exit;
+  end;
 
   // If non zero ammo,
   // don't change up weapons,

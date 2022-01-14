@@ -112,6 +112,7 @@ implementation
 
 uses
   d_delphi,
+  g_game,
   i_system,
   info,
 //
@@ -132,6 +133,7 @@ uses
   p_enemy,
   p_map,
   p_inter,
+  p_user,
   r_main,
   s_sound,
 // State.
@@ -325,6 +327,45 @@ begin
 end;
 
 //
+// P_SubtractAmmo
+// Subtracts ammo, w/compat handling. In mbf21, use
+// readyweapon's "ammopershot" field if it's explicitly
+// defined in dehacked; otherwise use the amount specified
+// by the codepointer instead (Doom behavior)
+//
+// [XA] NOTE: this function is for handling Doom's native
+// attack pointers; of note, the new A_ConsumeAmmo mbf21
+// codepointer does NOT call this function, since it doesn't
+// have to worry about any compatibility shenanigans.
+//
+procedure P_SubtractAmmo(player: Pplayer_t; const vanilla_amount: integer);
+var
+  amount: integer;
+  ammotype: ammotype_t;
+begin
+  ammotype := weaponinfo[Ord(player.readyweapon)].ammo;
+  if G_PlayingEngineVersion < VERSION207 then
+  begin
+    if Ord(ammotype) < Ord(NUMAMMO) then
+      Dec(player.ammo[Ord(ammotype)], vanilla_amount);
+    exit;
+  end;
+
+  if ammotype = am_noammo then
+    exit; // [XA] hmm... I guess vanilla/boom will go out of bounds then?
+
+  if weaponinfo[Ord(player.readyweapon)].intflags and WIF_ENABLEAPS <> 0 then
+    amount := weaponinfo[Ord(player.readyweapon)].ammopershot
+  else
+    amount := vanilla_amount;
+
+  Dec(player.ammo[Ord(ammotype)], amount);
+
+  if player.ammo[Ord(ammotype)] < 0 then
+    player.ammo[Ord(ammotype)] := 0;
+end;
+
+//
 // P_FireWeapon.
 //
 procedure P_FireWeapon(player: Pplayer_t);
@@ -339,7 +380,8 @@ begin
     else
       newstate := statenum_t(weaponinfo[Ord(player.readyweapon)].atkstate);
     P_SetPsprite(player, Ord(ps_weapon), newstate);
-    P_NoiseAlert(player.mo, player.mo);
+    if weaponinfo[Ord(player.readyweapon)].mbf21bits and WPF_SILENT = 0 then
+      P_NoiseAlert(player.mo, player.mo);
   end;
 end;
 
@@ -388,8 +430,7 @@ begin
   //  the missile launcher and bfg do not auto fire
   if player.cmd.buttons and BT_ATTACK <> 0 then
   begin
-    if not player.attackdown or
-       ((player.readyweapon <> wp_missile) and (player.readyweapon <> wp_bfg)) then
+    if not player.attackdown or (weaponinfo[Ord(player.readyweapon)].mbf21bits and WPF_NOAUTOFIRE = 0) then
     begin
       player.attackdown := true;
       P_FireWeapon(player);
@@ -496,13 +537,45 @@ begin
   P_SetPsprite(player, Ord(ps_weapon), newstate);
 end;
 
+// Weapons now recoil, amount depending on the weapon.              // phares
+//                                                                  //   |
+// The P_SetPsprite call in each of the weapon firing routines      //   V
+// was moved here so the recoil could be synched with the
+// muzzle flash, rather than the pressing of the trigger.
+// The BFG delay caused this to be necessary.
+
+var
+  recoil_values: array[0..Ord(NUMWEAPONS) - 1] of integer = ( // phares
+    10, // wp_fist
+    10, // wp_pistol
+    30, // wp_shotgun
+    10, // wp_chaingun
+    100,// wp_missile
+    20, // wp_plasma
+    100,// wp_bfg
+    0,  // wp_chainsaw
+    80  // wp_supershotgun
+  );
+
+procedure A_FireSomething(player: Pplayer_t; adder: integer);
+begin
+  P_SetPsprite(player, Ord(ps_flash),
+    statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate + adder));
+
+  // killough 3/27/98: prevent recoil in no-clipping mode
+  if player.mo.flags and MF_NOCLIP = 0 then
+    if player.mo.flags4_ex and MF4_EX_RECOIL <> 0 then
+      P_Thrust(player, ANG180 + player.mo.angle,
+               2048 * recoil_values[Ord(player.readyweapon)]);  // phares
+end;
+
 //
 // A_GunFlash
 //
 procedure A_GunFlash(player: Pplayer_t; psp: Ppspdef_t);
 begin
   P_SetMobjState(player.mo, S_PLAY_ATK2);
-  P_SetPsprite(player, Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
+  A_FireSomething(player, 0);
 end;
 
 //
@@ -527,7 +600,15 @@ begin
   angle := player.mo.angle;
   angle := angle + _SHLW(P_Random - P_Random, 18);
   mrange := P_GetPlayerMeleeRange(player);
-  slope := P_AimLineAttack(player.mo, angle, mrange);
+  if G_PlayingEngineVersion >= VERSION207 then
+  begin
+    slope := P_AimLineAttack(player.mo, angle, mrange, MF2_EX_FRIEND);
+    if linetarget = nil then
+      slope := P_AimLineAttack(player.mo, angle, mrange);
+  end
+  else
+    slope := P_AimLineAttack(player.mo, angle, mrange);
+
   P_LineAttack(player.mo, angle, mrange, slope, damage);
 
   // turn to face target
@@ -555,7 +636,15 @@ begin
 
   // use meleerange + 1 so that the puff doesn't skip the flash
   mrange := P_GetPlayerMeleeRange(player);
-  slope := P_AimLineAttack(player.mo, angle, mrange + 1);
+  if G_PlayingEngineVersion >= VERSION207 then
+  begin
+    slope := P_AimLineAttack(player.mo, angle, mrange + 1, MF2_EX_FRIEND);
+    if linetarget = nil then
+      slope := P_AimLineAttack(player.mo, angle, mrange + 1);
+  end
+  else
+    slope := P_AimLineAttack(player.mo, angle, mrange + 1);
+
   P_LineAttack(player.mo, angle, mrange + 1, slope, damage);
 
   if linetarget = nil then
@@ -592,8 +681,7 @@ end;
 //
 procedure A_FireMissile(player: Pplayer_t; psp: Ppspdef_t);
 begin
-  player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] :=
-    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
+  P_SubtractAmmo(player, 1);
   P_SpawnPlayerMissile(player.mo, Ord(MT_ROCKET));
 end;
 
@@ -602,8 +690,7 @@ end;
 //
 procedure A_FireBFG(player: Pplayer_t; psp: Ppspdef_t);
 begin
-  player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] :=
-    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - p_bfgcells;
+  P_SubtractAmmo(player, p_bfgcells);
   P_SpawnPlayerMissile(player.mo, Ord(MT_BFG));
 end;
 
@@ -612,8 +699,8 @@ end;
 //
 procedure A_FirePlasma(player: Pplayer_t; psp: Ppspdef_t);
 begin
-  player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] :=
-    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - 1;
+  P_SubtractAmmo(player, 1);
+  A_FireSomething(player, P_Random and 1);
 
   P_SetPsprite(player,
     Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate + (P_Random and 1)));
@@ -650,9 +737,9 @@ begin
   P_SetMobjState(player.mo, S_PLAY_ATK2);
 
   am := Ord(weaponinfo[Ord(player.readyweapon)].ammo);
-  player.ammo[am] := player.ammo[am] - 1;
+  P_SubtractAmmo(player, 1);
 
-  P_SetPsprite(player, Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
+  A_FireSomething(player,0);  // phares
 
   P_BulletSlope(player.mo);
   P_GunShot(player.mo, player.refire = 0);
@@ -664,15 +751,13 @@ end;
 procedure A_FireShotgun(player: Pplayer_t; psp: Ppspdef_t);
 var
   i: integer;
-  am: integer;
 begin
   S_StartSound(player.mo, Ord(sfx_shotgn));
   P_SetMobjState(player.mo, S_PLAY_ATK2);
 
-  am := Ord(weaponinfo[Ord(player.readyweapon)].ammo);
-  player.ammo[am] := player.ammo[am] - 1;
+  P_SubtractAmmo(player, 1);
 
-  P_SetPsprite(player, Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
+  A_FireSomething(player, 0); // phares
 
   P_BulletSlope(player.mo);
 
@@ -693,10 +778,9 @@ begin
   S_StartSound(player.mo, Ord(sfx_dshtgn));
   P_SetMobjState(player.mo, S_PLAY_ATK2);
 
-  am := Ord(weaponinfo[Ord(player.readyweapon)].ammo);
-  player.ammo[am] := player.ammo[am] - 2;
+  P_SubtractAmmo(player, 2);
 
-  P_SetPsprite(player, Ord(ps_flash), statenum_t(weaponinfo[Ord(player.readyweapon)].flashstate));
+  A_FireSomething(player, 0); // phares
 
   P_BulletSlope(player.mo);
 
@@ -714,8 +798,6 @@ end;
 // A_FireCGun
 //
 procedure A_FireCGun(player: Pplayer_t; psp: Ppspdef_t);
-var
-  am : integer;
 begin
   S_StartSound(player.mo, Ord(sfx_pistol));
 
@@ -724,14 +806,9 @@ begin
 
   P_SetMobjState(player.mo, S_PLAY_ATK2);
 
-  am := Ord(weaponinfo[Ord(player.readyweapon)].ammo);
-  player.ammo[am] := player.ammo[am] - 1;
+  P_SubtractAmmo(player, 1);
 
-  P_SetPsprite(player, Ord(ps_flash),
-    statenum_t(
-      weaponinfo[Ord(player.readyweapon)].flashstate +
-      pDiff(psp.state, @states[Ord(S_CHAIN1)], SizeOf(state_t))
-    ));
+  A_FireSomething(player, pDiff(psp.state, @states[Ord(S_CHAIN1)], SizeOf(state_t))); // phares
 
   P_BulletSlope(player.mo);
 
