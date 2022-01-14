@@ -24227,8 +24227,10 @@ begin
       ZeroMemory(@states[Ord(DO_NUMSTATES)], SizeOf(state_t) * (EXTRANUMSTATES - Ord(DO_NUMSTATES)));
       for i := Ord(DO_NUMSTATES) to EXTRANUMSTATES - 1 do
       begin
+        states[i].sprite := Ord(SPR_NULL);
         states[i].tics := -1;
         states[i].tics2 := -1;
+        states[i].nextstate := statenum_t(i);
       end;
       numstates := EXTRANUMSTATES;
     end;

@@ -294,6 +294,10 @@ function Info_GetNewState: integer;
 begin
   realloc(pointer(states), numstates * SizeOf(state_t), (numstates + 1) * SizeOf(state_t));
   ZeroMemory(@states[numstates], SizeOf(state_t));
+  states[numstates].sprite := Ord(SPR_NULL);
+  states[numstates].tics := -1;
+  states[numstates].tics2 := -1;
+  states[numstates].nextstate := statenum_t(numstates);
   result := numstates;
   inc(numstates);
 end;
