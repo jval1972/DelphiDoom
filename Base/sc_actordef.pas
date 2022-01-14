@@ -105,7 +105,7 @@ var
   soundaliases: TDStringList;
 
 const
-  MAXSTATES = 512;
+  MAXSTATES = 1024;
 
 function fixsndaliasstr(const src: string): string;
 var
