@@ -66,6 +66,7 @@ implementation
 uses
   d_delphi,
   doomtype,
+  i_system,
   p_mobj_h,
   p_setup,
   p_spec,
@@ -357,6 +358,31 @@ begin
           P_AddScroller(sc_side, -sides[s].textureoffset,
                         sides[s].rowoffset, -1, s, accel);
        end;
+
+     1024, // special 255 with tag control
+     1025,
+     1026:
+        begin
+          if l.tag = 0 then
+            I_Warning('P_SpawnScrollers(): Line %d with special %d is missing a tag!'#13#10, [i, special])
+          else
+          begin
+            s := lines[i].sidenum[0];
+            if special > 1024 then
+              control := sides[s].sector.iSectorID;
+
+            if special = 1026 then
+              accel := 1;
+
+            dx := -sides[s].textureoffset div 8;
+            dy := sides[s].rowoffset div 8;
+
+            s := -1;
+            while P_FindLineFromLineTag2(l, s) >= 0 do
+              if s <> i then
+                P_AddScroller(sc_side, dx, dy, control, lines[s].sidenum[0], accel);
+          end;
+        end;
 
     end;
 
