@@ -56,6 +56,7 @@ const
 const
 // mbf21
   DEATH_MASK = $1000; // bit 12
+  KILL_MONSTERS_MASK = $2000; // bit 13
 
 const
 //jff 02/04/98 Define masks, shifts, for fields in

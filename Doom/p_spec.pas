@@ -72,6 +72,8 @@ procedure P_CrossSpecialLinePtr(line: Pline_t; side: integer; thing: Pmobj_t);
 
 procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 
+procedure P_MobjInSpecialSector(mo: Pmobj_t);
+
 function twoSided(sector: integer; line: integer): boolean;
 
 function twoSidedS(sector: Psector_t; line: integer): boolean;
@@ -3038,6 +3040,31 @@ begin
     // point, since the code to deal with those situations is
     // handled by Thinkers.
   end;
+end;
+
+procedure P_MobjInSpecialSector(mo: Pmobj_t);
+var
+  sec: Psector_t;
+begin
+  if mo.player <> nil then
+    exit;
+
+  if mo.z <> mo.floorz then
+    exit;
+
+  if mo.flags and MF_SHOOTABLE = 0 then
+    exit;
+
+  if mo.flags and MF_FLOAT <> 0 then
+    exit;
+
+  sec := Psubsector_t(mo.subsector).sector;
+  if sec.midsec >= 0 then
+    if mo.floorz = sec.ceilingheight then
+      sec := @sectors[sec.midsec]; // JVAL: 3d Floors
+
+  if sec.special and KILL_MONSTERS_MASK <> 0 then
+    P_DamageMobj(mo, nil, nil, 10000);
 end;
 
 var

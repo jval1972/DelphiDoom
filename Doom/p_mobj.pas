@@ -128,6 +128,7 @@ uses
   p_tick,
   p_pspr,
   p_setup,
+  p_spec,
   p_common,
   p_terrain,
   p_sounds,
@@ -811,6 +812,8 @@ begin
     end
     else
       P_ZMovement(mobj);
+
+    P_MobjInSpecialSector(mobj);
 
     if P_ThinkerIsRemoved(@mobj.thinker) then
       exit; // mobj was removed
