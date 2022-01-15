@@ -1843,7 +1843,7 @@ begin
 
       if vx_simpleclip then
       begin
-        num_batch_columns := right - left + 1;
+        num_batch_columns := right - left;
         dc_x := left;
       end;
 

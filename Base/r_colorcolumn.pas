@@ -1299,7 +1299,7 @@ begin
   if num_batch_columns > 0 then
     if num_batch_columns <= R_DrawColorColumnHi_bc_cnt then
     begin
-      R_DrawColorColumnHi_bcTable[num_batch_columns](count);
+      R_DrawColorColumnHi_bcTable[num_batch_columns](count + 1);
       exit;
     end;
 
