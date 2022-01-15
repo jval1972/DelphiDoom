@@ -348,6 +348,7 @@ type
     SPR_KORX,
     SPR_ABAT,
     SPR_TNT1,
+    SPR_NULL,
     DO_NUMSPRITES
   );
 

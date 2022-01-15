@@ -323,6 +323,7 @@ type
     SPR_DD02, // Blue Blood
 
     SPR_TNT1,
+    SPR_NULL,
 
     DO_NUMSPRITES
   );

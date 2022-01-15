@@ -106,8 +106,8 @@ const // Strife Original Sprite Names
     'STAT', 'DSTA', 'CRAB', 'CAGE', 'TREE', 'TRE1', 'BUSH', 'SHRB',
     'STAK', 'BAR1', 'VASE', 'STOL', 'POT1', 'TUB1', 'ANVL', 'TLMP',
     'TRAY', 'APOW', 'AFED', 'DRIP', 'CDRP', 'SPLH', 'WTFT', 'HERT',
-    'TELP', 'MONI', 'STEL', 'STLA', 'STLE', 'HUGE', 'STLG',
-    'SPSH', 'LVAS', 'SLDG', 'SLDN', 'DD01', 'DD02', 'TNT1', ''
+    'TELP', 'MONI', 'STEL', 'STLA', 'STLE', 'HUGE', 'STLG', 'SPSH',
+    'LVAS', 'SLDG', 'SLDN', 'DD01', 'DD02', 'TNT1', 'NULL', ''
   );
 
 implementation

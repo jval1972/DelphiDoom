@@ -365,7 +365,7 @@ uses
   s_pk3sounds in 'Base\s_pk3sounds.pas',
   p_playertrace in 'Base\p_playertrace.pas',
   p_friends in 'Base\p_friends.pas',
-  sounddata in 'Strife\sounddata.pas';
+  sounddata in 'Heretic\sounddata.pas';
 
 var
   Saved8087CW: Word;
