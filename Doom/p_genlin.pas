@@ -49,6 +49,15 @@ const
   PUSH_MASK      = $200;
   PUSH_SHIFT     = 9;
 
+// reserved by BOOM spec - not implemented?
+// bit 10: suppress all sounds within the sector
+// bit 11: disable any sounds due to floor or ceiling motion by the sector
+
+const
+// mbf21
+  DEATH_MASK = $1000; // bit 12
+
+const
 //jff 02/04/98 Define masks, shifts, for fields in
 // generalized linedef types
 

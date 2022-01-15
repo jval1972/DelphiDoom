@@ -2897,6 +2897,8 @@ end;
 //  that the player origin is in a special sector
 //
 procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
+var
+  i: integer;
 begin
   // Falling, not all the way down yet?
   if player.mo.z <> height then
@@ -2957,34 +2959,68 @@ begin
 
   if sector.special >= 32 then  // BOOM sector specials
   begin
-    case (sector.special and DAMAGE_MASK) shr DAMAGE_SHIFT of
-      0: // no damage
-        begin
-        end;
-
-      1: // 2/5 damage per 31 ticks
-        begin
-          if player.powers[Ord(pw_ironfeet)] = 0 then
-            if leveltime and $1f = 0 then
-              P_DamageMobj(player.mo, nil, nil, 5);
-        end;
-
-      2: // 5/10 damage per 31 ticks
-        begin
-          if player.powers[Ord(pw_ironfeet)] = 0 then
-            if leveltime and $1f = 0 then
-              P_DamageMobj(player.mo, nil, nil, 10);
-        end;
-
-      3: // 10/20 damage per 31 ticks
-        begin
-          if (player.powers[Ord(pw_ironfeet)] = 0) or
-             (N_Random < 5) then  // take damage even with suit
+    if sector.special and DEATH_MASK <> 0 then
+    begin
+      case (sector.special and DAMAGE_MASK) shr DAMAGE_SHIFT of
+        0:
           begin
-            if leveltime and $1f = 0 then
-              P_DamageMobj(player.mo, nil, nil, 20);
+            if (player.powers[Ord(pw_invulnerability)] = 0) and (player.powers[Ord(pw_ironfeet)] = 0) then
+              P_DamageMobj(player.mo, nil, nil, 10000);
           end;
-        end;
+
+        1:
+          begin
+            P_DamageMobj(player.mo, nil, nil, 10000);
+          end;
+
+        2:
+          begin
+            for i := 0 to MAXPLAYERS - 1 do
+              if playeringame[i] then
+                P_DamageMobj(players[i].mo, nil, nil, 10000);
+            G_ExitLevel;
+          end;
+
+        3:
+          begin
+            for i := 0 to MAXPLAYERS - 1 do
+              if playeringame[i] then
+                P_DamageMobj(players[i].mo, nil, nil, 10000);
+            G_SecretExitLevel;
+          end;
+      end
+    end
+    else
+    begin
+      case (sector.special and DAMAGE_MASK) shr DAMAGE_SHIFT of
+        0: // no damage
+          begin
+          end;
+
+        1: // 2/5 damage per 31 ticks
+          begin
+            if player.powers[Ord(pw_ironfeet)] = 0 then
+              if leveltime and $1f = 0 then
+                P_DamageMobj(player.mo, nil, nil, 5);
+          end;
+
+        2: // 5/10 damage per 31 ticks
+          begin
+            if player.powers[Ord(pw_ironfeet)] = 0 then
+              if leveltime and $1f = 0 then
+                P_DamageMobj(player.mo, nil, nil, 10);
+          end;
+
+        3: // 10/20 damage per 31 ticks
+          begin
+            if (player.powers[Ord(pw_ironfeet)] = 0) or
+               (N_Random < 5) then  // take damage even with suit
+            begin
+              if leveltime and $1f = 0 then
+                P_DamageMobj(player.mo, nil, nil, 20);
+            end;
+          end;
+      end;
     end;
 
     if sector.special and SECRET_MASK <> 0 then
