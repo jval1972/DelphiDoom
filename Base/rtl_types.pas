@@ -184,6 +184,7 @@ type
     flashstate: integer;
     ammopershot: integer;
     statesdefined: LongWord;
+    flags: string;
   end;
   Prtl_weaponinfo_t = ^rtl_weaponinfo_t;
 

@@ -187,6 +187,7 @@ type
     function MatchFlag4Ex(const flag4_ex: string): boolean;
     function MatchFlag5Ex(const flag5_ex: string): boolean;
     function MatchFlag6Ex(const flag6_ex: string): boolean;
+    function MatchWeaponFlag(const wflag: string): boolean;
   end;
 
 procedure TActordefScriptEngine.AddFlagAliases;
@@ -304,6 +305,15 @@ begin
     MatchString('+MF6_' + flag6_ex) or
     MatchString('+MF6_EX_' + flag6_ex);
   ClearAliases;
+end;
+
+function TActordefScriptEngine.MatchWeaponFlag(const wflag: string): boolean;
+begin
+  result :=
+    MatchString(wflag) or
+    MatchString('+' + wflag) or
+    MatchString('WPF_' + wflag) or
+    MatchString('+WPF_' + wflag);
 end;
 
 const
@@ -929,6 +939,81 @@ var
       if sc.MatchFlag6Ex('-' + flag) then
       begin
         mobj.flags6_ex := RemoveFlag(mobj.flags6_ex, flag);
+        result := true;
+        exit;
+      end;
+    end;
+
+    result := false;
+  end;
+
+  function MatchWeaponFlags: boolean;
+  var
+    i: integer;
+    flag: string;
+  begin
+    for i := 0 to weapon_flags_mbf21.Count - 1 do
+    begin
+      flag := mobj_flags[i];
+      if sc.MatchWeaponFlag(flag) then
+      begin
+        wpn.flags := wpn.flags + flag + ' ';
+        result := true;
+        exit;
+      end;
+    end;
+
+    result := false;
+  end;
+
+  function RemoveWeaponFlag(const inp: string; const wflag: string): string;
+  var
+    sctmp: TScriptEngine;
+    acheck, icheck: string;
+  begin
+    result := '';
+    acheck := strupper(wflag);
+    if acheck = '' then
+    begin
+      result := inp;
+      exit;
+    end;
+    if Pos('WPN_', acheck) = 1 then
+      acheck := Copy(acheck, 5, length(acheck) - 4);
+    sctmp := TScriptEngine.Create(inp);
+    while sctmp.GetString do
+    begin
+      icheck := strupper(sctmp._String);
+      if icheck <> acheck then
+        result := result + icheck + ' ';
+    end;
+    sctmp.Free;
+  end;
+
+  function MatchWeaponFlags_Delete: boolean;
+  var
+    i: integer;
+    flag: string;
+    check: string;
+  begin
+    check := sc._String;
+    if Pos('-', check) <> 1 then
+    begin
+      result := false;
+      exit;
+    end;
+    if Pos('+', check) = 1 then
+    begin
+      result := false;
+      exit;
+    end;
+
+    for i := 0 to weapon_flags_mbf21.Count - 1 do
+    begin
+      flag := weapon_flags_mbf21[i];
+      if sc.MatchWeaponFlag('-' + flag) then
+      begin
+        wpn.flags := RemoveFlag(wpn.flags, flag);
         result := true;
         exit;
       end;
@@ -1950,6 +2035,7 @@ var
     AddStateRes(wpn.attackstate, 'SHOOTING');
     AddStateRes(wpn.holdattackstate, 'HOLD SHOOTING');
     AddStateRes(wpn.flashstate, 'FIRING');
+    AddRes('MBF21 BITS = ' + wpn.flags);
     AddRes('AMMO PER SHOT = ' + itoa(wpn.ammopershot));
 
     AddRes('');
@@ -2300,6 +2386,7 @@ begin
       wpn.attackstate := -1;
       wpn.holdattackstate := -1;
       wpn.flashstate := -1;
+      wpn.flags := '';
 
       if not sc.GetString then
         break;
@@ -2349,6 +2436,10 @@ begin
           wpn.ammopershot := sc._Integer;
           sc.GetString;
         end
+        else if MatchWeaponFlags then
+          sc.GetString
+        else if MatchWeaponFlags_Delete then
+          sc.GetString
         else if sc.MatchString('states') then
         begin
           foundstates := true;
@@ -3766,6 +3857,7 @@ var
   aid: integer; // weapon & ammo ids
   w: Pweaponinfo_t;
   mxammo: integer;
+  fl: integer;
 
   procedure AddLn(const s: string);
   var
@@ -3981,6 +4073,10 @@ begin
   {$IFDEF HEXEN}
   AddLn('AmmoPerShot ' + itoa(WeaponManaUse[pcl, wid]));
   {$ENDIF}
+
+  for fl := 0 to weapon_flags_mbf21.Count - 1 do
+    if w.mbf21bits and (1 shl fl) <> 0 then
+      AddLn('+' + weapon_flags_mbf21[fl]);
 
   // States
   AddLn('States');
