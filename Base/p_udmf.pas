@@ -33,7 +33,29 @@ unit p_udmf;
 
 interface
 
+uses
+  m_fixed,
+  tables;
+
 procedure UDMF_Check(const mapname: string);
+
+const
+  UDMF_TF_SKILL1 = 1;
+  UDMF_TF_SKILL2 = 2;
+  UDMF_TF_SKILL3 = 4;
+  UDMF_TF_SKILL4 = 8;
+  UDMF_TF_SKILL5 = $10;
+  UDMF_TF_SKILL_MASK = $1F;
+  UDMF_TF_HASZ = $20;
+
+type
+  extrathing_t = record
+    extraflags: Integer;
+    z: fixed_t;
+  end;
+  Pextrathing_t = ^extrathing_t;
+  extrathing_tArray = array[0..$FFFF] of extrathing_t;
+  Pextrathing_tArray = ^extrathing_tArray;
 
 implementation
 
@@ -56,6 +78,7 @@ type
   TUDMFManager = class
   private
     fthings: Pmapthing_tArray;
+    fextrathings: Pextrathing_tArray;
     fnumthings: integer;
     fmaplinedefs: Pmaplinedef_tArray;
     fnummaplinedefs: integer;
@@ -78,6 +101,7 @@ type
 constructor TUDMFManager.Create;
 begin
   fthings := nil;
+  fextrathings := nil;
   fnumthings := 0;
   fmaplinedefs := nil;
   fnummaplinedefs := 0;
@@ -148,6 +172,7 @@ var
   sc: TScriptEngine;
   token: string;
   pthing: Pmapthing_t;
+  pextrathing: Pextrathing_t;
   pmaplinedef: Pmaplinedef_t;
   pmapsidedef: Pmapsidedef_t;
   pmapvertex: Pmapvertex_t;
@@ -182,6 +207,9 @@ begin
       realloc(Pointer(fthings), fnumthings * SizeOf(mapthing_t), (fnumthings + 1) * SizeOf(mapthing_t));
       pthing := @fthings[fnumthings];
       ZeroMemory(pthing, SizeOf(mapthing_t));
+      realloc(Pointer(fextrathings), fnumthings * SizeOf(extrathing_t), (fnumthings + 1) * SizeOf(extrathing_t));
+      pextrathing := @fextrathings[fnumthings];
+      ZeroMemory(pextrathing, SizeOf(mapthing_t));
       {$IFNDEF HEXEN}pthing.options := 16{$ENDIF};
       inc(fnumthings);
       GetToken; // _BEGINBLOCK
@@ -200,6 +228,12 @@ begin
           sc.MustGetFloat;
           pthing.y := Round(sc._Float);
         end
+        else if token = 'Z' then
+        begin
+          sc.MustGetFloat;
+          pextrathing.z := Round(sc._Float * FRACUNIT);
+          pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_HASZ;
+        end
         else if token = 'ANGLE' then
         begin
           sc.MustGetFloat;
@@ -214,19 +248,34 @@ begin
         begin
           GetToken;
           if token = 'TRUE' then
+          begin
             pthing.options := pthing.options or 1;
+            if token = 'SKILL1' then
+              pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL1
+            else
+              pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL2;
+          end;
         end
         else if (token = 'SKILL3') then
         begin
           GetToken;
           if token = 'TRUE' then
+          begin
             pthing.options := pthing.options or 2;
+            pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL3;
+          end;
         end
         else if (token = 'SKILL4') or (token = 'SKILL5') then
         begin
           GetToken;
           if token = 'TRUE' then
+          begin
             pthing.options := pthing.options or 4;
+            if token = 'SKILL4' then
+              pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL4
+            else
+              pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL5;
+          end;
         end
         else if (token = 'AMBUSH') then
         begin
@@ -738,8 +787,9 @@ end;
 procedure TUDMFManager.SaveUDMFToVanilla(const amapname: string; const afilename: string{$IFDEF HEXEN};const bl: integer{$ENDIF});
 var
   header: wadinfo_t;
-  infotable: array[0..{$IFDEF HEXEN}11{$ELSE}10{$ENDIF}] of filelump_t;
+  infotable: array[0..{$IFDEF HEXEN}12{$ELSE}11{$ENDIF}] of filelump_t;
   f: TFile;
+  lump: integer;
 {$IFDEF HEXEN}
   bldata: PByteArray;
   bllen: integer;
@@ -816,7 +866,16 @@ begin
   else
     infotable[11].size := 0;
   infotable[11].name := stringtochar8('BEHAVIOR');
+  lump := 11;
+  {$ELSE}
+  lump := 10;
   {$ENDIF}
+
+  Inc(lump);
+  infotable[lump].filepos := f.Position;
+  infotable[lump].size := fnumthings * SizeOf(extrathing_t);
+  infotable[lump].name := stringtochar8('THINGS2');
+  f.Write(fextrathings^, fnumthings * SizeOf(extrathing_t));
 
   header.infotableofs := f.Position;
   f.Write(infotable, SizeOf(infotable));
@@ -828,6 +887,7 @@ end;
 procedure TUDMFManager.Clear;
 begin
   memfree(Pointer(fthings), fnumthings * SizeOf(mapthing_t));
+  memfree(Pointer(fextrathings), fnumthings * SizeOf(extrathing_t));
   memfree(Pointer(fmaplinedefs), fnummaplinedefs * SizeOf(maplinedef_t));
   memfree(Pointer(fmapsidedefs), fnummapsidedefs * SizeOf(mapsidedef_t));
   memfree(Pointer(fmapvertexes), fnummapvertexes * SizeOf(mapvertex_t));
