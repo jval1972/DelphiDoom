@@ -232,6 +232,72 @@ begin
   swingy := -FixedMul(swingx, finesine[angle]);
 end;
 
+// The first set is where the weapon preferences from             // killough,
+// default.cfg are stored. These values represent the keys used   // phares
+// in DOOM2 to bring up the weapon, i.e. 6 = plasma gun. These    //    |
+// are NOT the wp_* constants.                                    //    V
+var
+  weapon_preferences: array[0..1] of array [0..Ord(NUMWEAPONS)] of integer = (
+    (6, 9, 4, 3, 2, 8, 5, 7, 1, 0),  // !compatibility preferences
+    (6, 9, 4, 3, 2, 8, 5, 7, 1, 0)   //  compatibility preferences
+  );
+
+// mbf21: [XA] fixed version of P_SwitchWeapon that correctly
+// takes each weapon's ammotype and ammopershot into account,
+// instead of blindly assuming both.
+function P_SwitchWeaponMBF21(player: Pplayer_t): weapontype_t;
+var
+  currentweapon, newweapon: weapontype_t;
+  i: integer;
+  checkweapon: weapontype_t;
+  ammotype: ammotype_t;
+begin
+  currentweapon := player.readyweapon;
+  newweapon := currentweapon;
+
+  for i := 0 to Ord(NUMWEAPONS) do
+  begin
+    checkweapon := wp_nochange;
+    case weapon_preferences[0][i] of
+      1:
+        if player.powers[Ord(pw_strength)] <> 0 then // allow chainsaw override
+          checkweapon := wp_fist;
+      0:
+        checkweapon := wp_fist;
+      2:
+        checkweapon := wp_pistol;
+      3:
+        checkweapon := wp_shotgun;
+      4:
+        checkweapon := wp_chaingun;
+      5:
+        checkweapon := wp_missile;
+      6:
+        if gamemode <> shareware then
+          checkweapon := wp_plasma;
+      7:
+        if gamemode <> shareware then
+          checkweapon := wp_bfg;
+      8:
+        checkweapon := wp_chainsaw;
+      9:
+        if gamemode = commercial then
+          checkweapon := wp_supershotgun;
+    end;
+
+    if (checkweapon <> wp_nochange) and (player.weaponowned[Ord(checkweapon)] <> 0) then
+    begin
+      ammotype := weaponinfo[Ord(checkweapon)].ammo;
+      if (ammotype = am_noammo) or (player.ammo[Ord(ammotype)] >= weaponinfo[Ord(checkweapon)].ammopershot) then
+      begin
+        newweapon := checkweapon;
+        break;
+      end;
+    end;
+  end;
+  result := newweapon;
+end;
+
 //
 // P_BringUpWeapon
 // Starts bringing the pending weapon up
@@ -247,6 +313,10 @@ begin
 
   if player.pendingweapon = wp_chainsaw then
     S_StartSound(player.mo, Ord(sfx_sawup));
+
+  if G_PlayingEngineVersion >= VERSION207 then
+    if player.pendingweapon = wp_nochange then
+      player.pendingweapon := P_SwitchWeaponMBF21(player);
 
   newstate := statenum_t(weaponinfo[Ord(player.pendingweapon)].upstate);
 
@@ -288,37 +358,42 @@ begin
 
   // Out of ammo, pick a weapon to change to.
   // Preferences are set here.
-  repeat
-    if (player.weaponowned[Ord(wp_plasma)] <> 0) and
-       (player.ammo[Ord(am_cell)] <> 0) and
-      (gamemode <> shareware) then
-      player.pendingweapon := wp_plasma
-    else if (player.weaponowned[Ord(wp_supershotgun)] <> 0) and
-            (player.ammo[Ord(am_shell)] > 2) and
-            (gamemode = commercial) then
-      player.pendingweapon := wp_supershotgun
-    else if (player.weaponowned[Ord(wp_chaingun)] <> 0) and
-            (player.ammo[Ord(am_clip)] <> 0) then
-      player.pendingweapon := wp_chaingun
-    else if (player.weaponowned[Ord(wp_shotgun)] <> 0) and
-            (player.ammo[Ord(am_shell)] <> 0) then
-      player.pendingweapon := wp_shotgun
-    else if (player.ammo[Ord(am_clip)] <> 0) then
-      player.pendingweapon := wp_pistol
-    else if (player.weaponowned[Ord(wp_chainsaw)] <> 0) then
-      player.pendingweapon := wp_chainsaw
-    else if (player.weaponowned[Ord(wp_missile)] <> 0) and
-            (player.ammo[Ord(am_misl)] <> 0) then
-      player.pendingweapon := wp_missile
-    else if (player.weaponowned[Ord(wp_bfg)] <> 0) and
-            (player.ammo[Ord(am_cell)] > p_bfgcells) and
-            (gamemode <> shareware) then
-      player.pendingweapon := wp_bfg
-    else
-      // If everything fails.
-      player.pendingweapon := wp_fist;
+  if G_PlayingEngineVersion >= VERSION207 then
+    player.pendingweapon := P_SwitchWeaponMBF21(player)
+  else
+  begin
+    repeat
+      if (player.weaponowned[Ord(wp_plasma)] <> 0) and
+         (player.ammo[Ord(am_cell)] <> 0) and
+        (gamemode <> shareware) then
+        player.pendingweapon := wp_plasma
+      else if (player.weaponowned[Ord(wp_supershotgun)] <> 0) and
+              (player.ammo[Ord(am_shell)] > 2) and
+              (gamemode = commercial) then
+        player.pendingweapon := wp_supershotgun
+      else if (player.weaponowned[Ord(wp_chaingun)] <> 0) and
+              (player.ammo[Ord(am_clip)] <> 0) then
+        player.pendingweapon := wp_chaingun
+      else if (player.weaponowned[Ord(wp_shotgun)] <> 0) and
+              (player.ammo[Ord(am_shell)] <> 0) then
+        player.pendingweapon := wp_shotgun
+      else if (player.ammo[Ord(am_clip)] <> 0) then
+        player.pendingweapon := wp_pistol
+      else if (player.weaponowned[Ord(wp_chainsaw)] <> 0) then
+        player.pendingweapon := wp_chainsaw
+      else if (player.weaponowned[Ord(wp_missile)] <> 0) and
+              (player.ammo[Ord(am_misl)] <> 0) then
+        player.pendingweapon := wp_missile
+      else if (player.weaponowned[Ord(wp_bfg)] <> 0) and
+              (player.ammo[Ord(am_cell)] > p_bfgcells) and
+              (gamemode <> shareware) then
+        player.pendingweapon := wp_bfg
+      else
+        // If everything fails.
+        player.pendingweapon := wp_fist;
 
-  until not (player.pendingweapon = wp_nochange);
+    until not (player.pendingweapon = wp_nochange);
+  end;
 
   // Now set appropriate weapon overlay.
   P_SetPsprite(player, Ord(ps_weapon), statenum_t(weaponinfo[Ord(player.readyweapon)].downstate));
@@ -510,6 +585,10 @@ begin
     P_SetPsprite(player, Ord(ps_weapon), S_NULL);
     exit;
   end;
+
+  if G_PlayingEngineVersion >= VERSION207 then
+    if player.pendingweapon = wp_nochange then
+      player.pendingweapon := P_SwitchWeaponMBF21(player);
 
   player.readyweapon := player.pendingweapon;
 
@@ -729,14 +808,11 @@ end;
 // A_FirePistol
 //
 procedure A_FirePistol(player: Pplayer_t; psp: Ppspdef_t);
-var
-  am: integer;
 begin
   S_StartSound(player.mo, Ord(sfx_pistol));
 
   P_SetMobjState(player.mo, S_PLAY_ATK2);
 
-  am := Ord(weaponinfo[Ord(player.readyweapon)].ammo);
   P_SubtractAmmo(player, 1);
 
   A_FireSomething(player,0);  // phares
@@ -773,7 +849,6 @@ var
   i: integer;
   angle: angle_t;
   damage: integer;
-  am: integer;
 begin
   S_StartSound(player.mo, Ord(sfx_dshtgn));
   P_SetMobjState(player.mo, S_PLAY_ATK2);
