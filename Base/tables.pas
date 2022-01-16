@@ -1386,7 +1386,7 @@ var
   finecosine: Pfixed_tArray;
 
 // Effective size is 4096.
-  finetangent : array[0..(FINEANGLES div 2) - 1] of fixed_t = (
+  finetangent : array[0..(FINEANGLES div 2)] of fixed_t = (
     -170910304,-56965752,-34178904,-24413316,-18988036,-15535599,-13145455,-11392683,
     -10052327,-8994149,-8137527,-7429880,-6835455,-6329090,-5892567,-5512368,
     -5178251,-4882318,-4618375,-4381502,-4167737,-3973855,-3797206,-3635590,
@@ -1898,7 +1898,8 @@ var
     2712030,2800983,2895966,2997613,3106651,3223918,3350381,3487165,
     3635590,3797206,3973855,4167737,4381502,4618375,4882318,5178251,
     5512368,5892567,6329090,6835455,7429880,8137527,8994149,10052327,
-    11392683,13145455,15535599,18988036,24413316,34178904,56965752,170910304);
+    11392683,13145455,15535599,18988036,24413316,34178904,56965752,
+    170910304,170910304);
 
 // Effective size is 2049;
 // The +1 size is to handle the case when x==y
@@ -12441,19 +12442,13 @@ end;
 // mbf21: More utility functions, courtesy of Quasar (James Haley).
 // These are straight from Eternity so demos stay in sync.
 function FixedToAngle(a: fixed_t): angle_t;
-var
-  a64: int64;
 begin
-  a64 := (a * ANG1);
-  result := FixedInt64(a64);
+  result := trunc((a / FRACUNIT) * ANG1);
 end;
 
 function AngleToFixed(a: angle_t): fixed_t;
-var
-  a64: double;
 begin
-  a64 := a;
-  result := trunc((a64 / ANG1) * FRACUNIT);
+  result := trunc((a / ANG1) * FRACUNIT);
 end;
 
 // [XA] Clamped angle->slope, for convenience

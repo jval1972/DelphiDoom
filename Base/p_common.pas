@@ -7407,7 +7407,7 @@ begin
       continue;
 
     // skip actors not in line of sight
-    if P_CheckSight(mo, mobj) then
+    if not P_CheckSight(mo, mobj) then
       continue;
 
     // all good! return it.
@@ -9262,8 +9262,7 @@ begin
 
   // adjust pitch (approximated, using Doom's ye olde
   // finetangent table; same method as autoaim)
-  if pitch <> 0 then
-    mo.momz := mo.momz + FixedMul(mo.info.speed, DegToSlope(pitch));
+  mo.momz := mo.momz + FixedMul(mo.info.speed, DegToSlope(pitch));
 
   // adjust position
   an := (player.mo.angle - ANG90) div ANGLETOFINEUNIT;
