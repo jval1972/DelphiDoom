@@ -405,7 +405,8 @@ begin
           17: mobjinfo[mobj_no].height := mobj_val;
           18: mobjinfo[mobj_no].mass := mobj_val;
           19: mobjinfo[mobj_no].damage := mobj_val;
-          20: mobjinfo[mobj_no].activesound := S_GetSoundNumForName(token2);
+          20,
+          75: mobjinfo[mobj_no].activesound := S_GetSoundNumForName(token2);
           21: begin
                 if itoa(mobj_val) = token2 then
                   mobjinfo[mobj_no].flags := mobj_val
@@ -2221,6 +2222,7 @@ begin
   mobj_tokens.Add('SPLASH GROUP');       // .splash_group             // 72
   mobj_tokens.Add('RIP SOUND');          // .ripsound                 // 73
   mobj_tokens.Add('CRUSH FRAME');        // .crushstate (DelphiDoom)  // 74
+  mobj_tokens.Add('ACTIVE SOUND');       // .activesound              // 75 - Alias for 20
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);
