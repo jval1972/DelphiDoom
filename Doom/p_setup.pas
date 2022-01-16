@@ -701,6 +701,11 @@ begin
     ss.ceilingheight := ms.ceilingheight * FRACUNIT;
     ss.floorpic := R_FlatNumForName(ms.floorpic);
     ss.ceilingpic := R_FlatNumForName(ms.ceilingpic);
+    // https://www.doomworld.com/forum/topic/118126-doom-sector-light-levels/
+    // JVAL: 20220116 -> If sector lightlevel in WAD is 256 change it to 255,
+    //                   do not treat as fog sector
+    if ms.lightlevel = 256 then
+      ms.lightlevel := $FF;
     ss.lightlevel := ms.lightlevel and $FF; // JVAL: Mars fog sectors
     ss.special := ms.special;
     ss.tag := ms.tag;

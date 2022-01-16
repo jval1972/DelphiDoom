@@ -4512,8 +4512,12 @@ end;
 procedure PS_SetSectorLightLevel(const sec: Integer; const x: Integer);
 begin
   if (sec >= 0) and (sec < numsectors) then
-    if (x >= 0) and (x < 255) then
-      sectors[sec].lightlevel := x;
+  begin
+    if (x >= 0) and (x < 256) then
+      sectors[sec].lightlevel := x
+    else if x = 256 then
+      sectors[sec].lightlevel := 255;
+  end;
 end;
 
 function PS_GetSectorSpecial(const sec: Integer): Integer;

@@ -31,7 +31,7 @@ ACTORDEF does not require the "Stop" keyword in states.
 Added the TICRATE const in states parameters evaluation.
 Added the LEVELTIME, GAMEMAP & LEVELNAME variables in states parameters evaluation.
 Fixed glitch in large flats multithreading software rendering.
-Fog sectors (lightlevel > 255).
+Fog sectors (lightlevel > 256).
 Fog strength can be configured individually for normal & white fog sectors (OpenGL).
 Added GetSectorInterpolate() & SetSectorInterpolate() PascalScript functions.
 Added GetSectorFog() & SetSectorFog() PascalScript functions. Added ::fog property in sector class.
