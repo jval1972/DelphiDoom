@@ -34,10 +34,21 @@ unit p_udmf;
 interface
 
 uses
+  d_delphi,
+  doomdata,
   m_fixed,
   tables;
 
 procedure UDMF_Check(const mapname: string);
+
+const
+  {$IFDEF HEXEN}
+  ML_UDMFSTART = Ord(ML_BEHAVIOR) + 1;
+  {$ELSE}
+  ML_UDMFSTART = Ord(ML_BLOCKMAP) + 1;
+  {$ENDIF}
+  ML_THINGS2 = ML_UDMFSTART + 0;
+  ML_SECTORS2 = ML_UDMFSTART + 1;
 
 const
   UDMF_TF_SKILL1 = 1;
@@ -57,11 +68,52 @@ type
   extrathing_tArray = array[0..$FFFF] of extrathing_t;
   Pextrathing_tArray = ^extrathing_tArray;
 
+const
+  UDMF_SF_CEILINGPLANE_A = $1;
+  UDMF_SF_CEILINGPLANE_B = $2;
+  UDMF_SF_CEILINGPLANE_C = $4;
+  UDMF_SF_CEILINGPLANE_D = $8;
+  UDMF_SF_CEILINGPLANE = UDMF_SF_CEILINGPLANE_A or UDMF_SF_CEILINGPLANE_B or UDMF_SF_CEILINGPLANE_C or UDMF_SF_CEILINGPLANE_D;
+  UDMF_SF_FLOORPLANE_A = $10;
+  UDMF_SF_FLOORPLANE_B = $20;
+  UDMF_SF_FLOORPLANE_C = $40;
+  UDMF_SF_FLOORPLANE_D = $80;
+  UDMF_SF_FLOORPLANE = UDMF_SF_FLOORPLANE_A or UDMF_SF_FLOORPLANE_B or UDMF_SF_FLOORPLANE_C or UDMF_SF_FLOORPLANE_D;
+  UDMF_SF_RIPPLECEILING = $100;
+  UDMF_SF_RIPPLEFLOOR = $200;
+
+type
+  extrasector_t = record
+    extraflags: Integer;
+    {$IFDEF DOOM_OR_STRIFE}
+    xpanningfloor: fixed_t;   // X texture offset of floor texture, Default = 0.0.
+    ypanningfloor: fixed_t;   // Y texture offset of floor texture, Default = 0.0.
+    xpanningceiling: fixed_t; // X texture offset of ceiling texture, Default = 0.0.
+    ypanningceiling: fixed_t; // Y texture offset of ceiling texture, Default = 0.0.
+    {$ENDIF}
+    rotationfloor: angle_t;   // Rotation of floor texture (degrees in TEXMAP)
+    rotationfloorx: fixed_t;  // x/y rover for rotating floor
+    rotationfloory: fixed_t;
+    rotationceiling: angle_t; // Rotation of ceiling texture (degrees in TEXMAP)
+    rotationceilingx: fixed_t;// x/y rover for rotating ceiling
+    rotationceilingy: fixed_t;// x/y rover for rotating ceiling
+    gravity: fixed_t;         // Default is 1.0
+    ceilingplane_a: float;    // Define the plane equation for the sector's ceiling. Default is a horizontal plane at 'heightceiling'.
+    ceilingplane_b: float;    // 'heightceiling' will still be used to calculate texture alignment.
+    ceilingplane_c: float;    // The plane equation will only be used if all 4 values are given.
+    ceilingplane_d: float;
+    floorplane_a: float;      // Define the plane equation for the sector's floor. Default is a horizontal plane at 'heightfloor'.
+    floorplane_b: float;      // 'heightfloor' will still be used to calculate texture alignment.
+    floorplane_c: float;      // The plane equation will only be used if all 4 values are given.
+    floorplane_d: float;
+  end;
+  Pextrasector_t = ^extrasector_t;
+  extrasector_tArray = array[0..$FFFF] of extrasector_t;
+  Pextrasector_tArray = ^extrasector_tArray;
+
 implementation
 
 uses
-  d_delphi,
-  doomdata,
   doomdef,
   m_argv,
   m_crc32,
@@ -87,6 +139,7 @@ type
     fmapvertexes: Pmapvertex_tArray;
     fnummapvertexes: integer;
     fmapsectors: Pmapsector_tArray;
+    fextrasectors: Pextrasector_tArray;
     fnummapsectors: integer;
     function _udmfPreproccessor(atext: string): string;
   public
@@ -110,6 +163,7 @@ begin
   fmapvertexes := nil;
   fnummapvertexes := 0;
   fmapsectors := nil;
+  fextrasectors := nil;
   fnummapsectors := 0;
 end;
 
@@ -177,6 +231,7 @@ var
   pmapsidedef: Pmapsidedef_t;
   pmapvertex: Pmapvertex_t;
   pmapsector: Pmapsector_t;
+  pextrasector: Pextrasector_t;
 
   function GetToken: boolean;
   begin
@@ -734,6 +789,10 @@ begin
       pmapsector := @fmapsectors[fnummapsectors];
       ZeroMemory(pmapsector, SizeOf(mapsector_t));
       pmapsector.lightlevel := 160;
+      realloc(Pointer(fextrasectors), fnummapsectors * SizeOf(extrasector_t), (fnummapsectors + 1) * SizeOf(extrasector_t));
+      pextrasector := @fextrasectors[fnummapsectors];
+      ZeroMemory(fextrasectors, SizeOf(mapsector_t));
+      pextrasector.gravity := FRACUNIT;
       inc(fnummapsectors);
       GetToken; // _BEGINBLOCK
       if token <> '_BEGINBLOCK' then
@@ -776,6 +835,111 @@ begin
           sc.MustGetInteger;
           pmapsector.tag := sc._Integer;
         end
+        {$IFDEF DOOM_OR_STRIFE}
+        else if (token = 'XPANNINGFLOOR') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.xpanningfloor := Round(sc._Float * FRACUNIT);
+        end
+        else if (token = 'YPANNINGFLOOR') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.ypanningfloor := Round(sc._Float * FRACUNIT);
+        end
+        else if (token = 'XPANNINGCEILING') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.xpanningceiling := Round(sc._Float * FRACUNIT);
+        end
+        else if (token = 'YPANNINGCEILING') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.ypanningceiling := Round(sc._Float * FRACUNIT);
+        end
+        {$ENDIF}
+        else if (token = 'ROTATIONFLOOR') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.rotationfloor := Round(sc._Float * ANG1);
+        end
+        else if (token = 'ROTATIONFLOORX') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.rotationfloorx := Round(sc._Float * FRACUNIT);
+        end
+        else if (token = 'ROTATIONFLOORY') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.rotationfloory := Round(sc._Float * FRACUNIT);
+        end
+        else if (token = 'ROTATIONCEILING') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.rotationceiling := Round(sc._Float * ANG1);
+        end
+        else if (token = 'ROTATIONCEILINGX') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.rotationceilingx := Round(sc._Float * FRACUNIT);
+        end
+        else if (token = 'ROTATIONCEILINGY') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.rotationceilingy := Round(sc._Float * FRACUNIT);
+        end
+        else if (token = 'GRAVITY') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.gravity := Round(sc._Float * FRACUNIT);
+        end
+        else if (token = 'CEILINGPLANE_A') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.ceilingplane_a := sc._Float;
+          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_CEILINGPLANE_A;
+        end
+        else if (token = 'CEILINGPLANE_B') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.ceilingplane_b := sc._Float;
+          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_CEILINGPLANE_B;
+        end
+        else if (token = 'CEILINGPLANE_C') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.ceilingplane_c := sc._Float;
+          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_CEILINGPLANE_C;
+        end
+        else if (token = 'CEILINGPLANE_D') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.ceilingplane_d := sc._Float;
+          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_CEILINGPLANE_D;
+        end
+        else if (token = 'FLOORPLANE_A') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.floorplane_a := sc._Float;
+          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FLOORPLANE_A;
+        end
+        else if (token = 'FLOORPLANE_B') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.floorplane_b := sc._Float;
+          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FLOORPLANE_B;
+        end
+        else if (token = 'FLOORPLANE_C') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.floorplane_c := sc._Float;
+          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FLOORPLANE_C;
+        end
+        else if (token = 'FLOORPLANE_D') then
+        begin
+          sc.MustGetFloat;
+          pextrasector.floorplane_d := sc._Float;
+          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FLOORPLANE_D;
+        end
         else if (token = 'COMMENT') then
         begin
           GetToken; // skip comment
@@ -789,9 +953,8 @@ end;
 procedure TUDMFManager.SaveUDMFToVanilla(const amapname: string; const afilename: string{$IFDEF HEXEN};const bl: integer{$ENDIF});
 var
   header: wadinfo_t;
-  infotable: array[0..{$IFDEF HEXEN}12{$ELSE}11{$ENDIF}] of filelump_t;
+  infotable: array[0..{$IFDEF HEXEN}13{$ELSE}12{$ENDIF}] of filelump_t;
   f: TFile;
-  lump: integer;
 {$IFDEF HEXEN}
   bldata: PByteArray;
   bllen: integer;
@@ -868,16 +1031,17 @@ begin
   else
     infotable[11].size := 0;
   infotable[11].name := stringtochar8('BEHAVIOR');
-  lump := 11;
-  {$ELSE}
-  lump := 10;
   {$ENDIF}
 
-  Inc(lump);
-  infotable[lump].filepos := f.Position;
-  infotable[lump].size := fnumthings * SizeOf(extrathing_t);
-  infotable[lump].name := stringtochar8('THINGS2');
+  infotable[ML_THINGS2].filepos := f.Position;
+  infotable[ML_THINGS2].size := fnumthings * SizeOf(extrathing_t);
+  infotable[ML_THINGS2].name := stringtochar8('THINGS2');
   f.Write(fextrathings^, fnumthings * SizeOf(extrathing_t));
+
+  infotable[ML_SECTORS2].filepos := f.Position;
+  infotable[ML_SECTORS2].size := fnummapsectors * SizeOf(extrasector_t);
+  infotable[ML_SECTORS2].name := stringtochar8('SECTORS2');
+  f.Write(fextrasectors^, fnummapsectors * SizeOf(extrasector_t));
 
   header.infotableofs := f.Position;
   f.Write(infotable, SizeOf(infotable));
@@ -894,6 +1058,7 @@ begin
   memfree(Pointer(fmapsidedefs), fnummapsidedefs * SizeOf(mapsidedef_t));
   memfree(Pointer(fmapvertexes), fnummapvertexes * SizeOf(mapvertex_t));
   memfree(Pointer(fmapsectors), fnummapsectors * SizeOf(mapsector_t));
+  memfree(Pointer(fextrasectors), fnummapsectors * SizeOf(extrasector_t));
 end;
 
 destructor TUDMFManager.Destroy;
