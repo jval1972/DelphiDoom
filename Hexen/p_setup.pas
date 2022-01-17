@@ -42,6 +42,7 @@ uses
   doomdata,
   m_fixed,
   p_mobj_h,
+  p_udmf,
   r_defs;
 
 function P_GetMapName(const map: integer): string;
@@ -139,9 +140,11 @@ const
 
 var
   deathmatchstarts: array[0..MAX_DEATHMATCH_STARTS - 1] of mapthing_t;
+  udeathmatchstarts: array[0..MAX_DEATHMATCH_STARTS - 1] of extrathing_t;
   deathmatch_p: integer;
 
   playerstarts: array[0..MAX_PLAYER_STARTS - 1, 0..MAXPLAYERS - 1] of mapthing_t;
+  uplayerstarts: array[0..MAX_PLAYER_STARTS - 1, 0..MAXPLAYERS - 1] of extrathing_t;
 
 function P_GameValidThing(const doomdnum: integer): boolean;
 
@@ -204,7 +207,6 @@ uses
   p_pspr,
   p_acs,
   p_anim,
-  p_udmf,
   p_3dfloors, // JVAL: 3d Floors
   p_slopes,   // JVAL: Slopes
   p_easyslope,
@@ -898,12 +900,26 @@ begin
   P_EasySlopeExecute;
 
   mt := Pmapthing_t(data);
-  for i := 0 to numthings - 1 do
-  begin
-    if P_GameValidThing(mt._type) then // Do spawn all other stuff.
-      P_SpawnMapThing(mt);
 
-    inc(mt);
+  if hasudmfdata then
+  begin
+    for i := 0 to numthings - 1 do
+    begin
+      if P_GameValidThing(mt._type) then // Do spawn all other stuff.
+        P_SpawnMapThing(mt, @udmfthings[i]);
+
+      inc(mt);
+    end;
+  end
+  else
+  begin
+    for i := 0 to numthings - 1 do
+    begin
+      if P_GameValidThing(mt._type) then // Do spawn all other stuff.
+        P_SpawnMapThing(mt, nil);
+
+      inc(mt);
+    end;
   end;
 
   P_CreateTIDList;

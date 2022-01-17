@@ -2289,7 +2289,7 @@ begin
     end
     else
     begin
-      P_SpawnPlayer(@playerstarts[position, i]);
+      P_SpawnPlayer(@playerstarts[position, i], @uplayerstarts[position, i]);
     end;
 
     if playerWasReborn and netgame and (deathmatch = 0) then

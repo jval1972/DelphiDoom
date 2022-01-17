@@ -46,6 +46,7 @@ uses
 //  tied to animation frames.
 // Needs precompiled tables/data structures.
   info_h,
+  p_udmf,
   m_fixed;
 
 function P_SetMobjState(mobj: Pmobj_t; state: statenum_t): boolean;
@@ -72,9 +73,9 @@ function P_SpawnMobj(x, y, z: fixed_t; _type: integer; const mthing: Pmapthing_t
 
 procedure P_RemoveMobj(mobj: Pmobj_t);
 
-function P_SpawnPlayer(mthing: Pmapthing_t): Pmobj_t;
+function P_SpawnPlayer(mthing: Pmapthing_t; uthing: Pextrathing_t): Pmobj_t;
 
-function P_SpawnMapThing(mthing: Pmapthing_t): Pmobj_t;
+function P_SpawnMapThing(mthing: Pmapthing_t; uthing: Pextrathing_t): Pmobj_t;
 
 procedure P_CreateTIDList;
 
@@ -1607,7 +1608,7 @@ end;
 // structure stays unchanged between levels.
 //
 
-function P_SpawnPlayer(mthing: Pmapthing_t): Pmobj_t;
+function P_SpawnPlayer(mthing: Pmapthing_t; uthing: Pextrathing_t): Pmobj_t;
 var
   p: Pplayer_t;
   x: fixed_t;
@@ -1624,9 +1625,21 @@ begin
   if p.playerstate = PST_REBORN then
     G_PlayerReborn(mthing._type - 1);
 
-  x := mthing.x * FRACUNIT;
-  y := mthing.y * FRACUNIT;
-  z := ONFLOORZ;
+  if uthing <> nil then
+  begin
+    x := uthing.x;
+    y := uthing.y;
+    if uthing.extraflags and UDMF_TF_HASZ <> 0 then
+      z := uthing.z
+    else
+      z := ONFLOORZ;
+  end
+  else
+  begin
+    x := mthing.x * FRACUNIT;
+    y := mthing.y * FRACUNIT;
+    z := ONFLOORZ;
+  end;
 
   // JVAL: 20191209 - 3d floors - Fixed Player spawned in 3d floor
   ss := R_PointInSubsector(x, y);
@@ -1685,6 +1698,7 @@ begin
   result.player := p;
   result.health := p.health;
   result.customparams := nil; // JVAL: Should keep the old params!
+
   p.mo := result;
   p.playerstate := PST_LIVE;
   p.refire := 0;
@@ -1713,8 +1727,10 @@ begin
 
   // setup gun psprite
   P_SetupPsprites(p);
+
+  // give all cards in death match mode
   if deathmatch <> 0 then
-  begin // Give all keys in death match mode
+  begin
     p.keys := 2047;
   end;
 
@@ -1739,10 +1755,11 @@ const
     MTF_MAGE
   );
 
-function P_SpawnMapThing(mthing: Pmapthing_t): Pmobj_t;
+function P_SpawnMapThing(mthing: Pmapthing_t; uthing: Pextrathing_t): Pmobj_t;
 var
   i: integer;
   spawnMask: integer;
+  bit: integer;
   x: fixed_t;
   y: fixed_t;
   z: fixed_t;
@@ -1759,6 +1776,23 @@ begin
     if deathmatch_p < MAX_DEATHMATCH_STARTS then
     begin
       memcpy(@deathmatchstarts[deathmatch_p], mthing, SizeOf(mthing^));
+      if uthing <> nil then
+        memcpy(@udeathmatchstarts[deathmatch_p], uthing, SizeOf(uthing^))
+      else
+      begin
+        ZeroMemory(@udeathmatchstarts[deathmatch_p], SizeOf(uthing^));
+        if mthing.options and 1 <> 0 then
+          udeathmatchstarts[deathmatch_p].extraflags :=
+            udeathmatchstarts[deathmatch_p].extraflags or UDMF_TF_SKILL1 or UDMF_TF_SKILL2;
+        if mthing.options and 2 <> 0 then
+          udeathmatchstarts[deathmatch_p].extraflags :=
+            udeathmatchstarts[deathmatch_p].extraflags or UDMF_TF_SKILL3;
+        if mthing.options and 4 <> 0 then
+          udeathmatchstarts[deathmatch_p].extraflags :=
+            udeathmatchstarts[deathmatch_p].extraflags or UDMF_TF_SKILL4 or UDMF_TF_SKILL5;
+        udeathmatchstarts[deathmatch_p].x := mthing.x * FRACUNIT;
+        udeathmatchstarts[deathmatch_p].y := mthing.y * FRACUNIT;
+      end;
       inc(deathmatch_p);
     end;
     exit;
@@ -1780,8 +1814,16 @@ begin
   begin
     // save spots for respawning in network games
     playerstarts[mthing.arg1, mthing._type - 1] := mthing^;
+    if uthing <> nil then
+      uplayerstarts[mthing.arg1, mthing._type - 1] := uthing^
+    else
+    begin
+      ZeroMemory(@uplayerstarts[mthing.arg1, mthing._type - 1], SizeOf(extrathing_t));
+      uplayerstarts[mthing.arg1, mthing._type - 1].x := mthing.x * FRACUNIT;
+      uplayerstarts[mthing.arg1, mthing._type - 1].y := mthing.y * FRACUNIT;
+    end;
     if (deathmatch = 0) and (mthing.arg1 = 0) then
-      result := P_SpawnPlayer(mthing);
+      result := P_SpawnPlayer(mthing, uthing);
     exit;
   end;
 
@@ -1790,8 +1832,16 @@ begin
   begin
     mthing._type := 5 + mthing._type - 9100;  // Translate to 5 - 8
     playerstarts[mthing.arg1, mthing._type - 1] := mthing^;
+    if uthing <> nil then
+      uplayerstarts[mthing.arg1, mthing._type - 1] := uthing^
+    else
+    begin
+      ZeroMemory(@uplayerstarts[mthing.arg1, mthing._type - 1], SizeOf(extrathing_t));
+      uplayerstarts[mthing.arg1, mthing._type - 1].x := mthing.x * FRACUNIT;
+      uplayerstarts[mthing.arg1, mthing._type - 1].y := mthing.y * FRACUNIT;
+    end;
     if (deathmatch = 0) and (mthing.arg1 = 0) then
-      result := P_SpawnPlayer(mthing);
+      result := P_SpawnPlayer(mthing, uthing);
     exit;
   end;
 
@@ -1818,15 +1868,27 @@ begin
   if mthing.options and spawnMask = 0 then
     exit;
 
-  // Check current skill with spawn flags
-  if (gameskill = sk_baby) or (gameskill = sk_easy) then
-    spawnMask := MTF_EASY
-  else if (gameskill = sk_hard) or (gameskill = sk_nightmare) then
-    spawnMask := MTF_HARD
+  if uthing <> nil then
+  begin
+    bit := _SHL(1, Ord(gameskill));
+    if bit and uthing.extraflags = 0 then
+    begin
+      result := nil;
+      exit;
+    end;
+  end
   else
-    spawnMask := MTF_NORMAL;
-  if mthing.options and spawnMask = 0 then
-    exit;
+  begin
+    // Check current skill with spawn flags
+    if (gameskill = sk_baby) or (gameskill = sk_easy) then
+      spawnMask := MTF_EASY
+    else if (gameskill = sk_hard) or (gameskill = sk_nightmare) then
+      spawnMask := MTF_HARD
+    else
+      spawnMask := MTF_NORMAL;
+    if mthing.options and spawnMask = 0 then
+      exit;
+  end;
 
   // Check current character classes with spawn flags
   if not netgame then
@@ -1876,8 +1938,16 @@ begin
     exit;
 
   // spawn it
-  x := mthing.x * FRACUNIT;
-  y := mthing.y * FRACUNIT;
+  if uthing <> nil then
+  begin
+    x := uthing.x;
+    y := uthing.y;
+  end
+  else
+  begin
+    x := mthing.x * FRACUNIT;
+    y := mthing.y * FRACUNIT;
+  end;
 
   // JVAL
   // Random map enemies
@@ -1893,6 +1963,10 @@ begin
     z := mthing.height * FRACUNIT
   else
     z := ONFLOORZ;
+
+  if uthing <> nil then
+    if uthing.extraflags and UDMF_TF_HASZ <> 0 then
+      z := uthing.z;
 
 // JVAL: 3d floors
   ss := R_PointInSubsector(x, y);

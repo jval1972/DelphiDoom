@@ -1939,13 +1939,13 @@ begin
     if G_CheckSpot(playernum, @deathmatchstarts[i]) then
     begin
       deathmatchstarts[i]._type := playernum + 1;
-      P_SpawnPlayer(@deathmatchstarts[i]);
+      P_SpawnPlayer(@deathmatchstarts[i], @udeathmatchstarts[i]);
       exit;
     end;
   end;
 
   // no good spot, so the player will probably get stuck
-  P_SpawnPlayer(@playerstarts[playernum]);
+  P_SpawnPlayer(@playerstarts[playernum], @udeathmatchstarts[playernum]);
 end;
 
 //
@@ -1974,7 +1974,7 @@ begin
 
     if G_CheckSpot(playernum, @playerstarts[playernum]) then
     begin
-      P_SpawnPlayer(@playerstarts[playernum]);
+      P_SpawnPlayer(@playerstarts[playernum], @udeathmatchstarts[playernum]);
       exit;
     end;
 
@@ -1984,13 +1984,13 @@ begin
       if G_CheckSpot (playernum, @playerstarts[i]) then
       begin
         playerstarts[i]._type := playernum + 1; // fake as other player
-        P_SpawnPlayer(@playerstarts[i]);
+        P_SpawnPlayer(@playerstarts[i], @udeathmatchstarts[i]);
         playerstarts[i]._type := i + 1; // restore
         exit;
       end;
       // he's going to be inside something.  Too bad.
     end;
-    P_SpawnPlayer(@playerstarts[playernum]);
+    P_SpawnPlayer(@playerstarts[playernum], @udeathmatchstarts[playernum]);
   end;
 end;
 

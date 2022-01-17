@@ -1901,13 +1901,13 @@ begin
     if G_CheckSpot(playernum, @deathmatchstarts[i]) then
     begin
       deathmatchstarts[i]._type := playernum + 1;
-      P_SpawnPlayer(@deathmatchstarts[i]);
+      P_SpawnPlayer(@deathmatchstarts[i], @udeathmatchstarts[i]);
       exit;
     end;
   end;
 
   // no good spot, so the player will probably get stuck
-  P_SpawnPlayer(@playerstarts[playernum]);
+  P_SpawnPlayer(@playerstarts[playernum], @uplayerstarts[playernum]);
 end;
 
 //
@@ -1956,7 +1956,7 @@ begin
     foundSpot := false;
     if G_CheckSpot(playernum, @playerstarts[RebornPosition][playernum]) then
     begin // Appropriate player start spot is open
-      P_SpawnPlayer(@playerstarts[RebornPosition, playernum]);
+      P_SpawnPlayer(@playerstarts[RebornPosition, playernum], @uplayerstarts[RebornPosition, playernum]);
       foundSpot := true;
     end
     else
@@ -1969,7 +1969,7 @@ begin
 
           // Fake as other player
           playerstarts[RebornPosition, i]._type := playernum + 1;
-          P_SpawnPlayer(@playerstarts[RebornPosition, i]);
+          P_SpawnPlayer(@playerstarts[RebornPosition, i], @uplayerstarts[RebornPosition, i]);
 
           // Restore proper player type
           playerstarts[RebornPosition, i]._type := i + 1;
@@ -1982,7 +1982,7 @@ begin
 
     if not foundSpot then
     begin // Player's going to be inside something
-      P_SpawnPlayer(@playerstarts[RebornPosition][playernum]);
+      P_SpawnPlayer(@playerstarts[RebornPosition][playernum], @uplayerstarts[RebornPosition][playernum]);
     end;
 
     // Restore keys and weapons

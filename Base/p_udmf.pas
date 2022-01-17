@@ -251,6 +251,7 @@ var
   pmapvertex: Pmapvertex_t;
   pmapsector: Pmapsector_t;
   pextrasector: Pextrasector_t;
+  sk: string;
 
   function GetToken: boolean;
   begin
@@ -327,11 +328,12 @@ begin
         end
         else if (token = 'SKILL1') or (token = 'SKILL2') then
         begin
+          sk := token;
           GetToken;
           if token = 'TRUE' then
           begin
             pthing.options := pthing.options or 1;
-            if token = 'SKILL1' then
+            if sk = 'SKILL1' then
               pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL1
             else
               pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL2;
@@ -348,11 +350,12 @@ begin
         end
         else if (token = 'SKILL4') or (token = 'SKILL5') then
         begin
+          sk := token;
           GetToken;
           if token = 'TRUE' then
           begin
             pthing.options := pthing.options or 4;
-            if token = 'SKILL4' then
+            if sk = 'SKILL4' then
               pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL4
             else
               pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL5;
