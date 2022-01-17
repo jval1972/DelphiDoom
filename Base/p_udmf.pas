@@ -63,6 +63,7 @@ type
   extrathing_t = record
     extraflags: Integer;
     x, y, z: fixed_t;
+    id: Integer;
   end;
   Pextrathing_t = ^extrathing_t;
   extrathing_tArray = array[0..$FFFF] of extrathing_t;
@@ -290,6 +291,11 @@ begin
           sc.MustGetFloat;
           pextrathing.z := Round(sc._Float * FRACUNIT);
           pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_HASZ;
+        end
+        else if token = 'ID' then
+        begin
+          sc.MustGetInteger;
+          pextrathing.id := sc._Integer;
         end
         else if token = 'ANGLE' then
         begin
