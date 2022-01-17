@@ -1254,6 +1254,8 @@ begin
     sec.renderflags := sec.renderflags or SRF_RIPPLE_CEILING;
   if usec.extraflags and UDMF_SF_RIPPLEFLOOR <> 0 then
     sec.renderflags := sec.renderflags or SRF_RIPPLE_FLOOR;
+  if usec.extraflags and UDMF_SF_FOG <> 0 then
+    sec.renderflags := sec.renderflags or SRF_FOG;
 end;
 
 function UDMF_MakeSectors: boolean;
