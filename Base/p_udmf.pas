@@ -51,7 +51,7 @@ const
 type
   extrathing_t = record
     extraflags: Integer;
-    z: fixed_t;
+    x, y, z: fixed_t;
   end;
   Pextrathing_t = ^extrathing_t;
   extrathing_tArray = array[0..$FFFF] of extrathing_t;
@@ -222,11 +222,13 @@ begin
         begin
           sc.MustGetFloat;
           pthing.x := Round(sc._Float);
+          pextrathing.x := Round(sc._Float * FRACUNIT);
         end
         else if token = 'Y' then
         begin
           sc.MustGetFloat;
           pthing.y := Round(sc._Float);
+          pextrathing.y := Round(sc._Float * FRACUNIT);
         end
         else if token = 'Z' then
         begin
