@@ -265,7 +265,7 @@ begin
       ZeroMemory(pthing, SizeOf(mapthing_t));
       realloc(Pointer(fextrathings), fnumthings * SizeOf(extrathing_t), (fnumthings + 1) * SizeOf(extrathing_t));
       pextrathing := @fextrathings[fnumthings];
-      ZeroMemory(pextrathing, SizeOf(mapthing_t));
+      ZeroMemory(pextrathing, SizeOf(extrathing_t));
       {$IFNDEF HEXEN}pthing.options := 16{$ENDIF};
       inc(fnumthings);
       GetToken; // _BEGINBLOCK
@@ -797,7 +797,7 @@ begin
       pmapsector.lightlevel := 160;
       realloc(Pointer(fextrasectors), fnummapsectors * SizeOf(extrasector_t), (fnummapsectors + 1) * SizeOf(extrasector_t));
       pextrasector := @fextrasectors[fnummapsectors];
-      ZeroMemory(fextrasectors, SizeOf(mapsector_t));
+      ZeroMemory(fextrasectors, SizeOf(extrasector_t));
       pextrasector.gravity := FRACUNIT;
       inc(fnummapsectors);
       GetToken; // _BEGINBLOCK
