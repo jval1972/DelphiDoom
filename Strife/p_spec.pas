@@ -3561,7 +3561,7 @@ begin
           while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
             sectors[s].renderflags := sectors[s].renderflags or SRF_RIPPLE_FLOOR;
         end;
-      // JVAL: ripple effect to tagged sectors floor
+      // JVAL: ripple effect to tagged sectors ceiling
       280:
         begin
           s := -1;
