@@ -1453,6 +1453,10 @@ begin
     result.angle := ANG1 * mthing.angle
   else
     result.angle := ANG45 * (mthing.angle div 45);
+
+  if mthing.options and MTF_DONOTTRIGGERSCRIPTS <> 0 then
+    result.flags2_ex := result.flags2_ex or MF2_EX_DONTRUNSCRIPTS;
+
   if mthing.options and MTF_AMBUSH <> 0 then
     result.flags := result.flags or MF_AMBUSH;
 end;
