@@ -1487,7 +1487,7 @@ begin
       exit;
   end;
   // don't spawn keycards and players in deathmatch
-  if (deathmatch <> 0) and ((mobjinfo[i].flags and MF_NOTDMATCH) <> 0) then
+  if (deathmatch <> 0) and (mobjinfo[i].flags and MF_NOTDMATCH <> 0) then
     exit;
 
   // don't spawn any monsters if -nomonsters
