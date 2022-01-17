@@ -176,6 +176,7 @@ uses
   d_think,
   z_zone,
   m_argv,
+  m_rnd,
   m_bbox,
   m_sha1,
   g_game,
@@ -192,6 +193,7 @@ uses
   p_maputl,
   p_adjust,
   p_bridge,
+  p_animdefs,
   p_udmf,
   p_3dfloors, // JVAL: 3d Floors
   p_slopes,   // JVAL: Slopes
@@ -199,12 +201,10 @@ uses
   p_easyangle, // JVAL: 20201229 - Easy floor and ceiling texture angle
   p_affectees,
   p_musinfo,
-  p_animdefs,
   ps_main,    // JVAL: Script Events
   r_data,
   r_things,
   info_rnd,
-  m_rnd,
   mt_utils,
   r_colormaps,
 {$IFNDEF OPENGL}
@@ -2191,6 +2191,8 @@ begin
 {$ENDIF}
 
   P_SlopesSetup;// JVAL: Slopes
+
+  UDMF_MakeSectors;
 
   P_SetupSectorAffectees;
 

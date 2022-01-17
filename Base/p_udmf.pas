@@ -39,7 +39,7 @@ uses
   m_fixed,
   tables;
 
-procedure UDMF_Check(const mapname: string);
+function UDMF_Check(const mapname: string): boolean;
 
 const
   {$IFDEF HEXEN}
@@ -49,6 +49,10 @@ const
   {$ENDIF}
   ML_THINGS2 = ML_UDMFSTART + 0;
   ML_SECTORS2 = ML_UDMFSTART + 1;
+  ML_NUMUDMFLUMPS = ML_UDMFSTART + 2;
+
+  MLN_THINGS2 = 'THINGS2';
+  MLN_SECTORS2 = 'SECTORS2';
 
 const
   UDMF_TF_SKILL1 = 1;
@@ -82,10 +86,13 @@ const
   UDMF_SF_FLOORPLANE = UDMF_SF_FLOORPLANE_A or UDMF_SF_FLOORPLANE_B or UDMF_SF_FLOORPLANE_C or UDMF_SF_FLOORPLANE_D;
   UDMF_SF_RIPPLECEILING = $100;
   UDMF_SF_RIPPLEFLOOR = $200;
+  UDMF_SF_FOG = $400;
 
 type
   extrasector_t = record
     extraflags: Integer;
+    floorheight: fixed_t;
+    ceilingheight: fixed_t;
     {$IFDEF DOOM_OR_STRIFE}
     xpanningfloor: fixed_t;   // X texture offset of floor texture, Default = 0.0.
     ypanningfloor: fixed_t;   // Y texture offset of floor texture, Default = 0.0.
@@ -112,6 +119,15 @@ type
   extrasector_tArray = array[0..$FFFF] of extrasector_t;
   Pextrasector_tArray = ^extrasector_tArray;
 
+var
+  udmfthings: Pextrathing_tArray;
+  numudmfthings: integer;
+  udmfsectors: Pextrasector_tArray;
+  numudmfsectors: integer;
+  hasudmfdata: boolean;
+
+function UDMF_MakeSectors: boolean;
+
 implementation
 
 uses
@@ -120,11 +136,12 @@ uses
   m_crc32,
   m_base,
   i_system,
+  p_setup,
+  p_slopes,
+  r_defs,
   sc_engine,
   sc_tokens,
-{$IFDEF HEXEN}
   z_zone,
-{$ENDIF}
   w_wad;
 
 type
@@ -146,6 +163,7 @@ type
   public
     constructor Create; virtual;
     procedure LoadFromString(const atext: string);
+    procedure UpdateUDMFGlobalStructs;
     procedure SaveUDMFToVanilla(const amapname: string; const afilename: string{$IFDEF HEXEN};const bl: integer{$ENDIF});
     procedure Clear;
     destructor Destroy; override;
@@ -455,6 +473,14 @@ begin
           GetToken;
           if token = 'TRUE' then
             pthing.options := pthing.options or 64;
+        end
+        {$ENDIF}
+        {$IFDEF STRIFE}
+        else if (token = 'STRIFEALLY') then
+        begin
+          GetToken;
+          if token = 'TRUE' then
+            pthing.options := pthing.options or MTF_ALLY;
         end
         {$ENDIF}
         else if (token = 'COMMENT') then
@@ -946,6 +972,24 @@ begin
           pextrasector.floorplane_d := sc._Float;
           pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FLOORPLANE_D;
         end
+        else if (token = 'RIPPLECEILING') then
+        begin
+          GetToken;
+          if token = 'TRUE' then
+            pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_RIPPLECEILING;
+        end
+        else if (token = 'RIPPLEFLOOR') then
+        begin
+          GetToken;
+          if token = 'TRUE' then
+            pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_RIPPLEFLOOR;
+        end
+        else if (token = 'FOG') then
+        begin
+          GetToken;
+          if token = 'TRUE' then
+            pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FOG;
+        end
         else if (token = 'COMMENT') then
         begin
           GetToken; // skip comment
@@ -956,10 +1000,27 @@ begin
   sc.Free;
 end;
 
+procedure TUDMFManager.UpdateUDMFGlobalStructs;
+begin
+  numudmfthings := fnumthings;
+  if numudmfthings > 0 then
+  begin
+    udmfthings := Z_Malloc(fnumthings * SizeOf(extrathing_t), PU_LEVEL, nil);
+    memcpy(udmfthings, fextrathings, fnumthings * SizeOf(extrathing_t));
+  end;
+
+  numudmfsectors := fnummapsectors;
+  if numudmfsectors > 0 then
+  begin
+    udmfsectors := Z_Malloc(fnummapsectors * SizeOf(extrasector_t), PU_LEVEL, nil);
+    memcpy(udmfsectors, fextrasectors, fnummapsectors * SizeOf(extrasector_t));
+  end;
+end;
+
 procedure TUDMFManager.SaveUDMFToVanilla(const amapname: string; const afilename: string{$IFDEF HEXEN};const bl: integer{$ENDIF});
 var
   header: wadinfo_t;
-  infotable: array[0..{$IFDEF HEXEN}13{$ELSE}12{$ENDIF}] of filelump_t;
+  infotable: array[0..ML_NUMUDMFLUMPS - 1] of filelump_t;
   f: TFile;
 {$IFDEF HEXEN}
   bldata: PByteArray;
@@ -968,7 +1029,7 @@ var
 begin
   header.identification :=
     integer(Ord('P') or (Ord('W') shl 8) or (Ord('A') shl 16) or (Ord('D') shl 24));
-  header.numlumps := {$IFDEF HEXEN}12{$ELSE}11{$ENDIF};
+  header.numlumps := ML_NUMUDMFLUMPS;
 
   f := TFile.Create(afilename, fCreate);
   f.Write(header, SizeOf(header));
@@ -982,7 +1043,8 @@ begin
   infotable[1].filepos := f.Position;
   infotable[1].size := fnumthings * SizeOf(mapthing_t);
   infotable[1].name := stringtochar8('THINGS');
-  f.Write(fthings^, fnumthings * SizeOf(mapthing_t));
+  if fnumthings > 0 then
+    f.Write(fthings^, fnumthings * SizeOf(mapthing_t));
 
   infotable[2].filepos := f.Position;
   infotable[2].size := fnummaplinedefs * SizeOf(maplinedef_t);
@@ -1041,12 +1103,13 @@ begin
 
   infotable[ML_THINGS2].filepos := f.Position;
   infotable[ML_THINGS2].size := fnumthings * SizeOf(extrathing_t);
-  infotable[ML_THINGS2].name := stringtochar8('THINGS2');
-  f.Write(fextrathings^, fnumthings * SizeOf(extrathing_t));
+  infotable[ML_THINGS2].name := stringtochar8(MLN_THINGS2);
+  if fnumthings > 0 then
+    f.Write(fextrathings^, fnumthings * SizeOf(extrathing_t));
 
   infotable[ML_SECTORS2].filepos := f.Position;
   infotable[ML_SECTORS2].size := fnummapsectors * SizeOf(extrasector_t);
-  infotable[ML_SECTORS2].name := stringtochar8('SECTORS2');
+  infotable[ML_SECTORS2].name := stringtochar8(MLN_SECTORS2);
   f.Write(fextrasectors^, fnummapsectors * SizeOf(extrasector_t));
 
   header.infotableofs := f.Position;
@@ -1074,7 +1137,7 @@ begin
 end;
 
 //------------------------------------------------------------------------------
-procedure UDMF_Check(const mapname: string);
+function UDMF_Check(const mapname: string): boolean;
 var
   udmf: TUDMFManager;
   lumpnum: integer;
@@ -1084,12 +1147,37 @@ var
   behav_lump: integer;
   {$ENDIF}
 begin
+  hasudmfdata := false;
+  udmfthings := nil;
+  numudmfthings := 0;
+  udmfsectors := nil;
+  numudmfsectors := 0;
+
   lumpnum := W_GetNumForName(mapname);
   if (lumpnum < 0) or (lumpnum >= W_NumLumps - 1) then
+  begin
+    result := false;
     exit;
+  end;
 
   if strupper(stringtochar8(lumpinfo[lumpnum + 1].name)) <> 'TEXTMAP' then
+  begin
+    if lumpnum + ML_THINGS2 < W_NumLumps then
+      if strupper(stringtochar8(lumpinfo[lumpnum + ML_THINGS2].name)) = MLN_THINGS2 then
+      begin
+        udmfthings := W_CacheLumpNum(lumpnum + ML_THINGS2, PU_LEVEL);
+        numudmfthings := W_LumpLength(lumpnum + ML_THINGS2) div SizeOf(extrathing_t);
+      end;
+    if lumpnum + ML_SECTORS2 < W_NumLumps then
+      if strupper(stringtochar8(lumpinfo[lumpnum + ML_SECTORS2].name)) = MLN_SECTORS2 then
+      begin
+        udmfsectors := W_CacheLumpNum(lumpnum + ML_SECTORS2, PU_LEVEL);
+        numudmfsectors := W_LumpLength(lumpnum + ML_SECTORS2) div SizeOf(extrasector_t);
+      end;
+    hasudmfdata := (numudmfthings <> 0) and (numudmfsectors <> 0);
+    result := false;
     exit;
+  end;
 
   {$IFDEF HEXEN}
   behav_lump := -1;
@@ -1109,10 +1197,86 @@ begin
 
   udmf := TUDMFManager.Create;
   udmf.LoadFromString(W_TextLumpNum(lumpnum));
+  udmf.UpdateUDMFGlobalStructs;
   udmf.SaveUDMFToVanilla(mapname, wadfilemap{$IFDEF HEXEN}, behav_lump{$ENDIF});
   udmf.Free;
 
   W_RuntimeLoad(wadfilemap, F_ORIGIN_WAD);
+
+  result := true;
+  hasudmfdata := true;
+end;
+
+procedure UDMF_DoMakeSector(const secid: integer);
+var
+  sec: Psector_t;
+  usec: Pextrasector_t;
+begin
+  sec := @sectors[secid];
+  usec := @udmfsectors[secid];
+
+  {$IFDEF DOOM_OR_STRIFE}
+  sec.floor_xoffs := usec.xpanningfloor;
+  sec.floor_yoffs := usec.ypanningfloor;
+  sec.ceiling_xoffs := usec.xpanningceiling;
+  sec.ceiling_yoffs := usec.ypanningceiling;
+  {$ENDIF}
+  sec.gravity := usec.gravity;
+  sec.floorangle := usec.rotationfloor;
+  sec.flooranglex := usec.rotationfloorx;
+  sec.floorangley := usec.rotationfloory;
+  sec.ceilingangle := usec.rotationceiling;
+  sec.ceilinganglex := usec.rotationceilingx;
+  sec.ceilingangley := usec.rotationceilingy;
+  if (usec.extraflags and UDMF_SF_CEILINGPLANE = UDMF_SF_CEILINGPLANE) and (usec.ceilingplane_c <> 0.0) then
+  begin
+    sec.ca := usec.ceilingplane_a;
+    sec.cb := usec.ceilingplane_b;
+    sec.cic := 1 / usec.ceilingplane_c;
+    sec.cd := usec.ceilingplane_d;
+    sec.renderflags := sectors[secid].renderflags or SRF_SLOPECEILING;
+    P_SlopesAlignPlane(sec, nil, SRF_SLOPECEILING, false);
+    sec.slopeline := sec.lines[0];
+    sec.slopeline.renderflags := sec.slopeline.renderflags or LRF_SLOPED;
+  end;
+  if (usec.extraflags and UDMF_SF_FLOORPLANE = UDMF_SF_FLOORPLANE) and (usec.floorplane_c <> 0.0) then
+  begin
+    sec.fa := usec.floorplane_a;
+    sec.fb := usec.floorplane_b;
+    sec.fic := 1 / usec.floorplane_c;
+    sec.fd := usec.floorplane_d;
+    sec.renderflags := sectors[secid].renderflags or SRF_SLOPEFLOOR;
+    P_SlopesAlignPlane(sec, nil, SRF_SLOPEFLOOR, false);
+    sec.slopeline := sec.lines[0];
+    sec.slopeline.renderflags := sec.slopeline.renderflags or LRF_SLOPED;
+  end;
+  if usec.extraflags and UDMF_SF_RIPPLECEILING <> 0 then
+    sec.renderflags := sec.renderflags or SRF_RIPPLE_CEILING;
+  if usec.extraflags and UDMF_SF_RIPPLEFLOOR <> 0 then
+    sec.renderflags := sec.renderflags or SRF_RIPPLE_FLOOR;
+end;
+
+function UDMF_MakeSectors: boolean;
+var
+  i: integer;
+begin
+  if not hasudmfdata then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if numudmfsectors <> numsectors then
+  begin
+    result := false;
+    exit;
+  end;
+
+  for i := 0 to numudmfsectors - 1 do
+    UDMF_DoMakeSector(i);
+
+  result := true;
+
 end;
 
 end.

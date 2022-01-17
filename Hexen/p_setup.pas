@@ -197,10 +197,10 @@ uses
   p_spec,
   p_switch,
   p_inter,
+  p_enemy,
   p_maputl,
   p_adjust,
   p_bridge,
-  p_enemy,
   p_pspr,
   p_acs,
   p_anim,
@@ -1872,6 +1872,8 @@ begin
 {$ENDIF}
 
   P_SlopesSetup;// JVAL: Slopes
+
+  UDMF_MakeSectors;
 
   P_SetupSectorAffectees;
 
