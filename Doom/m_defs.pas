@@ -896,7 +896,7 @@ const
      location: @automaptraceplayer;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: 0;
+     defaultivalue: 64;
      defaultbvalue: false;
      _type: tInteger),
 
