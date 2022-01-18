@@ -177,6 +177,7 @@ Update DelphiHexen Doombuilder configuration for UDB compatibility.
 Added line specials 1024, 1025 & 1026 (mbf21).
 "ACTIVE SOUND" alias for "ACTION SOUND" DEHACKED field.
 Support for [SPRITES] section in DEHACKED.
+Optionally can draw the player's trace in automap.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

@@ -196,12 +196,19 @@ const
 var
   thintriangle_guy: array[0..NUMTHINTRIANGLEGUYLINES - 1] of mline_t;
 
+const
+  NUMTTRACEPLAYERLINES = 3;
+
+var
+  traceplayer_guy: array[0..NUMTTRACEPLAYERLINES - 1] of mline_t;
+
 type
   automapstate_t = (am_inactive, am_only, am_overlay, AM_NUMSTATES);
 
 var
   am_cheating: integer = 0;
   automapgrid: boolean = false;
+  automaptraceplayer: integer = 0;
 
   leveljuststarted: integer = 1;   // kluge until AM_LevelInit() is called
 
@@ -319,6 +326,9 @@ uses
   mt_utils,
   p_mobj_h,
   p_setup,
+  p_maputl,
+  p_playertrace,
+  p_tick,
   r_data,
 {$IFNDEF OPENGL}
   r_draw,
@@ -1520,6 +1530,63 @@ begin
   end;
 end;
 
+procedure AM_drawPlayerTrace(const p: Pplayer_t; const color1: Integer);
+const
+  PTRACECOLORRANGE = 8;
+var
+  i: integer;
+  x, y, x2, y2: fixed_t;
+  trace: Pplayertrace_t;
+  plrx, plry: fixed_t;
+  plra: angle_t;
+  traceline: mline_t;
+  color: integer;
+  colordiff: integer;
+begin
+  plrx := plr.mo.x div FRACTOMAPUNIT;
+  plry := plr.mo.y div FRACTOMAPUNIT;
+  plra := ANG90 - plr.mo.angle;
+
+  x2 := plrx;
+  y2 := plry;
+
+  automaptraceplayer := ibetween(automaptraceplayer, 0, NUMPLAYERTRACEHISTORY - 1);
+  for i := 1 to automaptraceplayer do
+  begin
+    trace := P_GetPlayerTraceAtPos(p, i);
+    if trace <> nil then
+    begin
+      x := trace.x div FRACTOMAPUNIT;
+      y := trace.y div FRACTOMAPUNIT;
+
+      if allowautomaprotate then
+        AM_rotate(@x, @y, plra, plrx, plry);
+
+      if P_AproxDistance(x - x2, y - y2) < (128 * FRACUNIT) div FRACTOMAPUNIT then
+      begin
+
+        colordiff := (i + leveltime div 4) and (2 * PTRACECOLORRANGE - 1);
+        if colordiff > PTRACECOLORRANGE then
+          colordiff := 2 * PTRACECOLORRANGE - colordiff;
+
+        color := color1 + colordiff;
+
+        AM_drawLineCharacter
+          (@traceplayer_guy, NUMTTRACEPLAYERLINES, 4 * FRACUNIT, trace.angle,
+           color, x, y);
+
+        traceline.a.x := x2 div 2 + x div 2;
+        traceline.a.y := y2 div 2 + y div 2;
+        traceline.b.x := x2;
+        traceline.b.y := y2;
+        AM_drawMline(@traceline, color);
+      end;
+      x2 := x;
+      y2 := y;
+    end;
+  end;
+end;
+
 procedure AM_drawPlayers;
 const
   their_colors: array[0..MAXPLAYERS] of integer = ($80, $40, $B0, $10, $30, $50, $A0, $60, $90);
@@ -1539,6 +1606,7 @@ begin
       AM_drawLineCharacter
         (@player_arrow, NUMPLYRLINES, 0, plr.mo.angle,
         224, plr.mo.x div FRACTOMAPUNIT, plr.mo.y div FRACTOMAPUNIT);
+    AM_drawPlayerTrace(plr, 224);
     exit;
   end;
 
@@ -1548,7 +1616,7 @@ begin
     inc(their_color);
     p := @players[i];
 
-    if (deathmatch <> 0) and (not singledemo) and (p <> plr) then
+    if (deathmatch <> 0) and not singledemo and (p <> plr) then
       continue;
 
     if not playeringame[i] then
@@ -1568,6 +1636,8 @@ begin
     AM_drawLineCharacter
       (@player_arrow, NUMPLYRLINES, 0, p.mo.angle,
        color, x div FRACTOMAPUNIT, y div FRACTOMAPUNIT);
+
+    AM_drawPlayerTrace(p, color);
   end;
 end;
 
@@ -1886,6 +1956,26 @@ begin
   pl.a.y := round(0.7 * MAPUNIT);
   pl.b.x := round(-0.5 * MAPUNIT);
   pl.b.y := round(-0.7 * MAPUNIT);
+
+////////////////////////////////////////////////////////////////////////////////
+
+  pl := @traceplayer_guy[0];
+  pl.a.x := 0;
+  pl.a.y := round(-0.7 * MAPUNIT);
+  pl.b.x := round(0.7 * MAPUNIT);
+  pl.b.y := 0;
+
+  inc(pl);
+  pl.a.x := 0;
+  pl.a.y := round(0.7 * MAPUNIT);
+  pl.b.x := round(0.7 * MAPUNIT);
+  pl.b.y := 0;
+
+  inc(pl);
+  pl.a.x := 0;
+  pl.a.y := 0;
+  pl.b.x := round(0.7 * MAPUNIT);
+  pl.b.y := 0;
 
 ////////////////////////////////////////////////////////////////////////////////
   cheat_amap.sequence := get_cheatseq_string(cheat_amap_seq);
