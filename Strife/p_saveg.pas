@@ -193,7 +193,7 @@ begin
         memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
       // JVAL: 20211224 - Save player history
-      memcpy(save_p, @playerhistory[i], SizeOf(playertracehistory_t));
+      memcpy(@playerhistory[i], save_p, SizeOf(playertracehistory_t));
       incp(pointer(save_p), SizeOf(playertracehistory_t));
     end
     else if savegameversion >= VERSION206 then
