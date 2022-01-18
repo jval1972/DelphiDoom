@@ -1362,7 +1362,7 @@ begin
               end;
             end;
           end
-          else if weapon_idx = 7 then
+          else if weapon_idx = 8 then
           begin
             I_Warning('DEH_Parse(): Positive number expected after keyword (%s) - (%s) (Weapon number = %d)'#13#10, [token1, token2, weapon_no]);
             continue;
