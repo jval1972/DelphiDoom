@@ -928,6 +928,7 @@ begin
     mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+    mobj.strafecount := 0;
 
     Z_Free(mobj113);
     result := true
@@ -1028,6 +1029,7 @@ begin
     mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+    mobj.strafecount := 0;
 
     Z_Free(mobj114);
     result := true
@@ -1128,6 +1130,7 @@ begin
     mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+    mobj.strafecount := 0;
 
     Z_Free(mobj115);
     result := true
@@ -1228,6 +1231,7 @@ begin
     mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+    mobj.strafecount := 0;
 
     Z_Free(mobj117);
     result := true
@@ -1328,6 +1332,7 @@ begin
     mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+    mobj.strafecount := 0;
 
     Z_Free(mobj118);
     result := true;
@@ -1385,6 +1390,7 @@ begin
     mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+    mobj.strafecount := 0;
 
     result := true;
   end
@@ -1430,6 +1436,7 @@ begin
     mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+    mobj.strafecount := 0;
 
     result := true;
   end
@@ -1474,6 +1481,7 @@ begin
     mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+    mobj.strafecount := 0;
 
     result := true;
   end
@@ -1510,6 +1518,7 @@ begin
     mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+    mobj.strafecount := 0;
 
     result := true;
   end
@@ -1532,6 +1541,7 @@ begin
     mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+    mobj.strafecount := 0;
 
     result := true;
   end
