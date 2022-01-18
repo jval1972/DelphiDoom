@@ -62,6 +62,7 @@ const
   BLUERANGE = 1;
   GREENS = 215;
   GREENRANGE = 2;
+  TRACEGREEN = 211;
   GRAYS = 5 * 8;
   GRAYSRANGE = 1;
   BROWNS = 14 * 8;
@@ -201,6 +202,12 @@ var
   thintriangle_guy: array[0..NUMTHINTRIANGLEGUYLINES - 1] of mline_t;
 
 const
+  NUMTTRACEPLAYERLINES = 3;
+
+var
+  traceplayer_guy: array[0..NUMTTRACEPLAYERLINES - 1] of mline_t;
+
+const
   NUMKEYSQUARELINES = 8;
 
 var
@@ -212,6 +219,7 @@ type
 var
   am_cheating: integer = 0;
   automapgrid: boolean = false;
+  automaptraceplayer: integer = 0;
 
   leveljuststarted: integer = 1;   // kluge until AM_LevelInit() is called
 
@@ -332,6 +340,9 @@ uses
   mt_utils,
   p_mobj_h,
   p_setup,
+  p_maputl,
+  p_playertrace,
+  p_tick,
   r_data,
   info_h,
 {$IFNDEF OPENGL}
@@ -1580,6 +1591,63 @@ begin
   end;
 end;
 
+procedure AM_drawPlayerTrace(const p: Pplayer_t; const color1: Integer);
+const
+  PTRACECOLORRANGE = 4;
+var
+  i: integer;
+  x, y, x2, y2: fixed_t;
+  trace: Pplayertrace_t;
+  plrx, plry: fixed_t;
+  plra: angle_t;
+  traceline: mline_t;
+  color: integer;
+  colordiff: integer;
+begin
+  plrx := plr.mo.x div FRACTOMAPUNIT;
+  plry := plr.mo.y div FRACTOMAPUNIT;
+  plra := ANG90 - plr.mo.angle;
+
+  x2 := plrx;
+  y2 := plry;
+
+  automaptraceplayer := ibetween(automaptraceplayer, 0, NUMPLAYERTRACEHISTORY - 1);
+  for i := 1 to automaptraceplayer do
+  begin
+    trace := P_GetPlayerTraceAtPos(p, i);
+    if trace <> nil then
+    begin
+      x := trace.x div FRACTOMAPUNIT;
+      y := trace.y div FRACTOMAPUNIT;
+
+      if allowautomaprotate then
+        AM_rotate(@x, @y, plra, plrx, plry);
+
+      if P_AproxDistance(x - x2, y - y2) < (128 * FRACUNIT) div FRACTOMAPUNIT then
+      begin
+
+        colordiff := (i + leveltime div 4) and (2 * PTRACECOLORRANGE - 1);
+        if colordiff > PTRACECOLORRANGE then
+          colordiff := 2 * PTRACECOLORRANGE - colordiff;
+
+        color := color1 + colordiff;
+
+        AM_drawLineCharacter
+          (@traceplayer_guy, NUMTTRACEPLAYERLINES, 4 * FRACUNIT, trace.angle,
+           color, x, y);
+
+        traceline.a.x := x2 div 2 + x div 2;
+        traceline.a.y := y2 div 2 + y div 2;
+        traceline.b.x := x2;
+        traceline.b.y := y2;
+        AM_drawMline(@traceline, color);
+      end;
+      x2 := x;
+      y2 := y;
+    end;
+  end;
+end;
+
 const
   AM_PLR1_COLOR = 157; // Blue
   AM_PLR2_COLOR = 177; // Red
@@ -1589,6 +1657,14 @@ const
   AM_PLR6_COLOR =  32; // White
   AM_PLR7_COLOR = 106; // Hazel
   AM_PLR8_COLOR = 234; // Purple
+  AM_TR1_COLOR = 154; // Blue
+  AM_TR2_COLOR = 176; // Red
+  AM_TR3_COLOR = 136; // Yellow
+  AM_TR4_COLOR = 197; // Green
+  AM_TR5_COLOR = 211; // Jade
+  AM_TR6_COLOR =  25; // White
+  AM_TR7_COLOR = 106; // Hazel
+  AM_TR8_COLOR = 233; // Purple
 
 procedure AM_drawPlayers;
 const
@@ -1602,10 +1678,20 @@ const
     AM_PLR7_COLOR,
     AM_PLR8_COLOR
   );
+  trace_colors: array[0..MAXPLAYERS - 1] of integer = (
+    AM_TR1_COLOR,
+    AM_TR2_COLOR,
+    AM_TR3_COLOR,
+    AM_TR4_COLOR,
+    AM_TR5_COLOR,
+    AM_TR6_COLOR,
+    AM_TR7_COLOR,
+    AM_TR8_COLOR
+  );
 var
   i: integer;
   p: Pplayer_t;
-  their_color, color: integer;
+  their_color, color, trcolor: integer;
   x, y: fixed_t;
 begin
   if not netgame then
@@ -1618,6 +1704,7 @@ begin
       AM_drawLineCharacter
         (@player_arrow, NUMPLYRLINES, 0, plr.mo.angle,
         WHITE, plr.mo.x div FRACTOMAPUNIT, plr.mo.y div FRACTOMAPUNIT);
+    AM_drawPlayerTrace(plr, TRACEGREEN);
     exit;
   end;
 
@@ -1634,9 +1721,13 @@ begin
       continue;
 
     color := their_colors[their_color];
+    trcolor := trace_colors[their_color];
     if p.mo <> nil then
       if p.mo.flags and (MF_SHADOW or MF_ALTSHADOW) <> 0 then
+      begin
         color := 111; // *close* to background
+        trcolor := 111;
+      end;
 
     x := p.mo.x;
     y := p.mo.y;
@@ -1647,6 +1738,8 @@ begin
     AM_drawLineCharacter
       (@player_arrow, NUMPLYRLINES, 0, p.mo.angle,
        color, x div FRACTOMAPUNIT, y div FRACTOMAPUNIT);
+
+    AM_drawPlayerTrace(p, trcolor);
   end;
 end;
 
@@ -2025,6 +2118,26 @@ begin
   pl.a.y := 0;
   pl.b.x := -3 * ((8 * PLAYERRADIUS) div 7) div 4;
   pl.b.y := -((8 * PLAYERRADIUS) div 7) div 4;
+
+////////////////////////////////////////////////////////////////////////////////
+
+  pl := @traceplayer_guy[0];
+  pl.a.x := 0;
+  pl.a.y := round(-0.7 * MAPUNIT);
+  pl.b.x := round(0.7 * MAPUNIT);
+  pl.b.y := 0;
+
+  inc(pl);
+  pl.a.x := 0;
+  pl.a.y := round(0.7 * MAPUNIT);
+  pl.b.x := round(0.7 * MAPUNIT);
+  pl.b.y := 0;
+
+  inc(pl);
+  pl.a.x := 0;
+  pl.a.y := 0;
+  pl.b.x := round(0.7 * MAPUNIT);
+  pl.b.y := 0;
 
 ////////////////////////////////////////////////////////////////////////////////
   cheat_amap.sequence := get_cheatseq_string(cheat_amap_seq);
