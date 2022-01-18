@@ -164,7 +164,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 199;
+  NUMDEFAULTS = 200;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -849,6 +849,14 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tBoolean),
+
+    (name: 'automaptraceplayer';
+     location: @automaptraceplayer;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 64;
+     defaultbvalue: false;
+     _type: tInteger),
 
      // Textures
     (name: 'Textures';
