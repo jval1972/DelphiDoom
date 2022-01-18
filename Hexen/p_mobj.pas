@@ -103,11 +103,11 @@ function P_SpawnMissile(source: Pmobj_t; dest: Pmobj_t; _type: integer): Pmobj_t
 
 function P_SpawnMissileXYZ(x, y, z: fixed_t; source: Pmobj_t; dest: Pmobj_t; _type: integer): Pmobj_t;
 
-function P_SpawnMissileAngleZSpeed(source: Pmobj_t; z: fixed_t; _type: integer; angle: angle_t;
-  momz: fixed_t; speed: fixed_t; owner: Pmobj_t): Pmobj_t;
-
 function P_SpawnMissileAngleZ(source: Pmobj_t; z: fixed_t; _type: integer; angle: angle_t;
   momz: fixed_t; speed: fixed_t): Pmobj_t;
+
+function P_SpawnMissileAngleZSpeed(source: Pmobj_t; z: fixed_t; _type: integer; angle: angle_t;
+  momz: fixed_t; speed: fixed_t; owner: Pmobj_t): Pmobj_t;
 
 function P_SpawnMissileAngle(source: Pmobj_t; _type: integer; angle: angle_t;
   momz: fixed_t): Pmobj_t;
@@ -1375,7 +1375,6 @@ end;
 //
 // P_SpawnMobj
 //
-
 function P_SpawnMobj(x: fixed_t; y: fixed_t; z: fixed_t; _type: integer; const mthing: Pmapthing_t = nil): Pmobj_t;
 var
   mobj: Pmobj_t;
