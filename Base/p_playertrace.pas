@@ -37,11 +37,13 @@ uses
   doomdef,
   d_player,
   p_mobj_h,
-  m_fixed;
+  m_fixed,
+  tables;
 
 type
   playertrace_t = record
     x, y, z: fixed_t;
+    angle: angle_t;
     leveltime: integer;
   end;
   Pplayertrace_t = ^playertrace_t;
@@ -70,6 +72,10 @@ procedure P_ClearPlayerHistory(const p: Pplayer_t);
 
 function P_FollowPlayer(const mo: Pmobj_t; const p: Pplayer_t): boolean;
 
+function P_GetPlayerTraceAtPos(const p: Pplayer_t; const at: Integer): Pplayertrace_t;
+
+function P_GetPlayerTraceAtTime(const p: Pplayer_t; const tm: Integer): Pplayertrace_t;
+
 implementation
 
 uses
@@ -80,8 +86,7 @@ uses
   p_maputl,
   p_tick,
   p_sight,
-  r_main,
-  tables;
+  r_main;
 
 procedure P_PlayerHistoryNotify(const p: Pplayer_t);
 var
@@ -119,6 +124,7 @@ begin
   item.x := pmo.x;
   item.y := pmo.y;
   item.z := pmo.z;
+  item.angle := pmo.angle;
   item.leveltime := leveltime;
   history.rover := nrover;
   if history.numitems < NUMPLAYERTRACEHISTORY then
@@ -290,6 +296,84 @@ begin
     _follow_item;
     result := true;
     exit;
+  end;
+end;
+
+function P_GetPlayerTraceAtPos(const p: Pplayer_t; const at: Integer): Pplayertrace_t;
+var
+  pid: integer;
+  history: Pplayertracehistory_t;
+  rover: integer;
+begin
+  pid := PlayerToId(p);
+  if (pid < 0) or not playeringame[pid] then
+  begin
+    result := nil;
+    exit;
+  end;
+
+  history := @playerhistory[pid];
+  if history.numitems = 0 then
+  begin
+    result := nil;
+    exit;
+  end;
+
+  if at >= history.numitems then
+    rover := history.numitems - 1
+  else
+    rover := at;
+
+  rover := history.rover - rover;
+  if rover > NUMPLAYERTRACEHISTORY then
+    rover := rover - NUMPLAYERTRACEHISTORY
+  else if rover < 0 then
+    rover := rover + NUMPLAYERTRACEHISTORY;
+
+  result := @history.data[rover];
+end;
+
+function P_GetPlayerTraceAtTime(const p: Pplayer_t; const tm: Integer): Pplayertrace_t;
+var
+  pid: integer;
+  history: Pplayertracehistory_t;
+  hpos, i: integer;
+  maxtm, looktm, dt: integer;
+  item: Pplayertrace_t;
+begin
+  pid := PlayerToId(p);
+  if (pid < 0) or not playeringame[pid] then
+  begin
+    result := nil;
+    exit;
+  end;
+
+  history := @playerhistory[pid];
+  if history.numitems = 0 then
+  begin
+    result := nil;
+    exit;
+  end;
+
+  maxtm := MAXINT;
+  looktm := leveltime - tm;
+  result := nil;
+
+  for i := history.rover downto history.rover - history.numitems + 1 do
+  begin
+    if i < 0 then
+      hpos := NUMPLAYERTRACEHISTORY + i
+    else
+      hpos := i;
+    item := @history.data[hpos];
+    dt := Abs(looktm - item.leveltime);
+    if dt < maxtm then
+    begin
+      result := item;
+      if dt = 0 then
+        exit;
+      maxtm := dt;
+    end;
   end;
 end;
 
