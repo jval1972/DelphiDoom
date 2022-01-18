@@ -187,6 +187,7 @@ Update DelphiHexen Doombuilder configuration for UDB compatibility.
 "ACTIVE SOUND" alias for "ACTION SOUND" DEHACKED field.
 Support for [SPRITES] section in DEHACKED.
 Optionally can draw the player's trace in automap.
+Added MF4_EX_BACKINGMELEE flag. When set the actor will backup from melee attack.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

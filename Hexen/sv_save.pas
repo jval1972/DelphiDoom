@@ -1290,6 +1290,7 @@ begin
       mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
       mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
       mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+      mobj.strafecount := 0;
     end
     else if LOADVERSION = VERSION141 then
     begin
@@ -1327,6 +1328,7 @@ begin
       mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
       mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
       mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+      mobj.strafecount := 0;
     end
     else if LOADVERSION <= VERSION204 then
     begin
@@ -1362,6 +1364,7 @@ begin
       mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
       mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
       mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+      mobj.strafecount := 0;
     end
     else if LOADVERSION <= VERSION205 then
     begin
@@ -1387,6 +1390,7 @@ begin
       mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
       mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
       mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+      mobj.strafecount := 0;
     end
     else if LOADVERSION <= VERSION206 then
     begin
@@ -1407,6 +1411,7 @@ begin
       mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
       mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
       mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+      mobj.strafecount := 0;
     end
     else
     begin
