@@ -1385,7 +1385,7 @@ begin
         splitstring(str, token1, token2, '=');
 
         sprite_idx := -1;
-        sprite_val := atoi(token1);
+        sprite_val := atoi(token1, -1);
         if IsIntegerInRange(sprite_val, 0, Ord(DO_NUMSPRITES) - 1) then
         begin
           sprite_idx := sprite_val;
