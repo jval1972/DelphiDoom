@@ -450,6 +450,8 @@ const
   MF4_EX_NEVERFINISHSOUND = $80000;
   // Do not gib
   MF4_EX_DONTGIB = $100000;
+  // Backing in melee attack
+  MF4_EX_BACKINGMELEE = $200000;
 
 type
 // Map Object definition.
@@ -599,6 +601,7 @@ type
     infighting_group: integer;
     projectile_group: integer;
     splash_group: integer;
+    strafecount: integer;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;
