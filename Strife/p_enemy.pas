@@ -242,7 +242,7 @@ procedure P_DoChase(actor: Pmobj_t; const fast: boolean);
 
 procedure P_NoiseAlert(target: Pmobj_t; emmiter: Pmobj_t);
 
-function P_CheckMeleeRange(actor: Pmobj_t): boolean;
+function P_CheckMeleeRange(actor: Pmobj_t; const factor: Integer = 1): boolean;
 
 function P_TryWalk(actor: Pmobj_t): boolean;
 
@@ -276,6 +276,7 @@ uses
   d_delphi,
   doomdata,
   deh_main,
+  d_items,
   d_think,
   d_main,
   g_game,
@@ -488,12 +489,21 @@ begin
   end;
 end;
 
+function P_MeleeRange(actor: Pmobj_t): fixed_t;
+begin
+  result := actor.info.meleerange;
+  if result = 0 then
+    result := MELEERANGE
+  else if result < FRACUNIT then
+    result := result * FRACUNIT;
+end;
+
 //
 // P_CheckMeleeRange
 //
 // [STRIFE] Minor change to meleerange.
 //
-function P_CheckMeleeRange(actor: Pmobj_t): boolean;
+function P_CheckMeleeRange(actor: Pmobj_t; const factor: Integer = 1): boolean;
 var
   mo: Pmobj_t;
   dist: fixed_t;
@@ -521,11 +531,7 @@ begin
 
   dist := P_AproxDistance(mo.x - actor.x, mo.y - actor.y);
 
-  mrange := actor.info.meleerange;
-  if mrange = 0 then
-    mrange := MELEERANGE
-  else if mrange < FRACUNIT then
-    mrange := mrange * FRACUNIT;
+  mrange := P_MeleeRange(actor) * factor;
 
   if dist >= mrange - 20 * FRACUNIT + mo.info.radius then
   begin
@@ -799,14 +805,121 @@ procedure P_NewChaseDir(actor: Pmobj_t);
 var
   deltax: fixed_t;
   deltay: fixed_t;
+  target: Pmobj_t;
   d: array[0..2] of dirtype_t;
-  tdir: dirtype_t;
   olddir: dirtype_t;
   turnaround: dirtype_t;
   idx: integer;
+  dist: fixed_t;
+
+  procedure _DoNewChaseDir;
+  var
+    tdir: dirtype_t;
+  begin
+    if deltax > 10 * FRACUNIT then
+      d[1] := DI_EAST
+    else if deltax < -10 * FRACUNIT then
+      d[1] := DI_WEST
+    else
+      d[1] := DI_NODIR;
+
+    if deltay < -10 * FRACUNIT then
+      d[2] := DI_SOUTH
+    else if deltay > 10 * FRACUNIT then
+      d[2] := DI_NORTH
+    else
+      d[2] := DI_NODIR;
+
+    // try direct route
+    if (d[1] <> DI_NODIR) and (d[2] <> DI_NODIR) then
+    begin
+      if deltay < 0 then
+        idx := 2
+      else
+        idx := 0;
+      if deltax > 0 then
+        inc(idx);
+      actor.movedir := Ord(diags[idx]);
+      if (actor.movedir <> Ord(turnaround)) and P_TryWalk(actor) then
+        exit;
+    end;
+
+    // try other directions
+    if (P_Random > 200) or (abs(deltay) > abs(deltax)) then
+    begin
+      tdir := d[1];
+      d[1] := d[2];
+      d[2] := tdir;
+    end;
+
+    if d[1] = turnaround then
+      d[1] := DI_NODIR;
+    if d[2] = turnaround then
+      d[2] := DI_NODIR;
+
+    if d[1] <> DI_NODIR then
+    begin
+      actor.movedir := Ord(d[1]);
+      if P_TryWalk(actor) then
+        exit; // either moved forward or attacked
+    end;
+
+    if d[2] <> DI_NODIR then
+    begin
+      actor.movedir := Ord(d[2]);
+      if P_TryWalk(actor) then
+        exit;
+    end;
+
+    // there is no direct path to the player,
+    // so pick another direction.
+    if olddir <> DI_NODIR then
+    begin
+      actor.movedir := Ord(olddir);
+      if P_TryWalk(actor) then
+        exit;
+    end;
+
+    // randomly determine direction of search
+    if P_Random and 1 <> 0 then
+    begin
+      for tdir := DI_EAST to DI_SOUTHEAST do
+      begin
+        if tdir <> turnaround then
+        begin
+          actor.movedir := Ord(tdir);
+          if P_TryWalk(actor) then
+            exit;
+        end;
+      end;
+    end
+    else
+    begin
+      for tdir := DI_SOUTHEAST downto DI_EAST do
+      begin
+        if tdir <> turnaround then
+        begin
+          actor.movedir := Ord(tdir);
+          if P_TryWalk(actor) then
+            exit;
+        end;
+      end;
+    end;
+
+    if turnaround <> DI_NODIR then
+    begin
+      actor.movedir := Ord(turnaround);
+      if P_TryWalk(actor) then
+        exit;
+    end;
+
+    actor.movedir := Ord(DI_NODIR); // can not move
+  end;
+
 begin
+  target := actor.target;
   // villsa [STRIFE] don't bomb out and instead set spawnstate
-  if actor.target = nil then
+  if target = nil then
   begin
     P_SetMobjState(actor, statenum_t(actor.info.spawnstate));
     exit;
@@ -815,11 +928,13 @@ begin
   olddir := dirtype_t(actor.movedir);
   turnaround := opposite[Ord(olddir)];
 
-  deltax := actor.target.x - actor.x;
-  deltay := actor.target.y - actor.y;
+  deltax := target.x - actor.x;
+  deltay := target.y - actor.y;
+
+  actor.strafecount := 0;
 
   // JVAL: 20210209 - MF3_EX_CAUSEFEAR & MF3_EX_NOFEAR flags
-  if actor.target.flags3_ex and MF3_EX_CAUSEFEAR <> 0 then
+  if target.flags3_ex and MF3_EX_CAUSEFEAR <> 0 then
     if actor.flags3_ex and MF3_EX_NOFEAR <> 0 then
       actor.flags2_ex := actor.flags2_ex or MF2_EX_FRIGHTENED;
 
@@ -827,106 +942,28 @@ begin
   begin
     deltax := -deltax;
     deltay := -deltay;
-  end;
-
-  if deltax > 10 * FRACUNIT then
-    d[1] := DI_EAST
-  else if deltax < -10 * FRACUNIT then
-    d[1] := DI_WEST
-  else
-    d[1] := DI_NODIR;
-
-  if deltay < -10 * FRACUNIT then
-    d[2] := DI_SOUTH
-  else if deltay > 10 * FRACUNIT then
-    d[2] := DI_NORTH
-  else
-    d[2] := DI_NODIR;
-
-  // try direct route
-  if (d[1] <> DI_NODIR) and (d[2] <> DI_NODIR) then
-  begin
-    if deltay < 0 then
-      idx := 2
-    else
-      idx := 0;
-    if deltax > 0 then
-      inc(idx);
-    actor.movedir := Ord(diags[idx]);
-    if (actor.movedir <> Ord(turnaround)) and P_TryWalk(actor) then
-      exit;
-  end;
-
-  // try other directions
-  if (P_Random > 200) or (abs(deltay) > abs(deltax)) then
-  begin
-    tdir := d[1];
-    d[1] := d[2];
-    d[2] := tdir;
-  end;
-
-  if d[1] = turnaround then
-    d[1] := DI_NODIR;
-  if d[2] = turnaround then
-    d[2] := DI_NODIR;
-
-  if d[1] <> DI_NODIR then
-  begin
-    actor.movedir := Ord(d[1]);
-    if P_TryWalk(actor) then
-      exit; // either moved forward or attacked
-  end;
-
-  if d[2] <> DI_NODIR then
-  begin
-    actor.movedir := Ord(d[2]);
-    if P_TryWalk(actor) then
-      exit;
-  end;
-
-  // there is no direct path to the player,
-  // so pick another direction.
-  if olddir <> DI_NODIR then
-  begin
-    actor.movedir := Ord(olddir);
-    if P_TryWalk(actor) then
-      exit;
-  end;
-
-  // randomly determine direction of search
-  if P_Random and 1 <> 0 then
-  begin
-    for tdir := DI_EAST to DI_SOUTHEAST do
-    begin
-      if tdir <> turnaround then
-      begin
-        actor.movedir := Ord(tdir);
-        if P_TryWalk(actor) then
-          exit;
-      end;
-    end;
   end
-  else
+  else if (target.health > 0) and (actor.flags4_ex and MF4_EX_BACKINGMELEE <> 0) and not P_BothFriends(actor, actor.target) then
   begin
-    for tdir := DI_SOUTHEAST downto DI_EAST do
+    if G_PlayingEngineVersion >= VERSION207 then
     begin
-      if tdir <> turnaround then
-      begin
-        actor.movedir := Ord(tdir);
-        if P_TryWalk(actor) then
-          exit;
+      dist := P_AproxDistance(deltax, deltay);
+      if (actor.info.missilestate <> 0) and
+        (((target.info.missilestate = 0) and (dist < P_MeleeRange(target) * 2)) or
+         ((target.player <> nil) and (dist < P_MeleeRange(target) * 3) and
+          (weaponinfo[Ord(Pplayer_t(target.player).readyweapon)].mbf21bits and WPF_FLEEMELEE <> 0))) then
+      begin// Back away from melee attacker
+        actor.strafecount := P_Random and 15;
+        deltax := -deltax;
+        deltay := -deltay;
       end;
     end;
   end;
 
-  if turnaround <> DI_NODIR then
-  begin
-    actor.movedir := Ord(turnaround);
-    if P_TryWalk(actor) then
-      exit;
-  end;
+  _DoNewChaseDir;
 
-  actor.movedir := Ord(DI_NODIR); // can not move
+  if actor.strafecount > 0 then
+    actor.movecount := actor.strafecount;
 end;
 
 //
@@ -1391,7 +1428,10 @@ begin
   end;
 
   // turn towards movement direction if not there yet
-  if actor.movedir < 8 then
+  // killough 9/7/98: keep facing towards target if strafing or backing out
+  if actor.strafecount > 0 then
+    A_FaceTarget(actor)
+  else if actor.movedir < 8 then
   begin
     actor.angle := actor.angle and $E0000000;
     delta := actor.angle - _SHLW(actor.movedir, 29);
@@ -1500,6 +1540,9 @@ begin
     else
       A_ActiveSound1(actor);
   end;
+
+  if actor.strafecount > 0 then
+    Dec(actor.strafecount);
 end;
 
 procedure A_Chase(actor: Pmobj_t);

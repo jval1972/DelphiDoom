@@ -1193,6 +1193,7 @@ begin
             mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+            mobj.strafecount := 0;
           end
           else if savegameversion >= VERSION205 then
           begin
@@ -1225,6 +1226,7 @@ begin
             mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+            mobj.strafecount := 0;
           end
           else if savegameversion >= VERSION122 then
           begin
@@ -1265,6 +1267,7 @@ begin
             mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+            mobj.strafecount := 0;
           end
           else if savegameversion = VERSION121 then
           begin
@@ -1307,6 +1310,7 @@ begin
             mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+            mobj.strafecount := 0;
           end
           else if savegameversion = VERSION120 then
           begin
@@ -1359,6 +1363,7 @@ begin
             mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
+            mobj.strafecount := 0;
           end
           else
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);
