@@ -179,6 +179,7 @@ KILL_MONSTERS_MASK for mobj damage to sectors (mbf21).
 Added line specials 1024, 1025 & 1026 (mbf21).
 "ACTIVE SOUND" alias for "ACTION SOUND" DEHACKED field.
 Fixed the MF2_EX_DONTRUNSCRIPTS flag in actors.
+Optionally can draw the player's trace in automap.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

@@ -197,6 +197,7 @@ uses
   p_user,
   p_adjust,
   p_obituaries,
+  p_playertrace,
   r_aspect,
   r_data,
   r_dynlights,
@@ -681,6 +682,8 @@ type
     od_allowautomaprotate,
     od_texturedautomap,
     od_automapgrid,
+    od_automapplayertrace,
+    od_automap_empty1,
     optdispautomap_end
   );
 
@@ -2472,9 +2475,23 @@ begin
   M_WriteWhiteText(ppos.x, ppos.y, menubackrounds[shademenubackground mod 3]);
 end;
 
+procedure M_AutomapTraceSize(choice: integer);
+begin
+  case choice of
+    0: automaptraceplayer := automaptraceplayer - 64;
+    1: automaptraceplayer := automaptraceplayer + 64;
+  end;
+
+  automaptraceplayer := ibetween(automaptraceplayer, 0, NUMPLAYERTRACEHISTORY - 1);
+end;
+
 procedure M_DrawDisplayAutomapOptions;
 begin
   M_DrawDisplayOptions;
+
+  automaptraceplayer := ibetween(automaptraceplayer, 0, NUMPLAYERTRACEHISTORY - 1);
+  M_DrawThermo(
+    OptionsDisplayAutomapDef.x, OptionsDisplayAutomapDef.y + OptionsDisplayAutomapDef.itemheight * (Ord(od_automapplayertrace) + 1), 16, (automaptraceplayer + 31) div 64);
 end;
 
 procedure M_DrawOptionsDisplayAdvanced;
@@ -4488,6 +4505,22 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @automapgrid;
   pmi.alphaKey := 'g';
+
+  inc(pmi);
+  pmi.status := 2;
+  pmi.name := '!Player trace distance';
+  pmi.cmd := '';
+  pmi.routine := @M_AutomapTraceSize;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'p';
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAutomapDef
