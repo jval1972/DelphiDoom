@@ -7833,13 +7833,13 @@ begin
   typ := actor.state.params.IntVal[0] - 1;
   if typ < 0 then
     Exit;
-  angle := actor.state.params.IntVal[1];
-  ofs_x := actor.state.params.IntVal[2];
-  ofs_y := actor.state.params.IntVal[3];
-  ofs_z := actor.state.params.IntVal[4];
-  vel_x := actor.state.params.IntVal[5];
-  vel_y := actor.state.params.IntVal[6];
-  vel_z := actor.state.params.IntVal[7];
+  angle := actor.state.params.MBF21FixedVal[1];
+  ofs_x := actor.state.params.MBF21FixedVal[2];
+  ofs_y := actor.state.params.MBF21FixedVal[3];
+  ofs_z := actor.state.params.MBF21FixedVal[4];
+  vel_x := actor.state.params.MBF21FixedVal[5];
+  vel_y := actor.state.params.MBF21FixedVal[6];
+  vel_z := actor.state.params.MBF21FixedVal[7];
 
   // calculate position offsets
   an := actor.angle + (angle * FRACUNIT) div 360;
@@ -7886,10 +7886,10 @@ begin
   typ := actor.state.params.IntVal[0] - 1;
   if typ < 0 then
     exit;
-  angle := actor.state.params.IntVal[1];
-  pitch := actor.state.params.IntVal[2];
-  spawnofs_xy := actor.state.params.IntVal[3];
-  spawnofs_z := actor.state.params.IntVal[4];
+  angle := actor.state.params.MBF21FixedVal[1];
+  pitch := actor.state.params.MBF21FixedVal[2];
+  spawnofs_xy := actor.state.params.MBF21FixedVal[3];
+  spawnofs_z := actor.state.params.MBF21FixedVal[4];
 
   A_FaceTarget(actor);
   mo := P_SpawnMissile(actor, actor.target, typ);
@@ -7937,8 +7937,8 @@ begin
   if actor.target = nil then
     exit;
 
-  hspread := actor.state.params.IntVal[0];
-  vspread := actor.state.params.IntVal[1];
+  hspread := actor.state.params.MBF21FixedVal[0];
+  vspread := actor.state.params.MBF21FixedVal[1];
   numbullets := actor.state.params.IntVal[2];
   damagebase := actor.state.params.IntVal[3];
   damagemod := actor.state.params.IntVal[4];
@@ -7988,7 +7988,7 @@ begin
     actor.state.params.IntVal[2] := hitsound;
   end;
 
-  range := actor.state.params.IntVal[3];
+  range := actor.state.params.MBF21FixedVal[3];
   if range < 1024 then
     range := range * FRACUNIT;
 
@@ -8285,8 +8285,8 @@ begin
   if not P_CheckStateArgs(actor.state) then
     exit;
 
-  threshold := FixedToAngle(actor.state.params.IntVal[0]);
-  maxturnangle := FixedToAngle(actor.state.params.IntVal[1]);
+  threshold := FixedToAngle(actor.state.params.MBF21FixedVal[0]);
+  maxturnangle := FixedToAngle(actor.state.params.MBF21FixedVal[1]);
 
   P_SeekerMissileEx(actor, actor.tracer, threshold, maxturnangle, true);
 end;
@@ -8308,7 +8308,7 @@ begin
   if actor.tracer <> nil then
     exit;
 
-  ffov := FixedToAngle(actor.state.params.IntVal[0]);
+  ffov := FixedToAngle(actor.state.params.MBF21FixedVal[0]);
   dist := actor.state.params.IntVal[1];
 
   actor.tracer := P_RoughTargetSearch(actor, ffov, dist);
@@ -8369,7 +8369,7 @@ begin
   if actor.target = nil then
     exit;
 
-  ffov := FixedToAngle(actor.state.params.IntVal[1]);
+  ffov := FixedToAngle(actor.state.params.MBF21FixedVal[1]);
 
   // Check FOV first since it's faster
   if (ffov > 0) and not P_CheckFov(actor, actor.target, ffov) then
@@ -8406,7 +8406,7 @@ begin
   if actor.target = nil then
     exit;
 
-  distance := actor.state.params.IntVal[1];
+  distance := actor.state.params.MBF21FixedVal[1];
 
   if distance > P_AproxDistance(actor.x - actor.target.x, actor.y - actor.target.y) then
   begin
@@ -8439,7 +8439,7 @@ begin
   if actor.tracer = nil then
     exit;
 
-  ffov := FixedToAngle(actor.state.params.IntVal[1]);
+  ffov := FixedToAngle(actor.state.params.MBF21FixedVal[1]);
 
   // Check FOV first since it's faster
   if (ffov > 0) and not P_CheckFov(actor, actor.tracer, ffov) then
@@ -8476,7 +8476,7 @@ begin
   if actor.tracer = nil then
     exit;
 
-  distance := actor.state.params.IntVal[1];
+  distance := actor.state.params.MBF21FixedVal[1];
 
   if distance > P_AproxDistance(actor.x - actor.tracer.x, actor.y - actor.tracer.y) then
   begin
@@ -9256,10 +9256,10 @@ begin
     exit;
 
   typ := psp.state.params.IntVal[0] - 1;
-  angle := psp.state.params.IntVal[1];
-  pitch := psp.state.params.IntVal[2];
-  spawnofs_xy := psp.state.params.IntVal[3];
-  spawnofs_z := psp.state.params.IntVal[4];
+  angle := psp.state.params.MBF21FixedVal[1];
+  pitch := psp.state.params.MBF21FixedVal[2];
+  spawnofs_xy := psp.state.params.MBF21FixedVal[3];
+  spawnofs_z := psp.state.params.MBF21FixedVal[4];
 
   mo := P_SpawnPlayerMissile(player.mo, typ);
   if mo = nil then
@@ -9308,8 +9308,8 @@ begin
   if not P_CheckStateArgs(psp.state) then
     exit;
 
-  hspread := psp.state.params.IntVal[0];
-  vspread := psp.state.params.IntVal[1];
+  hspread := psp.state.params.MBF21FixedVal[0];
+  vspread := psp.state.params.MBF21FixedVal[1];
   numbullets := psp.state.params.IntVal[2];
   damagebase := psp.state.params.IntVal[3];
   damagemod := psp.state.params.IntVal[4];
@@ -9350,7 +9350,7 @@ begin
   damagebase := psp.state.params.IntVal[0];
   damagemod := psp.state.params.IntVal[1];
   zerkfactor := psp.state.params.IntVal[2];
-  range := psp.state.params.IntVal[4];
+  range := psp.state.params.MBF21FixedVal[4];
 
   if range = 0 then
   begin

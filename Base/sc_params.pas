@@ -53,6 +53,9 @@ const
   GLBF_MOBJ_TRACERCUSTOMPARM = 13;
   GLBF_FORCE_EVALUATE = 14;
 
+const
+  CPFLG_FLOATSTRING = 1;
+
 type
   customparam_t = record
     s_param: string[255];
@@ -63,6 +66,7 @@ type
     fx_param: fixed_t;
     globalidx: integer;
     computed: boolean;
+    flags: integer;
   end;
   Pcustomparam_t = ^customparam_t;
   customparam_tArray = array[0..$FFF] of customparam_t;
@@ -81,6 +85,7 @@ type
     function GetFloat(index: integer): single; virtual;
     procedure PutFloat(index: integer; const value: single); virtual;
     function GetFixed(index: integer): fixed_t; virtual;
+    function GetMBF21Fixed(index: integer): fixed_t; virtual;
     function GetBool(index: integer): boolean; virtual;
     function GetString(index: integer): string; virtual;
     function GetEvaluateString(index: integer): string; virtual;
@@ -93,6 +98,7 @@ type
     property IntVal[index: integer]: integer read GetInteger write PutInteger;
     property FloatVal[index: integer]: single read GetFloat write PutFloat;
     property FixedVal[index: integer]: fixed_t read GetFixed;
+    property MBF21FixedVal[index: integer]: fixed_t read GetMBF21Fixed;
     property BoolVal[index: integer]: boolean read GetBool;
     property StrVal[index: integer]: string read GetString;
     property EvaluateStrVal[index: integer]: string read GetEvaluateString;
@@ -257,6 +263,7 @@ var
   utoken: string;
 begin
   realloc(pointer(fList), fNumItems * SizeOf(customparam_t), (fNumItems + 1) * SizeOf(customparam_t));
+  fList[fNumItems].flags := 0;
   splitstring(value, token1, token);
   utoken := strupper(token1);
   if (utoken = 'RANDOM') and (parmtype = GLBF_RANDOM) then
@@ -371,6 +378,9 @@ begin
     begin
       fList[fNumItems].globalidx := parmtype;
       fList[fNumItems].s_param := value;
+      if StrIsFloat(value) then
+        if not StrIsInteger(value) then
+          fList[fNumItems].flags := fList[fNumItems].flags or CPFLG_FLOATSTRING;
     end;
     if parmtype = 0 then
     begin
@@ -664,6 +674,19 @@ begin
     else
       result := fList[index].fx_param;
     end;
+  end
+  else
+    result := 0;
+end;
+
+function TCustomParamList.GetMBF21Fixed(index: integer): fixed_t;
+begin
+  if (index >= 0) and (index < fNumItems) then
+  begin
+    if fList[index].flags and CPFLG_FLOATSTRING <> 0 then
+      result := FloatToFixed(atof(fList[index].s_param))
+    else
+      result := GetInteger(index);
   end
   else
     result := 0;
