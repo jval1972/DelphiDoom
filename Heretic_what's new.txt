@@ -181,6 +181,7 @@ Display warning message when a pk3 file can not be loaded.
 Support for [SPRITES] section in DEHACKED.
 Optionally can draw the player's trace in automap.
 Added MF4_EX_BACKINGMELEE flag. When set the actor will backup from melee attack.
+Added A_SetProjectileGroup(group: string) ACTORDEF function.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
