@@ -159,6 +159,7 @@ uses
   p_spec,
   p_map,
   p_user,
+  p_tick,
   info,
   r_defs,
   r_main,
@@ -1925,6 +1926,8 @@ begin
   // face towards NPC's direction
   // JVAL: use DelphiDoom's P_PlayerFaceMobj function, turn towards dialogtalker in half second
   P_PlayerFaceMobj(player, dialogtalker, TICRATE div 2);
+
+  player.nextfire := leveltime + TICRATE div 2;
 
   // set pointer to player talking
   dialogplayer := player;

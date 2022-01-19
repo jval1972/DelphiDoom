@@ -2759,6 +2759,7 @@ end;
 function PTR_UseThingTraverse(intr: Pintercept_t): boolean;
 var
   mobj: Pmobj_t;
+  p: Pplayer_t;
 begin
   if intr.isaline then
     if intr.d.line.flags and ML_TWOSIDED <> 0 then
@@ -2805,6 +2806,10 @@ begin
   end;
   mobj.target := usething;
   P_SetMobjState(mobj, statenum_t(mobj.info.interactstate));
+  p := usething.player;
+  if p <> nil then
+    if G_PlayingEngineVersion >= VERSION207 then
+      p.nextfire := leveltime + TICRATE div 2;
   result := false;
 end;
 

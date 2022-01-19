@@ -324,6 +324,7 @@ begin
         players[i].crouchheight := 0;
         players[i].plinetarget := nil;
         players[i].pcrosstic := 0;
+        players[i].nextfire := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t206));
       P_ClearPlayerHistory(@players[i]);
@@ -446,6 +447,7 @@ begin
         players[i].crouchheight := 0;
         players[i].plinetarget := nil;
         players[i].pcrosstic := 0;
+        players[i].nextfire := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t205));
       P_ClearPlayerHistory(@players[i]);
@@ -568,6 +570,7 @@ begin
         players[i].crouchheight := 0;
         players[i].plinetarget := nil;
         players[i].pcrosstic := 0;
+        players[i].nextfire := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t203));
       P_ClearPlayerHistory(@players[i]);
@@ -597,6 +600,7 @@ begin
         players[i].crouchheight := 0;
         players[i].plinetarget := nil;
         players[i].pcrosstic := 0;
+        players[i].nextfire := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t122));
       P_ClearPlayerHistory(@players[i]);
@@ -626,6 +630,7 @@ begin
         players[i].crouchheight := 0;
         players[i].plinetarget := nil;
         players[i].pcrosstic := 0;
+        players[i].nextfire := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t121));
       P_ClearPlayerHistory(@players[i]);

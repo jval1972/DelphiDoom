@@ -206,6 +206,7 @@ type
     // JVAL: For the crosshair target
     plinetarget: Pmobj_t;
     pcrosstic: integer;
+    nextfire: integer;
   end;
   Pplayer_t = ^player_t;
 

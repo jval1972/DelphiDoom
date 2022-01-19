@@ -564,6 +564,10 @@ begin
      (usejoystick and joybuttons[joybfire]) then
     cmd.buttons := cmd.buttons or BT_ATTACK;
 
+  if G_PlayingEngineVersion >= VERSION207 then
+    if players[consoleplayer].nextfire > leveltime then
+      cmd.buttons := cmd.buttons and not BT_ATTACK;
+
   if gamekeydown[key_use] or (usejoystick and joybuttons[joybuse]) then
   begin
     cmd.buttons := cmd.buttons or BT_USE;

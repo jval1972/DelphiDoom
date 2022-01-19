@@ -1303,6 +1303,7 @@ begin
   p.pcrosstic := leveltime;
   // JVAL: 20211224 - Clear player history
   P_ClearPlayerHistory(p);
+  p.nextfire := 0;
 
   // setup gun psprite
   P_SetupPsprites(p);

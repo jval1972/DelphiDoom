@@ -182,6 +182,7 @@ Added MF4_EX_BACKINGMELEE flag. When set the actor will backup from melee attack
 Added A_SetProjectileGroup(group: string) ACTORDEF function.
 Added A_SetInfightingGroup(group: string) ACTORDEF function.
 Added A_SetSplashGroup(group: string) ACTORDEF function.
+Fixed firing at dialog talker when exiting dialog.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
