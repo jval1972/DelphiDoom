@@ -617,6 +617,8 @@ procedure A_SetProjectileGroup(actor: Pmobj_t);
 
 procedure A_SetInfightingGroup(actor: Pmobj_t);
 
+procedure A_SetSplashGroup(actor: Pmobj_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -9719,6 +9721,21 @@ begin
   group := Info_InfightingGroupToInt(actor.state.params.StrVal[0]);
   if group <> IG_INVALID then
     actor.infighting_group := group;
+end;
+
+//
+// A_SetSplashGroup(group: string);
+//
+procedure A_SetSplashGroup(actor: Pmobj_t);
+var
+  group: integer;
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  group := Info_SplashGroupToInt(actor.state.params.StrVal[0]);
+  if group <> SG_INVALID then
+    actor.splash_group := group;
 end;
 
 end.
