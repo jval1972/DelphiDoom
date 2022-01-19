@@ -2585,7 +2585,7 @@ begin
   DEH_AddAction(@A_CFlameRotate, 'A_CFlameRotate()'); // 27
   DEH_AddAction(@A_Chase, 'A_Chase()'); // 28
   DEH_AddAction(@A_CheckBurnGone, 'A_CheckBurnGone()'); // 29
-  DEH_AddAction(@A_CheckFloor, 'A_CheckFloor()'); // 30
+  DEH_AddAction(@A_CheckFloor, 'A_CheckFloor(offset: integer)'); // 30
   DEH_AddAction(@A_CheckSkullDone, 'A_CheckSkullDone()'); // 31
   DEH_AddAction(@A_CheckSkullFloor, 'A_CheckSkullFloor()'); // 32
   DEH_AddAction(@A_CheckTeleRing, 'A_CheckTeleRing()'); // 33
@@ -2950,7 +2950,6 @@ begin
   DEH_AddAction(@A_GlowLight, 'A_GlowLight(color: string)'); // 392
   DEH_AddAction(@A_TraceNearestPlayer, 'A_TraceNearestPlayer(pct: integer, [maxturn: angle_t])'); // 393
   DEH_AddAction(@A_ChangeFlag, 'A_ChangeFlag(flag: string, onoff: boolean)'); // 394
-  DEH_AddAction(@A_CheckFloor, 'A_CheckFloor(offset: integer)'); // 395
   DEH_AddAction(@A_CheckCeiling, 'A_CheckCeiling(offset: integer)'); // 396
   DEH_AddAction(@A_StopSound, 'A_StopSound()'); // 397
   DEH_AddAction(@A_JumpIfTargetOutsideMeleeRange, 'A_JumpIfTargetOutsideMeleeRange(offset: integer)'); // 398
