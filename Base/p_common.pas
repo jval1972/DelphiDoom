@@ -615,6 +615,8 @@ procedure A_GunFlashTo(player: Pplayer_t; psp: Ppspdef_t);
 // Non MBF21 codeptrs for manupulating MBF21 features
 procedure A_SetProjectileGroup(actor: Pmobj_t);
 
+procedure A_SetInfightingGroup(actor: Pmobj_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -9702,6 +9704,21 @@ begin
   group := Info_ProjectileGroupToInt(actor.state.params.StrVal[0]);
   if group <> IG_INVALID then
     actor.projectile_group := group;
+end;
+
+//
+// A_SetInfightingGroup(group: string);
+//
+procedure A_SetInfightingGroup(actor: Pmobj_t);
+var
+  group: integer;
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  group := Info_InfightingGroupToInt(actor.state.params.StrVal[0]);
+  if group <> IG_INVALID then
+    actor.infighting_group := group;
 end;
 
 end.
