@@ -180,6 +180,8 @@ begin
 end;
 
 function Info_GetMobjNumForAlias(const name: string): integer;
+const
+  DEH_ACTOR_PREFIX = 'DEH_ACTOR_';
 var
   i: integer;
   check: string;
@@ -191,7 +193,19 @@ begin
     exit;
   end;
 
-  check := strupper(strremovespaces(name)) + '=';
+  check := strupper(strremovespaces(name));
+  if Pos(DEH_ACTOR_PREFIX, check) = 1 then
+  begin
+    snum := Copy(check, Length(DEH_ACTOR_PREFIX) + 1, Length(check) - Length(DEH_ACTOR_PREFIX));
+    if StrIsLongWord(snum) then
+    begin
+      result := atoi(snum);
+      if IsIntegerInRange(result, 0, nummobjtypes - 1) then
+        exit;
+    end;
+  end;
+
+  check := check + '=';
   for i := mobjinfo_aliases.Count - 1 downto 0 do
   begin
     if Pos(check, mobjinfo_aliases.Strings[i]) = 1 then

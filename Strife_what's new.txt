@@ -183,6 +183,7 @@ Added A_SetProjectileGroup(group: string) ACTORDEF function.
 Added A_SetInfightingGroup(group: string) ACTORDEF function.
 Added A_SetSplashGroup(group: string) ACTORDEF function.
 Fixed firing at dialog talker when exiting dialog.
+Accept DEH_ACTOR_xxx as a vaild actor alias.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
