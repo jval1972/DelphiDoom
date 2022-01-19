@@ -55,7 +55,7 @@ procedure D_ProcessEvents;
 procedure D_DoAdvanceDemo;
 
 
-procedure D_AddFile(const fname: string);
+procedure D_AddFile(const fname1: string);
 
 //
 // D_DoomMain()
@@ -118,6 +118,8 @@ var
 var
   wads_autoload: string = '';
   paks_autoload: string = '';
+
+function D_FileInDoomPath(const fn: string): string;
 
 var
   showmessageboxonmodified: boolean = false;
@@ -785,32 +787,35 @@ var
 //
 // D_AddFile
 //
-procedure D_AddFile(const fname: string);
-{$IFDEF OPENGL}
+procedure D_AddFile(const fname1: string);
 var
+  fname2: string;
+{$IFDEF OPENGL}
+  path: string;
   ext: string;
   len: integer;
   gwafname: string;
 {$ENDIF}
 begin
-  if fname <> '' then
+  if fname1 <> '' then
   begin
-    if wadfiles.IndexOf(fname) >= 0 then
+    fname2 := D_FileInDoomPath(fname1);
+    if wadfiles.IndexOf(fname2) >= 0 then
       exit;
     try
-      wadfiles.Add(fname);
-      PAK_AddFile(fname);
-      D_CheckCustomWad(fname);
+      wadfiles.Add(fname2);
+      PAK_AddFile(fname2);
+      D_CheckCustomWad(fname2);
     {$IFDEF OPENGL}
     // JVAL: If exists automatically loads GWA file
     // GL_xxxx lumps has lower priority from GWA files, that's for we
     // first add the *.GWA file.
       if autoloadgwafiles then
       begin
-        ext := strupper(fext(fname));
+        ext := strupper(fext(fname2));
         if ext = '.WAD' then
         begin
-          gwafname := fname;
+          gwafname := fname2;
           len := Length(gwafname);
           gwafname[len - 2] := 'G';
           gwafname[len - 1] := 'W';
@@ -819,17 +824,21 @@ begin
             wadfiles.Add(gwafname)
           else
           begin
-            gwafname := M_SaveFileName(gwafname);
+            path := M_SaveFileName('DATA\');
+            MkDir(path);
+            path := path + 'BSP\';
+            MkDir(path);
+            gwafname := path + fname(gwafname);
             if fexists(gwafname) then
               wadfiles.Add(gwafname)
-            else if gld_BuildNodes(fname, gwafname) then
+            else if gld_BuildNodes(fname2, gwafname) then
               wadfiles.Add(gwafname);
           end;
         end;
       end;
     {$ENDIF}
     except
-      printf('D_AddFile(): Can not add %s'#13#10, [fname]);
+      printf('D_AddFile(): Can not add %s'#13#10, [fname1]);
     end;
   end;
 end;

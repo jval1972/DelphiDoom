@@ -100,7 +100,7 @@ Conditionals=HERETIC;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=D:\DelphiDoom_Release\1.1.4.582\Src\Heretic\
 UsePackages=0
 [Parameters]
-RunParams=EXAMPLE_19_SIMPLE_DIALOGS_heretic.pk3
+RunParams=-iwad heretic1.wad
 HostApplication=
 Launcher=
 UseLauncher=0

@@ -55,7 +55,7 @@ procedure D_ProcessEvents;
 procedure D_DoAdvanceDemo;
 
 
-procedure D_AddFile(const filename: string);
+procedure D_AddFile(const fname1: string);
 
 //
 // D_DoomMain()
@@ -119,6 +119,8 @@ var
 var
   wads_autoload: string = '';
   paks_autoload: string = '';
+
+function D_FileInDoomPath(const fn: string): string;
 
 var
   hexdd_pack: boolean = false; // Death Kings of the Dark Citadel pack
@@ -784,22 +786,25 @@ var
 //
 // D_AddFile
 //
-procedure D_AddFile(const filename: string);
-{$IFDEF OPENGL}
+procedure D_AddFile(const fname1: string);
 var
+  fname2: string;
+{$IFDEF OPENGL}
+  path: string;
   ext: string;
   len: integer;
   gwafname: string;
 {$ENDIF}
 begin
-  if filename <> '' then
+  if fname1 <> '' then
   begin
-    if wadfiles.IndexOf(filename) >= 0 then
+    fname2 := D_FileInDoomPath(fname1);
+    if wadfiles.IndexOf(fname2) >= 0 then
       exit;
     try
-      wadfiles.Add(filename);
-      PAK_AddFile(filename);
-      if strupper(fname(filename)) = 'HEXDD.WAD' then
+      wadfiles.Add(fname2);
+      PAK_AddFile(fname2);
+      if strupper(fname(fname2)) = 'HEXDD.WAD' then
         hexdd_pack := true
       else
       // the parms after p are wadfile/lump names,
@@ -811,10 +816,10 @@ begin
     // first add the *.GWA file.
       if autoloadgwafiles then
       begin
-        ext := strupper(fext(filename));
+        ext := strupper(fext(fname2));
         if ext = '.WAD' then
         begin
-          gwafname := filename;
+          gwafname := fname2;
           len := Length(gwafname);
           gwafname[len - 2] := 'G';
           gwafname[len - 1] := 'W';
@@ -823,17 +828,21 @@ begin
             wadfiles.Add(gwafname)
           else
           begin
-            gwafname := M_SaveFileName(gwafname);
+            path := M_SaveFileName('DATA\');
+            MkDir(path);
+            path := path + 'BSP\';
+            MkDir(path);
+            gwafname := path + fname(gwafname);
             if fexists(gwafname) then
               wadfiles.Add(gwafname)
-            else if gld_BuildNodes(filename, gwafname) then
+            else if gld_BuildNodes(fname2, gwafname) then
               wadfiles.Add(gwafname);
           end;
         end;
       end;
     {$ENDIF}
     except
-      printf('D_AddFile(): Can not add %s'#13#10, [filename]);
+      printf('D_AddFile(): Can not add %s'#13#10, [fname1]);
     end;
   end;
 end;
