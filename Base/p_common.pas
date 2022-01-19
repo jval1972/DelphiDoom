@@ -4731,12 +4731,17 @@ procedure A_CheckFloor(actor: Pmobj_t);
 var
   offset: integer;
 begin
-  if not P_CheckStateParams(actor, 1) then
-    exit;
-
   if actor.z <= actor.floorz then
   begin
-    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[0]);
+    offset := actor.info.deathstate;
+
+    if actor.state.params <> nil then
+      if actor.state.params.Count > 0 then
+        offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[0]);
+
+    if offset = actor.info.deathstate then
+      A_Gravity(actor); // JVAL SOS
+
     if @states[offset] <> actor.state then
       P_SetMobjState(actor, statenum_t(offset));
   end;

@@ -308,8 +308,6 @@ procedure A_MageAttack(actor: Pmobj_t);
 
 procedure A_ClassBossHealth(actor: Pmobj_t);
 
-procedure A_CheckFloor(actor: Pmobj_t);
-
 procedure A_FreezeDeath(actor: Pmobj_t);
 
 procedure A_IceSetTics(actor: Pmobj_t);
@@ -4927,21 +4925,6 @@ begin
       actor.health := actor.health * 5;
       actor.special1 := 1;  // has been initialized
     end;
-end;
-
-
-//
-// A_CheckFloor - Checks if an object hit the floor
-//
-
-procedure A_CheckFloor(actor: Pmobj_t);
-begin
-  if actor.z <= actor.floorz then
-  begin
-    actor.z := actor.floorz;
-    A_Gravity(actor); // JVAL SOS
-    P_SetMobjState(actor, statenum_t(actor.info.deathstate));
-  end;
 end;
 
 //----------------------------------------------------------------------------

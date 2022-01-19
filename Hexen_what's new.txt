@@ -191,6 +191,7 @@ Added MF4_EX_BACKINGMELEE flag. When set the actor will backup from melee attack
 Added A_SetProjectileGroup(group: string) ACTORDEF function.
 Added A_SetInfightingGroup(group: string) ACTORDEF function.
 Added A_SetSplashGroup(group: string) ACTORDEF function.
+Fixed conflict with A_CheckFloor() ACTORDEF function.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

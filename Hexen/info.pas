@@ -113,6 +113,7 @@ uses
   p_extra,
   p_user,
   p_spec,
+  p_common,
   info_common,
   info_export,
   r_renderstyle,
