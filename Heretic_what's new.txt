@@ -186,6 +186,7 @@ Added A_SetInfightingGroup(group: string) ACTORDEF function.
 Added A_SetSplashGroup(group: string) ACTORDEF function.
 Accept DEH_ACTOR_xxx as a vaild actor alias.
 Support for multipatch tall textures.
+Allow CRxxxxxx colorregions outside CR_START, CR_END namespace.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

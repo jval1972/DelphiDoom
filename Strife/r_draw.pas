@@ -139,6 +139,7 @@ procedure R_InitTranslationTables;
 var
   i, j: integer;
   lump: integer;
+  lump2: integer;
   col1, col2: byte;
 begin
   xlatab := W_CacheLumpName('XLATAB', PU_STATIC);
@@ -255,7 +256,11 @@ begin
     for i := 0 to Ord(CR_LIMIT) - 1 do
     begin
       inc(lump);
-      W_ReadLump(lump, colorregions[i]);
+      lump2 := W_CheckNumForName(W_GetNameForNum(lump));
+      if W_LumpLength(lump2) = 256 then
+        W_ReadLump(lump2, colorregions[i])
+      else
+        W_ReadLump(lump, colorregions[i]);
     end;
   end;
 

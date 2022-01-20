@@ -133,6 +133,7 @@ procedure R_InitTranslationTables;
 var
   i, j: integer;
   lump: integer;
+  lump2: integer;
 begin
   translationtables := Z_Malloc(256 * 3 + 255, PU_STATIC, nil);
   translationtables := PByteArray((integer(translationtables) + 255 ) and not 255);
@@ -170,7 +171,11 @@ begin
     for i := 0 to Ord(CR_LIMIT) - 1 do
     begin
       inc(lump);
-      W_ReadLump(lump, colorregions[i]);
+      lump2 := W_CheckNumForName(W_GetNameForNum(lump));
+      if W_LumpLength(lump2) = 256 then
+        W_ReadLump(lump2, colorregions[i])
+      else
+        W_ReadLump(lump, colorregions[i]);
     end;
   end;
 

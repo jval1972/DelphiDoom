@@ -140,6 +140,7 @@ var
   idx: integer;
 {$IFDEF OPENGL}
   lump: integer;
+  lump2: integer;
 {$ENDIF}
 begin
   tinttable := W_CacheLumpName('TINTTAB', PU_STATIC);
@@ -176,7 +177,11 @@ begin
     for i := 0 to Ord(CR_LIMIT) - 1 do
     begin
       inc(lump);
-      W_ReadLump(lump, colorregions[i]);
+      lump2 := W_CheckNumForName(W_GetNameForNum(lump));
+      if W_LumpLength(lump2) = 256 then
+        W_ReadLump(lump2, colorregions[i])
+      else
+        W_ReadLump(lump, colorregions[i]);
     end;
   end;
 {$ENDIF}
