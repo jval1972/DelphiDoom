@@ -447,7 +447,12 @@ begin
     if disklump < 0 then
       disklump := W_CheckNumForName('STDISK');
     if disklump >= 0 then
-      diskpatch := W_CacheLumpNum(disklump, PU_STATIC);
+      diskpatch := W_CacheLumpNum(disklump, PU_STATIC)
+    else
+    begin
+      I_Warning('Disk busy lump not found!'#13#10);
+      exit;
+    end;
   end;
 
   if diskpatch <> nil then
