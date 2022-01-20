@@ -287,6 +287,7 @@ var
   theight4: integer;
   source, mark1, marks: PByteArray;
   marksize: integer;
+  talllength, talltopdelta, resttopdelta, lasttopdelta, sourceposition: integer;
 begin
   texture := textures[texnum];
   twidth := texture.width;
@@ -364,41 +365,121 @@ begin
     end;
 
     source := malloc(theight);  // temporary column
-    for i := 0 to twidth - 1 do
-      if collump[i] < 0 then // process only multipatched columns
-      begin
-        col := Pcolumn_t(@block[colofs[i] - 3]);  // cached column
-        mark1 := @marks[i * theight];
-        j := 0;
-
-        // save column in temporary so we can shuffle it around
-        memcpy(source, PByteArray(integer(col) + 3), theight);
-
-        while true do  // reconstruct the column by scanning transparency marks
+    if theight < 255 then
+    begin
+      for i := 0 to twidth - 1 do
+        if collump[i] < 0 then // process only multipatched columns
         begin
-          // skip transparent cells
-          // JVAL: Fast skip, check 4 bytes at first
-          theight4 := theight - 4;
-          while (j < theight4) and (PInteger(@mark1[j])^ = 0) do
-            j := j + 4;
-          // JVAL: Finally check each of the remaining bytes
-          while (j < theight) and (mark1[j] = 0) do
-            inc(j);
-          if j >= theight then    // if at end of column
+          col := Pcolumn_t(@block[colofs[i] - 3]);  // cached column
+          mark1 := @marks[i * theight];
+          j := 0;
+
+          // save column in temporary so we can shuffle it around
+          memcpy(source, PByteArray(integer(col) + 3), theight);
+
+          while true do  // reconstruct the column by scanning transparency marks
           begin
-            col.topdelta := $FF;  // end-of-column marker
-            break;
+            // skip transparent cells
+            // JVAL: Fast skip, check 4 bytes at first
+            theight4 := theight - 4;
+            while (j < theight4) and (PInteger(@mark1[j])^ = 0) do
+              j := j + 4;
+            // JVAL: Finally check each of the remaining bytes
+            while (j < theight) and (mark1[j] = 0) do
+              inc(j);
+            if j >= theight then    // if at end of column
+            begin
+              col.topdelta := $FF;  // end-of-column marker
+              break;
+            end;
+            col.topdelta := j;      // starting offset of post
+            // JVAL: 20200118 - Added check for walls with height >= 256
+            while (j < theight) and (mark1[j] <> 0) and (j - col.topdelta < 255) do
+              inc(j);
+            col.length := j - col.topdelta;
+            // copy opaque cells from the temporary back into the column
+            memcpy(PByteArray(integer(col) + 3), @source[col.topdelta], col.length);
+            col := Pcolumn_t(integer(col) + col.length + 4); // next post
           end;
-          col.topdelta := j;      // starting offset of post
-          // JVAL: 20200118 - Added check for walls with height >= 256
-          while (j < theight) and (mark1[j] <> 0) and (j - col.topdelta < 255) do
-            inc(j);
-          col.length := j - col.topdelta;
-          // copy opaque cells from the temporary back into the column
-          memcpy(PByteArray(integer(col) + 3), @source[col.topdelta], col.length);
-          col := Pcolumn_t(integer(col) + col.length + 4); // next post
         end;
-      end;
+    end
+    else  // Tall patch with multipatched columns nightmare
+    begin
+      for i := 0 to twidth - 1 do
+        if collump[i] < 0 then // process only multipatched columns
+        begin
+          col := Pcolumn_t(@block[colofs[i] - 3]);  // cached column
+          mark1 := @marks[i * theight];
+          j := 0;
+          lasttopdelta := 0;
+
+          // save column in temporary so we can shuffle it around
+          memcpy(source, PByteArray(integer(col) + 3), theight);
+          while true do  // reconstruct the column by scanning transparency marks
+          begin
+            // skip transparent cells
+            // JVAL: Fast skip, check 4 bytes at first
+            theight4 := theight - 4;
+            while (j < theight4) and (PInteger(@mark1[j])^ = 0) do
+              j := j + 4;
+            // JVAL: Finally check each of the remaining bytes
+            while (j < theight) and (mark1[j] = 0) do
+              inc(j);
+            if j >= theight then    // if at end of column
+            begin
+              col.topdelta := $FF;  // end-of-column marker
+              break;
+            end;
+
+            talltopdelta := j;
+            while (j < theight) and (mark1[j] <> 0) do
+              inc(j);
+            talllength := j - talltopdelta;
+
+            repeat
+              sourceposition := talltopdelta;
+              if talltopdelta < 255 then
+              begin
+                col.topdelta := talltopdelta;
+                lasttopdelta := talltopdelta;
+              end
+              else
+              begin
+                resttopdelta := talltopdelta - lasttopdelta;
+                repeat
+                  if resttopdelta > 254 then
+                  begin
+                    col.topdelta := lasttopdelta;
+                    lasttopdelta := lasttopdelta + lasttopdelta;
+                    col.length := 0;
+                    col := Pcolumn_t(integer(col) + col.length + 4); // next post
+                  end
+                  else
+                  begin
+                    col.topdelta := resttopdelta;
+                    lasttopdelta := talltopdelta;
+                  end;
+                until lasttopdelta = talltopdelta;
+              end;
+
+              if talllength > 254 then
+              begin
+                col.length := 254;
+                talllength := talllength - 254;
+              end
+              else
+              begin
+                col.length := talllength;
+                talllength := 0;
+              end;
+              // copy opaque cells from the temporary back into the column
+              memcpy(PByteArray(integer(col) + 3), @source[sourceposition], col.length);
+              sourceposition := sourceposition + col.length;
+              col := Pcolumn_t(integer(col) + col.length + 4); // next post
+            until talllength = 0;
+          end;
+        end;
+    end;
 
     memfree(pointer(source), theight);  // free temporary column
     memfree(pointer(marks), marksize);  // free transparency marks
