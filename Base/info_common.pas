@@ -847,7 +847,7 @@ begin
   else
   begin
     check := 'SG_' + itoa(result);
-    result := projectile_groups.Add(check);
+    result := splash_groups.Add(check);
     SC_AddConst(check, result); // JVAL: 20220104 - Dynamically add const
   end;
 end;
