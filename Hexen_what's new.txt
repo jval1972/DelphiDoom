@@ -196,6 +196,7 @@ Accept DEH_ACTOR_xxx as a vaild actor alias.
 Support for multipatch tall textures.
 Fixed support for TEXTURE3 lump.
 Allow CRxxxxxx colorregions outside CR_START, CR_END namespace.
+"RADIUS" alias for "WIDTH" DEHACKED field.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
