@@ -445,8 +445,8 @@ begin
               inc(j);
             talllength := j - talltopdelta;
 
+            sourceposition := talltopdelta;
             repeat
-              sourceposition := talltopdelta;
               if talltopdelta < 255 then
               begin
                 col.topdelta := talltopdelta;
