@@ -392,7 +392,7 @@ begin
   begin
     lblack := curpal[black];
     lstrart := @screen32[ofs];
-    for i := 0 to count -1 do
+    for i := 0 to count - 1 do
     begin
       lstrart^ := lblack;
       inc(lstrart);
