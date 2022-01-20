@@ -102,7 +102,10 @@ type
     CR_ORANGE,  //8
     CR_YELLOW,  //9
     CR_BLUE2,   //10
-    CR_LIMIT    //11
+    CR_BLACK,   //11
+    CR_PURPL,   //12
+    CR_WHITE,   //13
+    CR_LIMIT    //14
   );
 
 var
