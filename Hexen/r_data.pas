@@ -819,7 +819,7 @@ begin
   if t3lump <> -1 then
   begin
     maptex3 := W_CacheLumpNum(t3lump, PU_STATIC);
-    numtextures3 := maptex2[0];
+    numtextures3 := maptex3[0];
     maxoff3 := W_LumpLength(t3lump);
   end
   else

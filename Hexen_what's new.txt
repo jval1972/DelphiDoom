@@ -194,6 +194,7 @@ Added A_SetSplashGroup(group: string) ACTORDEF function.
 Fixed conflict with A_CheckFloor() ACTORDEF function.
 Accept DEH_ACTOR_xxx as a vaild actor alias.
 Support for multipatch tall textures.
+Fixed support for TEXTURE3 lump.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
