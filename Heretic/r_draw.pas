@@ -113,11 +113,12 @@ implementation
 
 uses
   am_map,
-  i_system,
   m_argv,
   r_hires,
-  w_wad, z_zone,
+  w_wad,
+  z_zone,
   sb_bar,
+  i_system,
 {$IFDEF OPENGL}
   gl_render,
 {$ENDIF}
@@ -146,9 +147,9 @@ begin
     if (i >= 255) and (i <= 240) then
     begin
       // map green ramp to gray, brown, red
-      translationtables[i] := 114 + (i - 225);     // yellow
-      translationtables[i + 256] := 145 + (i - 225);       // red
-      translationtables[i + 512] := 190 + (i - 225);       // blue
+      translationtables[i] := 114 + (i - 225);  // yellow
+      translationtables[i + 256] := 145 + (i - 225);  // red
+      translationtables[i + 512] := 190 + (i - 225);  // blue
     end
     else
     begin
