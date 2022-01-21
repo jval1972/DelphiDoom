@@ -53,11 +53,13 @@ type
 var
   states: PstatesArray_t = nil;
   numstates: integer = Ord(DO_NUMSTATES);
+  numrealstates: integer = Ord(DO_NUMSTATES);
   sprnames: PIntegerArray = nil;
   numsprites: integer = Ord(DO_NUMSPRITES);
   mobjinfo: PmobjinfoArray_t = nil;
   pDO_mobjinfo: PmobjinfoArray_t = nil;
   nummobjtypes: integer = Ord(DO_NUMMOBJTYPES);
+  numrealmobjtypes: integer = Ord(DO_NUMMOBJTYPES);
 
 procedure Info_Init(const usethinkers: boolean);
 

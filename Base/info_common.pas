@@ -305,9 +305,15 @@ begin
 end;
 
 function Info_GetNewState: integer;
+const
+  ST_GROWSTEP = 256;
 begin
-  realloc(pointer(states), numstates * SizeOf(state_t), (numstates + 1) * SizeOf(state_t));
-  ZeroMemory(@states[numstates], SizeOf(state_t));
+  if numstates >= numrealstates then
+  begin
+    realloc(pointer(states), numrealstates * SizeOf(state_t), (numrealstates + ST_GROWSTEP) * SizeOf(state_t));
+    ZeroMemory(@states[numrealstates], ST_GROWSTEP * SizeOf(state_t));
+    numrealstates := numrealstates + ST_GROWSTEP;
+  end;
   states[numstates].sprite := Ord(SPR_NULL);
   states[numstates].tics := -1;
   states[numstates].tics2 := -1;
@@ -317,9 +323,15 @@ begin
 end;
 
 function Info_GetNewMobjInfo: integer;
+const
+  MI_GROWSTEP = 64;
 begin
-  realloc(pointer(mobjinfo), nummobjtypes * SizeOf(mobjinfo_t), (nummobjtypes + 1) * SizeOf(mobjinfo_t));
-  ZeroMemory(@mobjinfo[nummobjtypes], SizeOf(mobjinfo_t));
+  if nummobjtypes >= numrealmobjtypes then
+  begin
+    realloc(pointer(mobjinfo), numrealmobjtypes * SizeOf(mobjinfo_t), (numrealmobjtypes + MI_GROWSTEP) * SizeOf(mobjinfo_t));
+    ZeroMemory(@mobjinfo[numrealmobjtypes], MI_GROWSTEP * SizeOf(mobjinfo_t));
+    numrealmobjtypes := numrealmobjtypes + MI_GROWSTEP;
+  end;
   {$IFDEF STRIFE}
   mobjinfo[nummobjtypes].name2 := '';
   {$ENDIF}
@@ -534,8 +546,8 @@ begin
       FreeAndNil(states[i].voxels);
   end;
 
-  memfree(pointer(states), numstates * SizeOf(state_t));
-  memfree(pointer(mobjinfo), nummobjtypes * SizeOf(mobjinfo_t));
+  memfree(pointer(states), numrealstates * SizeOf(state_t));
+  memfree(pointer(mobjinfo), numrealmobjtypes * SizeOf(mobjinfo_t));
   memfree(pointer(sprnames), (numsprites + 1) * 4);
 end;
 
