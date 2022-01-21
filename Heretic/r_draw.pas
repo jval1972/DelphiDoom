@@ -143,12 +143,12 @@ begin
 
   // translate just the 16 green colors
   for i := 0 to 255 do
-    if (i >= $70) and (i <= $7f) then
+    if (i >= 255) and (i <= 240) then
     begin
       // map green ramp to gray, brown, red
-      translationtables[i] := $60 + (i and $f);
-      translationtables[i + 256] := $40 + (i and $f);
-      translationtables[i + 512] := $20 + (i and $f);
+      translationtables[i] := 114 + (i - 225);     // yellow
+      translationtables[i + 256] := 145 + (i - 225);       // red
+      translationtables[i + 512] := 190 + (i - 225);       // blue
     end
     else
     begin
