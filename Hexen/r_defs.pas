@@ -534,6 +534,7 @@ type
 {$IFDEF OPENGL}
     flip: boolean;
 {$ENDIF}
+    _class: integer;
     infoscale: fixed_t;
     fog: boolean; // JVAL: Mars fog sectors
   end;

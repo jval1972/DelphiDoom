@@ -48,7 +48,7 @@ type
   );
 
 const
-  CR_INVUL = Ord(CR_LIMIT) + MAXPLAYERS;
+  CR_INVUL = Ord(CR_LIMIT) + {$IFDEF HEXEN}3 *{$ENDIF} MAXPLAYERS;
 
 type
   GLTexture = record

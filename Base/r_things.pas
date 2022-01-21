@@ -115,6 +115,9 @@ implementation
 
 uses
   tables,
+  {$IFDEF HEXEN}
+  d_player,
+  {$ENDIF}
   g_game,
   info_h,
   i_system,
@@ -995,6 +998,7 @@ begin
     colfunc := transcolfunc;
     batchcolfunc := batchtranscolfunc;
     dc_translation := PByteArray(integer(translationtables) - 256 +
+    {$IFDEF HEXEN}vis._class * ((MAXPLAYERS - 1) * 256) + {$ENDIF}
       (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
   end
   else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_translucent) then
@@ -1605,6 +1609,19 @@ begin
   vis.gy := thing.y;
   vis.gz := thing.z;
   vis.gzt := gzt;
+  {$IFDEF HEXEN}
+  if thing.flags and MF_TRANSLATION <> 0 then
+	begin
+    if thing.player <> nil then
+      vis._class := Ord(Pplayer_t(thing.player)._class)
+    else
+      vis._class := thing.special1;
+    if vis._class > 2 then
+			vis._class := 0;
+  end
+  else
+    vis._class := 0;
+  {$ENDIF}
   // foot clipping
   {$IFDEF HERETIC}
   if (thing.flags2 and MF2_FEETARECLIPPED <> 0) and (thing.z <=
@@ -1919,7 +1936,6 @@ begin
   vis.mobjflags_ex := 0;
   vis.mobjflags2_ex := 0;
   vis.mo := viewplayer.mo;
-
   vis.texturemid := (BASEYCENTER * FRACUNIT) {+ FRACUNIT div 2} - (psp.sy - spritetopoffset[lump]);
   if viewplayer.mo <> nil then
     vis.texturemid := vis.texturemid + viewplayer.mo.spriteDY;
@@ -1931,6 +1947,7 @@ begin
 {$IFDEF HEXEN}
   if screenblocks > 10 then
     vis.texturemid := vis.texturemid - FPSpriteSY[Ord(viewplayer._class), Ord(viewplayer.readyweapon)];
+  vis._class := 0;
 {$ENDIF}
   if x1 < 0 then
     vis.x1 := 0

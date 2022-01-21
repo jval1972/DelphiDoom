@@ -199,6 +199,7 @@ Allow CRxxxxxx colorregions outside CR_START, CR_END namespace.
 "RADIUS" alias for "WIDTH" DEHACKED field.
 Added CR_BLACK, CR_PURPL & CR_WHITE translation tables.
 Displays a warning when disk buzy lump not found.
+Fixed translation tables for players.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
