@@ -359,13 +359,13 @@ uses
   {$ENDIF}
   r_plane,
   r_sky,
-{$IFNDEF OPENGL}
+  {$IFNDEF OPENGL}
   r_segs,
-{$ENDIF}
+  {$ENDIF}
   r_hires,
   r_camera,
   r_precalc,
-{$IFNDEF OPENGL}
+  {$IFNDEF OPENGL}
   r_cache_main,
   r_fake3d,
   r_ripple,
@@ -373,14 +373,14 @@ uses
   r_voxels,
   r_3dfloors, // JVAL: 3d Floors
   r_slopes, // JVAL: Slopes
-{$ENDIF}
+  {$ENDIF}
   r_lights,
   r_intrpl,
-{$IFDEF OPENGL}
+  {$IFDEF OPENGL}
   gl_render, // JVAL OPENGL
   gl_clipper,
   gl_tex,
-{$ELSE}
+  {$ELSE}
   r_segs2,
   r_wall8,
   r_wall32,
@@ -405,8 +405,9 @@ uses
   r_depthbuffer,  // JVAL: 3d Floors
   r_zbuffer, // JVAL: version 205
   v_video,
-{$ENDIF}
+  {$ENDIF}
   r_subsectors,
+  r_translations,
   v_data,
   st_stuff,
   z_zone;
@@ -2089,6 +2090,8 @@ begin
   R_InitSkyMap;
   printf('R_InitTranslationsTables'#13#10);
   R_InitTranslationTables;
+  printf('R_InitTranslations'#13#10);
+  R_InitTranslations;
 {$IFNDEF OPENGL}
   printf('R_InitTransparency8Tables'#13#10);
   R_InitTransparency8Tables;
@@ -2158,6 +2161,8 @@ begin
   printf(#13#10 + 'R_FreeTransparency8Tables');
   R_FreeTransparency8Tables;
 {$ENDIF}
+  printf('R_ShutDownTranslations'#13#10);
+  R_ShutDownTranslations;
   printf(#13#10 + 'R_ShutDownPrecalc');
   R_ShutDownPrecalc;
 {$IFNDEF OPENGL}

@@ -403,7 +403,8 @@ uses
   s_pk3sounds in 'Base\s_pk3sounds.pas',
   p_playertrace in 'Base\p_playertrace.pas',
   p_friends in 'Base\p_friends.pas',
-  sounddata in 'Strife\sounddata.pas';
+  sounddata in 'Doom\sounddata.pas',
+  r_translations in 'Base\r_translations.pas';
 
 exports
   dd_compile_strife,

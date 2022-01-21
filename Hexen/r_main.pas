@@ -418,6 +418,7 @@ uses
   v_video,
   {$ENDIF}
   r_subsectors,
+  r_translations,
   v_data,
   sb_bar,
   w_sprite,
@@ -2068,6 +2069,8 @@ begin
   R_InitSkyMap;
   printf('R_InitTranslationsTables'#13#10);
   R_InitTranslationTables;
+  printf('R_InitTranslations'#13#10);
+  R_InitTranslations;
 {$IFNDEF OPENGL}
   printf('R_InitTransparency8Tables'#13#10);
   R_InitTransparency8Tables;
@@ -2142,6 +2145,8 @@ begin
   printf(#13#10 + 'R_FreeTransparency8Tables');
   R_FreeTransparency8Tables;
 {$ENDIF}
+  printf('R_ShutDownTranslations'#13#10);
+  R_ShutDownTranslations;
   printf(#13#10 + 'R_ShutDownPrecalc');
   R_ShutDownPrecalc;
 {$IFNDEF OPENGL}

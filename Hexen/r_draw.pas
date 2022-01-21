@@ -115,12 +115,12 @@ implementation
 
 uses
   am_map,
-  i_system,
   m_argv,
   r_hires,
   w_wad,
   z_zone,
   sb_bar,
+  i_system,
 {$IFDEF OPENGL}
   gl_render,
 {$ENDIF}
@@ -137,14 +137,12 @@ uses
 //
 procedure R_InitTranslationTables;
 var
-  i{$IFDEF OPENGL}, j{$ENDIF}: integer;
+  i, j: integer;
   transLump: PByteArray;
   trlmp: integer;
   idx: integer;
-{$IFDEF OPENGL}
   lump: integer;
   lump2: integer;
-{$ENDIF}
 begin
   tinttable := W_CacheLumpName('TINTTAB', PU_STATIC);
 
@@ -163,13 +161,13 @@ begin
       idx := trlmp;
   end;
 
-{$IFDEF OPENGL}
   // JVAL: Initialize ColorRegions
   lump := W_CheckNumForName('CR_START');
   for i := 0 to Ord(CR_LIMIT) - 1 do
     colorregions[i] := Z_Malloc(256, PU_STATIC, nil);
   if lump = -1 then
   begin
+    printf(#13#10); // JVAL: keep stdout happy...
     I_Warning('Colormap extensions not found, using default translations'#13#10);
     for i := 0 to Ord(CR_LIMIT) - 1 do
       for j := 0 to 255 do
@@ -187,7 +185,7 @@ begin
         W_ReadLump(lump, colorregions[i]);
     end;
   end;
-{$ENDIF}
+
 end;
 
 //

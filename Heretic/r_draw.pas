@@ -165,6 +165,7 @@ begin
     colorregions[i] := Z_Malloc(256, PU_STATIC, nil);
   if lump = -1 then
   begin
+    printf(#13#10); // JVAL: keep stdout happy...
     I_Warning('Colormap extensions not found, using default translations'#13#10);
     for i := 0 to Ord(CR_LIMIT) - 1 do
       for j := 0 to 255 do
