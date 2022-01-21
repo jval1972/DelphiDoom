@@ -159,6 +159,7 @@ uses
   p_simpledialog,
   psi_overlay,
   r_renderstyle,
+  r_translations,
   sounddata,
   sounds,
   sc_params,
@@ -723,6 +724,8 @@ begin
               end;
           73: mobjinfo[mobj_no].ripsound := S_GetSoundNumForName(token2); // .ripsound (MBF21)
           74: mobjinfo[mobj_no].crushstate := mobj_val;
+          77: mobjinfo[mobj_no].bloodcolor := R_GetBloodTranslationIdForName(token2);
+          78: mobjinfo[mobj_no].translationname := strupper(token2);
         end;
       end;
 
@@ -1954,6 +1957,8 @@ begin
     result.Add('%s = %s', [capitalizedstring(mobj_tokens[72]), Info_SplashGroupToString(mobjinfo[i].splash_group)]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[73]), mobjinfo[i].ripsound]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[74]), mobjinfo[i].crushstate]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[77]), mobjinfo[i].bloodcolor]);
+    result.Add('%s = %s', [capitalizedstring(mobj_tokens[78]), mobjinfo[i].translationname]);
 
     result.Add('');
   end;
@@ -2252,6 +2257,8 @@ begin
   mobj_tokens.Add('CRUSH FRAME');        // .crushstate (DelphiDoom)  // 74
   mobj_tokens.Add('ACTIVE SOUND');       // .activesound              // 75 - Alias for 20
   mobj_tokens.Add('RADIUS');             // .radius                   // 76 - Alias for 16
+  mobj_tokens.Add('BLOOD COLOR');        // .bloodcolor               // 77
+  mobj_tokens.Add('TRANSLATION');        // .translationname          // 78
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);

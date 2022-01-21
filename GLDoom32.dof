@@ -100,7 +100,7 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-iwad doom2.wad rottest.wad
+RunParams=-iwad doom2.wad ACTORDEF_TRANSLATIONPLAYER.zip
 HostApplication=
 Launcher=
 UseLauncher=0

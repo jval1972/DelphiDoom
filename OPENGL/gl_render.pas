@@ -4702,6 +4702,7 @@ end;
 procedure gld_AddSprite(vspr: Pvissprite_t);
 var
   pSpr: Pmobj_t;
+  i: integer;
   sprite: GLSprite;
   voff, hoff: float;
   tex: PGLTexture;
@@ -4721,9 +4722,18 @@ begin
     else
       sprite.light := gld_CalcLightLevel(sec.lightlevel + (extralight shl 5));
   end;
-  sprite.cm := Ord(CR_LIMIT) +
-    {$IFDEF HEXEN}vspr._class * ((MAXPLAYERS - 1) * 256) + {$ENDIF}
-    ((pSpr.flags and MF_TRANSLATION) shr MF_TRANSSHIFT);
+  sprite.cm := -1;
+  if pSpr.translationtable <> nil then
+    for i := 0 to Ord(CR_LIMIT) - 1 do
+      if colorregions[i] = pSpr.translationtable then
+      begin
+        sprite.cm := i;
+        break;
+      end;
+  if sprite.cm < 0 then
+    sprite.cm := Ord(CR_LIMIT) +
+      {$IFDEF HEXEN}vspr._class * ((MAXPLAYERS - 1)) + {$ENDIF}
+      ((pSpr.flags and MF_TRANSLATION) shr MF_TRANSSHIFT);
   sprite.gltexture := gld_RegisterPatch(vspr.patch + firstspritelump, sprite.cm);
   if sprite.gltexture = nil then
     exit;

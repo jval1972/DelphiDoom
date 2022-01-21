@@ -33,16 +33,18 @@ unit w_sprite;
 
 interface
 
+uses
+  d_delphi;
+
 procedure W_InitSprites;
 procedure W_ShutDownSprites;
 
-function W_CacheSpriteNum(const lump: integer; const tag: integer): pointer;
-function W_CacheSpriteName(const name: string; const tag: integer): pointer;
+function W_CacheSpriteNum(const lump: integer; const ftranslation: pointer; const tag: integer): pointer;
+function W_CacheSpriteName(const name: string; const ftranslation: pointer; const tag: integer): pointer;
 
 implementation
 
 uses
-  d_delphi,
   i_system,
   r_defs,
   t_main,
@@ -51,29 +53,51 @@ uses
   w_wad,
   z_zone;
 
+const
+  MAXSPRITETRANSLATIONS = 16;
+
+type
+  translationspriteitem_t = record
+    translation: PByteArray;
+    data: Pointer;
+  end;
+
+  translationsprite_t = record
+    numsprites: integer;
+    overwrite: integer;
+    sprites: array[0..MAXSPRITETRANSLATIONS - 1] of translationspriteitem_t;
+  end;
+  Ptranslationsprite_t = ^translationsprite_t;
+  translationsprite_tArray = array[0..$FFFF] of translationsprite_t;
+  Ptranslationsprite_tArray = ^translationsprite_tArray;
+
 type
   TSpriteLumpCache = class(TObject)
   private
     fsize: integer;
     fitems: PPointerArray;
+    ftrasnlatedsprites: Ptranslationsprite_tArray;
   public
     constructor Create; virtual;
     destructor Destroy; override;
     procedure NotifySize(const lastsprite: integer);
     property Size: integer read fSize;
     property Items: PPointerArray read fitems;
+    property Trasnlatedsprites: Ptranslationsprite_tArray read ftrasnlatedsprites;
   end;
 
 constructor TSpriteLumpCache.Create;
 begin
   fsize := 0;
   fitems := nil;
+  ftrasnlatedsprites := nil;
   Inherited;
 end;
 
 destructor TSpriteLumpCache.Destroy;
 begin
   memfree(pointer(fitems), fsize * SizeOf(pointer));
+  memfree(pointer(ftrasnlatedsprites), fsize * SizeOf(translationsprite_t));
   fsize := 0;
   Inherited;
 end;
@@ -84,6 +108,7 @@ begin
     I_Error('TSpriteLumpCache.NotifySize(): Internal Error - Can not notify sprite cache size twice!');
 
   fitems := mallocz(lastsprite * SizeOf(pointer));
+  ftrasnlatedsprites := mallocz(lastsprite * SizeOf(translationsprite_t));
   fsize := lastsprite;
 end;
 
@@ -202,7 +227,7 @@ begin
   end;
 end;
 
-function W_CacheSpriteNum(const lump: integer; const tag: integer): pointer;
+function W_CacheSpriteNumUntranslated(const lump: integer; const tag: integer): pointer;
 var
   ext: string;
   tm: PTextureManager;
@@ -264,9 +289,115 @@ begin
   strm.Free;
 end;
 
-function W_CacheSpriteName(const name: string; const tag: integer): pointer;
+function W_CacheSpriteNum(const lump: integer; const ftranslation: pointer; const tag: integer): pointer;
+var
+  i: integer;
+  trn: Ptranslationsprite_t;
+  patch, newpatch: Ppatch_t;
+  freespot: integer;
+  sz: integer;
+  col: integer;
+  column: Pcolumn_t;
+  checkcols: TDNumberList;
+  offs, count: integer;
+  source: PByte;
+  ftrans: PByteArray;
 begin
-  result := W_CacheSpriteNum(W_GetNumForName(name, TYPE_SPRITE), tag);
+  if ftranslation = nil then
+  begin
+    result := W_CacheSpriteNumUntranslated(lump, tag);
+    exit;
+  end;
+
+  trn := @spritecache.Trasnlatedsprites[lump];
+  for i := 0 to trn.numsprites - 1 do
+  begin
+    if trn.sprites[i].translation = ftranslation then
+    begin
+      result := trn.sprites[i].data;
+      exit;
+    end;
+  end;
+
+  if trn.numsprites < MAXSPRITETRANSLATIONS then
+  begin
+    freespot := trn.numsprites;
+    inc(trn.numsprites);
+  end
+  else
+  begin
+    freespot := -1;
+    for i := 0 to MAXSPRITETRANSLATIONS - 1 do
+      if trn.sprites[i].data = nil then
+      begin
+        freespot := i;
+        break;
+      end;
+
+    if freespot < 0 then
+    begin
+      freespot := trn.overwrite;
+      Inc(trn.overwrite);
+      if trn.overwrite = MAXSPRITETRANSLATIONS then
+        trn.overwrite := 0;
+    end;
+  end;
+
+  patch := W_CacheSpriteNumUntranslated(lump, tag);
+  if patch = nil then
+  begin
+    result := nil;
+    exit;
+  end;
+
+  if trn.sprites[freespot].data <> nil then
+    Z_Free(trn.sprites[freespot].data);
+
+  sz := Z_Size(patch);
+  newpatch := Z_Malloc(sz, tag, @trn.sprites[freespot].data);
+  memcpy(newpatch, patch, sz);
+
+  ftrans := ftranslation;
+  trn.sprites[freespot].translation := ftranslation;
+
+  checkcols := TDNumberList.Create;
+
+  for col := 0 to newpatch.width - 1 do
+  begin
+    offs := newpatch.columnofs[col];
+    // JVAL: Avoid compressed columns
+    if checkcols.IndexOf(offs) < 0 then
+      checkcols.Add(offs)
+    else
+      Continue;
+
+    column := Pcolumn_t(integer(newpatch) + offs);
+
+    // step through the posts in a column
+    while column.topdelta <> $ff do
+    begin
+      source := PByte(integer(column) + 3);
+      count := column.length;
+
+      while count > 0 do
+      begin
+        source^ := ftrans[source^];
+        inc(source);
+        dec(count);
+      end;
+      column := Pcolumn_t(integer(column) + column.length + 4);
+    end;
+
+  end;
+
+  checkcols.Free;
+
+  result := newpatch;
+end;
+
+function W_CacheSpriteName(const name: string; const ftranslation: pointer; const tag: integer): pointer;
+begin
+  result := W_CacheSpriteNum(W_GetNumForName(name, TYPE_SPRITE), ftranslation, tag);
 end;
 
 end.

@@ -1030,7 +1030,7 @@ begin
       in_loop := false
     else if in_loop then
     begin
-      patch := W_CacheSpriteNum(firstspritelump + i, PU_STATIC); // JVAL: Images as sprites
+      patch := W_CacheSpriteNum(firstspritelump + i, nil, PU_STATIC); // JVAL: Images as sprites
       spritewidth[i] := patch.width * FRACUNIT;
       spriteoffset[i] := patch.leftoffset * FRACUNIT;
       spritetopoffset[i] := patch.topoffset * FRACUNIT;

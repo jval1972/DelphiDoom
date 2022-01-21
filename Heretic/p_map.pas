@@ -2182,7 +2182,7 @@ begin
   if intr.d.thing.flags and MF_NOBLOOD <> 0 then
     P_SpawnPuff(x, y, z)
   else
-    P_SpawnBlood(x, y, z, la_damage);
+    P_SpawnBlood(x, y, z, la_damage, intr.d.thing);
 
   if la_damage <> 0 then
     P_DamageMobj(th, shootthing, shootthing, la_damage);

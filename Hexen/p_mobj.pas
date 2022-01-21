@@ -182,6 +182,7 @@ uses
   r_sky,
   r_main,
   r_data,
+  r_translations,
   hu_stuff,
   s_sound,
   sounddata,
@@ -1427,6 +1428,9 @@ begin
   mobj.infighting_group := info.infighting_group;
   mobj.projectile_group := info.projectile_group;
   mobj.splash_group := info.splash_group;
+  mobj.bloodcolor := info.bloodcolor;
+  mobj.translationname := info.translationname;
+  R_InitMobjTranslation(mobj);
 
   if gameskill <> sk_nightmare then
     mobj.reactiontime := info.reactiontime;
@@ -2231,6 +2235,10 @@ var
   mo: Pmobj_t;
 begin
   mo := P_SpawnMobj(x, y, z, Ord(MT_BLOODSPLATTER));
+
+  if originator.bloodcolor > 0 then
+    R_SetMobjBloodTranslation(mo, originator.bloodcolor);
+
   mo.target := originator;
   mo.momx := (P_Random - P_Random) * 1024;
   mo.momy := (P_Random - P_Random) * 1024;
@@ -2246,6 +2254,10 @@ var
   mo: Pmobj_t;
 begin
   mo := P_SpawnMobj(x + _SHL(P_Random - 128, 11), y + _SHL(P_Random - 128, 11), z, Ord(MT_AXEBLOOD));
+
+  if originator.bloodcolor > 0 then
+    R_SetMobjBloodTranslation(mo, originator.bloodcolor);
+
   mo.target := originator;
 end;
 

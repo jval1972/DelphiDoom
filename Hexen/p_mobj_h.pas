@@ -646,6 +646,9 @@ type
     projectile_group: integer;
     splash_group: integer;
     strafecount: integer;
+    bloodcolor: integer;
+    translationname: string[8];
+    translationtable: Pointer;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;

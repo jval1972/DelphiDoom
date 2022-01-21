@@ -860,7 +860,7 @@ begin
         else if thing.flags2_ex and MF2_EX_GREENBLOOD <> 0 then
           P_SpawnGreenBlood(tmthing.x, tmthing.y, tmthing.z, damage)
         else
-          P_SpawnBlood(tmthing.x, tmthing.y, tmthing.z, damage);
+          P_SpawnBlood(tmthing.x, tmthing.y, tmthing.z, damage, thing);
       end;
 
       A_RipSound1(tmthing);
@@ -2096,7 +2096,7 @@ begin
     else if intr.d.thing.flags2_ex and MF2_EX_GREENBLOOD <> 0 then
       P_SpawnGreenBlood(x, y, z, la_damage)
     else
-      P_SpawnBlood(x, y, z, la_damage);
+      P_SpawnBlood(x, y, z, la_damage, intr.d.thing);
   end;
 
   P_DamageMobj(th, shootthing, shootthing, la_damage);

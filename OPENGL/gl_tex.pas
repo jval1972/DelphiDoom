@@ -366,7 +366,7 @@ begin
   if xe + originx <= 0 then
     exit;
   if cm < Ord(CR_LIMIT) then
-    trans := @colorregions[cm]
+    trans := colorregions[cm]
   else
     trans := @translationtables[256 * (cm - Ord(CR_LIMIT) - 1)];
   if xs + originx < 0 then
@@ -1175,7 +1175,7 @@ begin
     exit;
   if result.textype = GLDT_UNREGISTERED then
   begin
-    patch := W_CacheSpriteNum(lump, PU_STATIC);
+    patch := W_CacheSpriteNum(lump, nil, PU_STATIC);
     if patch = nil then
     begin
       result := nil;
@@ -1211,6 +1211,7 @@ var
   patch: Ppatch_t;
   i: integer;
   buffer: PByteArray;
+  trans: PByteArray;
 begin
   if (gltexture = last_gltexture) and (cm = last_cm) then
     exit;
@@ -1234,10 +1235,20 @@ begin
   end;
 
   if cm = Ord(CR_DEFAULT) then
+  begin
     if gld_LoadHiresTexture(gltexture, W_GetNameForNum(gltexture.index)) then
       exit;
+    trans := nil;
+  end
+  else
+  begin
+    if cm < Ord(CR_LIMIT) then
+      trans := colorregions[cm]
+    else
+      trans := @translationtables[256 * (cm - Ord(CR_LIMIT) - 1)];
+  end;
 
-  patch := W_CacheSpriteNum(gltexture.index, PU_STATIC);
+  patch := W_CacheSpriteNum(gltexture.index, trans, PU_STATIC);
   buffer := malloc(gltexture.buffer_size);
   if gl_paletted_texture then
     memset(buffer, transparent_pal_index, gltexture.buffer_size)

@@ -81,6 +81,7 @@ uses
   info,
   info_common,
   r_renderstyle,
+  r_translations,
   rtl_types,
   {$IFDEF HEXEN}
   sounddata,
@@ -1849,6 +1850,8 @@ var
     AddRes('flags5_ex = ' + mobj.flags5_ex);
     AddRes('flags6_ex = ' + mobj.flags6_ex);
     AddRes('Rip Sound = ' + SC_SoundAlias(mobj.ripsound));
+    AddRes('Blood Color = ' + mobj.bloodcolor);
+    AddRes('Translation = ' + mobj.translation);
 
     AddRes('');
 
@@ -2688,6 +2691,8 @@ begin
           mobj.splash_group := pinf.splash_group;
           mobj.mbf21bits := pinf.mbf21bits;
           mobj.ripsound := itoa(pinf.ripsound);
+          mobj.bloodcolor := itoa(pinf.bloodcolor);
+          mobj.translation := pinf.translationname;
 
           mobj.spawnstate := ORIGINALSTATEMARKER + pinf.spawnstate;
           mobj.seestate := ORIGINALSTATEMARKER + pinf.seestate;
@@ -2880,6 +2885,20 @@ begin
           mobj.spriteDY := sc._float;
           if fabs(mobj.spriteDY) > 256 then
             mobj.spriteDY := mobj.spriteDY / FRACUNIT;
+          sc.GetString;
+        end
+
+        else if sc.MatchString('BLOODCOLOR') then
+        begin
+          sc.GetString;
+          mobj.bloodcolor := sc._String;
+          sc.GetString;
+        end
+
+        else if sc.MatchString('TRANSLATION') then
+        begin
+          sc.GetString;
+          mobj.translation := sc._String;
           sc.GetString;
         end
 
@@ -3806,6 +3825,10 @@ begin
     AddLn('ProjectileGroup ' + Info_ProjectileGroupToString(m.projectile_group));
   if m.splash_group <> SG_DEFAULT then
     AddLn('SplashGroup ' + Info_SplashGroupToString(m.splash_group));
+  if R_GetBloodName(m.bloodcolor) <> '' then
+    AddLn('Bloodcolor ' + R_GetBloodName(m.bloodcolor));
+  if m.translationname <> '' then
+    AddLn('Translation "' + m.translationname + '"');
 
   for i := 0 to mobj_flags.Count - 1 do
     if m.flags and (1 shl i) <> 0 then

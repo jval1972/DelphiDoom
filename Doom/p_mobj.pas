@@ -79,7 +79,7 @@ function P_SpawnPlayerMissile(source: Pmobj_t; _type: integer): Pmobj_t;
 
 procedure P_RespawnSpecials;
 
-procedure P_SpawnBlood(x, y, z: fixed_t; damage: integer);
+procedure P_SpawnBlood(x, y, z: fixed_t; damage: integer; bleeder: Pmobj_t);
 
 procedure P_SpawnGreenBlood(x, y, z: fixed_t; damage: integer);
 
@@ -143,6 +143,7 @@ uses
   r_sky,
   r_main,
   r_data,
+  r_translations,
   st_stuff,
   hu_stuff,
   s_sound,
@@ -912,6 +913,9 @@ begin
   mobj.infighting_group := info.infighting_group;
   mobj.projectile_group := info.projectile_group;
   mobj.splash_group := info.splash_group;
+  mobj.bloodcolor := info.bloodcolor;
+  mobj.translationname := info.translationname;
+  R_InitMobjTranslation(mobj);
 
   if gameskill <> sk_nightmare then
     mobj.reactiontime := info.reactiontime;
@@ -1544,12 +1548,16 @@ end;
 //
 // P_SpawnBlood
 //
-procedure P_SpawnBlood(x, y, z: fixed_t; damage: integer);
+procedure P_SpawnBlood(x, y, z: fixed_t; damage: integer; bleeder: Pmobj_t);
 var
   th: Pmobj_t;
 begin
   z := z + _SHL(P_Random - P_Random, 10);
   th := P_SpawnMobj(x, y, z, Ord(MT_BLOOD));
+
+  if bleeder.bloodcolor > 0 then
+    R_SetMobjBloodTranslation(th, bleeder.bloodcolor);
+
   th.momz := FRACUNIT * 2;
   th.tics := th.tics - (P_Random and 3);
 

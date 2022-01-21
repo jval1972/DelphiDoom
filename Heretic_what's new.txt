@@ -191,6 +191,8 @@ Allow CRxxxxxx colorregions outside CR_START, CR_END namespace.
 Added CR_BLACK, CR_PURPL & CR_WHITE translation tables.
 Displays a warning when disk buzy lump not found.
 Fixed vanilla translation tables calculation.
+Blood color support (mbf21 specs).
+Translation tables for things.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

@@ -926,7 +926,7 @@ var
   do_mt: boolean;
   dbscale: fixed_t;
 begin
-  patch := W_CacheSpriteNum(vis.patch + firstspritelump, PU_STATIC); // JVAL: Images as sprites
+  patch := W_CacheSpriteNum(vis.patch + firstspritelump, vis.mo.translationtable, PU_STATIC); // JVAL: Images as sprites
 
   dc_colormap := vis.colormap;
 
@@ -1154,7 +1154,7 @@ var
   ltopdelta: integer;
   llength: integer;
 begin
-  patch := W_CacheSpriteNum(vis.patch + firstspritelump, PU_STATIC); // JVAL: Images as sprites
+  patch := W_CacheSpriteNum(vis.patch + firstspritelump, nil, PU_STATIC); // JVAL: Images as sprites
 
   frac := vis.startfrac * LIGHTBOOSTSIZE div patch.width;
   fracstep := vis.xiscale * (LIGHTBOOSTSIZE shr 1) div patch.width;

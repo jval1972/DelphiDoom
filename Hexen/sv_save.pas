@@ -113,6 +113,7 @@ uses
   psi_overlay,
   r_defs,
   r_main,
+  r_translations,
   s_sndseq,
   sb_bar,
   doomdef,
@@ -450,6 +451,7 @@ begin
     mobj.player := @players[integer(mobj.player) - 1];
     Pplayer_t(mobj.player).mo := mobj;
   end;
+  R_InitMobjTranslation(mobj);
   P_SetThingPosition(mobj);
   mobj.info := @mobjinfo[mobj._type];
   mobj.floorz := P_3dFloorHeight(mobj);
@@ -1291,6 +1293,9 @@ begin
       mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
       mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
       mobj.strafecount := 0;
+      mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+      mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+      mobj.translationtable := nil;
     end
     else if LOADVERSION = VERSION141 then
     begin
@@ -1329,6 +1334,9 @@ begin
       mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
       mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
       mobj.strafecount := 0;
+      mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+      mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+      mobj.translationtable := nil;
     end
     else if LOADVERSION <= VERSION204 then
     begin
@@ -1365,6 +1373,9 @@ begin
       mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
       mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
       mobj.strafecount := 0;
+      mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+      mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+      mobj.translationtable := nil;
     end
     else if LOADVERSION <= VERSION205 then
     begin
@@ -1391,6 +1402,9 @@ begin
       mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
       mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
       mobj.strafecount := 0;
+      mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+      mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+      mobj.translationtable := nil;
     end
     else if LOADVERSION <= VERSION206 then
     begin
@@ -1412,6 +1426,9 @@ begin
       mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
       mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
       mobj.strafecount := 0;
+      mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+      mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+      mobj.translationtable := nil;
     end
     else
     begin

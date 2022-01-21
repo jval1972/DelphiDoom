@@ -113,6 +113,7 @@ uses
   psi_overlay,
   r_defs,
   r_data,
+  r_translations,
   w_wad,
   z_zone;
 
@@ -810,6 +811,9 @@ begin
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
             mobj.strafecount := 0;
+            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+            mobj.translationtable := nil;
           end
           else if savegameversion >= VERSION205 then
           begin
@@ -845,6 +849,9 @@ begin
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
             mobj.strafecount := 0;
+            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+            mobj.translationtable := nil;
           end
           else if savegameversion >= VERSION115 then
           begin
@@ -888,6 +895,9 @@ begin
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
             mobj.strafecount := 0;
+            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+            mobj.translationtable := nil;
           end
           else if savegameversion = VERSION114 then
           begin
@@ -933,6 +943,9 @@ begin
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
             mobj.strafecount := 0;
+            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+            mobj.translationtable := nil;
           end
           else if (savegameversion = VERSION112) or (savegameversion = VERSION113) then
           begin
@@ -990,6 +1003,9 @@ begin
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
             mobj.strafecount := 0;
+            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+            mobj.translationtable := nil;
           end
           else if (savegameversion = VERSION110) or (savegameversion = VERSION111) then
           begin
@@ -1095,6 +1111,9 @@ begin
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
             mobj.strafecount := 0;
+            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+            mobj.translationtable := nil;
 
             Z_Free(mobj111);
           end
@@ -1128,6 +1147,7 @@ begin
             until parm.next = nil;
           end;
 
+          R_InitMobjTranslation(mobj);
           P_SetThingPosition(mobj);
           mobj.info := @mobjinfo[Ord(mobj._type)];
           mobj.floorz := P_3dFloorHeight(mobj);

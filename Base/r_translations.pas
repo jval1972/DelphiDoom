@@ -34,6 +34,9 @@ unit r_translations;
 
 interface
 
+uses
+  p_mobj_h;
+
 type
   translationtable_t = array[0..255] of byte;
   Ptranslationtable_t = ^translationtable_t;
@@ -45,6 +48,16 @@ procedure R_InitTranslations;
 procedure R_ShutDownTranslations;
 
 function R_GetTranslationTable(const name: string): Ptranslationtable_t;
+
+function R_BloodTranslation(const bt: integer): Pointer;
+
+function R_GetBloodTranslationIdForName(const name: string): integer;
+
+function R_GetBloodName(const id: integer): string;
+
+procedure R_InitMobjTranslation(const mo: Pmobj_t);
+
+procedure R_SetMobjBloodTranslation(const mo: Pmobj_t; const blood: integer);
 
 implementation
 
@@ -76,6 +89,7 @@ begin
   translations.AddObject('BLUE2', TObject(colorregions[Ord(CR_BLUE2)]));
   translations.AddObject('BLACK', TObject(colorregions[Ord(CR_BLACK)]));
   translations.AddObject('PURPL', TObject(colorregions[Ord(CR_PURPL)]));
+  translations.AddObject('PURPLE', TObject(colorregions[Ord(CR_PURPL)]));
   translations.AddObject('WHITE', TObject(colorregions[Ord(CR_WHITE)]));
   translations.Sorted := True;
 end;
@@ -194,6 +208,85 @@ begin
     translations.AddObject(check, TObject(Result));
     translations.Sorted := True;
   end;
+end;
+
+function R_BloodTranslation(const bt: integer): Pointer;
+begin
+  case bt of
+    1: Result := colorregions[Ord(CR_GRAY)];
+    2: Result := colorregions[Ord(CR_GREEN)];
+    3: Result := colorregions[Ord(CR_BLUE2)];
+    4: Result := colorregions[Ord(CR_YELLOW)];
+    5: Result := colorregions[Ord(CR_BLACK)];
+    6: Result := colorregions[Ord(CR_PURPL)];
+    7: Result := colorregions[Ord(CR_WHITE)];
+    8: Result := colorregions[Ord(CR_ORANGE)];
+  else
+    Result := nil;
+  end;
+end;
+
+const
+  NUMBLOODNAMES = 9;
+  BLOODNAMES: array[0..NUMBLOODNAMES - 1] of string = (
+    'RED',
+    'GRAY',
+    'GREEN',
+    'BLUE2',
+    'YELLOW',
+    'BLACK',
+    'PURPL',
+    'WHITE',
+    'ORANGE'
+  );
+
+function R_GetBloodTranslationIdForName(const name: string): integer;
+var
+  num: integer;
+  uname: string;
+  i: integer;
+begin
+  if StrIsLongWord(name) then
+  begin
+    num := atoi(name);
+    if IsIntegerInRange(num, 0, NUMBLOODNAMES - 1) then
+      Result := num
+    else
+      Result := 0;
+    Exit;
+  end;
+  uname := strupper(name);
+  if uname = 'PURPLE' then
+    uname := 'PURPL';
+  for i := 0 to NUMBLOODNAMES - 1 do
+    if (uname = BLOODNAMES[i]) or (uname = 'CR' + BLOODNAMES[i]) or (uname = 'CR_' + BLOODNAMES[i]) then
+    begin
+      Result := i;
+      Exit;
+    end;
+  Result := 0;
+end;
+
+function R_GetBloodName(const id: integer): string;
+begin
+  if not IsIntegerInRange(id, 1, NUMBLOODNAMES - 1) then
+    Result := ''
+  else
+    Result := BLOODNAMES[id];
+end;
+
+procedure R_InitMobjTranslation(const mo: Pmobj_t);
+begin
+  if mo.translationname = '' then
+    mo.translationtable := nil
+  else
+    mo.translationtable := R_GetTranslationTable(mo.translationname);
+end;
+
+procedure R_SetMobjBloodTranslation(const mo: Pmobj_t; const blood: integer);
+begin
+  mo.translationname := R_GetBloodName(blood);
+  mo.translationtable := R_GetTranslationTable(mo.translationname);
 end;
 
 end.

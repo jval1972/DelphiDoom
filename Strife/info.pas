@@ -15871,6 +15871,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15949,6 +15951,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16027,6 +16031,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16105,6 +16111,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16183,6 +16191,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16261,6 +16271,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16338,6 +16350,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16415,6 +16429,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16492,6 +16508,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16569,6 +16587,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16646,6 +16666,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16723,6 +16745,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16800,6 +16824,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16877,6 +16903,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16954,6 +16982,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17031,6 +17061,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17108,6 +17140,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17185,6 +17219,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17262,6 +17298,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17339,6 +17377,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17416,6 +17456,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17493,6 +17535,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17570,6 +17614,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17647,6 +17693,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17724,6 +17772,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17801,6 +17851,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17878,6 +17930,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17955,6 +18009,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18033,6 +18089,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18111,6 +18169,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18189,6 +18249,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18267,6 +18329,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18345,6 +18409,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18423,6 +18489,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18501,6 +18569,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18579,6 +18649,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18657,6 +18729,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18734,6 +18808,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18812,6 +18888,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18890,6 +18968,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18968,6 +19048,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19046,6 +19128,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19124,6 +19208,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19202,6 +19288,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19280,6 +19368,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19358,6 +19448,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19436,6 +19528,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19514,6 +19608,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19592,6 +19688,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19670,6 +19768,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19748,6 +19848,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19826,6 +19928,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19904,6 +20008,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19982,6 +20088,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20060,6 +20168,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20138,6 +20248,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20216,6 +20328,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20294,6 +20408,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20372,6 +20488,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20450,6 +20568,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20528,6 +20648,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20606,6 +20728,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20684,6 +20808,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20762,6 +20888,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20840,6 +20968,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20918,6 +21048,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20996,6 +21128,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21074,6 +21208,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21152,6 +21288,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21230,6 +21368,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21308,6 +21448,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21386,6 +21528,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21464,6 +21608,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21542,6 +21688,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21620,6 +21768,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21698,6 +21848,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21776,6 +21928,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21854,6 +22008,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21932,6 +22088,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22010,6 +22168,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22088,6 +22248,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22166,6 +22328,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22244,6 +22408,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22322,6 +22488,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22400,6 +22568,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22478,6 +22648,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22556,6 +22728,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22634,6 +22808,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22712,6 +22888,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22790,6 +22968,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22868,6 +23048,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22946,6 +23128,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23024,6 +23208,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23102,6 +23288,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23180,6 +23368,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23258,6 +23448,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23336,6 +23528,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23414,6 +23608,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23492,6 +23688,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23570,6 +23768,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23648,6 +23848,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23726,6 +23928,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23804,6 +24008,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23882,6 +24088,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23960,6 +24168,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24038,6 +24248,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24116,6 +24328,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24194,6 +24408,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24272,6 +24488,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24350,6 +24568,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24428,6 +24648,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24506,6 +24728,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24584,6 +24808,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24662,6 +24888,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24740,6 +24968,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24818,6 +25048,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24896,6 +25128,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24974,6 +25208,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25052,6 +25288,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25130,6 +25368,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25208,6 +25448,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25286,6 +25528,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25364,6 +25608,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25442,6 +25688,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25520,6 +25768,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25598,6 +25848,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25676,6 +25928,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25754,6 +26008,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25832,6 +26088,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25910,6 +26168,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -25988,6 +26248,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26066,6 +26328,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26144,6 +26408,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26222,6 +26488,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26300,6 +26568,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26378,6 +26648,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26456,6 +26728,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26534,6 +26808,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26612,6 +26888,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26690,6 +26968,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26768,6 +27048,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26846,6 +27128,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -26924,6 +27208,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27002,6 +27288,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27080,6 +27368,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27158,6 +27448,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27236,6 +27528,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27314,6 +27608,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27392,6 +27688,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27470,6 +27768,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27548,6 +27848,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27626,6 +27928,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27704,6 +28008,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27782,6 +28088,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27860,6 +28168,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -27938,6 +28248,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28016,6 +28328,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28094,6 +28408,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28172,6 +28488,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28250,6 +28568,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28328,6 +28648,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28406,6 +28728,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28484,6 +28808,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28562,6 +28888,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28640,6 +28968,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28718,6 +29048,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28796,6 +29128,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28874,6 +29208,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -28952,6 +29288,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29030,6 +29368,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29108,6 +29448,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29186,6 +29528,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29264,6 +29608,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29342,6 +29688,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29420,6 +29768,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29498,6 +29848,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29576,6 +29928,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29654,6 +30008,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29732,6 +30088,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29810,6 +30168,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29888,6 +30248,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -29966,6 +30328,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30044,6 +30408,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30122,6 +30488,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30200,6 +30568,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30278,6 +30648,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30356,6 +30728,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30434,6 +30808,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30512,6 +30888,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30590,6 +30968,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30668,6 +31048,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30746,6 +31128,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30824,6 +31208,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30902,6 +31288,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -30980,6 +31368,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31058,6 +31448,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31136,6 +31528,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31214,6 +31608,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31292,6 +31688,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31370,6 +31768,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31448,6 +31848,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31526,6 +31928,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31604,6 +32008,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31682,6 +32088,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31760,6 +32168,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31838,6 +32248,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31916,6 +32328,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -31994,6 +32408,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32072,6 +32488,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32150,6 +32568,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32228,6 +32648,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32306,6 +32728,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32384,6 +32808,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32462,6 +32888,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32540,6 +32968,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32618,6 +33048,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32696,6 +33128,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32774,6 +33208,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32852,6 +33288,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -32930,6 +33368,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33008,6 +33448,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33086,6 +33528,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33164,6 +33608,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33242,6 +33688,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33320,6 +33768,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33398,6 +33848,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33476,6 +33928,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33554,6 +34008,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33632,6 +34088,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33710,6 +34168,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33788,6 +34248,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33866,6 +34328,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -33944,6 +34408,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34022,6 +34488,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34100,6 +34568,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34178,6 +34648,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34256,6 +34728,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34334,6 +34808,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34412,6 +34888,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34490,6 +34968,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34568,6 +35048,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34646,6 +35128,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34724,6 +35208,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34802,6 +35288,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34880,6 +35368,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -34958,6 +35448,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35036,6 +35528,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35114,6 +35608,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35192,6 +35688,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35270,6 +35768,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35348,6 +35848,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35426,6 +35928,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35504,6 +36008,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35582,6 +36088,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35660,6 +36168,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35738,6 +36248,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35816,6 +36328,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35894,6 +36408,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -35972,6 +36488,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36050,6 +36568,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36128,6 +36648,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36206,6 +36728,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36284,6 +36808,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36362,6 +36888,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36440,6 +36968,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36518,6 +37048,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36596,6 +37128,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36674,6 +37208,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36752,6 +37288,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36830,6 +37368,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36908,6 +37448,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -36986,6 +37528,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37064,6 +37608,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37142,6 +37688,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37220,6 +37768,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37298,6 +37848,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37376,6 +37928,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37454,6 +38008,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37532,6 +38088,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37610,6 +38168,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37688,6 +38248,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37766,6 +38328,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37844,6 +38408,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -37922,6 +38488,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38000,6 +38568,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38078,6 +38648,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38156,6 +38728,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38234,6 +38808,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38312,6 +38888,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38390,6 +38968,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38468,6 +39048,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38546,6 +39128,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38624,6 +39208,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38702,6 +39288,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38780,6 +39368,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38858,6 +39448,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -38936,6 +39528,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -39014,6 +39608,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -39092,6 +39688,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -39170,6 +39768,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -39248,6 +39848,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -39326,6 +39928,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -39404,6 +40008,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -39482,6 +40088,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -39560,6 +40168,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -39638,6 +40248,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -39716,6 +40328,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -39794,6 +40408,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -39872,6 +40488,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -39950,6 +40568,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -40028,6 +40648,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -40106,6 +40728,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -40184,6 +40808,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -40262,6 +40888,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -40340,6 +40968,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -40418,6 +41048,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -40496,6 +41128,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -40574,6 +41208,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -40652,6 +41288,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -40730,6 +41368,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -40808,6 +41448,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -40886,6 +41528,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -40964,6 +41608,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -41042,6 +41688,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -41120,6 +41768,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -41198,6 +41848,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -41276,6 +41928,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -41354,6 +42008,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -41432,6 +42088,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -41510,6 +42168,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -41588,6 +42248,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -41666,6 +42328,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -41744,6 +42408,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -41822,6 +42488,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -41900,6 +42568,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -41978,6 +42648,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -42056,6 +42728,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -42134,6 +42808,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -42212,6 +42888,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -42290,6 +42968,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -42368,6 +43048,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -42446,6 +43128,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -42524,6 +43208,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -42602,6 +43288,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -42680,6 +43368,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -42758,6 +43448,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -42836,6 +43528,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -42914,6 +43608,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -42992,6 +43688,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -43070,6 +43768,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -43148,6 +43848,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -43226,6 +43928,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -43304,6 +44008,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -43382,6 +44088,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -43460,6 +44168,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -43538,6 +44248,8 @@ const // Strife Original mobjinfo
     splash_group: SG_DEFAULT;                                                   // splash_group
     mbf21bits: 0;                                                               // mbf21bits
     ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    )
 
   );

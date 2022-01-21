@@ -949,7 +949,7 @@ begin
          (thing.flags_ex and MF_EX_INVULNERABLE = 0) then
       begin
         case P_BloodType(thing) of
-          bt_red: P_SpawnBlood(tmthing.x, tmthing.y, tmthing.z, damage);
+          bt_red: P_SpawnBlood(tmthing.x, tmthing.y, tmthing.z, damage, thing);
           bt_blue: P_SpawnBlueBlood(tmthing.x, tmthing.y, tmthing.z, damage);
           bt_green: P_SpawnGreenBlood(tmthing.x, tmthing.y, tmthing.z, damage);
         end;
@@ -2259,7 +2259,7 @@ begin
   // depending on target type.
   case P_BloodType(intr.d.thing) of
     bt_puff: P_SpawnPuff(x, y, z);
-    bt_red: P_SpawnBlood(x, y, z, la_damage);
+    bt_red: P_SpawnBlood(x, y, z, la_damage, intr.d.thing);
     bt_blue: P_SpawnBlueBlood(x, y, z, la_damage);
     bt_green: P_SpawnGreenBlood(x, y, z, la_damage);
   end;

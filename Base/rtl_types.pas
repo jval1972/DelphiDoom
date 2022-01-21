@@ -163,6 +163,8 @@ type
     mbf21bits: integer; // not actually flags, the bits will be converted to DelphiDoom flags
     ripsound: string;
     crushstate: integer;
+    bloodcolor: string;
+    translation: string;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

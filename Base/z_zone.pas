@@ -67,6 +67,8 @@ function Z_Realloc(ptr: pointer; size: integer; tag: integer; user: pointer): po
 
 procedure Z_Free(ptr: pointer);
 
+function Z_Size(ptr: pointer): integer;
+
 function Z_FreeTags(lowtag: integer; hightag: integer): boolean;
 
 procedure Z_DumpHeap(lowtag: integer; hightag: integer);
@@ -275,6 +277,10 @@ begin
   memmanager.M_Free(ptr);
 end;
 
+function Z_Size(ptr: pointer): integer;
+begin
+  result := memmanager.M_Size(ptr);
+end;
 //
 // Z_Malloc
 // You can pass a NULL user if the tag is < PU_PURGELEVEL.

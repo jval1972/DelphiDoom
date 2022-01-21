@@ -3734,6 +3734,8 @@ type
     splash_group: integer;
     mbf21bits: integer; // not actually flags, the bits will be converted to DelphiDoom flags
     ripsound: integer;
+    bloodcolor: integer;
+    translationname: string[8];
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;

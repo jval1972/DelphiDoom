@@ -114,6 +114,7 @@ uses
   r_data,
   r_colormaps,
   r_renderstyle,
+  r_translations,
   w_wad,
   z_zone;
 
@@ -929,6 +930,9 @@ begin
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
     mobj.strafecount := 0;
+    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+    mobj.translationtable := nil;
 
     Z_Free(mobj113);
     result := true
@@ -1030,6 +1034,9 @@ begin
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
     mobj.strafecount := 0;
+    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+    mobj.translationtable := nil;
 
     Z_Free(mobj114);
     result := true
@@ -1131,6 +1138,9 @@ begin
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
     mobj.strafecount := 0;
+    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+    mobj.translationtable := nil;
 
     Z_Free(mobj115);
     result := true
@@ -1232,6 +1242,9 @@ begin
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
     mobj.strafecount := 0;
+    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+    mobj.translationtable := nil;
 
     Z_Free(mobj117);
     result := true
@@ -1333,6 +1346,9 @@ begin
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
     mobj.strafecount := 0;
+    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+    mobj.translationtable := nil;
 
     Z_Free(mobj118);
     result := true;
@@ -1391,6 +1407,9 @@ begin
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
     mobj.strafecount := 0;
+    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+    mobj.translationtable := nil;
 
     result := true;
   end
@@ -1437,6 +1456,9 @@ begin
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
     mobj.strafecount := 0;
+    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+    mobj.translationtable := nil;
 
     result := true;
   end
@@ -1482,6 +1504,9 @@ begin
     mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
     mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
     mobj.strafecount := 0;
+    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+    mobj.translationtable := nil;
 
     result := true;
   end
@@ -1649,6 +1674,7 @@ begin
             Pplayer_t(mobj.player).mo := mobj;
           end;
 
+          R_InitMobjTranslation(mobj);
           P_SetThingPosition(mobj);
           mobj.floorz := P_3dFloorHeight(mobj); // JVAL: 3d floors
           mobj.ceilingz := P_3dCeilingHeight(mobj); // JVAL: 3d floors

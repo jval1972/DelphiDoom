@@ -72,6 +72,7 @@ type
     procedure M_ChangeTag(ptr: Pointer; tag: integer);
     function M_Malloc(size: integer; tag: integer; user: Pointer): pointer;
     function M_Realloc(ptr: Pointer; size: integer; tag: integer; user: Pointer): pointer;
+    function M_Size(ptr: Pointer): integer;
     property items: Pmemmanageritems_t read fitems write fitems;
     property numitems: integer read fnumitems write fnumitems;
   end;
@@ -216,6 +217,14 @@ begin
   result := M_Malloc(size, tag, user);
   memcpy(result, tmp, copysize);
   memfree(tmp, copysize);
+end;
+
+function TMemManager.M_Size(ptr: Pointer): integer;
+var
+  i: integer;
+begin
+  i := ptr2item(ptr);
+  result := fitems[i].size;
 end;
 
 end.

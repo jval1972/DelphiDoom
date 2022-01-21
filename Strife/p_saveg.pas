@@ -124,6 +124,7 @@ uses
   r_defs,
   r_data,
   r_colormaps,
+  r_translations,
   w_wad,
   z_zone;
 
@@ -1199,6 +1200,9 @@ begin
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
             mobj.strafecount := 0;
+            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+            mobj.translationtable := nil;
           end
           else if savegameversion >= VERSION205 then
           begin
@@ -1232,6 +1236,9 @@ begin
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
             mobj.strafecount := 0;
+            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+            mobj.translationtable := nil;
           end
           else if savegameversion >= VERSION122 then
           begin
@@ -1273,6 +1280,9 @@ begin
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
             mobj.strafecount := 0;
+            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+            mobj.translationtable := nil;
           end
           else if savegameversion = VERSION121 then
           begin
@@ -1316,6 +1326,9 @@ begin
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
             mobj.strafecount := 0;
+            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+            mobj.translationtable := nil;
           end
           else if savegameversion = VERSION120 then
           begin
@@ -1369,6 +1382,9 @@ begin
             mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
             mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
             mobj.strafecount := 0;
+            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
+            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
+            mobj.translationtable := nil;
           end
           else
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);
@@ -1408,6 +1424,7 @@ begin
             Pplayer_t(mobj.player).mo := mobj;
           end;
 
+          R_InitMobjTranslation(mobj);
           P_SetThingPosition(mobj);
           mobj.info := @mobjinfo[Ord(mobj._type)];
           mobj.floorz := P_3dFloorHeight(mobj);
