@@ -2294,6 +2294,7 @@ begin
   begin
     batchcolfunc := batchtranscolfunc;
     dc_translation := PByteArray(integer(translationtables) - 256 +
+    {$IFDEF HEXEN}vis._class * ((MAXPLAYERS - 1) * 256) + {$ENDIF}
       (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
   end
   else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_translucent) then
