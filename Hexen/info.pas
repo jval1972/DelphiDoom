@@ -64557,7 +64557,7 @@ begin
     mobjinfo := malloc(Ord(DO_NUMMOBJTYPES) * SizeOf(mobjinfo_t));
     memcpy(mobjinfo, @DO_mobjinfo, Ord(DO_NUMMOBJTYPES) * SizeOf(mobjinfo_t));
     for i := 0 to Ord(DO_NUMMOBJTYPES) - 1 do
-      if mobjinfo[i].normalspeed <> 0 then
+      if mobjinfo[i].normalspeed = 0 then
         mobjinfo[i].normalspeed := mobjinfo[i].speed;
   end;
 
