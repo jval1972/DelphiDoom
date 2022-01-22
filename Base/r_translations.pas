@@ -91,6 +91,16 @@ begin
   translations.AddObject('PURPL', TObject(colorregions[Ord(CR_PURPL)]));
   translations.AddObject('PURPLE', TObject(colorregions[Ord(CR_PURPL)]));
   translations.AddObject('WHITE', TObject(colorregions[Ord(CR_WHITE)]));
+  translations.AddObject('TRANS0', TObject(colorregions[Ord(CR_TRANS0)]));
+  translations.AddObject('TRANS1', TObject(colorregions[Ord(CR_TRANS1)]));
+  translations.AddObject('TRANS2', TObject(colorregions[Ord(CR_TRANS2)]));
+  translations.AddObject('TRANS3', TObject(colorregions[Ord(CR_TRANS3)]));
+  translations.AddObject('TRANS4', TObject(colorregions[Ord(CR_TRANS4)]));
+  translations.AddObject('TRANS5', TObject(colorregions[Ord(CR_TRANS5)]));
+  translations.AddObject('TRANS6', TObject(colorregions[Ord(CR_TRANS6)]));
+  translations.AddObject('TRANS7', TObject(colorregions[Ord(CR_TRANS7)]));
+  translations.AddObject('TRANS8', TObject(colorregions[Ord(CR_TRANS8)]));
+  translations.AddObject('TRANS9', TObject(colorregions[Ord(CR_TRANS9)]));
   translations.Sorted := True;
 end;
 

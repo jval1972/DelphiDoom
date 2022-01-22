@@ -208,6 +208,7 @@ Added PascalScript functions to control blood color & translation:
  -SetActorTranslation(actor, translation: string);
  -GetActorBloodColor(actor): string;
  -SetActorBloodColor(actor, bloodcolor: string);
+Added 10 new translations CRTRANS0 thru CRTRANS9 for user defined translation lumps.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

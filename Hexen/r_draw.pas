@@ -105,7 +105,17 @@ type
     CR_BLACK,   //11
     CR_PURPL,   //12
     CR_WHITE,   //13
-    CR_LIMIT    //14
+    CR_TRANS0,  //14
+    CR_TRANS1,  //15
+    CR_TRANS2,  //16
+    CR_TRANS3,  //17
+    CR_TRANS4,  //18
+    CR_TRANS5,  //19
+    CR_TRANS6,  //20
+    CR_TRANS7,  //21
+    CR_TRANS8,  //22
+    CR_TRANS9,  //23
+    CR_LIMIT    //24
   );
 
 var
