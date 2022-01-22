@@ -464,8 +464,8 @@ var
     end
     else if bytepp = 3 then
     begin
-      newp := newp * 4;
-      srcp := srcp * 4;
+      newp := newp * 3;
+      srcp := srcp * 3;
       newbuf[newp] := srcbuf[srcp];
       newbuf[newp + 1] := srcbuf[srcp + 1];
       newbuf[newp + 2] := srcbuf[srcp + 2];
