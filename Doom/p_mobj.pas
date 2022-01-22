@@ -783,7 +783,7 @@ begin
   end
   else if (mobj.z <> mobj.floorz) or (mobj.momz <> 0) then
   begin
-    if mobj.flags2_ex and MF2_EX_PASSMOBJ <> 0 then
+    if ((mobj.player <> nil) and (G_PlayingEngineVersion >= VERSION207)) or (mobj.flags2_ex and MF2_EX_PASSMOBJ <> 0) then
     begin
       onmo := P_CheckOnmobj(mobj);
       if onmo = nil then
