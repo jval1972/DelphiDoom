@@ -540,6 +540,22 @@ begin
     exit;
   end;
 
+  // JVAL: 20220122 - Added MF3_EX_MELEECHECKZ
+  if actor.flags3_ex and MF3_EX_MELEECHECKZ <> 0 then
+  begin
+    if mo.z > actor.z + actor.height then
+    begin // Target is higher than the attacker
+      result := false;
+      exit;
+    end;
+
+    if actor.z > mo.z + mo.height then
+    begin // Attacker is higher
+      result := false;
+      exit;
+    end;
+  end;
+
   result := P_CheckSight(actor, actor.target);
 end;
 

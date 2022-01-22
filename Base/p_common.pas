@@ -7302,7 +7302,7 @@ begin
     exit;
   end;
 
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   // JVAL: 20210207 - Added MF3_EX_MELEECHECKZ
   if actor.flags3_ex and MF3_EX_MELEECHECKZ <> 0 then
   {$ENDIF}

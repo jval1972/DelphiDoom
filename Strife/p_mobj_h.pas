@@ -414,6 +414,8 @@ const
   MF3_EX_FLAMEDAMAGE = $8000000;
   // Actor is not hurt by flame damage missile
   MF3_EX_NOFLAMEDAMAGE = $10000000;
+  // Melee attach check z positioning
+  MF3_EX_MELEECHECKZ = $20000000;
 
 const
   // Actor is hurt less by flame damage missile
