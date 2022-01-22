@@ -61,6 +61,7 @@ type
     ScriptSize: integer;
     AlreadyGot: boolean;
     ignonelist: TDStringList;
+    fquotedtoken: boolean;
     faliases: TDStringList;
   protected
     function fToken: string;
@@ -183,6 +184,7 @@ begin
   ScriptEndPtr := ScriptPtr + ScriptSize;
   sc_Line := 1;
   sc_End := false;
+  fquotedtoken := false;
   sc_String := @StringBuffer[0];
   AlreadyGot := false;
 end;
@@ -421,6 +423,8 @@ begin
     exit;
   end;
 
+  fquotedtoken := false;
+
   fNewLine := false;
   foundToken := false;
   if ScriptPtr >= ScriptEndPtr then
@@ -514,6 +518,7 @@ begin
   txt := sc_String;
   if ScriptPtr^ = ASCII_QUOTE then
   begin // Quoted string
+    fquotedtoken := true;
     inc(ScriptPtr);
     while ScriptPtr^ <> ASCII_QUOTE do
     begin
