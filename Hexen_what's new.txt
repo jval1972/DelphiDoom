@@ -203,6 +203,11 @@ Fixed translation tables for players.
 Blood color support (mbf21 specs).
 Translation tables for things.
 Added A_Delayfire(tics: integer = TICRATE) ACTORDEF function, delays player fire.
+Added PascalScript functions to control blood color & translation:
+ -GetActorTranslation(actor): string;
+ -SetActorTranslation(actor, translation: string);
+ -GetActorBloodColor(actor): string;
+ -SetActorBloodColor(actor, bloodcolor: string);
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

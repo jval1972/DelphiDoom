@@ -172,6 +172,12 @@ procedure PS_SetActorProjectileGroup(const key: LongWord; const value: Integer);
 function PS_GetActorSplashGroup(const key: LongWord): Integer;
 procedure PS_SetActorSplashGroup(const key: LongWord; const value: Integer);
 
+function PS_GetActorTranslation(const key: LongWord): string;
+procedure PS_SetActorTranslation(const key: LongWord; const value: string);
+
+function PS_GetActorBloodColor(const key: LongWord): string;
+procedure PS_SetActorBloodColor(const key: LongWord; const value: string);
+
 function PS_GetActorName(const key: LongWord): string;
 
 {$IFDEF STRIFE}
@@ -990,6 +996,7 @@ uses
   r_defs,
   r_main,
   r_sky,
+  r_translations,
   s_sound,
   sounds,
   tables,
@@ -2119,6 +2126,53 @@ begin
   if mo = nil then
     Exit;
   mo.splash_group := value;
+end;
+
+function PS_GetActorTranslation(const key: LongWord): string;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := '';
+    Exit;
+  end;
+  Result := mo.translationname;
+end;
+
+procedure PS_SetActorTranslation(const key: LongWord; const value: string);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.translationname := value;
+  R_InitMobjTranslation(mo);
+end;
+
+function PS_GetActorBloodColor(const key: LongWord): string;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := '';
+    Exit;
+  end;
+  Result := R_GetBloodName(mo.bloodcolor);
+end;
+
+procedure PS_SetActorBloodColor(const key: LongWord; const value: string);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.bloodcolor := R_GetBloodTranslationIdForName(value);
 end;
 
 function PS_GetActorName(const key: LongWord): string;
@@ -3486,6 +3540,26 @@ end;
 procedure TRTLActorSplashGroup_R(Self: TRTLActor; var T: Integer);
 begin
   T := PS_GetActorSplashGroup(LongWord(Self));
+end;
+
+procedure TRTLActorTranslation_W(Self: TRTLActor; const T: string);
+begin
+  PS_SetActorTranslation(LongWord(Self), T);
+end;
+
+procedure TRTLActorTranslation_R(Self: TRTLActor; var T: string);
+begin
+  T := PS_GetActorTranslation(LongWord(Self));
+end;
+
+procedure TRTLActorBloodColor_W(Self: TRTLActor; const T: string);
+begin
+  PS_SetActorBloodColor(LongWord(Self), T);
+end;
+
+procedure TRTLActorBloodColor_R(Self: TRTLActor; var T: string);
+begin
+  T := PS_GetActorBloodColor(LongWord(Self));
 end;
 
 procedure TRTLActorFlags_W(Self: TRTLActor; const T: Boolean; const t1: LongWord);
@@ -7344,6 +7418,8 @@ begin
   cactor.RegisterProperty('InfightingGroup', 'Integer', iptRW);
   cactor.RegisterProperty('ProjectileGroup', 'Integer', iptRW);
   cactor.RegisterProperty('SplashGroup', 'Integer', iptRW);
+  cactor.RegisterProperty('Translation', 'string', iptRW);
+  cactor.RegisterProperty('BloodColor', 'string', iptRW);
   cactor.RegisterProperty('CustomDropItem', 'Integer', iptRW);
   cactor.RegisterProperty('CustomParams', 'Integer String', iptRW);
   cactor.RegisterProperty('Flag', 'Boolean LongWord', iptRW);
@@ -7619,6 +7695,8 @@ begin
   ractor.RegisterPropertyHelper(@TRTLActorInfightingGroup_R, @TRTLActorInfightingGroup_W, 'InfightingGroup');
   ractor.RegisterPropertyHelper(@TRTLActorProjectileGroup_R, @TRTLActorProjectileGroup_W, 'ProjectileGroup');
   ractor.RegisterPropertyHelper(@TRTLActorSplashGroup_R, @TRTLActorSplashGroup_W, 'SplashGroup');
+  ractor.RegisterPropertyHelper(@TRTLActorTranslation_R, @TRTLActorTranslation_W, 'Translation');
+  ractor.RegisterPropertyHelper(@TRTLActorBloodColor_R, @TRTLActorBloodColor_W, 'BloodColor');
   ractor.RegisterPropertyHelper(@TRTLActorCustomParams_R, @TRTLActorCustomParams_W, 'CustomParams');
   ractor.RegisterPropertyHelper(@TRTLActorFlags_R, @TRTLActorFlags_W, 'Flag');
   ractor.RegisterPropertyHelper(@TRTLActorName_R, nil, 'Name');

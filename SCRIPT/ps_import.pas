@@ -269,6 +269,10 @@ begin
   baseproclist.Add('procedure SetActorProjectileGroup(const key: LongWord; const value: Integer);', @PS_SetActorProjectileGroup);
   baseproclist.Add('function GetActorSplashGroup(const key: LongWord): Integer;', @PS_GetActorSplashGroup);
   baseproclist.Add('procedure SetActorSplashGroup(const key: LongWord; const value: Integer);', @PS_SetActorSplashGroup);
+  baseproclist.Add('function GetActorTranslation(const key: LongWord): string;', @PS_GetActorTranslation);
+  baseproclist.Add('procedure SetActorTranslation(const key: LongWord; const value: string);', @PS_SetActorTranslation);
+  baseproclist.Add('function GetActorBloodColor(const key: LongWord): string;', @PS_GetActorBloodColor);
+  baseproclist.Add('procedure SetActorBloodColor(const key: LongWord; const value: string);', @PS_SetActorBloodColor);
   baseproclist.Add('function GetActorRipSound(const key: LongWord): string;', @PS_GetActorRipSound);
   baseproclist.Add('function GetActorName(const key: LongWord): string;', @PS_GetActorName);
   {$IFDEF STRIFE}
