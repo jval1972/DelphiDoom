@@ -3062,6 +3062,7 @@ begin
   DEH_AddAction(@A_SetProjectileGroup, 'A_SetProjectileGroup(group: string);');
   DEH_AddAction(@A_SetInfightingGroup, 'A_SetInfightingGroup(group: string);');
   DEH_AddAction(@A_SetSplashGroup, 'A_SetSplashGroup(group: string);');
+  DEH_AddAction(@A_Delayfire, 'A_Delayfire(tics: integer = TICRATE);');
 
   for i := 0 to dehnumactions - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);

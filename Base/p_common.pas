@@ -792,6 +792,8 @@ var
 
 procedure P_BulletSlope(mo: Pmobj_t);
 
+procedure A_Delayfire(player: Pplayer_t; psp: Ppspdef_t);
+
 implementation
 
 uses
@@ -9741,6 +9743,39 @@ begin
   group := Info_SplashGroupToInt(actor.state.params.StrVal[0]);
   if group <> SG_INVALID then
     actor.splash_group := group;
+end;
+
+//
+// A_Delayfire(tics: integer)
+//
+procedure A_Delayfire(player: Pplayer_t; psp: Ppspdef_t);
+var
+  tics: integer;
+  state: Pstate_t;
+  p: Pplayer_t;
+begin
+  if PlayerToId(player) >= 0 then
+  begin
+    p := player;
+    state := psp.state;
+  end
+  else
+  begin
+    p := Pmobj_t(player).player;
+    state := Pmobj_t(player).state;
+  end;
+
+  if p = nil then
+    exit;
+
+  if state.params = nil then
+    tics := TICRATE
+  else if state.params.Count < 1 then
+    tics := TICRATE
+  else
+    tics := state.params.IntVal[0];
+
+  p.nextfire := leveltime + tics;
 end;
 
 end.

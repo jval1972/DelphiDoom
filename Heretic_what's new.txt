@@ -193,6 +193,7 @@ Displays a warning when disk buzy lump not found.
 Fixed vanilla translation tables calculation.
 Blood color support (mbf21 specs).
 Translation tables for things.
+Added A_Delayfire(tics: integer = TICRATE) ACTORDEF function, delays player fire.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
