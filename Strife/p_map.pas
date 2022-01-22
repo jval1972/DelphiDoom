@@ -160,6 +160,7 @@ uses
   r_main,
   r_sky,
   r_intrpl,
+  r_translations,
   z_zone;
 
 var
@@ -2722,7 +2723,11 @@ begin
       if (thing.flags4_ex and MF4_EX_DONTGIB = 0) and (thing.info.crushstate > 0) then
       begin
         if thing.state <> @states[thing.info.crushstate] then
+        begin
           P_SetMobjState(thing, statenum_t(thing.info.crushstate));
+          if thing.bloodcolor <> 0 then
+            R_SetMobjBloodTranslation(thing, thing.bloodcolor);
+        end;
         thing.flags4_ex := thing.flags4_ex or MF4_EX_DONTGIB;
       end
       else if thing.flags4_ex and MF4_EX_DONTGIB = 0 then

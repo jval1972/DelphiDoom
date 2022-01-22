@@ -2236,7 +2236,7 @@ var
 begin
   mo := P_SpawnMobj(x, y, z, Ord(MT_BLOODSPLATTER));
 
-  if originator.bloodcolor > 0 then
+  if originator.bloodcolor <> 0 then
     R_SetMobjBloodTranslation(mo, originator.bloodcolor);
 
   mo.target := originator;
@@ -2255,7 +2255,7 @@ var
 begin
   mo := P_SpawnMobj(x + _SHL(P_Random - 128, 11), y + _SHL(P_Random - 128, 11), z, Ord(MT_AXEBLOOD));
 
-  if originator.bloodcolor > 0 then
+  if originator.bloodcolor <> 0 then
     R_SetMobjBloodTranslation(mo, originator.bloodcolor);
 
   mo.target := originator;

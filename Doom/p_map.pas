@@ -151,6 +151,7 @@ uses
   r_main,
   r_sky,
   r_intrpl,
+  r_translations,
   z_zone;
 
 var
@@ -2842,7 +2843,11 @@ begin
         if not (customgame in [cg_chex, cg_chex2]) or (thing.info.crushstate > 0) then
         begin
           if thing.info.crushstate > 0 then
-            st := thing.info.crushstate
+          begin
+            st := thing.info.crushstate;
+            if thing.bloodcolor <> 0 then
+              R_SetMobjBloodTranslation(thing, thing.bloodcolor);
+          end
           else
           begin
             bt := P_BloodType(thing);
@@ -2851,7 +2856,11 @@ begin
             else if (bt = bt_blue) and (MT_BLUEGIBS <> Ord(MT_NONE)) then
               st := mobjinfo[MT_BLUEGIBS].spawnstate
             else
+            begin
               st := Ord(S_GIBS);
+              if thing.bloodcolor <> 0 then
+                R_SetMobjBloodTranslation(thing, thing.bloodcolor);
+            end;
           end;
           if thing.state <> @states[st] then
             P_SetMobjState(thing, statenum_t(st));
@@ -2860,7 +2869,11 @@ begin
       end;
     end
     else
+    begin
       P_SetMobjState(thing, S_GIBS);
+      if thing.bloodcolor <> 0 then
+        R_SetMobjBloodTranslation(thing, thing.bloodcolor);
+    end;
 
     thing.flags := thing.flags and not MF_SOLID;
     thing.height := 0;

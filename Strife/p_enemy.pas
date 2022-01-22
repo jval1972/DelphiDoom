@@ -307,7 +307,8 @@ uses
   p_terrain,
   ps_main,
   r_defs,
-  r_main;
+  r_main,
+  r_translations;
 
 const
   opposite: array[0..8] of dirtype_t = (
@@ -3588,6 +3589,9 @@ begin
     typ := Ord(MT_MEAT);
 
   mo := P_SpawnMobj(actor.x, actor.y, actor.z + (24 * FRACUNIT), typ);
+  if typ = Ord(MT_MEAT) then
+    if actor.bloodcolor <> 0 then
+      R_SetMobjBloodTranslation(mo, actor.bloodcolor);
   P_SetMobjState(mo, statenum_t(mo.info.spawnstate + (P_Random mod 19)));
 
   an := (P_Random * 8192) div 256;

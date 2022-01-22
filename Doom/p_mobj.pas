@@ -79,7 +79,7 @@ function P_SpawnPlayerMissile(source: Pmobj_t; _type: integer): Pmobj_t;
 
 procedure P_RespawnSpecials;
 
-procedure P_SpawnBlood(x, y, z: fixed_t; damage: integer; bleeder: Pmobj_t);
+procedure P_SpawnBlood(x, y, z: fixed_t; damage: integer; originator: Pmobj_t);
 
 procedure P_SpawnGreenBlood(x, y, z: fixed_t; damage: integer);
 
@@ -1548,15 +1548,15 @@ end;
 //
 // P_SpawnBlood
 //
-procedure P_SpawnBlood(x, y, z: fixed_t; damage: integer; bleeder: Pmobj_t);
+procedure P_SpawnBlood(x, y, z: fixed_t; damage: integer; originator: Pmobj_t);
 var
   th: Pmobj_t;
 begin
   z := z + _SHL(P_Random - P_Random, 10);
   th := P_SpawnMobj(x, y, z, Ord(MT_BLOOD));
 
-  if bleeder.bloodcolor > 0 then
-    R_SetMobjBloodTranslation(th, bleeder.bloodcolor);
+  if originator.bloodcolor <> 0 then
+    R_SetMobjBloodTranslation(th, originator.bloodcolor);
 
   th.momz := FRACUNIT * 2;
   th.tics := th.tics - (P_Random and 3);
