@@ -619,6 +619,8 @@ procedure A_SetInfightingGroup(actor: Pmobj_t);
 
 procedure A_SetSplashGroup(actor: Pmobj_t);
 
+procedure A_SetTranslation(actor: Pmobj_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -834,6 +836,7 @@ uses
   r_renderstyle,
   r_defs,
   r_main,
+  r_translations,
   sc_engine,
   sc_params,
   sc_tokens,
@@ -9776,6 +9779,15 @@ begin
     tics := state.params.IntVal[0];
 
   p.nextfire := leveltime + tics;
+end;
+
+procedure A_SetTranslation(actor: Pmobj_t);
+begin
+  if not P_CheckStateArgs(actor.state) then
+    exit;
+
+  actor.translationname := actor.state.params.StrVal[0];
+  R_InitMobjTranslation(actor);
 end;
 
 end.
