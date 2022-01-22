@@ -621,6 +621,8 @@ procedure A_SetSplashGroup(actor: Pmobj_t);
 
 procedure A_SetTranslation(actor: Pmobj_t);
 
+procedure A_SetBloodColor(actor: Pmobj_t);
+
 // MBF21 flags
 const
   // low gravity
@@ -9781,6 +9783,9 @@ begin
   p.nextfire := leveltime + tics;
 end;
 
+//
+// A_SetTranslation(trans: string);
+//
 procedure A_SetTranslation(actor: Pmobj_t);
 begin
   if not P_CheckStateArgs(actor.state) then
@@ -9788,6 +9793,17 @@ begin
 
   actor.translationname := actor.state.params.StrVal[0];
   R_InitMobjTranslation(actor);
+end;
+
+//
+// A_SetBloodColor(color: string);
+//
+procedure A_SetBloodColor(actor: Pmobj_t);
+begin
+  if not P_CheckStateArgs(actor.state) then
+    exit;
+
+  actor.bloodcolor := R_GetBloodTranslationIdForName(actor.state.params.StrVal[0]);
 end;
 
 end.

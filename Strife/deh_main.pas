@@ -2983,6 +2983,7 @@ begin
   DEH_AddAction(@A_SetSplashGroup, 'A_SetSplashGroup(group: string);');
   DEH_AddAction(@A_Delayfire, 'A_Delayfire(tics: integer = TICRATE);');
   DEH_AddAction(@A_SetTranslation, 'A_SetTranslation(trans: string);');
+  DEH_AddAction(@A_SetBloodColor, 'A_SetBloodColor(color: string);');
 
   for i := 0 to dehnumactions - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
