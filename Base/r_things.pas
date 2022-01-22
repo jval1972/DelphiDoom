@@ -926,7 +926,10 @@ var
   do_mt: boolean;
   dbscale: fixed_t;
 begin
-  patch := W_CacheSpriteNum(vis.patch + firstspritelump, vis.mo.translationtable, PU_STATIC); // JVAL: Images as sprites
+  if playerweapon then
+    patch := W_CacheSpriteNum(vis.patch + firstspritelump, nil, PU_STATIC) // JVAL: Images as sprites
+  else
+    patch := W_CacheSpriteNum(vis.patch + firstspritelump, vis.mo.translationtable, PU_STATIC); // JVAL: Images as sprites
 
   dc_colormap := vis.colormap;
 
