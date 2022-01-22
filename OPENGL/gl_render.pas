@@ -695,7 +695,7 @@ var
 {$ENDIF}
 begin
   gltexture := gld_RegisterFlat(W_GetNumForName(name), false, -1);
-  gld_BindFlat(gltexture);
+  gld_BindFlat(gltexture, -1);
   if gltexture = nil then
     exit;
   fU1 := 0;
@@ -2542,7 +2542,7 @@ begin
 
   if (wall.flag = GLDWF_TOPFLUD) or (wall.flag = GLDWF_BOTFLUD) then
   begin
-    gld_BindFlat(wall.gltexture);
+    gld_BindFlat(wall.gltexture, -1);
 
     gld_SetupFloodStencil(wall);
     gld_SetupFloodedPlaneCoords(wall, @c);
@@ -3543,7 +3543,10 @@ begin
 
   if flat.whitefog then gld_StartWhiteFog;  // JVAL: Mars fog sectors
 
-  gld_BindFlat(flat.gltexture);
+  if flat.ripple and not gl_old_ripple_effect then
+    gld_BindFlat(flat.gltexture, leveltime and 31)
+  else
+    gld_BindFlat(flat.gltexture, -1);
   gld_StaticLight(flat.light);
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix;
@@ -3577,7 +3580,7 @@ begin
       0.0);
   end;
 
-  if flat.ripple then
+  if flat.ripple and gl_old_ripple_effect then
   begin
     gld_MakeRippleMatrix;
     glMatrixMode(GL_TEXTURE);
@@ -3631,7 +3634,7 @@ begin
       end;
     end;
   end;
-  if flat.ripple then
+  if flat.ripple and gl_old_ripple_effect then
   begin
     glPopMatrix;
     glMatrixMode(GL_MODELVIEW);

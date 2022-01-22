@@ -154,6 +154,7 @@ var
   gl_drawshadows: boolean;
   gl_renderwireframe: boolean;
   gl_no_glfinish_hack: boolean = true;
+  gl_old_ripple_effect: Boolean = false;
   gl_fullscreen: boolean = true;
   vx_maxoptimizerpasscount: integer;
 {$ENDIF}
@@ -173,7 +174,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 216;
+  NUMDEFAULTS = 217;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -689,6 +690,14 @@ const
      defaultsvalue: '';
      defaultivalue: 0;
      defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'gl_old_ripple_effect';
+     location: @gl_old_ripple_effect;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'gl_drawsky';

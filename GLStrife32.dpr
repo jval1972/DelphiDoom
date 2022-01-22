@@ -265,7 +265,6 @@ uses
   d_check in 'Strife\d_check.pas',
   mt_utils in 'Base\mt_utils.pas',
   p_params in 'Base\p_params.pas',
-  r_ripple in 'Base\r_ripple.pas',
   am_textured in 'Base\am_textured.pas',
   nd_main in 'Base\nd_main.pas',
   p_udmf in 'Base\p_udmf.pas',
@@ -372,7 +371,8 @@ uses
   p_playertrace in 'Base\p_playertrace.pas',
   p_friends in 'Base\p_friends.pas',
   sounddata in 'Doom\sounddata.pas',
-  r_translations in 'Base\r_translations.pas';
+  r_translations in 'Base\r_translations.pas',
+  r_ripple in 'Base\r_ripple.pas';
 
 var
   Saved8087CW: Word;

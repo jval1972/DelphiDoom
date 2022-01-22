@@ -62,6 +62,7 @@ type
     buffer_size: integer;
     heightscale: single;
     glTexID: array[0..CR_INVUL] of integer;
+    glRippleTexID: array[0..31] of integer;
     textype: GLTexType;
     mipmap: boolean;
   end;
@@ -96,6 +97,7 @@ var
   // Hack to avoid Intel HD4000 problem with Win10
   // https://communities.intel.com/thread/117626
   gl_no_glfinish_hack: Boolean = true;
+  gl_old_ripple_effect: Boolean = False;
 
 type
   lp3DFXFUNC = procedure(i1, i2, i3, i4, i5: integer; const p: pointer);

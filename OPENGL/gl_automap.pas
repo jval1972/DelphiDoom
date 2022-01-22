@@ -60,6 +60,7 @@ uses
   dglOpenGL,
   doomdef,
   d_delphi,
+  p_tick,
   m_fixed,
   tables,
   gl_defs,
@@ -265,8 +266,16 @@ begin
 
   glColor4f(l.r, l.g, l.b, 1.0);
 
-  tex := gld_RegisterFlat(l.lump, true, l.flat);
-  gld_BindFlat(tex);
+  if l.sec.renderflags and SRF_RIPPLE_FLOOR <> 0 then
+  begin
+    tex := gld_RegisterFlat(l.lump, true, l.flat);
+    gld_BindFlat(tex, leveltime and 31);
+  end
+  else
+  begin
+    tex := gld_RegisterFlat(l.lump, true, l.flat);
+    gld_BindFlat(tex, -1);
+  end;
 
 {$IFDEF DOOM_OR_STRIFE}
   xoffs := l.sec.floor_xoffs * tex.texturescale / FLATUVSCALE;

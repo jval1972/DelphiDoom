@@ -392,9 +392,7 @@ uses
   w_wad,
   r_data,
   info_h,
-  {$IFNDEF OPENGL}
   r_ripple,
-  {$ENDIF}
   g_game,
   p_setup,
   p_inter,
@@ -1456,9 +1454,9 @@ begin
       end;
     end;
   end;
-  {$IFNDEF OPENGL}
+
   curripple := @r_defripple[leveltime and 31];
-  {$ENDIF}
+
 end;
 
 

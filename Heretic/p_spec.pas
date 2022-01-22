@@ -334,9 +334,7 @@ implementation
 
 uses
   d_delphi,
-  {$IFNDEF OPENGL}
   r_ripple,
-  {$ENDIF}
   h_strings,
   doomstat,
   doomdata,
@@ -1407,6 +1405,8 @@ begin
     end;
   end;
 
+  curripple := @r_defripple[leveltime and 31];
+
   // ANIMATE LINE SPECIALS
   for i := 0 to numlinespecials - 1 do
   begin
@@ -1426,9 +1426,7 @@ begin
     end;
   end;
 
-  {$IFNDEF OPENGL}
-  curripple := @r_defripple[leveltime and 31];
-  {$ENDIF}
+
   // DO BUTTONS
   button := @buttonlist[0];
   for i := 0 to MAXBUTTONS - 1 do

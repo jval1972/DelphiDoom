@@ -621,9 +621,7 @@ uses
   w_wad,
   r_data,
   r_main,
-  {$IFNDEF OPENGL}
   r_ripple,
-  {$ENDIF}
   info_h,
   tables,
   g_game,
@@ -3315,9 +3313,7 @@ begin
     end;
   end;
 
-  {$IFNDEF OPENGL}
   curripple := @r_defripple[leveltime and 31];
-  {$ENDIF}
 
   // ANIMATE LINE SPECIALS
   for i := 0 to numlinespecials - 1 do

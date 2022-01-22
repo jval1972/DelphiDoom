@@ -363,10 +363,10 @@ uses
   r_hires,
   r_camera,
   r_precalc,
+  r_ripple,
   {$IFNDEF OPENGL}
   r_cache_main,
   r_fake3d,
-  r_ripple,
   r_trans8,
   r_voxels,
   r_3dfloors, // JVAL: 3d Floors
@@ -1964,10 +1964,8 @@ begin
   R_InitAspect;
   printf('R_InitData'#13#10);
   R_InitData;
-{$IFNDEF OPENGL}
   printf('R_InitRippleEffects'#13#10);
   R_InitRippleEffects;
-{$ENDIF}
   printf('R_InitInterpolations'#13#10);
   R_InitInterpolations;
   printf('R_InitPointToAngle'#13#10);

@@ -54,6 +54,7 @@ var
 
   last_gltexture: PGLTexture = nil;
   last_cm: integer = -1;
+  last_ripple: integer = -1;
 
   transparent_pal_index: integer;
   gld_palmap: array[0..255] of byte;
@@ -75,9 +76,9 @@ procedure gld_AddPatchToTexture(gltexture: PGLTexture; buffer: PByteArray;
   const patch: Ppatch_t; originx, originy: integer; cm: integer; paletted: boolean);
 
 procedure gld_AddFlatToTexture(gltexture: PGLTexture; buffer: PByteArray; const flat: PByteArray;
-  paletted: boolean);
+  paletted: boolean; const ripple: integer);
 
-function gld_RegisterTexture(texture_num: integer; mipmap:  boolean): PGLTexture;
+function gld_RegisterTexture(texture_num: integer; mipmap: boolean): PGLTexture;
 
 procedure gld_BindTexture(gltexture: PGLTexture);
 
@@ -87,7 +88,7 @@ procedure gld_BindPatch(gltexture: PGLTexture; cm: integer);
 
 function gld_RegisterFlat(lump: integer; mipmap: boolean; flat: integer): PGLTexture;
 
-procedure gld_BindFlat(gltexture: PGLTexture);
+procedure gld_BindFlat(gltexture: PGLTexture; const ripple: integer);
 
 procedure gld_CleanTextures;
 
@@ -132,6 +133,7 @@ uses
   r_data,
   r_draw,
   r_flatinfo,
+  r_ripple,
   r_sky,
   r_things,
   r_hires,
@@ -437,8 +439,68 @@ begin
   Z_ChangeTag(playpal, PU_CACHE);
 end;
 
+procedure gld_RippleTransform(const buffer: pointer; const w, h: integer; const bytepp: integer; const ripple: integer);
+var
+  t: PIntegerArray;
+  x, y, rx, ry, dx, dy: integer;
+  newbuf: PByteArray;
+  srcbuf: PByteArray;
+
+  procedure _transformpixel;
+  var
+    newp, srcp: integer;
+  begin
+    srcp := rx + ry * w;
+    newp := x + y * w;
+    if bytepp = 1 then
+    begin
+      newbuf[newp] := srcbuf[srcp];
+    end
+    else if bytepp = 4 then
+    begin
+      newp := newp * 4;
+      srcp := srcp * 4;
+      PLongWord(@newbuf[newp])^ := PLongWord(@srcbuf[srcp])^;
+    end
+    else if bytepp = 3 then
+    begin
+      newp := newp * 4;
+      srcp := srcp * 4;
+      newbuf[newp] := srcbuf[srcp];
+      newbuf[newp + 1] := srcbuf[srcp + 1];
+      newbuf[newp + 2] := srcbuf[srcp + 2];
+    end;
+  end;
+
+begin
+  if ripple < 0 then
+    exit;
+  t:= @r_defripple[ripple];
+  newbuf := malloc(w * h * bytepp);
+  srcbuf := buffer;
+  for x := 0 to w - 1 do
+    for y := 0 to h - 1 do
+    begin
+      dx := Round((t[Round(y * 128 / h) and 127] / $10000) * h / 64);
+      dy := Round((t[Round(x * 128 / w) and 127] / $10000) * w / 64);
+      rx := (x + dx) mod w;
+      while rx < 0 do
+        rx := rx + w;
+      while rx >= w do
+        rx := rx - w;
+      ry := (y + dy) mod h;
+      while ry < 0 do
+        ry := ry + h;
+      while ry >= h do
+        ry := ry + h;
+      _transformpixel;
+    end;
+  memcpy(buffer, newbuf, w * h * bytepp);
+  memfree(pointer(newbuf), w * h * bytepp);
+end;
+
 procedure gld_AddFlatToTexture(gltexture: PGLTexture; buffer: PByteArray; const flat: PByteArray;
-  paletted: boolean);
+  paletted: boolean; const ripple: integer);
 var
   x, y, pos: integer;
   yy: integer;
@@ -459,6 +521,8 @@ begin
         inc(pos);
       end;
     end;
+    if ripple >= 0 then
+      gld_RippleTransform(buffer, gltexture.buffer_width, gltexture.buffer_height, 1, ripple);
   end
   else
   begin
@@ -477,6 +541,8 @@ begin
       end;
     end;
     Z_ChangeTag(playpal, PU_CACHE);
+    if ripple >= 0 then
+      gld_RippleTransform(buffer, gltexture.buffer_width, gltexture.buffer_height, 4, ripple);
   end;
 end;
 
@@ -848,7 +914,7 @@ begin
   dispose(t, destroy);
 end;
 
-function gld_LoadHiresTexture(gltexture: PGLTexture; const texname: string): boolean;
+function gld_LoadHiresTexture(gltexture: PGLTexture; const texname: string; const ripple: integer): boolean;
 var
   t: PTexture;
   buffer: PByteArray;
@@ -899,6 +965,9 @@ begin
     end;
   end;
 
+  if ripple >= 0 then
+    gld_RippleTransform(t.GetImage, t.GetWidth, t.GetHeight, 4, ripple);
+
   theight := t.GetHeight;
   tfactor := theight div gltexture.height; // Scaling
   i := 0;
@@ -941,9 +1010,18 @@ begin
   end;
   gltexture_buffer_size := gltexture_buffer_width * gltexture_buffer_height * 4;
 
-  if gltexture.glTexID[Ord(CR_DEFAULT)] = 0 then
-    glGenTextures(1, @gltexture.glTexID[Ord(CR_DEFAULT)]);
-  glBindTexture(GL_TEXTURE_2D, gltexture.glTexID[Ord(CR_DEFAULT)]);
+  if ripple < 0 then
+  begin
+    if gltexture.glTexID[Ord(CR_DEFAULT)] = 0 then
+      glGenTextures(1, @gltexture.glTexID[Ord(CR_DEFAULT)]);
+    glBindTexture(GL_TEXTURE_2D, gltexture.glTexID[Ord(CR_DEFAULT)]);
+  end
+  else
+  begin
+    if gltexture.glRippleTexID[ripple] = 0 then
+      glGenTextures(1, @gltexture.glRippleTexID[ripple]);
+    glBindTexture(GL_TEXTURE_2D, gltexture.glRippleTexID[ripple]);
+  end;
 
   if (gltexture_tex_width = gltexture_width) and (gltexture_tex_height = gltexture_height) then
   begin
@@ -1071,9 +1149,11 @@ var
   buffer: PByteArray;
   skyhack: boolean;
 begin
-  if gltexture = last_gltexture then
+  if (gltexture = last_gltexture) and (last_cm = -1) and (last_ripple = -1)  then
     exit;
   last_gltexture := gltexture;
+  last_cm := -1;
+  last_ripple := -1;
   if gltexture = nil then
   begin
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -1099,7 +1179,7 @@ begin
       exit;
   end;
 
-  if gld_LoadHiresTexture(gltexture, textures[gltexture.index].name) then
+  if gld_LoadHiresTexture(gltexture, textures[gltexture.index].name, -1) then
     exit;
 
   buffer := malloc(gltexture.buffer_size);
@@ -1213,10 +1293,11 @@ var
   buffer: PByteArray;
   trans: PByteArray;
 begin
-  if (gltexture = last_gltexture) and (cm = last_cm) then
+  if (gltexture = last_gltexture) and (cm = last_cm) and (last_ripple = -1) then
     exit;
   last_gltexture := gltexture;
   last_cm := cm;
+  last_ripple := -1;
   if gltexture = nil then
     exit;
   if gltexture.textype <> GLDT_PATCH then
@@ -1236,7 +1317,7 @@ begin
 
   if cm = Ord(CR_DEFAULT) then
   begin
-    if gld_LoadHiresTexture(gltexture, W_GetNameForNum(gltexture.index)) then
+    if gld_LoadHiresTexture(gltexture, W_GetNameForNum(gltexture.index), -1) then
       exit;
     trans := nil;
   end
@@ -1340,33 +1421,45 @@ begin
   end;
 end;
 
-procedure gld_BindFlat(gltexture: PGLTexture);
+procedure gld_BindFlat(gltexture: PGLTexture; const ripple: integer);
 var
   flat: PByteArray;
   i: integer;
   buffer: PByteArray;
 begin
-  if gltexture = last_gltexture then
+  if (gltexture = last_gltexture) and (last_cm = -1) and (last_ripple = ripple) then
     exit;
   last_gltexture := gltexture;
+  last_cm := -1;
+  last_ripple := ripple;
   if gltexture = nil then
     exit;
   if gltexture.textype <> GLDT_FLAT then
   begin
     glBindTexture(GL_TEXTURE_2D, 0);
     last_gltexture := nil;
-    last_cm := -1;
     exit;
   end;
-  if gltexture.glTexID[Ord(CR_DEFAULT)] <> 0 then
+  if ripple = -1 then
   begin
-    glBindTexture(GL_TEXTURE_2D, gltexture.glTexID[Ord(CR_DEFAULT)]);
-    glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_RESIDENT, @i);
-{    if i = GL_TRUE then  }
+    if gltexture.glTexID[Ord(CR_DEFAULT)] <> 0 then
+    begin
+      glBindTexture(GL_TEXTURE_2D, gltexture.glTexID[Ord(CR_DEFAULT)]);
+      glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_RESIDENT, @i);
       exit;
+    end;
+  end
+  else
+  begin
+    if gltexture.glRippleTexID[ripple] <> 0 then
+    begin
+      glBindTexture(GL_TEXTURE_2D, gltexture.glRippleTexID[ripple]);
+      glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_RESIDENT, @i);
+      exit;
+    end;
   end;
 
-  if gld_LoadHiresTexture(gltexture, W_GetNameForNum(gltexture.index)) then
+  if gld_LoadHiresTexture(gltexture, W_GetNameForNum(gltexture.index), ripple) then
     exit;
 
   flat := W_CacheLumpNum(gltexture.index, PU_STATIC);
@@ -1375,10 +1468,21 @@ begin
     memset(buffer, transparent_pal_index, gltexture.buffer_size)
   else
     MT_ZeroMemory(buffer, gltexture.buffer_size);
-  gld_AddFlatToTexture(gltexture, buffer, flat, not (gltexture.mipmap and use_mipmapping) and gl_paletted_texture);
-  if gltexture.glTexID[Ord(CR_DEFAULT)] = 0 then
-    glGenTextures(1, @gltexture.glTexID[Ord(CR_DEFAULT)]);
-  glBindTexture(GL_TEXTURE_2D, gltexture.glTexID[Ord(CR_DEFAULT)]);
+  gld_AddFlatToTexture(gltexture, buffer, flat, not (gltexture.mipmap and use_mipmapping) and gl_paletted_texture, ripple);
+
+  if ripple = -1 then
+  begin
+    if gltexture.glTexID[Ord(CR_DEFAULT)] = 0 then
+      glGenTextures(1, @gltexture.glTexID[Ord(CR_DEFAULT)]);
+    glBindTexture(GL_TEXTURE_2D, gltexture.glTexID[Ord(CR_DEFAULT)]);
+  end
+  else
+  begin
+    if gltexture.glRippleTexID[ripple] = 0 then
+      glGenTextures(1, @gltexture.glRippleTexID[ripple]);
+    glBindTexture(GL_TEXTURE_2D, gltexture.glRippleTexID[ripple]);
+  end;
+
   if gltexture.mipmap and use_mipmapping then
   begin
     gluBuild2DMipmaps(GL_TEXTURE_2D, gl_tex_format,
@@ -1523,7 +1627,7 @@ begin
 
   for i := numflats - 1 downto 0 do
     if hitlist[i] then
-      gld_BindFlat(gld_RegisterFlat(flats[i].lump, true, i));
+      gld_BindFlat(gld_RegisterFlat(flats[i].lump, true, i), -1);
 
   // Precache textures.
 
