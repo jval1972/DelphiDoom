@@ -211,6 +211,7 @@ Added PascalScript functions to control blood color & translation:
 Added 10 new translations CRTRANS0 thru CRTRANS9 for user defined translation lumps.
 Added A_SetTranslation(trans: string) ACTORDEF function.
 Added A_SetBloodColor(color: string) ACTORDEF function.
+Fix some problems with player movement clipping when landing on other actors.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
