@@ -367,7 +367,12 @@ uses
   p_friends in 'Base\p_friends.pas',
   sounddata in 'Doom\sounddata.pas',
   r_translations in 'Base\r_translations.pas',
-  r_ripple in 'Base\r_ripple.pas';
+  r_ripple in 'Base\r_ripple.pas',
+  xmi_consts in 'XMILIB\xmi_consts.pas',
+  xmi_core in 'XMILIB\xmi_core.pas' {XMICore},
+  xmi_iff in 'XMILIB\xmi_iff.pas',
+  xmi_lib in 'XMILIB\xmi_lib.pas',
+  i_xmimusic in 'Base\i_xmimusic.pas';
 
 var
   Saved8087CW: Word;

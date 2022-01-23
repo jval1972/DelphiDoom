@@ -11,6 +11,7 @@ procedure XMI_ShutDown;
 function XMI_OpenMusicFile(const fname: string): Boolean;
 function XMI_GetNumTracks: Integer;
 function XMI_ConvertTrackToFile(const trNo: integer; const fname: string): Boolean;
+function XMI_ConvertMemoryToFile(const adata: pointer; const asize: integer; const trNo: integer; const fname: string): Boolean;
 function XMI_ConvertTrackToMemory(const trNo: integer; const typ: string; var p: pointer; var sz: integer): Boolean;
 procedure XMI_FreeMem(var p: pointer; var sz: integer);
 function XMI_PlayTrack(const trNo: integer): Boolean;
@@ -80,13 +81,60 @@ begin
     Exit;
   end;
 
-  XMICore.TrkCh.ItemIndex := Idx;
+  XMICore.TrkCh.ItemIndex := MaxI(0, Idx);
   XMICore.FillEvents(XMICore.TrkCh.ItemIndex);
   XMICore.ChkButtons;
 
-  for I := Length(TrackData) - 1 downto 0 do
-    if I <> Idx then
-      XMICore.DelTrack(I);
+  if Idx >= 0 then
+    for I := Length(TrackData) - 1 downto 0 do
+      if I <> Idx then
+        XMICore.DelTrack(I);
+
+  XMICore.RefTrackList;
+  if Length(TrackData) > 0 then
+  begin
+    XMICore.TrkCh.ItemIndex := 0;
+    XMICore.FillEvents(XMICore.TrkCh.ItemIndex);
+  end;
+
+  XMICore.ChkButtons;
+  Result := XMICore.SaveFile(fname);
+end;
+
+function XMI_ConvertMemoryToFile(const adata: pointer; const asize: integer; const trNo: integer; const fname: string): Boolean;
+var
+  Idx, I: Integer;
+begin
+  XMI_StopPlayback;
+
+  Result := XMICore.LoadMemory(adata, asize, '');
+  if not Result then
+    Exit;
+
+  if XMICore.TrkCh.Items.Count > 0 then
+  begin
+    XMICore.TrkCh.ItemIndex := 0;
+    XMICore.FillEvents(XMICore.TrkCh.ItemIndex);
+  end;
+  XMICore.ChkButtons;
+
+  LoopEnabled := True;
+  Idx := trNo;
+  if Idx >= XMICore.TrkCh.Items.Count then
+  begin
+    Result := False;
+    Exit;
+  end;
+
+  XMICore.TrkCh.ItemIndex := MaxI(0, Idx);
+  XMICore.FillEvents(XMICore.TrkCh.ItemIndex);
+  XMICore.ChkButtons;
+
+  if Idx >= 0 then
+    for I := Length(TrackData) - 1 downto 0 do
+      if I <> Idx then
+        XMICore.DelTrack(I);
+
   XMICore.RefTrackList;
   if Length(TrackData) > 0 then
   begin
@@ -109,13 +157,16 @@ begin
 
   LoopEnabled := True;
   Idx := trNo;
-  XMICore.TrkCh.ItemIndex := Idx;
+
+  XMICore.TrkCh.ItemIndex := MaxI(0, Idx);
   XMICore.FillEvents(XMICore.TrkCh.ItemIndex);
   XMICore.ChkButtons;
 
-  for I := Length(TrackData) - 1 downto 0 do
-    if I <> Idx then
-      XMICore.DelTrack(I);
+  if Idx >= 0 then
+    for I := Length(TrackData) - 1 downto 0 do
+      if I <> Idx then
+        XMICore.DelTrack(I);
+
   XMICore.RefTrackList;
   if Length(TrackData) > 0 then
   begin

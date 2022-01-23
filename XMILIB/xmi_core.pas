@@ -138,6 +138,7 @@ type
   public
     { Public declarations }
     function LoadFile(FileName, Fmt: string): boolean;
+    function LoadMemory(const adata: Pointer; const asize: integer; Fmt: string): boolean;
     function SaveFile(FileName: string): boolean;
     function SaveFileToStream(FileName: string; M: TMemoryStream): boolean;
     function SaveFileToPointer(FileName: string; var p: pointer; var sz: integer): boolean;
@@ -146,10 +147,15 @@ type
     function DetectRMI(var F: TMemoryStream): boolean;
     function DetectMIDS(var F: TMemoryStream): boolean;
     function DetectXMI(var F: TMemoryStream): boolean;
+    function DetectXMIMemory(const adata: Pointer; const asize: integer): boolean;
     function DetectCMF(var F: TMemoryStream): boolean;
+    function DetectCMFMemory(const adata: Pointer; const asize: integer): boolean;
     function DetectROL(var F: TMemoryStream): boolean;
+    function DetectROLMemory(const adata: Pointer; const asize: integer): boolean;
     function DetectMUS(var F: TMemoryStream): boolean;
+    function DetectMUSMemory(const adata: Pointer; const asize: integer): boolean;
     function DetectSOP(var F: TMemoryStream): boolean;
+    function DetectSOPMemory(const adata: Pointer; const asize: integer): boolean;
     function ReadMIDI(var F: TMemoryStream): boolean;
     function ReadRMI(var F: TMemoryStream): boolean;
     function ReadMIDS(var F: TMemoryStream): boolean;
@@ -698,6 +704,15 @@ begin
     (IFFSearchNode(Nodes, 'FORM', 'XMID') > 0);
 end;
 
+function TXMICore.DetectXMIMemory(const adata: Pointer; const asize: integer): boolean;
+var
+  Nodes: IFFNodes;
+begin
+  IFFGetNodes('IFF', adata, 0, asize, Nodes);
+  Result := (IFFSearchNode(Nodes, 'CAT ', 'XMID') > 0) or
+    (IFFSearchNode(Nodes, 'FORM', 'XMID') > 0);
+end;
+
 function TXMICore.DetectCMF(var F: TMemoryStream): boolean;
 var
   Head: array[0..3] of AnsiChar;
@@ -707,6 +722,22 @@ begin
     Exit;
   F.Seek(0, soFromBeginning);
   F.ReadBuffer(Head, 4);
+  Result := Head = 'CTMF';
+end;
+
+function TXMICore.DetectCMFMemory(const adata: Pointer; const asize: integer): boolean;
+var
+  Head: array[0..3] of AnsiChar;
+  pb: PByteArray;
+begin
+  Result := False;
+  if asize < 36 then
+    Exit;
+  pb := adata;
+  Head[0] := Chr(pb[0]);
+  Head[1] := Chr(pb[1]);
+  Head[2] := Chr(pb[2]);
+  Head[3] := Chr(pb[3]);
   Result := Head = 'CTMF';
 end;
 
@@ -731,6 +762,30 @@ begin
   Result := True;
 end;
 
+function TXMICore.DetectROLMemory(const adata: Pointer; const asize: integer): boolean;
+var
+  W: word;
+  Meta: array[0..39] of byte;
+  pb: PByteArray;
+  i: integer;
+begin
+  Result := False;
+  if asize < $B6 then
+    Exit;
+  pb := adata;
+  W := PWord(@pb[0])^;
+  if W <> 0 then
+    Exit;
+  W := PWord(@pb[2])^;
+  if W <> 4 then
+    Exit;
+  for i := 0 to 39 do
+    Meta[i] := pb[i + 4];
+  if PAnsiChar(@Meta[0]) <> '\roll\default' then
+    Exit;
+  Result := True;
+end;
+
 function TXMICore.DetectMUS(var F: TMemoryStream): boolean;
 var
   W: word;
@@ -741,6 +796,17 @@ begin
   F.Seek(0, soFromBeginning);
   F.ReadBuffer(W, 2);
   Result := W = 1;
+end;
+
+function TXMICore.DetectMUSMemory(const adata: Pointer; const asize: integer): boolean;
+var
+  pw: PWord;
+begin
+  Result := False;
+  if asize < 70 then
+    Exit;
+  pw := adata;
+  Result := pw^ = 1;
 end;
 
 function TXMICore.DetectSOP(var F: TMemoryStream): boolean;
@@ -766,6 +832,26 @@ begin
   if B <> 0 then
     Exit;
   Result := True;
+end;
+
+function TXMICore.DetectSOPMemory(const adata: Pointer; const asize: integer): boolean;
+var
+  pb: PByteArray;
+begin
+  Result := False;
+  if asize < $4C then
+    Exit;
+  Result :=
+    (pb[0] = Ord('s')) and
+    (pb[1] = Ord('o')) and
+    (pb[2] = Ord('p')) and
+    (pb[3] = Ord('e')) and
+    (pb[4] = Ord('p')) and
+    (pb[5] = Ord('o')) and
+    (pb[6] = Ord('s')) and
+    (pb[7] = 0) and
+    (pb[8] = 1) and
+    (pb[9] = 0);
 end;
 
 function TXMICore.ReadMIDI(var F: TMemoryStream): boolean;
@@ -12652,6 +12738,166 @@ begin
     if Container = 'ims' then
     begin
       Opened := ReadMUS(M, FileName);
+    end;
+    if Container = 'sop' then
+    begin
+      Opened := ReadSOP(M);
+    end;
+    if Container = 'herad' then
+    begin
+      Opened := ReadHERAD(M);
+    end;
+    if Container = 'raw' then
+    begin
+      Opened := ReadRaw(M);
+    end;
+    if Container = 'syx' then
+    begin
+      Opened := ReadSYX(M);
+    end;
+    if not Opened then
+      SongData.Strings.Clear;
+  end
+  else
+    LogOutput('[-] Unknown file format.');
+  M.Free;
+  Result := Opened;
+end;
+
+function TXMICore.LoadMemory(const adata: Pointer; const asize: integer; Fmt: string): boolean;
+var
+  M: TMemoryStream;
+begin
+  LogOutput('[*] Opening memory ...');
+  Container := '';
+  if Fmt = '' then
+  begin
+    if DetectXMIMemory(adata, asize) then
+      Fmt := 'xmi'
+    else if DetectCMFMemory(adata, asize) then
+      Fmt := 'cmf'
+    else if DetectSOPMemory(adata, asize) then
+      Fmt := 'sop';
+  end;
+
+  // Container specified
+  if Fmt = 'smf' then
+  begin
+    Container := 'smf';
+    EventFormat := 'mid';
+    EventProfile := 'mid';
+  end
+  else if Fmt = 'rmi' then
+  begin
+    Container := 'rmi';
+    EventFormat := 'mid';
+    EventProfile := 'mid';
+  end
+  else if Fmt = 'mids' then
+  begin
+    Container := 'mids';
+    EventFormat := 'mid';
+    EventProfile := 'mid';
+  end
+  else if Fmt = 'xmi' then
+  begin
+    Container := 'xmi';
+    EventFormat := 'xmi';
+    EventProfile := 'xmi';
+  end
+  else if Fmt = 'cmf' then
+  begin
+    Container := 'cmf';
+    EventFormat := 'mid';
+    EventProfile := 'cmf';
+  end
+  else if Fmt = 'mdi' then
+  begin
+    Container := 'smf';
+    EventFormat := 'mid';
+    EventProfile := 'mdi';
+  end
+  else if Fmt = 'rol' then
+  begin
+    Container := 'rol';
+    EventFormat := 'rol';
+    EventProfile := 'rol';
+  end
+  else if Fmt = 'mus' then
+  begin
+    Container := 'mus';
+    EventFormat := 'mus';
+    EventProfile := 'mus';
+  end
+  else if Fmt = 'ims' then
+  begin
+    Container := 'ims';
+    EventFormat := 'mus';
+    EventProfile := 'ims';
+  end
+  else if Fmt = 'sop' then
+  begin
+    Container := 'sop';
+    EventFormat := 'sop';
+    EventProfile := 'sop';
+  end
+  else if Fmt = 'herad' then
+  begin
+    Container := 'herad';
+    EventFormat := 'herad';
+    EventProfile := 'herad';
+  end
+  else if Fmt = 'raw' then
+  begin
+    Container := 'raw';
+    EventFormat := 'mid';
+    EventProfile := 'mid';
+  end
+  else if Fmt = 'syx' then
+  begin
+    Container := 'syx';
+    EventFormat := 'mid';
+    EventProfile := 'mid';
+  end;
+
+  M := TMemoryStream.Create;
+  try
+    M.Write(adata^, asize);
+  except
+    M.Free;
+    Result := False;
+    LogOutput('[-] Load memory failed.');
+    Exit;
+  end;
+  if Container = '' then
+  begin
+    // Detect container by data
+    Container := DetectFile(M);
+  end;
+  EventViewProfile := EventProfile;
+
+  if Container <> '' then
+  begin
+    SongData.Strings.Clear;
+    if Container = 'smf' then
+    begin
+      Opened := ReadMIDI(M);
+    end;
+    if Container = 'rmi' then
+    begin
+      Opened := ReadRMI(M);
+    end;
+    if Container = 'mids' then
+    begin
+      Opened := ReadMIDS(M);
+    end;
+    if Container = 'xmi' then
+    begin
+      Opened := ReadXMI(M);
+    end;
+    if Container = 'cmf' then
+    begin
+      Opened := ReadCMF(M);
     end;
     if Container = 'sop' then
     begin

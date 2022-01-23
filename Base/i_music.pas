@@ -96,10 +96,16 @@ uses
   i_s3mmusic,
   i_modmusic,
   i_xmmusic,
+  {$IFNDEF DLL}
+  i_xmimusic,
+  {$ENDIF}
   i_itmusic,
   i_mikplay,
   i_tmp,
   s_sound,
+  {$IFNDEF DLL}
+  xmi_lib,
+  {$ENDIF}
   z_zone;
 
 const
@@ -450,6 +456,9 @@ begin
   I_InitMod;
   I_InitMik;
   I_InitS3M;
+  {$IFNDEF DLL}
+  XMI_Init;
+  {$ENDIF}
 end;
 
 //
@@ -538,6 +547,9 @@ begin
   I_ShutDownS3M;
   I_StopMik(m_none);
   I_ShutDownMik;
+  {$IFNDEF DLL}
+  XMI_ShutDown;
+  {$ENDIF}
 end;
 
 //
@@ -692,6 +704,31 @@ begin
     I_PlayMP3(Pmp3header_t(data).Stream);
   end
   else if PLongWordArray(data)[0] = ID3MAGIC then
+  {$IFNDEF DLL}
+  else if IsXMIMusicFile(data, size) then
+  begin
+    if m_type <> m_midi then
+    begin
+      I_StopMus;
+      m_type := m_midi;
+    end;
+
+    MidiFileName := I_NewTempFile(_GAME + '.mid');
+
+    b := XMI_ConvertMemoryToFile(data, size, 0, MidiFileName);
+
+    if not b then
+    begin
+      I_Warning('I_RegisterSong(): Could not initialize MCI'#13#10);
+      m_type := m_none;
+      result := 0;
+      exit;
+    end;
+
+    I_PlayMidi(MidiFileName);
+    I_SetMusicVolumeMidi(snd_MusicVolume);
+  end
+  {$ENDIF}
   else if I_MusToMidi(PByteArray(data), song.midievents) then
   begin
     setmusvolume := -1; // Force music update
