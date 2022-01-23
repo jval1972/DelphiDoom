@@ -9508,7 +9508,7 @@ begin
   winf := @weaponinfo[Ord(player.readyweapon)];
   typ := Ord(winf.ammo);
   if typ = Ord(am_noammo) then
-	  exit;
+    exit;
   // use the weapon's ammo-per-shot amount if zero.
   // to subtract zero ammo, don't call this function. ;)
   amount := psp.state.params.IntVal[0];
@@ -9522,7 +9522,7 @@ begin
     winf := @wpnlev1info[Ord(player.readyweapon)];
   typ := Ord(winf.ammo);
   if typ = Ord(am_noammo) then
-	  exit;
+    exit;
   amount := psp.state.params.IntVal[0];
   if amount <= 0 then
   begin
@@ -9536,7 +9536,7 @@ begin
   winf := @weaponinfo[Ord(player.readyweapon), Ord(player._class)];
   typ := Ord(winf.mana);
   if typ = Ord(MANA_NONE) then
-	  exit;
+    exit;
   amount := psp.state.params.IntVal[0];
   if amount <= 0 then
     amount := WeaponManaUse[Ord(player._class), Ord(player.readyweapon)];
@@ -9595,7 +9595,7 @@ begin
   winf := @weaponinfo[Ord(player.readyweapon)];
   typ := Ord(winf.ammo);
   if typ = Ord(am_noammo) then
-	  exit;
+    exit;
   amount := psp.state.params.IntVal[1];
   if amount <= 0 then
     amount := winf.ammopershot;
@@ -9607,7 +9607,7 @@ begin
     winf := @wpnlev1info[Ord(player.readyweapon)];
   typ := Ord(winf.ammo);
   if typ = Ord(am_noammo) then
-	  exit;
+    exit;
   amount := psp.state.params.IntVal[0];
   if amount <= 0 then
   begin
@@ -9621,7 +9621,7 @@ begin
   winf := @weaponinfo[Ord(player.readyweapon), Ord(player._class)];
   typ := Ord(winf.mana);
   if typ = Ord(MANA_NONE) then
-	  exit;
+    exit;
   amount := psp.state.params.IntVal[1];
   if amount <= 0 then
     amount := WeaponManaUse[Ord(player._class), Ord(player.readyweapon)];

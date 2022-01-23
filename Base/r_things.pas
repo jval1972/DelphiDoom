@@ -1614,13 +1614,13 @@ begin
   vis.gzt := gzt;
   {$IFDEF HEXEN}
   if thing.flags and MF_TRANSLATION <> 0 then
-	begin
+  begin
     if thing.player <> nil then
       vis._class := Ord(Pplayer_t(thing.player)._class)
     else
       vis._class := thing.special1;
     if vis._class > 2 then
-			vis._class := 0;
+      vis._class := 0;
   end
   else
     vis._class := 0;
