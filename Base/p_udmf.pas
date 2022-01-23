@@ -49,10 +49,12 @@ const
   {$ENDIF}
   ML_THINGS2 = ML_UDMFSTART + 0;
   ML_SECTORS2 = ML_UDMFSTART + 1;
-  ML_NUMUDMFLUMPS = ML_UDMFSTART + 2;
+  ML_VERTEX2 = ML_UDMFSTART + 2;
+  ML_NUMUDMFLUMPS = ML_UDMFSTART + 3;
 
   MLN_THINGS2 = 'THINGS2';
   MLN_SECTORS2 = 'SECTORS2';
+  MLN_VERTEX2 = 'VERTEX2';
 
 const
   UDMF_TF_SKILL1 = 1;
@@ -119,11 +121,27 @@ type
   extrasector_tArray = array[0..$FFFF] of extrasector_t;
   Pextrasector_tArray = ^extrasector_tArray;
 
+const
+  UDMF_VF_ZFLOOR = 1;
+  UDMF_VF_ZCEILING = 2;
+
+type
+  extravertex_t = record
+    extraflags: integer;
+    x, y: fixed_t;
+    zfloor, zceiling: fixed_t; // Absolute floor & ceiling height
+  end;
+  Pextravertex_t = ^extravertex_t;
+  extravertex_tArray = array[0..$FFFF] of extravertex_t;
+  Pextravertex_tArray = ^extravertex_tArray;
+
 var
   udmfthings: Pextrathing_tArray;
   numudmfthings: integer;
   udmfsectors: Pextrasector_tArray;
   numudmfsectors: integer;
+  udmfvertexes: Pextravertex_tArray;
+  numudmfvertexes: integer;
   hasudmfdata: boolean;
 
 function UDMF_MakeSectors: boolean;
@@ -155,6 +173,7 @@ type
     fmapsidedefs: Pmapsidedef_tArray;
     fnummapsidedefs: integer;
     fmapvertexes: Pmapvertex_tArray;
+    fextravertexes: Pextravertex_tArray;
     fnummapvertexes: integer;
     fmapsectors: Pmapsector_tArray;
     fextrasectors: Pextrasector_tArray;
@@ -180,6 +199,7 @@ begin
   fmapsidedefs := nil;
   fnummapsidedefs := 0;
   fmapvertexes := nil;
+  fextravertexes := nil;
   fnummapvertexes := 0;
   fmapsectors := nil;
   fextrasectors := nil;
@@ -249,6 +269,7 @@ var
   pmaplinedef: Pmaplinedef_t;
   pmapsidedef: Pmapsidedef_t;
   pmapvertex: Pmapvertex_t;
+  pextravertex: Pextravertex_t;
   pmapsector: Pmapsector_t;
   pextrasector: Pextrasector_t;
   sk: string;
@@ -795,6 +816,9 @@ begin
       realloc(Pointer(fmapvertexes), fnummapvertexes * SizeOf(mapvertex_t), (fnummapvertexes + 1) * SizeOf(mapvertex_t));
       pmapvertex := @fmapvertexes[fnummapvertexes];
       ZeroMemory(pmapvertex, SizeOf(mapvertex_t));
+      realloc(Pointer(fextravertexes), fnummapvertexes * SizeOf(extravertex_t), (fnummapvertexes + 1) * SizeOf(extravertex_t));
+      pextravertex := @fextravertexes[fnummapvertexes];
+      ZeroMemory(pextravertex, SizeOf(extravertex_t));
       inc(fnummapvertexes);
       GetToken; // _BEGINBLOCK
       if token <> '_BEGINBLOCK' then
@@ -806,11 +830,25 @@ begin
         begin
           sc.MustGetFloat;
           pmapvertex.x := Round(sc._Float);
+          pextravertex.x := Round(sc._Float * FRACUNIT);
         end
         else if (token = 'Y') then
         begin
           sc.MustGetFloat;
           pmapvertex.y := Round(sc._Float);
+          pextravertex.y := Round(sc._Float * FRACUNIT);
+        end
+        else if (token = 'ZFLOOR') then
+        begin
+          sc.MustGetFloat;
+          pextravertex.zfloor := Round(sc._Float * FRACUNIT);
+          pextravertex.extraflags := pextravertex.extraflags or UDMF_VF_ZFLOOR;
+        end
+        else if (token = 'ZCEILING') then
+        begin
+          sc.MustGetFloat;
+          pextravertex.zceiling := Round(sc._Float * FRACUNIT);
+          pextravertex.extraflags := pextravertex.extraflags or UDMF_VF_ZCEILING;
         end
         else if (token = 'COMMENT') then
         begin
@@ -1018,6 +1056,13 @@ begin
     udmfsectors := Z_Malloc(fnummapsectors * SizeOf(extrasector_t), PU_LEVEL, nil);
     memcpy(udmfsectors, fextrasectors, fnummapsectors * SizeOf(extrasector_t));
   end;
+
+  numudmfvertexes := fnummapvertexes;
+  if numudmfvertexes > 0 then
+  begin
+    udmfvertexes := Z_Malloc(fnummapvertexes * SizeOf(extravertex_t), PU_LEVEL, nil);
+    memcpy(udmfvertexes, fextravertexes, fnummapvertexes * SizeOf(extravertex_t));
+  end;
 end;
 
 procedure TUDMFManager.SaveUDMFToVanilla(const amapname: string; const afilename: string{$IFDEF HEXEN};const bl: integer{$ENDIF});
@@ -1115,6 +1160,11 @@ begin
   infotable[ML_SECTORS2].name := stringtochar8(MLN_SECTORS2);
   f.Write(fextrasectors^, fnummapsectors * SizeOf(extrasector_t));
 
+  infotable[ML_VERTEX2].filepos := f.Position;
+  infotable[ML_VERTEX2].size := fnummapvertexes * SizeOf(extravertex_t);
+  infotable[ML_VERTEX2].name := stringtochar8(MLN_VERTEX2);
+  f.Write(fextravertexes^, fnummapvertexes * SizeOf(extravertex_t));
+
   header.infotableofs := f.Position;
   f.Write(infotable, SizeOf(infotable));
   f.Seek(0, sFromBeginning);
@@ -1129,6 +1179,7 @@ begin
   memfree(Pointer(fmaplinedefs), fnummaplinedefs * SizeOf(maplinedef_t));
   memfree(Pointer(fmapsidedefs), fnummapsidedefs * SizeOf(mapsidedef_t));
   memfree(Pointer(fmapvertexes), fnummapvertexes * SizeOf(mapvertex_t));
+  memfree(Pointer(fextravertexes), fnummapvertexes * SizeOf(extravertex_t));
   memfree(Pointer(fmapsectors), fnummapsectors * SizeOf(mapsector_t));
   memfree(Pointer(fextrasectors), fnummapsectors * SizeOf(extrasector_t));
 end;
@@ -1155,6 +1206,8 @@ begin
   numudmfthings := 0;
   udmfsectors := nil;
   numudmfsectors := 0;
+  udmfvertexes := nil;
+  numudmfvertexes := 0;
 
   lumpnum := W_GetNumForName(mapname);
   if (lumpnum < 0) or (lumpnum >= W_NumLumps - 1) then
@@ -1177,7 +1230,13 @@ begin
         udmfsectors := W_CacheLumpNum(lumpnum + ML_SECTORS2, PU_LEVEL);
         numudmfsectors := W_LumpLength(lumpnum + ML_SECTORS2) div SizeOf(extrasector_t);
       end;
-    hasudmfdata := (numudmfthings <> 0) and (numudmfsectors <> 0);
+    if lumpnum + ML_VERTEX2 < W_NumLumps then
+      if strupper(stringtochar8(lumpinfo[lumpnum + ML_VERTEX2].name)) = MLN_VERTEX2 then
+      begin
+        udmfvertexes := W_CacheLumpNum(lumpnum + ML_VERTEX2, PU_LEVEL);
+        numudmfvertexes := W_LumpLength(lumpnum + ML_VERTEX2) div SizeOf(extravertex_t);
+      end;
+    hasudmfdata := (numudmfthings <> 0) and (numudmfsectors <> 0) and (numudmfvertexes <> 0);
     result := false;
     exit;
   end;
@@ -1208,6 +1267,133 @@ begin
 
   result := true;
   hasudmfdata := true;
+end;
+
+procedure UDMF_DoMakeAbsoluteHeights(const secid: integer);
+var
+  sec: Psector_t;
+  vids: TDNumberList;
+  v, i: integer;
+  a, b, c, d: float;
+  isslope: boolean;
+
+  function _X(id: integer): float;
+  begin
+    result := vertexes[vids[id]].x / FRACUNIT;
+  end;
+
+  function _Y(id: integer): float;
+  begin
+    result := vertexes[vids[id]].y / FRACUNIT;
+  end;
+
+  function _floor(id: integer): float;
+  var
+    vid: integer;
+  begin
+    vid := vids[id];
+    if udmfvertexes[vid].extraflags and UDMF_VF_ZFLOOR <> 0 then
+      result := udmfvertexes[vid].zfloor / FRACUNIT
+    else
+      result := sec.floorheight / FRACUNIT;
+  end;
+
+  function _ceiling(id: integer): float;
+  var
+    vid: integer;
+  begin
+    vid := vids[id];
+    if udmfvertexes[vid].extraflags and UDMF_VF_ZCEILING <> 0 then
+      result := udmfvertexes[vid].zceiling / FRACUNIT
+    else
+      result := sec.ceilingheight / FRACUNIT;
+  end;
+
+begin
+  sec := @sectors[secid];
+  if sec.linecount <> 3 then
+    exit;
+
+  vids := TDNumberList.Create;
+
+  for i := 0 to 2 do
+  begin
+    v := pDiff(sec.lines[i].v1, vertexes, SizeOf(vertex_t));
+    if vids.IndexOf(v) < 0 then
+      vids.Add(v);
+    v := pDiff(sec.lines[i].v2, vertexes, SizeOf(vertex_t));
+    if vids.IndexOf(v) < 0 then
+      vids.Add(v);
+  end;
+
+  if vids.Count <> 3 then // Not closed sector ?
+  begin
+    vids.Free;
+    exit;
+  end;
+
+  for i := 0 to vids.Count - 1 do
+    if vids[i] >= numudmfvertexes then  // Extra vertexes from ???
+    begin
+      vids.Free;
+      exit;
+    end;
+
+  // Check floor slope
+  isslope := false;
+  for i := 0 to 2 do
+    if udmfvertexes[vids[i]].extraflags and UDMF_VF_ZFLOOR <> 0 then
+    begin
+      isslope := true;
+      break;
+    end;
+
+  if isslope then
+  begin
+    calc_slope_plane(
+      _X(0), _Y(0), _floor(0),
+      _X(1), _Y(1), _floor(1),
+      _X(2), _Y(2), _floor(2),
+      a, b, c, d
+    );
+    sec.fa := a;
+    sec.fb := b;
+    sec.fic := 1 / c;
+    sec.fd := d;
+    sec.renderflags := sec.renderflags or SRF_SLOPEFLOOR;
+    P_SlopesAlignPlane(sec, nil, SRF_SLOPEFLOOR, false);
+    sec.slopeline := sec.lines[0];
+    sec.slopeline.renderflags := sec.slopeline.renderflags or LRF_SLOPED;
+  end;
+
+  // Check ceiling slope
+  isslope := false;
+  for i := 0 to 2 do
+    if udmfvertexes[vids[i]].extraflags and UDMF_VF_ZCEILING <> 0 then
+    begin
+      isslope := true;
+      break;
+    end;
+
+  if isslope then
+  begin
+    calc_slope_plane(
+      _X(0), _Y(0), _ceiling(0),
+      _X(1), _Y(1), _ceiling(1),
+      _X(2), _Y(2), _ceiling(2),
+      a, b, c, d
+    );
+    sec.ca := a;
+    sec.cb := b;
+    sec.cic := 1 / c;
+    sec.cd := d;
+    sec.renderflags := sec.renderflags or SRF_SLOPECEILING;
+    P_SlopesAlignPlane(sec, nil, SRF_SLOPECEILING, false);
+    sec.slopeline := sec.lines[0];
+    sec.slopeline.renderflags := sec.slopeline.renderflags or LRF_SLOPED;
+  end;
+
+  vids.Free;
 end;
 
 procedure UDMF_DoMakeSector(const secid: integer);
@@ -1278,10 +1464,12 @@ begin
   end;
 
   for i := 0 to numudmfsectors - 1 do
+  begin
     UDMF_DoMakeSector(i);
+    UDMF_DoMakeAbsoluteHeights(i);
+  end;
 
   result := true;
-
 end;
 
 end.
