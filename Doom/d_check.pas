@@ -59,13 +59,14 @@ type
   end;
 
 const
-  NUMIWADDETECTITEMS = 12;
+  NUMIWADDETECTITEMS = 13;
   iwadtbl: array[0..NUMIWADDETECTITEMS - 1] of iwaddetect_t = (
     (crc32: '723e60f9'; numlumps: 2194; size: 11159840; version: exe_doom_1_9; customgame: cg_none; savepath: 'doom'),      // registered
     (crc32: 'bf0eaac0'; numlumps: 2306; size: 12408292; version: exe_ultimate; customgame: cg_none; savepath: 'doomu'),     // Ultimate
     (crc32: 'ff1ba733'; numlumps: 2318; size: 12538385; version: exe_ultimate; customgame: cg_none; savepath: 'doomx'),     // Ultimate X-box
     (crc32: '5efa677e'; numlumps: 2312; size: 12487824; version: exe_ultimate; customgame: cg_none; savepath: 'doombfg'),   // Ultimate BFG
     (crc32: '162b696a'; numlumps: 1264; size:  4196020; version: exe_ultimate; customgame: cg_none; savepath: 'doom1'),     // shareware 1.9
+    (crc32: '27eaae69'; numlumps: 2914; size: 14607420; version: exe_doom_1_8; customgame: cg_none; savepath: 'doom2f'),    // Doom2 1.8 french
     (crc32: 'ec8725db'; numlumps: 2919; size: 14604584; version: exe_doom_1_9; customgame: cg_none; savepath: 'doom2'),     // Doom2 1.9
     (crc32: '927a778a'; numlumps: 2935; size: 14691821; version: exe_doom_1_9; customgame: cg_bfg2; savepath: 'doom2bfg'),  // Doom2 BFG
     (crc32: '903dcc27'; numlumps: 3101; size: 18195736; version: exe_final2;   customgame: cg_none; savepath: 'tnt'),       // TNT
@@ -361,10 +362,12 @@ begin
   else
     numlmps := wi.numlumps;
   f.Free;
+  crc32 := '';
   for i := 0 to NUMIWADDETECTITEMS - 1 do
     if (iwadtbl[i].size = size) and (iwadtbl[i].numlumps = numlmps) then
     begin
-      crc32 := GetCRC32(filename);
+      if crc32 = '' then
+        crc32 := GetCRC32(filename);
       if iwadtbl[i].crc32 = crc32 then
       begin
         gameversion := iwadtbl[i].version;
@@ -438,6 +441,13 @@ begin
     savepath := 'plutonia';
     exit;
   end;
+  // JVAL: DOOM2F
+  if sname = 'DOOM2F.WAD' then
+  begin
+    gameversion := exe_doom_1_8;
+    savepath := 'doom2f';
+    exit;
+  end;
   // JVAL: DOOM2
   if sname = 'DOOM2.WAD' then
   begin
@@ -491,10 +501,12 @@ begin
   else
     numlmps := wi.numlumps;
   f.Free;
+  crc32 := '';
   for i := 0 to NUMPWADDETECTITEMS - 1 do
     if (pwadtbl[i].size = size) and (pwadtbl[i].numlumps = numlmps) then
     begin
-      crc32 := GetCRC32(filename);
+      if crc32 = '' then
+        crc32 := GetCRC32(filename);
       if pwadtbl[i].crc32 = crc32 then
       begin
         savepath := pwadtbl[i].savepath;

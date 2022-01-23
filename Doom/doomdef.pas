@@ -92,6 +92,7 @@ type
   );
 
   GameVersion_t = (
+    exe_doom_1_8,   // Doom 2 French
     exe_doom_1_9,   // Doom 1.9: used for shareware, registered and commercial
     exe_hacx,       // Hacx executable (Doom 1.9 with patch applied)
     exe_ultimate,   // Ultimate Doom (retail)
