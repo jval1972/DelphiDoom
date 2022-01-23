@@ -342,7 +342,6 @@ const
 const
   // Vissprite render flags
   VSF_TRANSPARENCY = 1;
-//  VSF_DONTCLIP3DFLOOR = 2; // Caused problems with multiple 3d floors
 
 //
 // A SubSector.

@@ -541,7 +541,7 @@ begin
   if baseclip = -1 then
     baseclip := viewheight - 1;
 
-  dodepthbuffer := depthbufferactive;// and (renderflags and VSF_DONTCLIP3DFLOOR = 0);
+  dodepthbuffer := depthbufferactive;
   while column.topdelta <> $ff do
   begin
     // calculate unclipped screen coordinates
@@ -841,7 +841,7 @@ begin
   if baseclip = -1 then
     baseclip := viewheight - 1;
 
-  dodepthbuffer := depthbufferactive;// and (renderflags and VSF_DONTCLIP3DFLOOR = 0);
+  dodepthbuffer := depthbufferactive;
   while column.topdelta <> $ff do
   begin
     // calculate unclipped screen coordinates
@@ -1061,7 +1061,6 @@ begin
   else
     baseclip := viewheight - 1;
 
-// JVAL: batch column drawing
   xiscale := vis.xiscale;
   dc_x := vis.x1;
 
@@ -1072,7 +1071,7 @@ begin
   else
     dmcproc := @R_DrawMaskedColumn;
 
-  if ({(vis.renderflags and VSF_DONTCLIP3DFLOOR = 0) and }depthbufferactive) or (xiscale > FRACUNIT div 2) or (xiscale < -FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchcolfunc)) then
+  if depthbufferactive or (xiscale > FRACUNIT div 2) or (xiscale < -FRACUNIT div 2) or not optimizedthingsrendering or not Assigned(batchcolfunc) then
   begin
     while dc_x <= vis.x2 do
     begin
@@ -1086,7 +1085,7 @@ begin
     R_SpriteRenderMT;
   end
   else
-  begin
+  begin // JVAL: batch column drawing
     if do_mt and Assigned(batchspritefunc_mt) then
       dmcproc_batch := @R_DrawMaskedColumn_BatchMT
     else
@@ -1211,7 +1210,7 @@ begin
   end;
 
   dc_x := x1;
-  if depthbufferactive or (fracstep > FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchlightcolfunc)) then
+  if depthbufferactive or (fracstep > FRACUNIT div 2) or not optimizedthingsrendering or not Assigned(batchlightcolfunc) then
   begin
     while dc_x <= x2 do
     begin
@@ -1366,7 +1365,6 @@ var
   sprlights: PBytePArray; // JVAL: 3d floors
   scaledtop: fixed_t;
   vr3: fixed_t;
-//  donclip3dfloor: boolean;
 {$ENDIF}
   soffset, swidth: fixed_t;
   infoscale: fixed_t;
@@ -1663,7 +1661,6 @@ begin
   iscale := FixedDiv(FRACUNIT, xscale);
 
   // JVAL: 3d Floors
-//  donclip3dfloor := false;
   sprlights := spritelights;
   if hasExtrafloors then
   begin
@@ -1686,10 +1683,6 @@ begin
            vis.drawn := true;
       if vis.gz < mid.floorheight then
         sprlights := spritelights2;
-//      if thing.ceilingz < mid.ceilingheight then
-//        donclip3dfloor := viewz < mid.floorheight
-//      else if thing.floorz > mid.floorheight then
-//        donclip3dfloor := viewz > mid.ceilingheight;
     end;
   end;
 
@@ -1757,9 +1750,6 @@ begin
      (usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle in [mrs_translucent, mrs_add, mrs_subtract])) or
      (usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0)) then
     vis.renderflags := VSF_TRANSPARENCY;
-//  if donclip3dfloor then
-//    vis.renderflags := vis.renderflags or VSF_DONTCLIP3DFLOOR;
-
 {$ENDIF}
 
 {$IFDEF OPENGL}
@@ -1939,7 +1929,7 @@ begin
   vis.mobjflags_ex := 0;
   vis.mobjflags2_ex := 0;
   vis.mo := viewplayer.mo;
-  vis.texturemid := (BASEYCENTER * FRACUNIT) {+ FRACUNIT div 2} - (psp.sy - spritetopoffset[lump]);
+  vis.texturemid := (BASEYCENTER * FRACUNIT) - (psp.sy - spritetopoffset[lump]);
   if viewplayer.mo <> nil then
     vis.texturemid := vis.texturemid + viewplayer.mo.spriteDY;
 
