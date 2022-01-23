@@ -206,6 +206,7 @@ Savepath for DOOM2F.WAD (French version).
 XMI (Extended midi), CMF (Creative music file) & SOP (Sopepos) music support.
 Brain final boss save/load consistancy. Also removed limit of only 32 boss spots.
 Added A_BrainAwakeVanilla() & A_BrainSpitVanilla() ACTORDEF functions.
+Use the carret ("^") instead of slash ("\") while searching for external textures for sprites (OpenGL).
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

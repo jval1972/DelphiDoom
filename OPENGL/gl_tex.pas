@@ -1292,6 +1292,17 @@ var
   i: integer;
   buffer: PByteArray;
   trans: PByteArray;
+
+  function _fix_sprite_name(const sname: string): string;
+  var
+    x: integer;
+  begin
+    result := sname;
+    for x := 1 to Length(result) do
+      if result[x] = '\' then
+        result[x] := '^';
+  end;
+
 begin
   if (gltexture = last_gltexture) and (cm = last_cm) and (last_ripple = -1) then
     exit;
@@ -1317,7 +1328,7 @@ begin
 
   if cm = Ord(CR_DEFAULT) then
   begin
-    if gld_LoadHiresTexture(gltexture, W_GetNameForNum(gltexture.index), -1) then
+    if gld_LoadHiresTexture(gltexture, _fix_sprite_name(W_GetNameForNum(gltexture.index)), -1) then
       exit;
     trans := nil;
   end

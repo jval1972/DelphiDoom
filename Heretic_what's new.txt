@@ -205,6 +205,7 @@ Added A_SetBloodColor(color: string) ACTORDEF function.
 Fix some problems with player movement clipping when landing on other actors.
 Emulates correctly the ripple effect in OpenGL mode.
 XMI (Extended midi), CMF (Creative music file) & SOP (Sopepos) music support.
+Use the carret ("^") instead of slash ("\") while searching for external textures for sprites (OpenGL).
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
