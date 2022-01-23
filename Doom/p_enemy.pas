@@ -1019,10 +1019,10 @@ begin
     exit;
   end;
 
-  nomissile := false;
   // check for missile attack
   if actor.info.missilestate <> 0 then
   begin
+    nomissile := false;
     if (gameskill < sk_nightmare) and not fastparm and (actor.movecount <> 0) then
       nomissile := true
     else if not P_CheckMissileRange(actor) then
