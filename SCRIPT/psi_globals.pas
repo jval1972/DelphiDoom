@@ -83,10 +83,16 @@ type
   protected
     function GetInteger(name: string): integer; virtual;
     procedure PutInteger(name: string; const value: integer); virtual;
+    function GetIntegerArray(name: string; index: integer): integer; virtual;
+    procedure PutIntegerArray(name: string; index: integer; const value: integer); virtual;
     function GetFloat(name: string): float; virtual;
     procedure PutFloat(name: string; const value: float); virtual;
+    function GetFloatArray(name: string; index: integer): float; virtual;
+    procedure PutFloatArray(name: string; index: integer; const value: float); virtual;
     function GetString(name: string): string; virtual;
     procedure PutString(name: string; const value: string); virtual;
+    function GetStringArray(name: string; index: integer): string; virtual;
+    procedure PutStringArray(name: string; index: integer; const value: string); virtual;
     function DoAddString(const name: string; const value: string): integer; virtual;
     function DoAddInteger(const name: string; const value: integer): integer; virtual;
     function DoAddFloat(const name: string; const value: float): integer; virtual;
@@ -103,8 +109,11 @@ type
     procedure SaveToFile(const fname: string);
     function StructureSize: integer;
     property IntVal[name: string]: integer read GetInteger write PutInteger;
+    property IntValArray[name: string; index: integer]: integer read GetIntegerArray write PutIntegerArray;
     property FloatVal[name: string]: float read GetFloat write PutFloat;
+    property FloatValArray[name: string; index: integer]: float read GetFloatArray write PutFloatArray;
     property StrVal[name: string]: string read GetString write PutString;
+    property StrValArray[name: string; index: integer]: string read GetStringArray write PutStringArray;
     property Strings: THashStringList read fStringList;
     property Integers: THashStringList read fIntegerList;
     property Floats: THashStringList read fFloatList;
@@ -528,6 +537,16 @@ begin
     (fIntegerList.Objects[idx] as TInteger).intnum := value;
 end;
 
+function TGlobalVariablesList.GetIntegerArray(name: string; index: integer): integer;
+begin
+  Result := GetInteger(sfmt(name + '[%d]', [index]));
+end;
+
+procedure TGlobalVariablesList.PutIntegerArray(name: string; index: integer; const value: integer);
+begin
+  PutInteger(sfmt(name + '[%d]', [index]), value);
+end;
+
 function TGlobalVariablesList.GetFloat(name: string): float;
 var
   uname: string;
@@ -562,6 +581,16 @@ begin
     (fFloatList.Objects[idx] as TFloat).floatnum := value;
 end;
 
+function TGlobalVariablesList.GetFloatArray(name: string; index: integer): float;
+begin
+  Result := GetFloat(sfmt(name + '[%d]', [index]));
+end;
+
+procedure TGlobalVariablesList.PutFloatArray(name: string; index: integer; const value: float);
+begin
+  PutFloat(sfmt(name + '[%d]', [index]), value);
+end;
+
 function TGlobalVariablesList.GetString(name: string): string;
 var
   uname: string;
@@ -588,6 +617,16 @@ begin
     DoAddString(uname, value)
   else
     (fStringList.Objects[idx] as TString).str := value;
+end;
+
+function TGlobalVariablesList.GetStringArray(name: string; index: integer): string;
+begin
+  Result := GetString(sfmt(name + '[%d]', [index]));
+end;
+
+procedure TGlobalVariablesList.PutStringArray(name: string; index: integer; const value: string);
+begin
+  PutString(sfmt(name + '[%d]', [index]), value);
 end;
 
 // Assumes name is in Uppercase and is not duplicate

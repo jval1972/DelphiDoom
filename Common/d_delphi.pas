@@ -134,6 +134,8 @@ var
 
 procedure sprintf(var s: string; const Fmt: string; const Args: array of const);
 
+function sfmt(const Fmt: string; const Args: array of const): string;
+
 procedure printf(const str: string); overload;
 
 procedure printf(const Fmt: string; const Args: array of const); overload;
@@ -793,6 +795,11 @@ uses
 procedure sprintf(var s: string; const Fmt: string; const Args: array of const);
 begin
   FmtStr(s, Fmt, Args);
+end;
+
+function sfmt(const Fmt: string; const Args: array of const): string;
+begin
+  FmtStr(result, Fmt, Args);
 end;
 
 procedure printf(const str: string);

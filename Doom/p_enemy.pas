@@ -220,6 +220,7 @@ uses
   p_pspr,
   p_sounds,
   ps_main,
+  psi_globals,
   r_defs,
   r_main;
 
@@ -2259,7 +2260,7 @@ var
   numbraintargets: integer;
   braintargeton: integer;
 
-procedure A_BrainAwake(mo: Pmobj_t);
+procedure A_BrainAwakeVanilla(mo: Pmobj_t);
 var
   thinker: Pthinker_t;
   m: Pmobj_t;
@@ -2277,13 +2278,54 @@ begin
       if m._type = Ord(MT_BOSSTARGET) then
       begin
         if numbraintargets >= MAXBRAINTARGETS then
-          I_Error('A_BrainAwake(): numbraintargets = %d >= MAXBRAINTARGETS', [numbraintargets]);
+          I_Error('A_BrainAwakeVanilla(): numbraintargets = %d >= MAXBRAINTARGETS', [numbraintargets]);
         braintargets[numbraintargets] := m;
         inc(numbraintargets);
       end;
     end;
     thinker := thinker.next;
   end;
+
+  S_StartSound(nil, Ord(sfx_bossit));
+end;
+
+const
+  S_BRAINTARGETON = 'user_braintargeton';
+  S_NUMBRAINSTARGETS = 'user_numbrainstargets';
+  S_BRAINTARGETS = 'user_braintargets';
+
+procedure A_BrainAwake(mo: Pmobj_t);
+var
+  thinker: Pthinker_t;
+  m: Pmobj_t;
+  fnumbraintargets: integer;
+begin
+  if G_NeedsCompatibilityMode then
+  begin
+    A_BrainAwakeVanilla(mo);
+    Exit;
+  end;
+
+  // find all the target spots
+  fnumbraintargets := 0;
+  mapvars.IntVal[S_BRAINTARGETON] := 0;
+
+  thinker := thinkercap.next;
+  while Pointer(thinker) <> Pointer(@thinkercap) do
+  begin
+    if @thinker._function.acp1 = @P_MobjThinker then // is a mobj
+    begin
+      m := Pmobj_t(thinker);
+      if m._type = Ord(MT_BOSSTARGET) then
+      begin
+        mapvars.IntValArray[S_BRAINTARGETS, fnumbraintargets] := m.key;
+        inc(fnumbraintargets);
+      end;
+    end;
+    thinker := thinker.next;
+  end;
+
+  mapvars.IntVal[S_NUMBRAINSTARGETS] := fnumbraintargets;
 
   S_StartSound(nil, Ord(sfx_bossit));
 end;
@@ -2347,7 +2389,7 @@ end;
 var
   easy: integer = 0;
 
-procedure A_BrainSpit(mo: Pmobj_t);
+procedure A_BrainSpitVanilla(mo: Pmobj_t);
 var
   targ: Pmobj_t;
   newmobj: Pmobj_t;
@@ -2358,13 +2400,67 @@ begin
 
   if numbraintargets = 0 then // JVAL
   begin
-    A_BrainAwake(mo);
+    A_BrainAwakeVanilla(mo);
     exit;
   end;
 
   // shoot a cube at current target
   targ := braintargets[braintargeton];
   braintargeton := (braintargeton + 1) mod numbraintargets;
+
+  // spawn brain missile
+  newmobj := P_SpawnMissile(mo, targ, Ord(MT_SPAWNSHOT));
+  if newmobj = nil then
+    exit;
+
+  newmobj.target := targ;
+  newmobj.reactiontime := ((targ.y - mo.y) div newmobj.momy) div newmobj.state.tics;
+
+  S_StartSound(nil, Ord(sfx_bospit));
+end;
+
+procedure A_BrainSpit(mo: Pmobj_t);
+const
+  S_EASY = 'user_braineasy';
+var
+  targ: Pmobj_t;
+  newmobj: Pmobj_t;
+  fbraineasy: integer;
+  fbraintargeton: integer;
+  fnumbraintargets: integer;
+begin
+  if G_NeedsCompatibilityMode then
+  begin
+    A_BrainSpitVanilla(mo);
+    Exit;
+  end;
+
+  fbraineasy := mapvars.IntVal[S_EASY];
+  fbraineasy := fbraineasy xor 1;
+  mapvars.IntVal[S_EASY] := fbraineasy;
+  if (gameskill <= sk_easy) and (fbraineasy = 0) then
+    exit;
+
+  fnumbraintargets := mapvars.IntVal[S_NUMBRAINSTARGETS];
+
+  if fnumbraintargets = 0 then // JVAL
+  begin
+    A_BrainAwake(mo);
+    exit;
+  end;
+
+  // shoot a cube at current target
+  fbraintargeton := mapvars.IntVal[S_BRAINTARGETON];
+  fbraintargeton := GetIntegerInRange(fbraintargeton, 0, fnumbraintargets - 1);
+  targ := P_FindMobjFromKey(mapvars.IntValArray[S_BRAINTARGETS, fbraintargeton]);
+  if targ = nil then
+  begin
+    A_BrainAwake(mo);
+    exit;
+  end;
+
+  fbraintargeton := (fbraintargeton + 1) mod fnumbraintargets;
+  mapvars.IntVal[S_BRAINTARGETON] := fbraintargeton;
 
   // spawn brain missile
   newmobj := P_SpawnMissile(mo, targ, Ord(MT_SPAWNSHOT));
