@@ -352,7 +352,6 @@ procedure A_KBolt(actor: Pmobj_t);
 
 procedure A_KBoltRaise(actor: Pmobj_t);
 
-
 function A_RaiseMobj(actor: Pmobj_t): boolean;
 
 function A_SinkMobj(actor: Pmobj_t): boolean;

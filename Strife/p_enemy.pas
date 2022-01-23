@@ -2119,9 +2119,9 @@ begin
 
   // STRIFE-TODO: Needs verification. This switch is just weird.
   case choice of
-    0:  A_ProgrammerAttack(actor);
-    2:  A_FireSigilEOffshoot(actor);
-    3:  A_SpectreCAttack(actor);
+    0: A_ProgrammerAttack(actor);
+    2: A_FireSigilEOffshoot(actor);
+    3: A_SpectreCAttack(actor);
     4: A_SpectreDAttack(actor);
   end;
 {    5: // BUG: never used? wtf were they thinking?
