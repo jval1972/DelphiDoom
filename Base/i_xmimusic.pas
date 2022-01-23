@@ -22,7 +22,7 @@
 //
 // DESCRIPTION:
 //  Support for various midi formats:
-//   - XMI (Etended midi)
+//   - XMI (Extended midi)
 //   - CMF (Creative music file)
 //   - SOP (Sopepos)
 //
