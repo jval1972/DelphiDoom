@@ -137,6 +137,8 @@ procedure A_LoadShotgun2(player: Pplayer_t; psp: Ppspdef_t);
 
 procedure A_CloseShotgun2(player: Pplayer_t; psp: Ppspdef_t);
 
+procedure A_BrainAwakeVanilla(mo: Pmobj_t);
+
 procedure A_BrainAwake(mo: Pmobj_t);
 
 procedure A_BrainPain(mo: Pmobj_t);
@@ -146,6 +148,8 @@ procedure A_BrainScream(mo: Pmobj_t);
 procedure A_BrainExplode(mo: Pmobj_t);
 
 procedure A_BrainDie(mo: Pmobj_t);
+
+procedure A_BrainSpitVanilla(mo: Pmobj_t);
 
 procedure A_BrainSpit(mo: Pmobj_t);
 

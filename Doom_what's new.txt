@@ -205,6 +205,7 @@ Emulates correctly the ripple effect in OpenGL mode.
 Savepath for DOOM2F.WAD (French version).
 XMI (Etended midi), CMF (Creative music file) & SOP (Sopepos) music support.
 Brain final boss save/load consistancy.
+Added A_BrainAwakeVanilla() & A_BrainSpitVanilla() ACTORDEF functions.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
