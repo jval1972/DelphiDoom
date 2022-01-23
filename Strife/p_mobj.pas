@@ -1309,6 +1309,31 @@ begin
   P_ClearPlayerHistory(p);
   p.nextfire := 0;
 
+  // JVAL: 20220123 - Gravity & Health from UDMF
+  if uthing <> nil then
+  begin
+    if uthing.extraflags and UDMF_TF_HASGRAVITY <> 0 then
+    begin
+      if uthing.gravity < 0.0 then
+        p.mo.gravity := -Round(uthing.gravity * FRACUNIT)
+      else
+        p.mo.gravity := Round(p.mo.gravity * uthing.gravity);
+    end;
+    if uthing.extraflags and UDMF_TF_HASHEALTH <> 0 then
+    begin
+      if uthing.health < 0.0 then
+      begin
+        p.health := -Round(uthing.health);
+        p.mo.health := p.health;
+      end
+      else
+      begin
+        p.health := Round(p.health * uthing.health);
+        p.mo.health := p.health;
+      end
+    end;
+  end;
+
   // setup gun psprite
   P_SetupPsprites(p);
 
@@ -1571,6 +1596,25 @@ begin
     result.flags := result.flags or MF_SHADOW;
   if mthing.options and MTF_MVIS <> 0 then        // [STRIFE] Alt. Translucency
     result.flags := result.flags or MF_MVIS;
+
+  // JVAL: 20220123 - Gravity & Health from UDMF
+  if uthing <> nil then
+  begin
+    if uthing.extraflags and UDMF_TF_HASGRAVITY <> 0 then
+    begin
+      if uthing.gravity < 0.0 then
+        result.gravity := -Round(uthing.gravity * FRACUNIT)
+      else
+        result.gravity := Round(result.gravity * uthing.gravity);
+    end;
+    if uthing.extraflags and UDMF_TF_HASHEALTH <> 0 then
+    begin
+      if uthing.health < 0.0 then
+        result.health := -Round(uthing.health)
+      else
+        result.health := Round(result.health * uthing.health);
+    end;
+  end;
 end;
 
 //

@@ -64,12 +64,16 @@ const
   UDMF_TF_SKILL5 = $10;
   UDMF_TF_SKILL_MASK = $1F;
   UDMF_TF_HASZ = $20;
+  UDMF_TF_HASGRAVITY = $40;
+  UDMF_TF_HASHEALTH = $80;
 
 type
   extrathing_t = record
     extraflags: Integer;
     x, y, z: fixed_t;
     id: Integer;
+    gravity: float;
+    health: float;
   end;
   Pextrathing_t = ^extrathing_t;
   extrathing_tArray = array[0..$FFFF] of extrathing_t;
@@ -507,6 +511,18 @@ begin
             pthing.options := pthing.options or MTF_ALLY;
         end
         {$ENDIF}
+        else if (token = 'GRAVITY') then
+        begin
+          sc.MustGetFloat;
+          pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_HASGRAVITY;
+          pextrathing.gravity := sc._Float;
+        end
+        else if (token = 'HEALTH') then
+        begin
+          sc.MustGetFloat;
+          pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_HASHEALTH;
+          pextrathing.health := sc._Float;
+        end
         else if (token = 'COMMENT') then
         begin
           GetToken; // skip comment

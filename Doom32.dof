@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=test_zdoom_zfloor.wad
+RunParams=MAP01_TEST_UDMF.wad
 HostApplication=
 Launcher=
 UseLauncher=0
