@@ -239,6 +239,7 @@ begin
   fKeyWords.Add('LOOP');
   fKeyWords.Add('STOP');
   fKeyWords.Add('GOTO');
+  fKeyWords.Add('WAIT');
   fKeyWords.Add('SPAWN');
   fKeyWords.Add('SEE');
   fKeyWords.Add('MELEE');
@@ -249,8 +250,10 @@ begin
   fKeyWords.Add('RAISE');
   fKeyWords.Add('HEAL');
   fKeyWords.Add('CRASH');
+  fKeyWords.Add('CRUSH');
   fKeyWords.Add('INTERACT');
   fKeyWords.Add('BRIGHT');
+  fKeyWords.Add('FAST');
   fKeyWords.Add('INHERITS');
   fKeyWords.Add('INHERITSFROM');
   fKeyWords.Add('HEALTH');
@@ -289,6 +292,7 @@ begin
   fKeyWords.Add('SEE:');
   fKeyWords.Add('HEAL:');
   fKeyWords.Add('CRASH:');
+  fKeyWords.Add('CRUSH:');
   fKeyWords.Add('INTERACT:');
   fKeyWords.Add('MELEE:');
   fKeyWords.Add('MISSILE:');
@@ -296,7 +300,19 @@ begin
   fKeyWords.Add('DEATH:');
   fKeyWords.Add('XDEATH:');
   fKeyWords.Add('RAISE:');
+  fKeyWords.Add('WEAPON');
+  fKeyWords.Add('UP');
+  fKeyWords.Add('DOWN');
+  fKeyWords.Add('READY');
+  fKeyWords.Add('ATTACK');
+  fKeyWords.Add('HOLD');
+  fKeyWords.Add('FLASH');
+  fKeyWords.Add('RANDOMSELECT');
+  fKeyWords.Add('RANDOMRANGE');
   // Inline Script detectors
+  fKeyWords.Add('ACTORALIAS');
+  fKeyWords.Add('DEH_PARSE');
+  fKeyWords.Add('DEH_PARSE_ALL');
   fKeyWords.Add('SCRIPT');
   fKeyWords.Add('ENDSCRIPT');
   fKeyWords.Add('FOREVER');
