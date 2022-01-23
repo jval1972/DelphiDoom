@@ -826,7 +826,7 @@ begin
       pmapsector.lightlevel := 160;
       realloc(Pointer(fextrasectors), fnummapsectors * SizeOf(extrasector_t), (fnummapsectors + 1) * SizeOf(extrasector_t));
       pextrasector := @fextrasectors[fnummapsectors];
-      ZeroMemory(fextrasectors, SizeOf(extrasector_t));
+      ZeroMemory(pextrasector, SizeOf(extrasector_t));
       pextrasector.gravity := FRACUNIT;
       inc(fnummapsectors);
       GetToken; // _BEGINBLOCK
