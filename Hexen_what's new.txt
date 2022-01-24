@@ -219,6 +219,7 @@ The engine can use the zfloor & zceiling fields of vertexes in UDMF.
 Support for the health and gravity fields of things in UDMF.
 Prevent crash or undefined behavior when parsing MAPINFO lump.
 Displays the game mode sooner in startup screen.
+Default turbo scale set to 200.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

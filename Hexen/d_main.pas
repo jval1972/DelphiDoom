@@ -1716,7 +1716,7 @@ begin
   begin
     if p < myargc - 1 then
     begin
-      scale := atoi(myargv[p + 1]);
+      scale := atoi(myargv[p + 1], 200);
       if scale < 10 then
         scale := 10
       else if scale > 200 then
