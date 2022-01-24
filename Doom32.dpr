@@ -402,7 +402,8 @@ uses
   xmi_core in 'XMILIB\xmi_core.pas' {XMICore},
   xmi_iff in 'XMILIB\xmi_iff.pas',
   xmi_lib in 'XMILIB\xmi_lib.pas',
-  i_xmimusic in 'Base\i_xmimusic.pas';
+  i_xmimusic in 'Base\i_xmimusic.pas',
+  sc_defines in 'Base\sc_defines.pas';
 
 var
   Saved8087CW: Word;

@@ -190,6 +190,7 @@ uses
   s_sound,
   s_pk3sounds,
   sc_actordef,
+  sc_defines,
   sc_states,
   t_main,
   v_data,
@@ -1851,6 +1852,32 @@ begin
   end;
 end;
 
+procedure D_FillGameDefines;
+begin
+  SC_AddDefine('doom');
+
+  case gamemode of
+    shareware: begin SC_AddDefine('shareware'); SC_AddDefine('doom1'); end;
+    registered: begin SC_AddDefine('registered'); SC_AddDefine('doom1'); end;
+    commercial: begin SC_AddDefine('commercial'); SC_AddDefine('doom2'); end;
+    retail: begin SC_AddDefine('retail'); SC_AddDefine('doom1'); end;
+  end;
+
+  case gamemission of
+    doom2: SC_AddDefine('doom2');
+    pack_tnt: begin SC_AddDefine('doom2'); SC_AddDefine('tnt'); end;
+    pack_plutonia: begin SC_AddDefine('doom2'); SC_AddDefine('plutonia'); end;
+  end;
+
+  case customgame of
+    cg_chex: SC_AddDefine('chex');
+    cg_chex2: begin SC_AddDefine('chex'); SC_AddDefine('chex2'); end;
+    cg_hacx: SC_AddDefine('hacx');
+    cg_freedoom: SC_AddDefine('freedoom');
+    cg_bfg2: begin SC_AddDefine('bfg'); SC_AddDefine('bfg2'); end;
+  end;
+end;
+
 //
 // D_DoomMain
 //
@@ -2211,6 +2238,12 @@ begin
   end;
 
   D_CheckInteterminedMode;
+
+  SUC_Progress(38);
+
+  printf('SC_InitGameDefines: Determine global defines.'#13#10);
+  SC_InitGameDefines;;
+  D_FillGameDefines;
 
   SUC_Progress(39);
 
@@ -2603,6 +2636,8 @@ begin
   M_ShutDownMenus;
   printf('SC_ShutDown: Shut down script engine.'#13#10);
   SC_ShutDown;
+  printf('SC_ShutDownGameDefines: Shut down global defines.'#13#10);
+  SC_ShutDownGameDefines;
   // JVAL: PascalScript
   printf('PS_ShutDown: Shut down pascal script compiler.'#13#10);
   PS_ShutDown;

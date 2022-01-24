@@ -396,7 +396,8 @@ uses
   p_playertrace in 'Base\p_playertrace.pas',
   p_friends in 'Base\p_friends.pas',
   sounddata in 'Doom\sounddata.pas',
-  r_translations in 'Base\r_translations.pas';
+  r_translations in 'Base\r_translations.pas',
+  sc_defines in 'Base\sc_defines.pas';
 
 exports
   dd_compile_heretic,

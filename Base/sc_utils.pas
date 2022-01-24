@@ -44,6 +44,7 @@ uses
   {$IFDEF DOOM}
   g_game,
   {$ENDIF}
+  sc_defines,
   sc_engine,
   w_pak;
 
@@ -55,6 +56,7 @@ var
   depth: integer;
   i: integer;
   decoded_text: string;
+  ppc: TDefinesPreprocessor;
 
   function SC_DoPreprocess(const in_text: string): string;
   var
@@ -147,6 +149,12 @@ begin
       decoded_text := decoded_text + inp_text[i];
   result := SC_DoPreprocess(decoded_text);
   includes.Free;
+
+  ppc := TDefinesPreprocessor.Create;
+  for i := 0 to gamedefines.Count - 1 do
+    ppc.AddDefine(gamedefines.Strings[i]);
+  result := ppc.Preprocess(result);
+  ppc.Free;
 end;
 
 end.

@@ -77,6 +77,15 @@ type
     function Preprocess(const inp: string): string;
   end;
 
+var
+  gamedefines: TStringList;
+
+procedure SC_InitGameDefines;
+
+procedure SC_ShutDownGameDefines;
+
+procedure SC_AddDefine(const adef: string);
+
 implementation
 
 uses
@@ -280,6 +289,25 @@ begin
   result := sout.Text;
   sinp.Free;
   sout.Free;
+end;
+
+procedure SC_InitGameDefines;
+begin
+  gamedefines := TStringList.Create;
+end;
+
+procedure SC_ShutDownGameDefines;
+begin
+  gamedefines.Free;
+end;
+
+procedure SC_AddDefine(const adef: string);
+var
+  udef: string;
+begin
+  udef := UpperCase(adef);
+  if gamedefines.IndexOf(udef) < 0 then
+    gamedefines.Add(udef);
 end;
 
 end.

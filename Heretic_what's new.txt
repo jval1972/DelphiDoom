@@ -210,6 +210,7 @@ The engine can use the zfloor & zceiling fields of vertexes in UDMF.
 Support for the health and gravity fields of things in UDMF.
 Displays the game mode sooner in startup screen.
 Default turbo scale set to 200.
+Process C lang style defines and conditions in custom content.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

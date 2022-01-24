@@ -1766,6 +1766,15 @@ begin
         SUC_SetGameMode('Shareware Strife (DEMO)');
     end;
   end;
+
+procedure D_FillGameDefines;
+begin
+  SC_AddDefine('strife');
+  if (teaser = 1) or (teaser = 2) then SC_AddDefine('teaser');
+  if gamemode = shareware then
+    SC_AddDefine('shareware')
+  else
+    SC_AddDefine('registered');
 end;
 
 //
@@ -2067,6 +2076,12 @@ begin
   end;
 
   D_CheckInteterminedMode;
+
+  SUC_Progress(38);
+
+  printf('SC_InitGameDefines: Determine global defines.'#13#10);
+  SC_InitGameDefines;;
+  D_FillGameDefines;
 
   SUC_Progress(39);
 
@@ -2435,6 +2450,8 @@ begin
   T_ShutDown;
   printf('SC_ShutDown: Shut down script engine.'#13#10);
   SC_ShutDown;
+  printf('SC_ShutDownGameDefines: Shut down global defines.'#13#10);
+  SC_ShutDownGameDefines;
   // JVAL: PascalScript
   printf('PS_ShutDown: Shut down pascal script compiler.'#13#10);
   PS_ShutDown;

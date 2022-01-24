@@ -1607,6 +1607,17 @@ begin
   end;
 end;
 
+procedure D_FillGameDefines;
+begin
+  SC_AddDefine('heretic');
+
+  case gamemode of
+    extendedwad: SC_AddDefine('extented');
+    registered: SC_AddDefine('registered');
+    shareware: SC_AddDefine('shareware');
+  end;
+end;
+
 //
 // D_DoomMain
 //
@@ -1901,6 +1912,12 @@ begin
   end;
 
   D_CheckInteterminedMode;
+
+  SUC_Progress(38);
+
+  printf('SC_InitGameDefines: Determine global defines.'#13#10);
+  SC_InitGameDefines;;
+  D_FillGameDefines;
 
   SUC_Progress(39);
 
@@ -2260,6 +2277,8 @@ begin
   T_ShutDown;
   printf('SC_ShutDown: Shut down script engine.'#13#10);
   SC_ShutDown;
+  printf('SC_ShutDownGameDefines: Shut down global defines.'#13#10);
+  SC_ShutDownGameDefines;
   // JVAL: PascalScript
   printf('PS_ShutDown: Shut down pascal script compiler.'#13#10);
   PS_ShutDown;

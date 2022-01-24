@@ -206,6 +206,7 @@ Use the carret ("^") instead of slash ("\") while searching for external texture
 The engine can use the zfloor & zceiling fields of vertexes in UDMF.
 Support for the health and gravity fields of things in UDMF.
 Displays the game mode sooner in startup screen.
+Process C lang style defines and conditions in custom content.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
