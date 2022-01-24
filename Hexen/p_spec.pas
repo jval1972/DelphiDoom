@@ -450,7 +450,7 @@ end;
 //
 function getNextSector(line: Pline_t; sec: Psector_t): Psector_t;
 begin
-  if (line.flags and ML_TWOSIDED) = 0 then
+  if line.flags and ML_TWOSIDED = 0 then
     result := nil
   else
   begin

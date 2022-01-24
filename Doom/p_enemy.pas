@@ -1438,7 +1438,7 @@ var
   dest: Pmobj_t;
   th: Pmobj_t;
 begin
-  if ((gametic - demostarttic) and 3) <> 0 then // [crispy] fix revenant internal demo bug
+  if (gametic - demostarttic) and 3 <> 0 then // [crispy] fix revenant internal demo bug
     exit;
 
   // spawn a puff of smoke behind the rocket

@@ -1061,8 +1061,8 @@ var
 
 procedure P_RemoveMobj(mobj: Pmobj_t);
 begin
-  if ((mobj.flags and MF_SPECIAL) <> 0) and
-     ((mobj.flags and MF_DROPPED) = 0) and
+  if (mobj.flags and MF_SPECIAL <> 0) and
+     (mobj.flags and MF_DROPPED = 0) and
      (mobj._type <> Ord(MT_INV)) and
      (mobj._type <> Ord(MT_INS)) then
   begin

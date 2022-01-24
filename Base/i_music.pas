@@ -366,7 +366,7 @@ begin
     if delta = -1 then
     begin
       delta := 0;
-      while (score[spos] and 128) <> 0 do
+      while score[spos] and 128 <> 0 do
       begin
         delta := _SHL(delta, 7);
         delta := delta + score[spos] and 127;

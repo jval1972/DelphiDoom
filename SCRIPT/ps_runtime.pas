@@ -2947,7 +2947,7 @@ var
         LoadProcs := False;
         Exit;
       end;
-      if (Rec.Flags and 1) <> 0 then
+      if Rec.Flags and 1 <> 0 then
       begin
         Curr := TPSExternalProcRec.Create(Self);
         if not DoRead(b, 1) then
@@ -3018,7 +3018,7 @@ var
         GetMem(TPSInternalProcRec(Curr).FData, L3);
         Move(s[L2 + 1], TPSInternalProcRec(Curr).FData^, L3);
         TPSInternalProcRec(Curr).FLength := L3;
-        if (Rec.Flags and 2) <> 0 then
+        if Rec.Flags and 2 <> 0 then
         begin // exported
           if not DoRead(L3, 4) then
           begin
@@ -3067,7 +3067,7 @@ var
           TPSInternalProcRec(Curr).FExportNameHash := MakeHash(TPSInternalProcRec(Curr).ExportName);
         end;
       end;
-      if (Rec.Flags and 4) <> 0 then
+      if Rec.Flags and 4 <> 0 then
       begin
         if not ReadAttributes(Curr.Attributes) then
         begin
@@ -3111,7 +3111,7 @@ var
         LoadVars := False;
         Exit;
       end;
-      if (Rec.Flags and 1) <> 0 then
+      if Rec.Flags and 1 <> 0 then
       begin
         if not DoRead(n, 4) then
         begin

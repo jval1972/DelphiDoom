@@ -368,7 +368,7 @@ begin
           fFiles.Objects[fFiles.Add(str)] :=
             TZipFileEntryInfo.Create(h.UnCompressedSize, h.CompressedSize,
               f.Position + h.ExtraFieldLen, h.CompressionMethod > 0);
-          if (h.BitFlag and $4) <> 0 then
+          if h.BitFlag and $4 <> 0 then
             f.Seek(h.ExtraFieldLen + h.CompressedSize + SizeOf(TZipFileDescriptor), sFromCurrent)
           else
             f.Seek(h.ExtraFieldLen + h.CompressedSize, sFromCurrent);
