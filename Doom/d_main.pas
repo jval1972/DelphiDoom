@@ -1955,11 +1955,11 @@ begin
             [VERSION div 100, 2, VERSION mod 100]);
       end;
   else
-      printf(
-         '                         ' +
-         'Public DOOM - v%d.%.*d' +
-         '                           '#13#10,
-          [VERSION div 100, 2, VERSION mod 100]);
+    printf(
+           '                         ' +
+           'Public DOOM - v%d.%.*d' +
+           '                           '#13#10,
+            [VERSION div 100, 2, VERSION mod 100]);
   end;
 
   if devparm then
