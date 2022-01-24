@@ -1319,223 +1319,11 @@ begin
   end;
 end;
 
-//
-// D_DoomMain
-//
-procedure D_DoomMain;
+procedure D_CheckCommonParams;
 var
   p: integer;
-  filename: string;
-  scale: integer;
-  _time: integer;
-  s_error: string;
-  i: integer;
-  j: integer;
-  oldoutproc: TOutProc;
-  mb_min: integer; // minimum zone size
   s1, s2: string;
-  kparm: string;
 begin
-  SUC_Open;
-  outproc := @SUC_Outproc;
-  wadfiles := TDSTringList.Create;
-
-  printf('Starting %s, %s'#13#10, [D_Version, D_VersionBuilt]);
-{$IFNDEF OPENGL}
-  C_AddCmd('tnthom, hom', @D_CmdHOM);
-{$ENDIF}
-  C_AddCmd('ver, version', @D_CmdVersion);
-  C_AddCmd('addpakfile, loadpakfile, addpak, loadpak', @D_CmdAddPakFile);
-  C_AddCmd('startthinkers', @D_StartThinkers);
-  C_AddCmd('stopthinkers', @D_StopThinkers);
-
-  SUC_Progress(1);
-
-  printf('M_InitArgv: Initializing command line parameters.'#13#10);
-  M_InitArgv;
-
-  SUC_Progress(2);
-
-  FindResponseFile;
-
-  printf('I_InitializeIO: Initializing input/output streams.'#13#10);
-  I_InitializeIO;
-
-  printf('I_InitTempFiles: Initializing temporary file managment.'#13#10);
-  I_InitTempFiles;
-
-  SUC_Progress(3);
-
-  D_AddSystemWAD; // Add system wad first
-
-  SUC_Progress(5);
-
-  IdentifyVersion;
-
-  modifiedgame := false;
-
-  nomonsters := M_CheckParm('-nomonsters') > 0;
-  respawnparm := M_CheckParm('-respawn') > 0;
-  fastparm := M_CheckParm('-fast') > 0;
-  devparm := M_CheckParm('-devparm') > 0;
-
-  SUC_Progress(6);
-
-  if M_CheckParm('-altdeath') > 0 then
-    deathmatch := 2
-  else if M_CheckParm('-deathmatch') > 0 then
-    deathmatch := 1;
-
-  if gamemode = shareware then
-    printf(
-           '                           ' +
-           'Heretic Shareware Startup v%d.%.*d' +
-           '                         '#13#10,
-            [VERSION div 100, 2, VERSION mod 100])
-  else
-    printf(
-           '                            ' +
-           '   Heretic Startup v%d.%.*d' +
-           '                           '#13#10,
-            [VERSION div 100, 2, VERSION mod 100]);
-
-  if devparm then
-    printf(D_DEVSTR);
-
-  if M_CheckParmCDROM then
-  begin
-    printf(D_CDROM);
-    basedefault := CD_WORKDIR + 'Heretic32.ini';
-  end;
-
-  // turbo option
-  p := M_CheckParm('-turbo');
-  if p <> 0 then
-  begin
-    if p < myargc - 1 then
-    begin
-      scale := atoi(myargv[p + 1]);
-      if scale < 10 then
-        scale := 10
-      else if scale > 200 then
-        scale := 200;
-    end
-    else
-      scale := 200;
-    printf(' turbo scale: %d'#13#10, [scale]);
-    forwardmove[0] := forwardmove[0] * scale div 100;
-    forwardmove[1] := forwardmove[1] * scale div 100;
-    sidemove[0] := sidemove[0] * scale div 100;
-    sidemove[1] := sidemove[1] * scale div 100;
-  end;
-
-
-  SUC_Progress(7);
-
-  // add any files specified on the command line with -file wadfile
-  // to the wad list
-  //
-  // convenience hack to allow -wart e m to add a wad file
-  // prepend a tilde to the filename so wadfile will be reloadable
-  p := M_CheckParm('-wart');
-  if (p <> 0) and (p < myargc - 2) then
-  begin
-    myargv[p][5] := 'p';     // big hack, change to -warp
-
-  // Map name handling.
-    if p < myargc - 2 then
-    begin
-      sprintf(filename, '~' + DEVMAPS + 'E%sM%s.wad',
-        [myargv[p + 1][1], myargv[p + 2][1]]);
-      filename := D_FileInDoomPath(filename);
-      printf('Warping to Episode %s, Map %s.'#13#10,
-      [myargv[p + 1], myargv[p + 2]]);
-    end;
-
-    D_AddFile(filename);
-  end;
-
-  SUC_Progress(8);
-
-  D_AddWADFiles('-file');
-  for p := 1 to 9 do
-    D_AddWADFiles('-file' + itoa(p));
-  D_AddWADFiles('-lfile');  // JVAL launcher specific
-
-  SUC_Progress(9);
-
-  printf('PAK_InitFileSystem: Init PAK/ZIP/PK3/PK4 files.'#13#10);
-  PAK_InitFileSystem;
-
-  SUC_Progress(10);
-
-  PAK_LoadPendingPaks;
-
-  SUC_Progress(15);
-
-  D_AddPAKFiles('-pakfile');
-  for p := 1 to 9 do
-    D_AddPAKFiles('-pakfile' + itoa(p));
-  D_AddPAKFiles('-lpakfile'); // JVAL launcher specific
-
-  SUC_Progress(16);
-
-  p := M_CheckParm('-playdemo');
-
-  if p = 0 then
-    p := M_CheckParm('-timedemo');
-
-  if (p <> 0) and (p < myargc - 1) then
-  begin
-    inc(p);
-    if Pos('.', myargv[p]) > 0 then
-      filename := myargv[p]
-    else
-      sprintf(filename,'%s.lmp', [myargv[p]]);
-    D_AddFile(filename);
-    printf('Playing demo %s.'#13#10, [filename]);
-  end;
-
-  // get skill / episode / map from parms
-  startskill := sk_medium;
-  startepisode := 1;
-  startmap := 1;
-  autostart := false;
-
-  p := M_CheckParm('-skill');
-  if (p <> 0) and (p < myargc - 1) then
-  begin
-    startskill := skill_t(Ord(myargv[p + 1][1]) - Ord('1'));
-    autostart := true;
-  end;
-
-  p := M_CheckParm('-episode');
-  if (p <> 0) and (p < myargc - 1) then
-  begin
-    startepisode := atoi(myargv[p + 1]);
-    startmap := 1;
-    autostart := true;
-  end;
-
-  p := M_CheckParm('-timer');
-  if (p <> 0) and (p < myargc - 1) and (deathmatch <> 0) then
-  begin
-    _time := atoi(myargv[p + 1]);
-    printf('Levels will end after %d minute' + decide(_time > 1, 's', '') + #13#10, [_time]);
-  end;
-
-  p := M_CheckParm('-avg');
-  if (p <> 0) and (p <= myargc - 1) and (deathmatch <> 0) then
-    printf('Austin Virtual Gaming: Levels will end after 20 minutes'#13#10);
-
-  printf('M_LoadDefaults: Load system defaults.'#13#10);
-  M_LoadDefaults;              // load before initing other systems
-
-  D_WadsAutoLoad(wads_autoload);
-  D_PaksAutoload(paks_autoload);
-
-  SUC_Progress(20);
-
   p := M_CheckParm('-fullscreen');
   if (p <> 0) and (p <= myargc - 1) then
     fullscreen := {$IFDEF OPENGL}true{$ELSE}FULLSCREEN_SHARED{$ENDIF};
@@ -1638,18 +1426,12 @@ begin
   if (p <> 0) and (p <= myargc - 1) then
     usejoystick := true;
 
-  {$IFNDEF OPENGL}
-//  SCREENWIDTH := WINDOWWIDTH;
-  {$ENDIF}
   p := M_CheckParm('-screenwidth');
   if (p <> 0) and (p < myargc - 1) then
     SCREENWIDTH := atoi(myargv[p + 1]);
   if SCREENWIDTH > MAXWIDTH then
     SCREENWIDTH := MAXWIDTH;
 
-  {$IFNDEF OPENGL}
-//  SCREENHEIGHT := WINDOWHEIGHT;
-  {$ENDIF}
   p := M_CheckParm('-screenheight');
   if (p <> 0) and (p < myargc - 1) then
     SCREENHEIGHT := atoi(myargv[p + 1]);
@@ -1764,10 +1546,6 @@ begin
   p := M_CheckParm('-autoscreenshot');
   autoscreenshot := p > 0;
 
-//  I_RestoreWindowPos;
-
-  SUC_Progress(25);
-
   nodrawers := M_CheckParm('-nodraw') <> 0;
   noblit := M_CheckParm('-noblit') <> 0;
   norender := M_CheckParm('-norender') <> 0;
@@ -1796,6 +1574,255 @@ begin
     chasecamera := true;
   if M_CheckParm('-nochasecamera') <> 0 then
     chasecamera := false;
+end;
+
+procedure D_CheckInteterminedMode;
+begin
+  if gamemode = indetermined then
+  begin
+    if W_CheckNumForName('e5m1') <> -1 then
+    begin
+      gamemode := extendedwad;
+    end
+    else if W_CheckNumForName('e3m1') <> -1 then
+    begin
+      gamemode := registered;
+    end
+    else
+    begin
+      gamemode := shareware;
+    end
+  end;
+
+  if W_CheckNumForName('e1m4') = -1 then
+  begin
+    gamemode := shareware;
+    customgame := cg_beta;
+  end;
+
+  case gamemode of
+    extendedwad: SUC_SetGameMode('Heretic: Extented Version');
+    registered: SUC_SetGameMode('Registered Heretic');
+    shareware: if customgame = cg_beta then SUC_SetGameMode('HERETIC - WIDE AREA BETA') else SUC_SetGameMode('Shareware Heretic');
+  end;
+end;
+
+//
+// D_DoomMain
+//
+procedure D_DoomMain;
+var
+  p: integer;
+  filename: string;
+  scale: integer;
+  _time: integer;
+  s_error: string;
+  i: integer;
+  j: integer;
+  oldoutproc: TOutProc;
+  mb_min: integer; // minimum zone size
+  kparm: string;
+begin
+  SUC_Open;
+  outproc := @SUC_Outproc;
+  wadfiles := TDSTringList.Create;
+
+  printf('Starting %s, %s'#13#10, [D_Version, D_VersionBuilt]);
+{$IFNDEF OPENGL}
+  C_AddCmd('tnthom, hom', @D_CmdHOM);
+{$ENDIF}
+  C_AddCmd('ver, version', @D_CmdVersion);
+  C_AddCmd('addpakfile, loadpakfile, addpak, loadpak', @D_CmdAddPakFile);
+  C_AddCmd('startthinkers', @D_StartThinkers);
+  C_AddCmd('stopthinkers', @D_StopThinkers);
+
+  SUC_Progress(1);
+
+  printf('M_InitArgv: Initializing command line parameters.'#13#10);
+  M_InitArgv;
+
+  SUC_Progress(2);
+
+  FindResponseFile;
+
+  printf('I_InitializeIO: Initializing input/output streams.'#13#10);
+  I_InitializeIO;
+
+  printf('I_InitTempFiles: Initializing temporary file managment.'#13#10);
+  I_InitTempFiles;
+
+  SUC_Progress(3);
+
+  D_AddSystemWAD; // Add system wad first
+
+  SUC_Progress(5);
+
+  IdentifyVersion;
+
+  modifiedgame := false;
+
+  nomonsters := M_CheckParm('-nomonsters') > 0;
+  respawnparm := M_CheckParm('-respawn') > 0;
+  fastparm := M_CheckParm('-fast') > 0;
+  devparm := M_CheckParm('-devparm') > 0;
+
+  SUC_Progress(6);
+
+  if M_CheckParm('-altdeath') > 0 then
+    deathmatch := 2
+  else if M_CheckParm('-deathmatch') > 0 then
+    deathmatch := 1;
+
+  if gamemode = shareware then
+    printf(
+           '                           ' +
+           'Heretic Shareware Startup v%d.%.*d' +
+           '                         '#13#10,
+            [VERSION div 100, 2, VERSION mod 100])
+  else
+    printf(
+           '                            ' +
+           '   Heretic Startup v%d.%.*d' +
+           '                           '#13#10,
+            [VERSION div 100, 2, VERSION mod 100]);
+
+  if devparm then
+    printf(D_DEVSTR);
+
+  if M_CheckParmCDROM then
+  begin
+    printf(D_CDROM);
+    basedefault := CD_WORKDIR + 'Heretic32.ini';
+  end;
+
+  // turbo option
+  p := M_CheckParm('-turbo');
+  if p <> 0 then
+  begin
+    if p < myargc - 1 then
+    begin
+      scale := atoi(myargv[p + 1]);
+      if scale < 10 then
+        scale := 10
+      else if scale > 200 then
+        scale := 200;
+    end
+    else
+      scale := 200;
+    printf(' turbo scale: %d'#13#10, [scale]);
+    forwardmove[0] := forwardmove[0] * scale div 100;
+    forwardmove[1] := forwardmove[1] * scale div 100;
+    sidemove[0] := sidemove[0] * scale div 100;
+    sidemove[1] := sidemove[1] * scale div 100;
+  end;
+
+  SUC_Progress(7);
+
+  // add any files specified on the command line with -file wadfile
+  // to the wad list
+  //
+  // convenience hack to allow -wart e m to add a wad file
+  // prepend a tilde to the filename so wadfile will be reloadable
+  p := M_CheckParm('-wart');
+  if (p <> 0) and (p < myargc - 2) then
+  begin
+    myargv[p][5] := 'p';     // big hack, change to -warp
+
+  // Map name handling.
+    if p < myargc - 2 then
+    begin
+      sprintf(filename, '~' + DEVMAPS + 'E%sM%s.wad',
+        [myargv[p + 1][1], myargv[p + 2][1]]);
+      filename := D_FileInDoomPath(filename);
+      printf('Warping to Episode %s, Map %s.'#13#10,
+      [myargv[p + 1], myargv[p + 2]]);
+    end;
+
+    D_AddFile(filename);
+  end;
+
+  SUC_Progress(8);
+
+  D_AddWADFiles('-file');
+  for p := 1 to 9 do
+    D_AddWADFiles('-file' + itoa(p));
+  D_AddWADFiles('-lfile');  // JVAL launcher specific
+
+  SUC_Progress(9);
+
+  printf('PAK_InitFileSystem: Init PAK/ZIP/PK3/PK4 files.'#13#10);
+  PAK_InitFileSystem;
+
+  SUC_Progress(10);
+
+  PAK_LoadPendingPaks;
+
+  SUC_Progress(15);
+
+  D_AddPAKFiles('-pakfile');
+  for p := 1 to 9 do
+    D_AddPAKFiles('-pakfile' + itoa(p));
+  D_AddPAKFiles('-lpakfile'); // JVAL launcher specific
+
+  SUC_Progress(16);
+
+  p := M_CheckParm('-playdemo');
+
+  if p = 0 then
+    p := M_CheckParm('-timedemo');
+
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    inc(p);
+    if Pos('.', myargv[p]) > 0 then
+      filename := myargv[p]
+    else
+      sprintf(filename,'%s.lmp', [myargv[p]]);
+    D_AddFile(filename);
+    printf('Playing demo %s.'#13#10, [filename]);
+  end;
+
+  // get skill / episode / map from parms
+  startskill := sk_medium;
+  startepisode := 1;
+  startmap := 1;
+  autostart := false;
+
+  p := M_CheckParm('-skill');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    startskill := skill_t(Ord(myargv[p + 1][1]) - Ord('1'));
+    autostart := true;
+  end;
+
+  p := M_CheckParm('-episode');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    startepisode := atoi(myargv[p + 1]);
+    startmap := 1;
+    autostart := true;
+  end;
+
+  p := M_CheckParm('-timer');
+  if (p <> 0) and (p < myargc - 1) and (deathmatch <> 0) then
+  begin
+    _time := atoi(myargv[p + 1]);
+    printf('Levels will end after %d minute' + decide(_time > 1, 's', '') + #13#10, [_time]);
+  end;
+
+  p := M_CheckParm('-avg');
+  if (p <> 0) and (p <= myargc - 1) and (deathmatch <> 0) then
+    printf('Austin Virtual Gaming: Levels will end after 20 minutes'#13#10);
+
+  printf('M_LoadDefaults: Load system defaults.'#13#10);
+  M_LoadDefaults;              // load before initing other systems
+
+  D_WadsAutoLoad(wads_autoload);
+  D_PaksAutoload(paks_autoload);
+
+  SUC_Progress(20);
+
+  D_CheckCommonParams;
 
 // Try to guess minimum zone memory to allocate
   mb_min := 6 + V_ScreensSize(SCN_FG) div (1024 * 1024);
@@ -1873,6 +1900,7 @@ begin
       I_Error('W_InitMultipleFiles(): no files found');
   end;
 
+  D_CheckInteterminedMode;
 
   SUC_Progress(39);
 
@@ -1929,7 +1957,7 @@ begin
 
   printf('Info_CheckStatesArgs: Checking states arguments'#13#10);
   Info_CheckStatesArgs;
-  
+
   printf('Info_SaveActions: Saving state actions'#13#10);
   Info_SaveActions;
 
@@ -1970,33 +1998,6 @@ begin
 
   SUC_Progress(58);
 
-  if gamemode = indetermined then
-  begin
-    if W_CheckNumForName('e5m1') <> -1 then
-    begin
-      gamemode := extendedwad;
-    end
-    else if W_CheckNumForName('e3m1') <> -1 then
-    begin
-      gamemode := registered;
-    end
-    else
-    begin
-      gamemode := shareware;
-    end
-  end;
-
-  if W_CheckNumForName('e1m4') = -1 then
-  begin
-    gamemode := shareware;
-    customgame := cg_beta;
-  end;
-
-  case gamemode of
-    extendedwad: SUC_SetGameMode('Heretic: Extented Version');
-    registered: SUC_SetGameMode('Registered Heretic');
-    shareware: if customgame = cg_beta then SUC_SetGameMode('HERETIC - WIDE AREA BETA') else SUC_SetGameMode('Shareware Heretic');
-  end;
 
   if customgame = cg_beta then
     if not DEH_ParseLumpName('BETA.DEH') then

@@ -1340,6 +1340,288 @@ begin
   MakeDir(SAVEPATH);
 end;
 
+procedure D_CheckCommonParams;
+var
+  p: integer;
+  s1, s2: string;
+begin
+  p := M_CheckParm('-fullscreen');
+  if (p <> 0) and (p <= myargc - 1) then
+    fullscreen := {$IFDEF OPENGL}true{$ELSE}FULLSCREEN_SHARED{$ENDIF};
+
+  p := M_CheckParm('-nofullscreen');
+  if p = 0 then
+    p := M_CheckParm('-windowed');
+  if (p <> 0) and (p <= myargc - 1) then
+    fullscreen := {$IFDEF OPENGL}false{$ELSE}FULLSCREEN_OFF{$ENDIF};
+
+  p := M_CheckParm('-zaxisshift');
+  if (p <> 0) and (p <= myargc - 1) then
+    zaxisshift := true;
+
+  p := M_CheckParm('-nozaxisshift');
+  if (p <> 0) and (p <= myargc - 1) then
+    zaxisshift := false;
+
+{$IFNDEF OPENGL}
+  p := M_CheckParm('-fake3d');
+  if (p <> 0) and (p <= myargc - 1) then
+    usefake3d := true;
+
+  p := M_CheckParm('-nofake3d');
+  if (p <> 0) and (p <= myargc - 1) then
+    usefake3d := false;
+{$ENDIF}
+
+  if M_Checkparm('-ultrares') <> 0 then
+    detailLevel := DL_ULTRARES;
+
+  if M_Checkparm('-hires') <> 0 then
+    detailLevel := DL_HIRES;
+
+  if M_Checkparm('-normalres') <> 0 then
+    detailLevel := DL_NORMAL;
+
+  if M_Checkparm('-mediumres') <> 0 then
+    detailLevel := DL_MEDIUM;
+
+  if M_Checkparm('-lowres') <> 0 then
+    detailLevel := DL_LOW;
+
+  if M_Checkparm('-lowestres') <> 0 then
+    detailLevel := DL_LOWEST;
+
+  if M_Checkparm('-interpolate') <> 0 then
+    interpolate := true;
+
+  if M_Checkparm('-nointerpolate') <> 0 then
+    interpolate := false;
+
+  p := M_CheckParm('-compatibilitymode');
+  if (p <> 0) and (p <= myargc - 1) then
+    compatibilitymode := true;
+
+  p := M_CheckParm('-nocompatibilitymode');
+  if (p <> 0) and (p <= myargc - 1) then
+    compatibilitymode := false;
+
+  oldcompatibilitymode := compatibilitymode;
+
+  p := M_CheckParm('-spawnrandommonsters');
+  if (p <> 0) and (p <= myargc - 1) then
+    spawnrandommonsters := true;
+
+  p := M_CheckParm('-nospawnrandommonsters');
+  if (p <> 0) and (p <= myargc - 1) then
+    spawnrandommonsters := false;
+
+  p := M_CheckParm('-mouse');
+  if (p <> 0) and (p <= myargc - 1) then
+    usemouse := true;
+
+  p := M_CheckParm('-nomouse');
+  if (p <> 0) and (p <= myargc - 1) then
+    usemouse := false;
+
+  p := M_CheckParm('-invertmouselook');
+  if (p <> 0) and (p <= myargc - 1) then
+    invertmouselook := true;
+
+  p := M_CheckParm('-noinvertmouselook');
+  if (p <> 0) and (p <= myargc - 1) then
+    invertmouselook := false;
+
+  p := M_CheckParm('-invertmouseturn');
+  if (p <> 0) and (p <= myargc - 1) then
+    invertmouseturn := true;
+
+  p := M_CheckParm('-noinvertmouseturn');
+  if (p <> 0) and (p <= myargc - 1) then
+    invertmouseturn := false;
+
+  p := M_CheckParm('-nojoystick');
+  if (p <> 0) and (p <= myargc - 1) then
+    usejoystick := false;
+
+  p := M_CheckParm('-joystick');
+  if (p <> 0) and (p <= myargc - 1) then
+    usejoystick := true;
+
+  p := M_CheckParm('-screenwidth');
+  if (p <> 0) and (p < myargc - 1) then
+    SCREENWIDTH := atoi(myargv[p + 1]);
+  if SCREENWIDTH > MAXWIDTH then
+    SCREENWIDTH := MAXWIDTH;
+
+  p := M_CheckParm('-screenheight');
+  if (p <> 0) and (p < myargc - 1) then
+    SCREENHEIGHT := atoi(myargv[p + 1]);
+  if SCREENHEIGHT > MAXHEIGHT then
+    SCREENHEIGHT := MAXHEIGHT;
+
+  p := M_CheckParm('-geom');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    splitstring(myargv[p + 1], s1, s2, ['X', 'x']);
+    SCREENWIDTH := atoi(s1);
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    if SCREENWIDTH < MINWIDTH then
+      SCREENWIDTH := MINWIDTH;
+    SCREENHEIGHT := atoi(s2);
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+    if SCREENHEIGHT < MINHEIGHT then
+      SCREENHEIGHT := MINHEIGHT;
+  end;
+
+  p := M_CheckParm('-fullhd');
+  if (p <> 0) and (p < myargc) then
+  begin
+    SCREENWIDTH := 1920;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 1080;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  p := M_CheckParm('-vga');
+  if (p <> 0) and (p < myargc) then
+  begin
+    SCREENWIDTH := 640;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 480;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  p := M_CheckParm('-svga');
+  if (p <> 0) and (p < myargc) then
+  begin
+    SCREENWIDTH := 800;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 600;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  p := M_CheckParm('-cga');
+  if (p <> 0) and (p < myargc) then
+  begin
+    SCREENWIDTH := 320;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 200;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  p := M_CheckParm('-cgaX2');
+  if (p <> 0) and (p < myargc) then
+  begin
+    SCREENWIDTH := 640;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 400;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  p := M_CheckParm('-cgaX3');
+  if (p <> 0) and (p < myargc) then
+  begin
+    SCREENWIDTH := 960;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 600;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  if SCREENHEIGHT = -1 then
+    SCREENHEIGHT := I_ScreenHeight;
+  if SCREENHEIGHT > MAXHEIGHT then
+    SCREENHEIGHT := MAXHEIGHT
+  else if SCREENHEIGHT < MINHEIGHT then
+    SCREENHEIGHT := MINHEIGHT;
+
+
+  if SCREENWIDTH = -1 then
+    SCREENWIDTH := I_ScreenWidth;
+  if SCREENWIDTH > MAXWIDTH then
+    SCREENWIDTH := MAXWIDTH
+  else if SCREENWIDTH < MINWIDTH then
+    SCREENWIDTH := MINWIDTH;
+
+  {$IFNDEF OPENGL}
+  WINDOWWIDTH := SCREENWIDTH;
+  WINDOWHEIGHT := SCREENHEIGHT;
+  {$ENDIF}
+
+  singletics := M_CheckParm('-singletics') > 0;
+  noartiskip := M_CheckParm('-noartiskip') > 0;
+
+  p := M_CheckParm('-autoscreenshot');
+  autoscreenshot := p > 0;
+
+  nodrawers := M_CheckParm('-nodraw') <> 0;
+  noblit := M_CheckParm('-noblit') <> 0;
+  norender := M_CheckParm('-norender') <> 0;
+{$IFNDEF OPENGL}
+  blancbeforerender := M_CheckParm('-blancbeforerender') <> 0;
+{$ENDIF}
+
+  if M_CheckParm('-usetransparentsprites') <> 0 then
+    usetransparentsprites := true;
+  if M_CheckParm('-dontusetransparentsprites') <> 0 then
+    usetransparentsprites := false;
+  if M_CheckParm('-uselightboost') <> 0 then
+    uselightboost := true;
+  if M_CheckParm('-dontuselightboost') <> 0 then
+    uselightboost := false;
+  p := M_CheckParm('-lightboostfactor');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    p := atoi(myargv[p + 1], -1);
+    if (p >= LFACTORMIN) and (p <= LFACTORMAX) then
+      lightboostfactor := p
+    else
+      I_Warning('Invalid lightboostfactor specified from command line %d. Specify a value in range (%d..%d)'#13#10, [p, LFACTORMIN, LFACTORMAX]);
+  end;
+  if M_CheckParm('-chasecamera') <> 0 then
+    chasecamera := true;
+  if M_CheckParm('-nochasecamera') <> 0 then
+    chasecamera := false;
+end;
+
+var
+  numwadmaps: integer;
+
+procedure D_CheckInteterminedMode;
+var
+  i: integer;
+begin
+  numwadmaps := 0;
+  for i := 0 to 9 do
+    if W_CheckNumForName('MAP0' + itoa(i)) <> -1 then
+      inc(numwadmaps);
+  for i := 10 to 99 do
+    if W_CheckNumForName('MAP' + itoa(i)) <> -1 then
+      inc(numwadmaps);
+
+  if gamemode = indetermined then
+  begin
+    // JVAL: OK, let's guess, official demo had 4 maps
+    if numwadmaps > 6 then
+      gamemode := registered
+    else
+      gamemode := shareware;
+  end;
+end;
+
 //
 // D_DoomMain
 //
@@ -1352,9 +1634,7 @@ var
   i: integer;
   oldoutproc: TOutProc;
   mb_min: integer; // minimum zone size
-  nummaps: integer;
   sharewaremsg: string;
-  s1, s2: string;
   kparm: string;
 begin
   SUC_Open;
@@ -1554,266 +1834,7 @@ begin
 
   SUC_Progress(20);
 
-  p := M_CheckParm('-fullscreen');
-  if (p <> 0) and (p <= myargc - 1) then
-    fullscreen := {$IFDEF OPENGL}true{$ELSE}FULLSCREEN_SHARED{$ENDIF};
-
-  p := M_CheckParm('-nofullscreen');
-  if p = 0 then
-    p := M_CheckParm('-windowed');
-  if (p <> 0) and (p <= myargc - 1) then
-    fullscreen := {$IFDEF OPENGL}false{$ELSE}FULLSCREEN_OFF{$ENDIF};
-
-  p := M_CheckParm('-zaxisshift');
-  if (p <> 0) and (p <= myargc - 1) then
-    zaxisshift := true;
-
-  p := M_CheckParm('-nozaxisshift');
-  if (p <> 0) and (p <= myargc - 1) then
-    zaxisshift := false;
-
-{$IFNDEF OPENGL}
-  p := M_CheckParm('-fake3d');
-  if (p <> 0) and (p <= myargc - 1) then
-    usefake3d := true;
-
-  p := M_CheckParm('-nofake3d');
-  if (p <> 0) and (p <= myargc - 1) then
-    usefake3d := false;
-{$ENDIF}
-
-  if M_Checkparm('-ultrares') <> 0 then
-    detailLevel := DL_ULTRARES;
-
-  if M_Checkparm('-hires') <> 0 then
-    detailLevel := DL_HIRES;
-
-  if M_Checkparm('-normalres') <> 0 then
-    detailLevel := DL_NORMAL;
-
-  if M_Checkparm('-mediumres') <> 0 then
-    detailLevel := DL_MEDIUM;
-
-  if M_Checkparm('-lowres') <> 0 then
-    detailLevel := DL_LOW;
-
-  if M_Checkparm('-lowestres') <> 0 then
-    detailLevel := DL_LOWEST;
-
-  if M_Checkparm('-interpolate') <> 0 then
-    interpolate := true;
-
-  if M_Checkparm('-nointerpolate') <> 0 then
-    interpolate := false;
-
-  p := M_CheckParm('-compatibilitymode');
-  if (p <> 0) and (p <= myargc - 1) then
-    compatibilitymode := true;
-
-  p := M_CheckParm('-nocompatibilitymode');
-  if (p <> 0) and (p <= myargc - 1) then
-    compatibilitymode := false;
-
-  oldcompatibilitymode := compatibilitymode;
-
-  p := M_CheckParm('-spawnrandommonsters');
-  if (p <> 0) and (p <= myargc - 1) then
-    spawnrandommonsters := true;
-
-  p := M_CheckParm('-nospawnrandommonsters');
-  if (p <> 0) and (p <= myargc - 1) then
-    spawnrandommonsters := false;
-
-  p := M_CheckParm('-mouse');
-  if (p <> 0) and (p <= myargc - 1) then
-    usemouse := true;
-
-  p := M_CheckParm('-nomouse');
-  if (p <> 0) and (p <= myargc - 1) then
-    usemouse := false;
-
-  p := M_CheckParm('-invertmouselook');
-  if (p <> 0) and (p <= myargc - 1) then
-    invertmouselook := true;
-
-  p := M_CheckParm('-noinvertmouselook');
-  if (p <> 0) and (p <= myargc - 1) then
-    invertmouselook := false;
-
-  p := M_CheckParm('-invertmouseturn');
-  if (p <> 0) and (p <= myargc - 1) then
-    invertmouseturn := true;
-
-  p := M_CheckParm('-noinvertmouseturn');
-  if (p <> 0) and (p <= myargc - 1) then
-    invertmouseturn := false;
-
-  p := M_CheckParm('-nojoystick');
-  if (p <> 0) and (p <= myargc - 1) then
-    usejoystick := false;
-
-  p := M_CheckParm('-joystick');
-  if (p <> 0) and (p <= myargc - 1) then
-    usejoystick := true;
-
-  {$IFNDEF OPENGL}
-//  SCREENWIDTH := WINDOWWIDTH;
-  {$ENDIF}
-  p := M_CheckParm('-screenwidth');
-  if (p <> 0) and (p < myargc - 1) then
-    SCREENWIDTH := atoi(myargv[p + 1]);
-  if SCREENWIDTH > MAXWIDTH then
-    SCREENWIDTH := MAXWIDTH;
-
-  {$IFNDEF OPENGL}
-//  SCREENHEIGHT := WINDOWHEIGHT;
-  {$ENDIF}
-  p := M_CheckParm('-screenheight');
-  if (p <> 0) and (p < myargc - 1) then
-    SCREENHEIGHT := atoi(myargv[p + 1]);
-  if SCREENHEIGHT > MAXHEIGHT then
-    SCREENHEIGHT := MAXHEIGHT;
-
-  p := M_CheckParm('-geom');
-  if (p <> 0) and (p < myargc - 1) then
-  begin
-    splitstring(myargv[p + 1], s1, s2, ['X', 'x']);
-    SCREENWIDTH := atoi(s1);
-    if SCREENWIDTH > MAXWIDTH then
-      SCREENWIDTH := MAXWIDTH;
-    if SCREENWIDTH < MINWIDTH then
-      SCREENWIDTH := MINWIDTH;
-    SCREENHEIGHT := atoi(s2);
-    if SCREENHEIGHT > MAXHEIGHT then
-      SCREENHEIGHT := MAXHEIGHT;
-    if SCREENHEIGHT < MINHEIGHT then
-      SCREENHEIGHT := MINHEIGHT;
-  end;
-
-  p := M_CheckParm('-fullhd');
-  if (p <> 0) and (p < myargc) then
-  begin
-    SCREENWIDTH := 1920;
-    if SCREENWIDTH > MAXWIDTH then
-      SCREENWIDTH := MAXWIDTH;
-    SCREENHEIGHT := 1080;
-    if SCREENHEIGHT > MAXHEIGHT then
-      SCREENHEIGHT := MAXHEIGHT;
-  end;
-
-  p := M_CheckParm('-vga');
-  if (p <> 0) and (p < myargc) then
-  begin
-    SCREENWIDTH := 640;
-    if SCREENWIDTH > MAXWIDTH then
-      SCREENWIDTH := MAXWIDTH;
-    SCREENHEIGHT := 480;
-    if SCREENHEIGHT > MAXHEIGHT then
-      SCREENHEIGHT := MAXHEIGHT;
-  end;
-
-  p := M_CheckParm('-svga');
-  if (p <> 0) and (p < myargc) then
-  begin
-    SCREENWIDTH := 800;
-    if SCREENWIDTH > MAXWIDTH then
-      SCREENWIDTH := MAXWIDTH;
-    SCREENHEIGHT := 600;
-    if SCREENHEIGHT > MAXHEIGHT then
-      SCREENHEIGHT := MAXHEIGHT;
-  end;
-
-  p := M_CheckParm('-cga');
-  if (p <> 0) and (p < myargc) then
-  begin
-    SCREENWIDTH := 320;
-    if SCREENWIDTH > MAXWIDTH then
-      SCREENWIDTH := MAXWIDTH;
-    SCREENHEIGHT := 200;
-    if SCREENHEIGHT > MAXHEIGHT then
-      SCREENHEIGHT := MAXHEIGHT;
-  end;
-
-  p := M_CheckParm('-cgaX2');
-  if (p <> 0) and (p < myargc) then
-  begin
-    SCREENWIDTH := 640;
-    if SCREENWIDTH > MAXWIDTH then
-      SCREENWIDTH := MAXWIDTH;
-    SCREENHEIGHT := 400;
-    if SCREENHEIGHT > MAXHEIGHT then
-      SCREENHEIGHT := MAXHEIGHT;
-  end;
-
-  p := M_CheckParm('-cgaX3');
-  if (p <> 0) and (p < myargc) then
-  begin
-    SCREENWIDTH := 960;
-    if SCREENWIDTH > MAXWIDTH then
-      SCREENWIDTH := MAXWIDTH;
-    SCREENHEIGHT := 600;
-    if SCREENHEIGHT > MAXHEIGHT then
-      SCREENHEIGHT := MAXHEIGHT;
-  end;
-
-  if SCREENHEIGHT = -1 then
-    SCREENHEIGHT := I_ScreenHeight;
-  if SCREENHEIGHT > MAXHEIGHT then
-    SCREENHEIGHT := MAXHEIGHT
-  else if SCREENHEIGHT < MINHEIGHT then
-    SCREENHEIGHT := MINHEIGHT;
-
-
-  if SCREENWIDTH = -1 then
-    SCREENWIDTH := I_ScreenWidth;
-  if SCREENWIDTH > MAXWIDTH then
-    SCREENWIDTH := MAXWIDTH
-  else if SCREENWIDTH < MINWIDTH then
-    SCREENWIDTH := MINWIDTH;
-
-  {$IFNDEF OPENGL}
-  WINDOWWIDTH := SCREENWIDTH;
-  WINDOWHEIGHT := SCREENHEIGHT;
-  {$ENDIF}
-
-  singletics := M_CheckParm('-singletics') > 0;
-  noartiskip := M_CheckParm('-noartiskip') > 0;
-
-  p := M_CheckParm('-autoscreenshot');
-  autoscreenshot := p > 0;
-
-//  I_RestoreWindowPos;
-
-  SUC_Progress(25);
-
-  nodrawers := M_CheckParm('-nodraw') <> 0;
-  noblit := M_CheckParm('-noblit') <> 0;
-  norender := M_CheckParm('-norender') <> 0;
-{$IFNDEF OPENGL}
-  blancbeforerender := M_CheckParm('-blancbeforerender') <> 0;
-{$ENDIF}
-
-  if M_CheckParm('-usetransparentsprites') <> 0 then
-    usetransparentsprites := true;
-  if M_CheckParm('-dontusetransparentsprites') <> 0 then
-    usetransparentsprites := false;
-  if M_CheckParm('-uselightboost') <> 0 then
-    uselightboost := true;
-  if M_CheckParm('-dontuselightboost') <> 0 then
-    uselightboost := false;
-  p := M_CheckParm('-lightboostfactor');
-  if (p <> 0) and (p < myargc - 1) then
-  begin
-    p := atoi(myargv[p + 1], -1);
-    if (p >= LFACTORMIN) and (p <= LFACTORMAX) then
-      lightboostfactor := p
-    else
-      I_Warning('Invalid lightboostfactor specified from command line %d. Specify a value in range (%d..%d)'#13#10, [p, LFACTORMIN, LFACTORMAX]);
-  end;
-  if M_CheckParm('-chasecamera') <> 0 then
-    chasecamera := true;
-  if M_CheckParm('-nochasecamera') <> 0 then
-    chasecamera := false;
+  D_CheckCommonParams;
 
 // Try to guess minimum zone memory to allocate
 // Give Hexen a little more minimum zone memory than Doom and Heretic
@@ -1892,7 +1913,10 @@ begin
       I_Error('W_InitMultipleFiles(): no files found');
   end;
 
+  D_CheckInteterminedMode;
+
   SUC_Progress(39);
+
   printf('W_AutoLoadPakFiles: Autoload required pak files.'#13#10);
   W_AutoLoadPakFiles;
 
@@ -1946,7 +1970,7 @@ begin
 
   printf('Info_CheckStatesArgs: Checking states arguments'#13#10);
   Info_CheckStatesArgs;
-  
+
   printf('Info_SaveActions: Saving state actions'#13#10);
   Info_SaveActions;
 
@@ -1976,7 +2000,7 @@ begin
   printf('V_Init: allocate screens.'#13#10);
   V_Init;
 
-  SUC_Progress(58);
+  SUC_Progress(56);
 
   printf('AM_Init: initializing automap.'#13#10);
   AM_Init;
@@ -1984,7 +2008,7 @@ begin
   printf('MObj_Init: initializing mobj commands.'#13#10);
   MObj_Init;
 
-  SUC_Progress(59);
+  SUC_Progress(57);
 
   p := M_CheckParm('-autoexec');
   if (p <> 0) and (p < myargc - 1) then
@@ -1998,23 +2022,7 @@ begin
   SUC_Progress(60);
 
   sharewaremsg := '';
-  nummaps := 0;
-  for i := 0 to 9 do
-    if W_CheckNumForName('MAP0' + itoa(i)) <> -1 then
-      inc(nummaps);
-  for i := 10 to 99 do
-    if W_CheckNumForName('MAP' + itoa(i)) <> -1 then
-      inc(nummaps);
-  sprintf(sharewaremsg, MSG_SHAREWARE, [nummaps]);
-
-  if gamemode = indetermined then
-  begin
-    // JVAL: OK, let's guess, official demo had 4 maps
-    if nummaps > 6 then
-      gamemode := registered
-    else
-      gamemode := shareware;
-  end;
+  sprintf(sharewaremsg, MSG_SHAREWARE, [numwadmaps]);
 
   SUC_Progress(61);
 
@@ -2177,7 +2185,7 @@ begin
   printf('C_Init: Initializing console.'#13#10);
   C_Init;
 
-  p := M_CheckParm('');
+  p := M_CheckParm('-keyboardmode');
   if (p > 0) and (p < myargc - 1) then
   begin
     inc(p);

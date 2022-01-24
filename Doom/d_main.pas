@@ -1500,302 +1500,11 @@ begin
   end;
 end;
 
-//
-// D_DoomMain
-//
-procedure D_DoomMain;
+procedure D_CheckCommonParams;
 var
   p: integer;
-  filename: string;
-  scale: integer;
-  _time: integer;
-  s_error: string;
-  i: integer;
-  j: integer;
-  oldoutproc: TOutProc;
-  mb_min: integer; // minimum zone size
-  episodes: integer;
-  err_shown: boolean;
   s1, s2: string;
-  kparm: string;
 begin
-  {$IFDEF FPC}
-  outproc := @I_IOprintf;
-  {$ELSE}
-  SUC_Open;
-  outproc := @SUC_Outproc;
-  {$ENDIF}
-  wadfiles := TDSTringList.Create;
-
-  printf('Starting %s, %s'#13#10, [D_Version, D_VersionBuilt]);
-{$IFNDEF OPENGL}
-  C_AddCmd('tnthom, hom', @D_CmdHOM);
-{$ENDIF}
-  C_AddCmd('ver, version', @D_CmdVersion);
-  C_AddCmd('addpakfile, loadpakfile, addpak, loadpak', @D_CmdAddPakFile);
-  C_AddCmd('startthinkers', @D_StartThinkers);
-  C_AddCmd('stopthinkers', @D_StopThinkers);
-
-  {$IFNDEF FPC}
-  SUC_Progress(1);
-  {$ENDIF}
-
-  printf('M_InitArgv: Initializing command line parameters.'#13#10);
-  M_InitArgv;
-
-  {$IFNDEF FPC}
-  SUC_Progress(2);
-  {$ENDIF}
-
-  FindResponseFile;
-
-  printf('I_InitializeIO: Initializing input/output streams.'#13#10);
-  I_InitializeIO;
-
-  printf('I_InitTempFiles: Initializing temporary file managment.'#13#10);
-  I_InitTempFiles;
-
-  {$IFNDEF FPC}
-  SUC_Progress(3);
-  {$ENDIF}
-
-  D_AddSystemWAD; // Add system wad first
-
-  {$IFNDEF FPC}
-  SUC_Progress(5);
-  {$ENDIF}
-
-  IdentifyVersion;
-
-  modifiedgame := false;
-
-  nomonsters := M_CheckParm('-nomonsters') > 0;
-  respawnparm := M_CheckParm('-respawn') > 0;
-  fastparm := M_CheckParm('-fast') > 0;
-  devparm := M_CheckParm('-devparm') > 0;
-  hackshareware := M_CheckParm('-hackshareware') > 0;
-  debugmode := M_CheckParm('-debugmode') > 0;
-
-  {$IFNDEF FPC}
-  SUC_Progress(6);
-  {$ENDIF}
-
-  if M_CheckParm('-altdeath') > 0 then
-    deathmatch := 2
-  else if M_CheckParm('-deathmatch') > 0 then
-    deathmatch := 1;
-
-  case gamemode of
-    retail:
-      begin
-        printf(
-           '                         ' +
-           'The Ultimate DOOM Startup v%d.%.*d' +
-           '                           '#13#10,
-            [VERSION div 100, 2, VERSION mod 100]);
-      end;
-    shareware:
-      begin
-        printf(
-           '                            ' +
-           'DOOM Shareware Startup v%d.%.*d' +
-           '                           '#13#10,
-            [VERSION div 100, 2, VERSION mod 100]);
-      end;
-    registered:
-      begin
-        printf(
-           '                            ' +
-           'DOOM Registered Startup v%d.%.*d' +
-           '                           '#13#10,
-            [VERSION div 100, 2, VERSION mod 100]);
-      end;
-    commercial:
-      begin
-        printf(
-           '                         ' +
-           'DOOM 2: Hell on Earth v%d.%.*d' +
-           '                           '#13#10,
-            [VERSION div 100, 2, VERSION mod 100]);
-      end;
-  else
-      printf(
-         '                         ' +
-         'Public DOOM - v%d.%.*d' +
-         '                           '#13#10,
-          [VERSION div 100, 2, VERSION mod 100]);
-  end;
-
-  if devparm then
-    printf(D_DEVSTR);
-
-  if M_CheckParmCDROM then
-  begin
-    printf(D_CDROM);
-    basedefault := CD_WORKDIR + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
-  end;
-
-  // turbo option
-  p := M_CheckParm('-turbo');
-  if p <> 0 then
-  begin
-    if p < myargc - 1 then
-    begin
-      scale := atoi(myargv[p + 1], 200);
-      if scale < 10 then
-        scale := 10
-      else if scale > 200 then // 22/3/2012 (was 400)
-        scale := 200;          // 22/3/2012 (was 400)
-    end
-    else
-      scale := 200;
-    printf(' turbo scale: %d'#13#10, [scale]);
-    // 22/3/2012
-    forwardmove[0] := forwardmove[0] * scale div 100;
-    forwardmove[1] := forwardmove[1] * scale div 100;
-    sidemove[0] := sidemove[0] * scale div 100;
-    sidemove[1] := sidemove[1] * scale div 100;
-  end;
-
-  {$IFNDEF FPC}
-  SUC_Progress(7);
-  {$ENDIF}
-
-  // add any files specified on the command line with -file wadfile
-  // to the wad list
-  //
-  // convenience hack to allow -wart e m to add a wad file
-  // prepend a tilde to the filename so wadfile will be reloadable
-  p := M_CheckParm('-wart');
-  if (p <> 0) and (p < myargc - 1) then
-  begin
-    myargv[p][5] := 'p';     // big hack, change to -warp
-
-  // Map name handling.
-    case gamemode of
-      shareware,
-      retail,
-      registered:
-        begin
-          if p < myargc - 2 then
-          begin
-            sprintf(filename, '~' + DEVMAPS + 'E%sM%s.wad',
-              [myargv[p + 1][1], myargv[p + 2][1]]);
-            printf('Warping to Episode %s, Map %s.'#13#10,
-              [myargv[p + 1], myargv[p + 2]]);
-          end;
-        end;
-    else
-      begin
-        p := atoi(myargv[p + 1]);
-        if p < 10 then
-          sprintf(filename, '~' + DEVMAPS + 'cdata/map0%d.wad', [p])
-        else
-          sprintf (filename,'~' + DEVMAPS + 'cdata/map%d.wad', [p]);
-      end;
-    end;
-
-    D_AddFile(filename);
-  end;
-
-  {$IFNDEF FPC}
-  SUC_Progress(8);
-  {$ENDIF}
-
-  D_AddWADFiles('-file');
-  for p := 1 to 9 do
-    D_AddWADFiles('-file' + itoa(p));
-  D_AddWADFiles('-lfile');  // JVAL launcher specific
-
-  {$IFNDEF FPC}
-  SUC_Progress(9);
-  {$ENDIF}
-
-  printf('PAK_InitFileSystem: Init PAK/ZIP/PK3/PK4 files.'#13#10);
-  PAK_InitFileSystem;
-
-  {$IFNDEF FPC}
-  SUC_Progress(10);
-  {$ENDIF}
-
-  PAK_LoadPendingPaks;
-
-  {$IFNDEF FPC}
-  SUC_Progress(11);
-  {$ENDIF}
-
-  D_AddPAKFiles('-pakfile');
-  for p := 1 to 9 do
-    D_AddPAKFiles('-pakfile' + itoa(p));
-
-  {$IFNDEF FPC}
-  SUC_Progress(15);
-  {$ENDIF}
-
-  D_AddPAKFiles('-lpakfile'); // JVAL launcher specific
-
-  {$IFNDEF FPC}
-  SUC_Progress(16);
-  {$ENDIF}
-
-  p := M_CheckParm('-playdemo');
-
-  if p = 0 then
-    p := M_CheckParm('-timedemo');
-
-  if (p <> 0) and (p < myargc - 1) then
-  begin
-    inc(p);
-    if Pos('.', myargv[p]) > 0 then
-      filename := myargv[p]
-    else
-      sprintf(filename,'%s.lmp', [myargv[p]]);
-    D_AddFile(filename);
-    printf('Playing demo %s.'#13#10, [filename]);
-  end;
-
-  // get skill / episode / map from parms
-  startskill := sk_medium;
-  startepisode := 1;
-  startmap := 1;
-  autostart := false;
-
-  p := M_CheckParm('-skill');
-  if (p <> 0) and (p < myargc - 1) then
-  begin
-    startskill := skill_t(Ord(myargv[p + 1][1]) - Ord('1'));
-    autostart := true;
-  end;
-
-  p := M_CheckParm('-episode');
-  if (p <> 0) and (p < myargc - 1) then
-  begin
-    startepisode := atoi(myargv[p + 1]);
-    startmap := 1;
-    autostart := true;
-  end;
-
-  p := M_CheckParm('-timer');
-  if (p <> 0) and (p < myargc - 1) and (deathmatch <> 0) then
-  begin
-    _time := atoi(myargv[p + 1]);
-    printf('Levels will end after %d minute' + decide(_time > 1, 's', '') + #13#10, [_time]);
-  end;
-
-  p := M_CheckParm('-avg');
-  if (p <> 0) and (p <= myargc - 1) and (deathmatch <> 0) then
-    printf('Austin Virtual Gaming: Levels will end after 20 minutes'#13#10);
-
-  printf('M_LoadDefaults: Load system defaults.'#13#10);
-  M_LoadDefaults;              // load before initing other systems
-
-  D_WadsAutoLoad(wads_autoload);
-  D_PaksAutoload(paks_autoload);
-
-  {$IFNDEF FPC}
-  SUC_Progress(20);
-  {$ENDIF}
-
   p := M_CheckParm('-fullscreen');
   if (p <> 0) and (p <= myargc - 1) then
     fullscreen := {$IFDEF OPENGL}true{$ELSE}FULLSCREEN_SHARED{$ENDIF};
@@ -2025,10 +1734,6 @@ begin
   p := M_CheckParm('-autoscreenshot');
   autoscreenshot := p > 0;
 
-  {$IFNDEF FPC}
-  SUC_Progress(25);
-  {$ENDIF}
-
   nodrawers := M_CheckParm('-nodraw') <> 0;
   noblit := M_CheckParm('-noblit') <> 0;
   norender := M_CheckParm('-norender') <> 0;
@@ -2057,6 +1762,361 @@ begin
     chasecamera := true;
   if M_CheckParm('-nochasecamera') <> 0 then
     chasecamera := false;
+end;
+
+procedure D_CheckInteterminedMode;
+begin
+  if customgame = cg_chex then
+    SUC_SetGameMode('Chex Quest')
+  else if customgame = cg_chex2 then
+     SUC_SetGameMode('Chex Quest 2')
+  else if customgame = cg_freedoom then
+     SUC_SetGameMode('FREEDOOM')
+  else if customgame = cg_bfg2 then
+     SUC_SetGameMode('DOOM2: BFG Edition')
+  else if customgame = cg_hacx then
+     SUC_SetGameMode('HACX');
+  if gamemode = indetermined then
+  begin
+    if W_CheckNumForName('e4m1') <> -1 then
+    begin
+      gamemission := doom;
+      gamemode := retail;
+      SUC_SetGameMode('Ultimate Doom');
+    end
+    else if W_CheckNumForName('e3m1') <> -1 then
+    begin
+      gamemission := doom;
+      gamemode := registered;
+      SUC_SetGameMode('Registered Doom');
+    end
+    else if W_CheckNumForName('e1m1') <> -1 then
+    begin
+      gamemission := doom;
+      gamemode := shareware;
+      SUC_SetGameMode('Shareware Doom');
+    end
+    else if W_CheckNumForName('map01') <> -1 then
+    begin
+      gamemode := commercial;
+      if Pos('TNT.WAD', strupper(doomcwad)) > 0 then
+      begin
+        gamemission := pack_tnt;
+        SUC_SetGameMode('TNT Evilution');
+      end
+      else if Pos('PLUTONIA.WAD', strupper(doomcwad)) > 0 then
+      begin
+        gamemission := pack_plutonia;
+        SUC_SetGameMode('The Plutonia Experiment');
+      end
+      else
+      begin
+        gamemission := doom2;
+        if customgame = cg_freedoom then
+          SUC_SetGameMode('FREEDOOM')
+        else
+          SUC_SetGameMode('DOOM2: Hell On Earth');
+      end;
+    end
+    else
+      I_Error('Game mode indetermined'#13#10);
+  end
+  else
+  begin
+    if customgame = cg_chex then
+      SUC_SetGameMode('Chex Quest')
+    else if customgame = cg_chex2 then
+       SUC_SetGameMode('Chex Quest 2')
+    else if customgame = cg_freedoom then
+       SUC_SetGameMode('FREEDOOM')
+    else if customgame = cg_bfg2 then
+       SUC_SetGameMode('DOOM2: BFG Edition')
+    else if customgame = cg_hacx then
+       SUC_SetGameMode('HACX')
+    else if (gamemission = doom) and (gamemode = retail) then
+      SUC_SetGameMode('Ultimate Doom')
+    else if (gamemission = doom) and (gamemode = registered) then
+      SUC_SetGameMode('Registered Doom')
+    else if (gamemission = doom) and (gamemode = shareware) then
+      SUC_SetGameMode('Shareware Doom')
+    else if gamemode = commercial then
+    begin
+      if gamemission = pack_tnt then
+        SUC_SetGameMode('TNT Evilution')
+      else if gamemission = pack_plutonia then
+        SUC_SetGameMode('The Plutonia Experiment')
+      else if gamemission = doom2 then
+        SUC_SetGameMode('DOOM2: Hell On Earth');
+    end;
+  end;
+end;
+
+//
+// D_DoomMain
+//
+procedure D_DoomMain;
+var
+  p: integer;
+  filename: string;
+  scale: integer;
+  _time: integer;
+  s_error: string;
+  i: integer;
+  j: integer;
+  oldoutproc: TOutProc;
+  mb_min: integer; // minimum zone size
+  episodes: integer;
+  err_shown: boolean;
+  kparm: string;
+begin
+  SUC_Open;
+  outproc := @SUC_Outproc;
+  wadfiles := TDSTringList.Create;
+
+  printf('Starting %s, %s'#13#10, [D_Version, D_VersionBuilt]);
+{$IFNDEF OPENGL}
+  C_AddCmd('tnthom, hom', @D_CmdHOM);
+{$ENDIF}
+  C_AddCmd('ver, version', @D_CmdVersion);
+  C_AddCmd('addpakfile, loadpakfile, addpak, loadpak', @D_CmdAddPakFile);
+  C_AddCmd('startthinkers', @D_StartThinkers);
+  C_AddCmd('stopthinkers', @D_StopThinkers);
+
+  SUC_Progress(1);
+
+  printf('M_InitArgv: Initializing command line parameters.'#13#10);
+  M_InitArgv;
+
+  SUC_Progress(2);
+
+  FindResponseFile;
+
+  printf('I_InitializeIO: Initializing input/output streams.'#13#10);
+  I_InitializeIO;
+
+  printf('I_InitTempFiles: Initializing temporary file managment.'#13#10);
+  I_InitTempFiles;
+
+  SUC_Progress(3);
+
+  D_AddSystemWAD; // Add system wad first
+
+  SUC_Progress(5);
+
+  IdentifyVersion;
+
+  modifiedgame := false;
+
+  nomonsters := M_CheckParm('-nomonsters') > 0;
+  respawnparm := M_CheckParm('-respawn') > 0;
+  fastparm := M_CheckParm('-fast') > 0;
+  devparm := M_CheckParm('-devparm') > 0;
+  hackshareware := M_CheckParm('-hackshareware') > 0;
+  debugmode := M_CheckParm('-debugmode') > 0;
+
+  SUC_Progress(6);
+
+  if M_CheckParm('-altdeath') > 0 then
+    deathmatch := 2
+  else if M_CheckParm('-deathmatch') > 0 then
+    deathmatch := 1;
+
+  case gamemode of
+    retail:
+      begin
+        printf(
+           '                         ' +
+           'The Ultimate DOOM Startup v%d.%.*d' +
+           '                           '#13#10,
+            [VERSION div 100, 2, VERSION mod 100]);
+      end;
+    shareware:
+      begin
+        printf(
+           '                            ' +
+           'DOOM Shareware Startup v%d.%.*d' +
+           '                           '#13#10,
+            [VERSION div 100, 2, VERSION mod 100]);
+      end;
+    registered:
+      begin
+        printf(
+           '                            ' +
+           'DOOM Registered Startup v%d.%.*d' +
+           '                           '#13#10,
+            [VERSION div 100, 2, VERSION mod 100]);
+      end;
+    commercial:
+      begin
+        printf(
+           '                         ' +
+           'DOOM 2: Hell on Earth v%d.%.*d' +
+           '                           '#13#10,
+            [VERSION div 100, 2, VERSION mod 100]);
+      end;
+  else
+      printf(
+         '                         ' +
+         'Public DOOM - v%d.%.*d' +
+         '                           '#13#10,
+          [VERSION div 100, 2, VERSION mod 100]);
+  end;
+
+  if devparm then
+    printf(D_DEVSTR);
+
+  if M_CheckParmCDROM then
+  begin
+    printf(D_CDROM);
+    basedefault := CD_WORKDIR + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
+  end;
+
+  // turbo option
+  p := M_CheckParm('-turbo');
+  if p <> 0 then
+  begin
+    if p < myargc - 1 then
+    begin
+      scale := atoi(myargv[p + 1], 200);
+      if scale < 10 then
+        scale := 10
+      else if scale > 200 then // 22/3/2012 (was 400)
+        scale := 200;          // 22/3/2012 (was 400)
+    end
+    else
+      scale := 200;
+    printf(' turbo scale: %d'#13#10, [scale]);
+    // 22/3/2012
+    forwardmove[0] := forwardmove[0] * scale div 100;
+    forwardmove[1] := forwardmove[1] * scale div 100;
+    sidemove[0] := sidemove[0] * scale div 100;
+    sidemove[1] := sidemove[1] * scale div 100;
+  end;
+
+  SUC_Progress(7);
+
+  // add any files specified on the command line with -file wadfile
+  // to the wad list
+  //
+  // convenience hack to allow -wart e m to add a wad file
+  // prepend a tilde to the filename so wadfile will be reloadable
+  p := M_CheckParm('-wart');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    myargv[p][5] := 'p';     // big hack, change to -warp
+
+  // Map name handling.
+    case gamemode of
+      shareware,
+      retail,
+      registered:
+        begin
+          if p < myargc - 2 then
+          begin
+            sprintf(filename, '~' + DEVMAPS + 'E%sM%s.wad',
+              [myargv[p + 1][1], myargv[p + 2][1]]);
+            printf('Warping to Episode %s, Map %s.'#13#10,
+              [myargv[p + 1], myargv[p + 2]]);
+          end;
+        end;
+    else
+      begin
+        p := atoi(myargv[p + 1]);
+        if p < 10 then
+          sprintf(filename, '~' + DEVMAPS + 'cdata/map0%d.wad', [p])
+        else
+          sprintf (filename,'~' + DEVMAPS + 'cdata/map%d.wad', [p]);
+      end;
+    end;
+
+    D_AddFile(filename);
+  end;
+
+  SUC_Progress(8);
+
+  D_AddWADFiles('-file');
+  for p := 1 to 9 do
+    D_AddWADFiles('-file' + itoa(p));
+  D_AddWADFiles('-lfile');  // JVAL launcher specific
+
+  SUC_Progress(9);
+
+  printf('PAK_InitFileSystem: Init PAK/ZIP/PK3/PK4 files.'#13#10);
+  PAK_InitFileSystem;
+
+  SUC_Progress(10);
+
+  PAK_LoadPendingPaks;
+
+  SUC_Progress(11);
+
+  D_AddPAKFiles('-pakfile');
+  for p := 1 to 9 do
+    D_AddPAKFiles('-pakfile' + itoa(p));
+
+  SUC_Progress(15);
+
+  D_AddPAKFiles('-lpakfile'); // JVAL launcher specific
+
+  SUC_Progress(16);
+
+  p := M_CheckParm('-playdemo');
+
+  if p = 0 then
+    p := M_CheckParm('-timedemo');
+
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    inc(p);
+    if Pos('.', myargv[p]) > 0 then
+      filename := myargv[p]
+    else
+      sprintf(filename,'%s.lmp', [myargv[p]]);
+    D_AddFile(filename);
+    printf('Playing demo %s.'#13#10, [filename]);
+  end;
+
+  // get skill / episode / map from parms
+  startskill := sk_medium;
+  startepisode := 1;
+  startmap := 1;
+  autostart := false;
+
+  p := M_CheckParm('-skill');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    startskill := skill_t(Ord(myargv[p + 1][1]) - Ord('1'));
+    autostart := true;
+  end;
+
+  p := M_CheckParm('-episode');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    startepisode := atoi(myargv[p + 1]);
+    startmap := 1;
+    autostart := true;
+  end;
+
+  p := M_CheckParm('-timer');
+  if (p <> 0) and (p < myargc - 1) and (deathmatch <> 0) then
+  begin
+    _time := atoi(myargv[p + 1]);
+    printf('Levels will end after %d minute' + decide(_time > 1, 's', '') + #13#10, [_time]);
+  end;
+
+  p := M_CheckParm('-avg');
+  if (p <> 0) and (p <= myargc - 1) and (deathmatch <> 0) then
+    printf('Austin Virtual Gaming: Levels will end after 20 minutes'#13#10);
+
+  printf('M_LoadDefaults: Load system defaults.'#13#10);
+  M_LoadDefaults;              // load before initing other systems
+
+  D_WadsAutoLoad(wads_autoload);
+  D_PaksAutoload(paks_autoload);
+
+  SUC_Progress(20);
+
+  D_CheckCommonParams;
 
 // Try to guess minimum zone memory to allocate
   mb_min := 6 + V_ScreensSize(SCN_FG) div (1024 * 1024);
@@ -2081,9 +2141,7 @@ begin
   printf('Z_Init: Init zone memory allocation daemon, allocation %d MB.'#13#10, [mb_used]);
   Z_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(30);
-  {$ENDIF}
 
   p := M_CheckParm('-nothinkers');
   if p = 0 then
@@ -2097,16 +2155,12 @@ begin
     Info_Init(false);
   end;
 
-  {$IFNDEF FPC}
   SUC_Progress(31);
-  {$ENDIF}
 
   printf('Info_InitStateOwners(): Initialize State Owners.'#13#10);
   Info_InitStateOwners;
 
-  {$IFNDEF FPC}
   SUC_Progress(32);
-  {$ENDIF}
 
   for p := 1 to myargc do
     if (strupper(fext(myargv[p])) = '.WAD') or (strupper(fext(myargv[p])) = '.OUT') then
@@ -2156,23 +2210,19 @@ begin
     end;
   end;
 
-  {$IFNDEF FPC}
+  D_CheckInteterminedMode;
+
   SUC_Progress(39);
-  {$ENDIF}
 
   printf('W_AutoLoadPakFiles: Autoload required pak files.'#13#10);
   W_AutoLoadPakFiles;
 
-  {$IFNDEF FPC}
   SUC_Progress(40);
-  {$ENDIF}
 
   printf('SC_Init: Initializing script engine.'#13#10);
   SC_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(41);
-  {$ENDIF}
 
   printf('S_InitDEHExtraSounds: Initializing dehacked sounds.'#13#10);
   S_InitDEHExtraSounds;
@@ -2193,24 +2243,18 @@ begin
     if not DEH_ParseLumpName('HACX.DEH') then
       I_Warning('DEH_ParseLumpName(): GAMEDEF lump for HACX not found, using defaults.'#13#10);
 
-  {$IFNDEF FPC}
   SUC_Progress(42);
-  {$ENDIF}
 
   // JVAL: PascalScript
   printf('PS_Init: Initializing pascal script compiler.'#13#10);
   PS_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(43);
-  {$ENDIF}
 
   printf('SC_ParseSndInfoLumps: Parsing SNDINFO lumps.'#13#10);
   SC_ParseSndInfoLumps;
 
-  {$IFNDEF FPC}
   SUC_Progress(44);
-  {$ENDIF}
 
   p := M_CheckParm('-noactordef');
   if p <= 0 then
@@ -2219,9 +2263,7 @@ begin
     SC_ParseActordefLumps;
   end;
 
-  {$IFNDEF FPC}
   SUC_Progress(45);
-  {$ENDIF}
 
   if M_CheckParm('-nowaddehacked') = 0 then
     if not DEH_ParseLumpNames('DEHACKED') then
@@ -2243,31 +2285,23 @@ begin
   printf('Info_SaveActions: Saving state actions'#13#10);
   Info_SaveActions;
 
-  {$IFNDEF FPC}
   SUC_Progress(50);
-  {$ENDIF}
 
   for i := 0 to NUM_STARTUPMESSAGES - 1 do
     if startmsg[i] <> '' then
       printf('%s'#13#10, [startmsg[i]]);
 
-  {$IFNDEF FPC}
   SUC_Progress(51);
-  {$ENDIF}
 
   printf('T_Init: Initializing texture manager.'#13#10);
   T_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(55);
-  {$ENDIF}
 
   printf('V_Init: allocate screens.'#13#10);
   V_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(56);
-  {$ENDIF}
 
   printf('AM_Init: initializing automap.'#13#10);
   AM_Init;
@@ -2275,9 +2309,7 @@ begin
   printf('MObj_Init: initializing mobj commands.'#13#10);
   MObj_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(57);
-  {$ENDIF}
 
   p := M_CheckParm('-autoexec');
   if (p <> 0) and (p < myargc - 1) then
@@ -2288,108 +2320,12 @@ begin
   printf('M_InitMenus: Initializing menus.'#13#10);
   M_InitMenus;
 
-  {$IFNDEF FPC}
   SUC_Progress(58);
-  {$ENDIF}
-
-  if gamemode = indetermined then
-  begin
-    if W_CheckNumForName('e4m1') <> -1 then
-    begin
-      gamemission := doom;
-      gamemode := retail;
-      {$IFNDEF FPC}
-      SUC_SetGameMode('Ultimate Doom');
-      {$ENDIF}
-    end
-    else if W_CheckNumForName('e3m1') <> -1 then
-    begin
-      gamemission := doom;
-      gamemode := registered;
-      {$IFNDEF FPC}
-      SUC_SetGameMode('Registered Doom');
-      {$ENDIF}
-    end
-    else if W_CheckNumForName('e1m1') <> -1 then
-    begin
-      gamemission := doom;
-      gamemode := shareware;
-      {$IFNDEF FPC}
-      SUC_SetGameMode('Shareware Doom');
-      {$ENDIF}
-    end
-    else if W_CheckNumForName('map01') <> -1 then
-    begin
-      gamemode := commercial;
-      if Pos('TNT.WAD', strupper(doomcwad)) > 0 then
-      begin
-        gamemission := pack_tnt;
-        {$IFNDEF FPC}
-        SUC_SetGameMode('TNT Evilution');
-        {$ENDIF}
-      end
-      else if Pos('PLUTONIA.WAD', strupper(doomcwad)) > 0 then
-      begin
-        gamemission := pack_plutonia;
-        {$IFNDEF FPC}
-        SUC_SetGameMode('The Plutonia Experiment');
-        {$ENDIF}
-      end
-      else
-      begin
-        gamemission := doom2;
-        {$IFNDEF FPC}
-        if customgame = cg_freedoom then
-          SUC_SetGameMode('FREEDOOM')
-        else
-          SUC_SetGameMode('DOOM2: Hell On Earth');
-        {$ENDIF}
-      end;
-    end
-    else
-      I_Error('Game mode indetermined'#13#10);
-  end
-  else
-  begin
-    {$IFNDEF FPC}
-    if customgame = cg_chex then
-      SUC_SetGameMode('Chex Quest')
-    else if customgame = cg_chex2 then
-       SUC_SetGameMode('Chex Quest 2')
-    else if customgame = cg_freedoom then
-       SUC_SetGameMode('FREEDOOM')
-    else if customgame = cg_bfg2 then
-       SUC_SetGameMode('DOOM2: BFG Edition')
-    else if customgame = cg_hacx then
-       SUC_SetGameMode('HACX')
-    else if (gamemission = doom) and (gamemode = retail) then
-      SUC_SetGameMode('Ultimate Doom')
-    else if (gamemission = doom) and (gamemode = registered) then
-      SUC_SetGameMode('Registered Doom')
-    else if (gamemission = doom) and (gamemode = shareware) then
-      SUC_SetGameMode('Shareware Doom')
-    else if gamemode = commercial then
-    begin
-      if gamemission = pack_tnt then
-        SUC_SetGameMode('TNT Evilution')
-      else if gamemission = pack_plutonia then
-        SUC_SetGameMode('The Plutonia Experiment')
-      else if gamemission = doom2 then
-        SUC_SetGameMode('DOOM2: Hell On Earth');
-    end;
-    {$ENDIF}
-  end;
-
-  {$IFNDEF FPC}
-  SUC_Progress(59);
-  {$ENDIF}
 
   printf('D_IdentifyGameDirectories: Identify game directories.'#13#10);
   D_IdentifyGameDirectories;
 
-  {$IFNDEF FPC}
   SUC_Progress(60);
-  {$ENDIF}
 
   p := M_CheckParm('-warp');
   if (p <> 0) and (p < myargc - 1) then
@@ -2410,9 +2346,7 @@ begin
     end;
   end;
 
-  {$IFNDEF FPC}
   SUC_Progress(61);
-  {$ENDIF}
 
   // Check for -file in shareware
   // JVAL
@@ -2471,9 +2405,7 @@ begin
     end;
   end;
 
-  {$IFNDEF FPC}
   SUC_Progress(65);
-  {$ENDIF}
 
   case gamemode of
     shareware,
@@ -2489,23 +2421,17 @@ begin
     end;
   end;
 
-  {$IFNDEF FPC}
   SUC_Progress(66);
-  {$ENDIF}
 
   printf('Info_InitRandom: Initializing randomizers.'#13#10);
   Info_InitRandom;
 
-  {$IFNDEF FPC}
   SUC_Progress(67);
-  {$ENDIF}
 
   printf('M_Init: Init miscellaneous info.'#13#10);
   M_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(68);
-  {$ENDIF}
 
   p := M_CheckParm('-mmx');
   if p > 0 then
@@ -2523,58 +2449,42 @@ begin
   printf('MT_Init: Initializing multithreading utilities.'#13#10);
   MT_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(69);
-  {$ENDIF}
 
   printf('W_InitPK3Sounds: Initializing sound files in pk3 filesystem'#13#10);
   W_InitPK3Sounds;
 
-  {$IFNDEF FPC}
   SUC_Progress(70);
-  {$ENDIF}
 
   printf('R_Init: Init DOOM refresh daemon.'#13#10);
   R_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(80);
-  {$ENDIF}
 
   printf('P_Init: Init Playloop state.'#13#10);
   P_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(81);
-  {$ENDIF}
 
   printf('D_CheckNetGame: Checking network game status.'#13#10);
   D_CheckNetGame;
 
-  {$IFNDEF FPC}
   SUC_Progress(87);
-  {$ENDIF}
 
   printf('S_Init: Setting up sound.'#13#10);
   S_Init(snd_SfxVolume, snd_MusicVolume);
 
-  {$IFNDEF FPC}
   SUC_Progress(90);
-  {$ENDIF}
 
   printf('HU_Init: Setting up heads up display.'#13#10);
   HU_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(91);
-  {$ENDIF}
 
   printf('ST_Init: Init status bar.'#13#10);
   ST_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(92);
-  {$ENDIF}
 
   //    // check for a driver that wants intermission stats
   p := M_CheckParm('-statcopy');
@@ -2600,16 +2510,12 @@ begin
   I_InitGraphics;
 {$ENDIF}
 
-  {$IFNDEF FPC}
   SUC_Progress(95);
-  {$ENDIF}
 
   printf('I_Init: Setting up machine state.'#13#10);
   I_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(96);
-  {$ENDIF}
 
   printf('C_Init: Initializing console.'#13#10);
   C_Init;
@@ -2628,17 +2534,13 @@ begin
   end;
 
   // JVAL: PascalScript
-  {$IFNDEF FPC}
   SUC_Progress(97);
-  {$ENDIF}
   printf('PS_CompileAllScripts: Compiling all scripts.'#13#10);
   PS_CompileAllScripts;
 
-  {$IFNDEF FPC}
   SUC_Progress(100);
 
   SUC_Close;
-  {$ENDIF}
 
   p := M_CheckParm('-playdemo');
   if (p <> 0) and (p < myargc - 1) then

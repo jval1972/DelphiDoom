@@ -209,6 +209,8 @@ Added A_BrainAwakeVanilla() & A_BrainSpitVanilla() ACTORDEF functions.
 Use the carret ("^") instead of slash ("\") while searching for external textures for sprites (OpenGL).
 The engine can use the zfloor & zceiling fields of vertexes in UDMF.
 Support for the health and gravity fields of things in UDMF.
+Correctly display the game mode in startup screen when the -iwad parameter is used.
+Displays the game mode sooner in startup screen.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

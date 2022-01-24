@@ -1468,247 +1468,11 @@ begin
   end;
 end;
 
-//
-// D_DoomMain
-//
-procedure D_DoomMain;
+procedure D_CheckCommonParams;
 var
   p: integer;
-  filename: string;
-  scale: integer;
-  _time: integer;
-  s_error: string;
-  i: integer;
-  oldoutproc: TOutProc;
-  mb_min: integer; // minimum zone size
-  maps: integer;
-  err_shown: boolean;
   s1, s2: string;
-  kparm: string;
 begin
-  {$IFDEF FPC}
-  outproc := @I_IOprintf;
-  {$ELSE}
-  SUC_Open;
-  outproc := @SUC_Outproc;
-  {$ENDIF}
-  wadfiles := TDSTringList.Create;
-
-  printf('Starting %s, %s'#13#10, [D_Version, D_VersionBuilt]);
-{$IFNDEF OPENGL}
-  C_AddCmd('tnthom, hom', @D_CmdHOM);
-{$ENDIF}
-  C_AddCmd('ver, version', @D_CmdVersion);
-  C_AddCmd('addpakfile, loadpakfile, addpak, loadpak', @D_CmdAddPakFile);
-  C_AddCmd('startthinkers', @D_StartThinkers);
-  C_AddCmd('stopthinkers', @D_StopThinkers);
-
-  {$IFNDEF FPC}
-  SUC_Progress(1);
-  {$ENDIF}
-
-  printf('M_InitArgv: Initializing command line parameters.'#13#10);
-  M_InitArgv;
-
-  {$IFNDEF FPC}
-  SUC_Progress(2);
-  {$ENDIF}
-
-  FindResponseFile;
-
-  printf('I_InitializeIO: Initializing input/output streams.'#13#10);
-  I_InitializeIO;
-
-  printf('I_InitTempFiles: Initializing temporary file managment.'#13#10);
-  I_InitTempFiles;
-
-  {$IFNDEF FPC}
-  SUC_Progress(3);
-  {$ENDIF}
-
-  D_AddSystemWAD; // Add system wad first
-
-  {$IFNDEF FPC}
-  SUC_Progress(5);
-  {$ENDIF}
-
-  disable_voices := true;
-
-  IdentifyVersion;
-
-  modifiedgame := false;
-
-  nomonsters := M_CheckParm('-nomonsters') > 0;
-  respawnparm := M_CheckParm('-respawn') > 0;
-  fastparm := M_CheckParm('-fast') > 0;
-  devparm := M_CheckParm('-devparm') > 0;
-  workparm := M_CheckParm('-work') > 0;
-  flipparm := M_CheckParm ('-flip') > 0;
-  hackshareware := M_CheckParm('-hackshareware') > 0;
-  debugmode := M_CheckParm('-debugmode') > 0;
-
-  {$IFNDEF FPC}
-  SUC_Progress(6);
-  {$ENDIF}
-
-  if M_CheckParm('-altdeath') > 0 then
-    deathmatch := 2
-  else if M_CheckParm('-deathmatch') > 0 then
-    deathmatch := 1;
-
-  case gamemode of
-    shareware:
-      begin
-        printf(
-           '                            ' +
-           'Strife Shareware (DEMO) Startup v%d.%.*d' +
-           '                           '#13#10,
-            [VERSION div 100, 2, VERSION mod 100]);
-      end;
-    registered:
-      begin
-        printf(
-           '                            ' +
-           'STRIFE Registered Startup v%d.%.*d' +
-           '                           '#13#10,
-            [VERSION div 100, 2, VERSION mod 100]);
-      end;
-  else
-      printf(
-         '                         ' +
-         'Public STRIFE - v%d.%.*d' +
-         '                           '#13#10,
-          [VERSION div 100, 2, VERSION mod 100]);
-  end;
-
-  if devparm then
-    printf(D_DEVSTR);
-
-  if M_CheckParmCDROM then
-  begin
-    printf(D_CDROM);
-    basedefault := CD_WORKDIR + {$IFDEF FPC}'Strife32f.ini'{$ELSE}'Strife32.ini'{$ENDIF};
-  end;
-
-  // turbo option
-  p := M_CheckParm('-turbo');
-  if p <> 0 then
-  begin
-    if p < myargc - 1 then
-    begin
-      scale := atoi(myargv[p + 1], 200);
-      if scale < 10 then
-        scale := 10
-      else if scale > 200 then // 22/3/2012 (was 400)
-        scale := 200;          // 22/3/2012 (was 400)
-    end
-    else
-      scale := 200;
-    printf(' turbo scale: %d'#13#10, [scale]);
-    // 22/3/2012
-    forwardmove[0] := forwardmove[0] * scale div 100;
-    forwardmove[1] := forwardmove[1] * scale div 100;
-    sidemove[0] := sidemove[0] * scale div 100;
-    sidemove[1] := sidemove[1] * scale div 100;
-  end;
-
-  {$IFNDEF FPC}
-  SUC_Progress(7);
-  {$ENDIF}
-
-  {$IFNDEF FPC}
-  SUC_Progress(8);
-  {$ENDIF}
-
-  D_AddWADFiles('-file');
-  for p := 1 to 9 do
-    D_AddWADFiles('-file' + itoa(p));
-  D_AddWADFiles('-lfile');  // JVAL launcher specific
-
-  {$IFNDEF FPC}
-  SUC_Progress(9);
-  {$ENDIF}
-
-  printf('PAK_InitFileSystem: Init PAK/ZIP/PK3/PK4 files.'#13#10);
-  PAK_InitFileSystem;
-
-  {$IFNDEF FPC}
-  SUC_Progress(10);
-  {$ENDIF}
-
-  PAK_LoadPendingPaks;
-
-  {$IFNDEF FPC}
-  SUC_Progress(11);
-  {$ENDIF}
-
-  D_AddPAKFiles('-pakfile');
-  for p := 1 to 9 do
-    D_AddPAKFiles('-pakfile' + itoa(p));
-
-  {$IFNDEF FPC}
-  SUC_Progress(15);
-  {$ENDIF}
-
-  D_AddPAKFiles('-lpakfile'); // JVAL launcher specific
-
-  {$IFNDEF FPC}
-  SUC_Progress(16);
-  {$ENDIF}
-
-  p := M_CheckParm('-playdemo');
-
-  if p = 0 then
-    p := M_CheckParm('-timedemo');
-
-  if (p <> 0) and (p < myargc - 1) then
-  begin
-    inc(p);
-    if Pos('.', myargv[p]) > 0 then
-      filename := myargv[p]
-    else
-      sprintf(filename,'%s.lmp', [myargv[p]]);
-    D_AddFile(filename);
-    printf('Playing demo %s.'#13#10, [filename]);
-  end;
-
-  // get skill / episode / map from parms
-  startskill := sk_medium;
-  startepisode := 1;
-  startmap := 1;
-  autostart := false;
-
-  p := M_CheckParm('-skill');
-  if (p <> 0) and (p < myargc - 1) then
-  begin
-    startskill := skill_t(Ord(myargv[p + 1][1]) - Ord('1'));
-    autostart := true;
-  end;
-
-  p := M_CheckParm('-timer');
-  if (p <> 0) and (p < myargc - 1) and (deathmatch <> 0) then
-  begin
-    _time := atoi(myargv[p + 1]);
-    printf('Levels will end after %d minute' + decide(_time > 1, 's', '') + #13#10, [_time]);
-  end;
-
-  p := M_CheckParm('-avg');
-  if (p <> 0) and (p <= myargc - 1) and (deathmatch <> 0) then
-    printf('Austin Virtual Gaming: Levels will end after 20 minutes'#13#10);
-
-  printf('M_LoadDefaults: Load system defaults.'#13#10);
-  M_LoadDefaults;              // load before initing other systems
-
-  if disable_voices or (M_CheckParm('-novoice') <> 0) then
-    dialogshowtext := disable_voices;
-
-  D_WadsAutoLoad(wads_autoload);
-  D_PaksAutoload(paks_autoload);
-
-  {$IFNDEF FPC}
-  SUC_Progress(20);
-  {$ENDIF}
-
   p := M_CheckParm('-fullscreen');
   if (p <> 0) and (p <= myargc - 1) then
     fullscreen := {$IFDEF OPENGL}true{$ELSE}FULLSCREEN_SHARED{$ENDIF};
@@ -1811,18 +1575,12 @@ begin
   if (p <> 0) and (p <= myargc - 1) then
     usejoystick := true;
 
-  {$IFNDEF OPENGL}
-//  SCREENWIDTH := WINDOWWIDTH;
-  {$ENDIF}
   p := M_CheckParm('-screenwidth');
   if (p <> 0) and (p < myargc - 1) then
     SCREENWIDTH := atoi(myargv[p + 1]);
   if SCREENWIDTH > MAXWIDTH then
     SCREENWIDTH := MAXWIDTH;
 
-  {$IFNDEF OPENGL}
-//  SCREENHEIGHT := WINDOWHEIGHT;
-  {$ENDIF}
   p := M_CheckParm('-screenheight');
   if (p <> 0) and (p < myargc - 1) then
     SCREENHEIGHT := atoi(myargv[p + 1]);
@@ -1936,12 +1694,6 @@ begin
   p := M_CheckParm('-autoscreenshot');
   autoscreenshot := p > 0;
 
-//  I_RestoreWindowPos;
-
-  {$IFNDEF FPC}
-  SUC_Progress(25);
-  {$ENDIF}
-
   nodrawers := M_CheckParm('-nodraw') <> 0;
   noblit := M_CheckParm('-noblit') <> 0;
   norender := M_CheckParm('-norender') <> 0;
@@ -1970,6 +1722,262 @@ begin
     chasecamera := true;
   if M_CheckParm('-nochasecamera') <> 0 then
     chasecamera := false;
+end;
+
+procedure D_CheckInteterminedMode;
+begin
+  D_IdentifyTeaser;
+
+  if gamemode = indetermined then
+  begin
+    if W_CheckNumForName('map01') <> -1 then
+    begin
+      gamemode := registered;
+      isdemoversion := false;
+      isregistered := true;
+      SUC_SetGameMode('Registered Strife');
+    end
+    else if W_CheckNumForName('map34') <> -1 then
+    begin
+      gamemode := shareware;
+      isdemoversion := true;
+      isregistered := false;
+      if teaser = 1 then
+        SUC_SetGameMode('Strife Teaser Demo 1.0')
+      else if teaser = 2 then
+        SUC_SetGameMode('Strife Teaser Demo 1.1')
+      else
+        SUC_SetGameMode('Shareware Strife (DEMO)');
+    end
+    else
+      I_Error('Game mode indetermined'#13#10);
+  end
+  else
+  begin
+    if gamemode = registered then
+      SUC_SetGameMode('Registered Strife')
+    else if gamemode = shareware then
+    begin
+      if teaser = 1 then
+        SUC_SetGameMode('Strife Teaser Demo 1.0')
+      else if teaser = 2 then
+        SUC_SetGameMode('Strife Teaser Demo 1.1')
+      else
+        SUC_SetGameMode('Shareware Strife (DEMO)');
+    end;
+  end;
+end;
+
+//
+// D_DoomMain
+//
+procedure D_DoomMain;
+var
+  p: integer;
+  filename: string;
+  scale: integer;
+  _time: integer;
+  s_error: string;
+  i: integer;
+  oldoutproc: TOutProc;
+  mb_min: integer; // minimum zone size
+  maps: integer;
+  err_shown: boolean;
+  kparm: string;
+begin
+  SUC_Open;
+  outproc := @SUC_Outproc;
+  wadfiles := TDSTringList.Create;
+
+  printf('Starting %s, %s'#13#10, [D_Version, D_VersionBuilt]);
+{$IFNDEF OPENGL}
+  C_AddCmd('tnthom, hom', @D_CmdHOM);
+{$ENDIF}
+  C_AddCmd('ver, version', @D_CmdVersion);
+  C_AddCmd('addpakfile, loadpakfile, addpak, loadpak', @D_CmdAddPakFile);
+  C_AddCmd('startthinkers', @D_StartThinkers);
+  C_AddCmd('stopthinkers', @D_StopThinkers);
+
+  SUC_Progress(1);
+
+  printf('M_InitArgv: Initializing command line parameters.'#13#10);
+  M_InitArgv;
+
+  SUC_Progress(2);
+
+  FindResponseFile;
+
+  printf('I_InitializeIO: Initializing input/output streams.'#13#10);
+  I_InitializeIO;
+
+  printf('I_InitTempFiles: Initializing temporary file managment.'#13#10);
+  I_InitTempFiles;
+
+  SUC_Progress(3);
+
+  D_AddSystemWAD; // Add system wad first
+
+  SUC_Progress(5);
+
+  disable_voices := true;
+
+  IdentifyVersion;
+
+  modifiedgame := false;
+
+  nomonsters := M_CheckParm('-nomonsters') > 0;
+  respawnparm := M_CheckParm('-respawn') > 0;
+  fastparm := M_CheckParm('-fast') > 0;
+  devparm := M_CheckParm('-devparm') > 0;
+  workparm := M_CheckParm('-work') > 0;
+  flipparm := M_CheckParm ('-flip') > 0;
+  hackshareware := M_CheckParm('-hackshareware') > 0;
+  debugmode := M_CheckParm('-debugmode') > 0;
+
+  SUC_Progress(6);
+
+  if M_CheckParm('-altdeath') > 0 then
+    deathmatch := 2
+  else if M_CheckParm('-deathmatch') > 0 then
+    deathmatch := 1;
+
+  case gamemode of
+    shareware:
+      begin
+        printf(
+           '                            ' +
+           'Strife Shareware (DEMO) Startup v%d.%.*d' +
+           '                           '#13#10,
+            [VERSION div 100, 2, VERSION mod 100]);
+      end;
+    registered:
+      begin
+        printf(
+           '                            ' +
+           'STRIFE Registered Startup v%d.%.*d' +
+           '                           '#13#10,
+            [VERSION div 100, 2, VERSION mod 100]);
+      end;
+  else
+      printf(
+         '                         ' +
+         'Public STRIFE - v%d.%.*d' +
+         '                           '#13#10,
+          [VERSION div 100, 2, VERSION mod 100]);
+  end;
+
+  if devparm then
+    printf(D_DEVSTR);
+
+  if M_CheckParmCDROM then
+  begin
+    printf(D_CDROM);
+    basedefault := CD_WORKDIR + {$IFDEF FPC}'Strife32f.ini'{$ELSE}'Strife32.ini'{$ENDIF};
+  end;
+
+  // turbo option
+  p := M_CheckParm('-turbo');
+  if p <> 0 then
+  begin
+    if p < myargc - 1 then
+    begin
+      scale := atoi(myargv[p + 1], 200);
+      if scale < 10 then
+        scale := 10
+      else if scale > 200 then // 22/3/2012 (was 400)
+        scale := 200;          // 22/3/2012 (was 400)
+    end
+    else
+      scale := 200;
+    printf(' turbo scale: %d'#13#10, [scale]);
+    // 22/3/2012
+    forwardmove[0] := forwardmove[0] * scale div 100;
+    forwardmove[1] := forwardmove[1] * scale div 100;
+    sidemove[0] := sidemove[0] * scale div 100;
+    sidemove[1] := sidemove[1] * scale div 100;
+  end;
+
+  SUC_Progress(7);
+
+
+  D_AddWADFiles('-file');
+  for p := 1 to 9 do
+    D_AddWADFiles('-file' + itoa(p));
+  D_AddWADFiles('-lfile');  // JVAL launcher specific
+
+  SUC_Progress(9);
+
+  printf('PAK_InitFileSystem: Init PAK/ZIP/PK3/PK4 files.'#13#10);
+  PAK_InitFileSystem;
+
+  SUC_Progress(10);
+
+  PAK_LoadPendingPaks;
+
+  SUC_Progress(11);
+
+  D_AddPAKFiles('-pakfile');
+  for p := 1 to 9 do
+    D_AddPAKFiles('-pakfile' + itoa(p));
+
+  SUC_Progress(15);
+
+  D_AddPAKFiles('-lpakfile'); // JVAL launcher specific
+
+  SUC_Progress(16);
+
+  p := M_CheckParm('-playdemo');
+
+  if p = 0 then
+    p := M_CheckParm('-timedemo');
+
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    inc(p);
+    if Pos('.', myargv[p]) > 0 then
+      filename := myargv[p]
+    else
+      sprintf(filename,'%s.lmp', [myargv[p]]);
+    D_AddFile(filename);
+    printf('Playing demo %s.'#13#10, [filename]);
+  end;
+
+  // get skill / episode / map from parms
+  startskill := sk_medium;
+  startepisode := 1;
+  startmap := 1;
+  autostart := false;
+
+  p := M_CheckParm('-skill');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    startskill := skill_t(Ord(myargv[p + 1][1]) - Ord('1'));
+    autostart := true;
+  end;
+
+  p := M_CheckParm('-timer');
+  if (p <> 0) and (p < myargc - 1) and (deathmatch <> 0) then
+  begin
+    _time := atoi(myargv[p + 1]);
+    printf('Levels will end after %d minute' + decide(_time > 1, 's', '') + #13#10, [_time]);
+  end;
+
+  p := M_CheckParm('-avg');
+  if (p <> 0) and (p <= myargc - 1) and (deathmatch <> 0) then
+    printf('Austin Virtual Gaming: Levels will end after 20 minutes'#13#10);
+
+  printf('M_LoadDefaults: Load system defaults.'#13#10);
+  M_LoadDefaults;              // load before initing other systems
+
+  if disable_voices or (M_CheckParm('-novoice') <> 0) then
+    dialogshowtext := disable_voices;
+
+  D_WadsAutoLoad(wads_autoload);
+  D_PaksAutoload(paks_autoload);
+
+  SUC_Progress(20);
+
+  D_CheckCommonParams;
 
 // Try to guess minimum zone memory to allocate
   mb_min := 6 + V_ScreensSize(SCN_FG) div (1024 * 1024);
@@ -1994,9 +2002,7 @@ begin
   printf('Z_Init: Init zone memory allocation daemon, allocation %d MB.'#13#10, [mb_used]);
   Z_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(30);
-  {$ENDIF}
 
   p := M_CheckParm('-nothinkers');
   if p = 0 then
@@ -2010,16 +2016,12 @@ begin
     Info_Init(false);
   end;
 
-  {$IFNDEF FPC}
   SUC_Progress(31);
-  {$ENDIF}
 
   printf('Info_InitStateOwners(): Initialize State Owners.'#13#10);
   Info_InitStateOwners;
 
-  {$IFNDEF FPC}
   SUC_Progress(32);
-  {$ENDIF}
 
   for p := 1 to myargc do
     if (strupper(fext(myargv[p])) = '.WAD') or (strupper(fext(myargv[p])) = '.OUT') then
@@ -2064,23 +2066,19 @@ begin
     isdemoversion := true;
   end;
 
-  {$IFNDEF FPC}
+  D_CheckInteterminedMode;
+
   SUC_Progress(39);
-  {$ENDIF}
 
   printf('W_AutoLoadPakFiles: Autoload required pak files.'#13#10);
   W_AutoLoadPakFiles;
 
-  {$IFNDEF FPC}
   SUC_Progress(40);
-  {$ENDIF}
 
   printf('SC_Init: Initializing script engine.'#13#10);
   SC_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(41);
-  {$ENDIF}
 
   printf('DEH_Init: Initializing dehacked subsystem.'#13#10);
   SC_DefaultStatedefLump;
@@ -2090,24 +2088,18 @@ begin
     if not DEH_ParseLumpName('GAMEDEF') then
       I_Warning('DEH_ParseLumpName(): GAMEDEF lump not found, using defaults.'#13#10);
 
-  {$IFNDEF FPC}
   SUC_Progress(42);
-  {$ENDIF}
 
   // JVAL: PascalScript
   printf('PS_Init: Initializing pascal script compiler.'#13#10);
   PS_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(43);
-  {$ENDIF}
 
   printf('SC_ParseSndInfoLumps: Parsing SNDINFO lumps.'#13#10);
   SC_ParseSndInfoLumps;
 
-  {$IFNDEF FPC}
   SUC_Progress(44);
-  {$ENDIF}
 
   p := M_CheckParm('-noactordef');
   if p <= 0 then
@@ -2116,9 +2108,7 @@ begin
     SC_ParseActordefLumps;
   end;
 
-  {$IFNDEF FPC}
   SUC_Progress(45);
-  {$ENDIF}
 
   if M_CheckParm('-nowaddehacked') = 0 then
     if not DEH_ParseLumpNames('DEHACKED') then
@@ -2133,35 +2123,27 @@ begin
 
   printf('Info_CheckStatesArgs: Checking states arguments'#13#10);
   Info_CheckStatesArgs;
-  
+
   printf('Info_SaveActions: Saving state actions'#13#10);
   Info_SaveActions;
 
-  {$IFNDEF FPC}
   SUC_Progress(50);
-  {$ENDIF}
 
   for i := 0 to NUM_STARTUPMESSAGES - 1 do
     if startmsg[i] <> '' then
       printf('%s'#13#10, [startmsg[i]]);
 
-  {$IFNDEF FPC}
   SUC_Progress(51);
-  {$ENDIF}
 
   printf('T_Init: Initializing texture manager.'#13#10);
   T_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(55);
-  {$ENDIF}
 
   printf('V_Init: allocate screens.'#13#10);
   V_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(56);
-  {$ENDIF}
 
   printf('AM_Init: initializing automap.'#13#10);
   AM_Init;
@@ -2169,9 +2151,7 @@ begin
   printf('MObj_Init: initializing mobj commands.'#13#10);
   MObj_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(57);
-  {$ENDIF}
 
   p := M_CheckParm('-autoexec');
   if (p <> 0) and (p < myargc - 1) then
@@ -2185,68 +2165,16 @@ begin
   printf('M_InitDialogs: Initializing dialogs.'#13#10);
   M_InitDialogs;
 
-  {$IFNDEF FPC}
   SUC_Progress(58);
-  {$ENDIF}
-
-  D_IdentifyTeaser;
-
-  if gamemode = indetermined then
-  begin
-    if W_CheckNumForName('map01') <> -1 then
-    begin
-      gamemode := registered;
-      isdemoversion := false;
-      isregistered := true;
-      {$IFNDEF FPC}
-      SUC_SetGameMode('Registered Strife');
-      {$ENDIF}
-    end
-    else if W_CheckNumForName('map34') <> -1 then
-    begin
-      gamemode := shareware;
-      isdemoversion := true;
-      isregistered := false;
-      {$IFNDEF FPC}
-      if teaser = 1 then
-        SUC_SetGameMode('Strife Teaser Demo 1.0')
-      else if teaser = 2 then
-        SUC_SetGameMode('Strife Teaser Demo 1.1')
-      else
-        SUC_SetGameMode('Shareware Strife (DEMO)');
-      {$ENDIF}
-    end
-    else
-      I_Error('Game mode indetermined'#13#10);
-  end
-  else
-  begin
-    {$IFNDEF FPC}
-    if gamemode = registered then
-      SUC_SetGameMode('Registered Strife')
-    else if gamemode = shareware then
-    begin
-      if teaser = 1 then
-        SUC_SetGameMode('Strife Teaser Demo 1.0')
-      else if teaser = 2 then
-        SUC_SetGameMode('Strife Teaser Demo 1.1')
-      else
-        SUC_SetGameMode('Shareware Strife (DEMO)');
-    end;
-    {$ENDIF}
-  end;
 
 
-  {$IFNDEF FPC}
+
   SUC_Progress(59);
-  {$ENDIF}
 
   printf('D_IdentifyGameDirectories: Identify game directories.'#13#10);
   D_IdentifyGameDirectories;
 
-  {$IFNDEF FPC}
   SUC_Progress(60);
-  {$ENDIF}
 
   p := M_CheckParm('-warp');
   if (p <> 0) and (p < myargc - 1) then
@@ -2255,9 +2183,7 @@ begin
     autostart := true;
   end;
 
-  {$IFNDEF FPC}
   SUC_Progress(61);
-  {$ENDIF}
 
   // Check for -file in shareware
   // JVAL
@@ -2301,9 +2227,7 @@ begin
     end;
   end;
 
-  {$IFNDEF FPC}
   SUC_Progress(65);
-  {$ENDIF}
 
   case gamemode of
     shareware,
@@ -2317,23 +2241,17 @@ begin
     end;
   end;
 
-  {$IFNDEF FPC}
   SUC_Progress(66);
-  {$ENDIF}
 
   printf('Info_InitRandom: Initializing randomizers.'#13#10);
   Info_InitRandom;
 
-  {$IFNDEF FPC}
   SUC_Progress(67);
-  {$ENDIF}
 
   printf('M_Init: Init miscellaneous info.'#13#10);
   M_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(68);
-  {$ENDIF}
 
   p := M_CheckParm('-mmx');
   if p > 0 then
@@ -2351,45 +2269,33 @@ begin
   printf('MT_Init: Initializing multithreading utilities.'#13#10);
   MT_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(69);
-  {$ENDIF}
 
   printf('W_InitPK3Sounds: Initializing sound files in pk3 filesystem'#13#10);
   W_InitPK3Sounds;
 
-  {$IFNDEF FPC}
   SUC_Progress(70);
-  {$ENDIF}
 
   printf('R_Init: Init STRIFE refresh daemon.'#13#10);
   R_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(80);
-  {$ENDIF}
 
   printf('P_Init: Init Playloop state.'#13#10);
   P_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(81);
-  {$ENDIF}
 
   printf('D_CheckNetGame: Checking network game status.'#13#10);
   D_CheckNetGame;
 
-  {$IFNDEF FPC}
   SUC_Progress(85);
-  {$ENDIF}
 
   // haleyjd 20110210: Create Strife hub save folders
   printf('M_CreateSaveDirs: Creating game save directories.'#13#10);
   M_CreateSaveDirs(M_SaveFileName(''));
 
-  {$IFNDEF FPC}
   SUC_Progress(86);
-  {$ENDIF}
 
   savepathtemp := M_SafeFilePath(M_SaveFileName(''), 'strfsav8.ssg');
   printf('M_ClearTmp: Clear temporary save directory.'#13#10);
@@ -2411,16 +2317,12 @@ begin
   printf('HU_Init: Setting up heads up display.'#13#10);
   HU_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(91);
-  {$ENDIF}
 
   printf('ST_Init: Init status bar.'#13#10);
   ST_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(92);
-  {$ENDIF}
 
   // start the apropriate game based on parms
   p := M_CheckParm('-record');
@@ -2437,16 +2339,12 @@ begin
   I_InitGraphics;
 {$ENDIF}
 
-  {$IFNDEF FPC}
   SUC_Progress(95);
-  {$ENDIF}
 
   printf('I_Init: Setting up machine state.'#13#10);
   I_Init;
 
-  {$IFNDEF FPC}
   SUC_Progress(96);
-  {$ENDIF}
 
   printf('C_Init: Initializing console.'#13#10);
   C_Init;
@@ -2468,17 +2366,13 @@ begin
   F_Init;
 
   // JVAL: PascalScript
-  {$IFNDEF FPC}
   SUC_Progress(97);
-  {$ENDIF}
   printf('PS_CompileAllScripts: Compiling all scripts.'#13#10);
   PS_CompileAllScripts;
 
-  {$IFNDEF FPC}
   SUC_Progress(100);
 
   SUC_Close;
-  {$ENDIF}
 
   p := M_CheckParm('-playdemo');
   if (p <> 0) and (p < myargc - 1) then

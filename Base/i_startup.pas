@@ -176,10 +176,17 @@ begin
   StartUpConsoleForm.StartUpProgressBar.Repaint;
 end;
 
+var
+  gamemodeset: boolean = false;
+
 procedure SUC_SetGameMode(const s: string);
 begin
-  StartUpConsoleForm.GameLabel.Caption := s;
-  StartUpConsoleForm.GamePanel.Visible := true;
+  if not gamemodeset then
+  begin
+    gamemodeset := true;
+    StartUpConsoleForm.GameLabel.Caption := s;
+    StartUpConsoleForm.GamePanel.Visible := true;
+  end;
 end;
 
 function SUC_GetHandle: integer;
