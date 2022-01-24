@@ -217,6 +217,7 @@ XMI (Extended midi), CMF (Creative music file) & SOP (Sopepos) music support.
 Use the carret ("^") instead of slash ("\") while searching for external textures for sprites (OpenGL).
 The engine can use the zfloor & zheight fields of vertexes in UDMF.
 Support for the health and gravity fields of things in UDMF.
+Prevent crash or undefined behavior when parsing MAPINFO lump.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

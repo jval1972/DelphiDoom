@@ -1979,6 +1979,7 @@ end;
 
 const
   MAPINFO_SCRIPT_NAME = 'MAPINFO';
+  MCMD_NOMATCH = -1;
   MCMD_SKY1 = 1;
   MCMD_SKY2 = 2;
   MCMD_LIGHTNING = 3;
@@ -1996,7 +1997,8 @@ const
   MCMD_CD_TITLETRACK = 15;
 
 const
-  MapCmdIDs: array[0..14] of integer = (
+  MapCmdIDs: array[-1..14] of integer = (
+    MCMD_NOMATCH,
     MCMD_SKY1,
     MCMD_SKY2,
     MCMD_DOUBLESKY,
