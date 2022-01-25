@@ -204,6 +204,7 @@ var
   stmp, s1, s2: string;
   dw: boolean;
   ds: TDefineState;
+  oldDefines: TStringList;
 
   procedure _Error(const err: string);
   var
@@ -224,8 +225,12 @@ var
   end;
 
 begin
+  oldDefines := TStringList.Create;
+  oldDefines.AddStrings(FDefines);
+
   sinp := TStringList.Create;
   sout := TStringList.Create;
+
   sinp.Text := inp;
   for i := 0 to sinp.Count - 1 do
   begin
@@ -283,12 +288,22 @@ begin
         end
       end;
     end
+    else if s1 = '#EXITIF' then
+    begin
+      if FDefines.IndexOf(s2) >= 0 then
+        Break;
+    end
     else if FDefineState.DoWrite then
       sout.Add(line);
   end;
   result := sout.Text;
+
   sinp.Free;
   sout.Free;
+
+  FDefines.Clear;
+  FDefines.AddStrings(oldDefines);
+  oldDefines.Free;
 end;
 
 procedure SC_InitGameDefines;
