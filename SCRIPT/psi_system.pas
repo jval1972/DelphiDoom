@@ -459,7 +459,7 @@ begin
   Result := 0;
 end;
 
-function PS_SetConsoleInt(const cvar: string; const value: string): boolean;
+function PS_SetConsoleInt(const cvar: string; const value: integer): boolean;
 begin
   result := M_ForceDefaultInteger(cvar, value);
 end;
@@ -498,7 +498,7 @@ begin
   Result := False;
 end;
 
-function PS_SetConsoleBool(const cvar: string; const value: string): boolean;
+function PS_SetConsoleBool(const cvar: string; const value: boolean): boolean;
 begin
   result := M_ForceDefaultBoolean(cvar, value);
 end;
