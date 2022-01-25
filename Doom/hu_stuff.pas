@@ -425,7 +425,7 @@ begin
     FPSHISTORY2[i] := 0;
 
   for i := 0 to 4 do
-    crosshairs[i] := W_CacheLumpName('CROSS' + itoa(i), PU_STATIC);
+    crosshairs[i] := W_CacheLumpName('XCROSS' + itoa(i), PU_STATIC);
 
   C_AddCmd('fps', @HU_CmdFPS);
   C_AddCmd('playermessage', @HU_CmdPlayerMessage);
