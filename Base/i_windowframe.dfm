@@ -1,6 +1,10 @@
 object WindowFrameForm: TWindowFrameForm
   Left = 572
+<<<<<<< Updated upstream
   Top = 133
+=======
+  Top = 118
+>>>>>>> Stashed changes
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = '-'
