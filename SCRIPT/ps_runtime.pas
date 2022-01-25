@@ -2458,7 +2458,7 @@ var
                 CMD_Err(erOutOfRange);
                 DestroyHeapVariant(VarP);
                 Result := False;
-                Exit;;
+                Exit;
               end;
               {$IFDEF FPC_REQUIRES_PROPER_ALIGNMENT}
               PPSVariantU32(varp)^.Data := unaligned(Cardinal((@FData^[FCurrentPosition])^));
@@ -2474,7 +2474,7 @@ var
                 CMD_Err(erOutOfRange);
                 DestroyHeapVariant(VarP);
                 Result := False;
-                Exit;;
+                Exit;
               end;
               {$IFDEF FPC_REQUIRES_PROPER_ALIGNMENT}
               PPSVariantU32(varp)^.Data := unaligned(Cardinal((@FData^[FCurrentPosition])^));
@@ -11300,7 +11300,7 @@ begin
           begin
             TVarRec(p^).VType := vtExtended;
             New(TVarRec(p^).VExtended);
-            TVarRec(p^).VExtended^ := TbtExtended(cp^);;
+            TVarRec(p^).VExtended^ := TbtExtended(cp^);
           end;
         btDouble:
           begin

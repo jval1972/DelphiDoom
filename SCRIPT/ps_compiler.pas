@@ -5950,7 +5950,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
         tmpp := AllocStackReg(GetTypeNo(BlockInfo, BVal.FVal1));
         if not MakeNil(BVal.FVal2.Pos, BVal.FVal2.Row, BVal.FVal2.Col, tmpp) then
         begin
-          tmpp.Free;;
+          tmpp.Free;
           Result := False;
           Exit;
         end;
@@ -6645,7 +6645,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
       Call := TPSValueProcNo.Create;
       Call.ResultType := nil;
       Call.SetParserPos(FParser);
-      Call.ProcNo := FindProc('!NOTIFICATIONVARIANTSET');;
+      Call.ProcNo := FindProc('!NOTIFICATIONVARIANTSET');
       Call.SetParserPos(FParser);
       Call.Parameters := TPSParameters.Create;
       Tmp := TPSValueData.Create;

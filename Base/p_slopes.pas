@@ -451,7 +451,7 @@ begin
         end;
     end
     {$ENDIF}
-  end;;
+  end;
 end;
 
 procedure P_FindNearestPointOnLine(const x, y: fixed_t; const line: Pline_t; var xx, yy: fixed_t);

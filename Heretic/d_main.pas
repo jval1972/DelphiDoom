@@ -1921,7 +1921,7 @@ begin
   SUC_Progress(38);
 
   printf('SC_InitGameDefines: Determine global defines.'#13#10);
-  SC_InitGameDefines;;
+  SC_InitGameDefines;
   D_FillGameDefines;
 
   SUC_Progress(39);
