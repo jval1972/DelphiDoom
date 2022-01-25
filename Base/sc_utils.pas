@@ -46,7 +46,8 @@ uses
   {$ENDIF}
   sc_defines,
   sc_engine,
-  w_pak;
+  w_pak,
+  w_wad;
 
 function SC_Preprocess(const inp_text: string; const addcomment: boolean): string;
 const
@@ -67,6 +68,8 @@ var
     str_incl: string;
     do_all: boolean;
     do_one: boolean;
+    do_wad: boolean;
+    lump: integer;
   begin
     inc(depth);
     if depth >= MAXINCLUDEDEPTH then
@@ -90,7 +93,8 @@ var
         str := str1;
       do_one := (Pos('#INCLUDE ', strupper(strtrim(str))) = 1) or (Pos('{$INCLUDE ', strupper(strtrim(str))) = 1) or (Pos('{$INCLUDE} ', strupper(strtrim(str))) = 1);
       do_all := (Pos('#INCLUDE_ALL ', strupper(strtrim(str))) = 1) or (Pos('{$INCLUDE_ALL ', strupper(strtrim(str))) = 1) or (Pos('{$INCLUDE_ALL} ', strupper(strtrim(str))) = 1);
-      if do_one or do_all then
+      do_wad := (Pos('#INCLUDE_WAD ', strupper(strtrim(str))) = 1) or (Pos('{$INCLUDE_WAD ', strupper(strtrim(str))) = 1) or (Pos('{$INCLUDE_WAD} ', strupper(strtrim(str))) = 1);
+      if do_one or do_all or do_wad then
       begin
         splitstring(strtrim(str), s1, s2, ' ');
         s2 := strtrim(s2);
@@ -104,6 +108,14 @@ var
           begin
             if do_all then
               str_incl := PAK_ReadAllFilesAsString(s2)
+            else if do_wad then
+            begin
+              lump := W_CheckNumForName(s2);
+              if lump >= 0 then
+                str_incl := W_TextLumpNum(lump)
+              else
+                str_incl := '';
+            end
             else
               str_incl := PAK_ReadFileAsString(s2);
 
@@ -125,7 +137,7 @@ var
                 I_Warning('SC_Preprocess(): Invalid recoursive call of include file %s'#13#10, [s2]);
             end
             else
-              I_Warning('SC_Preprocess(): Invalid recoursive call of include file %s'#13#10, [s2]);
+              I_Warning('SC_Preprocess(): Include file %s does not exist or is empty'#13#10, [s2]);
           end;
         end;
       end
