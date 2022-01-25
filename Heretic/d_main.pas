@@ -192,6 +192,7 @@ uses
   s_sound,
   s_pk3sounds,
   sc_actordef,
+  sc_defines,
   sc_states,
   t_main,
   v_data,

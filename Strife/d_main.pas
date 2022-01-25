@@ -216,6 +216,7 @@ uses
   s_sound,
   s_pk3sounds,
   sc_actordef,
+  sc_defines,
   sc_states,
   m_saves,
   t_main,
@@ -1766,6 +1767,7 @@ begin
         SUC_SetGameMode('Shareware Strife (DEMO)');
     end;
   end;
+end;
 
 procedure D_FillGameDefines;
 begin

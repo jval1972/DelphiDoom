@@ -197,6 +197,7 @@ uses
   s_sndseq,
   s_pk3sounds,
   sc_actordef,
+  sc_defines,
   sc_states,
   sv_save,
   t_main,
