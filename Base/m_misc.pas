@@ -60,6 +60,12 @@ procedure M_LoadDefaults;
 
 procedure M_SaveDefaults;
 
+procedure M_ForceDefaultBoolean(const name: string; const value: boolean);
+
+procedure M_ForceDefaultInteger(const name: string; const value: integer);
+
+procedure M_ForceDefaultString(const name: string; const value: string);
+
 procedure Cmd_Set(const name: string; const value: string);
 
 procedure Cmd_Get(const name: string);
@@ -879,6 +885,60 @@ begin
   gl_drawsky := true;
   {$ENDIF}
   {$ENDIF}
+end;
+
+procedure M_ForceDefaultBoolean(const name: string; const value: boolean);
+var
+  i: integer;
+  lname: string;
+begin
+  lname := strlower(name);
+  for i := 0 to NUMDEFAULTS - 1 do
+    if defaults[i]._type = tBoolean then
+      if defaults[i].name = lname then
+      begin
+        defaults[i].defaultbvalue := PBoolean(defaults[i].location)^;
+        PBoolean(defaults[i].location)^ := value;
+        PBoolean(defaults[i].location) := @defaults[i].defaultbvalue;
+        defaults[i].defaultbvalue := value;
+        defaults[i].setable := DFS_NEVER;
+      end;
+end;
+
+procedure M_ForceDefaultInteger(const name: string; const value: integer);
+var
+  i: integer;
+  lname: string;
+begin
+  lname := strlower(name);
+  for i := 0 to NUMDEFAULTS - 1 do
+    if defaults[i]._type = tInteger then
+      if defaults[i].name = lname then
+      begin
+        defaults[i].defaultivalue := PInteger(defaults[i].location)^;
+        PInteger(defaults[i].location)^ := value;
+        PInteger(defaults[i].location) := @defaults[i].defaultivalue;
+        defaults[i].defaultivalue := value;
+        defaults[i].setable := DFS_NEVER;
+      end;
+end;
+
+procedure M_ForceDefaultString(const name: string; const value: string);
+var
+  i: integer;
+  lname: string;
+begin
+  lname := strlower(name);
+  for i := 0 to NUMDEFAULTS - 1 do
+    if defaults[i]._type = tString then
+      if defaults[i].name = lname then
+      begin
+        defaults[i].defaultsvalue := PString(defaults[i].location)^;
+        PString(defaults[i].location)^ := value;
+        PString(defaults[i].location) := @defaults[i].defaultsvalue;
+        defaults[i].defaultsvalue := value;
+        defaults[i].setable := DFS_NEVER;
+      end;
 end;
 
 end.

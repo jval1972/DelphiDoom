@@ -59,7 +59,7 @@ type
   end;
 
 const
-  NUMIWADDETECTITEMS = 13;
+  NUMIWADDETECTITEMS = 15;
   iwadtbl: array[0..NUMIWADDETECTITEMS - 1] of iwaddetect_t = (
     (crc32: '723e60f9'; numlumps: 2194; size: 11159840; version: exe_doom_1_9; customgame: cg_none; savepath: 'doom'),      // registered
     (crc32: 'bf0eaac0'; numlumps: 2306; size: 12408292; version: exe_ultimate; customgame: cg_none; savepath: 'doomu'),     // Ultimate
@@ -73,7 +73,9 @@ const
     (crc32: 'd4bb05c0'; numlumps: 3106; size: 18654796; version: exe_final2;   customgame: cg_none; savepath: 'tnt'),       // TNT
     (crc32: '7f572c1f'; numlumps: 3101; size: 18222568; version: exe_final2;   customgame: cg_none; savepath: 'tnt'),       // TNT
     (crc32: '48d1453c'; numlumps: 2984; size: 17420824; version: exe_final2;   customgame: cg_none; savepath: 'plutonia'),  // PLUTONIA
-    (crc32: '15cd1448'; numlumps: 2988; size: 18240172; version: exe_final2;   customgame: cg_none; savepath: 'plutonia')   // PLUTONIA
+    (crc32: '15cd1448'; numlumps: 2988; size: 18240172; version: exe_final2;   customgame: cg_none; savepath: 'plutonia'),  // PLUTONIA
+    (crc32: 'b95a03d2'; numlumps: 2649; size: 22102300; version: exe_hacx;     customgame: cg_hacx; savepath: 'hacx11'),    // HACX 1.1
+    (crc32: '72e3b8ac'; numlumps: 2784; size: 19321722; version: exe_hacx;     customgame: cg_hacx; savepath: 'hacx12')     // HACX 1.2
   );
 
 type

@@ -1770,13 +1770,13 @@ begin
   if customgame = cg_chex then
     SUC_SetGameMode('Chex Quest')
   else if customgame = cg_chex2 then
-     SUC_SetGameMode('Chex Quest 2')
+    SUC_SetGameMode('Chex Quest 2')
   else if customgame = cg_freedoom then
-     SUC_SetGameMode('FREEDOOM')
+    SUC_SetGameMode('FREEDOOM')
   else if customgame = cg_bfg2 then
-     SUC_SetGameMode('DOOM2: BFG Edition')
+    SUC_SetGameMode('DOOM2: BFG Edition')
   else if customgame = cg_hacx then
-     SUC_SetGameMode('HACX');
+    SUC_SetGameMode('HACX');
   if gamemode = indetermined then
   begin
     if W_CheckNumForName('e4m1') <> -1 then
@@ -1850,6 +1850,9 @@ begin
         SUC_SetGameMode('DOOM2: Hell On Earth');
     end;
   end;
+
+  if customgame = cg_hacx then
+    M_ForceDefaultBoolean('decorate_as_actordef', false);
 end;
 
 procedure D_FillGameDefines;
