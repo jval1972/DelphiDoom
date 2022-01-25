@@ -212,6 +212,7 @@ Displays the game mode sooner in startup screen.
 Default turbo scale set to 200.
 Process C lang style defines and conditions in custom content.
 The default value of autoloadgwafiles console variable changed to false.
+Added the #exitif conditianal directive in text content definition lumps.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

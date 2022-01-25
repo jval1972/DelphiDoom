@@ -290,8 +290,9 @@ begin
     end
     else if s1 = '#EXITIF' then
     begin
-      if FDefines.IndexOf(s2) >= 0 then
-        Break;
+      if FDefineState.DoWrite then
+        if FDefines.IndexOf(s2) >= 0 then
+          Break;
     end
     else if FDefineState.DoWrite then
       sout.Add(line);
