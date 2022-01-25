@@ -60,11 +60,11 @@ procedure M_LoadDefaults;
 
 procedure M_SaveDefaults;
 
-procedure M_ForceDefaultBoolean(const name: string; const value: boolean);
+function M_ForceDefaultBoolean(const name: string; const value: boolean): boolean;
 
-procedure M_ForceDefaultInteger(const name: string; const value: integer);
+function M_ForceDefaultInteger(const name: string; const value: integer): boolean;
 
-procedure M_ForceDefaultString(const name: string; const value: string);
+function M_ForceDefaultString(const name: string; const value: string): boolean;
 
 procedure Cmd_Set(const name: string; const value: string);
 
@@ -887,11 +887,12 @@ begin
   {$ENDIF}
 end;
 
-procedure M_ForceDefaultBoolean(const name: string; const value: boolean);
+function M_ForceDefaultBoolean(const name: string; const value: boolean): boolean;
 var
   i: integer;
   lname: string;
 begin
+  result := false;
   lname := strlower(name);
   for i := 0 to NUMDEFAULTS - 1 do
     if defaults[i]._type = tBoolean then
@@ -900,16 +901,17 @@ begin
         defaults[i].defaultbvalue := PBoolean(defaults[i].location)^;
         PBoolean(defaults[i].location)^ := value;
         PBoolean(defaults[i].location) := @defaults[i].defaultbvalue;
-        defaults[i].defaultbvalue := value;
         defaults[i].setable := DFS_NEVER;
+        result := true;
       end;
 end;
 
-procedure M_ForceDefaultInteger(const name: string; const value: integer);
+function M_ForceDefaultInteger(const name: string; const value: integer): boolean;
 var
   i: integer;
   lname: string;
 begin
+  result := false;
   lname := strlower(name);
   for i := 0 to NUMDEFAULTS - 1 do
     if defaults[i]._type = tInteger then
@@ -918,16 +920,17 @@ begin
         defaults[i].defaultivalue := PInteger(defaults[i].location)^;
         PInteger(defaults[i].location)^ := value;
         PInteger(defaults[i].location) := @defaults[i].defaultivalue;
-        defaults[i].defaultivalue := value;
         defaults[i].setable := DFS_NEVER;
+        result := true;
       end;
 end;
 
-procedure M_ForceDefaultString(const name: string; const value: string);
+function M_ForceDefaultString(const name: string; const value: string): boolean;
 var
   i: integer;
   lname: string;
 begin
+  result := false;
   lname := strlower(name);
   for i := 0 to NUMDEFAULTS - 1 do
     if defaults[i]._type = tString then
@@ -936,8 +939,8 @@ begin
         defaults[i].defaultsvalue := PString(defaults[i].location)^;
         PString(defaults[i].location)^ := value;
         PString(defaults[i].location) := @defaults[i].defaultsvalue;
-        defaults[i].defaultsvalue := value;
         defaults[i].setable := DFS_NEVER;
+        result := true;
       end;
 end;
 

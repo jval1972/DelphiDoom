@@ -105,9 +105,15 @@ procedure PS_ConsoleCommand(const parm: string);
 
 function PS_GetConsoleStr(const cvar: string): string;
 
+function PS_SetConsoleStr(const cvar: string; const value: string): boolean;
+
 function PS_GetConsoleInt(const cvar: string): integer;
 
+function PS_SetConsoleInt(const cvar: string; const value: integer): boolean;
+
 function PS_GetConsoleBool(const cvar: string): boolean;
+
+function PS_SetConsoleBool(const cvar: string; const value: boolean): boolean;
 
 implementation
 
@@ -118,6 +124,7 @@ uses
   i_io,
   i_system,
   m_defs,
+  m_misc,
   m_rnd,
   p_tick,
   tables;
@@ -410,6 +417,11 @@ begin
   Result := '';
 end;
 
+function PS_SetConsoleStr(const cvar: string; const value: string): boolean;
+begin
+  result := M_ForceDefaultString(cvar, value);
+end;
+
 function PS_GetConsoleInt(const cvar: string): integer;
 var
   i: integer;
@@ -447,6 +459,11 @@ begin
   Result := 0;
 end;
 
+function PS_SetConsoleInt(const cvar: string; const value: string): boolean;
+begin
+  result := M_ForceDefaultInteger(cvar, value);
+end;
+
 function PS_GetConsoleBool(const cvar: string): boolean;
 var
   i: integer;
@@ -481,6 +498,10 @@ begin
   Result := False;
 end;
 
+function PS_SetConsoleBool(const cvar: string; const value: string): boolean;
+begin
+  result := M_ForceDefaultBoolean(cvar, value);
+end;
 
 end.
 

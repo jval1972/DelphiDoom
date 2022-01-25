@@ -135,8 +135,11 @@ begin
   baseproclist.Add('procedure BreakPoint(const msg: string);', @PS_BreakPoint);
   baseproclist.Add('procedure ConsoleCommand(Data: string)', @PS_ConsoleCommand);
   baseproclist.Add('function GetConsoleStr(const cvar: string): string;', @PS_GetConsoleStr);
+  baseproclist.Add('function SetConsoleStr(const cvar: string; const value: string): boolean;', @PS_SetConsoleStr);
   baseproclist.Add('function GetConsoleInt(const cvar: string): integer;', @PS_GetConsoleInt);
+  baseproclist.Add('function SetConsoleInt(const cvar: string; const value: integer): boolean;', @PS_SetConsoleInt);
   baseproclist.Add('function GetConsoleBool(const cvar: string): boolean;', @PS_GetConsoleBool);
+  baseproclist.Add('function SetConsoleBool(const cvar: string; const value: boolean): boolean;', @PS_SetConsoleBool);
   baseproclist.Add('procedure Write(Data: string)', @PS_Write);
   baseproclist.Add('procedure WriteFmt(const Fmt: string; const args: array of const);', @PS_WriteFmt);
   baseproclist.Add('procedure Writeln(Data: string)', @PS_Writeln);
