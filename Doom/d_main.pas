@@ -1900,6 +1900,7 @@ var
   oldoutproc: TOutProc;
   mb_min: integer; // minimum zone size
   episodes: integer;
+  uext: string;
   err_shown: boolean;
   kparm: string;
 begin
@@ -2197,19 +2198,20 @@ begin
   SUC_Progress(32);
 
   for p := 1 to myargc do
-    if (strupper(fext(myargv[p])) = '.WAD') or (strupper(fext(myargv[p])) = '.OUT') then
+  begin
+    uext := strupper(fext(myargv[p]));
+    if (uext = '.WAD') or (uext = '.IWAD') or (uext = '.OUT') then
       D_AddFile(myargv[p]);
-
-  for p := 1 to myargc do
-    if (strupper(fext(myargv[p])) = '.PK3') or
-       (strupper(fext(myargv[p])) = '.PK4') or
-       (strupper(fext(myargv[p])) = '.ZIP') or
-       (strupper(fext(myargv[p])) = '.PAK') then
+    if (uext = '.PK3') or
+       (uext = '.PK4') or
+       (uext = '.ZIP') or
+       (uext = '.PAK') then
     begin
       modifiedgame := true;
       externalpakspresent := true;
       PAK_AddFile(myargv[p]);
     end;
+  end;
 
   printf('W_Init: Init WADfiles.'#13#10);
   if (W_InitMultipleFiles(wadfiles) = 0) or (W_CheckNumForName('playpal') = -1) then
@@ -2238,6 +2240,15 @@ begin
       begin
         I_Warning('Loading unspecified wad file: %s'#13#10, [filename]);
         D_AddFile(filename);
+      end
+      else
+      begin
+        filename := findfile('*.iwad');
+        if filename <> '' then
+        begin
+          I_Warning('Loading unspecified wad file: %s'#13#10, [filename]);
+          D_AddFile(filename);
+        end
       end;
       if W_InitMultipleFiles(wadfiles) = 0 then
         I_Error('W_InitMultipleFiles(): no files found');

@@ -305,6 +305,7 @@ begin
   DoLoad('*.PK4');
 {$ENDIF}
   DoLoad('*.WAD');
+  DoLoad('*.IWAD');
 end;
 
 procedure TPakManager.Grow;
@@ -462,8 +463,11 @@ var
   wads: TDStringList;
 
   procedure CheckWadEntry(const wadname: string);
+  var
+    uext: string;
   begin
-    if strupper(fext(wadname)) = '.WAD' then
+    uext := strupper(fext(wadname));
+    if (uext = '.WAD') or (uext = '.IWAD') then
     begin
       if wads = nil then
         wads := TDStringList.Create;

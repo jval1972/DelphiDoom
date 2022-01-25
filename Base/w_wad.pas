@@ -435,7 +435,7 @@ begin
     handle.Seek(0, sFromBeginning);
   end;
 
-  if not iswad and (ext <> '.WAD') and (ext <> '.SWD') {$IFDEF OPENGL} and (ext <> '.GWA'){$ENDIF} then
+  if not iswad and (ext <> '.WAD') and (ext <> '.IWAD') and (ext <> '.SWD') {$IFDEF OPENGL} and (ext <> '.GWA'){$ENDIF} then
   begin
     // single lump file
     len := 0;
