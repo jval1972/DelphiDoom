@@ -1617,6 +1617,10 @@ begin
     registered: SC_AddDefine('registered');
     shareware: SC_AddDefine('shareware');
   end;
+
+  {$IFDEF OPENGL}
+  SC_AddDefine('OPENGL');
+  {$ENDIF}
 end;
 
 //

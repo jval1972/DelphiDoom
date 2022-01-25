@@ -1876,6 +1876,10 @@ begin
     cg_freedoom: SC_AddDefine('freedoom');
     cg_bfg2: begin SC_AddDefine('bfg'); SC_AddDefine('bfg2'); end;
   end;
+
+  {$IFDEF OPENGL}
+  SC_AddDefine('OPENGL');
+  {$ENDIF}
 end;
 
 //

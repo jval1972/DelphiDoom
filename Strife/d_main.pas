@@ -1777,6 +1777,10 @@ begin
     SC_AddDefine('shareware')
   else
     SC_AddDefine('registered');
+
+  {$IFDEF OPENGL}
+  SC_AddDefine('OPENGL');
+  {$ENDIF}
 end;
 
 //
