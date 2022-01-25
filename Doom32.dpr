@@ -403,7 +403,8 @@ uses
   xmi_iff in 'XMILIB\xmi_iff.pas',
   xmi_lib in 'XMILIB\xmi_lib.pas',
   i_xmimusic in 'Base\i_xmimusic.pas',
-  sc_defines in 'Base\sc_defines.pas';
+  sc_defines in 'Base\sc_defines.pas',
+  i_windowframe in 'Base\i_windowframe.pas' {WindowFrameForm};
 
 var
   Saved8087CW: Word;

@@ -192,6 +192,7 @@ uses
   i_io,
   i_net,
   i_tmp,
+  i_windowframe,
 {$IFNDEF FPC}
   i_startup,
 {$ENDIF}
@@ -392,6 +393,8 @@ begin
   I_RestoreDesktop;
   printf('I_ShutDownTempFiles: Shut down temporary file managment.'#13#10);
   I_ShutDownTempFiles;
+  printf('I_DestroyWindowFrame: Destroying window frame.'#13#10);
+  I_DestroyWindowFrame;
   printf('I_ShutDownIO: Shut down input/output.'#13#10'Halt(%d)'#13#10, [code]);
   I_ShutDownIO;
   Halt(code);

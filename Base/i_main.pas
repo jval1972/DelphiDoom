@@ -59,6 +59,7 @@ uses
   i_system,
   i_displaymodes,
   i_mainwindow,
+  i_windowframe,
   m_argv,
   m_base,
   d_main;
@@ -154,6 +155,9 @@ begin
     nil);
 
   SetWindowLong(hMainWnd, GWL_STYLE, 0);
+
+  I_CreateWindowFrame;
+//  SetParent(hMainWnd, I_WindowFrameParent);
 
   SetCursor(0);
   D_DoomMain;

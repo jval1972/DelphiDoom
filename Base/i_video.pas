@@ -77,6 +77,7 @@ uses
   i_threads,
   i_displaymodes,
   i_mainwindow,
+  i_windowframe,
   r_hires,
   v_data,
   v_video;
@@ -470,6 +471,7 @@ var
   stretch: boolean;
   surfacelost: boolean;
   i: integer;
+  dx, dy: integer;
 begin
   I_BlitBuffer;
 
@@ -484,12 +486,25 @@ begin
 
   r_blitmultiplier := GetIntegerInRange(r_blitmultiplier, 1, 4);
 
+  if fullscreen = FULLSCREEN_OFF then
+  begin
+    I_WindowFrameShow(WINDOWWIDTH, WINDOWHEIGHT, dx, dy);
+    SetWindowPos(hMainWnd, HWND_TOP, dx, dy, WINDOWWIDTH + dx, WINDOWHEIGHT + dy, SWP_SHOWWINDOW);
+  end
+  else
+  begin
+    I_WindowFrameHide;
+    SetWindowPos(hMainWnd, HWND_TOP, 0, 0, WINDOWWIDTH, WINDOWHEIGHT, SWP_SHOWWINDOW);
+    dx := 0;
+    dy := 0;
+  end;
+
   if stretch then
   begin
-    destrect.Left := 0;
-    destrect.Top := 0;
-    destrect.Right := WINDOWWIDTH;
-    destrect.Bottom := WINDOWHEIGHT;
+    destrect.Left := 0 + dx;
+    destrect.Top := 0 + dy;
+    destrect.Right := WINDOWWIDTH + dx;
+    destrect.Bottom := WINDOWHEIGHT + dy;
 
     for i := 0 to r_blitmultiplier - 1 do
     begin
@@ -510,9 +525,9 @@ begin
     for i := 0 to r_blitmultiplier - 1 do
     begin
       if r_bltasync then
-        surfacelost := g_pDDSPrimary.BltFast(0, 0, g_pDDScreen, srcrect, DDBLTFAST_DONOTWAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST
+        surfacelost := g_pDDSPrimary.BltFast(dx, dy, g_pDDScreen, srcrect, DDBLTFAST_DONOTWAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST
       else
-        surfacelost := g_pDDSPrimary.BltFast(0, 0, g_pDDScreen, srcrect, DDBLTFAST_WAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST;
+        surfacelost := g_pDDSPrimary.BltFast(dx, dy, g_pDDScreen, srcrect, DDBLTFAST_WAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST;
 
       if surfacelost then
       begin
