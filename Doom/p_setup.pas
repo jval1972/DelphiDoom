@@ -2180,7 +2180,7 @@ begin
   if gwa <> nil then
     gwa.Free;
 
-  if preparingdemoplayback and (G_PlayingEngineVersion < VERSION110) and (numlines < 32768) and (numsides < 32768) then
+  if preparingdemoplayback and (G_PlayingEngineVersion < VERSION110) and (numlines < 32768) and (numsides < 32768) and not hasudmfdata then
   begin
     // JVAL: 20210131 - Load vanilla nodes
     if char8tostring(lumpinfo[lumpnum + Ord(ML_SSECTORS)].name) = 'SSECTORS' then
