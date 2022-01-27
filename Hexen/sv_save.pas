@@ -116,6 +116,7 @@ uses
   r_translations,
   s_sndseq,
   sb_bar,
+  sv_hexen,
   doomdef,
   w_wad,
   r_data,
@@ -315,7 +316,7 @@ begin
 end;
 
 const
-  MAX_TARGET_PLAYERS = 512;
+  MAX_TARGET_PLAYERS = 4096;
   MOBJ_NULL = -1;
   MOBJ_XX_PLAYER = -2;
   MAX_MAPS = 99;
@@ -818,6 +819,9 @@ begin
     begin
       memcpy(@players[i], saveptr, SizeOf(player_t));
       incp(saveptr, SizeOf(player_t));
+    end;
+    if LOADVERSION >= VERSION207 then
+    begin
       memcpy(@playerhistory[i], saveptr, SizeOf(playertracehistory_t));
       incp(saveptr, SizeOf(playertracehistory_t));
     end;
@@ -1186,6 +1190,7 @@ var
   thinker: Pthinker_t;
   tempMobj: mobj_t;
   parm: Pmobjcustomparam_t;
+  m: TDMemoryStream;
 begin
   StreamOutLong(ASEG_MOBJS);
   StreamOutLong(MapMobjCount);
@@ -1206,7 +1211,11 @@ begin
     inc(count);
     memcpy(@tempMobj, thinker, SizeOf(mobj_t));
     MangleMobj(@tempMobj);
-    StreamOutBuffer(@tempMobj, SizeOf(mobj_t));
+
+    m := TDMemoryStream.Create;
+    MobjSerializer.SaveToStream(m, @tempMobj, $FFFF);
+    StreamOutBuffer(m.Memory, m.Size);
+    m.Free;
 
     parm := tempMobj.customparams;
     while parm <> nil do
@@ -1245,7 +1254,10 @@ begin
   for i := 0 to MapMobjCount - 1 do
   begin
     mobj := MapMobjList[i];
-    if LOADVERSION = VERSION140 then
+
+    if LOADVERSION >= VERSION207 then
+      incp(saveptr, MobjSerializer.LoadFromMem(saveptr, mobj, $FFFF))
+    else if LOADVERSION = VERSION140 then
     begin
       memcpy(mobj, saveptr, SizeOf(mobj_t140));
       incp(saveptr, SizeOf(mobj_t140));
@@ -1430,11 +1442,9 @@ begin
       mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
       mobj.translationtable := nil;
     end
-    else
-    begin
-      memcpy(mobj, saveptr, SizeOf(mobj_t));
-      incp(saveptr, SizeOf(mobj_t));
-    end;
+    else // Unreachable code
+      I_Error('UnarchiveMobjs(): Unsupported saved game version: %d', [LOADVERSION]);
+
     mobj.thinker._function.acp1 := @P_MobjThinker;
 
     if mobj.key < 1 then

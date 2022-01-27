@@ -215,6 +215,8 @@ The default value of autoloadgwafiles console variable changed to false.
 Added the #exitif conditianal directive in text content definition lumps.
 Recognizes IWAD file extention.
 Added SetConsoleStr, SetConsoleInt & SetConsoleBool PascalScript functions to set console variables. The new value will not be saved to the ini file.
+Save target, tracer & master correctly in saved games.
+Save/Load mechanism global changes to easily accomodate new fields additions.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

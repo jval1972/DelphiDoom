@@ -401,7 +401,9 @@ uses
   p_friends in 'Base\p_friends.pas',
   sounddata in 'Doom\sounddata.pas',
   r_translations in 'Base\r_translations.pas',
-  sc_defines in 'Base\sc_defines.pas';
+  sc_defines in 'Base\sc_defines.pas',
+  p_serializer in 'Base\p_serializer.pas',
+  sv_doom in 'Doom\sv_doom.pas';
 
 exports
   dd_compile_doom,

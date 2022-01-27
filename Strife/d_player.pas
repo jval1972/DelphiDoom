@@ -517,7 +517,7 @@ type
   player_t203 = record
     mo: Pmobj_t;
     playerstate: playerstate_t;
-    cmd202: ticcmd_t;
+    cmd202: ticcmd_t202;
 
     // Determine POV,
     //  including viewpoint bobbing during movement.
@@ -567,7 +567,7 @@ type
     backpack: boolean;
 
     // Frags, kills of other players.
-    frags: array[0..(MAXPLAYERS)-1] of integer;
+    frags: array[0..MAXPLAYERS - 1] of integer;
     readyweapon: weapontype_t;
 
     // Is wp_nochange if not changing.
@@ -697,7 +697,7 @@ type
     backpack: boolean;
 
     // Frags, kills of other players.
-    frags: array[0..(MAXPLAYERS)-1] of integer;
+    frags: array[0..MAXPLAYERS - 1] of integer;
     readyweapon: weapontype_t;
 
     // Is wp_nochange if not changing.
@@ -906,7 +906,7 @@ type
     sitems: integer;
     ssecret: integer;
     stime: integer;
-    frags: array[0..3] of integer;
+    frags: array[0..MAXPLAYERS - 1] of integer;
     score: integer; // current score on entry, modified on return
   end;
   Pwbplayerstruct_t = ^wbplayerstruct_t;

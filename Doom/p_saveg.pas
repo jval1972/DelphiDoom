@@ -115,6 +115,7 @@ uses
   r_colormaps,
   r_renderstyle,
   r_translations,
+  sv_doom,
   w_wad,
   z_zone;
 
@@ -690,7 +691,7 @@ begin
     begin
       sec.num_saffectees := PInteger(get)^;
       get := @get[2];
-      Z_Realloc(sec.saffectees, sec.num_saffectees * SizeOf(integer), PU_LEVEL, nil);
+      sec.saffectees := Z_Realloc(sec.saffectees, sec.num_saffectees * SizeOf(integer), PU_LEVEL, nil);
       for j := 0 to sec.num_saffectees - 1 do
       begin
         sec.saffectees[j] := PInteger(get)^;
@@ -790,20 +791,9 @@ begin
       save_p[0] := Ord(tc_mobj);
       save_p := @save_p[1];
       PADSAVEP;
-      mobj := Pmobj_t(save_p);
-      memcpy(mobj, th, SizeOf(mobj_t));
-      incp(pointer(save_p), SizeOf(mobj_t));
-      mobj.state := Pstate_t(pDiff(mobj.state, @states[0], SizeOf(state_t)));
-      mobj.prevstate := Pstate_t(pDiff(mobj.prevstate, @states[0], SizeOf(state_t)));
 
-      if mobj.tracer <> nil then
-        mobj.tracer := Pmobj_t(mobj.tracer.key);
-      if mobj.master <> nil then
-        mobj.master := Pmobj_t(mobj.master.key);
-      if mobj.target <> nil then
-        mobj.target := Pmobj_t(mobj.target.key);
-      if mobj.player <> nil then
-        mobj.player := Pplayer_t(pDiff(mobj.player, @players[0], SizeOf(player_t)) + 1);
+      mobj := Pmobj_t(th);
+      save_p := @save_p[MobjSerializer.SaveToMem(save_p, mobj, $FFFF)];
 
       parm := mobj.customparams;
       while parm <> nil do
@@ -813,9 +803,7 @@ begin
         incp(pointer(save_p), SizeOf(mobjcustomparam_t));
         parm := parm.next;
       end;
-
     end;
-  // I_Error ("P_ArchiveThinkers: Unknown thinker function");
     th := th.next;
   end;
 
@@ -824,15 +812,20 @@ begin
   save_p := @save_p[1];
 end;
 
-function P_UnArchiveOldPmobj(const mobj: Pmobj_t): boolean;
+function P_UnArchiveOldPmobj(const amobj: Pmobj_t): boolean;
 var
   mobj113: Pmobj_t113;
   mobj114: Pmobj_t114;
   mobj115: Pmobj_t115;
   mobj117: Pmobj_t117;
   mobj118: Pmobj_t118;
+  mobj206: mobj_t206;
+  mobj: Pmobj_t206;
+  m: TDMemoryStream;
 begin
-  ZeroMemory(mobj, SizeOf(mobj_t));
+  ZeroMemory(amobj, SizeOf(mobj_t));
+  ZeroMemory(@mobj206, SizeOf(mobj_t206));
+  mobj := @mobj206;
   if savegameversion = VERSION113 then
   begin
     mobj113 := Z_Malloc(SizeOf(mobj_t113), PU_STATIC, nil);
@@ -914,25 +907,6 @@ begin
     mobj.special := 0;
     mobj.WeaveIndexXY := 0;
     mobj.WeaveIndexZ := 0;
-
-    // ver 207
-    mobj.painchance := mobjinfo[mobj._type].painchance;
-    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
-    mobj.playerfollowtime := 0;
-    mobj.tracefollowtimestamp := 0;
-    mobj.tracex := 0;
-    mobj.tracey := 0;
-    mobj.tracez := 0;
-    mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-    mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-    mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-    mobj.strafecount := 0;
-    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-    mobj.translationtable := nil;
 
     Z_Free(mobj113);
     result := true
@@ -1019,25 +993,6 @@ begin
     mobj.WeaveIndexXY := 0;
     mobj.WeaveIndexZ := 0;
 
-    // ver 207
-    mobj.painchance := mobjinfo[mobj._type].painchance;
-    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
-    mobj.playerfollowtime := 0;
-    mobj.tracefollowtimestamp := 0;
-    mobj.tracex := 0;
-    mobj.tracey := 0;
-    mobj.tracez := 0;
-    mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-    mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-    mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-    mobj.strafecount := 0;
-    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-    mobj.translationtable := nil;
-
     Z_Free(mobj114);
     result := true
   end
@@ -1122,25 +1077,6 @@ begin
     mobj.special := 0;
     mobj.WeaveIndexXY := 0;
     mobj.WeaveIndexZ := 0;
-
-    // ver 207
-    mobj.painchance := mobjinfo[mobj._type].painchance;
-    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
-    mobj.playerfollowtime := 0;
-    mobj.tracefollowtimestamp := 0;
-    mobj.tracex := 0;
-    mobj.tracey := 0;
-    mobj.tracez := 0;
-    mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-    mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-    mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-    mobj.strafecount := 0;
-    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-    mobj.translationtable := nil;
 
     Z_Free(mobj115);
     result := true
@@ -1227,25 +1163,6 @@ begin
     mobj.WeaveIndexXY := 0;
     mobj.WeaveIndexZ := 0;
 
-    // ver 207
-    mobj.painchance := mobjinfo[mobj._type].painchance;
-    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
-    mobj.playerfollowtime := 0;
-    mobj.tracefollowtimestamp := 0;
-    mobj.tracex := 0;
-    mobj.tracey := 0;
-    mobj.tracez := 0;
-    mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-    mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-    mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-    mobj.strafecount := 0;
-    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-    mobj.translationtable := nil;
-
     Z_Free(mobj117);
     result := true
   end
@@ -1331,25 +1248,6 @@ begin
     mobj.WeaveIndexXY := 0;
     mobj.WeaveIndexZ := 0;
 
-    // ver 207
-    mobj.painchance := mobjinfo[mobj._type].painchance;
-    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
-    mobj.playerfollowtime := 0;
-    mobj.tracefollowtimestamp := 0;
-    mobj.tracex := 0;
-    mobj.tracey := 0;
-    mobj.tracez := 0;
-    mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-    mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-    mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-    mobj.strafecount := 0;
-    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-    mobj.translationtable := nil;
-
     Z_Free(mobj118);
     result := true;
   end
@@ -1392,25 +1290,6 @@ begin
     mobj.WeaveIndexXY := 0;
     mobj.WeaveIndexZ := 0;
 
-    // ver 207
-    mobj.painchance := mobjinfo[mobj._type].painchance;
-    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
-    mobj.playerfollowtime := 0;
-    mobj.tracefollowtimestamp := 0;
-    mobj.tracex := 0;
-    mobj.tracey := 0;
-    mobj.tracez := 0;
-    mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-    mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-    mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-    mobj.strafecount := 0;
-    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-    mobj.translationtable := nil;
-
     result := true;
   end
   else if savegameversion = VERSION121 then
@@ -1441,25 +1320,6 @@ begin
     mobj.WeaveIndexXY := 0;
     mobj.WeaveIndexZ := 0;
 
-    // ver 207
-    mobj.painchance := mobjinfo[mobj._type].painchance;
-    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
-    mobj.playerfollowtime := 0;
-    mobj.tracefollowtimestamp := 0;
-    mobj.tracex := 0;
-    mobj.tracey := 0;
-    mobj.tracez := 0;
-    mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-    mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-    mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-    mobj.strafecount := 0;
-    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-    mobj.translationtable := nil;
-
     result := true;
   end
   else if (savegameversion = VERSION122) or (savegameversion = VERSION203) or (savegameversion = VERSION204) then
@@ -1489,25 +1349,6 @@ begin
     mobj.WeaveIndexXY := 0;
     mobj.WeaveIndexZ := 0;
 
-    // ver 207
-    mobj.painchance := mobjinfo[mobj._type].painchance;
-    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
-    mobj.playerfollowtime := 0;
-    mobj.tracefollowtimestamp := 0;
-    mobj.tracex := 0;
-    mobj.tracey := 0;
-    mobj.tracez := 0;
-    mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-    mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-    mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-    mobj.strafecount := 0;
-    mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-    mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-    mobj.translationtable := nil;
-
     result := true;
   end
   else if savegameversion = VERSION205 then
@@ -1529,22 +1370,6 @@ begin
     mobj.WeaveIndexXY := 0;
     mobj.WeaveIndexZ := 0;
 
-    // ver 207
-    mobj.painchance := mobjinfo[mobj._type].painchance;
-    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
-    mobj.playerfollowtime := 0;
-    mobj.tracefollowtimestamp := 0;
-    mobj.tracex := 0;
-    mobj.tracey := 0;
-    mobj.tracez := 0;
-    mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-    mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-    mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-    mobj.strafecount := 0;
-
     result := true;
   end
   else if savegameversion = VERSION206 then
@@ -1552,28 +1377,20 @@ begin
     memcpy(mobj, save_p, SizeOf(mobj_t206));
     incp(pointer(save_p), SizeOf(mobj_t206));
 
-    // ver 207
-    mobj.painchance := mobjinfo[mobj._type].painchance;
-    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-    mobj.flags5_ex := 0;
-    mobj.flags6_ex := 0;
-    mobj.playerfollowtime := 0;
-    mobj.tracefollowtimestamp := 0;
-    mobj.tracex := 0;
-    mobj.tracey := 0;
-    mobj.tracez := 0;
-    mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-    mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-    mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-    mobj.strafecount := 0;
-
     result := true;
   end
   else
     result := false;
+  if result then
+  begin
+    m := TDMemoryStream.Create;
+    MobjSerializer206.SaveToStream(m, mobj, $FFFF);
+    MobjSerializer.LoadFromMem(m.Memory, amobj, m.Size);
+    m.Free;
+  end;
 end;
 
+//
 // P_UnArchiveThinkers
 //
 procedure P_UnArchiveThinkers;
@@ -1637,10 +1454,7 @@ begin
           mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
 
           if savegameversion >= VERSION207 then
-          begin
-            memcpy(mobj, save_p, SizeOf(mobj_t));
-            incp(pointer(save_p), SizeOf(mobj_t));
-          end
+            save_p := @save_p[MobjSerializer.LoadFromMem(save_p, mobj, $FFFF)]
           else if not P_UnArchiveOldPmobj(mobj) then
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);
 
@@ -2297,4 +2111,5 @@ begin
   if savegameversion >= VERSION206 then
     incp(pointer(save_p), SizeOf(menuscreenbuffer_t));
 end;
+
 end.

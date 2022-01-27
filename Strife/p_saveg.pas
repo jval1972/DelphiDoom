@@ -125,6 +125,7 @@ uses
   r_data,
   r_colormaps,
   r_translations,
+  sv_strife,
   w_wad,
   z_zone;
 
@@ -177,9 +178,6 @@ procedure P_UnArchivePlayers(userload: boolean);
 var
   i: integer;
   j: integer;
-  p203: Pplayer_t203;
-  p205: Pplayer_t205;
-  p206: Pplayer_t206;
 begin
   for i := 0 to MAXPLAYERS - 1 do
   begin
@@ -193,130 +191,12 @@ begin
       if userload then
         memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
-      // JVAL: 20211224 - Save player history
-      memcpy(@playerhistory[i], save_p, SizeOf(playertracehistory_t));
-      incp(pointer(save_p), SizeOf(playertracehistory_t));
     end
     else if savegameversion >= VERSION206 then
     begin
       if userload then
       begin
-        p206 := Pplayer_t206(save_p);
-
-        players[i].mo := p206.mo;
-        players[i].playerstate := p206.playerstate;
-        players[i].cmd202.forwardmove := p206.cmd202.forwardmove;
-        players[i].cmd202.sidemove := p206.cmd202.sidemove;
-        players[i].cmd202.angleturn := p206.cmd202.angleturn;
-        players[i].cmd202.consistancy := p206.cmd202.consistancy;
-        players[i].cmd202.chatchar := p206.cmd202.chatchar;
-        players[i].cmd202.buttons := p206.cmd202.buttons;
-        players[i].cmd202.buttons2 := p206.cmd202.buttons2;
-        players[i].cmd202.inventory := p206.cmd202.inventory;
-        players[i].cmd202.commands := p206.cmd202.commands;
-        players[i].cmd202.lookupdown := p206.cmd202.lookupdown;
-        players[i].cmd202.lookleftright := p206.cmd202.lookleftright;
-        players[i].cmd202.jump := p206.cmd202.jump;
-        players[i].viewz := p206.viewz;
-        players[i].viewheight := p206.viewheight;
-        players[i].deltaviewheight := p206.deltaviewheight;
-        players[i].bob := p206.bob;
-        players[i].lookdir := p206.lookdir;
-        players[i].centering := p206.centering;
-        players[i].lookdir2 := p206.lookdir2;
-        players[i].oldlook2 := p206.oldlook2;
-        players[i].forwarding := p206.forwarding;
-        players[i].oldjump := p206.oldjump;
-        players[i].health := p206.health;
-        players[i].armorpoints := p206.armorpoints;
-        players[i].armortype := p206.armortype;
-        for j := 0 to Ord(NUMPOWERS) - 1 do
-          players[i].powers[j] := p206.powers[j];
-        players[i].sigiltype := p206.sigiltype;
-        players[i].nukagecount := p206.nukagecount;
-        players[i].questflags := p206.questflags;
-        players[i].centerview := p206.centerview;
-        players[i].inventory := p206.inventory;
-        players[i].st_update := p206.st_update;
-        players[i].numinventory := p206.numinventory;
-        players[i].inventorycursor := p206.inventorycursor;
-        players[i].accuracy := p206.accuracy;
-        players[i].stamina := p206.stamina;
-        for j := 0 to Ord(NUMCARDS) - 1 do
-          players[i].cards[j] := p206.cards[j];
-        players[i].backpack := p206.backpack;
-        for j := 0 to MAXPLAYERS - 1 do
-          players[i].frags[j] := p206.frags[j];
-        players[i].readyweapon := p206.readyweapon;
-        players[i].pendingweapon := p206.pendingweapon;
-        for j := 0 to Ord(NUMWEAPONS) - 1 do
-          players[i].weaponowned[j] := p206.weaponowned[j];
-        for j := 0 to Ord(NUMAMMO) - 1 do
-        begin
-          players[i].ammo[j] := p206.ammo[j];
-          players[i].maxammo[j] := p206.maxammo[j];
-        end;
-        players[i].attackdown := p206.attackdown;
-        players[i].usedown := p206.usedown;
-        players[i].inventorydown := p206.inventorydown;
-        players[i].cheats := p206.cheats;
-        players[i].refire := p206.refire;
-        players[i].killcount := p206.killcount;
-        players[i]._message := p206._message;
-        players[i].damagecount := p206.damagecount;
-        players[i].bonuscount := p206.bonuscount;
-        players[i].attacker := p206.attacker;
-        players[i].extralight := p206.extralight;
-        players[i].fixedcolormap := p206.fixedcolormap;
-        players[i].colormap := p206.colormap;
-        for j := 0 to Ord(NUMPSPRITES) - 1 do
-          players[i].psprites[j] := p206.psprites[j];
-        players[i].attackerx := p206.attackerx;
-        players[i].attackery := p206.attackery;
-        players[i].lastbreath := p206.lastbreath;
-        players[i].hardbreathtics := p206.hardbreathtics;
-        players[i].angletargetx := p206.angletargetx;
-        players[i].angletargety := p206.angletargety;
-        players[i].angletargetticks := p206.angletargetticks;
-        players[i].allegiance := p206.allegiance;
-        for j := 0 to 39 do
-          players[i].mapstate[j] := p206.mapstate[j];
-        players[i].laddertics := p206.laddertics;
-        players[i].viewbob := p206.viewbob;
-        players[i].slopetics := p206.slopetics;
-        players[i].oldviewz := p206.oldviewz;
-        players[i].teleporttics := p206.teleporttics;
-        players[i].quaketics := p206.quaketics;
-        players[i].lookdir16 := p206.lookdir16;
-        players[i].cmd.forwardmove := p206.cmd.forwardmove;
-        players[i].cmd.sidemove := p206.cmd.sidemove;
-        players[i].cmd.angleturn := p206.cmd.angleturn;
-        players[i].cmd.consistancy := p206.cmd.consistancy;
-        players[i].cmd.chatchar := p206.cmd.chatchar;
-        players[i].cmd.buttons := p206.cmd.buttons;
-        players[i].cmd.buttons2 := p206.cmd.buttons2;
-        players[i].cmd.inventory := p206.cmd.inventory;
-        players[i].cmd.commands := p206.cmd.commands;
-        players[i].cmd.lookupdown := p206.cmd.lookupdown;
-        players[i].cmd.lookleftright := p206.cmd.lookleftright;
-        players[i].cmd.jump_crouch := p206.cmd.jump_crouch;
-        players[i].cmd.lookupdown16 := p206.cmd.lookupdown16;
-        if savegameversionhack = 0 then
-        begin
-          players[i].nextoof := p206.nextoof;
-          players[i].lastdialogtalker := p206.lastdialogtalker;
-          players[i].quakeintensity := p206.quakeintensity;
-        end
-        else if savegameversionhack = 1 then
-        begin
-          players[i].nextoof := 0;
-          players[i].lastdialogtalker := nil;
-          if p206.quaketics > 0 then
-            players[i].quakeintensity := FRACUNIT
-          else
-            players[i].quakeintensity := 0;
-          incp(pointer(save_p), -12);
-        end;
+        memcpy(@players[i], save_p, SizeOf(player_t206));
 
         // version 207
         players[i].oldcrouch := 0;
@@ -334,106 +214,8 @@ begin
     begin
       if userload then
       begin
-        p205 := Pplayer_t205(save_p);
+        memcpy(@players[i], save_p, SizeOf(player_t205));
 
-        players[i].mo := p205.mo;
-        players[i].playerstate := p205.playerstate;
-        players[i].cmd202.forwardmove := p205.cmd202.forwardmove;
-        players[i].cmd202.sidemove := p205.cmd202.sidemove;
-        players[i].cmd202.angleturn := p205.cmd202.angleturn;
-        players[i].cmd202.consistancy := p205.cmd202.consistancy;
-        players[i].cmd202.chatchar := p205.cmd202.chatchar;
-        players[i].cmd202.buttons := p205.cmd202.buttons;
-        players[i].cmd202.buttons2 := p205.cmd202.buttons2;
-        players[i].cmd202.inventory := p205.cmd202.inventory;
-        players[i].cmd202.commands := p205.cmd202.commands;
-        players[i].cmd202.lookupdown := p205.cmd202.lookupdown;
-        players[i].cmd202.lookleftright := p205.cmd202.lookleftright;
-        players[i].cmd202.jump := p205.cmd202.jump;
-        players[i].viewz := p205.viewz;
-        players[i].viewheight := p205.viewheight;
-        players[i].deltaviewheight := p205.deltaviewheight;
-        players[i].bob := p205.bob;
-        players[i].lookdir := p205.lookdir;
-        players[i].centering := p205.centering;
-        players[i].lookdir2 := p205.lookdir2;
-        players[i].oldlook2 := p205.oldlook2;
-        players[i].forwarding := p205.forwarding;
-        players[i].oldjump := p205.oldjump;
-        players[i].health := p205.health;
-        players[i].armorpoints := p205.armorpoints;
-        players[i].armortype := p205.armortype;
-        for j := 0 to Ord(NUMPOWERS) - 1 do
-          players[i].powers[j] := p205.powers[j];
-        players[i].sigiltype := p205.sigiltype;
-        players[i].nukagecount := p205.nukagecount;
-        players[i].questflags := p205.questflags;
-        players[i].centerview := p205.centerview;
-        players[i].inventory := p205.inventory;
-        players[i].st_update := p205.st_update;
-        players[i].numinventory := p205.numinventory;
-        players[i].inventorycursor := p205.inventorycursor;
-        players[i].accuracy := p205.accuracy;
-        players[i].stamina := p205.stamina;
-        for j := 0 to Ord(NUMCARDS) - 1 do
-          players[i].cards[j] := p205.cards[j];
-        players[i].backpack := p205.backpack;
-        for j := 0 to MAXPLAYERS - 1 do
-          players[i].frags[j] := p205.frags[j];
-        players[i].readyweapon := p205.readyweapon;
-        players[i].pendingweapon := p205.pendingweapon;
-        for j := 0 to Ord(NUMWEAPONS) - 1 do
-          players[i].weaponowned[j] := p205.weaponowned[j];
-        for j := 0 to Ord(NUMAMMO) - 1 do
-        begin
-          players[i].ammo[j] := p205.ammo[j];
-          players[i].maxammo[j] := p205.maxammo[j];
-        end;
-        players[i].attackdown := p205.attackdown;
-        players[i].usedown := p205.usedown;
-        players[i].inventorydown := p205.inventorydown;
-        players[i].cheats := p205.cheats;
-        players[i].refire := p205.refire;
-        players[i].killcount := p205.killcount;
-        players[i]._message := p205._message;
-        players[i].damagecount := p205.damagecount;
-        players[i].bonuscount := p205.bonuscount;
-        players[i].attacker := p205.attacker;
-        players[i].extralight := p205.extralight;
-        players[i].fixedcolormap := p205.fixedcolormap;
-        players[i].colormap := p205.colormap;
-        for j := 0 to Ord(NUMPSPRITES) - 1 do
-          players[i].psprites[j] := p205.psprites[j];
-        players[i].attackerx := p205.attackerx;
-        players[i].attackery := p205.attackery;
-        players[i].lastbreath := p205.lastbreath;
-        players[i].hardbreathtics := p205.hardbreathtics;
-        players[i].angletargetx := p205.angletargetx;
-        players[i].angletargety := p205.angletargety;
-        players[i].angletargetticks := p205.angletargetticks;
-        players[i].allegiance := p205.allegiance;
-        for j := 0 to 39 do
-          players[i].mapstate[j] := p205.mapstate[j];
-        players[i].laddertics := p205.laddertics;
-        players[i].viewbob := p205.viewbob;
-        players[i].slopetics := p205.slopetics;
-        players[i].oldviewz := p205.oldviewz;
-        players[i].teleporttics := p205.teleporttics;
-        players[i].quaketics := p205.quaketics;
-        players[i].lookdir16 := p205.lookdir16;
-        players[i].cmd.forwardmove := p205.cmd.forwardmove;
-        players[i].cmd.sidemove := p205.cmd.sidemove;
-        players[i].cmd.angleturn := p205.cmd.angleturn;
-        players[i].cmd.consistancy := p205.cmd.consistancy;
-        players[i].cmd.chatchar := p205.cmd.chatchar;
-        players[i].cmd.buttons := p205.cmd.buttons;
-        players[i].cmd.buttons2 := p205.cmd.buttons2;
-        players[i].cmd.inventory := p205.cmd.inventory;
-        players[i].cmd.commands := p205.cmd.commands;
-        players[i].cmd.lookupdown := p205.cmd.lookupdown;
-        players[i].cmd.lookleftright := p205.cmd.lookleftright;
-        players[i].cmd.jump_crouch := p205.cmd.jump_crouch;
-        players[i].cmd.lookupdown16 := p205.cmd.lookupdown16;
         players[i].nextoof := 0;
         players[i].lastdialogtalker := nil;
         if players[i].quaketics > 0 then
@@ -457,106 +239,8 @@ begin
     begin
       if userload then
       begin
-        p203 := Pplayer_t203(save_p);
+        memcpy(@players[i], save_p, SizeOf(player_t203));
 
-        players[i].mo := p203.mo;
-        players[i].playerstate := p203.playerstate;
-        players[i].cmd202.forwardmove := p203.cmd202.forwardmove;
-        players[i].cmd202.sidemove := p203.cmd202.sidemove;
-        players[i].cmd202.angleturn := p203.cmd202.angleturn;
-        players[i].cmd202.consistancy := p203.cmd202.consistancy;
-        players[i].cmd202.chatchar := p203.cmd202.chatchar;
-        players[i].cmd202.buttons := p203.cmd202.buttons;
-        players[i].cmd202.buttons2 := p203.cmd202.buttons2;
-        players[i].cmd202.inventory := p203.cmd202.inventory;
-        players[i].cmd202.commands := p203.cmd202.commands;
-        players[i].cmd202.lookupdown := p203.cmd202.lookupdown;
-        players[i].cmd202.lookleftright := p203.cmd202.lookleftright;
-        players[i].cmd202.jump := p203.cmd202.jump_crouch;
-        players[i].viewz := p203.viewz;
-        players[i].viewheight := p203.viewheight;
-        players[i].deltaviewheight := p203.deltaviewheight;
-        players[i].bob := p203.bob;
-        players[i].lookdir := p203.lookdir;
-        players[i].centering := p203.centering;
-        players[i].lookdir2 := p203.lookdir2;
-        players[i].oldlook2 := p203.oldlook2;
-        players[i].forwarding := p203.forwarding;
-        players[i].oldjump := p203.oldjump;
-        players[i].health := p203.health;
-        players[i].armorpoints := p203.armorpoints;
-        players[i].armortype := p203.armortype;
-        for j := 0 to Ord(NUMPOWERS) - 1 do
-          players[i].powers[j] := p203.powers[j];
-        players[i].sigiltype := p203.sigiltype;
-        players[i].nukagecount := p203.nukagecount;
-        players[i].questflags := p203.questflags;
-        players[i].centerview := p203.centerview;
-        players[i].inventory := p203.inventory;
-        players[i].st_update := p203.st_update;
-        players[i].numinventory := p203.numinventory;
-        players[i].inventorycursor := p203.inventorycursor;
-        players[i].accuracy := p203.accuracy;
-        players[i].stamina := p203.stamina;
-        for j := 0 to Ord(NUMCARDS) - 1 do
-          players[i].cards[j] := p203.cards[j];
-        players[i].backpack := p203.backpack;
-        for j := 0 to MAXPLAYERS - 1 do
-          players[i].frags[j] := p203.frags[j];
-        players[i].readyweapon := p203.readyweapon;
-        players[i].pendingweapon := p203.pendingweapon;
-        for j := 0 to Ord(NUMWEAPONS) - 1 do
-          players[i].weaponowned[j] := p203.weaponowned[j];
-        for j := 0 to Ord(NUMAMMO) - 1 do
-        begin
-          players[i].ammo[j] := p203.ammo[j];
-          players[i].maxammo[j] := p203.maxammo[j];
-        end;
-        players[i].attackdown := p203.attackdown;
-        players[i].usedown := p203.usedown;
-        players[i].inventorydown := p203.inventorydown;
-        players[i].cheats := p203.cheats;
-        players[i].refire := p203.refire;
-        players[i].killcount := p203.killcount;
-        players[i]._message := p203._message;
-        players[i].damagecount := p203.damagecount;
-        players[i].bonuscount := p203.bonuscount;
-        players[i].attacker := p203.attacker;
-        players[i].extralight := p203.extralight;
-        players[i].fixedcolormap := p203.fixedcolormap;
-        players[i].colormap := p203.colormap;
-        for j := 0 to Ord(NUMPSPRITES) - 1 do
-          players[i].psprites[j] := p203.psprites[j];
-        players[i].attackerx := p203.attackerx;
-        players[i].attackery := p203.attackery;
-        players[i].lastbreath := p203.lastbreath;
-        players[i].hardbreathtics := p203.hardbreathtics;
-        players[i].angletargetx := p203.angletargetx;
-        players[i].angletargety := p203.angletargety;
-        players[i].angletargetticks := p203.angletargetticks;
-        players[i].allegiance := p203.allegiance;
-        for j := 0 to 39 do
-          players[i].mapstate[j] := p203.mapstate[j];
-        players[i].laddertics := p203.laddertics;
-        players[i].viewbob := p203.viewbob;
-        players[i].slopetics := p203.slopetics;
-        players[i].oldviewz := p203.oldviewz;
-        players[i].teleporttics := p203.teleporttics;
-        players[i].quaketics := p203.quaketics;
-        players[i].lookdir16 := p203.lookdir16;
-        players[i].cmd.forwardmove := p203.cmd.forwardmove;
-        players[i].cmd.sidemove := p203.cmd.sidemove;
-        players[i].cmd.angleturn := p203.cmd.angleturn;
-        players[i].cmd.consistancy := p203.cmd.consistancy;
-        players[i].cmd.chatchar := p203.cmd.chatchar;
-        players[i].cmd.buttons := p203.cmd.buttons;
-        players[i].cmd.buttons2 := p203.cmd.buttons2;
-        players[i].cmd.inventory := p203.cmd.inventory;
-        players[i].cmd.commands := p203.cmd.commands;
-        players[i].cmd.lookupdown := p203.cmd.lookupdown;
-        players[i].cmd.lookleftright := p203.cmd.lookleftright;
-        players[i].cmd.jump_crouch := p203.cmd.jump_crouch;
-        players[i].cmd.lookupdown16 := p203.cmd.lookupdown16;
         players[i].nextoof := 0;
         players[i].lastdialogtalker := nil;
         if players[i].quaketics > 0 then
@@ -647,6 +331,7 @@ begin
     if userload then
       for j := 0 to Ord(NUMPSPRITES) - 1 do
         if players[i].psprites[j].state <> nil then
+          players[i].psprites[j].state := @states[integer(players[i].psprites[j].state)];
 
     // JVAL: 202111224 - Load player history
     if savegameversion >= VERSION207 then
@@ -1055,20 +740,9 @@ begin
       save_p[0] := Ord(tc_mobj);
       save_p := @save_p[1];
       PADSAVEP;
-      mobj := Pmobj_t(save_p);
-      memcpy(mobj, th, SizeOf(mobj_t));
-      incp(pointer(save_p), SizeOf(mobj_t));
-      mobj.state := Pstate_t(pDiff(mobj.state, @states[0], SizeOf(state_t)));
-      mobj.prevstate := Pstate_t(pDiff(mobj.prevstate, @states[0], SizeOf(state_t)));
-      if mobj.tracer <> nil then
-        mobj.tracer := Pmobj_t(mobj.tracer.key);
-      if mobj.target <> nil then
-        mobj.target := Pmobj_t(mobj.target.key);
-      if mobj.master <> nil then
-        mobj.master := Pmobj_t(mobj.master.key);
 
-      if mobj.player <> nil then
-        mobj.player := Pplayer_t(pDiff(mobj.player, @players[0], SizeOf(player_t)) + 1);
+      mobj := Pmobj_t(th);
+      save_p := @save_p[MobjSerializer.SaveToMem(save_p, mobj, $FFFF)];
 
       parm := mobj.customparams;
       while parm <> nil do
@@ -1080,13 +754,173 @@ begin
       end;
 
     end;
-  // I_Error ("P_ArchiveThinkers: Unknown thinker function");
     th := th.next;
   end;
 
   // add a terminating marker
   save_p[0] := Ord(tc_end);
   save_p := @save_p[1];
+end;
+
+function P_UnArchiveOldPmobj(const amobj: Pmobj_t): boolean;
+var
+  mobj206: mobj_t206;
+  mobj: Pmobj_t206;
+  m: TDMemoryStream;
+begin
+  ZeroMemory(amobj, SizeOf(mobj_t));
+  ZeroMemory(@mobj206, SizeOf(mobj_t206));
+  mobj := @mobj206;
+  if savegameversion = VERSION206 then
+  begin
+    if savegameversionhack = 0 then
+    begin
+      memcpy(mobj, save_p, SizeOf(mobj_t206));
+      incp(pointer(save_p), SizeOf(mobj_t206));
+    end
+    else
+    begin
+      memcpy(mobj, save_p, SizeOf(mobj_t205));
+      incp(pointer(save_p), SizeOf(mobj_t205));
+
+      // version 206
+      mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+      mobj.args[0] := 0;
+      mobj.args[1] := 0;
+      mobj.args[2] := 0;
+      mobj.args[3] := 0;
+      mobj.args[4] := 0;
+      mobj.special := 0;
+      mobj.master := nil;
+      mobj.WeaveIndexXY := 0;
+      mobj.WeaveIndexZ := 0;
+    end;
+
+    result := true;
+  end
+  else if savegameversion >= VERSION205 then
+  begin
+    memcpy(mobj, save_p, SizeOf(mobj_t205));
+    incp(pointer(save_p), SizeOf(mobj_t205));
+
+    // version 206
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
+    mobj.master := nil;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+
+    result := true;
+  end
+  else if savegameversion >= VERSION122 then
+  begin
+    memcpy(mobj, save_p, SizeOf(mobj_t204));
+    incp(pointer(save_p), SizeOf(mobj_t204));
+
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
+
+    // version 206
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
+    mobj.master := nil;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+
+    result := true;
+  end
+  else if savegameversion = VERSION121 then
+  begin
+    memcpy(mobj, save_p, SizeOf(mobj_t121));
+    incp(pointer(save_p), SizeOf(mobj_t121));
+
+    mobj.dropitem := 0;
+
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
+
+    // version 206
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
+    mobj.master := nil;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+
+    result := true;
+  end
+  else if savegameversion = VERSION120 then
+  begin
+    memcpy(mobj, save_p, SizeOf(mobj_t120));
+    incp(pointer(save_p), SizeOf(mobj_t120));
+
+    mobj.prevx := mobj.x;
+    mobj.prevy := mobj.y;
+    mobj.prevz := mobj.z;
+    mobj.nextx := mobj.x;
+    mobj.nexty := mobj.y;
+    mobj.nextz := mobj.z;
+    mobj.prevangle := mobj.angle;
+    mobj.nextangle := mobj.angle;
+    mobj.intrplcnt := 0;
+
+    mobj.dropitem := 0;
+
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
+
+    // version 206
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
+    mobj.master := nil;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+
+    result := true;
+  end
+  else
+    result := false;
+  if result then
+  begin
+    m := TDMemoryStream.Create;
+    MobjSerializer206.SaveToStream(m, mobj, $FFFF);
+    MobjSerializer.LoadFromMem(m.Memory, amobj, m.Size);
+    m.Free;
+  end;
 end;
 
 // P_UnArchiveThinkers
@@ -1158,235 +992,8 @@ begin
           mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
 
           if savegameversion >= VERSION207 then
-          begin
-            memcpy(mobj, save_p, SizeOf(mobj_t));
-            incp(pointer(save_p), SizeOf(mobj_t));
-          end
-          else if savegameversion >= VERSION206 then
-          begin
-            if savegameversionhack = 0 then
-            begin
-              memcpy(mobj, save_p, SizeOf(mobj_t206));
-              incp(pointer(save_p), SizeOf(mobj_t206));
-            end
-            else
-            begin
-              memcpy(mobj, save_p, SizeOf(mobj_t205));
-              incp(pointer(save_p), SizeOf(mobj_t205));
-
-              // version 206
-              mobj.mass := mobjinfo[Ord(mobj._type)].mass;
-              mobj.args[0] := 0;
-              mobj.args[1] := 0;
-              mobj.args[2] := 0;
-              mobj.args[3] := 0;
-              mobj.args[4] := 0;
-              mobj.special := 0;
-              mobj.master := nil;
-              mobj.WeaveIndexXY := 0;
-              mobj.WeaveIndexZ := 0;
-            end;
-
-            // version 207
-            mobj.painchance := mobjinfo[mobj._type].painchance;
-            mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-            mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-            mobj.playerfollowtime := 0;
-            mobj.tracefollowtimestamp := 0;
-            mobj.tracex := 0;
-            mobj.tracey := 0;
-            mobj.tracez := 0;
-            mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-            mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-            mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-            mobj.strafecount := 0;
-            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-            mobj.translationtable := nil;
-          end
-          else if savegameversion >= VERSION205 then
-          begin
-            memcpy(mobj, save_p, SizeOf(mobj_t205));
-            incp(pointer(save_p), SizeOf(mobj_t205));
-
-            // version 206
-            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
-            mobj.args[0] := 0;
-            mobj.args[1] := 0;
-            mobj.args[2] := 0;
-            mobj.args[3] := 0;
-            mobj.args[4] := 0;
-            mobj.special := 0;
-            mobj.master := nil;
-            mobj.WeaveIndexXY := 0;
-            mobj.WeaveIndexZ := 0;
-
-            // version 207
-            mobj.painchance := mobjinfo[mobj._type].painchance;
-            mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-            mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-            mobj.flags5_ex := 0;
-            mobj.flags6_ex := 0;
-            mobj.playerfollowtime := 0;
-            mobj.tracefollowtimestamp := 0;
-            mobj.tracex := 0;
-            mobj.tracey := 0;
-            mobj.tracez := 0;
-            mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-            mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-            mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-            mobj.strafecount := 0;
-            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-            mobj.translationtable := nil;
-          end
-          else if savegameversion >= VERSION122 then
-          begin
-            memcpy(mobj, save_p, SizeOf(mobj_t204));
-            incp(pointer(save_p), SizeOf(mobj_t204));
-
-            mobj.lightvalidcount := 0;
-            mobj.scale := FRACUNIT;
-            mobj.pushfactor := FRACUNIT div 4;
-            mobj.gravity := FRACUNIT;
-            mobj.flags3_ex := 0;
-            mobj.flags4_ex := 0;
-            mobj.rendervalidcount := 0;
-
-            // version 206
-            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
-            mobj.args[0] := 0;
-            mobj.args[1] := 0;
-            mobj.args[2] := 0;
-            mobj.args[3] := 0;
-            mobj.args[4] := 0;
-            mobj.special := 0;
-            mobj.master := nil;
-            mobj.WeaveIndexXY := 0;
-            mobj.WeaveIndexZ := 0;
-
-            // version 207
-            mobj.painchance := mobjinfo[mobj._type].painchance;
-            mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-            mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-            mobj.flags5_ex := 0;
-            mobj.flags6_ex := 0;
-            mobj.playerfollowtime := 0;
-            mobj.tracefollowtimestamp := 0;
-            mobj.tracex := 0;
-            mobj.tracey := 0;
-            mobj.tracez := 0;
-            mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-            mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-            mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-            mobj.strafecount := 0;
-            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-            mobj.translationtable := nil;
-          end
-          else if savegameversion = VERSION121 then
-          begin
-            memcpy(mobj, save_p, SizeOf(mobj_t121));
-            incp(pointer(save_p), SizeOf(mobj_t121));
-
-            mobj.dropitem := 0;
-
-            mobj.lightvalidcount := 0;
-            mobj.scale := FRACUNIT;
-            mobj.pushfactor := FRACUNIT div 4;
-            mobj.gravity := FRACUNIT;
-            mobj.flags3_ex := 0;
-            mobj.flags4_ex := 0;
-            mobj.rendervalidcount := 0;
-
-            // version 206
-            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
-            mobj.args[0] := 0;
-            mobj.args[1] := 0;
-            mobj.args[2] := 0;
-            mobj.args[3] := 0;
-            mobj.args[4] := 0;
-            mobj.special := 0;
-            mobj.master := nil;
-            mobj.WeaveIndexXY := 0;
-            mobj.WeaveIndexZ := 0;
-
-            // version 207
-            mobj.painchance := mobjinfo[mobj._type].painchance;
-            mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-            mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-            mobj.flags5_ex := 0;
-            mobj.flags6_ex := 0;
-            mobj.playerfollowtime := 0;
-            mobj.tracefollowtimestamp := 0;
-            mobj.tracex := 0;
-            mobj.tracey := 0;
-            mobj.tracez := 0;
-            mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-            mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-            mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-            mobj.strafecount := 0;
-            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-            mobj.translationtable := nil;
-          end
-          else if savegameversion = VERSION120 then
-          begin
-            memcpy(mobj, save_p, SizeOf(mobj_t120));
-            incp(pointer(save_p), SizeOf(mobj_t120));
-
-            mobj.prevx := mobj.x;
-            mobj.prevy := mobj.y;
-            mobj.prevz := mobj.z;
-            mobj.nextx := mobj.x;
-            mobj.nexty := mobj.y;
-            mobj.nextz := mobj.z;
-            mobj.prevangle := mobj.angle;
-            mobj.nextangle := mobj.angle;
-            mobj.intrplcnt := 0;
-
-            mobj.dropitem := 0;
-
-            mobj.lightvalidcount := 0;
-            mobj.scale := FRACUNIT;
-            mobj.pushfactor := FRACUNIT div 4;
-            mobj.gravity := FRACUNIT;
-            mobj.flags3_ex := 0;
-            mobj.flags4_ex := 0;
-            mobj.rendervalidcount := 0;
-
-            // version 206
-            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
-            mobj.args[0] := 0;
-            mobj.args[1] := 0;
-            mobj.args[2] := 0;
-            mobj.args[3] := 0;
-            mobj.args[4] := 0;
-            mobj.special := 0;
-            mobj.master := nil;
-            mobj.WeaveIndexXY := 0;
-            mobj.WeaveIndexZ := 0;
-
-            // version 207
-            mobj.painchance := mobjinfo[mobj._type].painchance;
-            mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-            mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-            mobj.flags5_ex := 0;
-            mobj.flags6_ex := 0;
-            mobj.playerfollowtime := 0;
-            mobj.tracefollowtimestamp := 0;
-            mobj.tracex := 0;
-            mobj.tracey := 0;
-            mobj.tracez := 0;
-            mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-            mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-            mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-            mobj.strafecount := 0;
-            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-            mobj.translationtable := nil;
-          end
-          else
+            save_p := @save_p[MobjSerializer.LoadFromMem(save_p, mobj, $FFFF)]
+          else if not P_UnArchiveOldPmobj(mobj) then
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);
 
           mobj.validcount := 0;
@@ -1497,6 +1104,9 @@ begin
   begin
     th := th1;
     th1 := th1.next;
+    if @th._function.acp1 = @P_MobjThinker then
+      continue;
+
     if not Assigned(th._function.acv) then
     begin
       i := 0;

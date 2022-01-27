@@ -67,10 +67,10 @@ procedure P_ArchiveOverlay;
 
 procedure P_UnArchiveOverlay;
 
-
 procedure P_ArchiveScreenShot;
 
 procedure P_UnArchiveScreenShot;
+
 var
   save_p: PByteArray;
   savegameversion: integer;
@@ -80,7 +80,6 @@ implementation
 uses
   doomdef,
   d_ticcmd,
-  doomstat,
   d_player,
   d_think,
   g_game,
@@ -114,6 +113,7 @@ uses
   r_defs,
   r_data,
   r_translations,
+  sv_heretic,
   w_wad,
   z_zone;
 
@@ -695,14 +695,9 @@ begin
       save_p[0] := Ord(tc_mobj);
       save_p := @save_p[1];
       PADSAVEP;
-      mobj := Pmobj_t(save_p);
-      memcpy(mobj, th, SizeOf(mobj_t));
-      incp(pointer(save_p), SizeOf(mobj_t));
-      mobj.state := Pstate_t(pDiff(mobj.state, @states[0], SizeOf(state_t)));
-      mobj.prevstate := Pstate_t(pDiff(mobj.prevstate, @states[0], SizeOf(state_t)));
 
-      if mobj.player <> nil then
-        mobj.player := Pplayer_t(pDiff(mobj.player, @players[0], SizeOf(player_t)) + 1);
+      mobj := Pmobj_t(th);
+      save_p := @save_p[MobjSerializer.SaveToMem(save_p, mobj, $FFFF)];
 
       parm := mobj.customparams;
       while parm <> nil do
@@ -712,9 +707,7 @@ begin
         incp(pointer(save_p), SizeOf(mobjcustomparam_t));
         parm := parm.next;
       end;
-
     end;
-  // I_Error ("P_ArchiveThinkers: Unknown thinker function");
     th := th.next;
   end;
 
@@ -723,6 +716,251 @@ begin
   save_p := @save_p[1];
 end;
 
+function P_UnArchiveOldPmobj(const amobj: Pmobj_t): boolean;
+var
+  mobj111: Pmobj_t111;
+  mobj206: mobj_t206;
+  mobj: Pmobj_t206;
+  m: TDMemoryStream;
+begin
+  ZeroMemory(amobj, SizeOf(mobj_t));
+  ZeroMemory(@mobj206, SizeOf(mobj_t206));
+  mobj := @mobj206;
+  if savegameversion = VERSION206 then
+  begin
+    memcpy(mobj, save_p, SizeOf(mobj_t206));
+    incp(pointer(save_p), SizeOf(mobj_t206));
+
+    result := true;
+  end
+  else if savegameversion >= VERSION205 then
+  begin
+    memcpy(mobj, save_p, SizeOf(mobj_t205));
+    incp(pointer(save_p), SizeOf(mobj_t205));
+
+    mobj.target := nil;
+    mobj.tracer := nil;
+    mobj.master := nil;
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+    mobj.friction := ORIG_FRICTION;
+
+    result := true;
+  end
+  else if savegameversion >= VERSION115 then
+  begin
+    memcpy(mobj, save_p, SizeOf(mobj_t204));
+    incp(pointer(save_p), SizeOf(mobj_t204));
+
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
+
+    mobj.target := nil;
+    mobj.tracer := nil;
+    mobj.master := nil;
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+    mobj.friction := ORIG_FRICTION;
+
+    result := true;
+  end
+  else if savegameversion = VERSION114 then
+  begin
+    memcpy(mobj, save_p, SizeOf(mobj_t114));
+    incp(pointer(save_p), SizeOf(mobj_t114));
+
+    mobj.dropitem := 0;
+
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
+
+    mobj.target := nil;
+    mobj.tracer := nil;
+    mobj.master := nil;
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+    mobj.friction := ORIG_FRICTION;
+
+    result := true;
+  end
+  else if (savegameversion = VERSION112) or (savegameversion = VERSION113) then
+  begin
+    memcpy(mobj, save_p, SizeOf(mobj_t113));
+    incp(pointer(save_p), SizeOf(mobj_t113));
+
+    mobj.prevx := mobj.x;
+    mobj.prevy := mobj.y;
+    mobj.prevz := mobj.z;
+    mobj.nextx := mobj.x;
+    mobj.nexty := mobj.y;
+    mobj.nextz := mobj.z;
+    mobj.prevangle := mobj.angle;
+    mobj.nextangle := mobj.angle;
+    mobj.intrplcnt := 0;
+    mobj.key := 0; // JVAL: Will be set after
+    mobj.customparams := nil;
+
+    mobj.dropitem := 0;
+
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
+
+    mobj.target := nil;
+    mobj.tracer := nil;
+    mobj.master := nil;
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+    mobj.friction := ORIG_FRICTION;
+
+    result := true;
+  end
+  else if (savegameversion = VERSION110) or (savegameversion = VERSION111) then
+  begin
+    mobj111 := Z_Malloc(SizeOf(mobj_t), PU_STATIC, nil);
+    memcpy(mobj111, save_p, SizeOf(mobj_t111));
+    incp(pointer(save_p), SizeOf(mobj_t111));
+    mobj.thinker := mobj111.thinker;
+    mobj.x := mobj111.x;
+    mobj.y := mobj111.y;
+    mobj.z := mobj111.z;
+    mobj.snext := mobj111.snext;
+    mobj.sprev := mobj111.sprev;
+    mobj.angle := mobj111.angle;
+    mobj.viewangle := mobj111.viewangle;
+    mobj.sprite := mobj111.sprite;
+    mobj.frame := mobj111.frame;
+    mobj.bpos := mobj111.bpos;
+    mobj.bidx := mobj111.bidx;
+    mobj.subsector := mobj111.subsector;
+    mobj.floorz := mobj111.floorz;
+    mobj.ceilingz := mobj111.ceilingz;
+    mobj.radius := mobj111.radius;
+    mobj.height := mobj111.height;
+    mobj.momx := mobj111.momx;
+    mobj.momy := mobj111.momy;
+    mobj.momz := mobj111.momz;
+    mobj.validcount := mobj111.validcount;
+    mobj._type := mobj111._type;
+    mobj.info := mobj111.info;
+    mobj.tics := mobj111.tics;
+    mobj.state := mobj111.state;
+    mobj.prevstate := mobj.state;
+    mobj.flags := mobj111.flags;
+    mobj.flags2 := mobj111.flags2;
+    mobj.flags_ex := mobj111.flags_ex;
+    mobj.flags2_ex := mobj111.flags2_ex;
+    mobj.damage := mobj111.damage;
+    mobj.special1 := mobj111.special1;
+    mobj.special2 := mobj111.special2;
+    mobj.renderstyle := mobj111.renderstyle;
+    mobj.alpha := mobj111.alpha;
+    mobj.bob := mobj111.bob;
+    mobj.health := mobj111.health;
+    mobj.movedir := mobj111.movedir;
+    mobj.movecount := mobj111.movecount;
+    mobj.target := mobj111.target;
+    mobj.reactiontime := mobj111.reactiontime;
+    mobj.threshold := mobj111.threshold;
+    mobj.player := mobj111.player;
+    mobj.lastlook := mobj111.lastlook;
+    mobj.spawnpoint := mobj111.spawnpoint;
+    mobj.tracer := mobj111.tracer;
+    mobj.fastchasetics := mobj111.fastchasetics;
+
+    mobj.prevx := mobj.x;
+    mobj.prevy := mobj.y;
+    mobj.prevz := mobj.z;
+    mobj.nextx := mobj.x;
+    mobj.nexty := mobj.y;
+    mobj.nextz := mobj.z;
+    mobj.prevangle := mobj.angle;
+    mobj.nextangle := mobj.angle;
+    mobj.intrplcnt := 0;
+    mobj.key := 0; // JVAL: Will be set after
+    mobj.customparams := nil;
+
+    mobj.dropitem := 0;
+
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
+
+    mobj.target := nil;
+    mobj.tracer := nil;
+    mobj.master := nil;
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+    mobj.friction := ORIG_FRICTION;
+    Z_Free(mobj111);
+
+    result := true;
+  end
+  else
+    result := false;
+  if result then
+  begin
+    m := TDMemoryStream.Create;
+    MobjSerializer206.SaveToStream(m, mobj, $FFFF);
+    MobjSerializer.LoadFromMem(m.Memory, amobj, m.Size);
+    m.Free;
+  end;
+end;
+
+//
 // P_UnArchiveThinkers
 //
 procedure P_UnArchiveThinkers;
@@ -732,7 +970,6 @@ var
   currentthinker: Pthinker_t;
   next: Pthinker_t;
   mobj: Pmobj_t;
-  mobj111: Pmobj_t111;
   parm: mobjcustomparam_t;
 begin
   // remove all the current thinkers
@@ -787,337 +1024,8 @@ begin
           mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
 
           if savegameversion >= VERSION207 then
-          begin
-            memcpy(mobj, save_p, SizeOf(mobj_t));
-            incp(pointer(save_p), SizeOf(mobj_t));
-          end
-          else if savegameversion >= VERSION206 then
-          begin
-            memcpy(mobj, save_p, SizeOf(mobj_t206));
-            incp(pointer(save_p), SizeOf(mobj_t206));
-
-            // ver 207
-            mobj.painchance := mobjinfo[mobj._type].painchance;
-            mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-            mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-            mobj.flags5_ex := 0;
-            mobj.flags6_ex := 0;
-            mobj.playerfollowtime := 0;
-            mobj.tracefollowtimestamp := 0;
-            mobj.tracex := 0;
-            mobj.tracey := 0;
-            mobj.tracez := 0;
-            mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-            mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-            mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-            mobj.strafecount := 0;
-            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-            mobj.translationtable := nil;
-          end
-          else if savegameversion >= VERSION205 then
-          begin
-            memcpy(mobj, save_p, SizeOf(mobj_t205));
-            incp(pointer(save_p), SizeOf(mobj_t205));
-
-            mobj.target := nil;
-            mobj.tracer := nil;
-            mobj.master := nil;
-            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
-            mobj.args[0] := 0;
-            mobj.args[1] := 0;
-            mobj.args[2] := 0;
-            mobj.args[3] := 0;
-            mobj.args[4] := 0;
-            mobj.special := 0;
-            mobj.WeaveIndexXY := 0;
-            mobj.WeaveIndexZ := 0;
-            mobj.friction := ORIG_FRICTION;
-
-            // ver 207
-            mobj.painchance := mobjinfo[mobj._type].painchance;
-            mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-            mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-            mobj.flags5_ex := 0;
-            mobj.flags6_ex := 0;
-            mobj.playerfollowtime := 0;
-            mobj.tracefollowtimestamp := 0;
-            mobj.tracex := 0;
-            mobj.tracey := 0;
-            mobj.tracez := 0;
-            mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-            mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-            mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-            mobj.strafecount := 0;
-            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-            mobj.translationtable := nil;
-          end
-          else if savegameversion >= VERSION115 then
-          begin
-            memcpy(mobj, save_p, SizeOf(mobj_t204));
-            incp(pointer(save_p), SizeOf(mobj_t204));
-
-            mobj.lightvalidcount := 0;
-            mobj.scale := FRACUNIT;
-            mobj.pushfactor := FRACUNIT div 4;
-            mobj.gravity := FRACUNIT;
-            mobj.flags3_ex := 0;
-            mobj.flags4_ex := 0;
-            mobj.rendervalidcount := 0;
-
-            mobj.target := nil;
-            mobj.tracer := nil;
-            mobj.master := nil;
-            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
-            mobj.args[0] := 0;
-            mobj.args[1] := 0;
-            mobj.args[2] := 0;
-            mobj.args[3] := 0;
-            mobj.args[4] := 0;
-            mobj.special := 0;
-            mobj.WeaveIndexXY := 0;
-            mobj.WeaveIndexZ := 0;
-            mobj.friction := ORIG_FRICTION;
-
-            // ver 207
-            mobj.painchance := mobjinfo[mobj._type].painchance;
-            mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-            mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-            mobj.flags5_ex := 0;
-            mobj.flags6_ex := 0;
-            mobj.playerfollowtime := 0;
-            mobj.tracefollowtimestamp := 0;
-            mobj.tracex := 0;
-            mobj.tracey := 0;
-            mobj.tracez := 0;
-            mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-            mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-            mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-            mobj.strafecount := 0;
-            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-            mobj.translationtable := nil;
-          end
-          else if savegameversion = VERSION114 then
-          begin
-            memcpy(mobj, save_p, SizeOf(mobj_t114));
-            incp(pointer(save_p), SizeOf(mobj_t114));
-
-            mobj.dropitem := 0;
-
-            mobj.lightvalidcount := 0;
-            mobj.scale := FRACUNIT;
-            mobj.pushfactor := FRACUNIT div 4;
-            mobj.gravity := FRACUNIT;
-            mobj.flags3_ex := 0;
-            mobj.flags4_ex := 0;
-            mobj.rendervalidcount := 0;
-
-            mobj.target := nil;
-            mobj.tracer := nil;
-            mobj.master := nil;
-            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
-            mobj.args[0] := 0;
-            mobj.args[1] := 0;
-            mobj.args[2] := 0;
-            mobj.args[3] := 0;
-            mobj.args[4] := 0;
-            mobj.special := 0;
-            mobj.WeaveIndexXY := 0;
-            mobj.WeaveIndexZ := 0;
-            mobj.friction := ORIG_FRICTION;
-
-            // ver 207
-            mobj.painchance := mobjinfo[mobj._type].painchance;
-            mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-            mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-            mobj.flags5_ex := 0;
-            mobj.flags6_ex := 0;
-            mobj.playerfollowtime := 0;
-            mobj.tracefollowtimestamp := 0;
-            mobj.tracex := 0;
-            mobj.tracey := 0;
-            mobj.tracez := 0;
-            mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-            mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-            mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-            mobj.strafecount := 0;
-            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-            mobj.translationtable := nil;
-          end
-          else if (savegameversion = VERSION112) or (savegameversion = VERSION113) then
-          begin
-            memcpy(mobj, save_p, SizeOf(mobj_t113));
-            incp(pointer(save_p), SizeOf(mobj_t113));
-
-            mobj.prevx := mobj.x;
-            mobj.prevy := mobj.y;
-            mobj.prevz := mobj.z;
-            mobj.nextx := mobj.x;
-            mobj.nexty := mobj.y;
-            mobj.nextz := mobj.z;
-            mobj.prevangle := mobj.angle;
-            mobj.nextangle := mobj.angle;
-            mobj.intrplcnt := 0;
-            mobj.key := 0; // JVAL: Will be set after
-            mobj.customparams := nil;
-
-            mobj.dropitem := 0;
-
-            mobj.lightvalidcount := 0;
-            mobj.scale := FRACUNIT;
-            mobj.pushfactor := FRACUNIT div 4;
-            mobj.gravity := FRACUNIT;
-            mobj.flags3_ex := 0;
-            mobj.flags4_ex := 0;
-            mobj.rendervalidcount := 0;
-
-            mobj.target := nil;
-            mobj.tracer := nil;
-            mobj.master := nil;
-            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
-            mobj.args[0] := 0;
-            mobj.args[1] := 0;
-            mobj.args[2] := 0;
-            mobj.args[3] := 0;
-            mobj.args[4] := 0;
-            mobj.special := 0;
-            mobj.WeaveIndexXY := 0;
-            mobj.WeaveIndexZ := 0;
-            mobj.friction := ORIG_FRICTION;
-
-            // ver 207
-            mobj.painchance := mobjinfo[mobj._type].painchance;
-            mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-            mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-            mobj.flags5_ex := 0;
-            mobj.flags6_ex := 0;
-            mobj.playerfollowtime := 0;
-            mobj.tracefollowtimestamp := 0;
-            mobj.tracex := 0;
-            mobj.tracey := 0;
-            mobj.tracez := 0;
-            mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-            mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-            mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-            mobj.strafecount := 0;
-            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-            mobj.translationtable := nil;
-          end
-          else if (savegameversion = VERSION110) or (savegameversion = VERSION111) then
-          begin
-            mobj111 := Z_Malloc(SizeOf(mobj_t), PU_STATIC, nil);
-            memcpy(mobj111, save_p, SizeOf(mobj_t111));
-            incp(pointer(save_p), SizeOf(mobj_t111));
-            mobj.thinker := mobj111.thinker;
-            mobj.x := mobj111.x;
-            mobj.y := mobj111.y;
-            mobj.z := mobj111.z;
-            mobj.snext := mobj111.snext;
-            mobj.sprev := mobj111.sprev;
-            mobj.angle := mobj111.angle;
-            mobj.viewangle := mobj111.viewangle;
-            mobj.sprite := mobj111.sprite;
-            mobj.frame := mobj111.frame;
-            mobj.bpos := mobj111.bpos;
-            mobj.bidx := mobj111.bidx;
-            mobj.subsector := mobj111.subsector;
-            mobj.floorz := mobj111.floorz;
-            mobj.ceilingz := mobj111.ceilingz;
-            mobj.radius := mobj111.radius;
-            mobj.height := mobj111.height;
-            mobj.momx := mobj111.momx;
-            mobj.momy := mobj111.momy;
-            mobj.momz := mobj111.momz;
-            mobj.validcount := mobj111.validcount;
-            mobj._type := mobj111._type;
-            mobj.info := mobj111.info;
-            mobj.tics := mobj111.tics;
-            mobj.state := mobj111.state;
-            mobj.prevstate := mobj.state;
-            mobj.flags := mobj111.flags;
-            mobj.flags2 := mobj111.flags2;
-            mobj.flags_ex := mobj111.flags_ex;
-            mobj.flags2_ex := mobj111.flags2_ex;
-            mobj.damage := mobj111.damage;
-            mobj.special1 := mobj111.special1;
-            mobj.special2 := mobj111.special2;
-            mobj.renderstyle := mobj111.renderstyle;
-            mobj.alpha := mobj111.alpha;
-            mobj.bob := mobj111.bob;
-            mobj.health := mobj111.health;
-            mobj.movedir := mobj111.movedir;
-            mobj.movecount := mobj111.movecount;
-            mobj.target := mobj111.target;
-            mobj.reactiontime := mobj111.reactiontime;
-            mobj.threshold := mobj111.threshold;
-            mobj.player := mobj111.player;
-            mobj.lastlook := mobj111.lastlook;
-            mobj.spawnpoint := mobj111.spawnpoint;
-            mobj.tracer := mobj111.tracer;
-            mobj.fastchasetics := mobj111.fastchasetics;
-
-            mobj.prevx := mobj.x;
-            mobj.prevy := mobj.y;
-            mobj.prevz := mobj.z;
-            mobj.nextx := mobj.x;
-            mobj.nexty := mobj.y;
-            mobj.nextz := mobj.z;
-            mobj.prevangle := mobj.angle;
-            mobj.nextangle := mobj.angle;
-            mobj.intrplcnt := 0;
-            mobj.key := 0; // JVAL: Will be set after
-            mobj.customparams := nil;
-
-            mobj.dropitem := 0;
-
-            mobj.lightvalidcount := 0;
-            mobj.scale := FRACUNIT;
-            mobj.pushfactor := FRACUNIT div 4;
-            mobj.gravity := FRACUNIT;
-            mobj.flags3_ex := 0;
-            mobj.flags4_ex := 0;
-            mobj.rendervalidcount := 0;
-
-            mobj.target := nil;
-            mobj.tracer := nil;
-            mobj.master := nil;
-            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
-            mobj.args[0] := 0;
-            mobj.args[1] := 0;
-            mobj.args[2] := 0;
-            mobj.args[3] := 0;
-            mobj.args[4] := 0;
-            mobj.special := 0;
-            mobj.WeaveIndexXY := 0;
-            mobj.WeaveIndexZ := 0;
-            mobj.friction := ORIG_FRICTION;
-
-            // ver 207
-            mobj.painchance := mobjinfo[mobj._type].painchance;
-            mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
-            mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
-            mobj.flags5_ex := 0;
-            mobj.flags6_ex := 0;
-            mobj.playerfollowtime := 0;
-            mobj.tracefollowtimestamp := 0;
-            mobj.tracex := 0;
-            mobj.tracey := 0;
-            mobj.tracez := 0;
-            mobj.infighting_group := mobjinfo[Ord(mobj._type)].infighting_group;
-            mobj.projectile_group := mobjinfo[Ord(mobj._type)].projectile_group;
-            mobj.splash_group := mobjinfo[Ord(mobj._type)].splash_group;
-            mobj.strafecount := 0;
-            mobj.bloodcolor := mobjinfo[Ord(mobj._type)].bloodcolor;
-            mobj.translationname := mobjinfo[Ord(mobj._type)].translationname;
-            mobj.translationtable := nil;
-
-            Z_Free(mobj111);
-          end
-          else
+            save_p := @save_p[MobjSerializer.LoadFromMem(save_p, mobj, $FFFF)]
+          else if not P_UnArchiveOldPmobj(mobj) then
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);
 
           mobj.validcount := 0;
@@ -1130,12 +1038,7 @@ begin
 
           mobj.state := @states[integer(mobj.state)];
           mobj.prevstate := @states[integer(mobj.prevstate)];
-          if mobj.player <> nil then
-          begin
-            mobj.player := @players[integer(mobj.player) - 1];
-
-            Pplayer_t(mobj.player).mo := mobj;
-          end;
+          mobj.info := @mobjinfo[Ord(mobj._type)];
 
           if mobj.customparams <> nil then
           begin
@@ -1147,9 +1050,15 @@ begin
             until parm.next = nil;
           end;
 
+          if mobj.player <> nil then
+          begin
+            mobj.player := @players[integer(mobj.player) - 1];
+
+            Pplayer_t(mobj.player).mo := mobj;
+          end;
+
           R_InitMobjTranslation(mobj);
           P_SetThingPosition(mobj);
-          mobj.info := @mobjinfo[Ord(mobj._type)];
           mobj.floorz := P_3dFloorHeight(mobj);
           mobj.ceilingz := P_3dCeilingHeight(mobj);
           @mobj.thinker._function.acp1 := @P_MobjThinker;
@@ -1582,4 +1491,5 @@ begin
   if savegameversion >= VERSION206 then
     incp(pointer(save_p), SizeOf(menuscreenbuffer_t));
 end;
+
 end.

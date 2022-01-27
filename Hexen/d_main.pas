@@ -200,6 +200,7 @@ uses
   sc_defines,
   sc_states,
   sv_save,
+  sv_hexen,
   t_main,
   v_data,
   v_video,
@@ -2164,6 +2165,11 @@ begin
   printf('S_Init: Setting up sound.'#13#10);
   S_Init(snd_SfxVolume, snd_MusicVolume);
 
+  SUC_Progress(84);
+
+  printf('SV_InitializeSerializers: Setting up serializers,'#13#10);
+  SV_InitializeSerializers;
+
   SUC_Progress(85);
 
   printf('S_InitSequenceScript: Registering sound sequences.'#13#10);
@@ -2322,6 +2328,8 @@ begin
   AM_ShutDown;
   printf('MObj_ShutDown: Shut down mobjs.'#13#10);
   MObj_ShutDown;
+  printf('SV_ShutDownSerializers: Shut down serializers.'#13#10);
+  SV_ShutDownSerializers;
 
   gamedirectories.Free;
 
