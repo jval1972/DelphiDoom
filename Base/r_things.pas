@@ -2139,7 +2139,7 @@ begin
     end;
 
     if (scale < spr.scale) or
-       ((lowscale < spr.scale) and (not R_PointOnSegSide(spr.gx, spr.gy, ds.curline))) then
+       ((lowscale < spr.scale) and not R_PointOnSegSide(spr.gx, spr.gy, ds.curline)) then
     begin
       // masked mid texture?
       if ds.thicksidecol <> nil then        // JVAL: 3d Floors
@@ -2238,7 +2238,7 @@ begin
           end
           else
           begin
-            for x :=spr.x1 to spr.x2 do
+            for x := spr.x1 to spr.x2 do
               if (cliptop[x] = -2) or (h > cliptop[x]) then
                 cliptop[x] := h;
           end;
