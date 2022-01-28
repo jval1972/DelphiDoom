@@ -633,10 +633,16 @@ procedure R_WaitWallsCache8;
   function _alldone: boolean;
   var
     i: integer;
+    ret: boolean;
   begin
     result := true;
     for i := 0 to numwallthreads8 - 1 do
-      result := result and wallthreads8[i].CheckJobDone;
+    begin
+      ret := wallthreads8[i].CheckJobDone;
+      result := ret and result;
+      if not result then
+        exit;
+    end;
   end;
 
 begin

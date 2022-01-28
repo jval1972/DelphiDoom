@@ -568,6 +568,8 @@ begin
   else
     func1(parms1);
   for i := 0 to nt - 1 do
+    exec_threads[i].CheckJobDone;
+  for i := 0 to nt - 1 do
     exec_threads[i].Wait;
   mt_execute_fetched := False;
 end;
@@ -619,6 +621,8 @@ begin
     I_Warning('MT_Execute(): Called with null application thread function.'#13#10)
   else
     func1(parms1);
+  for i := 0 to nt - 1 do
+    exec_threads[i].CheckJobDone;
   for i := 0 to nt - 1 do
     exec_threads[i].Wait;
   mt_execute_fetched := False;
@@ -683,6 +687,8 @@ begin
     I_Warning('MT_Execute(): Called with null application thread function.'#13#10)
   else
     func1(parms1);
+  for i := 0 to nt - 1 do
+    exec_threads[i].CheckJobDone;
   for i := 0 to nt - 1 do
     exec_threads[i].Wait;
   mt_execute_fetched := False;
@@ -771,6 +777,8 @@ begin
     I_Warning('MT_Execute(): Called with null application thread function.'#13#10)
   else
     func1(parms1);
+  for i := 0 to nt - 1 do
+    exec_threads[i].CheckJobDone;
   for i := 0 to nt - 1 do
     exec_threads[i].Wait;
   mt_execute_fetched := False;
@@ -890,6 +898,8 @@ begin
   else
     func1(parms1);
   for i := 0 to nt - 1 do
+    exec_threads[i].CheckJobDone;
+  for i := 0 to nt - 1 do
     exec_threads[i].Wait;
   mt_execute_fetched := False;
 end;
@@ -910,6 +920,10 @@ begin
   exec_threads[1].Activate(func3, parms3);
   exec_threads[2].Activate(func4, parms4);
   func1(parms1);
+
+  exec_threads[0].CheckJobDone;
+  exec_threads[1].CheckJobDone;
+  exec_threads[2].CheckJobDone;
 
   exec_threads[0].Wait;
   exec_threads[1].Wait;
@@ -938,6 +952,12 @@ begin
   exec_threads[3].Activate(func5, parms5);
   exec_threads[4].Activate(func6, parms6);
   func1(parms1);
+
+  exec_threads[0].CheckJobDone;
+  exec_threads[1].CheckJobDone;
+  exec_threads[2].CheckJobDone;
+  exec_threads[3].CheckJobDone;
+  exec_threads[4].CheckJobDone;
 
   exec_threads[0].Wait;
   exec_threads[1].Wait;
@@ -972,6 +992,14 @@ begin
   exec_threads[5].Activate(func7, parms7);
   exec_threads[6].Activate(func8, parms8);
   func1(parms1);
+
+  exec_threads[0].CheckJobDone;
+  exec_threads[1].CheckJobDone;
+  exec_threads[2].CheckJobDone;
+  exec_threads[3].CheckJobDone;
+  exec_threads[4].CheckJobDone;
+  exec_threads[5].CheckJobDone;
+  exec_threads[6].CheckJobDone;
 
   exec_threads[0].Wait;
   exec_threads[1].Wait;
@@ -1016,6 +1044,18 @@ begin
   exec_threads[9].Activate(func11, parms11);
   exec_threads[10].Activate(func12, parms12);
   func1(parms1);
+
+  exec_threads[0].CheckJobDone;
+  exec_threads[1].CheckJobDone;
+  exec_threads[2].CheckJobDone;
+  exec_threads[3].CheckJobDone;
+  exec_threads[4].CheckJobDone;
+  exec_threads[5].CheckJobDone;
+  exec_threads[6].CheckJobDone;
+  exec_threads[7].CheckJobDone;
+  exec_threads[8].CheckJobDone;
+  exec_threads[9].CheckJobDone;
+  exec_threads[10].CheckJobDone;
 
   exec_threads[0].Wait;
   exec_threads[1].Wait;
@@ -1073,6 +1113,22 @@ begin
   exec_threads[14].Activate(func16, parms16);
   func1(parms1);
 
+  exec_threads[0].CheckJobDone;
+  exec_threads[1].CheckJobDone;
+  exec_threads[2].CheckJobDone;
+  exec_threads[3].CheckJobDone;
+  exec_threads[4].CheckJobDone;
+  exec_threads[5].CheckJobDone;
+  exec_threads[6].CheckJobDone;
+  exec_threads[7].CheckJobDone;
+  exec_threads[8].CheckJobDone;
+  exec_threads[9].CheckJobDone;
+  exec_threads[10].CheckJobDone;
+  exec_threads[11].CheckJobDone;
+  exec_threads[12].CheckJobDone;
+  exec_threads[13].CheckJobDone;
+  exec_threads[14].CheckJobDone;
+
   exec_threads[0].Wait;
   exec_threads[1].Wait;
   exec_threads[2].Wait;
@@ -1123,6 +1179,9 @@ begin
   parms[nt - 1].numidxs := nt;
   parms[nt - 1].data := data;
   func(@parms[nt - 1]);
+
+  for i := 0 to nt - 2 do
+    exec_threads[i].CheckJobDone;
 
   for i := 0 to nt - 2 do
     exec_threads[i].Wait;

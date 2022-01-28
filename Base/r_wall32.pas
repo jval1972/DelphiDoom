@@ -667,11 +667,13 @@ procedure R_WaitWallsCache32;
   function _alldone: boolean;
   var
     i: integer;
+    ret: boolean;
   begin
     result := true;
     for i := 0 to numwallthreads32 - 1 do
     begin
-      result := result and wallthreads32[i].CheckJobDone;
+      ret := wallthreads32[i].CheckJobDone;
+      result := ret and result;
       if not result then
         exit;
     end;
