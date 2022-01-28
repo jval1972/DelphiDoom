@@ -673,6 +673,8 @@ procedure splitstring_ch(const inp: string; var out1, out2: string; const splitt
 
 function firstword(const inp: string; const splitter: string = ' '): string; overload;
 
+function firstword_ch(const inp: string; const splitter: char = ' '): string;
+
 function firstword(const inp: string; const splitters: charset_t): string; overload;
 
 function parsefirstword(const inp: string): string;
@@ -4001,7 +4003,7 @@ var
   p, len: integer;
   i: integer;
 begin
-  p := 0;
+  p := 1;
   len := Length(inp);
   while p <= len do
   begin
@@ -4033,6 +4035,23 @@ var
   tmp: string;
 begin
   splitstring(inp, result, tmp, splitter);
+end;
+
+function firstword_ch(const inp: string; const splitter: char = ' '): string;
+var
+  p, len: integer;
+begin
+  p := 1;
+  len := Length(inp);
+  SetLength(result, len);
+  while p <= len do
+  begin
+    if inp[p] = splitter then
+      break;
+    result[p] := inp[p];
+    Inc(p);
+  end;
+  SetLength(result, p - 1);
 end;
 
 function firstword(const inp: string; const splitters: charset_t): string;

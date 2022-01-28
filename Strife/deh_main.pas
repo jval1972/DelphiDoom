@@ -364,7 +364,7 @@ begin
 
         if mobj_idx in [1, 3, 7, 10, 11, 12, 13, 23, 38, 40, 41, 74] then
         begin
-          stmp := firstword(token2);
+          stmp := firstword_ch(token2);
           if (stmp = 'NEWFRAME') or (stmp = 'NEWSTATE') then  // JVAL: a new defined state
           begin
             mobj_val := atoi(secondword(token2), -1);
@@ -740,7 +740,7 @@ begin
     ////////////////////////////////////////////////////////////////////////////
     // Parse a frame ///////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
-      stmp := firstword(token2);
+      stmp := firstword_ch(token2);
       if stmp = '' then
       begin
         I_Warning('DEH_Parse(): State number unspecified after %s keyword'#13#10, [token1]);
@@ -755,7 +755,7 @@ begin
         state_no := atoi(stmp, -1);
         if stmp = '' then
         begin
-          I_Warning('DEH_Parse(): New state number unspecified after %s keyword'#13#10, [firstword(token2)]);
+          I_Warning('DEH_Parse(): New state number unspecified after %s keyword'#13#10, [firstword_ch(token2)]);
           continue;
         end;
         if state_no < 0 then
@@ -811,7 +811,7 @@ begin
            0: states[state_no].sprite := Info_GetSpriteNumForName(token2);
            1:
             begin
-              if firstword(token2) = 'BRIGHT' then
+              if firstword_ch(token2) = 'BRIGHT' then
                 states[state_no].frame := FF_FULLBRIGHT + atoi(secondword(token2))
               else
                 states[state_no].frame := state_val;
@@ -819,7 +819,7 @@ begin
            2: states[state_no].tics := state_val;
            3:
             begin
-              fw := firstword(token2);
+              fw := firstword_ch(token2);
               if (fw = 'ORIGINALSTATE') or (fw = 'ORIGINALFRAME') or (fw = 'ORIGINAL') then
               begin
                 state_val := atoi(secondword(token2));
@@ -1137,7 +1137,7 @@ begin
     ////////////////////////////////////////////////////////////////////////////
     // Parse a sound ///////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
-      stmp := firstword(token2);
+      stmp := firstword_ch(token2);
       if stmp = '' then
         continue;
 
@@ -1197,7 +1197,7 @@ begin
     ////////////////////////////////////////////////////////////////////////////
     // Parse ammo //////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
-      stmp := firstword(token2);
+      stmp := firstword_ch(token2);
       if stmp = '' then
         continue;
 
@@ -1248,7 +1248,7 @@ begin
     ////////////////////////////////////////////////////////////////////////////
     // Parse weapon ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
-      stmp := firstword(token2);
+      stmp := firstword_ch(token2);
       if stmp = '' then
         continue;
 
@@ -1297,7 +1297,7 @@ begin
         begin
           if weapon_idx in [1, 2, 3, 4, 5, 6] then
           begin
-            stmp := firstword(token2);
+            stmp := firstword_ch(token2);
             if (stmp = 'NEWFRAME') or (stmp = 'NEWSTATE') then  // JVAL: a new defined state
             begin
               weapon_val := atoi(secondword(token2), -1);
@@ -1637,7 +1637,7 @@ begin
         end;
 
         splitstring_ch(str, token1, token2, '=');
-        token2 := firstword(token2);
+        token2 := firstword_ch(token2);
 
         music_idx := atoi(token1, -1);
         if (music_idx >= 1) and (music_idx < nummusic) then

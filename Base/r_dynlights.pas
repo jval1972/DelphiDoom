@@ -366,7 +366,7 @@ begin
     for i := 0 to slist.Count - 1 do
     begin
       stmp := strupper(strtrim(slist.Strings[i]));
-      if firstword(stmp) = 'OBJECT' then
+      if firstword_ch(stmp) = 'OBJECT' then
       begin
         sc.SetText(stmp);
         sc.MustGetString;
@@ -388,7 +388,7 @@ begin
           end;
         end;
       end
-      else if firstword(stmp) = 'FRAME' then
+      else if firstword_ch(stmp) = 'FRAME' then
       begin
         sc.SetText(stmp);
 

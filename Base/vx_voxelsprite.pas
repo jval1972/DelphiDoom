@@ -716,7 +716,7 @@ var
   i: integer;
   in_loop: boolean;
 begin
-  check := firstword(filename, '.'); // Input is uppercase
+  check := firstword_ch(filename, '.'); // Input is uppercase
   SetLength(check, 5); // SPRITE & FRAME
   in_loop := false;
   for i := 0 to W_NumLumps - 1 do
@@ -750,7 +750,7 @@ begin
      ((ext = '') and (Pos(FOLDER_VOXELS + '\', fixpathname(check)) > 0)) then
   begin
     check := fname(check);
-    name := firstword(check, '.');
+    name := firstword_ch(check, '.');
     if (Length(name) = 5) or ((Length(name) = 6) and (name[6] = '0')) then
       if vx_names.IndexOf(name) < 0 then
         if not VX_SpriteExistsInWAD(name) then
@@ -805,7 +805,7 @@ var
 
   function _vxsprname(const vxn: string): string;
   begin
-    result := firstword(vx_names.Strings[i], '.');
+    result := firstword_ch(vx_names.Strings[i], '.');
     if Length(result) = 5 then
       result := result + '0';
   end;

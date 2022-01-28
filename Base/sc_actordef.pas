@@ -136,7 +136,7 @@ begin
   end;
 
   check := fixsndaliasstr(snd);
-  if firstword(check) = '$RANDOM' then
+  if firstword_ch(check) = '$RANDOM' then
     check := secondword(check);
   id := soundaliases.IndexOfName(check);
   if id >= 0 then
@@ -1415,7 +1415,7 @@ var
       fast := false;
 
       trimproc(stmp);
-      if strupper(firstword(stmp)) = 'BRIGHT' then
+      if strupper(firstword_ch(stmp)) = 'BRIGHT' then
       begin
         bright := true;
         action := strtrim(Copy(stmp, 7, length(stmp) - 6));
@@ -1430,7 +1430,7 @@ var
 
       // MBF21 - Fast keyword
       stmp := strtrim(action);
-      if strupper(firstword(stmp)) = 'FAST' then
+      if strupper(firstword_ch(stmp)) = 'FAST' then
       begin
         fast := true;
         action := strtrim(Copy(stmp, 6, length(stmp) - 6));
@@ -1447,7 +1447,7 @@ var
       if not bright and fast then
       begin
         stmp := strtrim(action);
-        if strupper(firstword(stmp)) = 'BRIGHT' then
+        if strupper(firstword_ch(stmp)) = 'BRIGHT' then
         begin
           bright := true;
           action := strtrim(Copy(stmp, 7, length(stmp) - 6));

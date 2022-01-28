@@ -76,7 +76,7 @@ begin
     (ext = '.AU') or (ext = '.VOC') or (ext = '.SND') then
   begin
     check := fname(check);
-    name := firstword(check, '.');
+    name := firstword_ch(check, '.');
     if Length(name) > 2 then
       if Pos('DS', name) = 1 then
         Delete(name, 1, 2);
