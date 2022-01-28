@@ -4349,7 +4349,7 @@ begin
 
       //if output polygons share an Edge, they'll need joining later ...
       ePrev := E.PrevInAEL;
-      eNext  := E.NextInAEL;
+      eNext := E.NextInAEL;
       if Assigned(ePrev) and (ePrev.Curr.X = E.Bot.X) and
         (ePrev.Curr.Y = E.Bot.Y) and assigned(Op) and
         (ePrev.OutIdx >= 0) and (ePrev.Curr.Y > ePrev.Top.Y) and

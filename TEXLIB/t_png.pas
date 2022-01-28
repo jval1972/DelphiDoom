@@ -2133,7 +2133,7 @@ begin
   {Fill it with grayscale colors}
   for j := 0 to palEntries.palNumEntries - 1 do
   begin
-    palEntries.palPalEntry[j].peRed  :=
+    palEntries.palPalEntry[j].peRed :=
       fOwner.GammaTable[MulDiv(j, 255, palEntries.palNumEntries - 1)];
     palEntries.palPalEntry[j].peGreen := palEntries.palPalEntry[j].peRed;
     palEntries.palPalEntry[j].peBlue := palEntries.palPalEntry[j].peRed;
@@ -2153,8 +2153,8 @@ begin
   BitmapInfo.bmiHeader.biClrUsed := GetPaletteEntries(Palette, 0, 256, palEntries.palPalEntry[0]);
   for j := 0 to BitmapInfo.bmiHeader.biClrUsed - 1 do
   begin
-    BitmapInfo.bmiColors[j].rgbBlue  := palEntries.palPalEntry[j].peBlue;
-    BitmapInfo.bmiColors[j].rgbRed   := palEntries.palPalEntry[j].peRed;
+    BitmapInfo.bmiColors[j].rgbBlue := palEntries.palPalEntry[j].peBlue;
+    BitmapInfo.bmiColors[j].rgbRed := palEntries.palPalEntry[j].peRed;
     BitmapInfo.bmiColors[j].rgbGreen := palEntries.palPalEntry[j].peGreen;
   end;
 end;
@@ -2726,9 +2726,9 @@ begin
   repeat
     {Copy this row and alpha value}
     Trans^ := PChar(Longint(Src) + 3)^;
-    Byte(Dest^)  := fOwner.GammaTable[PByte(Longint(Src) + 2)^]; inc(Dest);
-    Byte(Dest^)  := fOwner.GammaTable[PByte(Longint(Src) + 1)^]; inc(Dest);
-    Byte(Dest^)  := fOwner.GammaTable[PByte(Longint(Src)    )^]; inc(Dest);
+    Byte(Dest^) := fOwner.GammaTable[PByte(Longint(Src) + 2)^]; inc(Dest);
+    Byte(Dest^) := fOwner.GammaTable[PByte(Longint(Src) + 1)^]; inc(Dest);
+    Byte(Dest^) := fOwner.GammaTable[PByte(Longint(Src)    )^]; inc(Dest);
 
     {Move to next column}
     inc(Src, 4);
@@ -2751,9 +2751,9 @@ begin
   repeat
     {Copy this row and alpha value}
     Trans^ := PChar(Longint(Src) + 6)^;
-    Byte(Dest^)  := fOwner.GammaTable[PByte(Longint(Src) + 4)^]; inc(Dest);
-    Byte(Dest^)  := fOwner.GammaTable[PByte(Longint(Src) + 2)^]; inc(Dest);
-    Byte(Dest^)  := fOwner.GammaTable[PByte(Longint(Src)    )^]; inc(Dest);
+    Byte(Dest^) := fOwner.GammaTable[PByte(Longint(Src) + 4)^]; inc(Dest);
+    Byte(Dest^) := fOwner.GammaTable[PByte(Longint(Src) + 2)^]; inc(Dest);
+    Byte(Dest^) := fOwner.GammaTable[PByte(Longint(Src)    )^]; inc(Dest);
     {$IFDEF Store16bits}
     {Copy extra pixel values}
     Byte(Extra^) := fOwner.GammaTable[PByte(Longint(Src) + 5)^]; inc(Extra);
@@ -3028,9 +3028,9 @@ begin
   begin
     {Copy pixel values and transparency}
     Trans^ := PChar(Longint(Src) + 3)^;
-    Byte(Dest^)  := fOwner.GammaTable[PByte(Longint(Src) + 2)^]; inc(Dest);
-    Byte(Dest^)  := fOwner.GammaTable[PByte(Longint(Src) + 1)^]; inc(Dest);
-    Byte(Dest^)  := fOwner.GammaTable[PByte(Longint(Src)    )^]; inc(Dest);
+    Byte(Dest^) := fOwner.GammaTable[PByte(Longint(Src) + 2)^]; inc(Dest);
+    Byte(Dest^) := fOwner.GammaTable[PByte(Longint(Src) + 1)^]; inc(Dest);
+    Byte(Dest^) := fOwner.GammaTable[PByte(Longint(Src)    )^]; inc(Dest);
     {Move to next pixel}
     inc(Src, 4); inc(Trans);
   end {for I}
@@ -3047,9 +3047,9 @@ begin
     //Copy rgb and alpha values (transforming from 16 bits to 8 bits)
     {Copy pixel values}
     Trans^ := PChar(Longint(Src) + 6)^;
-    Byte(Dest^)  := fOwner.GammaTable[PByte(Longint(Src) + 4)^]; inc(Dest);
-    Byte(Dest^)  := fOwner.GammaTable[PByte(Longint(Src) + 2)^]; inc(Dest);
-    Byte(Dest^)  := fOwner.GammaTable[PByte(Longint(Src)    )^]; inc(Dest);
+    Byte(Dest^) := fOwner.GammaTable[PByte(Longint(Src) + 4)^]; inc(Dest);
+    Byte(Dest^) := fOwner.GammaTable[PByte(Longint(Src) + 2)^]; inc(Dest);
+    Byte(Dest^) := fOwner.GammaTable[PByte(Longint(Src)    )^]; inc(Dest);
     {$IFDEF Store16bits}
     {Copy extra pixel values}
     Byte(Extra^) := fOwner.GammaTable[PByte(Longint(Src) + 5)^]; inc(Extra);
@@ -3070,9 +3070,13 @@ begin
   for I := 1 to ImageWidth do
   begin
     {Copy alpha value and then gray value}
-    Dest^  := Src^;  inc(Src);
-    Trans^ := Src^;  inc(Src);
-    inc(Dest); inc(Trans);
+    Dest^ := Src^;
+    inc(Src);
+    Trans^ := Src^;
+    inc(Src);
+
+    inc(Dest);
+    inc(Trans);
   end;
 end;
 
@@ -3086,11 +3090,15 @@ begin
   begin
     {Copy alpha value and then gray value}
     {$IFDEF Store16bits}
-    Extra^ := PChar(Longint(Src) + 1)^; inc(Extra);
+    Extra^ := PChar(Longint(Src) + 1)^;
+    inc(Extra);
     {$ENDIF}
-    Dest^  := Src^;  inc(Src, 2);
-    Trans^ := Src^;  inc(Src, 2);
-    inc(Dest); inc(Trans);
+    Dest^ := Src^;
+    inc(Src, 2);
+    Trans^ := Src^;
+    inc(Src, 2);
+    inc(Dest);
+    inc(Trans);
   end;
 end;
 
@@ -4850,7 +4858,7 @@ var
   DC: HDC;
 begin
   {Set width and height}
-  Header.Width  := Info.bmWidth;
+  Header.Width := Info.bmWidth;
   Header.Height := abs(Info.bmHeight);
   {Set bit depth}
   if Info.bmBitsPixel >= 16 then
@@ -4925,9 +4933,9 @@ begin
     palEntries.palNumEntries := 1 shl BitmapInfo.bmBitsPixel;
     for i := 0 to palEntries.palNumEntries - 1 do
     begin
-      palEntries.palPalEntry[i].peRed   := Header.BitmapInfo.bmiColors[i].rgbRed;
+      palEntries.palPalEntry[i].peRed := Header.BitmapInfo.bmiColors[i].rgbRed;
       palEntries.palPalEntry[i].peGreen := Header.BitmapInfo.bmiColors[i].rgbGreen;
-      palEntries.palPalEntry[i].peBlue  := Header.BitmapInfo.bmiColors[i].rgbBlue;
+      palEntries.palPalEntry[i].peBlue := Header.BitmapInfo.bmiColors[i].rgbBlue;
     end;
     DoSetPalette(CreatePalette(pLogPalette(@palEntries)^), false);
   end;

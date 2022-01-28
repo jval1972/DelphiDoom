@@ -1574,12 +1574,12 @@ begin
     // adjust bounding box to map blocks
     block := MapBlockIntY(int64(bbox[BOXTOP]) - int64(bmaporgy) + MAXRADIUS);
     if block >= bmapheight then
-      block  := bmapheight - 1;
+      block := bmapheight - 1;
     sector.blockbox[BOXTOP] := block;
 
     block := MapBlockIntY(int64(bbox[BOXBOTTOM]) - int64(bmaporgy) - MAXRADIUS);
     if block < 0 then
-      block  := 0;
+      block := 0;
     sector.blockbox[BOXBOTTOM] := block;
 
     block := MapBlockIntX(int64(bbox[BOXRIGHT]) - int64(bmaporgx) + MAXRADIUS);

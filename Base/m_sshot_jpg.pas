@@ -140,7 +140,7 @@ begin
 
   aBitmap := TBitmap.Create;
   try
-    aBitmap.Width  := TGAHeader.Width[0]  + TGAHeader.Width[1]  * 256;
+    aBitmap.Width := TGAHeader.Width[0]  + TGAHeader.Width[1]  * 256;
     aBitmap.Height := TGAHeader.Height[0] + TGAHeader.Height[1] * 256;
     if TGAHeader.BPP = 24 then
       aBitmap.PixelFormat := pf24bit

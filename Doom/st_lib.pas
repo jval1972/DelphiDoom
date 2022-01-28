@@ -308,8 +308,8 @@ end;
 procedure STlib_initMultIcon(i: Pst_multicon_t; x, y: integer; il: Ppatch_tPArray;
   inum: PInteger; _on: PBoolean);
 begin
-  i.x  := x;
-  i.y  := y;
+  i.x := x;
+  i.y := y;
   i.oldinum := -1;
   i.inum := inum;
   i._on := _on;

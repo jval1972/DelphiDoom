@@ -1408,7 +1408,7 @@ begin
     // In deathmatch, the keys popup is replaced by a chart of frag counts
 
     // first column
-    y  := 64;
+    y := 64;
     yt := 66;
 
     for pnum := 0 to MAXPLAYERS div 2 - 1 do
@@ -1423,7 +1423,7 @@ begin
     end;
 
     // second column
-    y  := 64;
+    y := 64;
     yt := 66;
     for pnum := MAXPLAYERS div 2 to MAXPLAYERS - 1 do
     begin

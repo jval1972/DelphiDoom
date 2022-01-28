@@ -202,13 +202,13 @@ begin
   if I_GetNumCPUs <= 4 then
   begin
     ts := size div 4;
-    r1.start  := dbspan_y_min;
+    r1.start := dbspan_y_min;
     r1.finish := r1.start + ts;
-    r2.start  := r1.finish + 1;
+    r2.start := r1.finish + 1;
     r2.finish := r2.start + ts;
-    r3.start  := r2.finish + 1;
+    r3.start := r2.finish + 1;
     r3.finish := r3.start + ts;
-    r4.start  := r3.finish + 1;
+    r4.start := r3.finish + 1;
     r4.finish := dbspan_y_max;
     MT_Execute(
       @_thr_span_db_writer, @r1,
@@ -220,21 +220,21 @@ begin
   else
   begin
     ts := size div 8;
-    r1.start  := dbspan_y_min;
+    r1.start := dbspan_y_min;
     r1.finish := r1.start + ts;
-    r2.start  := r1.finish + 1;
+    r2.start := r1.finish + 1;
     r2.finish := r2.start + ts;
-    r3.start  := r2.finish + 1;
+    r3.start := r2.finish + 1;
     r3.finish := r3.start + ts;
-    r4.start  := r3.finish + 1;
+    r4.start := r3.finish + 1;
     r4.finish := r4.start + ts;
-    r5.start  := r4.finish + 1;
+    r5.start := r4.finish + 1;
     r5.finish := r5.start + ts;
-    r6.start  := r5.finish + 1;
+    r6.start := r5.finish + 1;
     r6.finish := r6.start + ts;
-    r7.start  := r6.finish + 1;
+    r7.start := r6.finish + 1;
     r7.finish := r7.start + ts;
-    r8.start  := r7.finish + 1;
+    r8.start := r7.finish + 1;
     r8.finish := dbspan_y_max;
     MT_Execute(
       @_thr_span_db_writer, @r1,

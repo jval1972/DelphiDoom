@@ -2113,7 +2113,7 @@ begin
     end;
 
     if (scale < vis.scale) or
-       ((lowscale < vis.scale) and (not R_PointOnSegSide(vis.gx, vis.gy, ds.curline))) then
+       ((lowscale < vis.scale) and not R_PointOnSegSide(vis.gx, vis.gy, ds.curline)) then
     begin
       // masked mid texture?
       if ds.thicksidecol <> nil then        // JVAL: 3d Floors

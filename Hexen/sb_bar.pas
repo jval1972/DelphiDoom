@@ -769,8 +769,8 @@ begin
   PatchH2BAR := W_CacheLumpName('H2BAR', PU_STATIC);
   PatchH2TOP := W_CacheLumpName('H2TOP', PU_STATIC);
   PatchINVBAR := W_CacheLumpName('INVBAR', PU_STATIC);
-  PatchLFEDGE  := W_CacheLumpName('LFEDGE', PU_STATIC);
-  PatchRTEDGE  := W_CacheLumpName('RTEDGE', PU_STATIC);
+  PatchLFEDGE := W_CacheLumpName('LFEDGE', PU_STATIC);
+  PatchRTEDGE := W_CacheLumpName('RTEDGE', PU_STATIC);
   PatchSTATBAR := W_CacheLumpName('STATBAR', PU_STATIC);
   PatchKEYBAR := W_CacheLumpName('KEYBAR', PU_STATIC);
   PatchSELECTBOX := W_CacheLumpName('SELECTBO', PU_STATIC);

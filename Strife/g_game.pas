@@ -1559,8 +1559,8 @@ begin
     spot := 0;
 
   riftangle := angle;
-  riftdest  := spot;
-  destmap   := map;
+  riftdest := spot;
+  destmap := map;
 end;
 
 //
@@ -1646,10 +1646,12 @@ procedure G_RiftPlayer;
 begin
   if riftdest <> 0 then
   begin
-    P_TeleportMove(players[0].mo,
-                   riftSpots[riftdest - 1].x * FRACUNIT,
-                   riftSpots[riftdest - 1].y * FRACUNIT);
-    players[0].mo.angle  := riftangle;
+    P_TeleportMove(
+      players[0].mo,
+      riftSpots[riftdest - 1].x * FRACUNIT,
+      riftSpots[riftdest - 1].y * FRACUNIT
+    );
+    players[0].mo.angle := riftangle;
     players[0].mo.health := players[0].health;
   end;
 end;
@@ -1675,7 +1677,7 @@ var
 begin
   temp_leveltime := leveltime;
   temp_shadow := false;
-  temp_mvis   := false;
+  temp_mvis := false;
 
   gamestate := GS_LEVEL;
   gamemap := destmap;

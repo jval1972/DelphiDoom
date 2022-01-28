@@ -361,7 +361,7 @@ begin
   inc(finalecount);
   if finalecount >= 250 then
   begin
-    gamestate   := GS_FINALE;
+    gamestate := GS_FINALE;
     finalestage := 0;
     finalecount := 0;
   end;

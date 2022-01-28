@@ -555,7 +555,7 @@ procedure P_GiveObjective(const x: string; const minlumpnum: integer);
 var
   obj_ln: integer;
 begin
-  obj_ln  := W_CheckNumForName(DEH_GetString(x));
+  obj_ln := W_CheckNumForName(DEH_GetString(x));
   if obj_ln > minlumpnum then
     mission_objective := W_TextLumpNum(obj_ln);
 end;
@@ -1168,9 +1168,9 @@ begin
         begin
           for i := player.numinventory downto curinv + 1 do
           begin
-            invtail[1].sprite   := invtail[0].sprite;
-            invtail[1]._type    := invtail[0]._type;
-            invtail[1].amount   := invtail[0].amount;
+            invtail[1].sprite := invtail[0].sprite;
+            invtail[1]._type := invtail[0]._type;
+            invtail[1].amount := invtail[0].amount;
             invtail := Pinventory_a(integer(invtail) - SizeOf(inventory_t));
           end;
         end;

@@ -931,7 +931,7 @@ begin
   oldval := val;
   xpos := x;
   if val < 0 then
-    val  := 0;
+    val := 0;
   if val > 99 then
   begin
     patch := W_CacheLumpNum(FontBNumBase + val div 100, PU_CACHE);
