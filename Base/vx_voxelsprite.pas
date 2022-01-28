@@ -228,7 +228,7 @@ begin
   begin
     strm.Free;
     s1 := fname(vname);
-    splitstring(s1, s2, s3, '.');
+    splitstring_ch(s1, s2, s3, '.');
     lump := W_CheckNumForName(s2, TYPE_VOXEL);
     if lump < 0 then
     begin

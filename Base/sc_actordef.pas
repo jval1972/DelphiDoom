@@ -156,7 +156,7 @@ begin
     exit;
   end;
 
-  if Pos('/', snd) > 0 then
+  if CharPos('/', snd) > 0 then
   begin
     I_Warning('SC_SoundAlias(): Sound %s does not have a corresponding alias.'#13#10, [snd]);
     result := '0';
@@ -426,12 +426,12 @@ var
     check: string;
   begin
     check := sc._String;
-    if Pos('-', check) <> 1 then
+    if CharPos('-', check) <> 1 then
     begin
       result := false;
       exit;
     end;
-    if Pos('+', check) = 1 then
+    if CharPos('+', check) = 1 then
     begin
       result := false;
       exit;
@@ -484,12 +484,12 @@ var
     check: string;
   begin
     check := sc._String;
-    if Pos('-', check) <> 1 then
+    if CharPos('-', check) <> 1 then
     begin
       result := false;
       exit;
     end;
-    if Pos('+', check) = 1 then
+    if CharPos('+', check) = 1 then
     begin
       result := false;
       exit;
@@ -544,12 +544,12 @@ var
     check: string;
   begin
     check := sc._String;
-    if Pos('-', check) <> 1 then
+    if CharPos('-', check) <> 1 then
     begin
       result := false;
       exit;
     end;
-    if Pos('+', check) = 1 then
+    if CharPos('+', check) = 1 then
     begin
       result := false;
       exit;
@@ -607,12 +607,12 @@ var
     check: string;
   begin
     check := sc._String;
-    if Pos('-', check) <> 1 then
+    if CharPos('-', check) <> 1 then
     begin
       result := false;
       exit;
     end;
-    if Pos('+', check) = 1 then
+    if CharPos('+', check) = 1 then
     begin
       result := false;
       exit;
@@ -676,12 +676,12 @@ var
     check: string;
   begin
     check := sc._String;
-    if Pos('-', check) <> 1 then
+    if CharPos('-', check) <> 1 then
     begin
       result := false;
       exit;
     end;
-    if Pos('+', check) = 1 then
+    if CharPos('+', check) = 1 then
     begin
       result := false;
       exit;
@@ -749,12 +749,12 @@ var
     check: string;
   begin
     check := sc._String;
-    if Pos('-', check) <> 1 then
+    if CharPos('-', check) <> 1 then
     begin
       result := false;
       exit;
     end;
-    if Pos('+', check) = 1 then
+    if CharPos('+', check) = 1 then
     begin
       result := false;
       exit;
@@ -826,12 +826,12 @@ var
     check: string;
   begin
     check := sc._String;
-    if Pos('-', check) <> 1 then
+    if CharPos('-', check) <> 1 then
     begin
       result := false;
       exit;
     end;
-    if Pos('+', check) = 1 then
+    if CharPos('+', check) = 1 then
     begin
       result := false;
       exit;
@@ -907,12 +907,12 @@ var
     check: string;
   begin
     check := sc._String;
-    if Pos('-', check) <> 1 then
+    if CharPos('-', check) <> 1 then
     begin
       result := false;
       exit;
     end;
-    if Pos('+', check) = 1 then
+    if CharPos('+', check) = 1 then
     begin
       result := false;
       exit;
@@ -998,12 +998,12 @@ var
     check: string;
   begin
     check := sc._String;
-    if Pos('-', check) <> 1 then
+    if CharPos('-', check) <> 1 then
     begin
       result := false;
       exit;
     end;
-    if Pos('+', check) = 1 then
+    if CharPos('+', check) = 1 then
     begin
       result := false;
       exit;
@@ -1086,7 +1086,7 @@ var
       if sc.GetString then
       begin
         if blevel = sc.BracketLevel then
-          if Pos(':', sc._String) < 1 then
+          if CharPos(':', sc._String) < 1 then
             result := true; // ACTOR definition not finished - same bracket level and not a new state
         sc.UnGet;
       end;
@@ -1414,7 +1414,7 @@ var
       bright := false;
       fast := false;
 
-      stmp := strtrim(stmp);
+      trimproc(stmp);
       if strupper(firstword(stmp)) = 'BRIGHT' then
       begin
         bright := true;
@@ -1707,10 +1707,10 @@ var
     end;
 
   begin
-    st := strtrim(strupper(strtrim(s)));
-    pps := Pos('+', st);
-    ppp := Pos('-', st);
-    ppb := Pos(' ', st);
+    st := strupper(strtrim(s));
+    pps := CharPos('+', st);
+    ppp := CharPos('-', st);
+    ppb := CharPos(' ', st);
     ret := -1;
     if (ppb = 0) and (ppp = 0) and (pps = 0) then
     begin
@@ -1721,16 +1721,16 @@ var
     //       20191003 rewritten, fixed
     begin
       st := strremovespaces(st);
-      pps := Pos('+', st);
-      ppp := Pos('-', st);
+      pps := CharPos('+', st);
+      ppp := CharPos('-', st);
       if pps > 0 then
       begin
-        splitstring(st, fw, sw, '+');
+        splitstring_ch(st, fw, sw, '+');
         ret := _stindex(fw) + atoi(sw, 0);
       end
       else if ppp > 0 then
       begin
-        splitstring(st, fw, sw, '-');
+        splitstring_ch(st, fw, sw, '-');
         ret := _stindex(fw) - atoi(sw, 0);
       end;
     end;
@@ -1978,10 +1978,10 @@ var
     end;
 
   begin
-    st := strtrim(strupper(strtrim(s)));
-    pps := Pos('+', st);
-    ppp := Pos('-', st);
-    ppb := Pos(' ', st);
+    st := strupper(strtrim(s));
+    pps := CharPos('+', st);
+    ppp := CharPos('-', st);
+    ppb := CharPos(' ', st);
     ret := -1;
     if (ppb = 0) and (ppp = 0) and (pps = 0) then
     begin
@@ -1992,16 +1992,16 @@ var
     //       20191003 rewritten, fixed
     begin
       st := strremovespaces(st);
-      pps := Pos('+', st);
-      ppp := Pos('-', st);
+      pps := CharPos('+', st);
+      ppp := CharPos('-', st);
       if pps > 0 then
       begin
-        splitstring(st, fw, sw, '+');
+        splitstring_ch(st, fw, sw, '+');
         ret := _stindex(fw) + atoi(sw, 0);
       end
       else if ppp > 0 then
       begin
-        splitstring(st, fw, sw, '-');
+        splitstring_ch(st, fw, sw, '-');
         ret := _stindex(fw) - atoi(sw, 0);
       end;
     end;
@@ -2578,7 +2578,7 @@ begin
       mobj.name := sc._String;
       isreplace := false;
       isinherit := false;
-      if Pos(':', mobj.name) = Length(mobj.name) then
+      if CharPos(':', mobj.name) = Length(mobj.name) then
       begin
         SetLength(mobj.name, Length(mobj.name) - 1);
         sc.GetString;
@@ -3409,13 +3409,13 @@ begin
       p := Pos('//', stmp);
       if p > 0 then
         stmp := Copy(stmp, 1, p - 1);
-      p := Pos(';', stmp);
+      p := CharPos(';', stmp);
       if p > 0 then
         stmp := Copy(stmp, 1, p - 1);
       if stmp <> '' then
       begin
         splitstring(stmp, str1, str2, [' ', '=', Chr($09)]);
-        str2 := strtrim(str2);
+        trimproc(str2);
         if str2 <> '' then
         begin
           {$IFDEF HEXEN}
@@ -3435,7 +3435,7 @@ begin
           else
           begin
           {$ENDIF}
-          str1 := strtrim(str1);
+          trimproc(str1);
           soundaliases.Add('%s=%s', [str1, str2]);
           {$IFDEF HEXEN}
             for j := 1 to Ord(DO_NUMSFX) - 1 do

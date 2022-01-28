@@ -665,7 +665,7 @@ begin
       p := Pos('//', stmp);
       if p > 0 then
         stmp := Copy(stmp, 1, p - 1);
-      p := Pos(';', stmp);
+      p := CharPos(';', stmp);
       if p > 0 then
         stmp := Copy(stmp, 1, p - 1);
       if stmp <> '' then
@@ -729,7 +729,7 @@ var
   allinparenthesis: boolean;
 begin
   result := TDStringList.Create;
-  inp := strtrim(inp);
+  trimproc(inp);
   if inp = '' then
     exit;
 
@@ -753,7 +753,7 @@ begin
     begin
       inp[1] := ' ';
       inp[length(inp)] := ' ';
-      inp := strtrim(inp);
+      trimproc(inp);
       if inp = '' then
         exit;
     end;
@@ -768,7 +768,7 @@ begin
     if inp[i] = ',' then
       if not inquotes and (parenthesislevel = 0) then
       begin
-        stmp := strtrim(stmp);
+        trimproc(stmp);
         if stmp <> '' then
         begin
           result.Add(stmp);
@@ -790,7 +790,7 @@ begin
     end else if inp[i] = '"' then
       inquotes := not inquotes;
   end;
-  stmp := strtrim(stmp);
+  trimproc(stmp);
   if stmp <> '' then
     result.Add(stmp);
 end;

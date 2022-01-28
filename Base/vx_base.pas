@@ -165,7 +165,7 @@ var
   s1, s2, check: string;
   i: integer;
 begin
-  splitstring(fname(sprname), s1, s2, '.');
+  splitstring_ch(fname(sprname), s1, s2, '.');
   check := strupper(s1);
   if Length(check) = 4 then
   begin

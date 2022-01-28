@@ -218,6 +218,7 @@ Improved HACX support.
 Recognizes IWAD file extention.
 Added SetConsoleStr, SetConsoleInt & SetConsoleBool PascalScript functions to set console variables. The new value will not be saved to the ini file.
 Save/Load mechanism global changes to easily accomodate new fields additions.
+Speed optimization to string manipulation routines.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

@@ -2503,9 +2503,8 @@ var
 begin
   usergame := false;
   demoname := name;
-  if Pos('.', demoname) = 0 then
+  if CharPos('.', demoname) = 0 then
     demoname := demoname + '.lmp';
-
 
   i := M_CheckParm ('-maxdemo');
   if (i <> 0) and (i < myargc - 1) then
@@ -2623,7 +2622,7 @@ begin
       break;
     end;
 
-  pdot := Pos('.', dmname);
+  pdot := CharPos('.', dmname);
   if ((Length(dmname) <= 8) and (pdot = 0)) or ((pdot < 9) and (pdot <> 0)) then
   begin
     ExtractFileBase8(dmname, defdemoname8);

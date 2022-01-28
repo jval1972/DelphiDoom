@@ -949,7 +949,7 @@ begin
 
   s := UpperCase(Trim(s1 + ' ' + s2));
   repeat
-    splitstring(s, v1, v2);
+    splitstring_ch(s, v1, v2);
     if v1 <> '' then
     begin
       if vars.fStringList.IndexOf(v1) >= 0 then
@@ -990,7 +990,7 @@ begin
     Exit;
   end;
 
-  if Pos(' ', s2) > 0 then
+  if CharPos(' ', s2) > 0 then
   begin
     vars.StrVal[s1] := s2;
     Exit;

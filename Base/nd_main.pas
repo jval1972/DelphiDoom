@@ -573,7 +573,7 @@ begin
   check := strupper(glmapname) = strupper(char8tostring(W_GetNameForNum(glmaplump)));
   for i := 0 to sglinf.Count - 1 do
   begin
-    splitstring(sglinf.Strings[i], s1, s2, '=');
+    splitstring_ch(sglinf.Strings[i], s1, s2, '=');
     if s1 = 'CHECKSUM' then
       result := atoui(s2)
     else if not check and (s1 = 'MAPNAME') then

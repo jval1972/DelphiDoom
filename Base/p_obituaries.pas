@@ -105,8 +105,8 @@ begin
         check := strtrim(strupper(Copy(messagefmt, 2, Length(messagefmt) - 1)));
         for i := 0 to lst.Count - 1 do
         begin
-          splitstring(lst.Strings[i], s1, s2, '=');
-          s1 := strtrim(s1);
+          splitstring_ch(lst.Strings[i], s1, s2, '=');
+          trimproc(s1);
           if s1 = check then
           begin
             messagefmt := s2;

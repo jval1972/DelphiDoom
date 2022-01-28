@@ -535,7 +535,7 @@ begin
   wad.OpenWadFile(filename);
   numlumps := wad.NumEntries;
 
-  splitstring(fname(filename), name, s, '.');
+  splitstring_ch(fname(filename), name, s, '.');
   nummaps1 := 0;
   nummaps2 := 0;
 

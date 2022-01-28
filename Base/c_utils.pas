@@ -69,7 +69,7 @@ begin
   if mask = '' then
     exit;
 
-  splitstring(mask, mask1, mask2);
+  splitstring_ch(mask, mask1, mask2);
   C_CmdDir(mask1, mask2);
 
 end;
@@ -117,7 +117,7 @@ begin
   if mask = '' then
     exit;
 
-  splitstring(mask, mask1, mask2);
+  splitstring_ch(mask, mask1, mask2);
   C_CmdCat(mask1, mask2);
 
 end;

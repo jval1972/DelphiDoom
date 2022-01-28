@@ -170,6 +170,19 @@ const
 
 { TPSLineInfoList }
 
+function CharPos(const ch: Char; const s: string): integer;
+var
+  i: integer;
+begin
+  for i := 1 to Length(s) do
+    if s[i] = ch then
+    begin
+      result := i;
+      exit;
+    end;
+  result := 0;
+end;
+
 function TPSLineInfoList.Add: TPSLineInfo;
 begin
   Result := TPSLineInfo.Create;
@@ -576,8 +589,8 @@ begin
         end
         else
         begin
-          Name := uppercase(Copy(s, 1, Pos(' ', s) - 1));
-          Delete(s, 1, pos(' ', s));
+          Name := uppercase(Copy(s, 1, CharPos(' ', s) - 1));
+          Delete(s, 1, CharPos(' ', s));
         end;
 
         //-- 20050707_jgv - ask the application
@@ -601,7 +614,7 @@ begin
           begin
             if FDefineState.DoWrite then
             begin
-              if pos(' ', s) <> 0 then
+              if CharPos(' ', s) <> 0 then
                 raise EPSPreProcessor.CreateFmt(RPS_DefineTooManyParameters, [Parser.Row, Parser.Col]);
               FCurrentDefines.Add(Uppercase(S));
             end;
@@ -610,7 +623,7 @@ begin
           begin
             if FDefineState.DoWrite then
             begin
-              if pos(' ', s) <> 0 then
+              if CharPos(' ', s) <> 0 then
                 raise EPSPreProcessor.CreateFmt(RPS_DefineTooManyParameters, [Parser.Row, Parser.Col]);
               i := FCurrentDefines.IndexOf(Uppercase(s));
               if i <> - 1 then
@@ -619,7 +632,7 @@ begin
           end
           else if (Name = 'IFDEF') then
           begin
-            if pos(' ', s) <> 0 then
+            if CharPos(' ', s) <> 0 then
               raise EPSPreProcessor.CreateFmt(RPS_DefineTooManyParameters, [Parser.Row, Parser.Col]);
             //JeromeWelsh - nesting fix
             ADoWrite := (FCurrentDefines.IndexOf(Uppercase(s)) >= 0) and FDefineState.DoWrite;
@@ -627,7 +640,7 @@ begin
           end
           else if (Name = 'IFNDEF') then
           begin
-            if pos(' ', s) <> 0 then
+            if CharPos(' ', s) <> 0 then
               raise EPSPreProcessor.CreateFmt(RPS_DefineTooManyParameters, [Parser.Row, Parser.Col]);
             //JeromeWelsh - nesting fix
             ADoWrite := (FCurrentDefines.IndexOf(Uppercase(s)) < 0) and FDefineState.DoWrite;

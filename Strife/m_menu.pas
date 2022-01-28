@@ -6196,7 +6196,7 @@ begin
     lst2 := TDStringList.Create;
     s := lst.Strings[i];
     repeat
-      splitstring(s, s1, s2);
+      splitstring_ch(s, s1, s2);
       lst2.Add(s1);
       s := s2;
     until s = '';

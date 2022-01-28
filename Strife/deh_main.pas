@@ -297,7 +297,7 @@ begin
         break;
     mustnextline := true;
 
-    splitstring(str, token1, token2);
+    splitstring_ch(str, token1, token2);
 
     ////////////////////////////////////////////////////////////////////////////
     if (token1 = 'THING') or (token1 = 'NEWTHING') then
@@ -342,14 +342,14 @@ begin
         if not DEH_NextLine(s, str, i) then
           break;
 
-        if Pos('=', str) = 0 then
+        if CharPos('=', str) = 0 then
         begin
           mustnextline := false; // Already got line
           break;
         end;
 
       // Retrieve current think field index
-        splitstring(str, token1, token2, '=');
+        splitstring_ch(str, token1, token2, '=');
         token2 := RemoveQuotesFromString(token2);
         mobj_idx := mobj_tokens_hash.IndexOf(token1);
 
@@ -789,13 +789,13 @@ begin
       begin
         if not DEH_NextLine(s, str, i) then
           break;
-        if Pos('=', str) = 0 then
+        if CharPos('=', str) = 0 then
         begin
           mustnextline := false; // Already got line
           break;
         end;
 
-        splitstring(str, token1, token2, '=');
+        splitstring_ch(str, token1, token2, '=');
         state_idx := state_tokens.IndexOf(token1);
 
         if state_idx = -1 then
@@ -983,7 +983,7 @@ begin
     // Parse a text ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
       stmp := token2;
-      splitstring(stmp, token1, token2);
+      splitstring_ch(stmp, token1, token2);
 
       len1 := atoi(token1, -1);
       if len1 <= 0 then
@@ -1091,7 +1091,7 @@ begin
         continue;
 
       SetLength(stmp, length(stmp) - 1);
-      splitstring(stmp, token1, token2);
+      splitstring_ch(stmp, token1, token2);
       if token1 <> 'FRAME' then
         continue;
 
@@ -1102,13 +1102,13 @@ begin
       if not DEH_NextLine(s, str, i) then
         break;
 
-      if Pos('=', str) = 0 then
+      if CharPos('=', str) = 0 then
       begin
         mustnextline := false; // Already got line
         continue;
       end;
 
-      splitstring(str, token1, token2, '=');
+      splitstring_ch(str, token1, token2, '=');
       if token1 <> 'CODEP FRAME' then
       begin
         mustnextline := false; // Already got line
@@ -1161,14 +1161,14 @@ begin
         if not DEH_NextLine(s, str, i) then
           break;
 
-        if Pos('=', str) = 0 then
+        if CharPos('=', str) = 0 then
         begin
           mustnextline := false; // Already got line
           break;
         end;
 
       // Retrieve current think field index
-        splitstring(str, token1, token2, '=');
+        splitstring_ch(str, token1, token2, '=');
         sound_idx := sound_tokens.IndexOf(token1);
 
         if sound_idx = -1 then
@@ -1213,13 +1213,13 @@ begin
       begin
         if not DEH_NextLine(s, str, i) then
           break;
-        if Pos('=', str) = 0 then
+        if CharPos('=', str) = 0 then
         begin
           mustnextline := false; // Already got line
           break;
         end;
 
-        splitstring(str, token1, token2, '=');
+        splitstring_ch(str, token1, token2, '=');
         ammo_idx := ammo_tokens.IndexOf(token1);
 
         if ammo_idx = -1 then
@@ -1267,14 +1267,14 @@ begin
         if not DEH_NextLine(s, str, i) then
           break;
 
-        if Pos('=', str) = 0 then
+        if CharPos('=', str) = 0 then
         begin
           mustnextline := false; // Already got line
           break;
         end;
 
       // Retrieve current think field index
-        splitstring(str, token1, token2, '=');
+        splitstring_ch(str, token1, token2, '=');
         weapon_idx := weapon_tokens.IndexOf(token1);
 
         if weapon_idx = -1 then
@@ -1380,13 +1380,13 @@ begin
         if not DEH_NextLine(s, str, i) then
           break;
 
-        if Pos('=', str) = 0 then
+        if CharPos('=', str) = 0 then
         begin
           mustnextline := false; // Already got line
           break;
         end;
 
-        splitstring(str, token1, token2, '=');
+        splitstring_ch(str, token1, token2, '=');
 
         sprite_idx := -1;
         sprite_val := atoi(token1, -1);
@@ -1477,14 +1477,14 @@ begin
         if not DEH_NextLine(s, str, i) then
           break;
 
-        if Pos('=', str) = 0 then
+        if CharPos('=', str) = 0 then
         begin
           mustnextline := false; // Already got line
           break;
         end;
 
       // Retrieve current think field index
-        splitstring(str, token1, token2, '=');
+        splitstring_ch(str, token1, token2, '=');
 
         misc_idx := misc_tokens.IndexOf(token1);
 
@@ -1531,7 +1531,7 @@ begin
       begin
         if not DEH_NextLine(s, str, i) then
           break;
-        if Pos('=', str) = 0 then
+        if CharPos('=', str) = 0 then
         begin
           mustnextline := false; // Already got line
           break;
@@ -1545,7 +1545,7 @@ begin
           str := str + stmp;
         end;
 
-        splitstring(str, token1, token2, '=');
+        splitstring_ch(str, token1, token2, '=');
 
         for j := 0 to deh_strings.numstrings - 1 do
           if deh_strings._array[j].name = token1 then
@@ -1569,14 +1569,14 @@ begin
       begin
         if not DEH_NextLine(s, str, i) then
           break;
-        if Pos('=', str) = 0 then
+        if CharPos('=', str) = 0 then
         begin
           mustnextline := false; // Already got line
           break;
         end;
 
-        splitstring(str, stmp, token3, '=');
-        splitstring(stmp, token1, token2);
+        splitstring_ch(str, stmp, token3, '=');
+        splitstring_ch(stmp, token1, token2);
 
         if token1 <> 'FRAME' then
           continue;
@@ -1630,13 +1630,13 @@ begin
       begin
         if not DEH_NextLine(s, str, i) then
           break;
-        if Pos('=', str) = 0 then
+        if CharPos('=', str) = 0 then
         begin
           mustnextline := false; // Already got line
           break;
         end;
 
-        splitstring(str, token1, token2, '=');
+        splitstring_ch(str, token1, token2, '=');
         token2 := firstword(token2);
 
         music_idx := atoi(token1, -1);
@@ -1680,13 +1680,13 @@ begin
       begin
         if not DEH_NextLine(s, str, i) then
           break;
-        if Pos('=', str) = 0 then
+        if CharPos('=', str) = 0 then
         begin
           mustnextline := false; // Already got line
           break;
         end;
 
-        splitstring(str, token1, token2, '=');
+        splitstring_ch(str, token1, token2, '=');
 
         sound_idx := atoi(token1, -1);
         if (sound_idx >= 1) and (sound_idx < numsfx) then

@@ -2777,7 +2777,7 @@ var
 begin
   usergame := false;
   demoname := name;
-  if Pos('.', demoname) = 0 then
+  if CharPos('.', demoname) = 0 then
     demoname := demoname + '.lmp';
 
 
@@ -2900,7 +2900,7 @@ begin
       break;
     end;
 
-  pdot := Pos('.', dmname);
+  pdot := CharPos('.', dmname);
   if ((Length(dmname) <= 8) and (pdot = 0)) or ((pdot < 9) and (pdot <> 0)) then
   begin
     ExtractFileBase8(dmname, defdemoname8);

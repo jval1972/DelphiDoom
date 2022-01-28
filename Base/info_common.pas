@@ -210,7 +210,7 @@ begin
   begin
     if Pos(check, mobjinfo_aliases.Strings[i]) = 1 then
     begin
-      splitstring(mobjinfo_aliases.Strings[i], check, snum, '=');
+      splitstring_ch(mobjinfo_aliases.Strings[i], check, snum, '=');
       result := atoi(snum);
       exit;
     end;
@@ -452,7 +452,7 @@ begin
   for i := nummobjtypes - 1 downto 0 do
   begin
     check := Info_GetMobjName(i);
-    check := strupper(strtrim(check));
+    trimprocU(check);
     if check = mobj_name then
     begin
       result := i;
