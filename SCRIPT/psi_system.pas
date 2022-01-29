@@ -385,6 +385,7 @@ var
   i: integer;
   pd: Pdefault_t;
   cname: string;
+  location: Pointer;
 begin
   cname := strlower(cvar);
 
@@ -392,25 +393,31 @@ begin
   for i := 0 to NUMDEFAULTS - 1 do
   begin
     if pd.name = cname then
+    begin
+      if pd.oldlocation <> nil then
+        location := pd.oldlocation
+      else
+        location := pd.location;
       case pd._type of
         tString:
           begin
-            Result := PString(pd.location)^;
+            Result := PString(location)^;
             Exit;
           end;
         tInteger:
           begin
-            Result := itoa(PInteger(pd.location)^);
+            Result := itoa(PInteger(location)^);
             Exit;
           end;
         tBoolean:
           begin
-            if PBoolean(pd.location)^ then
+            if PBoolean(location)^ then
               Result := 'true'
             else
               Result := 'false';
             Exit;
           end;
+      end;
     end;
     inc(pd);
   end;
@@ -427,6 +434,7 @@ var
   i: integer;
   pd: Pdefault_t;
   cname: string;
+  location: Pointer;
 begin
   cname := strlower(cvar);
 
@@ -434,25 +442,31 @@ begin
   for i := 0 to NUMDEFAULTS - 1 do
   begin
     if pd.name = cname then
+    begin
+      if pd.oldlocation <> nil then
+        location := pd.oldlocation
+      else
+        location := pd.location;
       case pd._type of
         tString:
           begin
-            Result := atoi(PString(pd.location)^, 0);
+            Result := atoi(PString(location)^, 0);
             Exit;
           end;
         tInteger:
           begin
-            Result := PInteger(pd.location)^;
+            Result := PInteger(location)^;
             Exit;
           end;
         tBoolean:
           begin
-            if PBoolean(pd.location)^ then
+            if PBoolean(location)^ then
               Result := 1
             else
               Result := 0;
             Exit;
           end;
+      end;
     end;
     inc(pd);
   end;
@@ -469,6 +483,7 @@ var
   i: integer;
   pd: Pdefault_t;
   cname: string;
+  location: Pointer;
 begin
   cname := strlower(cvar);
 
@@ -476,22 +491,28 @@ begin
   for i := 0 to NUMDEFAULTS - 1 do
   begin
     if pd.name = cname then
+    begin
+      if pd.oldlocation <> nil then
+        location := pd.oldlocation
+      else
+        location := pd.location;
       case pd._type of
         tString:
           begin
-            Result := PString(pd.location)^ <> '';
+            Result := PString(location)^ <> '';
             Exit;
           end;
         tInteger:
           begin
-            Result := PInteger(pd.location)^ <> 0;
+            Result := PInteger(location)^ <> 0;
             Exit;
           end;
         tBoolean:
           begin
-            Result := PBoolean(pd.location)^;
+            Result := PBoolean(location)^;
             Exit;
           end;
+      end;
     end;
     inc(pd);
   end;

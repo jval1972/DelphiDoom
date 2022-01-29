@@ -898,10 +898,16 @@ begin
     if defaults[i]._type = tBoolean then
       if defaults[i].name = lname then
       begin
-        defaults[i].defaultbvalue := PBoolean(defaults[i].location)^;
-        PBoolean(defaults[i].location)^ := value;
-        PBoolean(defaults[i].location) := @defaults[i].defaultbvalue;
-        defaults[i].setable := DFS_NEVER;
+        if defaults[i].oldlocation = nil then
+        begin
+          defaults[i].oldlocation := defaults[i].location;
+          defaults[i].defaultbvalue := PBoolean(defaults[i].location)^;
+          PBoolean(defaults[i].location)^ := value;
+          PBoolean(defaults[i].location) := @defaults[i].defaultbvalue;
+          defaults[i].setable := DFS_NEVER;
+        end
+        else
+          PBoolean(defaults[i].oldlocation)^ := value;
         result := true;
       end;
 end;
@@ -917,10 +923,16 @@ begin
     if defaults[i]._type = tInteger then
       if defaults[i].name = lname then
       begin
-        defaults[i].defaultivalue := PInteger(defaults[i].location)^;
-        PInteger(defaults[i].location)^ := value;
-        PInteger(defaults[i].location) := @defaults[i].defaultivalue;
-        defaults[i].setable := DFS_NEVER;
+        if defaults[i].oldlocation = nil then
+        begin
+          defaults[i].oldlocation := defaults[i].location;
+          defaults[i].defaultivalue := PInteger(defaults[i].location)^;
+          PInteger(defaults[i].location)^ := value;
+          PInteger(defaults[i].location) := @defaults[i].defaultivalue;
+          defaults[i].setable := DFS_NEVER;
+        end
+        else
+          PInteger(defaults[i].oldlocation)^ := value;
         result := true;
       end;
 end;
@@ -936,10 +948,16 @@ begin
     if defaults[i]._type = tString then
       if defaults[i].name = lname then
       begin
-        defaults[i].defaultsvalue := PString(defaults[i].location)^;
-        PString(defaults[i].location)^ := value;
-        PString(defaults[i].location) := @defaults[i].defaultsvalue;
-        defaults[i].setable := DFS_NEVER;
+        if defaults[i].oldlocation = nil then
+        begin
+          defaults[i].oldlocation := defaults[i].location;
+          defaults[i].defaultsvalue := PString(defaults[i].location)^;
+          PString(defaults[i].location)^ := value;
+          PString(defaults[i].location) := @defaults[i].defaultsvalue;
+          defaults[i].setable := DFS_NEVER;
+        end
+        else
+          PString(defaults[i].oldlocation)^ := value;
         result := true;
       end;
 end;
