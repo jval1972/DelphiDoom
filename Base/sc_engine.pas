@@ -48,6 +48,7 @@ type
   private
     sc_String: PChar;
     sc_Integer: integer;
+    sc_Boolean: boolean;
     sc_Float: float;
     sc_Line: integer;
     sc_End: boolean;
@@ -80,12 +81,14 @@ type
     function GetStringEOLWithQuotes: string;
     function GetTokensEOL: TDStringList;
     function GetStringEOLUnChanged: string;
-    procedure MustGetString;
-    procedure MustGetStringName(const name: string);
+    function MustGetString: boolean;
+    function MustGetStringName(const name: string): boolean;
     function GetInteger: boolean;
-    procedure MustGetInteger;
+    function MustGetInteger: boolean;
     function GetFloat: boolean;
-    procedure MustGetFloat;
+    function MustGetFloat: boolean;
+    function GetBoolean: boolean;
+    function MustGetBoolean: boolean;
     procedure UnGet;
     function MatchString(const strs: TDStringList): integer; overload;
     function MatchString(const str: string): boolean; overload;
@@ -97,11 +100,13 @@ type
     property _Integer: integer read sc_Integer;
     property _Float: float read sc_Float;
     property _String: string read fToken;
+    property _Boolean: boolean read sc_boolean;
     property _Finished: boolean read sc_End;
     property _Line: integer read sc_Line;
     property NewLine: boolean read fNewLine;
     property BracketLevel: integer read fBracketLevel;
     property ParenthesisLevel: integer read fParenthesisLevel;
+    property QuotedToken: boolean read fquotedtoken;
   end;
 
 function SC_RemoveLineQuotes(const sctext: string): string;
@@ -252,19 +257,20 @@ begin
   lst.Free;
 end;
 
-procedure TScriptEngine.MustGetString;
+function TScriptEngine.MustGetString: boolean;
 begin
-  if not GetString then
+  result := GetString;
+  if not result then
   begin
     ScriptError('TScriptEngine.MustGetString(): Missing string at Line %d', [sc_Line]);
     ScriptPrintLineError(sc_Line, 2);
   end;
 end;
 
-procedure TScriptEngine.MustGetStringName(const name: string);
+function TScriptEngine.MustGetStringName(const name: string): boolean;
 begin
-  MustGetString;
-  if not Compare(name) then
+  result := MustGetString;
+  if not result or not Compare(name) then
   begin
     ScriptError('TScriptEngine.MustGetStringName(): "%s" expected at Line %d', [name, sc_Line]);
     ScriptPrintLineError(sc_Line, 2);
@@ -293,9 +299,10 @@ begin
     result := true;
 end;
 
-procedure TScriptEngine.MustGetInteger;
+function TScriptEngine.MustGetInteger: boolean;
 begin
-  if not GetInteger then
+  result := GetInteger;
+  if not result then
   begin
     ScriptError('TScriptEngine.MustGetInteger(): Missing integer at Line %d', [sc_Line]);
     ScriptPrintLineError(sc_Line, 2);
@@ -341,11 +348,33 @@ begin
     result := true;
 end;
 
-procedure TScriptEngine.MustGetFloat;
+function TScriptEngine.MustGetFloat: boolean;
 begin
-  if not GetFloat then
+  result := GetFloat;
+  if not result then
   begin
     ScriptError('TScriptEngine.MustGetFloat(): Missing float at Line %d', [sc_Line]);
+    ScriptPrintLineError(sc_Line, 2);
+  end;
+end;
+
+function TScriptEngine.GetBoolean: boolean;
+begin
+  if GetString then
+  begin
+    result := (strupper(sc_string) = 'TRUE') or (strupper(sc_string) = 'FALSE');
+    sc_boolean := strupper(sc_string) = 'TRUE';
+  end
+  else
+    result := false;
+end;
+
+function TScriptEngine.MustGetBoolean: boolean;
+begin
+  result := GetBoolean;
+  if not result then
+  begin
+    ScriptError('TScriptEngine.MustGetBoolean(): Missing boolean at Line %d', [sc_Line]);
     ScriptPrintLineError(sc_Line, 2);
   end;
 end;

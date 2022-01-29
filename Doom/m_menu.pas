@@ -115,6 +115,7 @@ type
     pBoolVal: PBoolean;
     // hotkey in menu
     alphaKey: char;
+    alttext: string[30];
   end;
   Pmenuitem_t = ^menuitem_t;
   menuitem_tArray = packed array[0..$FFFF] of menuitem_t;
@@ -144,6 +145,10 @@ type
   end;
 
 function M_WriteText(x, y: integer; const str: string): menupos_t;
+
+procedure M_ClearEpisodes;
+
+procedure M_AddEpisode(const map: string; const gfx: string; const txt: string; const alpha: char);
 
 var
 // current menudef
@@ -556,7 +561,7 @@ type
   );
 
 var
-  EpisodeMenu: array[0..3] of menuitem_t;
+  EpisodeMenu: array[0..7] of menuitem_t;
   EpiDef: menu_t;
 
 type
@@ -2284,6 +2289,49 @@ begin
     else
       M_SetupNextMenu(@EpiDef);
   end;
+end;
+
+// This is for customized episode menus
+var
+  EpiCustom: boolean;
+
+var
+  EpiMenuMap: array[0..7] of Integer = (1, 1, 1, 1, -1, -1, -1, -1);
+  EpiMenuEpi: array[0..7] of Integer = (1, 2, 3, 4, -1, -1, -1, -1);
+
+procedure M_ClearEpisodes;
+begin
+  EpiDef.numitems := 0;
+  NewDef.prevMenu := @MainDef;
+end;
+
+procedure M_AddEpisode(const map: string; const gfx: string; const txt: string; const alpha: char);
+var
+  epi, mapnum: integer;
+begin
+  if not EpiCustom then
+  begin
+    EpiCustom := true;
+    NewDef.prevMenu := @EpiDef;
+
+    if gamemode = commercial then
+      EpiDef.numitems := 0;
+  end;
+
+  if EpiDef.numitems >= 8 then
+    exit;
+  G_ValidateMapName(map, @epi, @mapnum);
+  EpiMenuEpi[EpiDef.numitems] := epi;
+  EpiMenuMap[EpiDef.numitems] := mapnum;
+  EpisodeMenu[EpiDef.numitems].name := gfx;
+  EpisodeMenu[EpiDef.numitems].alttext := txt;
+  EpisodeMenu[EpiDef.numitems].alphaKey := alpha;
+  inc(EpiDef.numitems);
+
+  if EpiDef.numitems <= 4 then
+    EpiDef.y := 63
+  else
+    EpiDef.y := 63 - (EpiDef.numitems - 4) * (LINEHEIGHT div 2);
 end;
 
 //
