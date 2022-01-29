@@ -49,7 +49,7 @@ uses
 //
 const
   WIF_ENABLEAPS = 1;  // [XA] enable "ammo per shot" field for native Doom weapon codepointers
-  
+
 const
   // no flag
   WPF_NOFLAG = 0;

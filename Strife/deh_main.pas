@@ -1336,7 +1336,7 @@ begin
            7: begin
                 weaponinfo[weapon_no].ammopershot := weapon_val;  // MBF21
                 weaponinfo[weapon_no].intflags := weaponinfo[weapon_no].intflags or WIF_ENABLEAPS;
-              end;  
+              end;
            8: begin // MBF21
                 if itoa(weapon_val) = token2 then
                   weaponinfo[weapon_no].mbf21bits := weapon_val

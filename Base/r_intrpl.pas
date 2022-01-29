@@ -452,7 +452,7 @@ begin
   li := @lines[0];
   for i := 0 to numlines - 1 do
   begin
-    if (li.special <> 0) 
+    if (li.special <> 0)
       {$IFDEF DOOM_OR_STRIFE} or (li.tag <> 0) {$ENDIF} then // JVAL: For scroll specials 1024, 1025 & 1026
       for j := 0 to 1 do
       begin

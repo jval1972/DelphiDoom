@@ -117,7 +117,7 @@ uses
   info,
   p_mobj_h,
   p_mobj;
-  
+
 constructor TSerializer.Create;
 begin
   fitems := nil;
