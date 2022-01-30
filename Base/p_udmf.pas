@@ -245,7 +245,7 @@ begin
         if atext[i + 1] = '/' then
           incomments := false;
     end;
-    if not (incomments and inLcomments) then
+    if not (incomments or inLcomments) then
     begin
       if inquotes then
         result := result + atext[i]
