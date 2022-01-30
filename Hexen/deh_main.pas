@@ -1988,7 +1988,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[71]), mobjinfo[i].ripsound]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[72]), mobjinfo[i].crushstate]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[75]), mobjinfo[i].bloodcolor]);
-    result.Add('%s = %s', [capitalizedstring(mobj_tokens[76]), mobjinfo[i].translationname]);
+    result.Add('%s = "%s"', [capitalizedstring(mobj_tokens[76]), mobjinfo[i].translationname]);
 
     result.Add('');
   end;

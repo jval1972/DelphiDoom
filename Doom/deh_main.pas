@@ -2039,7 +2039,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[72]), mobjinfo[i].ripsound]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[73]), mobjinfo[i].crushstate]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[76]), mobjinfo[i].bloodcolor]);
-    result.Add('%s = %s', [capitalizedstring(mobj_tokens[77]), mobjinfo[i].translationname]);
+    result.Add('%s = "%s"', [capitalizedstring(mobj_tokens[77]), mobjinfo[i].translationname]);
 
     result.Add('');
   end;
