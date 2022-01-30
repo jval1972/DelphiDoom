@@ -219,6 +219,7 @@ Recognizes IWAD file extention.
 Added SetConsoleStr, SetConsoleInt & SetConsoleBool PascalScript functions to set console variables. The new value will not be saved to the ini file and it can only be retrived with the GetConsoleStr, GetConsoleInt & GetConsoleBool PascalScript functions.
 Save/Load mechanism global changes to easily accomodate new fields additions.
 Speed optimization to string manipulation routines.
+UMAPINFO support.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

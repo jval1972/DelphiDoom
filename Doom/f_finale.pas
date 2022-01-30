@@ -88,9 +88,12 @@ uses
   g_game,
   info,
   p_pspr,
+  p_umapinfo,
+  psi_overlay,
   r_data,
   r_defs,
   r_things,
+  t_patch,
 // Functions.
   z_zone,
   v_data,
@@ -119,6 +122,7 @@ const
 var
   finaletext: string;
   finaleflat: string;
+  using_FMI: boolean;
 
 procedure F_StartCast; forward;
 
@@ -129,11 +133,23 @@ function F_CastResponder(ev: Pevent_t): boolean; forward;
 procedure F_CastDrawer; forward;
 
 procedure F_StartFinale;
+var
+  mus_changed: boolean;
 begin
   gameaction := ga_nothing;
   gamestate := GS_FINALE;
   viewactive := false;
   amstate := am_inactive;
+  mus_changed := false;
+
+  finaletext := '';
+  finaleflat := '';
+
+  if (gamemapinfo <> nil) and (gamemapinfo.intermusicnum > 0) then
+  begin
+    S_ChangeMusic(gamemapinfo.intermusicnum, true);
+    mus_changed := true;
+  end;
 
   // Okay - IWAD dependend stuff.
   // This has been changed severly, and
@@ -144,7 +160,8 @@ begin
     registered,
     retail:
       begin
-        S_ChangeMusic(Ord(mus_victor), true);
+        if not mus_changed then
+          S_ChangeMusic(Ord(mus_victor), true);
         case gameepisode of
           1:
             begin
@@ -173,7 +190,8 @@ begin
     // DOOM II and missions packs with E1, M34
     commercial:
       begin
-        S_ChangeMusic(Ord(mus_read_m), true);
+        if not mus_changed then
+          S_ChangeMusic(Ord(mus_read_m), true);
         case gamemap of
           6:
             begin
@@ -241,11 +259,34 @@ begin
       end;
   else
     begin
-      S_ChangeMusic(Ord(mus_read_m), true);
+      if not mus_changed then
+        S_ChangeMusic(Ord(mus_read_m), true);
       finaleflat := 'F_SKY1'; // Not used anywhere else.
       finaletext := C1TEXT;   // FIXME - other text, music?
     end;
   end;
+
+  using_FMI := false;
+
+  if gamemapinfo <> nil then
+  begin
+    if (gamemapinfo.intertextsecret[0] <> #0) and secretexit and (gamemapinfo.intertextsecret[0] <> '-') then // '-' means that any default intermission was cleared.
+      finaletext := ubigstringtostring(gamemapinfo.intertextsecret)
+    else if (gamemapinfo.intertext[0] <> #0) and  not secretexit and (gamemapinfo.intertext[0] <> '-') then // '-' means that any default intermission was cleared.
+      finaletext := ubigstringtostring(gamemapinfo.intertext);
+
+    if finaletext = '' then
+      finaletext := 'The End';  // this is to avoid a crash on a missing text in the last map.
+
+    if gamemapinfo.interbackdrop <> '' then
+      finaleflat := gamemapinfo.interbackdrop;
+
+    if finaleflat = '' then
+      finaleflat := 'FLOOR4_8'; // use a single fallback for all maps.
+
+    using_FMI := true;
+  end;
+
   finalestage := 0;
   finalecount := 0;
 end;
@@ -256,6 +297,30 @@ begin
     result := F_CastResponder(ev)
   else
     result := false;
+end;
+
+procedure FMI_Ticker;
+begin
+  if (gamemapinfo.endpic <> '') and (gamemapinfo.endpic <> '-') then
+  begin
+    if gamemapinfo.endpic = '$CAST' then
+    begin
+      F_StartCast;
+      using_FMI := false;
+    end
+    else
+    begin
+      finalecount := 0;
+      finalestage := 1;
+      wipegamestate := -1;  // force a wipe
+      if gamemapinfo.endpic = '$BUNNY' then
+        S_StartMusic(Ord(mus_bunny))
+      else if gamemapinfo.endpic = '!' then
+        using_FMI := false;
+    end;
+  end
+  else
+    gameaction := ga_worlddone; // next level, e.g. MAP07
 end;
 
 //
@@ -276,9 +341,12 @@ begin
         break;
       inc(i);
     end;
+
     if i < MAXPLAYERS then
     begin
-      if gamemap = 30 then
+      if using_FMI then
+        FMI_Ticker
+      else if gamemap = 30 then
         F_StartCast
       else
         gameaction := ga_worlddone;
@@ -294,21 +362,28 @@ begin
     exit;
   end;
 
-  if gamemode = commercial then
-    exit;
-
   if (finalestage = 0) and (finalecount > Length(finaletext) * TEXTSPEED + TEXTWAIT) then
   begin
-    finalecount := 0;
-    finalestage := 1;
-    wipegamestate := -1;    // force a wipe
-    if gameepisode = 3 then
-      S_StartMusic(Ord(mus_bunny));
+    if using_FMI then
+      FMI_Ticker
+    else if gamemode <> commercial then
+    begin
+      finalecount := 0;
+      finalestage := 1;
+      wipegamestate := -1;    // force a wipe
+      if gameepisode = 3 then
+        S_StartMusic(Ord(mus_bunny));
+    end;
   end;
 end;
 
 procedure F_TextWrite;
 var
+  p: Ppatch_t;
+  sz: integer;
+  lump: integer;
+  bkok: boolean;
+  ovr: TOverlayDrawer;
   src: PByteArray;
   dest: integer;
   x, y, w: integer;
@@ -322,25 +397,64 @@ var
   cy: integer;
 begin
   // erase the entire screen to a tiled background
-
-  src := W_CacheLumpNum(R_GetLumpForFlat(R_FlatNumForName(finaleflat)), PU_STATIC);
-  dest := 0;
-
-  for y := 0 to 200 - 1 do
+  bkok := false;
+  lump := W_CheckNumForName(finaleflat);
+  if lump >= 0 then
   begin
-    for x := 0 to (320 div 64) - 1 do
+    sz := W_LumpLength(lump);
+    if sz = 64 * 64 then
     begin
-      memcpy(@screens[SCN_TMP, dest], @src[_SHL(y and 63, 6)], 64);
-      dest := dest + 64;
-    end;
+      src := W_CacheLumpNum(R_GetLumpForFlat(R_FlatNumForName(finaleflat)), PU_STATIC);
+      dest := 0;
 
-    if 320 and 63 <> 0 then
+      for y := 0 to 200 - 1 do
+      begin
+        for x := 0 to (320 div 64) - 1 do
+        begin
+          memcpy(@screens[SCN_TMP, dest], @src[_SHL(y and 63, 6)], 64);
+          dest := dest + 64;
+        end;
+
+        if 320 and 63 <> 0 then
+        begin
+          memcpy(@screens[SCN_TMP, dest], @src[_SHL(y and 63, 6)], 320 and 63);
+          dest := dest + (320 and 63);
+        end;
+
+        Z_ChangeTag(src, PU_CACHE);
+        bkok := true;
+      end;
+    end
+    else
     begin
-      memcpy(@screens[SCN_TMP, dest], @src[_SHL(y and 63, 6)], 320 and 63);
-      dest := dest + (320 and 63);
+      p := W_CacheLumpNum(lump, PU_STATIC);
+      if T_IsValidPatchImage(p, sz) then
+      begin
+        ovr := TOverlayDrawer.Create;
+
+        x := -p.width;
+        while x < 320 do
+        begin
+          y := -p.height;
+          while y < 200 do
+          begin
+            ovr.AddPatch($FF, finaleflat, x, y);
+            y := y + p.height;
+          end;
+          x := x + p.width;
+        end;
+
+        ovr.DrawDrawers;
+        memcpy(@screens[SCN_TMP, 0], ovr.overlayscreen, 320 * 200);
+        ovr.Free;
+
+        bkok := true;
+      end;
     end;
   end;
-  Z_ChangeTag(src, PU_CACHE);
+
+  if not bkok then
+    ZeroMemory(@screens[SCN_TMP, 0], V_ScreensSize(SCN_TMP));
 
   // draw some of the text onto the screen
   cx := 10;
@@ -757,6 +871,21 @@ end;
 //
 procedure F_Drawer;
 begin
+  if using_FMI then
+  begin
+    if finalestage = 0 then
+    begin
+      F_TextWrite;
+      if gamemapinfo.endpic = '' then
+        using_FMI := false;
+    end
+    else if gamemapinfo.endpic = '$BUNNY' then
+      F_BunnyScroll
+    else
+      V_PageDrawer(gamemapinfo.endpic);
+    exit;
+  end;
+
   if finalestage = 2 then
   begin
     F_CastDrawer;

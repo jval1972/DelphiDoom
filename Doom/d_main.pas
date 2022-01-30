@@ -177,6 +177,7 @@ uses
   p_setup,
   p_mobj_h,
   p_mobj,
+  p_umapinfo,
   ps_main,
   psi_overlay,
   r_draw,
@@ -2374,6 +2375,12 @@ begin
 
   SUC_Progress(58);
 
+  // UMAPINFO must be parsed after intializing the menus
+  printf('U_ParseMapInfo: Parsing UMAPINFO lumps.'#13#10);
+  U_ParseMapInfo(False, 'UMAPINFO');
+
+  SUC_Progress(59);
+
   printf('D_IdentifyGameDirectories: Identify game directories.'#13#10);
   D_IdentifyGameDirectories;
 
@@ -2672,6 +2679,8 @@ begin
   PAK_ShutDown;
   printf('E_ShutDown: Shut down ENDOOM screen.'#13#10);
   E_ShutDown;
+  printf('U_FreeMapInfo: Free UMAPINFO data.'#13#10);
+  U_FreeMapInfo;
   printf('Z_ShutDown: Shut down zone memory allocation daemon.'#13#10);
   Z_ShutDown;
   printf('W_ShutDown: Shut down WAD file system.'#13#10);

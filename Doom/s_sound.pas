@@ -357,7 +357,9 @@ end;
 
 function S_DefaultMusicForMap(const episode, map: integer): integer;
 begin
-  if gamemode = commercial then
+  if (gamemapinfo <> nil) and (gamemapinfo.musicnum > 0) then
+    result := gamemapinfo.musicnum
+  else if gamemode = commercial then
   begin
     if map = 99 then
       result := Ord(mus_runnin)

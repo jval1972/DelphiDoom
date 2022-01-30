@@ -50,7 +50,9 @@ type
     destructor Destroy; virtual;
   end;
 
-function T_IsValidPatchImage(var f: file; const start, size: integer): boolean;
+function T_IsValidPatchImage(var f: file; const start, size: integer): boolean; overload;
+
+function T_IsValidPatchImage(patch: Ppatch_t; const size: integer): boolean; overload;
 
 implementation
 
@@ -173,6 +175,31 @@ function T_IsValidPatchImage(var f: file; const start, size: integer): boolean;
 var
   N, pos: integer;
   patch: Ppatch_t;
+begin
+  pos := FilePos(f);
+
+  seek(f, start);
+
+  patch := malloc(size);
+
+  BlockRead(f, patch^, size, N);
+
+  if N <> size then
+  begin
+    memfree(pointer(patch), size);
+    seek(f, pos);
+    result := false;
+    exit;
+  end;
+
+  result := T_IsValidPatchImage(patch, N);
+
+  memfree(pointer(patch), size);
+  seek(f, pos);
+end;
+
+function T_IsValidPatchImage(patch: Ppatch_t; const size: integer): boolean;
+var
   col: integer;
   column: Pcolumn_t;
   desttop: integer;
@@ -185,18 +212,10 @@ var
 begin
   result := true;
 
-  pos := FilePos(f);
-
-  seek(f, start);
-
-  patch := malloc(size);
-
-  BlockRead(f, patch^, size, N);
-
   w := patch.width;
   h := patch.height;
 
-  if IsIntegerInRange(w, 0, 8192) and IsIntegerInRange(h, 0, 1024)  and (N = size) then
+  if IsIntegerInRange(w, 0, 8192) and IsIntegerInRange(h, 0, 1024) then
   begin
     col := 0;
     desttop := 0;
@@ -208,7 +227,7 @@ begin
         break;
 
       column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
-      if not IsIntegerInRange(integer(column), integer(patch), integer(patch) + N - 3) then
+      if not IsIntegerInRange(integer(column), integer(patch), integer(patch) + size - 3) then
       begin
         if column.topdelta <> $ff then
         begin
@@ -216,7 +235,7 @@ begin
           break;
         end;
       end;
-      if not IsIntegerInRange(integer(column), integer(patch), integer(patch) + N) then
+      if not IsIntegerInRange(integer(column), integer(patch), integer(patch) + size) then
       begin
         result := false;
         break;
@@ -252,7 +271,7 @@ begin
         else
           column := Pcolumn_t(integer(column) + column.length + 4);
 
-        if not IsIntegerInRange(integer(column), integer(patch), integer(patch) + N - 3) then
+        if not IsIntegerInRange(integer(column), integer(patch), integer(patch) + size - 3) then
           if col < w - 1 then
           begin
             result := false;
@@ -273,9 +292,6 @@ begin
   end
   else
     result := false;
-
-  memfree(pointer(patch), size);
-  seek(f, pos);
 end;
 
 end.

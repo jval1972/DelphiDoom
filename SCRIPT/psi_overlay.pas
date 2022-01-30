@@ -111,7 +111,6 @@ type
     procedure NotifyDrawSize(const astart, aend: Integer);
     function BufferPosition(const x, y: Integer): Integer;
     procedure CalcOverlayLookUp;
-    procedure DrawDrawers; virtual;
   public
     constructor Create; virtual;
     destructor Destroy; override;
@@ -145,6 +144,7 @@ type
     function GetOverlayHeight: Integer;
     {$ENDIF}
     procedure ReCalcOverlayLookUp;
+    procedure DrawDrawers; virtual;
     property Modified: Boolean read fmodified;
     property overlayscreen: PByteArray read foverlayscreen;
     property overlaylookup: overlaylookup_p read foverlaylookup;

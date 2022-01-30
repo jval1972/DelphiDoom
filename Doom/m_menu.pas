@@ -146,6 +146,10 @@ type
 
 function M_WriteText(x, y: integer; const str: string): menupos_t;
 
+function M_StringWidth(const str: string): integer;
+
+function M_StringHeight(const str: string): integer;
+
 procedure M_ClearEpisodes;
 
 procedure M_AddEpisode(const map: string; const gfx: string; const txt: string; const alpha: char);
@@ -154,6 +158,9 @@ var
 // current menudef
   currentMenu: Pmenu_t;
 
+var
+  EpiCustom: boolean;
+  
 implementation
 
 uses
@@ -2275,7 +2282,7 @@ begin
     exit;
   end;
 
-  if gamemode = commercial then
+  if ((gamemode = commercial) and not EpiCustom) or (EpiDef.numitems = 0) then
   begin
     if oldsharewareversion then
       NewDef.numitems := Ord(newg_nightmare); // No nightmare in old shareware
@@ -2293,9 +2300,6 @@ end;
 
 // This is for customized episode menus
 var
-  EpiCustom: boolean;
-
-var
   EpiMenuMap: array[0..7] of Integer = (1, 1, 1, 1, -1, -1, -1, -1);
   EpiMenuEpi: array[0..7] of Integer = (1, 2, 3, 4, -1, -1, -1, -1);
 
@@ -2307,7 +2311,7 @@ end;
 
 procedure M_AddEpisode(const map: string; const gfx: string; const txt: string; const alpha: char);
 var
-  epi, mapnum: integer;
+  episd, mapnum: integer;
 begin
   if not EpiCustom then
   begin
@@ -2320,8 +2324,8 @@ begin
 
   if EpiDef.numitems >= 8 then
     exit;
-  G_ValidateMapName(map, @epi, @mapnum);
-  EpiMenuEpi[EpiDef.numitems] := epi;
+  G_ValidateMapName(map, @episd, @mapnum);
+  EpiMenuEpi[EpiDef.numitems] := episd;
   EpiMenuMap[EpiDef.numitems] := mapnum;
   EpisodeMenu[EpiDef.numitems].name := gfx;
   EpisodeMenu[EpiDef.numitems].alttext := txt;
@@ -2331,7 +2335,7 @@ begin
   if EpiDef.numitems <= 4 then
     EpiDef.y := 63
   else
-    EpiDef.y := 63 - (EpiDef.numitems - 4) * (LINEHEIGHT div 2);
+    EpiDef.y := 63 - (EpiDef.numitems - 5) * (LINEHEIGHT div 2);
 end;
 
 //
@@ -2362,30 +2366,36 @@ begin
     exit;
   end;
 
-  G_DeferedInitNew(skill_t(choice), epi + 1, 1);
+  if not EpiCustom then
+    G_DeferedInitNew(skill_t(choice), epi + 1, 1)
+  else
+    G_DeferedInitNew(skill_t(choice), EpiMenuEpi[epi], EpiMenuMap[epi]);
   M_ClearMenus;
 end;
 
 procedure M_Episode(choice: integer);
 begin
-  if (gamemode = shareware) and (choice <> 0) then
+  if not EpiCustom then
   begin
-    M_StartMessage(SWSTRING + #13#10 + PRESSKEY, nil, false);
-    M_SetupNextMenu(@ReadDef1);
-    exit;
-  end;
+    if (gamemode = shareware) and (choice <> 0) then
+    begin
+      M_StartMessage(SWSTRING + #13#10 + PRESSKEY, nil, false);
+      M_SetupNextMenu(@ReadDef1);
+      exit;
+    end;
 
-  // Yet another hack...
-  if (gamemode = registered) and (choice > 2) then
-  begin
-    I_Warning('M_Episode(): 4th episode requires UltimateDOOM'#13#10);
-    choice := 0;
+    // Yet another hack...
+    if (gamemode = registered) and (choice > 2) then
+    begin
+      I_Warning('M_Episode(): 4th episode requires UltimateDOOM'#13#10);
+      choice := 0;
+    end;
+
+    if oldsharewareversion then
+      NewDef.numitems := Ord(newg_nightmare); // No nightmare in old shareware shareware
   end;
 
   epi := choice;
-
-  if oldsharewareversion then
-    NewDef.numitems := Ord(newg_nightmare); // No nightmare in old shareware shareware
   M_SetupNextMenu(@NewDef);
 end;
 
@@ -3745,6 +3755,7 @@ var
   ppos: menupos_t;
   rstr: string;
   rlen: integer;
+  lump: integer;
 begin
   // Horiz. & Vertically center string and print it.
   if messageToPrint <> 0 then
@@ -3813,8 +3824,13 @@ begin
           M_WriteText(x, y, str);
       end
       else
-        V_DrawPatch(x, y, SCN_TMP,
-          currentMenu.menuitems[i].name, false);
+      begin
+        lump := W_CheckNumForName(currentMenu.menuitems[i].name);
+        if lump >= 0 then
+          V_DrawPatch(x, y, SCN_TMP, lump, false)
+        else
+          M_WriteWhiteText(x, y, currentMenu.menuitems[i].alttext);
+      end;
     end;
     y := y + currentMenu.itemheight;
   end;
@@ -4164,6 +4180,38 @@ begin
   pmi.routine := @M_Episode;
   pmi.pBoolVal := nil;
   pmi.alphaKey := 't';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := @M_Episode;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := @M_Episode;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := @M_Episode;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := @M_Episode;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
 
 ////////////////////////////////////////////////////////////////////////////////
 //EpiDef

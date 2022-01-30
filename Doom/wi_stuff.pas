@@ -60,18 +60,20 @@ implementation
 uses
   d_delphi,
   doomdef,
+  doomstat,
   d_event,
-  z_zone,
-  m_rnd,
   i_system,
+  m_rnd,
+  m_menu,
   w_wad,
   g_game,
-  s_sound,
+  p_umapinfo,
   r_defs,
-  doomstat,
+  s_sound,
   sounddata,
   v_data,
-  v_video;
+  v_video,
+  z_zone;
 
 const
 //
@@ -400,6 +402,9 @@ var
   lnamessize: integer = 0;
 
   wibackground: string;
+
+  exitpic, enterpic: string; // UMAPINFO
+
 //
 // CODE
 //
@@ -408,8 +413,25 @@ var
 // UNUSED static unsigned char *background=0;
 
 
-procedure WI_slamBackground;
+procedure WI_SlamBackground;
+var
+  name: string;
 begin
+  if (gamemapinfo <> nil) or (u_mapinfo.mapcount > 0) then
+  begin
+    if (state <> StatCount) and (enterpic <> '') then
+      name := enterpic
+    else if exitpic <> '' then
+      name := exitpic
+    // with UMAPINFO it is possible that wbs->epsd > 3
+    else if (gamemode = commercial) or (wbs.epsd >= 3) then
+      name := 'INTERPIC'
+    else
+      sprintf(name, 'WIMAP%d', [wbs.epsd]);
+  end
+  else
+    name := wibackground;
+
   V_DrawPatchFullScreenTMP320x200(wibackground);
 end;
 
@@ -424,9 +446,26 @@ end;
 procedure WI_DrawLF;
 var
   y: integer;
+  lpic: Ppatch_t;
 begin
   y := WI_TITLEY;
 
+  // The level defines a new name but no texture for the name.
+  if (wbs.lastmapinfo <> nil) and (wbs.lastmapinfo.levelname <> '') and (wbs.lastmapinfo.levelpic = '') then
+  begin
+    M_WriteText(160 - M_StringWidth(wbs.lastmapinfo.levelname), y, wbs.lastmapinfo.levelname);
+
+    y := y + (5 * M_StringHeight(wbs.lastmapinfo.levelname) div 4);
+  end
+  else if (wbs.lastmapinfo <> nil) and (wbs.lastmapinfo.levelpic <> '') then
+  begin
+    lpic := W_CacheLumpName(wbs.lastmapinfo.levelpic, PU_CACHE);
+
+    V_DrawPatch((320 - lpic.width) div 2, y, SCN_TMP, lpic, false);
+
+    y := y + (5 * lpic.height) div 4;
+  end
+  else
   // draw <LevelName>
   if wbs.last < lnamessize then // JVAL: 20170826 Avoid crash when missing levelname patches
   begin
@@ -434,21 +473,38 @@ begin
     y := y + (5 * lnames[wbs.last].height) div 4;
     if y + finished.height > 200 then
       y := 200 - finished.height;
-
-    V_DrawPatch((320 - finished.width) div 2, y, SCN_TMP, finished, false);
   end;
+
+  V_DrawPatch((320 - finished.width) div 2, y, SCN_TMP, finished, false);
 end;
 
 // Draws "Entering <LevelName>"
 procedure WI_DrawEL;
 var
   y: integer;
+  lpic: Ppatch_t;
 begin
   y := WI_TITLEY;
 
   // draw "Entering"
   V_DrawPatch((320 - entering.width) div 2, y, SCN_TMP, entering, false);
 
+  // The level defines a new name but no texture for the name
+  if (wbs.nextmapinfo <> nil) and (wbs.nextmapinfo.levelname <> '') and (wbs.nextmapinfo.levelpic = '') then
+  begin
+    y := y + (5 * entering.height) div 4;
+
+    M_WriteText(160 - M_StringWidth(wbs.nextmapinfo.levelname), y, wbs.nextmapinfo.levelname);
+  end
+  else if (wbs.nextmapinfo <> nil) and (wbs.nextmapinfo.levelpic <> '') then
+  begin
+    lpic := W_CacheLumpName(wbs.nextmapinfo.levelpic, PU_CACHE);
+
+    y := y + (5 * lpic.height) div 4;
+
+    V_DrawPatch((320 - lpic.width) div 2, y, SCN_TMP, lpic, false);
+  end
+  else
   // draw level
   if wbs.next < lnamessize then // JVAL: 20170826 Avoid crash when missing levelname patches
   begin
@@ -499,6 +555,12 @@ var
   i: integer;
   a: Pwianim_t;
 begin
+  if exitpic <> '' then
+    exit;
+
+  if (enterpic <> '') and (entering <> nil) then
+    exit;
+
   if gamemode = commercial then
     exit;
 
@@ -527,6 +589,12 @@ var
   i: integer;
   a: Pwianim_t;
 begin
+  if exitpic <> '' then
+    exit;
+
+  if (enterpic <> '') and (state <> StatCount) then
+    exit;
+
   if gamemode = commercial then
     exit;
 
@@ -580,6 +648,12 @@ var
   i: integer;
   a: Pwianim_t;
 begin
+  if exitpic <> '' then
+    exit;
+
+  if (enterpic <> '') and (state <> StatCount) then
+    exit;
+
   if gamemode = commercial then
     exit;
 
@@ -728,8 +802,28 @@ end;
 var
   snl_pointeron: boolean = false;
 
+procedure WI_LoadData; forward;
+
 procedure WI_InitShowNextLoc;
 begin
+  if gamemapinfo <> nil then
+  begin
+    if gamemapinfo.endpic[0] <> '' then
+    begin
+      G_WorldDone;
+      exit;
+    end;
+    state := ShowNextLoc;
+
+    // episode change
+    if wbs.epsd <> wbs.nextep then
+    begin
+      wbs.epsd := wbs.nextep;
+      wbs.last := wbs.next - 1;
+      WI_loadData;
+    end;
+  end;
+
   state := ShowNextLoc;
   acceleratestage := 0;
   cnt := SHOWNEXTLOCDELAY * TICRATE;
@@ -754,6 +848,23 @@ var
   i: integer;
   last: integer;
 begin
+  if (gamemapinfo <> nil) and
+     (gamemapinfo.endpic <> '') and
+     (gamemapinfo.endpic <> '-') then
+    exit;
+
+  WI_SlamBackground;
+
+  // draw animated background
+  WI_DrawAnimatedBack;
+
+  // custom interpic.
+  if (exitpic <> '') or ((enterpic <> '') and (state <> StatCount)) then
+  begin
+    WI_drawEL;
+    exit;
+  end;
+
   if gamemode <> commercial then
   begin
     if wbs.epsd > 2 then
@@ -1701,7 +1812,7 @@ begin
   if not wi_loaded then
     WI_LoadData;
 
-  WI_slamBackground;
+  WI_SlamBackground;
 
   // draw animated background
   WI_DrawAnimatedBack;
@@ -1761,6 +1872,17 @@ end;
 procedure WI_Start(wbstartstruct: Pwbstartstruct_t);
 begin
   WI_InitVariables(wbstartstruct);
+
+  if (wbs.lastmapinfo <> nil) and (wbs.lastmapinfo.exitpic <> '') then
+    exitpic := wbs.lastmapinfo.exitpic
+  else
+  exitpic := '';
+
+  if (wbs.nextmapinfo <> nil) and (wbs.nextmapinfo.enterpic <> '') then
+    enterpic := wbs.nextmapinfo.enterpic
+  else
+    enterpic := '';
+
   WI_LoadData;
 
   if deathmatch <> 0 then

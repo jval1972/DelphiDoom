@@ -467,17 +467,37 @@ begin
     @hu_font,
     Ord(HU_FONTSTART));
 
-  case gamemode of
-    shareware,
-    registered,
-    retail: s := HU_TITLE;
-  else
+  if (gamemapinfo <> nil) and (gamemapinfo.levelname <> '') then
+  begin
+    if gamemapinfo.mlabel <> '' then
+      s := gamemapinfo.mlabel
+    else
+      s := gamemapinfo.mapname;
+
+    if (s = gamemapinfo.mapname) or (s <> '-') then
     begin
-      case gamemission of
-        pack_tnt: s := HU_TITLET;
-        pack_plutonia: s := HU_TITLEP;
-      else
-        s := HU_TITLE2;
+      for i := 1 to Length(s) do
+        HUlib_addCharToTextLine(@w_title, s[i]);
+
+      HUlib_addCharToTextLine(@w_title, ':');
+      HUlib_addCharToTextLine(@w_title, ' ');
+    end;
+    s := gamemapinfo.levelname;
+  end
+  else
+  begin
+    case gamemode of
+      shareware,
+      registered,
+      retail: s := HU_TITLE;
+    else
+      begin
+        case gamemission of
+          pack_tnt: s := HU_TITLET;
+          pack_plutonia: s := HU_TITLEP;
+        else
+          s := HU_TITLE2;
+        end;
       end;
     end;
   end;

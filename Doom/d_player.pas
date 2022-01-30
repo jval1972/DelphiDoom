@@ -44,6 +44,7 @@ uses
 // as commands per game tick.
   d_ticcmd,
   m_fixed,
+  p_umapinfo,
   doomdef;
 
 //
@@ -877,6 +878,7 @@ type
 
   wbstartstruct_t = record
     epsd: integer; // episode # (0-2)
+    nextep: integer;
 
     // if true, splash the secret level
     didsecret: boolean;
@@ -897,6 +899,9 @@ type
     pnum: integer;
 
     plyr: array[0..MAXPLAYERS - 1] of wbplayerstruct_t;
+
+    lastmapinfo: Pmapentry_t;
+    nextmapinfo: Pmapentry_t;
   end;
   Pwbstartstruct_t = ^wbstartstruct_t;
 

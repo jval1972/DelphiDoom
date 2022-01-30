@@ -168,6 +168,7 @@ var
 
   gameepisode: integer;
   gamemap: integer;
+  gamemapinfo: Pmapentry_t;
 
   deathmatch: integer; // only if started as net death
   netgame: boolean; // only true if packets are broadcast
@@ -280,6 +281,9 @@ var
   gamekeydown: array[0..NUMKEYS - 1] of boolean;
   mousebuttons: PBooleanArray;
   joybuttons: PBooleanArray;
+
+var
+  secretexit: boolean;
 
 implementation
 
@@ -1110,31 +1114,38 @@ begin
   //  setting one.
   skyflatnum := R_FlatNumForName(SKYFLATNAME);
 
-  // DOOM determines the sky texture to be used
-  // depending on the current episode, and the game version.
-  if (gamemode = commercial) or
-     (gamemission = pack_tnt) or
-     (gamemission = pack_plutonia) then
+  if (gamemapinfo <> nil) and (gamemapinfo.skytexture <> '') then
   begin
-    if gamemap < 12 then
-      skytexture := R_CheckTextureNumForName('SKY1')
-    else if gamemap < 21 then
-      skytexture := R_CheckTextureNumForName('SKY2')
-    else
-      skytexture := R_CheckTextureNumForName('SKY3');
+    skytexture := R_TextureNumForName(gamemapinfo.skytexture);
     if skytexture < 0 then
       skytexture := R_TextureNumForName('SKY1');
   end
   else
   begin
-    if gameepisode < 5 then
+    // DOOM determines the sky texture to be used
+    // depending on the current episode, and the game version.
+    if (gamemode = commercial) or
+       (gamemission = pack_tnt) or
+       (gamemission = pack_plutonia) then
     begin
-      skytexture := R_CheckTextureNumForName('SKY' + Chr(Ord('0') + gameepisode));
-      if skytexture < 0 then
-        skytexture := R_TextureNumForName('SKY1');
+      if gamemap < 12 then
+        skytexture := R_CheckTextureNumForName('SKY1')
+      else if gamemap < 21 then
+        skytexture := R_CheckTextureNumForName('SKY2')
+      else
+        skytexture := R_CheckTextureNumForName('SKY3');
     end
     else
-      skytexture := R_TextureNumForName('SKY1');
+    begin
+      if gameepisode < 5 then
+      begin
+        skytexture := R_CheckTextureNumForName('SKY' + Chr(Ord('0') + gameepisode));
+        if skytexture < 0 then
+          skytexture := R_TextureNumForName('SKY1');
+      end
+      else
+        skytexture := R_TextureNumForName('SKY1');
+    end;
   end;
 
   if wipegamestate = Ord(GS_LEVEL) then
@@ -1784,9 +1795,6 @@ end;
 //
 // G_DoCompleted
 //
-var
-  secretexit: boolean;
-
 procedure G_ExitLevel;
 begin
   secretexit := false;
@@ -1807,6 +1815,9 @@ end;
 procedure G_DoCompleted;
 var
   i: integer;
+  next: string;
+label
+  frommapinfo;
 begin
   gameaction := ga_nothing;
 
@@ -1854,7 +1865,37 @@ begin
 
   wminfo.didsecret := players[consoleplayer].didsecret;
   wminfo.epsd := gameepisode - 1;
+  wminfo.nextep := gameepisode - 1;
   wminfo.last := gamemap - 1;
+
+  wminfo.lastmapinfo := gamemapinfo;
+  wminfo.nextmapinfo := nil;
+  if gamemapinfo <> nil then
+  begin
+    if (gamemapinfo.endpic <> '') and (gamemapinfo.endpic <> '-') and gamemapinfo.nointermission then
+    begin
+      gameaction := ga_victory;
+      exit;
+    end;
+    next := '';
+    if secretexit then
+      next := gamemapinfo.nextsecret;
+    if next = '' then
+      next := gamemapinfo.nextmap;
+    if next <> '' then
+      if G_ValidateMapName(next, @wminfo.nextep, @wminfo.next) then
+      begin
+        Dec(wminfo.nextep);
+        Dec(wminfo.next);
+        // episode change
+        if wminfo.nextep <> wminfo.epsd then
+          for i := 0 to MAXPLAYERS - 1 do
+            players[i].didsecret := false;
+        wminfo.didsecret := players[consoleplayer].didsecret;
+        wminfo.partime := gamemapinfo.partime;
+        goto frommapinfo; // skip past the default setup.
+      end;
+  end;
 
   // wminfo.next is 0 biased, unlike gamemap
   if gamemode = commercial then
@@ -1896,14 +1937,19 @@ begin
       wminfo.next := gamemap; // go to next level
   end;
 
-  wminfo.maxkills := totalkills;
-  wminfo.maxitems := totalitems;
-  wminfo.maxsecret := totalsecret;
-  wminfo.maxfrags := 0;
   if gamemode = commercial then
     wminfo.partime := TICRATE * cpars[gamemap - 1]
   else
     wminfo.partime := TICRATE * pars[gameepisode][gamemap];
+
+frommapinfo:
+  wminfo.nextmapinfo := G_LookupMapinfo(wminfo.nextep + 1, wminfo.next + 1);
+
+  wminfo.maxkills := totalkills;
+  wminfo.maxitems := totalitems;
+  wminfo.maxsecret := totalsecret;
+  wminfo.maxfrags := 0;
+
   wminfo.pnum := consoleplayer;
 
   for i := 0 to MAXPLAYERS - 1 do
@@ -1936,6 +1982,31 @@ begin
   if secretexit then
     players[consoleplayer].didsecret := true;
 
+  if gamemapinfo <> nil then
+  begin
+    if (gamemapinfo.intertextsecret[0] <> #0) and secretexit then
+    begin
+      if gamemapinfo.intertextsecret[0] <> '-' then // '-' means that any default intermission was cleared.
+        F_StartFinale;
+
+      exit;
+    end
+    else if (gamemapinfo.intertext[0] <> #0) and not secretexit then
+    begin
+      if gamemapinfo.intertext[0] <> '-' then // '-' means that any default intermission was cleared.
+        F_StartFinale;
+
+      exit;
+    end
+    else if (gamemapinfo.endpic <> '') and (gamemapinfo.endpic <> '-') then
+    begin
+      // game ends without a status screen.
+      gameaction := ga_victory;
+      exit;
+    end;
+    // if nothing applied, use the defaults.
+  end;
+
   if gamemode = commercial then
   begin
     if secretexit then
@@ -1951,7 +2022,9 @@ end;
 procedure G_DoWorldDone;
 begin
   gamestate := GS_LEVEL;
+  gameepisode := wminfo.nextep + 1;
   gamemap := wminfo.next + 1;
+  gamemapinfo := G_LookupMapinfo(gameepisode, gamemap);
   G_DoLoadLevel;
   gameaction := ga_nothing;
   viewactive := true;
@@ -2082,6 +2155,8 @@ begin
 
   gamemap := save_p[0];
   save_p := PByteArray(integer(save_p) + 1);
+
+  gamemapinfo := G_LookupMapinfo(gameepisode, gamemap);
 
   for i := 0 to MAXPLAYERS - 1 do
   begin
@@ -2426,54 +2501,55 @@ begin
   if skill > sk_nightmare then
     skill := sk_nightmare;
 
-  if not (((episode = 9) and (map = 9)) or ((map = 99) and (episode = 0))) then
-  begin
-    // This was quite messy with SPECIAL and commented parts.
-    // Supposedly hacks to make the latest edition work.
-    // It might not work properly.
-    if episode < 1 then
-      episode := 1;
+  if episode < 1 then
+    episode := 1;
 
-    if gamemode = retail then
+  if not EpiCustom and (W_CheckNumForName(P_GetMapName(episode, map)) < 0) then
+    if not (((episode = 9) and (map = 9)) or ((map = 99) and (episode = 0))) then
     begin
-      if episode > 4 then
-        episode := 4;
-    end
-    else if gamemode = shareware then
-    begin
-      if episode > 1 then
-        episode := 1;  // only start episode 1 on shareware
-    end
-    else
-    begin
-      if episode > 3 then
-        episode := 3;
+      // This was quite messy with SPECIAL and commented parts.
+      // Supposedly hacks to make the latest edition work.
+      // It might not work properly.
+      if gamemode = retail then
+      begin
+        if episode > 4 then
+          episode := 4;
+      end
+      else if gamemode = shareware then
+      begin
+        if episode > 1 then
+          episode := 1;  // only start episode 1 on shareware
+      end
+      else
+      begin
+        if episode > 3 then
+          episode := 3;
+      end;
+
+      if map < 1 then
+        map := 1;
+
+      if (map > 9) and (gamemode <> commercial) then
+        map := 9;
+
+      // JVAL: Chex Support
+      if customgame in [cg_chex, cg_chex2] then
+      begin
+        if map > 5 then
+          map := 5;
+        if episode > 1 then
+          episode := 1;
+      end;
+
+      // JVAL: Hacx Support
+      if customgame = cg_hacx then
+      begin
+        if map > 20 then
+          map := 20;
+        if episode > 1 then
+          episode := 1;
+      end;
     end;
-
-    if map < 1 then
-      map := 1;
-
-    if (map > 9) and (gamemode <> commercial) then
-      map := 9;
-
-    // JVAL: Chex Support
-    if customgame in [cg_chex, cg_chex2] then
-    begin
-      if map > 5 then
-        map := 5;
-      if episode > 1 then
-        episode := 1;
-    end;
-
-    // JVAL: Hacx Support
-    if customgame = cg_hacx then
-    begin
-      if map > 20 then
-        map := 20;
-      if episode > 1 then
-        episode := 1;
-    end;
-  end;
 
   levelinf := P_GetLevelInfo(P_GetMapName(episode, map));
   levelinf.musname := stringtochar8('');
@@ -2525,6 +2601,7 @@ begin
   gameepisode := episode;
   gamemap := map;
   gameskill := skill;
+  gamemapinfo := G_LookupMapinfo(gameepisode, gamemap);
 
   viewactive := true;
   demostarttic := 0;
@@ -3174,7 +3251,7 @@ var
   i: integer;
 begin
   if gamemode = commercial then
-    sprintf(lumpname, 'MAP%02d', [map])
+    sprintf(lumpname, 'MAP%.2d', [map])
   else
     sprintf(lumpname, 'E%dM%d', [episode, map]);
 
