@@ -2091,6 +2091,68 @@ var
   junk: line_t;
   i: integer;
 begin
+  // numbossactions == 0 means to use the defaults.
+  // numbossactions == -1 means to do nothing.
+  // positive values mean to check the list of boss actions and run all that apply.
+  if (gamemapinfo <> nil) and (gamemapinfo.numbossactions <> 0) then
+  begin
+    if gamemapinfo.numbossactions < 0 then
+      exit;
+
+    // make sure there is a player alive for victory
+    i := 0;
+    while i < MAXPLAYERS do
+    begin
+      if playeringame[i] and (players[i].health > 0) then
+        break;
+      Inc(i);
+    end;
+
+    if i = MAXPLAYERS then
+      exit; // no one left alive, so do not end game
+
+    i := 0;
+    while i < gamemapinfo.numbossactions do
+    begin
+      if gamemapinfo.bossactions[i].typ = mo._type then
+        break;
+      Inc(i);
+    end;
+
+    if i >= gamemapinfo.numbossactions then
+      exit; // no matches found
+
+    // scan the remaining thinkers to see
+    // if all bosses are dead
+    th := thinkercap.next;
+    while th <> @thinkercap do
+    begin
+      if @th._function.acp1 = @P_MobjThinker then
+      begin
+        mo2 := Pmobj_t(th);
+        if (mo2 <> mo) and (mo2._type = mo._type) and (mo2.health > 0) then
+        begin
+          // other boss not dead
+          exit;
+        end;
+      end;
+      th := th.next;
+    end;
+
+    for i := 0 to gamemapinfo.numbossactions - 1 do
+      if gamemapinfo.bossactions[i].typ = mo._type then
+      begin
+        junk := lines[0];
+        junk.special := gamemapinfo.bossactions[i].special;
+        junk.tag := gamemapinfo.bossactions[i].tag;
+        // use special semantics for line activation to block problem types.
+        if not P_UseSpecialLine(mo, @junk, 0, true) then
+          P_CrossSpecialLinePtr(@junk, 0, mo, true);
+      end;
+
+    exit;
+  end;
+
   if gamemode = commercial then
   begin
     if gamemap <> 7 then
@@ -2160,7 +2222,7 @@ begin
   // scan the remaining thinkers to see
   // if all bosses are dead
   th := thinkercap.next;
-  while Pointer(th) <> Pointer(@thinkercap) do
+  while th <> @thinkercap do
   begin
     if @th._function.acp1 = @P_MobjThinker then
     begin

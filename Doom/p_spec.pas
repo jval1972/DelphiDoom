@@ -66,9 +66,9 @@ procedure P_UpdateSpecials;
 // when needed
 procedure P_ShootSpecialLine(thing: Pmobj_t; line: Pline_t);
 
-procedure P_CrossSpecialLine(linenum: integer; side: integer; thing: Pmobj_t);
+procedure P_CrossSpecialLine(linenum: integer; side: integer; thing: Pmobj_t; const bossaction: boolean = false);
 
-procedure P_CrossSpecialLinePtr(line: Pline_t; side: integer; thing: Pmobj_t);
+procedure P_CrossSpecialLinePtr(line: Pline_t; side: integer; thing: Pmobj_t; const bossaction: boolean = false);
 
 procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 
@@ -1723,18 +1723,18 @@ end;
 // Called every time a thing origin is about
 //  to cross a line with a non 0 special.
 //
-procedure P_CrossSpecialLine(linenum: integer; side: integer; thing: Pmobj_t);
+procedure P_CrossSpecialLine(linenum: integer; side: integer; thing: Pmobj_t; const bossaction: boolean = false);
 begin
-  P_CrossSpecialLinePtr(@lines[linenum], side, thing);
+  P_CrossSpecialLinePtr(@lines[linenum], side, thing, bossaction);
 end;
 
-procedure P_CrossSpecialLinePtr(line: Pline_t; side: integer; thing: Pmobj_t);
+procedure P_CrossSpecialLinePtr(line: Pline_t; side: integer; thing: Pmobj_t; const bossaction: boolean = false);
 var
   linefunc: linefunc_t;
   oldcompatibility: boolean;
 begin
   //  Triggers that other things can activate
-  if thing.player = nil then
+  if (thing.player = nil) and not bossaction then
   begin
     // Things that should NOT trigger specials...
     case thing._type of
@@ -1761,7 +1761,7 @@ begin
     // check each range of generalized linedefs
     if word(line.special) >= CGENFLOORBASE then
     begin
-      if thing.player = nil then
+      if (thing.player = nil) and not bossaction then
         if (line.special and gen_FloorChange <> 0) or (line.special and gen_FloorModel = 0) then
           exit;     // FloorModel is 'Allow Monsters' if FloorChange is 0
       if line.tag = 0 then //jff 2/27/98 all walk generalized types require tag
@@ -1770,7 +1770,7 @@ begin
     end
     else if word(line.special) >= CGENCEILINGBASE then
     begin
-      if thing.player = nil then
+      if (thing.player = nil) and bossaction then
         if (line.special and CeilingChange <> 0) or (line.special and CeilingModel = 0) then
           exit;     // CeilingModel is 'Allow Monsters' if CeilingChange is 0
       if line.tag = 0 then //jff 2/27/98 all walk generalized types require tag
@@ -1779,7 +1779,7 @@ begin
     end
     else if word(line.special) >= CGENDOORBASE then
     begin
-      if thing.player = nil then
+      if (thing.player = nil) and not bossaction then
       begin
         if line.special and DoorMonster = 0 then
           exit;                    // monsters disallowed from this door
@@ -1792,7 +1792,7 @@ begin
     end
     else if word(line.special) >= CGENLOCKEDBASE then
     begin
-      if thing.player = nil then
+      if (thing.player = nil) or bossaction then
         exit;                     // monsters disallowed from unlocking doors
       if (line.special and TriggerType = Ord(WalkOnce)) or (line.special and TriggerType = Ord(WalkMany)) then
       begin //jff 4/1/98 check for being a walk type before reporting door type
@@ -1805,7 +1805,7 @@ begin
     end
     else if word(line.special) >= CGENLIFTBASE then
     begin
-      if thing.player = nil then
+      if (thing.player = nil) and not bossaction then
         if line.special and LiftMonster = 0 then
           exit; // monsters disallowed
       if line.tag = 0 then //jff 2/27/98 all walk generalized types require tag
@@ -1814,12 +1814,23 @@ begin
     end
     else if word(line.special) >= CGENSTAIRSBASE then
     begin
-      if thing.player = nil then
+      if (thing.player = nil) and not bossaction then
         if line.special and StairMonster = 0 then
           exit; // monsters disallowed
       if line.tag = 0 then //jff 2/27/98 all walk generalized types require tag
         exit;
       linefunc := @EV_DoGenStairs;
+    end
+    else if (G_PlayingEngineVersion > VERSION207) and (word(line.special) >= CGENCRUSHERBASE) then
+    begin
+      // haleyjd 06/09/09: This was completely forgotten in BOOM, disabling
+      // all generalized walk-over crusher types!
+      if (thing.player = nil) and not bossaction then
+        if line.special and StairMonster = 0 then
+          exit; // monsters disallowed
+      if line.tag = 0 then //jff 2/27/98 all walk generalized types require tag
+        exit;
+      linefunc := @EV_DoGenCrusher;
     end;
 
     if Assigned(linefunc) then // if it was a valid generalized type
@@ -1839,16 +1850,13 @@ begin
     end;
   end;
 
-  if thing.player = nil then
+  if (thing.player = nil) or bossaction then
   begin
     case line.special of
       39, // TELEPORT TRIGGER
       97, // TELEPORT RETRIGGER
      125, // TELEPORT MONSTERONLY TRIGGER
      126, // TELEPORT MONSTERONLY RETRIGGER
-       4, // RAISE DOOR
-      10, // PLAT DOWN-WAIT-UP-STAY TRIGGER
-      88, // PLAT DOWN-WAIT-UP-STAY RETRIGGER
      //jff 3/5/98 add ability of monsters etc. to use teleporters
      208, //silent thing teleporters
      207,
@@ -1862,6 +1870,11 @@ begin
      267,
      268,
      269:
+        if bossaction then
+          exit;
+       4, // RAISE DOOR
+      10, // PLAT DOWN-WAIT-UP-STAY TRIGGER
+      88: // PLAT DOWN-WAIT-UP-STAY RETRIGGER
         ;
       else
         exit;

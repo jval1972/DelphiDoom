@@ -42,7 +42,7 @@ procedure P_InitSwitchList;
 
 procedure P_ChangeSwitchTexture(line: Pline_t; useAgain: boolean);
 
-function P_UseSpecialLine(thing: Pmobj_t; line: Pline_t; side: integer): boolean;
+function P_UseSpecialLine(thing: Pmobj_t; line: Pline_t; side: integer; const bossaction: boolean = false): boolean;
 
 var
   buttonlist: array[0..MAXBUTTONS - 1] of button_t;
@@ -334,7 +334,7 @@ end;
 // Called when a thing uses a special line.
 // Only the front sides of lines are usable.
 //
-function P_UseSpecialLine(thing: Pmobj_t; line: Pline_t; side: integer): boolean;
+function P_UseSpecialLine(thing: Pmobj_t; line: Pline_t; side: integer; const bossaction: boolean = false): boolean;
 var
   linefunc: linefunc_t;
   oldcompatibility: boolean;
@@ -369,7 +369,7 @@ begin
     // check each range of generalized linedefs
     if word(line.special) >= CGENFLOORBASE then
     begin
-      if thing.player = nil then
+      if (thing.player = nil) and not bossaction then
         if (line.special and gen_FloorChange <> 0) or (line.special and gen_FloorModel = 0) then
         begin
           result := false; // FloorModel is 'Allow Monsters' if FloorChange is 0
@@ -384,7 +384,7 @@ begin
     end
     else if word(line.special) >= CGENCEILINGBASE then
     begin
-      if thing.player = nil then
+      if (thing.player = nil) and not bossaction then
         if (line.special and CeilingChange <> 0) or (line.special and CeilingModel = 0) then
         begin
           result := false;   // CeilingModel is 'Allow Monsters' if CeilingChange is 0
@@ -399,7 +399,7 @@ begin
     end
     else if word(line.special) >= CGENDOORBASE then
     begin
-      if thing.player = nil then
+      if (thing.player = nil) and not bossaction then
       begin
         if line.special and DoorMonster = 0 then
         begin
@@ -421,7 +421,7 @@ begin
     end
     else if word(line.special) >= CGENLOCKEDBASE then
     begin
-      if thing.player = nil then
+      if (thing.player = nil) or bossaction then
       begin
         result := false;   // monsters disallowed from unlocking doors
         exit;
@@ -440,7 +440,7 @@ begin
     end
     else if word(line.special) >= CGENLIFTBASE then
     begin
-      if thing.player = nil then
+      if (thing.player = nil) and not bossaction then
         if line.special and LiftMonster = 0 then
         begin
           result := false; // monsters disallowed
@@ -455,7 +455,7 @@ begin
     end
     else if word(line.special) >= CGENSTAIRSBASE then
     begin
-      if thing.player = nil then
+      if (thing.player = nil) and not bossaction then
         if line.special and StairMonster = 0 then
         begin
           result := false; // monsters disallowed
@@ -470,7 +470,7 @@ begin
     end
     else if word(line.special) >= CGENCRUSHERBASE then
     begin
-      if thing.player = nil then
+      if (thing.player = nil) and not bossaction then
         if line.special and CrusherMonster = 0 then
         begin
           result := false; // monsters disallowed
@@ -527,7 +527,7 @@ begin
   end;
 
   // Switches that other things can activate.
-  if thing.player = nil then
+  if (thing.player = nil) and not bossaction then
   begin
     // never open secret doors
     if line.flags and ML_SECRET <> 0 then
@@ -553,6 +553,34 @@ begin
       end;
     end;
   end;
+
+  if bossaction then
+    case line.special of
+		// 0-tag specials, locked switches and teleporters need to be blocked for boss actions.
+      1,         // MANUAL DOOR RAISE
+      32,        // MANUAL BLUE
+      33,        // MANUAL RED
+      34,        // MANUAL YELLOW
+      117,       // Blazing door raise
+      118,       // Blazing door open
+      133,       // BlzOpenDoor BLUE
+      135,       // BlzOpenDoor RED
+      137,       // BlzOpenDoor YEL
+
+      99,        // BlzOpenDoor BLUE
+      134,       // BlzOpenDoor RED
+      136,       // BlzOpenDoor YELLOW
+
+		//jff 3/5/98 add ability to use teleporters for monsters
+      195,       // switch teleporters
+      174,
+      210,       // silent switch teleporters
+      209:
+        begin
+          result := false;
+          exit;
+        end;
+    end;
 
   if not P_CheckTag(line) then  //jff 2/27/98 disallow zero tag on some types
   begin
