@@ -405,7 +405,9 @@ uses
   p_friends in 'Base\p_friends.pas',
   sounddata in 'Doom\sounddata.pas',
   r_translations in 'Base\r_translations.pas',
-  sc_defines in 'Base\sc_defines.pas';
+  sc_defines in 'Base\sc_defines.pas',
+  sv_strife in 'Strife\sv_strife.pas',
+  p_serializer in 'Base\p_serializer.pas';
 
 exports
   dd_compile_strife,

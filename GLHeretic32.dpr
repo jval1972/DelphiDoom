@@ -373,7 +373,9 @@ uses
   xmi_iff in 'XMILIB\xmi_iff.pas',
   xmi_lib in 'XMILIB\xmi_lib.pas',
   i_xmimusic in 'Base\i_xmimusic.pas',
-  sc_defines in 'Base\sc_defines.pas';
+  sc_defines in 'Base\sc_defines.pas',
+  sv_heretic in 'Heretic\sv_heretic.pas',
+  p_serializer in 'Base\p_serializer.pas';
 
 var
   Saved8087CW: Word;

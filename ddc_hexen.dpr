@@ -401,7 +401,9 @@ uses
   p_friends in 'Base\p_friends.pas',
   sounddata in 'Doom\sounddata.pas',
   r_translations in 'Base\r_translations.pas',
-  sc_defines in 'Base\sc_defines.pas';
+  sc_defines in 'Base\sc_defines.pas',
+  sv_hexen in 'Hexen\sv_hexen.pas',
+  p_serializer in 'Base\p_serializer.pas';
 
 exports
   dd_compile_hexen,
