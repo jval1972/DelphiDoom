@@ -95,6 +95,8 @@ procedure U_ParseMapInfo(const is_default: boolean; const lumppname: string);
 
 procedure U_FreeMapInfo;
 
+function ubigstringtostring(const ub: ubigstring_t): string;
+
 implementation
 
 uses
@@ -236,7 +238,7 @@ begin
     if not sc.QuotedToken then
     begin
       sc.UnGet;
-      exit;
+      break;
     end;
     result := result + #13#10 + sc._String;
   end;
