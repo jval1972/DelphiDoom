@@ -204,6 +204,8 @@ end;
 // Returns a pointer to the string (must be freed)
 // -----------------------------------------------
 function U_ParseMultiString(sc: TScriptEngine): string;
+var
+  i: integer;
 begin
   sc.MustGetString;
   if not sc.QuotedToken then
@@ -229,6 +231,15 @@ begin
     end;
     result := result + #13#10 + sc._String;
   end;
+
+  // Translate "C" style string
+  for i := 2 to Length(result) do
+    if result[i] = 'n' then
+      if result[i - 1] = '\' then
+      begin
+        result[i - 1] := #13;
+        result[i] := #10;
+      end;
 end;
 
 // -----------------------------------------------
