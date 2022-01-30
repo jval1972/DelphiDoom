@@ -284,6 +284,12 @@ begin
 
   pname := strupper(sc._String);
 
+  if pname = '_ENDBLOCK' then
+  begin
+    result := false;
+    exit;
+  end;
+
   if not sc.GetString then
   begin
     result := false;
@@ -360,7 +366,7 @@ begin
     result := ParseLumpName(sc, mape.nextmap);
     if not G_ValidateMapName(mape.nextmap, nil, nil) then
     begin
-      sc.ScriptError('UMAPINFO.U_ParseStandardProperty(): Invalid map name %s.', [mape.nextmap]);
+      sc.ScriptError('UMAPINFO.U_ParseStandardProperty(): Invalid map name ''%s''', [mape.nextmap]);
       result := false;
     end;
   end
@@ -369,7 +375,7 @@ begin
     result := ParseLumpName(sc, mape.nextsecret);
     if not G_ValidateMapName(mape.nextsecret, nil, nil) then
     begin
-      sc.ScriptError('UMAPINFO.U_ParseStandardProperty(): Invalid map name %s', [mape.nextsecret]);
+      sc.ScriptError('UMAPINFO.U_ParseStandardProperty(): Invalid map name ''%s''', [mape.nextsecret]);
       result := false;
     end;
   end
@@ -526,6 +532,14 @@ function ParseMapEntry(const sc: TScriptEngine; const entry: Pmapentry_t): boole
 begin
   entry.mapname := '';
 
+  sc.GetString;
+  if sc._Finished then
+  begin
+    result := false;
+    exit;
+  end;
+  sc.UnGet;
+
   if not sc.MustGetStringName('map') then
   begin
     result := false;
@@ -541,9 +555,10 @@ begin
     end;
 
   entry.mapname := strupper(sc._String);
-  if sc.MatchString('_BEGINBLOCK') then
-    while sc.MatchString('_ENDBLOCK') and not sc._Finished do
-      U_ParseStandardProperty(sc, entry);
+  if sc.MustGetString then
+    if sc.MatchString('_BEGINBLOCK') then
+      while not sc.MatchString('_ENDBLOCK') and not sc._Finished do
+        U_ParseStandardProperty(sc, entry);
 
   result := true;
 end;
@@ -570,6 +585,8 @@ begin
     ZeroMemory(@parsed, SizeOf(mapentry_t));
     if not ParseMapEntry(sc, @parsed) then
     begin
+      if sc._Finished then
+        Break;
       sc.ScriptError('UMAPINFO.U_DoParseMapInfoLump(): Skipping entry: ''%s''', [sc._String]);
       Continue;
     end;
@@ -658,10 +675,11 @@ begin
         if in_text[i + 1] = '/' then
           incomments := false;
     end;
-    if not (incomments and inLcomments) then
+    if not (incomments or inLcomments) then
     begin
       if inquotes then
         result := result + in_text[i]
+      else if in_text[i] = ',' then
       else if in_text[i] = '=' then
         result := result + ' = '
       else if in_text[i] = '{' then

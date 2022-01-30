@@ -274,6 +274,7 @@ begin
   begin
     ScriptError('TScriptEngine.MustGetStringName(): "%s" expected at Line %d', [name, sc_Line]);
     ScriptPrintLineError(sc_Line, 2);
+    result := false;
   end;
 end;
 
