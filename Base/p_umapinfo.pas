@@ -61,12 +61,14 @@ type
     nextmap: ulumpname_t;
     nextsecret: ulumpname_t;
     music: ulumpname_t;
+    musicnum: integer;
     skytexture: ulumpname_t;
     endpic: ulumpname_t;
     exitpic: ulumpname_t;
     enterpic: ulumpname_t;
     interbackdrop: ulumpname_t;
     intermusic: ulumpname_t;
+    intermusicnum: integer;
     partime: integer;
     nointermission: boolean;
     numbossactions: integer;
@@ -102,6 +104,7 @@ uses
   info_common,
   m_menu,
   p_uactornames,
+  sounds,
   sc_engine,
   sc_utils,
   w_pak,
@@ -162,10 +165,13 @@ begin
     mape.intertextsecret := newe.intertextsecret;
   if newe.levelpic <> '' then
     mape.levelpic := newe.levelpic;
-  if newe.nextmap[0] <> '' then
+  if newe.nextmap <> '' then
     mape.nextmap := newe.nextmap;
-  if newe.music[0] <> '' then
+  if newe.music <> '' then
+  begin
     mape.music := newe.music;
+    mape.musicnum := S_GetMusicNumForName(mape.music);
+  end;
   if newe.skytexture <> '' then
     mape.skytexture := newe.skytexture;
   if newe.endpic <> '' then
@@ -177,7 +183,10 @@ begin
   if newe.interbackdrop <> '' then
     mape.interbackdrop := newe.interbackdrop;
   if newe.intermusic <> '' then
+  begin
     mape.intermusic := newe.intermusic;
+    mape.intermusicnum := S_GetMusicNumForName(mape.intermusic);
+  end;
   if newe.partime <> 0 then
     mape.partime := newe.partime;
   if newe.nointermission then
@@ -401,6 +410,16 @@ begin
   else if pname = 'MUSIC' then
   begin
     result := ParseLumpName(sc, mape.music);
+    if result then
+    begin
+      if W_CheckNumForName(mape.music) >= 0 then
+        mape.musicnum := S_GetMusicNumForName(mape.music)
+      else
+      begin
+        mape.music := '';
+        mape.musicnum := 0;
+      end;
+    end;
   end
   else if pname = 'ENDPIC' then
   begin
@@ -481,6 +500,16 @@ begin
   else if pname = 'INTERMUSIC' then
   begin
     result := ParseLumpName(sc, mape.intermusic);
+    if result then
+    begin
+      if W_CheckNumForName(mape.intermusic) >= 0 then
+        mape.intermusicnum := S_GetMusicNumForName(mape.intermusic)
+      else
+      begin
+        mape.intermusic := '';
+        mape.intermusicnum := 0;
+      end;
+    end;
   end
   else if pname = 'BOSSACTION' then
   begin
