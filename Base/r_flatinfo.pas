@@ -69,6 +69,26 @@ const
     (memsize: 4096 * 4096; flatsize: 4096)
   );
 
+type
+  flat64x64_t = packed array[0..64 - 1, 0..64 - 1] of byte;
+  Pflat64x64_t = ^flat64x64_t;
+  flat64x128_t = packed array[0..64 - 1, 0..128 - 1] of byte;
+  Pflat64x128_t = ^flat64x128_t;
+  flat128x128_t = packed array[0..128 - 1, 0..128 - 1] of byte;
+  Pflat128x128_t = ^flat128x128_t;
+  flat256x256_t = packed array[0..256 - 1, 0..256 - 1] of byte;
+  Pflat256x256_t = ^flat256x256_t;
+  flat512x512_t = packed array[0..512 - 1, 0..512 - 1] of byte;
+  Pflat512x512_t = ^flat512x512_t;
+  flat1024x1024_t = packed array[0..1024 - 1, 0..1024 - 1] of byte;
+  Pflat1024x1024_t = ^flat1024x1024_t;
+  flat2048x2048_t = packed array[0..2048 - 1, 0..2048 - 1] of byte;
+  Pflat2048x2048_t = ^flat2048x2048_t;
+  flat4096x4096_t = packed array[0..4096 - 1, 0..4096 - 1] of byte;
+  Pflat4096x4096_t = ^flat4096x4096_t;
+
+function R_ShrinkFlatTo64x64(const fin: Pointer; const sz: Integer; const fout: Pointer): Boolean;
+
 implementation
 
 uses
@@ -182,6 +202,93 @@ begin
     Result := FS4096x4096
   else
     Result := FS64x64;
+end;
+
+function R_ShrinkFlatTo64x64(const fin: Pointer; const sz: Integer; const fout: Pointer): Boolean;
+var
+  f64x64: Pflat128x128_t;
+  f128x128: Pflat128x128_t;
+  f256x256: Pflat256x256_t;
+  f512x512: Pflat512x512_t;
+  f1024x1024: Pflat1024x1024_t;
+  f2048x2048: Pflat2048x2048_t;
+  f4096x4096: Pflat4096x4096_t;
+  i, j: integer;
+begin
+  result := false;
+
+  if (sz = 64 * 64) or (sz = 64 * 128) then
+  begin
+    memcpy(fout, fin, 64 * 64);
+    result := true;
+    exit;
+  end;
+
+  if sz = 128 * 128 then
+  begin
+    f128x128 := fin;
+    f64x64 := fout;
+    for i := 0 to 63 do
+      for j := 0 to 63 do
+        f64x64[i, j] := f128x128[2 * i, 2 * j];
+    result := true;
+    exit;
+  end;
+
+  if sz = 256 * 256 then
+  begin
+    f256x256 := fin;
+    f64x64 := fout;
+    for i := 0 to 63 do
+      for j := 0 to 63 do
+        f64x64[i, j] := f256x256[4 * i, 4 * j];
+    result := true;
+    exit;
+  end;
+
+  if sz = 512 * 512 then
+  begin
+    f512x512 := fin;
+    f64x64 := fout;
+    for i := 0 to 63 do
+      for j := 0 to 63 do
+        f64x64[i, j] := f512x512[8 * i, 8 * j];
+    result := true;
+    exit;
+  end;
+
+  if sz = 1024 * 1024 then
+  begin
+    f1024x1024 := fin;
+    f64x64 := fout;
+    for i := 0 to 63 do
+      for j := 0 to 63 do
+        f64x64[i, j] := f1024x1024[16 * i, 16 * j];
+    result := true;
+    exit;
+  end;
+
+  if sz = 2048 * 2048 then
+  begin
+    f2048x2048 := fin;
+    f64x64 := fout;
+    for i := 0 to 63 do
+      for j := 0 to 63 do
+        f64x64[i, j] := f2048x2048[32 * i, 32 * j];
+    result := true;
+    exit;
+  end;
+
+  if sz = 4096 * 4096 then
+  begin
+    f4096x4096 := fin;
+    f64x64 := fout;
+    for i := 0 to 63 do
+      for j := 0 to 63 do
+        f64x64[i, j] := f4096x4096[64 * i, 64 * j];
+    result := true;
+    exit;
+  end;
 end;
 
 end.

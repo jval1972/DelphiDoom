@@ -89,11 +89,9 @@ uses
   info,
   p_pspr,
   p_umapinfo,
-  psi_overlay,
   r_data,
   r_defs,
   r_things,
-  t_patch,
 // Functions.
   z_zone,
   v_data,
@@ -379,14 +377,8 @@ end;
 
 procedure F_TextWrite;
 var
-  p: Ppatch_t;
-  sz: integer;
-  lump: integer;
   bkok: boolean;
-  ovr: TOverlayDrawer;
-  src: PByteArray;
-  dest: integer;
-  x, y, w: integer;
+  w: integer;
   count: integer;
   ch: string;
   c: char;
@@ -397,61 +389,7 @@ var
   cy: integer;
 begin
   // erase the entire screen to a tiled background
-  bkok := false;
-  lump := W_CheckNumForName(finaleflat);
-  if lump >= 0 then
-  begin
-    sz := W_LumpLength(lump);
-    if sz = 64 * 64 then
-    begin
-      src := W_CacheLumpNum(R_GetLumpForFlat(R_FlatNumForName(finaleflat)), PU_STATIC);
-      dest := 0;
-
-      for y := 0 to 200 - 1 do
-      begin
-        for x := 0 to (320 div 64) - 1 do
-        begin
-          memcpy(@screens[SCN_TMP, dest], @src[_SHL(y and 63, 6)], 64);
-          dest := dest + 64;
-        end;
-
-        if 320 and 63 <> 0 then
-        begin
-          memcpy(@screens[SCN_TMP, dest], @src[_SHL(y and 63, 6)], 320 and 63);
-          dest := dest + (320 and 63);
-        end;
-
-        Z_ChangeTag(src, PU_CACHE);
-        bkok := true;
-      end;
-    end
-    else
-    begin
-      p := W_CacheLumpNum(lump, PU_STATIC);
-      if T_IsValidPatchImage(p, sz) then
-      begin
-        ovr := TOverlayDrawer.Create;
-
-        x := -p.width;
-        while x < 320 do
-        begin
-          y := -p.height;
-          while y < 200 do
-          begin
-            ovr.AddPatch($FF, finaleflat, x, y);
-            y := y + p.height;
-          end;
-          x := x + p.width;
-        end;
-
-        ovr.DrawDrawers;
-        memcpy(@screens[SCN_TMP, 0], ovr.overlayscreen, 320 * 200);
-        ovr.Free;
-
-        bkok := true;
-      end;
-    end;
-  end;
+  bkok := V_TileScreen8(finaleflat, SCN_TMP);
 
   if not bkok then
     ZeroMemory(@screens[SCN_TMP, 0], V_ScreensSize(SCN_TMP));

@@ -173,6 +173,8 @@ function V_NeedsPreserve(const destscrn, srcscrn: integer; preserve: boolean): b
 
 procedure V_CalcPreserveTables;
 
+function V_TileScreen8(const lumpname: string; const dstscn: integer): boolean;
+
 const
   GAMMASIZE = 5;
 
@@ -294,7 +296,9 @@ var
 implementation
 
 uses
+  i_system,
   mt_utils,
+  psi_overlay,
   r_hires,
   r_precalc,
   {$IFNDEF OPENGL}
@@ -306,8 +310,9 @@ uses
   st_stuff,
   {$ENDIF}
   {$ENDIF}
+  r_flatinfo,
   r_aspect,
-  i_system,
+  t_patch,
   t_draw,
   w_wad,
   z_zone;
@@ -4139,6 +4144,89 @@ begin
   end;
 end;
 
+//
+// V_TileScreen8
+//  Global use screen filler with patch or flat
+//
+function V_TileScreen8(const lumpname: string; const dstscn: integer): boolean;
+var
+  lump: integer;
+  sz: integer;
+  flat: Pointer;
+  isflat: boolean;
+  src: packed array[0..4095] of byte;
+  dest: integer;
+  ovr: TOverlayDrawer;
+  x, y: integer;
+  xstart, ystart: integer;
+  p: Ppatch_t;
+begin
+  result := false;
+  lump := W_CheckNumForName(lumpname);
+  if lump >= 0 then
+  begin
+    sz := W_LumpLength(lump);
+    flat := W_CacheLumpNum(R_GetLumpForFlat(R_FlatNumForName(lumpname)), PU_STATIC);
+    isflat := R_ShrinkFlatTo64x64(flat, sz, @src);
+    Z_ChangeTag(flat, PU_CACHE);
+    if isflat then
+    begin
+      dest := 0;
+
+      for y := 0 to 200 - 1 do
+      begin
+        for x := 0 to (320 div 64) - 1 do
+        begin
+          memcpy(@screens[dstscn, dest], @src[_SHL(y and 63, 6)], 64);
+          dest := dest + 64;
+        end;
+
+        if 320 and 63 <> 0 then
+        begin
+          memcpy(@screens[dstscn, dest], @src[_SHL(y and 63, 6)], 320 and 63);
+          dest := dest + (320 and 63);
+        end;
+
+        result := true;
+      end;
+    end
+    else
+    begin
+      p := W_CacheLumpNum(lump, PU_STATIC);
+      if T_IsValidPatchImage(p, sz) then
+      begin
+        ovr := TOverlayDrawer.Create;
+
+        if p.leftoffset = 0 then
+          xstart := 0
+        else
+          xstart := -p.width;
+        if p.topoffset = 0 then
+          ystart := 0
+        else
+          ystart := -p.height;
+
+        x := xstart;
+        while x < 320 do
+        begin
+          y := ystart;
+          while y < 200 do
+          begin
+            ovr.AddPatch($FF, lumpname, x, y);
+            y := y + p.height;
+          end;
+          x := x + p.width;
+        end;
+
+        ovr.DrawDrawers;
+        memcpy(@screens[dstscn, 0], ovr.overlayscreen, 320 * 200);
+        ovr.Free;
+
+        result := true;
+      end;
+    end;
+  end;
+end;
 //
 // V_FindAproxColorIndex
 //
