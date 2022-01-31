@@ -4194,36 +4194,37 @@ begin
     begin
       p := W_CacheLumpNum(lump, PU_STATIC);
       if T_IsValidPatchImage(p, sz) then
-      begin
-        ovr := TOverlayDrawer.Create;
-
-        if p.leftoffset = 0 then
-          xstart := 0
-        else
-          xstart := -p.width;
-        if p.topoffset = 0 then
-          ystart := 0
-        else
-          ystart := -p.height;
-
-        x := xstart;
-        while x < 320 do
+        if (p.width > 0) and (p.height > 0) then
         begin
-          y := ystart;
-          while y < 200 do
+          ovr := TOverlayDrawer.Create;
+
+          if p.leftoffset = 0 then
+            xstart := 0
+          else
+            xstart := -p.width;
+          if p.topoffset = 0 then
+            ystart := 0
+          else
+            ystart := -p.height;
+
+          x := xstart;
+          while x < 320 do
           begin
-            ovr.AddPatch($FF, lumpname, x, y);
-            y := y + p.height;
+            y := ystart;
+            while y < 200 do
+            begin
+              ovr.AddPatch($FF, lumpname, x, y);
+              y := y + p.height;
+            end;
+            x := x + p.width;
           end;
-          x := x + p.width;
+
+          ovr.DrawDrawers;
+          memcpy(@screens[dstscn, 0], ovr.overlayscreen, 320 * 200);
+          ovr.Free;
+
+          result := true;
         end;
-
-        ovr.DrawDrawers;
-        memcpy(@screens[dstscn, 0], ovr.overlayscreen, 320 * 200);
-        ovr.Free;
-
-        result := true;
-      end;
     end;
   end;
 end;
