@@ -65,7 +65,7 @@ uses
   r_precalc,
   r_column,
   r_batchcolumn,
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   r_colormaps,
   {$ENDIF}
   v_video,
