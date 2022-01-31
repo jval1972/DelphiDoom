@@ -775,7 +775,8 @@ var
 begin
   for i := 0 to u_mapinfo.mapcount - 1 do
     FreeMap(@u_mapinfo.maps[i]);
-  Z_Free(u_mapinfo.maps);
+  if u_mapinfo.maps <> nil then
+    Z_Free(u_mapinfo.maps);
   u_mapinfo.maps := nil;
   u_mapinfo.mapcount := 0;
 end;
