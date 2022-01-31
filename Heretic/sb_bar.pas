@@ -97,6 +97,7 @@ uses
   p_setup,
   p_enemy,
   p_inter,
+  p_umapinfo,
   r_defs,
   r_data,
   r_draw,
@@ -1528,6 +1529,7 @@ var
   epsd: integer;
   map: integer;
   ateit: boolean; // JVAL Cheats ate the event
+  entry: Pmapentry_t;
 
   function check_cheat(cht: Pcheatseq_t; key: char): boolean;
   var
@@ -1660,6 +1662,19 @@ begin
 
       if map > 9 then
         exit;
+
+
+      // First check if we have a mapinfo entry for the requested level.
+      // If this is present the remaining checks should be skipped.
+      entry := G_LookupMapinfo(epsd, map);
+      if entry <> nil then
+        if W_CheckNumForName(P_GetMapName(epsd, map)) > -1 then
+        begin
+          CPlayer._message := STSTR_CLEV;
+          G_DeferedInitNew(gameskill, epsd, map);
+          result := result or ateit;
+          exit;
+        end;
 
       // Ohmygod - this is not going to work.
       if (gamemode = extendedwad) and

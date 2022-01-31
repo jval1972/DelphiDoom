@@ -400,7 +400,9 @@ uses
   i_xmimusic in 'Base\i_xmimusic.pas',
   sc_defines in 'Base\sc_defines.pas',
   p_serializer in 'Base\p_serializer.pas',
-  sv_heretic in 'Heretic\sv_heretic.pas';
+  sv_heretic in 'Heretic\sv_heretic.pas',
+  p_umapinfo in 'Base\p_umapinfo.pas',
+  p_uactornames in 'Heretic\p_uactornames.pas';
 
 var
   Saved8087CW: Word;

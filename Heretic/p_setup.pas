@@ -190,6 +190,7 @@ uses
   p_easyangle, // JVAL: 20201229 - Easy floor and ceiling texture angle
   p_affectees,
   p_musinfo,
+  p_umapinfo,
   ps_main,    // JVAL: Script Events
   r_data,
   r_things,
@@ -1603,8 +1604,23 @@ begin
 end;
 
 function P_GetMapTitle(const ep, map: integer): string;
+var
+  entry: Pmapentry_t;
+  idx: integer;
 begin
-  result := mapnames[(ep - 1) * 9 + map - 1];
+  entry := G_LookupMapinfo(ep, map);
+  if (entry <> nil) and (entry.levelname <> '') and (entry.levelname <> '-') then
+  begin
+    result := entry.levelname
+  end
+  else
+  begin
+    idx := (ep - 1) * 9 + map - 1;
+    if IsIntegerInRange(idx, 0, 44) then
+      result := mapnames[idx]
+    else
+      result := P_GetMapName(ep, map);
+  end;
 end;
 
 //

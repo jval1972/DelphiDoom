@@ -37,7 +37,8 @@ uses
   m_fixed,
   d_event,
   d_player,
-  d_ticcmd;
+  d_ticcmd,
+  p_umapinfo;
 
 //
 // GAME
@@ -166,7 +167,7 @@ var
 
   gameepisode: integer;
   gamemap: integer;
-  prevmap: integer;
+  gamemapinfo: Pmapentry_t;
 
   deathmatch: integer; // only if started as net death
   netgame: boolean; // only true if packets are broadcast
@@ -218,6 +219,10 @@ function G_PlayingEngineVersion: byte;
 
 procedure G_Quit;
 
+function G_LookupMapinfo(const episode, map: integer): Pmapentry_t;
+
+function G_ValidateMapName(const amap: string; const pepi, pmapnum: PInteger): boolean;
+
 var
   compatibilitymode: boolean = false;
   oldcompatibilitymode: boolean = false;
@@ -247,6 +252,7 @@ var
 var
 // HERETIC Par Times
   pars: array[1..5, 1..9] of integer;
+
 const
   SAVEGAMESIZE = $1000000; // Originally $2C000
   SAVESTRINGSIZE = 24;
@@ -259,6 +265,9 @@ var
   gamekeydown: array[0..NUMKEYS - 1] of boolean;
   mousebuttons: PBooleanArray;
   joybuttons: PBooleanArray;
+
+var
+  secretexit: boolean;
 
 implementation
 
@@ -1205,16 +1214,25 @@ begin
   //  setting one.
   skyflatnum := R_FlatNumForName(SKYFLATNAME);
 
-  // Heretic determines the sky texture to be used
-  // depending on the current episode.
-  // Set the sky map
-  if gameepisode > 5 then
-    skytexture := R_TextureNumForName(skyLumpNames[0]) // ???
-  else
+  if (gamemapinfo <> nil) and (gamemapinfo.skytexture <> '') then
   begin
-    skytexture := R_CheckTextureNumForName(skyLumpNames[gameepisode - 1]);
+    skytexture := R_TextureNumForName(gamemapinfo.skytexture);
     if skytexture < 0 then
       skytexture := R_TextureNumForName(skyLumpNames[0]);
+  end
+  else
+  begin
+    // Heretic determines the sky texture to be used
+    // depending on the current episode.
+    // Set the sky map
+    if gameepisode > 5 then
+      skytexture := R_TextureNumForName(skyLumpNames[0]) // ???
+    else
+    begin
+      skytexture := R_CheckTextureNumForName(skyLumpNames[gameepisode - 1]);
+      if skytexture < 0 then
+        skytexture := R_TextureNumForName(skyLumpNames[0]);
+    end;
   end;
 
   levelstarttic := gametic;        // for time calculation
@@ -2006,9 +2024,6 @@ end;
 //
 // G_DoCompleted
 //
-var
-  secretexit: boolean;
-
 procedure G_ExitLevel;
 begin
   secretexit := false;
@@ -2025,6 +2040,9 @@ end;
 procedure G_DoCompleted;
 var
   i: integer;
+  next: string;
+label
+  frommapinfo;
 begin
   gameaction := ga_nothing;
 
@@ -2062,10 +2080,37 @@ begin
 
   wminfo.didsecret := players[consoleplayer].didsecret;
   wminfo.epsd := gameepisode - 1;
+  wminfo.nextep := gameepisode - 1;
   wminfo.last := gamemap - 1;
 
-  // wminfo.next is 0 biased, unlike gamemap
-  prevmap := gamemap;
+  wminfo.lastmapinfo := gamemapinfo;
+  wminfo.nextmapinfo := nil;
+  if gamemapinfo <> nil then
+  begin
+    if (gamemapinfo.endpic <> '') and (gamemapinfo.endpic <> '-') and gamemapinfo.nointermission then
+    begin
+      gameaction := ga_victory;
+      exit;
+    end;
+    next := '';
+    if secretexit then
+      next := gamemapinfo.nextsecret;
+    if next = '' then
+      next := gamemapinfo.nextmap;
+    if next <> '' then
+      if G_ValidateMapName(next, @wminfo.nextep, @wminfo.next) then
+      begin
+        Dec(wminfo.nextep);
+        Dec(wminfo.next);
+        // episode change
+        if wminfo.nextep <> wminfo.epsd then
+          for i := 0 to MAXPLAYERS - 1 do
+            players[i].didsecret := false;
+        wminfo.didsecret := players[consoleplayer].didsecret;
+        wminfo.partime := gamemapinfo.partime;
+        goto frommapinfo; // skip past the default setup.
+      end;
+  end;
 
   if secretexit then
     wminfo.next := 8  // go to secret level
@@ -2083,11 +2128,16 @@ begin
   else
     wminfo.next := gamemap; // go to next level
 
+  wminfo.partime := TICRATE * pars[gameepisode][gamemap];
+
+frommapinfo:
+  wminfo.nextmapinfo := G_LookupMapinfo(wminfo.nextep + 1, wminfo.next + 1);
+
   wminfo.maxkills := totalkills;
   wminfo.maxitems := totalitems;
   wminfo.maxsecret := totalsecret;
   wminfo.maxfrags := 0;
-  wminfo.partime := TICRATE * pars[gameepisode][gamemap];
+
   wminfo.pnum := consoleplayer;
 
   for i := 0 to MAXPLAYERS - 1 do
@@ -2107,7 +2157,7 @@ begin
   if statcopy <> nil then
     memcpy(statcopy, @wminfo, SizeOf(wminfo));
 
-  IN_Start;
+  IN_Start(@wminfo);
 end;
 
 //
@@ -2120,12 +2170,37 @@ begin
   if secretexit then
     players[consoleplayer].didsecret := true;
 
+  if gamemapinfo <> nil then
+  begin
+    if (gamemapinfo.intertextsecret[0] <> #0) and secretexit then
+    begin
+      if gamemapinfo.intertextsecret[0] <> '-' then // '-' means that any default intermission was cleared.
+        F_StartFinale;
+      exit;
+    end
+    else if (gamemapinfo.intertext[0] <> #0) and not secretexit then
+    begin
+      if gamemapinfo.intertext[0] <> '-' then // '-' means that any default intermission was cleared.
+        F_StartFinale;
+      exit;
+    end
+    else if (gamemapinfo.endpic <> '') and (gamemapinfo.endpic <> '-') then
+    begin
+      // game ends without a status screen.
+      gameaction := ga_victory;
+      exit;
+    end;
+    // if nothing applied, use the defaults.
+  end;
+
 end;
 
 procedure G_DoWorldDone;
 begin
   gamestate := GS_LEVEL;
+  gameepisode := wminfo.nextep + 1;
   gamemap := wminfo.next + 1;
+  gamemapinfo := G_LookupMapinfo(gameepisode, gamemap);
   G_DoLoadLevel;
   gameaction := ga_nothing;
   viewactive := true;
@@ -2248,6 +2323,8 @@ begin
 
   gamemap := save_p[0];
   save_p := PByteArray(integer(save_p) + 1);
+
+  gamemapinfo := G_LookupMapinfo(gameepisode, gamemap);
 
   for i := 0 to MAXPLAYERS - 1 do
   begin
@@ -2551,9 +2628,6 @@ begin
     skill := sk_nightmare;
 
 
-  // This was quite messy with SPECIAL and commented parts.
-  // Supposedly hacks to make the latest edition work.
-  // It might not work properly.
   if episode < 1 then
     episode := 1;
 
@@ -2562,22 +2636,25 @@ begin
   else if map > 9 then
     map := 9;
 
-  if gamemode = shareware then
+  if not EpiCustom and (W_CheckNumForName(P_GetMapName(episode, map)) < 0) then
   begin
-    if episode > 1 then
-     episode := 1;  // only start episode 1 on shareware
-  end
-  else if W_CheckNumForName(P_GetMapName(episode, map)) = -1 then
-  begin
-    if gamemode = extendedwad then
+    if gamemode = shareware then
     begin
-      if episode > 5 then
-        episode := 5;
+      if episode > 1 then
+       episode := 1;  // only start episode 1 on shareware
     end
     else
     begin
-      if episode > 3 then
-        episode := 3;
+      if gamemode = extendedwad then
+      begin
+        if episode > 5 then
+          episode := 5;
+      end
+      else
+      begin
+        if episode > 3 then
+          episode := 3;
+      end;
     end;
   end;
 
@@ -2621,6 +2698,7 @@ begin
   gameepisode := episode;
   gamemap := map;
   gameskill := skill;
+  gamemapinfo := G_LookupMapinfo(gameepisode, gamemap);
 
   viewactive := true;
 
@@ -3146,6 +3224,58 @@ begin
   end
   else
     I_Quit;
+end;
+
+function G_LookupMapinfo(const episode, map: integer): Pmapentry_t;
+var
+  lumpname: string;
+  i: integer;
+begin
+  sprintf(lumpname, 'E%dM%d', [episode, map]);
+  for i := 0 to u_mapinfo.mapcount - 1 do
+    if lumpname = u_mapinfo.maps[i].mapname then
+    begin
+      result := @u_mapinfo.maps[i];
+      exit;
+    end;
+  for i := 0 to default_mapinfo.mapcount - 1 do
+    if lumpname = default_mapinfo.maps[i].mapname then
+    begin
+      result := @default_mapinfo.maps[i];
+      exit;
+    end;
+  result := nil;
+end;
+
+function G_ValidateMapName(const amap: string; const pepi, pmapnum: PInteger): boolean;
+var
+  epi, mapnum: integer;
+  len: integer;
+  map: string;
+begin
+  result := false;
+  len := Length(amap);
+  if len <> 4 then
+    exit;
+  epi := 0;
+  mapnum := 0;
+  map := strupper(amap);
+  if (map[1] = 'E') and (map[3] = 'M') then
+  begin
+    if not isdigit(map[2]) then
+      exit;
+    epi := atoi(map[2]);
+    mapnum := atoi(map[4]);
+    result := IsIntegerInRange(epi, 1, 8) and IsIntegerInRange(mapnum, 1, 9);
+  end;
+
+  if result then
+  begin
+    if pepi <> nil then
+      pepi^ := epi;
+    if pmapnum <> nil then
+      pmapnum^ := mapnum;
+  end;
 end;
 
 initialization

@@ -806,6 +806,7 @@ procedure P_CrossSpecialLine(linenum: integer; side: integer; thing: Pmobj_t);
 begin
   P_CrossSpecialLinePtr(@lines[linenum], side, thing);
 end;
+
 procedure P_CrossSpecialLinePtr(line: Pline_t; side: integer; thing: Pmobj_t);
 begin
 

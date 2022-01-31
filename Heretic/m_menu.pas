@@ -106,6 +106,10 @@ function M_StringWidth(const str: string): integer;
 
 function M_StringWidth2(const str: string): integer;
 
+procedure M_ClearEpisodes;
+
+procedure M_AddEpisode(const map: string; const gfx: string; const txt: string; const alpha: char);
+
 procedure M_SetKeyboardMode(const mode: integer);
 
 type
@@ -128,6 +132,7 @@ type
     pBoolVal: PBoolean;
     // hotkey in menu
     alphaKey: char;
+    alttext: string[30];
   end;
   Pmenuitem_t = ^menuitem_t;
   menuitem_tArray = packed array[0..$FFFF] of menuitem_t;
@@ -156,6 +161,9 @@ procedure M_SetupNextMenu(menudef: Pmenu_t);
 var
 // current menudef
   currentMenu: Pmenu_t;
+
+var
+  EpiCustom: boolean;
 
 implementation
 
@@ -202,6 +210,7 @@ uses
   p_playertrace,
   r_aspect,
   r_data,
+  r_defs,
   r_dynlights,
   r_main,
   r_hires,
@@ -769,7 +778,7 @@ type
   );
 
 var
-  EpisodeMenu: array[0..4] of menuitem_t;
+  EpisodeMenu: array[0..7] of menuitem_t;
   EpiDef: menu_t;
 
 type
@@ -2327,6 +2336,42 @@ begin
   M_SetupNextMenu(@EpiDef);
 end;
 
+// This is for customized episode menus
+var
+  EpiMenuMap: array[0..7] of Integer = (1, 1, 1, 1, 1, -1, -1, -1);
+  EpiMenuEpi: array[0..7] of Integer = (1, 2, 3, 4, 5, -1, -1, -1);
+
+procedure M_ClearEpisodes;
+begin
+  EpiDef.numitems := 0;
+  NewDef.prevMenu := @MainDef;
+end;
+
+procedure M_AddEpisode(const map: string; const gfx: string; const txt: string; const alpha: char);
+var
+  epi, mapnum: integer;
+begin
+  if not EpiCustom then
+  begin
+    EpiCustom := true;
+    NewDef.prevMenu := @EpiDef;
+  end;
+  if EpiDef.numitems >= 8 then
+    exit;
+  G_ValidateMapName(map, @epi, @mapnum);
+  EpiMenuEpi[EpiDef.numitems] := epi;
+  EpiMenuMap[EpiDef.numitems] := mapnum;
+  EpisodeMenu[EpiDef.numitems].name := gfx;
+  EpisodeMenu[EpiDef.numitems].alttext := txt;
+  EpisodeMenu[EpiDef.numitems].alphaKey := alpha;
+  inc(EpiDef.numitems);
+
+  if EpiDef.numitems <= 5 then
+    EpiDef.y := 63
+  else
+    EpiDef.y := 63 - (EpiDef.numitems - 5) * (LINEHEIGHT div 2);
+end;
+
 procedure M_DrawGameFiles;
 begin
   M_WriteCenterText2('Game Files', 24);
@@ -2360,24 +2405,31 @@ begin
     exit;
   end;
 
-  G_DeferedInitNew(skill_t(choice), epi + 1, 1);
+  if not EpiCustom then
+    G_DeferedInitNew(skill_t(choice), epi + 1, 1)
+  else
+    G_DeferedInitNew(skill_t(choice), EpiMenuEpi[epi], EpiMenuMap[epi]);
+
   M_ClearMenus;
 end;
 
 procedure M_Episode(choice: integer);
 begin
-  if (gamemode = shareware) and (choice <> 0) then
+  if not EpiCustom then
   begin
-    M_StartMessage(SWSTRING + #13#10 + PRESSKEY, nil, false);
-    M_SetupNextMenu(@ReadDef1);
-    exit;
-  end;
+    if (gamemode = shareware) and (choice <> 0) then
+    begin
+      M_StartMessage(SWSTRING + #13#10 + PRESSKEY, nil, false);
+      M_SetupNextMenu(@ReadDef1);
+      exit;
+    end;
 
-  // Yet another hack...
-  if (gamemode = registered) and (choice > 2) then
-  begin
-    I_Warning('M_Episode(): %dth episode requires extended version' + #13#10, [choice + 1]);
-    choice := 0;
+    // Yet another hack...
+    if (gamemode = registered) and (choice > 2) then
+    begin
+      I_Warning('M_Episode(): %dth episode requires extended version' + #13#10, [choice + 1]);
+      choice := 0;
+    end;
   end;
 
   epi := choice;
@@ -3700,6 +3752,8 @@ var
   lstr: string;
   rstr: string;
   rlen: integer;
+  lump: integer;
+  p: Ppatch_t;
 begin
   // Horiz. & Vertically center string and print it.
   if messageToPrint <> 0 then
@@ -3778,8 +3832,17 @@ begin
           M_WriteText4(x, y, str);
       end
       else
-        V_DrawPatch(x, y, SCN_TMP,
-          currentMenu.menuitems[i].name, false);
+      begin
+        lump := W_CheckNumForName(currentMenu.menuitems[i].name);
+        if lump >= 0 then
+        begin
+          p := W_CacheLumpNum(lump, PU_STATIC);
+          V_DrawPatch(160 - p.width div 2, y, SCN_TMP, p, false);
+          Z_ChangeTag(p, PU_CACHE);
+        end
+        else
+          M_WriteCenterText2(currentMenu.menuitems[i].alttext, y);
+      end;
     end;
     y := y + currentMenu.itemheight;
   end;
@@ -4166,6 +4229,30 @@ begin
   pmi.routine := @M_Episode;
   pmi.pBoolVal := nil;
   pmi.alphaKey := '5';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := @M_Episode;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := @M_Episode;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := @M_Episode;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
 
 ////////////////////////////////////////////////////////////////////////////////
 //EpiDef

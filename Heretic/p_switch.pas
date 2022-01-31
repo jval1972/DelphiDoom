@@ -43,7 +43,7 @@ procedure P_InitSwitchList;
 
 procedure P_ChangeSwitchTexture(line: Pline_t; useAgain: boolean);
 
-function P_UseSpecialLine(thing: Pmobj_t; line: Pline_t; side: integer): boolean;
+function P_UseSpecialLine(thing: Pmobj_t; line: Pline_t; side: integer; const bossaction: boolean = false): boolean;
 
 var
   buttonlist: array[0..MAXBUTTONS - 1] of button_t;
@@ -224,7 +224,7 @@ end;
 // Called when a thing uses a special line.
 // Only the front sides of lines are usable.
 //
-function P_UseSpecialLine(thing: Pmobj_t; line: Pline_t; side: integer): boolean;
+function P_UseSpecialLine(thing: Pmobj_t; line: Pline_t; side: integer; const bossaction: boolean = false): boolean;
 begin
   // Switches that other things can activate.
   if thing.player = nil then
@@ -248,6 +248,21 @@ begin
       end;
     end;
   end;
+
+  if bossaction then
+    case line.special of
+    // MANUALS
+       1, // Vertical Door
+      26, // Blue Door/Locked
+      27, // Yellow Door /Locked
+      28, // Red Door /Locked
+
+      31, // Manual door open
+      32, // Blue locked door open
+      33, // Red locked door open
+      34: // Yellow locked door open
+        exit;
+    end;
 
   // do something
   case line.special of

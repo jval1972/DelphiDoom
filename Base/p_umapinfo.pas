@@ -546,7 +546,12 @@ begin
         sc.MustGetInteger;
         tag := sc._Integer;
         // allow no 0-tag specials here, unless a level exit.
+        {$IFDEF DOOM}
         if (tag <> 0) or (special = 11) or (special = 51) or (special = 52) or (special = 124) then
+        {$ENDIF}
+        {$IFDEF HERETIC}
+        if (tag <> 0) or (special = 11) or (special = 51) or (special = 52) or (special = 105) then
+        {$ENDIF}
         begin
           if mape.numbossactions = -1 then
             mape.numbossactions := 1

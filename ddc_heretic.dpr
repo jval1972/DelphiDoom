@@ -399,7 +399,9 @@ uses
   r_translations in 'Base\r_translations.pas',
   sc_defines in 'Base\sc_defines.pas',
   sv_heretic in 'Heretic\sv_heretic.pas',
-  p_serializer in 'Base\p_serializer.pas';
+  p_serializer in 'Base\p_serializer.pas',
+  p_umapinfo in 'Base\p_umapinfo.pas',
+  p_uactornames in 'Heretic\p_uactornames.pas';
 
 exports
   dd_compile_heretic,

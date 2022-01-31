@@ -453,7 +453,23 @@ begin
     @hu_font,
     Ord(HU_FONTSTART));
 
-  s := HU_TITLE;
+  if (gamemapinfo <> nil) and (gamemapinfo.levelname <> '') then
+  begin
+    if gamemapinfo.mlabel <> '' then
+      s := gamemapinfo.mlabel
+    else
+      s := gamemapinfo.mapname;
+    if (s = gamemapinfo.mapname) or (s <> '-') then
+    begin
+      for i := 1 to Length(s) do
+        HUlib_addCharToTextLine(@w_title, s[i]);
+      HUlib_addCharToTextLine(@w_title, ':');
+      HUlib_addCharToTextLine(@w_title, ' ');
+    end;
+    s := gamemapinfo.levelname;
+  end
+  else
+    s := HU_TITLE;
 
   for i := 1 to Length(s) do
     HUlib_addCharToTextLine(@w_title, s[i]);

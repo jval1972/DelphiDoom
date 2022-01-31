@@ -360,8 +360,10 @@ end;
 
 function S_DefaultMusicForMap(const episode, map: integer): integer;
 begin
+  if (gamemapinfo <> nil) and (gamemapinfo.musicnum > 0) then
+    result := gamemapinfo.musicnum
+  else if episode < 6 then
   // JVAL: Use DEH files to specify new sounds for E4
-  if episode < 6 then
     result := Ord(mus_e1m1) + (episode - 1) * 9 + map - 1
   else  // JVAL Game episode > 5 ????
   begin
