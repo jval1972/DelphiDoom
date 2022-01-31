@@ -778,6 +778,12 @@ begin
   begin
     vplc := vpli^;
     {$UNDEF LASTLOOP}
+    {$IFDEF NO_INLINE_LOOPS}
+    for j := 0 to 255 do
+    begin
+      {$I R_CalcHiResTables_Loop1.inc}
+    end;
+    {$ELSE}
     for j := 0 to 3 do
     begin
       {$I R_CalcHiResTables_Loop1.inc}
@@ -845,6 +851,7 @@ begin
       {$I R_CalcHiResTables_Loop1.inc}
       {$I R_CalcHiResTables_Loop1.inc}
     end;
+    {$ENDIF}
     inc(vpli);
   end;
 
@@ -867,6 +874,12 @@ begin
 
       vplj := {$IFDEF DOOM_OR_STRIFE}@cvideopal[0]{$ELSE}@videopal[0]{$ENDIF};
       {$UNDEF LASTLOOP}
+      {$IFDEF NO_INLINE_LOOPS}
+      for j := 0 to 255 do
+      begin
+        {$I R_CalcHiResTables_Loop1.inc}
+      end;
+      {$ELSE}
       for j := 0 to 3 do
       begin
         {$I R_CalcHiResTables_Loop2.inc}
@@ -934,6 +947,7 @@ begin
         {$I R_CalcHiResTables_Loop2.inc}
         {$I R_CalcHiResTables_Loop2.inc}
       end;
+      {$ENDIF}
       inc(vpli);
     end;
   end;
@@ -963,6 +977,12 @@ begin
   begin
     vplc := vpli^;
     {$UNDEF LASTLOOP}
+    {$IFDEF NO_INLINE_LOOPS}
+    for j := 0 to 255 do
+    begin
+      {$I R_CalcHiResTables_Loop1.inc}
+    end;
+    {$ELSE}
     for j := 0 to 3 do
     begin
       {$I R_CalcHiResTables_Loop1.inc}
@@ -1030,6 +1050,7 @@ begin
       {$I R_CalcHiResTables_Loop1.inc}
       {$I R_CalcHiResTables_Loop1.inc}
     end;
+    {$ENDIF}
     inc(vpli);
   end;
   result := 0;
@@ -1068,6 +1089,12 @@ begin
 
     vplj := {$IFDEF DOOM_OR_STRIFE}@cvideopal[0]{$ELSE}@videopal[0]{$ENDIF};
     {$UNDEF LASTLOOP}
+    {$IFDEF NO_INLINE_LOOPS}
+    for j := 0 to 255 do
+    begin
+      {$I R_CalcHiResTables_Loop2.inc}
+    end;
+    {$ELSE}
     for j := 0 to 3 do
     begin
       {$I R_CalcHiResTables_Loop2.inc}
@@ -1135,6 +1162,7 @@ begin
       {$I R_CalcHiResTables_Loop2.inc}
       {$I R_CalcHiResTables_Loop2.inc}
     end;
+    {$ENDIF}
     inc(vpli);
   end;
   result := 0;

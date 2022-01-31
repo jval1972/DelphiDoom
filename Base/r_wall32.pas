@@ -102,6 +102,8 @@ uses
   r_precalc,
   r_main;
 
+{$IFNDEF OPTIMIZE_FOR_SIZE}
+
 {$DEFINE WALL32_128}
 {$UNDEF WALL32_256}
 {$UNDEF WALL32_512}
@@ -119,6 +121,8 @@ uses
 {$DEFINE WALL32_512}
 {$UNDEF WALL32_TC}
 {$I R_Wall32_BatchFuncs.inc}
+
+{$ENDIF}
 
 {$UNDEF WALL32_128}
 {$UNDEF WALL32_256}
@@ -167,7 +171,9 @@ var
   w: Pwallrenderinfo32_t;
   walls: Pbatchwallrenderinfo32_t;
   i: integer;
+  {$IFNDEF OPTIMIZE_FOR_SIZE}
   w_height: integer;
+  {$ENDIF}
 begin
   walls := @wallcache[idx^];
   if walls.numwalls = 0 then
@@ -179,101 +185,111 @@ begin
     exit;
   end;
 
+  {$IFNDEF OPTIMIZE_FOR_SIZE}
   w_height := walls.dc_height;
+  {$ENDIF}
   case walls.numwalls of
     MAXBATCHWALLS:
       begin
+        {$IFNDEF OPTIMIZE_FOR_SIZE}
         if w_height = 128 then
           R_DrawBatchColumnHi8_128(walls)
         else if w_height = 256 then
           R_DrawBatchColumnHi8_256(walls)
         else if w_height = 512 then
           R_DrawBatchColumnHi8_512(walls)
-        else
+        else {$ENDIF}
           R_DrawBatchColumnHi8_TC(walls);
         walls.numwalls := 0;
       end;
     7:
       begin
+        {$IFNDEF OPTIMIZE_FOR_SIZE}
         if w_height = 128 then
           R_DrawBatchColumnHi7_128(walls)
         else if w_height = 256 then
           R_DrawBatchColumnHi7_256(walls)
         else if w_height = 512 then
           R_DrawBatchColumnHi7_512(walls)
-        else
+        else {$ENDIF}
           R_DrawBatchColumnHi7_TC(walls);
         walls.numwalls := 0;
       end;
     6:
       begin
+        {$IFNDEF OPTIMIZE_FOR_SIZE}
         if w_height = 128 then
           R_DrawBatchColumnHi6_128(walls)
         else if w_height = 256 then
           R_DrawBatchColumnHi6_256(walls)
         else if w_height = 512 then
           R_DrawBatchColumnHi6_512(walls)
-        else
+        else {$ENDIF}
           R_DrawBatchColumnHi6_TC(walls);
         walls.numwalls := 0;
       end;
     5:
       begin
+        {$IFNDEF OPTIMIZE_FOR_SIZE}
         if w_height = 128 then
           R_DrawBatchColumnHi5_128(walls)
         else if w_height = 256 then
           R_DrawBatchColumnHi5_256(walls)
         else if w_height = 512 then
           R_DrawBatchColumnHi5_512(walls)
-        else
+        else {$ENDIF}
           R_DrawBatchColumnHi5_TC(walls);
         walls.numwalls := 0;
       end;
     4:
       begin
+        {$IFNDEF OPTIMIZE_FOR_SIZE}
         if w_height = 128 then
           R_DrawBatchColumnHi4_128(walls)
         else if w_height = 256 then
           R_DrawBatchColumnHi4_256(walls)
         else if w_height = 512 then
           R_DrawBatchColumnHi4_512(walls)
-        else
+        else {$ENDIF}
           R_DrawBatchColumnHi4_TC(walls);
         walls.numwalls := 0;
       end;
     3:
       begin
+        {$IFNDEF OPTIMIZE_FOR_SIZE}
         if w_height = 128 then
           R_DrawBatchColumnHi3_128(walls)
         else if w_height = 256 then
           R_DrawBatchColumnHi3_256(walls)
         else if w_height = 512 then
           R_DrawBatchColumnHi3_512(walls)
-        else
+        else {$ENDIF}
           R_DrawBatchColumnHi3_TC(walls);
         walls.numwalls := 0;
       end;
     2:
       begin
+        {$IFNDEF OPTIMIZE_FOR_SIZE}
         if w_height = 128 then
           R_DrawBatchColumnHi2_128(walls)
         else if w_height = 256 then
           R_DrawBatchColumnHi2_256(walls)
         else if w_height = 512 then
           R_DrawBatchColumnHi2_512(walls)
-        else
+        else {$ENDIF}
           R_DrawBatchColumnHi2_TC(walls);
         walls.numwalls := 0;
       end;
     1:
       begin
+        {$IFNDEF OPTIMIZE_FOR_SIZE}
         if w_height = 128 then
           R_DrawBatchColumnHi1_128(walls)
         else if w_height = 256 then
           R_DrawBatchColumnHi1_256(walls)
         else if w_height = 512 then
           R_DrawBatchColumnHi1_512(walls)
-        else
+        else {$ENDIF}
           R_DrawBatchColumnHi1_TC(walls);
         walls.numwalls := 0;
       end;
@@ -326,13 +342,14 @@ begin
       R_AddWallsToCache32(idx)
     else
     begin
+      {$IFNDEF OPTIMIZE_FOR_SIZE}
       if dc_height = 128 then
         R_DrawBatchColumnHi8_128(walls)
       else if dc_height = 256 then
         R_DrawBatchColumnHi8_256(walls)
       else if dc_height = 512 then
         R_DrawBatchColumnHi8_512(walls)
-      else
+      else {$ENDIF}
         R_DrawBatchColumnHi8_TC(walls);
       walls.numwalls := 0;
     end
@@ -357,11 +374,14 @@ function _wall_thread_worker32(parms: Pwallthreadparms32_t): integer; stdcall;
 var
   i: integer;
   walls: Pbatchwallrenderinfo32_t;
+  {$IFNDEF OPTIMIZE_FOR_SIZE}
   w_height: integer;
+  {$ENDIF}
 begin
   for i := parms.start to parms.stop do
   begin
     walls := @wallcache[i];
+    {$IFNDEF OPTIMIZE_FOR_SIZE}
     w_height := walls.dc_height;
     if w_height = 128 then
     begin
@@ -498,7 +518,7 @@ begin
           end;
       end;
     end
-    else
+    else {$ENDIF}
     begin
       case walls.numwalls of
         MAXBATCHWALLS:

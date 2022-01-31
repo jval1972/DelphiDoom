@@ -27,6 +27,8 @@
 //  Site  : https://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
+{$I Doom32.inc}
+
 unit r_colorcolumn;
 
 interface
@@ -1264,6 +1266,8 @@ begin
   end;
 end;
 
+{$IFNDEF OPTIMIZE_FOR_SIZE}
+
 {$I R_DrawColorColumnHi_bc.inc}
 
 type
@@ -1274,6 +1278,8 @@ const
 
 var
   R_DrawColorColumnHi_bcTable: array[1..R_DrawColorColumnHi_bc_cnt] of DrawColorColumnHi_bc_proc;
+
+{$ENDIF}
 
 procedure R_DrawColorColumnHi;
 var
@@ -1296,35 +1302,13 @@ begin
   if count < 0 then
     exit;
 
+{$IFNDEF OPTIMIZE_FOR_SIZE}
   if num_batch_columns > 0 then
     if num_batch_columns <= R_DrawColorColumnHi_bc_cnt then
     begin
       R_DrawColorColumnHi_bcTable[num_batch_columns](count + 1);
       exit;
     end;
-
-{  case num_batch_columns of
-    1:
-      begin
-        R_DrawColorColumnHi_bc1(count);
-        exit;
-      end;
-    2:
-      begin
-        R_DrawColorColumnHi_bc2(count);
-        exit;
-      end;
-    3:
-      begin
-        R_DrawColorColumnHi_bc3(count);
-        exit;
-      end;
-    4:
-      begin
-        R_DrawColorColumnHi_bc4(count);
-        exit;
-      end
-  end;}
 
   if count = 0 then
   begin
@@ -1336,6 +1320,7 @@ begin
     R_DrawColorColumnHi_cnt1;
     exit;
   end;
+{$ENDIF}
 
   {$IFDEF DOOM_OR_STRIFE}
   if customcolormap <> nil then
@@ -1553,6 +1538,7 @@ begin
 
 end;
 
+{$IFNDEF OPTIMIZE_FOR_SIZE}
 initialization
   R_DrawColorColumnHi_bcTable[1] := @R_DrawColorColumnHi_bc1;
   R_DrawColorColumnHi_bcTable[2] := @R_DrawColorColumnHi_bc2;
@@ -1618,6 +1604,7 @@ initialization
   R_DrawColorColumnHi_bcTable[62] := @R_DrawColorColumnHi_bc62;
   R_DrawColorColumnHi_bcTable[63] := @R_DrawColorColumnHi_bc63;
   R_DrawColorColumnHi_bcTable[64] := @R_DrawColorColumnHi_bc64;
+{$ENDIF}
 
 end.
 
