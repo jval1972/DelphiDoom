@@ -1876,7 +1876,7 @@ begin
   if (wbs.lastmapinfo <> nil) and (wbs.lastmapinfo.exitpic <> '') then
     exitpic := wbs.lastmapinfo.exitpic
   else
-  exitpic := '';
+    exitpic := '';
 
   if (wbs.nextmapinfo <> nil) and (wbs.nextmapinfo.enterpic <> '') then
     enterpic := wbs.nextmapinfo.enterpic
