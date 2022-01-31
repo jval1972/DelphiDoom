@@ -301,10 +301,10 @@ uses
   psi_overlay,
   r_hires,
   r_precalc,
+  r_data,
   {$IFNDEF OPENGL}
   r_mmx,
   r_trans8,
-  r_data,
   {$IFDEF DOOM_OR_STRIFE}
   r_colormaps,
   st_stuff,
