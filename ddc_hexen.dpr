@@ -399,7 +399,7 @@ uses
   s_pk3sounds in 'Base\s_pk3sounds.pas',
   p_playertrace in 'Base\p_playertrace.pas',
   p_friends in 'Base\p_friends.pas',
-  sounddata in 'Doom\sounddata.pas',
+  sounddata in 'Hexen\sounddata.pas',
   r_translations in 'Base\r_translations.pas',
   sc_defines in 'Base\sc_defines.pas',
   sv_hexen in 'Hexen\sv_hexen.pas',

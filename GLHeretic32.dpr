@@ -365,7 +365,7 @@ uses
   s_pk3sounds in 'Base\s_pk3sounds.pas',
   p_playertrace in 'Base\p_playertrace.pas',
   p_friends in 'Base\p_friends.pas',
-  sounddata in 'Doom\sounddata.pas',
+  sounddata in 'Heretic\sounddata.pas',
   r_translations in 'Base\r_translations.pas',
   r_ripple in 'Base\r_ripple.pas',
   xmi_consts in 'XMILIB\xmi_consts.pas',
