@@ -221,6 +221,7 @@ Save/Load mechanism global changes to easily accomodate new fields additions.
 Speed optimization to string manipulation routines.
 UMAPINFO support.
 Remember last skill level.
+Small optimizations to the software voxel rendering.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
