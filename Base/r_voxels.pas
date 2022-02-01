@@ -1979,8 +1979,7 @@ begin
               batchcolfunc;
 
             if dovoxelzbuffer then
-              R_DrawBatchVoxelColumnToZBuffer(depth, thing);
-//                R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);
+              R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);  // Use scaley0 instead of depth for better accuracy
           end;
 
           col := col.next;
@@ -2028,8 +2027,7 @@ begin
                 batchcolfunc;
 
               if dovoxelzbuffer then
-                R_DrawBatchVoxelColumnToZBuffer(depth, thing);
-//                R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);
+                R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);  // Use scaley0 instead of depth for better accuracy
             end;
 
             last_top := cur_top;
@@ -2059,8 +2057,7 @@ begin
               batchcolfunc;
 
             if dovoxelzbuffer then
-              R_DrawBatchVoxelColumnToZBuffer(depth, thing);
-//              R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);
+              R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);  // Use scaley0 instead of depth for better accuracy
           end;
         end;
 
