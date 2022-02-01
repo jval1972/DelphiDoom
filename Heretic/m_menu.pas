@@ -2393,6 +2393,8 @@ begin
   if ch <> Ord('y') then
     exit;
 
+  defaultskill := Ord(sk_nightmare);
+
   G_DeferedInitNew(sk_nightmare, epi + 1, 1); // JVAL nightmare become sk_nightmare
   M_ClearMenus;
 end;
@@ -2404,6 +2406,8 @@ begin
     M_StartMessage(SNIGHTMARE + #13#10 + PRESSYN, @M_VerifyNightmare, true);
     exit;
   end;
+
+  defaultskill := choice;
 
   if not EpiCustom then
     G_DeferedInitNew(skill_t(choice), epi + 1, 1)

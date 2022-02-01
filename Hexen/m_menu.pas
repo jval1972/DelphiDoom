@@ -2448,6 +2448,8 @@ begin
   if ch <> Ord('y') then
     exit;
 
+  defaultskill := Ord(sk_nightmare);
+
   G_DeferedInitNew(sk_nightmare, 1); // JVAL nightmare become sk_nightmare
   M_ClearMenus;
 end;
@@ -2463,6 +2465,8 @@ begin
     exit;
   end;
 
+  defaultskill := choice;
+  
   PlayerClass[consoleplayer] := MenuPClass;
   SB_SetClassData;
   G_DeferedInitNew(skill_t(choice), 1);
@@ -4394,7 +4398,7 @@ begin
   NewDef.drawproc := @M_DrawNewGame;  // draw routine
   NewDef.x := 110;
   NewDef.y := 60; // x,y of menu
-  NewDef.lastOn := Ord(newg_hurtme); // last item user was on in menu
+  NewDef.lastOn := defaultskill; // last item user was on in menu
   NewDef.itemheight := LINEHEIGHT;
   NewDef.texturebk := false;
 

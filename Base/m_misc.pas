@@ -885,6 +885,9 @@ begin
   gl_drawsky := true;
   {$ENDIF}
   {$ENDIF}
+  defaultskill := GetIntegerInRange(defaultskill, Ord(sk_baby), Ord(sk_nightmare));
+  startskill := skill_t(defaultskill);
+  gameskill := startskill;
 end;
 
 function M_ForceDefaultBoolean(const name: string; const value: boolean): boolean;

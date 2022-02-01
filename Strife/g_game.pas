@@ -1853,6 +1853,7 @@ begin
   save_p := PByteArray(integer(save_p) + VERSIONSIZE);
 
   gameskill := skill_t(save_p[0]);
+  defaultskill := save_p[0];
   save_p := PByteArray(integer(save_p) + 1);
 
   gamemap := save_p[0];

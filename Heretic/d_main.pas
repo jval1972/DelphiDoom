@@ -95,6 +95,7 @@ var
   noartiskip: boolean;          // whether shift-enter skips an artifact
   autostart: boolean;
   startskill: skill_t;
+  defaultskill: integer = 2;
   respawnparm: boolean;         // checkparm of -respawn
 
   startepisode: integer;
@@ -1802,7 +1803,7 @@ begin
   end;
 
   // get skill / episode / map from parms
-  startskill := sk_medium;
+  startskill := skill_t(GetIntegerInRange(defaultskill, Ord(sk_baby), Ord(sk_nightmare)));
   startepisode := 1;
   startmap := 1;
   autostart := false;

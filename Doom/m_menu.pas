@@ -2285,7 +2285,11 @@ begin
   if ((gamemode = commercial) and not EpiCustom) or (EpiDef.numitems = 0) then
   begin
     if oldsharewareversion then
+    begin
       NewDef.numitems := Ord(newg_nightmare); // No nightmare in old shareware
+      if NewDef.lastOn = Ord(newg_nightmare) then
+        dec(NewDef.lastOn);
+    end;
     M_SetupNextMenu(@NewDef);
   end
   else
@@ -2354,6 +2358,8 @@ begin
   if ch <> Ord('y') then
     exit;
 
+  defaultskill := Ord(sk_nightmare);
+
   G_DeferedInitNew(sk_nightmare, epi + 1, 1); // JVAL nightmare become sk_nightmare
   M_ClearMenus;
 end;
@@ -2365,6 +2371,8 @@ begin
     M_StartMessage(SNIGHTMARE + #13#10 + PRESSYN, @M_VerifyNightmare, true);
     exit;
   end;
+
+  defaultskill := choice;
 
   if not EpiCustom then
     G_DeferedInitNew(skill_t(choice), epi + 1, 1)
@@ -4275,7 +4283,7 @@ begin
   NewDef.drawproc := @M_DrawNewGame;  // draw routine
   NewDef.x := 48;
   NewDef.y := 63; // x,y of menu
-  NewDef.lastOn := Ord(newg_hurtme); // last item user was on in menu
+  NewDef.lastOn := defaultskill; // last item user was on in menu
   NewDef.itemheight := LINEHEIGHT;
   NewDef.texturebk := false;
 

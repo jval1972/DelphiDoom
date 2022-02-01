@@ -2487,6 +2487,8 @@ begin
   else
     map := 2;
 
+  defaultskill := Ord(sk_nightmare);
+
   G_DeferedInitNew(sk_nightmare, map); // JVAL nightmare become sk_nightmare
   M_ClearMenus;
 end;
@@ -2505,6 +2507,8 @@ begin
     map := 33
   else
     map := 2;
+
+  defaultskill := choice;
 
   G_DeferedInitNew(skill_t(choice), map);
   M_ClearMenus;
@@ -4291,7 +4295,7 @@ begin
   NewDef.drawproc := @M_DrawNewGame;  // draw routine
   NewDef.x := 48;
   NewDef.y := 63; // x,y of menu
-  NewDef.lastOn := Ord(newg_toorough); // lastOn - haleyjd [STRIFE]: default to skill 1
+  NewDef.lastOn := defaultskill;  // lastOn - haleyjd [STRIFE]: default to skill 1
   NewDef.itemheight := LINEHEIGHT;
   NewDef.texturebk := false;
 

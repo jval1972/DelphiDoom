@@ -166,7 +166,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 201;
+  NUMDEFAULTS = 202;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -1075,6 +1075,15 @@ const
      defaultbvalue: true;
      _type: tBoolean),
 
+    (name: 'defaultskill';
+     location: @defaultskill;
+     oldlocation: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 2;
+     defaultbvalue: true;
+     _type: tInteger),
+     
     (name: 'UserInterface';
      location: nil;
      oldlocation: nil;

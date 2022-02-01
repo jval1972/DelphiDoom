@@ -2148,6 +2148,7 @@ begin
   P_UnArchiveScreenShot;
 
   gameskill := skill_t(save_p[0]);
+  defaultskill := save_p[0];
   save_p := PByteArray(integer(save_p) + 1);
 
   gameepisode := save_p[0];

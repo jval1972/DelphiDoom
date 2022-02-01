@@ -2150,6 +2150,7 @@ begin
   gameepisode := 1;
   gamemap := GET_BYTE;
   gameskill := skill_t(GET_BYTE);
+  defaultskill := Ord(gameskill);
 
   // Read global script info
   memcpy(@ACSWorldVars, saveptr, SizeOf(ACSWorldVars));
