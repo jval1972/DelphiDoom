@@ -1600,6 +1600,7 @@ var
   vx_localsimpleclip: boolean;
   vx_localceilingclip: fixed_t;
   vx_localfloorclip: fixed_t;
+  dovoxelzbuffer: boolean;
 begin
   info := @voxelstates[vidx];
   voxelinf := @voxelmanager.items[info.voxelidx];
@@ -1698,6 +1699,8 @@ begin
     vx_localceilingclip := vx_ceilingclip;
     vx_localfloorclip := vx_floorclip;
 
+    dovoxelzbuffer := domaskedzbuffer and (renderflags and VSF_TRANSPARENCY = 0);
+
     // For each voxel column
     for i := 0 to mip.numcolumns - 1 do
     begin
@@ -1737,9 +1740,8 @@ begin
                 else
                   putpixelfunc(left, top);
 
-                if domaskedzbuffer then
-                  if renderflags and VSF_TRANSPARENCY = 0 then
-                    R_DrawVoxelPixelToZBuffer(depth, left, top, thing);
+                if dovoxelzbuffer then
+                  R_DrawVoxelPixelToZBuffer(depth, left, top, thing);
               end;
 
           col := col.next;
@@ -1976,9 +1978,8 @@ begin
             else
               batchcolfunc;
 
-            if domaskedzbuffer then
-              if renderflags and VSF_TRANSPARENCY = 0 then
-                R_DrawBatchVoxelColumnToZBuffer(depth, thing);
+            if dovoxelzbuffer then
+              R_DrawBatchVoxelColumnToZBuffer(depth, thing);
 //                R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);
           end;
 
@@ -2026,9 +2027,8 @@ begin
               else
                 batchcolfunc;
 
-              if domaskedzbuffer then
-                if renderflags and VSF_TRANSPARENCY = 0 then
-                  R_DrawBatchVoxelColumnToZBuffer(depth, thing);
+              if dovoxelzbuffer then
+                R_DrawBatchVoxelColumnToZBuffer(depth, thing);
 //                R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);
             end;
 
@@ -2058,9 +2058,8 @@ begin
             else
               batchcolfunc;
 
-            if domaskedzbuffer then
-              if renderflags and VSF_TRANSPARENCY = 0 then
-                R_DrawBatchVoxelColumnToZBuffer(depth, thing);
+            if dovoxelzbuffer then
+              R_DrawBatchVoxelColumnToZBuffer(depth, thing);
 //              R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);
           end;
         end;
