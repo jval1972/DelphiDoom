@@ -85,6 +85,7 @@ uses
   r_column,
   r_batchcolumn,
   r_colorcolumn,
+  r_voxelcolumn,
   r_hires,
   r_trans8,
   r_fake3d,
@@ -123,6 +124,9 @@ type
     drawtop, drawbottom: boolean;
     next: voxelcolumn_p;
     maxlistsize: integer;
+    dc_source: PByteArray;
+    linelength: integer;
+    fixedlinelength: fixed_t;
   end;
 
   voxelcolumn_a = array[0..$1FFF] of voxelcolumn_p;
@@ -186,6 +190,9 @@ var
   _r, _g, _b: LongWord;
   c: LongWord;
   maxlistsize: integer;
+  linelength: integer;
+  continous: boolean;
+  px1, px2: integer;
 begin
   pal := R_DefaultPalette;
 
@@ -254,6 +261,9 @@ begin
     if buf2[i].color <> 0 then
     begin
       rover := Z_Malloc(SizeOf(voxelcolumn_t), PU_STATIC, nil);
+      rover.dc_source := nil;
+      rover.linelength := 0;
+      rover.fixedlinelength := 0;
       rover.topdelta := i * mip;
       rover.fixeddelta := rover.topdelta * FRACUNIT;
       rover.next := nil;
@@ -294,8 +304,12 @@ begin
       inc(i);
   end;
 
-  if mip <> 1 then
-    memfree(Pointer(buf2), size2 * SizeOf(voxelitem_t));
+  if result = nil then
+  begin
+    if mip <> 1 then
+      memfree(Pointer(buf2), size2 * SizeOf(voxelitem_t));
+    exit;
+  end;
 
   col := result;
   last := nil;
@@ -317,6 +331,49 @@ begin
   if last <> nil then
     last.drawbottom := true;
 
+  if result.next <> nil then
+  begin
+    px1 := size2;
+    for i := 0 to size2 - 1 do
+      if buf2[i].color <> 0 then
+      begin
+        px1 := i;
+        break;
+      end;
+
+    px2 := 0;
+    for i := size2 - 1 downto 0 do
+      if buf2[i].color <> 0 then
+      begin
+        px2 := i;
+        break;
+      end;
+
+    if px1 < px2 then
+    begin
+      continous := true;
+      for i := px1 + 1 to px2 - 1 do
+        if buf2[i].color = 0 then
+        begin
+          continous := false;
+          break;
+        end;
+
+      if continous then
+      begin
+        linelength := px2 - px1 + 1;
+        result.dc_source := Z_Malloc(linelength, PU_STATIC, nil);
+        result.linelength := linelength;
+        result.fixedlinelength := linelength * FRACUNIT;
+        for i := px1 to px2 do
+          result.dc_source[i - px1] := V_FindAproxColorIndex(PLongWordArray(pal), buf2[i].color, 1, 255);
+      end;
+    end;
+  end;
+
+  if mip <> 1 then
+    memfree(Pointer(buf2), size2 * SizeOf(voxelitem_t));
+
   maxlistsize := 0;
   rover := result;
   while rover <> nil do
@@ -332,7 +389,6 @@ begin
     rover.maxlistsize := maxlistsize;
     rover := rover.next;
   end;
-
 end;
 
 procedure R_ClearVoxelBuffer(const voxelbuffer: voxelbuffer_p; const voxelsize: integer);
@@ -704,13 +760,11 @@ begin
     sz := result.mips[0].numcolumns * SizeOf(voxelcolumn_p);
     result.mips[0].columns := Z_Malloc(sz, PU_STATIC, nil);
     memcpy(@result.mips[0].columns[0], buf.List, sz);
-{    for i := 0 to buf.Count - 1 do
-      result.mips[0].columns[i] := voxelcolumn_p(buf.Numbers[i]);}
   end
   else
     result.mips[0].columns := nil;
 
-  buf.Clear;
+  buf.FastClear;
 
   for xx := 0 to voxelsize - 1 do
     for zz := 0 to voxelsize - 1 do
@@ -825,13 +879,11 @@ begin
     sz := result.mips[1].numcolumns * SizeOf(voxelcolumn_p);
     result.mips[1].columns := Z_Malloc(sz, PU_STATIC, nil);
     memcpy(@result.mips[1].columns[0], buf.List, sz);
-{    for i := 0 to buf.Count - 1 do
-      result.mips[1].columns[i] := voxelcolumn_p(buf.Numbers[i]);}
   end
   else
     result.mips[1].columns := nil;
 
-  buf.Clear;
+  buf.FastClear;
 
   for xx := 0 to voxelsize - 1 do
     for zz := 0 to voxelsize - 1 do
@@ -922,9 +974,6 @@ begin
     sz := result.mips[2].numcolumns * SizeOf(voxelcolumn_p);
     result.mips[2].columns := Z_Malloc(sz, PU_STATIC, nil);
     memcpy(@result.mips[2].columns[0], buf.List, sz);
-{    result.mips[2].columns := Z_Malloc(result.mips[2].numcolumns * SizeOf(voxelcolumn_p), PU_STATIC, nil);
-    for i := 0 to buf.Count - 1 do
-      result.mips[2].columns[i] := voxelcolumn_p(buf.Numbers[i]);}
   end
   else
     result.mips[2].columns := nil;
@@ -1882,8 +1931,202 @@ begin
         end;
       end;
 
+      if col.linelength > 0 then
+      begin
+        topz := t_z + FixedMul(col.fixedoffset, voxelinfscale);
+        bottomz := topz - FixedMul(col.fixedlinelength, voxelinfscale);
+        dc_voxeliscale := col.fixedlinelength div FixedInt_FixedMul(topz - bottomz, depth);
+        if topz > ceilz then
+          topz := ceilz;
+        if bottomz < floorz then
+          bottomz := floorz;
+        tr_topz := topz - viewz;
+        tr_bottomz := bottomz - viewz;
+
+        top := FixedInt_FixedMul(tr_topz, scaley0);
+        bottom := FixedInt_FixedMul(tr_bottomz, scaley0);
+
+        tmp_top := FixedInt_FixedMul(tr_topz, scaley1);
+        if top < tmp_top then
+          top := tmp_top
+        else
+        begin
+          tmp_bottom := FixedInt_FixedMul(tr_bottomz, scaley1);
+          if bottom > tmp_bottom then
+            bottom := tmp_bottom;
+        end;
+
+        tmp_top := FixedInt_FixedMul(tr_topz, scaley2);
+        if top < tmp_top then
+          top := tmp_top
+        else
+        begin
+          tmp_bottom := FixedInt_FixedMul(tr_bottomz, scaley2);
+          if bottom > tmp_bottom then
+            bottom := tmp_bottom;
+        end;
+
+        tmp_top := FixedInt_FixedMul(tr_topz, scaley3);
+        if top < tmp_top then
+          top := tmp_top
+        else
+        begin
+          tmp_bottom := FixedInt_FixedMul(tr_bottomz, scaley3);
+          if bottom > tmp_bottom then
+            bottom := tmp_bottom;
+        end;
+
+        top := centery - top;
+        bottom := centery - bottom;
+
+        if top < 0 then
+          top := 0
+        else if top >= viewheight then
+          Continue;
+
+        if bottom >= viewheight then
+          bottom := viewheight - 1
+        else if bottom < 0 then
+          Continue;
+
+        if (bottom < fake3dtopclip) or (top > fake3dbottomclip) then
+          Continue;
+
+        dc_color := col.dc_color;
+        dc_source := col.dc_source;
+
+        if vx_localsimpleclip then
+        begin
+          if top <= vx_localceilingclip then
+            dc_yl := vx_localceilingclip + 1
+          else
+            dc_yl := top;
+          if bottom >= vx_localfloorclip then
+            dc_yh := vx_localfloorclip - 1
+          else
+            dc_yh := bottom;
+
+          if dc_yl <= dc_yh then
+          begin
+            if depthbufferactive then
+            begin
+              if renderflags and VSF_TRANSPARENCY <> 0 then
+                R_DrawBatchColumnWithDepthBufferCheckOnly(voxelcolfunc, depth)
+              else
+                R_DrawBatchColumnWithDepthBufferCheckWrite(voxelcolfunc, depth)
+            end
+            else
+              voxelcolfunc;
+
+            if dovoxelzbuffer then
+              R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);  // Use scaley0 instead of depth for better accuracy
+          end;
+
+          Continue;
+        end;
+
+        dc_x := left;
+        last_dc_x := left;
+        last_top := top;
+        if last_top <= mceilingclip[left] then
+          last_top := mceilingclip[left] + 1;
+        last_bot := bottom;
+        if last_bot >= mfloorclip[left] then
+          last_bot := mfloorclip[left] - 1;
+        while dc_x <= right do
+        begin
+          cur_top := top;
+          if cur_top <= mceilingclip[dc_x] then
+            cur_top := mceilingclip[dc_x] + 1;
+          cur_bot := bottom;
+          if cur_bot >= mfloorclip[dc_x] then
+            cur_bot := mfloorclip[dc_x] - 1;
+
+          if (last_top <> cur_top) or
+             (last_bot <> cur_bot) then
+          begin
+            num_batch_columns := dc_x - last_dc_x;
+            save_dc_x := last_dc_x;
+            last_dc_x := dc_x;
+            dc_x := save_dc_x;
+            dc_yl := last_top;
+            dc_yh := last_bot;
+
+            if dc_yl <= dc_yh then
+            begin
+              if depthbufferactive then
+              begin
+                if renderflags and VSF_TRANSPARENCY <> 0 then
+                  R_DrawBatchColumnWithDepthBufferCheckOnly(voxelcolfunc, depth)
+                else
+                  R_DrawBatchColumnWithDepthBufferCheckWrite(voxelcolfunc, depth)
+              end
+              else
+                voxelcolfunc;
+
+              if dovoxelzbuffer then
+                R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);  // Use scaley0 instead of depth for better accuracy
+            end;
+
+            last_top := cur_top;
+            last_bot := cur_bot;
+            dc_x := last_dc_x;
+          end;
+          inc(dc_x);
+        end;
+
+        num_batch_columns := dc_x - last_dc_x - 1;
+        if num_batch_columns > 0 then
+        begin
+          dc_x := last_dc_x;
+          dc_yl := last_top;
+          dc_yh := last_bot;
+
+          if dc_yl <= dc_yh then
+          begin
+            if depthbufferactive then
+            begin
+              if renderflags and VSF_TRANSPARENCY <> 0 then
+                R_DrawBatchColumnWithDepthBufferCheckOnly(voxelcolfunc, depth)
+              else
+                R_DrawBatchColumnWithDepthBufferCheckWrite(voxelcolfunc, depth)
+            end
+            else
+              voxelcolfunc;
+
+            if dovoxelzbuffer then
+              R_DrawBatchVoxelColumnToZBuffer(scaley0, thing);  // Use scaley0 instead of depth for better accuracy
+          end;
+        end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      end
       // Proccess all fractions of the column
-      while col <> nil do
+      else while col <> nil do
       begin
       // Any optimization inside here will give good fps boost
         topz := t_z + FixedMul(col.fixedoffset, voxelinfscale);
@@ -2292,6 +2535,7 @@ begin
   begin
     // NULL colormap = shadow draw
     batchcolfunc := {$IFDEF HEXEN}batchtaveragecolfunc{$ELSE}{$IFDEF STRIFE}batchfuzzcolfunc1{$ELSE}batchfuzzcolfunc{$ENDIF}{$ENDIF};
+    voxelcolfunc := {$IFDEF HEXEN}voxeltaveragecolfunc{$ELSE}{$IFDEF STRIFE}voxelfuzzcolfunc1{$ELSE}voxelfuzzcolfunc{$ENDIF}{$ENDIF};
   end
   {$IFDEF STRIFE}
   else if vis.mobjflags and MF_SHADOW <> 0 then
@@ -2301,10 +2545,12 @@ begin
       if vis.mobjflags and MF_MVIS <> 0 then
       begin
         batchcolfunc := batchfuzzcolfunc2;
+        voxelcolfunc := voxelfuzzcolfunc2;
       end
       else
       begin
         batchcolfunc := batchfuzzcolfunc1;
+        voxelcolfunc := voxelfuzzcolfunc1;
       end;
     end
     else
@@ -2312,16 +2558,19 @@ begin
       dc_translation := PByteArray(integer(translationtables) - 256 +
         (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
       batchcolfunc := batchfuzztranscolfunc;
+      voxelcolfunc := voxelfuzztranscolfunc;
     end;
   end
   else if vis.mobjflags and MF_MVIS <> 0 then
   begin
     batchcolfunc := batchfuzzcolfunc2;
+    voxelcolfunc := voxelfuzzcolfunc2;
   end
   {$ENDIF}
   else if vis.mobjflags and MF_TRANSLATION <> 0 then
   begin
     batchcolfunc := batchtranscolfunc;
+    voxelcolfunc := voxeltranscolfunc;
     dc_translation := PByteArray(integer(translationtables) - 256 +
     {$IFDEF HEXEN}vis._class * ((MAXPLAYERS - 1) * 256) + {$ENDIF}
       (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
@@ -2331,22 +2580,26 @@ begin
     dc_alpha := vis.mo.alpha;
     curtrans8table := R_GetTransparency8table(dc_alpha);
     batchcolfunc := batchtalphacolfunc;
+    voxelcolfunc := voxeltalphacolfunc;
   end
   else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_add) then
   begin
     dc_alpha := vis.mo.alpha;
     curadd8table := R_GetAdditive8table(dc_alpha);
     batchcolfunc := batchaddcolfunc;
+    voxelcolfunc := voxeladdcolfunc;
   end
   else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_subtract) then
   begin
     dc_alpha := vis.mo.alpha;
     cursubtract8table := R_GetSubtractive8table(dc_alpha);
     batchcolfunc := batchsubtractcolfunc;
+    voxelcolfunc := voxelsubtractcolfunc;
   end
   else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0) then
   begin
     batchcolfunc := batchtaveragecolfunc;
+    voxelcolfunc := voxeltaveragecolfunc;
   end
   else
   begin
@@ -2354,6 +2607,7 @@ begin
       batchcolfunc := @R_DrawColorColumnHi
     else
       batchcolfunc := @R_DrawColorColumnMedium;
+    voxelcolfunc := basevoxelcolfunc;
     flag := true;
   end;
 

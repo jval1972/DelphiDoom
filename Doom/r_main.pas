@@ -199,6 +199,16 @@ var
   slopefuncMT: PPointerParmProcedure;
   baseslopefuncMT: PPointerParmProcedure;
   rippleslopefuncMT: PPointerParmProcedure;
+
+  // JVAL: Voxel column funcs
+  basevoxelcolfunc: PProcedure;
+  voxelcolfunc: PProcedure;
+  voxelfuzzcolfunc: PProcedure;
+  voxeltranscolfunc: PProcedure;
+  voxeltaveragecolfunc: PProcedure;
+  voxeltalphacolfunc: PProcedure;
+  voxeladdcolfunc: PProcedure;
+  voxelsubtractcolfunc: PProcedure;
   {$ENDIF}
 
   centerxfrac: fixed_t;
@@ -371,6 +381,7 @@ uses
   r_fake3d,
   r_trans8,
   r_voxels,
+  r_voxelcolumn,
   r_3dfloors, // JVAL: 3d Floors
   r_slopes, // JVAL: Slopes
   {$ENDIF}
@@ -1261,6 +1272,16 @@ begin
         bluelightcolfunc := R_DrawFuzzColumn;
         yellowlightcolfunc := R_DrawFuzzColumn;
         skycolfunc := R_DrawSkyColumnLow;
+
+        basevoxelcolfunc := R_DrawVoxelColumnLow;
+        voxelcolfunc := R_DrawVoxelColumnLow;
+        voxelfuzzcolfunc := R_DrawVoxelFuzzColumn;
+        voxeltranscolfunc := R_DrawVoxelTranslatedColumn;
+        voxeltaveragecolfunc := R_DrawVoxelColumnAverageMedium;
+        voxeltalphacolfunc := R_DrawVoxelColumnAlphaMedium;
+        voxeladdcolfunc := R_DrawVoxelColumnAddMedium;
+        voxelsubtractcolfunc := R_DrawVoxelColumnSubtractMedium;
+
         videomode := vm8bit;
       end;
     DL_LOW:
@@ -1367,6 +1388,16 @@ begin
         bluelightcolfunc := R_DrawFuzzColumn;
         yellowlightcolfunc := R_DrawFuzzColumn;
         skycolfunc := R_DrawSkyColumnLow;
+
+        basevoxelcolfunc := R_DrawVoxelColumnLow;
+        voxelcolfunc := R_DrawVoxelColumnLow;
+        voxelfuzzcolfunc := R_DrawVoxelFuzzColumn;
+        voxeltranscolfunc := R_DrawVoxelTranslatedColumn;
+        voxeltaveragecolfunc := R_DrawVoxelColumnAverageMedium;
+        voxeltalphacolfunc := R_DrawVoxelColumnAlphaMedium;
+        voxeladdcolfunc := R_DrawVoxelColumnAddMedium;
+        voxelsubtractcolfunc := R_DrawVoxelColumnSubtractMedium;
+
         videomode := vm8bit;
       end;
     DL_MEDIUM:
@@ -1473,6 +1504,16 @@ begin
         bluelightcolfunc := R_DrawFuzzColumn;
         yellowlightcolfunc := R_DrawFuzzColumn;
         skycolfunc := R_DrawSkyColumn;
+
+        basevoxelcolfunc := R_DrawVoxelColumnMedium;
+        voxelcolfunc := R_DrawVoxelColumnMedium;
+        voxelfuzzcolfunc := R_DrawVoxelFuzzColumn;
+        voxeltranscolfunc := R_DrawVoxelTranslatedColumn;
+        voxeltaveragecolfunc := R_DrawVoxelColumnAverageMedium;
+        voxeltalphacolfunc := R_DrawVoxelColumnAlphaMedium;
+        voxeladdcolfunc := R_DrawVoxelColumnAddMedium;
+        voxelsubtractcolfunc := R_DrawVoxelColumnSubtractMedium;
+
         videomode := vm8bit;
       end;
     DL_NORMAL:  // JVAL: 32 bit color - Default
@@ -1571,6 +1612,19 @@ begin
         bluelightcolfunc := R_DrawBlueLightColumnHi;
         yellowlightcolfunc := R_DrawYellowLightColumnHi;
         skycolfunc := R_DrawSkyColumnHi;
+
+        basevoxelcolfunc := R_DrawVoxelColumnHi;
+        voxelcolfunc := R_DrawVoxelColumnHi;
+        if use32bitfuzzeffect then
+          voxelfuzzcolfunc := R_DrawVoxelFuzzColumn32
+        else
+          voxelfuzzcolfunc := R_DrawVoxelFuzzColumnHi;
+        voxeltranscolfunc := R_DrawVoxelTranslatedColumnHi;
+        voxeltaveragecolfunc := R_DrawVoxelColumnAverageHi;
+        voxeltalphacolfunc := R_DrawVoxelColumnAlphaHi;
+        voxeladdcolfunc := R_DrawVoxelColumnAddHi;
+        voxelsubtractcolfunc := R_DrawVoxelColumnSubtractHi;
+
         videomode := vm32bit;
       end;
     DL_HIRES:
@@ -1669,6 +1723,19 @@ begin
         bluelightcolfunc := R_DrawBlueLightColumnHi;
         yellowlightcolfunc := R_DrawYellowLightColumnHi;
         skycolfunc := R_DrawSkyColumnHi;
+
+        basevoxelcolfunc := R_DrawVoxelColumnHi;
+        voxelcolfunc := R_DrawVoxelColumnHi;
+        if use32bitfuzzeffect then
+          voxelfuzzcolfunc := R_DrawVoxelFuzzColumn32
+        else
+          voxelfuzzcolfunc := R_DrawVoxelFuzzColumnHi;
+        voxeltranscolfunc := R_DrawVoxelTranslatedColumnHi;
+        voxeltaveragecolfunc := R_DrawVoxelColumnAverageHi;
+        voxeltalphacolfunc := R_DrawVoxelColumnAlphaHi;
+        voxeladdcolfunc := R_DrawVoxelColumnAddHi;
+        voxelsubtractcolfunc := R_DrawVoxelColumnSubtractHi;
+
         videomode := vm32bit;
       end;
     DL_ULTRARES:
@@ -1767,6 +1834,19 @@ begin
         bluelightcolfunc := R_DrawBlueLightColumnHi;
         yellowlightcolfunc := R_DrawYellowLightColumnHi;
         skycolfunc := R_DrawSkyColumnUltra;
+
+        basevoxelcolfunc := R_DrawVoxelColumnHi;
+        voxelcolfunc := R_DrawVoxelColumnHi;
+        if use32bitfuzzeffect then
+          voxelfuzzcolfunc := R_DrawVoxelFuzzColumn32
+        else
+          voxelfuzzcolfunc := R_DrawVoxelFuzzColumnHi;
+        voxeltranscolfunc := R_DrawVoxelTranslatedColumnHi;
+        voxeltaveragecolfunc := R_DrawVoxelColumnAverageHi;
+        voxeltalphacolfunc := R_DrawVoxelColumnAlphaHi;
+        voxeladdcolfunc := R_DrawVoxelColumnAddHi;
+        voxelsubtractcolfunc := R_DrawVoxelColumnSubtractHi;
+
         videomode := vm32bit;
       end;
   end;
