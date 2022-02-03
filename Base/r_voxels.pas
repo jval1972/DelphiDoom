@@ -160,6 +160,9 @@ type
     r, g, b: Byte;
   end;
 
+const
+  MAXMIP = 3;
+
 //
 // JVAL
 // R_VoxelColumnFromBuffer()
@@ -171,8 +174,8 @@ var
   rover: voxelcolumn_p;
   r1, parent: voxelcolumn_p;
   pal: palette_p;
-  source: array[0..MAXVOXELSIZE] of byte;
-  source32: array[0..MAXVOXELSIZE] of LongWord;
+  source: array[0..MAXMIP * MAXVOXELSIZE] of byte;
+  source32: array[0..MAXMIP * MAXVOXELSIZE] of LongWord;
   lastc: byte;
   col, last: voxelcolumn_p;
   buf2: voxelbuffer2D_p;
@@ -182,7 +185,7 @@ var
   _lo, _hi: integer;
   _r, _g, _b: LongWord;
   c: LongWord;
-  maxlistsize: byte;
+  maxlistsize: integer;
 begin
   pal := R_DefaultPalette;
 
@@ -280,8 +283,6 @@ begin
         inc(i);
         inc(j);
       end;
-      if j > 128 then
-        j := 128;
       rover.length := j * mip;
       rover.fixedlength := rover.length * FRACUNIT;
       rover.fixedheight := size * FRACUNIT;
