@@ -618,6 +618,8 @@ procedure fprintf(const f: TFile; const Fmt: string; const Args: array of const)
 
 function tan(const x: extended): extended;
 
+function strcmp(const s1, s2: string): integer;
+
 function strupper(const S: string): string;
 
 function strlower(const S: string): string;
@@ -3497,6 +3499,16 @@ begin
   end
   else
     result := 0.0;
+end;
+
+function strcmp(const s1, s2: string): integer;
+begin
+  if s1 = s2 then
+    result := 0
+  else if s1 < s2 then
+    result := -1
+  else
+    result := 1;
 end;
 
 function strupper(const S: string): string;
