@@ -1071,7 +1071,7 @@ type
     loopcount: integer;     // number of loops for this sector
     loops: PGLLoopDefArray; // the loops itself
     list: GLuint;
-    lissttexscale: float;
+    listtexscale: float;
   end;
   PGLSector = ^GLSector;
   GLSectorArray = array[0..$FFFF] of GLSector;
@@ -3523,7 +3523,7 @@ begin
 
         glEndList;
 
-        glsec.lissttexscale := flat.gltexture.texturescale;
+        glsec.listtexscale := flat.gltexture.texturescale;
 
         if G_PlayingEngineVersion < VERSIONSLOPES then
           Z_Free(glsec.loops);  // JVAL: Slopes
@@ -3624,7 +3624,7 @@ begin
   else
   begin
     // JVAL: Call the precalced list if available
-    if (glsec.list <> GL_BAD_LIST) and (glsec.lissttexscale = flat.gltexture.texturescale) then
+    if (glsec.list <> GL_BAD_LIST) and (glsec.listtexscale = flat.gltexture.texturescale) then
       glCallList(glsec.list)
     else if flat.gltexture.texturescale = 1.0 then
     begin
