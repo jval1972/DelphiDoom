@@ -667,7 +667,7 @@ var
 begin
   printf('W_RuntimeLoad(): adding %s'#13#10, [fname]);
 
-  fname := strupper(fname);
+  strupperproc(fname);
 
   if origin = F_ORIGIN_WAD then
     if not fexists(fname) then

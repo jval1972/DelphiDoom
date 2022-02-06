@@ -607,7 +607,7 @@ end;
 
 procedure TEvaluator.AddFunc(aname: string; afunc: TObjFunc; anump: integer);
 begin
-  aname := strupper(aname);
+  strupperproc(aname);
   if not ValidIdent(aname) then
     I_Error('TEvaluator.AddFunc(): Invalid function name "%s"', [aname]);
   if Assigned(FindFunc(aname)) then
@@ -617,7 +617,7 @@ end;
 
 procedure TEvaluator.AddFunc(aname: string; afunc: TExtFunc; anump: integer);
 begin
-  aname := strupper(aname);
+  strupperproc(aname);
   if not ValidIdent(aname) then
     I_Error('TEvaluator.AddFunc(): Invalid function name "%s"', [aname]);
   if Assigned(FindFunc(aname)) then

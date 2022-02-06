@@ -270,7 +270,7 @@ begin
     end;
   end;
 
-  fname := strupper(fname);
+  strupperproc(fname);
 
   if execs = nil then
     execs := TDStringList.Create

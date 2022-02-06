@@ -1351,7 +1351,7 @@ var
         else if actorpending then
           alias := 'S_' + strupper(mobj.name + '_' + alias)
         else
-          alias := strupper(alias);
+          strupperproc(alias);
         sc.GetString;
       end
       else

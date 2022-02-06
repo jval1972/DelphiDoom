@@ -1430,8 +1430,8 @@ begin
           Continue;
         end;
 
-        token1 := strupper(token1);
-        token2 := strupper(token2);
+        strupperproc(token1);
+        strupperproc(token2);
 
         // JVAL: Check the original sprite names (https://eternity.youfailit.net/wiki/DeHackEd_/_BEX_Reference/Eternity_Extension:_SPRITES_Block)
         if sprite_idx < 0 then

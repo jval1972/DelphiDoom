@@ -733,7 +733,7 @@ begin
     Exit;
   end; // Disk file Overrides Pak file
 
-  Name := strupper(Name);
+  strupperproc(Name);
   hcode := MkHash(fshortname(Name));
 
   hashcheck := HashTable[HashToHashTableIndex(hcode)];

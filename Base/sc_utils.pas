@@ -121,7 +121,7 @@ var
 
             if str_incl <> '' then
             begin
-              s2 := strupper(s2);
+              strupperproc(s2);
               if includes.IndexOf(s2) < 0 then
               begin
                 includes.Add(s2);

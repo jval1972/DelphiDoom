@@ -177,7 +177,7 @@ begin
     result := DEH_NextLine(s, str, counter);
     exit;
   end;
-  str := strupper(str);
+  strupperproc(str);
 end;
 
 procedure DEH_ParseText(const deh_tx: string);

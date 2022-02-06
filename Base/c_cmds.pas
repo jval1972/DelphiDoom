@@ -173,7 +173,7 @@ begin
   if not cmdssorted then
     C_QuickSortCmds;
 
-  name := strupper(name);
+  strupperproc(name);
   l := 0;
   h := numcmds - 1;
   while l <= h do
@@ -226,7 +226,7 @@ begin
   if not cmdssorted then
     C_QuickSortCmds;
 
-  name := strupper(name);
+  strupperproc(name);
   l := 0;
   h := numcmds - 1;
   while l <= h do
@@ -278,7 +278,7 @@ function C_BoolEval(parm: string; const default: boolean): boolean;
 var
   i: integer;
 begin
-  parm := strupper(parm);
+  strupperproc(parm);
 
   for i := low(TRUE_VALUES) to high(TRUE_VALUES) do
     if parm = TRUE_VALUES[i] then

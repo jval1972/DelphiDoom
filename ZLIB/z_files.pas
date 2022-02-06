@@ -361,7 +361,7 @@ begin
         if h.FileNameLen > 0 then
         begin
           f.Read((@str[1])^, h.FileNameLen);
-          str := strupper(str);
+          strupperproc(str);
           for i := 1 to h.FileNameLen do
             if str[i] = '/' then
               str[i] := '\';

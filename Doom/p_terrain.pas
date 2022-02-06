@@ -87,7 +87,7 @@ var
   i: integer;
 begin
   i := 0;
-  flatname := strupper(flatname);
+  strupperproc(flatname);
   while terraintypedefs[i]._type <> -1 do
   begin
     if terraintypedefs[i].name = flatname then
