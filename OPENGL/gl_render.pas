@@ -3492,6 +3492,7 @@ begin
   if flat.sectornum < 0 then
     exit;
 
+  ftexturescale := flat.gltexture.texturescale;
   glsec := @sectorloops[flat.sectornum];
   sec := @sectors[flat.sectornum];
   if glsec.list = 0 then
