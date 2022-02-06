@@ -40,6 +40,8 @@ implementation
 
 uses
   d_delphi,
+  c_cmds,
+  m_misc,
   i_system,
   {$IFDEF DOOM}
   g_game,
@@ -64,7 +66,7 @@ var
     lst_in: TDStringList;
     i, j, p, idx: integer;
     str, str1, str2: string;
-    s1, s2: string;
+    s, s1, s2, s3: string;
     str_incl: string;
     do_all: boolean;
     do_one: boolean;
@@ -152,9 +154,28 @@ var
         end;
       end
       {$IFDEF DOOM}
-      else if (strupper(strtrim(str)) = 'VANILLA_DEMO_OFF') or (strupper(strtrim(str)) = '#VANILLA_DEMO_OFF') or (strupper(strtrim(str)) = '{$VANILLA_DEMO_OFF}') then
+      else if (str2 = 'VANILLA_DEMO_OFF') or (str2 = '#VANILLA_DEMO_OFF') or (str2 = '{$VANILLA_DEMO_OFF}') then
         vanilla_demo_off := true
       {$ENDIF}
+      else if Pos('#CVARFORCE ', str2) = 1 then
+      begin
+        splitstring(str2, s1, s);
+        if s <> '' then
+        begin
+          splitstring(s, s2, s3);
+          if s3 <> '' then
+          begin
+            if not M_ForceDefaultBoolean(s2, C_BoolEval(s3, True)) then
+              if not M_ForceDefaultInteger(s2, atoi(s3)) then
+                if not M_ForceDefaultString(s2, s3) then
+                  I_Warning('SC_Preprocess(): Can not set cvar "%s" to "%s"'#13#10, [s2, s3]);
+          end
+          else
+            I_Warning('SC_Preprocess(): Can not set cvar "%s", no value specified'#13#10, [s2]);
+        end
+        else
+          I_Warning('SC_Preprocess(): No cvar specified after the #CVARFORCE directive'#13#10);
+      end
       else
         result := result + str1 + #13#10;
     end;

@@ -223,6 +223,7 @@ Remember last skill level.
 Small optimizations to the software voxel rendering.
 Corrected flat scale in OpenGL mode.
 Faster proccessing of include files.
+Added #CVARFORCE directive. It can be placed in any text content and forces the value of a console variable to the value specified.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
