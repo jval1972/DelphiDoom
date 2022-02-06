@@ -63,7 +63,7 @@ var
   var
     lst_in: TDStringList;
     i, j, p, idx: integer;
-    str, str1: string;
+    str, str1, str2: string;
     s1, s2: string;
     str_incl: string;
     do_all: boolean;
@@ -91,9 +91,19 @@ var
         str :=  Copy(str1, 1, p - 1)
       else
         str := str1;
-      do_one := (Pos('#INCLUDE ', strupper(strtrim(str))) = 1) or (Pos('{$INCLUDE ', strupper(strtrim(str))) = 1) or (Pos('{$INCLUDE} ', strupper(strtrim(str))) = 1);
-      do_all := (Pos('#INCLUDE_ALL ', strupper(strtrim(str))) = 1) or (Pos('{$INCLUDE_ALL ', strupper(strtrim(str))) = 1) or (Pos('{$INCLUDE_ALL} ', strupper(strtrim(str))) = 1);
-      do_wad := (Pos('#INCLUDE_WAD ', strupper(strtrim(str))) = 1) or (Pos('{$INCLUDE_WAD ', strupper(strtrim(str))) = 1) or (Pos('{$INCLUDE_WAD} ', strupper(strtrim(str))) = 1);
+      str2 := strupper(strtrim(str));
+      if CharPos('I', str2) > 1 then
+      begin
+        do_one := (Pos('#INCLUDE ', str2) = 1) or (Pos('{$INCLUDE ', str2) = 1) or (Pos('{$INCLUDE} ', str2) = 1);
+        do_all := (Pos('#INCLUDE_ALL ', str2) = 1) or (Pos('{$INCLUDE_ALL ', str2) = 1) or (Pos('{$INCLUDE_ALL} ', str2) = 1);
+        do_wad := (Pos('#INCLUDE_WAD ', str2) = 1) or (Pos('{$INCLUDE_WAD ', str2) = 1) or (Pos('{$INCLUDE_WAD} ', str2) = 1);
+      end
+      else
+      begin
+        do_one := False;
+        do_all := False;
+        do_wad := False;
+      end;
       if do_one or do_all or do_wad then
       begin
         splitstring_ch(strtrim(str), s1, s2, ' ');
