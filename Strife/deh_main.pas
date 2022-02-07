@@ -138,7 +138,6 @@ uses
   dstrings,
   e_endoom,
   f_finale,
-  g_game,
   hu_stuff,
   i_system,
   info,
@@ -147,7 +146,6 @@ uses
   m_fixed,
   ps_main,
   p_mobj,
-  p_mobj_h,
   p_enemy,
   p_extra,
   p_common,
@@ -165,10 +163,7 @@ uses
   sc_params,
   sc_engine,
   sc_states,
-  v_data,
-  w_wad,
-  w_folders,
-  w_pak;
+  v_data;
 
 var
   mobj_tokens_hash: TDEHStringsHashTable;

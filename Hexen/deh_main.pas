@@ -124,8 +124,6 @@ uses
   deh_base,
   d_main,
   xn_strings,
-  f_finale,
-  g_game,
   hu_stuff,
   i_system,
   info,
@@ -156,11 +154,7 @@ uses
   sc_engine,
   sc_states,
   v_data,
-  sv_save,
-  w_wad,
-  w_folders,
-  w_pak,
-  z_zone;
+  sv_save;
 
 var
   mobj_tokens_hash: TDEHStringsHashTable;

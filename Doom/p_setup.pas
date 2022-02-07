@@ -177,7 +177,6 @@ uses
   d_main,
   d_think,
   z_zone,
-  m_argv,
   m_rnd,
   m_bbox,
   m_sha1,

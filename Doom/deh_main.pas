@@ -155,10 +155,7 @@ uses
   sc_params,
   sc_engine,
   sc_states,
-  v_data,
-  w_wad,
-  w_folders,
-  w_pak;
+  v_data;
 
 var
   mobj_tokens_hash: TDEHStringsHashTable;

@@ -162,7 +162,6 @@ uses
   d_player,
   d_main,
   z_zone,
-  m_argv,
   m_rnd,
   m_bbox,
   g_game,

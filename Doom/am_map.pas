@@ -45,8 +45,6 @@ uses
   p_local,
   w_wad,
   m_cheat,
-  i_system,
-  dstrings,
   tables,
   m_fixed;
 
