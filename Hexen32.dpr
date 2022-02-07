@@ -405,7 +405,8 @@ uses
   sc_defines in 'Base\sc_defines.pas',
   p_serializer in 'Base\p_serializer.pas',
   sv_hexen in 'Hexen\sv_hexen.pas',
-  p_mapinfo in 'Hexen\p_mapinfo.pas';
+  p_mapinfo in 'Hexen\p_mapinfo.pas',
+  p_blockmap in 'Base\p_blockmap.pas';
 
 var
   Saved8087CW: Word;

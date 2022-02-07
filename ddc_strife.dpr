@@ -407,7 +407,8 @@ uses
   r_translations in 'Base\r_translations.pas',
   sc_defines in 'Base\sc_defines.pas',
   sv_strife in 'Strife\sv_strife.pas',
-  p_serializer in 'Base\p_serializer.pas';
+  p_serializer in 'Base\p_serializer.pas',
+  p_blockmap in 'Base\p_blockmap.pas';
 
 exports
   dd_compile_strife,

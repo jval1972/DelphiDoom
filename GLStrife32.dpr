@@ -381,7 +381,8 @@ uses
   sc_defines in 'Base\sc_defines.pas',
   sv_strife in 'Strife\sv_strife.pas',
   p_serializer in 'Base\p_serializer.pas',
-  gl_setup in 'OPENGL\gl_setup.pas';
+  gl_setup in 'OPENGL\gl_setup.pas',
+  p_blockmap in 'Base\p_blockmap.pas';
 
 var
   Saved8087CW: Word;

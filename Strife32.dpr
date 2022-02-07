@@ -408,7 +408,8 @@ uses
   i_xmimusic in 'Base\i_xmimusic.pas',
   sc_defines in 'Base\sc_defines.pas',
   p_serializer in 'Base\p_serializer.pas',
-  sv_strife in 'Strife\sv_strife.pas';
+  sv_strife in 'Strife\sv_strife.pas',
+  p_blockmap in 'Base\p_blockmap.pas';
 
 var
   Saved8087CW: Word;

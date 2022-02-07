@@ -407,7 +407,8 @@ uses
   p_serializer in 'Base\p_serializer.pas',
   sv_doom in 'Doom\sv_doom.pas',
   p_umapinfo in 'Base\p_umapinfo.pas',
-  p_uactornames in 'Doom\p_uactornames.pas';
+  p_uactornames in 'Doom\p_uactornames.pas',
+  p_blockmap in 'Base\p_blockmap.pas';
 
 var
   Saved8087CW: Word;

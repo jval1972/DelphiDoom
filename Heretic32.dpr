@@ -402,7 +402,8 @@ uses
   p_serializer in 'Base\p_serializer.pas',
   sv_heretic in 'Heretic\sv_heretic.pas',
   p_umapinfo in 'Base\p_umapinfo.pas',
-  p_uactornames in 'Heretic\p_uactornames.pas';
+  p_uactornames in 'Heretic\p_uactornames.pas',
+  p_blockmap in 'Base\p_blockmap.pas';
 
 var
   Saved8087CW: Word;

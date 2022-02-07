@@ -380,7 +380,8 @@ uses
   p_serializer in 'Base\p_serializer.pas',
   sv_hexen in 'Hexen\sv_hexen.pas',
   p_mapinfo in 'Hexen\p_mapinfo.pas',
-  gl_setup in 'OPENGL\gl_setup.pas';
+  gl_setup in 'OPENGL\gl_setup.pas',
+  p_blockmap in 'Base\p_blockmap.pas';
 
 var
   Saved8087CW: Word;
