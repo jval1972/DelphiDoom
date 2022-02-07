@@ -287,6 +287,762 @@ var
       token := '';
   end;
 
+  procedure _LoadThing;
+  begin
+    realloc(Pointer(fthings), fnumthings * SizeOf(mapthing_t), (fnumthings + 1) * SizeOf(mapthing_t));
+    pthing := @fthings[fnumthings];
+    ZeroMemory(pthing, SizeOf(mapthing_t));
+    realloc(Pointer(fextrathings), fnumthings * SizeOf(extrathing_t), (fnumthings + 1) * SizeOf(extrathing_t));
+    pextrathing := @fextrathings[fnumthings];
+    ZeroMemory(pextrathing, SizeOf(extrathing_t));
+    {$IFNDEF HEXEN}pthing.options := 16{$ENDIF};
+    inc(fnumthings);
+    GetToken; // _BEGINBLOCK
+    if token <> '_BEGINBLOCK' then
+      I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in thing definition'#13#10, [token]);
+    while token <> '_ENDBLOCK' do
+    begin
+      GetToken;
+      if token = 'X' then
+      begin
+        sc.MustGetFloat;
+        pthing.x := Round(sc._Float);
+        pextrathing.x := Round(sc._Float * FRACUNIT);
+      end
+      else if token = 'Y' then
+      begin
+        sc.MustGetFloat;
+        pthing.y := Round(sc._Float);
+        pextrathing.y := Round(sc._Float * FRACUNIT);
+      end
+      else if token = 'Z' then
+      begin
+        sc.MustGetFloat;
+        pextrathing.z := Round(sc._Float * FRACUNIT);
+        pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_HASZ;
+      end
+      else if token = 'ID' then
+      begin
+        sc.MustGetInteger;
+        pextrathing.id := sc._Integer;
+      end
+      else if token = 'ANGLE' then
+      begin
+        sc.MustGetFloat;
+        pthing.angle := Round(sc._Float);
+      end
+      else if token = 'TYPE' then
+      begin
+        sc.MustGetInteger;
+        pthing._type := sc._Integer;
+      end
+      else if (token = 'SKILL1') or (token = 'SKILL2') then
+      begin
+        sk := token;
+        GetToken;
+        if token = 'TRUE' then
+        begin
+          pthing.options := pthing.options or 1;
+          if sk = 'SKILL1' then
+            pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL1
+          else
+            pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL2;
+        end;
+      end
+      else if (token = 'SKILL3') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+        begin
+          pthing.options := pthing.options or 2;
+          pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL3;
+        end;
+      end
+      else if (token = 'SKILL4') or (token = 'SKILL5') then
+      begin
+        sk := token;
+        GetToken;
+        if token = 'TRUE' then
+        begin
+          pthing.options := pthing.options or 4;
+          if sk = 'SKILL4' then
+            pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL4
+          else
+            pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL5;
+        end;
+      end
+      else if (token = 'AMBUSH') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options or 8;
+      end
+      else if (token = 'ONMIDDLEFLOOR') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options or MTF_ONMIDSECTOR;
+      end
+      else if (token = 'NOTRIGGERSCRIPTS') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options or MTF_DONOTTRIGGERSCRIPTS;
+      end
+      else if (token = 'FRIEND') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options or MTF_FRIEND;
+      end
+      {$IFDEF HEXEN}
+      else if (token = 'SINGLE') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options or MTF_GSINGLE;
+      end
+      else if (token = 'COOP') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options or MTF_GCOOP;
+      end
+      else if (token = 'DM') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options or MTF_GDEATHMATCH;
+      end
+      else if (token = 'DORMANT') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options or MTF_DORMANT;
+      end
+      else if (token = 'CLASS1') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options or MTF_FIGHTER;
+      end
+      else if (token = 'CLASS2') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options or MTF_CLERIC;
+      end
+      else if (token = 'CLASS3') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options or MTF_MAGE;
+      end
+      else if (token = 'SPECIAL') then
+      begin
+        sc.MustGetInteger;
+        pthing.special := sc._Integer;
+      end
+      else if (token = 'ARG0') then
+      begin
+        sc.MustGetInteger;
+        pthing.arg1 := sc._Integer;
+      end
+      else if (token = 'ARG1') then
+      begin
+        sc.MustGetInteger;
+        pthing.arg2 := sc._Integer;
+      end
+      else if (token = 'ARG2') then
+      begin
+        sc.MustGetInteger;
+        pthing.arg3 := sc._Integer;
+      end
+      else if (token = 'ARG3') then
+      begin
+        sc.MustGetInteger;
+        pthing.arg4 := sc._Integer;
+      end
+      else if (token = 'ARG4') then
+      begin
+        sc.MustGetInteger;
+        pthing.arg5 := sc._Integer;
+      end
+      {$ELSE}
+      else if (token = 'SINGLE') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options and not 16;
+      end
+      else if (token = 'COOP') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options or 32;
+      end
+      else if (token = 'DM') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options or 64;
+      end
+      {$ENDIF}
+      {$IFDEF STRIFE}
+      else if (token = 'STRIFEALLY') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pthing.options := pthing.options or MTF_ALLY;
+      end
+      {$ENDIF}
+      else if (token = 'GRAVITY') then
+      begin
+        sc.MustGetFloat;
+        pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_HASGRAVITY;
+        pextrathing.gravity := sc._Float;
+      end
+      else if (token = 'HEALTH') then
+      begin
+        sc.MustGetFloat;
+        pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_HASHEALTH;
+        pextrathing.health := sc._Float;
+      end
+      else if (token = 'COMMENT') then
+      begin
+        GetToken; // skip comment
+      end;
+    end;
+  end;
+
+  procedure _LoadLinedef;
+  begin
+    realloc(Pointer(fmaplinedefs), fnummaplinedefs * SizeOf(maplinedef_t), (fnummaplinedefs + 1) * SizeOf(maplinedef_t));
+    pmaplinedef := @fmaplinedefs[fnummaplinedefs];
+    ZeroMemory(pmaplinedef, SizeOf(maplinedef_t));
+    {$IFNDEF HEXEN}
+    pmaplinedef.tag := -1;
+    {$ENDIF}
+    pmaplinedef.sidenum[0] := -1;
+    pmaplinedef.sidenum[1] := -1;
+    inc(fnummaplinedefs);
+    GetToken; // _BEGINBLOCK
+    if token <> '_BEGINBLOCK' then
+      I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in linedef definition'#13#10, [token]);
+    while token <> '_ENDBLOCK' do
+    begin
+      GetToken;
+      if (token = 'ID') then
+      begin
+        sc.MustGetInteger;
+        {$IFDEF HEXEN}
+        pmaplinedef.special := 121;
+        pmaplinedef.arg1 := sc._Integer;
+        {$ELSE}
+        pmaplinedef.tag := sc._Integer;
+        {$ENDIF}
+      end
+      else if (token = 'V1') then
+      begin
+        sc.MustGetInteger;
+        pmaplinedef.v1 := sc._Integer;
+      end
+      else if (token = 'V2') then
+      begin
+        sc.MustGetInteger;
+        pmaplinedef.v2 := sc._Integer;
+      end
+      else if (token = 'SPECIAL') then
+      begin
+        sc.MustGetInteger;
+        pmaplinedef.special := sc._Integer;
+      end
+      else if (token = 'BLOCKING') or (token = 'BLOCKEVERYTHING')  then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_BLOCKING;
+      end
+      else if (token = 'BLOCKMONSTERS') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_BLOCKMONSTERS;
+      end
+      else if (token = 'TWOSIDED') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_TWOSIDED;
+      end
+      else if (token = 'DONTPEGTOP') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_DONTPEGTOP;
+      end
+      else if (token = 'DONTPEGBOTTOM') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_DONTPEGBOTTOM;
+      end
+      else if (token = 'SECRET') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_SECRET;
+      end
+      else if (token = 'BLOCKSOUND') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_SOUNDBLOCK;
+      end
+      else if (token = 'DONTDRAW') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_DONTDRAW;
+      end
+      else if (token = 'MAPPED') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_SECRET;
+      end
+      else if (token = 'TRIGGERSCRIPTS') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_TRIGGERSCRIPTS;
+      end
+      {$IFDEF DOOM_OR_HERETIC}
+      else if (token = 'BLOCKLANDMONSTERS') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_BLOCKLANDMONSTERS;
+      end
+      else if (token = 'BLOCKPLAYERS') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_BLOCKPLAYERS;
+      end
+      {$ENDIF}
+      else if (token = 'NOCLIPPING') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_NOCLIP;
+      end
+      {$IFDEF DOOM_OR_STRIFE}
+      else if (token = 'PASSUSE') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_PASSUSE;
+      end
+      {$ENDIF}
+      {$IFDEF STRIFE}
+      else if (token = 'TRANSLUCENT') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_TRANSPARENT1;
+      end
+      else if (token = 'TRANSLUCENT2') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_TRANSPARENT2;
+      end
+      else if (token = 'JUMPOVER') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_JUMPOVER;
+      end
+      else if (token = 'BLOCKFLOATERS') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_BLOCKFLOATERS;
+      end
+      {$ENDIF}
+      {$IFDEF HEXEN}
+      else if (token = 'REPEATSPECIAL') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or ML_REPEAT_SPECIAL;
+      end
+      else if (token = 'PLAYERCROSS') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_CROSS, ML_SPAC_SHIFT);
+      end
+      else if (token = 'PLAYERUSE') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_USE, ML_SPAC_SHIFT);
+      end
+      else if (token = 'MONSTERCROSS') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_MCROSS, ML_SPAC_SHIFT);
+      end
+      else if (token = 'IMPACT') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_IMPACT, ML_SPAC_SHIFT);
+      end
+      else if (token = 'PLAYERPUSH') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_PUSH, ML_SPAC_SHIFT);
+      end
+      else if (token = 'MISSILECROSS') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_PCROSS, ML_SPAC_SHIFT);
+      end
+      else if (token = 'ARG0') then
+      begin
+        sc.MustGetInteger;
+        pmaplinedef.arg1 := sc._Integer;
+      end
+      else if (token = 'ARG1') then
+      begin
+        sc.MustGetInteger;
+        pmaplinedef.arg2 := sc._Integer;
+      end
+      else if (token = 'ARG2') then
+      begin
+        sc.MustGetInteger;
+        pmaplinedef.arg3 := sc._Integer;
+      end
+      else if (token = 'ARG3') then
+      begin
+        sc.MustGetInteger;
+        pmaplinedef.arg4 := sc._Integer;
+      end
+      else if (token = 'ARG4') then
+      begin
+        sc.MustGetInteger;
+        pmaplinedef.arg5 := sc._Integer;
+      end
+      {$ENDIF}
+      else if (token = 'SIDEFRONT') then
+      begin
+        sc.MustGetInteger;
+        if sc._Integer > 32768 then
+          pmaplinedef.sidenum[0] := -1
+        else
+          pmaplinedef.sidenum[0] := sc._Integer;
+      end
+      else if (token = 'SIDEBACK') then
+      begin
+        sc.MustGetInteger;
+        if sc._Integer > 32768 then
+          pmaplinedef.sidenum[1] := -1
+        else
+          pmaplinedef.sidenum[1] := sc._Integer;
+      end
+      else if (token = 'COMMENT') then
+      begin
+        GetToken; // skip comment
+      end;
+    end;
+  end;
+
+  procedure _LoadSidedef;
+  begin
+    realloc(Pointer(fmapsidedefs), fnummapsidedefs * SizeOf(mapsidedef_t), (fnummapsidedefs + 1) * SizeOf(mapsidedef_t));
+    pmapsidedef := @fmapsidedefs[fnummapsidedefs];
+    ZeroMemory(pmapsidedef, SizeOf(mapsidedef_t));
+    pmapsidedef.toptexture[0] := '-';
+    pmapsidedef.bottomtexture[0] := '-';
+    pmapsidedef.midtexture[0] := '-';
+    inc(fnummapsidedefs);
+    GetToken; // _BEGINBLOCK
+    if token <> '_BEGINBLOCK' then
+      I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in sidedef definition'#13#10, [token]);
+    while token <> '_ENDBLOCK' do
+    begin
+      GetToken;
+      if (token = 'OFFSETX') then
+      begin
+        sc.MustGetFloat;
+        pmapsidedef.textureoffset := Round(sc._Float);
+      end
+      else if (token = 'OFFSETY') then
+      begin
+        sc.MustGetFloat;
+        pmapsidedef.rowoffset := Round(sc._Float);
+      end
+      else if (token = 'TEXTURETOP') then
+      begin
+        GetToken;
+        pmapsidedef.toptexture := stringtochar8(token);
+      end
+      else if (token = 'TEXTUREBOTTOM') then
+      begin
+        GetToken;
+        pmapsidedef.bottomtexture := stringtochar8(token);
+      end
+      else if (token = 'TEXTUREMIDDLE') then
+      begin
+        GetToken;
+        pmapsidedef.midtexture := stringtochar8(token);
+      end
+      else if (token = 'SECTOR') then
+      begin
+        sc.MustGetInteger;
+        pmapsidedef.sector := sc._Integer;
+      end
+      else if (token = 'COMMENT') then
+      begin
+        GetToken; // skip comment
+      end;
+    end;
+  end;
+
+  procedure _LoadVertex;
+  begin
+    realloc(Pointer(fmapvertexes), fnummapvertexes * SizeOf(mapvertex_t), (fnummapvertexes + 1) * SizeOf(mapvertex_t));
+    pmapvertex := @fmapvertexes[fnummapvertexes];
+    ZeroMemory(pmapvertex, SizeOf(mapvertex_t));
+    realloc(Pointer(fextravertexes), fnummapvertexes * SizeOf(extravertex_t), (fnummapvertexes + 1) * SizeOf(extravertex_t));
+    pextravertex := @fextravertexes[fnummapvertexes];
+    ZeroMemory(pextravertex, SizeOf(extravertex_t));
+    inc(fnummapvertexes);
+    GetToken; // _BEGINBLOCK
+    if token <> '_BEGINBLOCK' then
+      I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in vertex definition'#13#10, [token]);
+    while token <> '_ENDBLOCK' do
+    begin
+      GetToken;
+      if (token = 'X') then
+      begin
+        sc.MustGetFloat;
+        pmapvertex.x := Round(sc._Float);
+        pextravertex.x := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'Y') then
+      begin
+        sc.MustGetFloat;
+        pmapvertex.y := Round(sc._Float);
+        pextravertex.y := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'ZFLOOR') then
+      begin
+        sc.MustGetFloat;
+        pextravertex.zfloor := Round(sc._Float * FRACUNIT);
+        pextravertex.extraflags := pextravertex.extraflags or UDMF_VF_ZFLOOR;
+      end
+      else if (token = 'ZCEILING') then
+      begin
+        sc.MustGetFloat;
+        pextravertex.zceiling := Round(sc._Float * FRACUNIT);
+        pextravertex.extraflags := pextravertex.extraflags or UDMF_VF_ZCEILING;
+      end
+      else if (token = 'COMMENT') then
+      begin
+        GetToken; // skip comment
+      end;
+    end;
+  end;
+
+  procedure _LoadSector;
+  begin
+    realloc(Pointer(fmapsectors), fnummapsectors * SizeOf(mapsector_t), (fnummapsectors + 1) * SizeOf(mapsector_t));
+    pmapsector := @fmapsectors[fnummapsectors];
+    ZeroMemory(pmapsector, SizeOf(mapsector_t));
+    pmapsector.lightlevel := 160;
+    realloc(Pointer(fextrasectors), fnummapsectors * SizeOf(extrasector_t), (fnummapsectors + 1) * SizeOf(extrasector_t));
+    pextrasector := @fextrasectors[fnummapsectors];
+    ZeroMemory(pextrasector, SizeOf(extrasector_t));
+    pextrasector.gravity := FRACUNIT;
+    inc(fnummapsectors);
+    GetToken; // _BEGINBLOCK
+    if token <> '_BEGINBLOCK' then
+      I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in sector definition'#13#10, [token]);
+    while token <> '_ENDBLOCK' do
+    begin
+      GetToken;
+      if (token = 'HEIGHTFLOOR') then
+      begin
+        sc.MustGetFloat;
+        pmapsector.floorheight := Round(sc._Float);
+      end
+      else if (token = 'HEIGHTCEILING') then
+      begin
+        sc.MustGetFloat;
+        pmapsector.ceilingheight := Round(sc._Float);
+      end
+      else if (token = 'TEXTUREFLOOR') then
+      begin
+        GetToken;
+        pmapsector.floorpic := stringtochar8(token);
+      end
+      else if (token = 'TEXTURECEILING') then
+      begin
+        GetToken;
+        pmapsector.ceilingpic := stringtochar8(token);
+      end
+      else if (token = 'LIGHTLEVEL') then
+      begin
+        sc.MustGetInteger;
+        pmapsector.lightlevel := sc._Integer;
+      end
+      else if (token = 'SPECIAL') then
+      begin
+        sc.MustGetInteger;
+        pmapsector.special := sc._Integer;
+      end
+      else if (token = 'ID') then
+      begin
+        sc.MustGetInteger;
+        pmapsector.tag := sc._Integer;
+      end
+      {$IFDEF DOOM_OR_STRIFE}
+      else if (token = 'XPANNINGFLOOR') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.xpanningfloor := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'YPANNINGFLOOR') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.ypanningfloor := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'XPANNINGCEILING') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.xpanningceiling := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'YPANNINGCEILING') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.ypanningceiling := Round(sc._Float * FRACUNIT);
+      end
+      {$ENDIF}
+      else if (token = 'ROTATIONFLOOR') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.rotationfloor := Round(sc._Float * ANG1);
+      end
+      else if (token = 'ROTATIONFLOORX') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.rotationfloorx := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'ROTATIONFLOORY') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.rotationfloory := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'ROTATIONCEILING') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.rotationceiling := Round(sc._Float * ANG1);
+      end
+      else if (token = 'ROTATIONCEILINGX') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.rotationceilingx := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'ROTATIONCEILINGY') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.rotationceilingy := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'GRAVITY') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.gravity := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'CEILINGPLANE_A') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.ceilingplane_a := sc._Float;
+        pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_CEILINGPLANE_A;
+      end
+      else if (token = 'CEILINGPLANE_B') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.ceilingplane_b := sc._Float;
+        pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_CEILINGPLANE_B;
+      end
+      else if (token = 'CEILINGPLANE_C') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.ceilingplane_c := sc._Float;
+        pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_CEILINGPLANE_C;
+      end
+      else if (token = 'CEILINGPLANE_D') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.ceilingplane_d := sc._Float;
+        pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_CEILINGPLANE_D;
+      end
+      else if (token = 'FLOORPLANE_A') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.floorplane_a := sc._Float;
+        pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FLOORPLANE_A;
+      end
+      else if (token = 'FLOORPLANE_B') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.floorplane_b := sc._Float;
+        pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FLOORPLANE_B;
+      end
+      else if (token = 'FLOORPLANE_C') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.floorplane_c := sc._Float;
+        pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FLOORPLANE_C;
+      end
+      else if (token = 'FLOORPLANE_D') then
+      begin
+        sc.MustGetFloat;
+        pextrasector.floorplane_d := sc._Float;
+        pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FLOORPLANE_D;
+      end
+      else if (token = 'RIPPLECEILING') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_RIPPLECEILING;
+      end
+      else if (token = 'RIPPLEFLOOR') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_RIPPLEFLOOR;
+      end
+      else if (token = 'FOG') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FOG;
+      end
+      else if (token = 'COMMENT') then
+      begin
+        GetToken; // skip comment
+      end;
+    end;
+  end;
+
 begin
   Clear;
   sc := TScriptEngine.Create(_udmfPreproccessor(atext));
@@ -303,756 +1059,15 @@ begin
       end;
     end;
     if token = 'THING' then
-    begin
-      realloc(Pointer(fthings), fnumthings * SizeOf(mapthing_t), (fnumthings + 1) * SizeOf(mapthing_t));
-      pthing := @fthings[fnumthings];
-      ZeroMemory(pthing, SizeOf(mapthing_t));
-      realloc(Pointer(fextrathings), fnumthings * SizeOf(extrathing_t), (fnumthings + 1) * SizeOf(extrathing_t));
-      pextrathing := @fextrathings[fnumthings];
-      ZeroMemory(pextrathing, SizeOf(extrathing_t));
-      {$IFNDEF HEXEN}pthing.options := 16{$ENDIF};
-      inc(fnumthings);
-      GetToken; // _BEGINBLOCK
-      if token <> '_BEGINBLOCK' then
-        I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in thing definition'#13#10, [token]);
-      while token <> '_ENDBLOCK' do
-      begin
-        GetToken;
-        if token = 'X' then
-        begin
-          sc.MustGetFloat;
-          pthing.x := Round(sc._Float);
-          pextrathing.x := Round(sc._Float * FRACUNIT);
-        end
-        else if token = 'Y' then
-        begin
-          sc.MustGetFloat;
-          pthing.y := Round(sc._Float);
-          pextrathing.y := Round(sc._Float * FRACUNIT);
-        end
-        else if token = 'Z' then
-        begin
-          sc.MustGetFloat;
-          pextrathing.z := Round(sc._Float * FRACUNIT);
-          pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_HASZ;
-        end
-        else if token = 'ID' then
-        begin
-          sc.MustGetInteger;
-          pextrathing.id := sc._Integer;
-        end
-        else if token = 'ANGLE' then
-        begin
-          sc.MustGetFloat;
-          pthing.angle := Round(sc._Float);
-        end
-        else if token = 'TYPE' then
-        begin
-          sc.MustGetInteger;
-          pthing._type := sc._Integer;
-        end
-        else if (token = 'SKILL1') or (token = 'SKILL2') then
-        begin
-          sk := token;
-          GetToken;
-          if token = 'TRUE' then
-          begin
-            pthing.options := pthing.options or 1;
-            if sk = 'SKILL1' then
-              pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL1
-            else
-              pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL2;
-          end;
-        end
-        else if (token = 'SKILL3') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-          begin
-            pthing.options := pthing.options or 2;
-            pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL3;
-          end;
-        end
-        else if (token = 'SKILL4') or (token = 'SKILL5') then
-        begin
-          sk := token;
-          GetToken;
-          if token = 'TRUE' then
-          begin
-            pthing.options := pthing.options or 4;
-            if sk = 'SKILL4' then
-              pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL4
-            else
-              pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SKILL5;
-          end;
-        end
-        else if (token = 'AMBUSH') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options or 8;
-        end
-        else if (token = 'ONMIDDLEFLOOR') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options or MTF_ONMIDSECTOR;
-        end
-        else if (token = 'NOTRIGGERSCRIPTS') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options or MTF_DONOTTRIGGERSCRIPTS;
-        end
-        else if (token = 'FRIEND') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options or MTF_FRIEND;
-        end
-        {$IFDEF HEXEN}
-        else if (token = 'SINGLE') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options or MTF_GSINGLE;
-        end
-        else if (token = 'COOP') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options or MTF_GCOOP;
-        end
-        else if (token = 'DM') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options or MTF_GDEATHMATCH;
-        end
-        else if (token = 'DORMANT') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options or MTF_DORMANT;
-        end
-        else if (token = 'CLASS1') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options or MTF_FIGHTER;
-        end
-        else if (token = 'CLASS2') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options or MTF_CLERIC;
-        end
-        else if (token = 'CLASS3') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options or MTF_MAGE;
-        end
-        else if (token = 'SPECIAL') then
-        begin
-          sc.MustGetInteger;
-          pthing.special := sc._Integer;
-        end
-        else if (token = 'ARG0') then
-        begin
-          sc.MustGetInteger;
-          pthing.arg1 := sc._Integer;
-        end
-        else if (token = 'ARG1') then
-        begin
-          sc.MustGetInteger;
-          pthing.arg2 := sc._Integer;
-        end
-        else if (token = 'ARG2') then
-        begin
-          sc.MustGetInteger;
-          pthing.arg3 := sc._Integer;
-        end
-        else if (token = 'ARG3') then
-        begin
-          sc.MustGetInteger;
-          pthing.arg4 := sc._Integer;
-        end
-        else if (token = 'ARG4') then
-        begin
-          sc.MustGetInteger;
-          pthing.arg5 := sc._Integer;
-        end
-        {$ELSE}
-        else if (token = 'SINGLE') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options and not 16;
-        end
-        else if (token = 'COOP') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options or 32;
-        end
-        else if (token = 'DM') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options or 64;
-        end
-        {$ENDIF}
-        {$IFDEF STRIFE}
-        else if (token = 'STRIFEALLY') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pthing.options := pthing.options or MTF_ALLY;
-        end
-        {$ENDIF}
-        else if (token = 'GRAVITY') then
-        begin
-          sc.MustGetFloat;
-          pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_HASGRAVITY;
-          pextrathing.gravity := sc._Float;
-        end
-        else if (token = 'HEALTH') then
-        begin
-          sc.MustGetFloat;
-          pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_HASHEALTH;
-          pextrathing.health := sc._Float;
-        end
-        else if (token = 'COMMENT') then
-        begin
-          GetToken; // skip comment
-        end;
-      end;
-    end
+      _LoadThing
     else if token = 'LINEDEF' then
-    begin
-      realloc(Pointer(fmaplinedefs), fnummaplinedefs * SizeOf(maplinedef_t), (fnummaplinedefs + 1) * SizeOf(maplinedef_t));
-      pmaplinedef := @fmaplinedefs[fnummaplinedefs];
-      ZeroMemory(pmaplinedef, SizeOf(maplinedef_t));
-      {$IFNDEF HEXEN}
-      pmaplinedef.tag := -1;
-      {$ENDIF}
-      pmaplinedef.sidenum[0] := -1;
-      pmaplinedef.sidenum[1] := -1;
-      inc(fnummaplinedefs);
-      GetToken; // _BEGINBLOCK
-      if token <> '_BEGINBLOCK' then
-        I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in linedef definition'#13#10, [token]);
-      while token <> '_ENDBLOCK' do
-      begin
-        GetToken;
-        if (token = 'ID') then
-        begin
-          sc.MustGetInteger;
-          {$IFDEF HEXEN}
-          pmaplinedef.special := 121;
-          pmaplinedef.arg1 := sc._Integer;
-          {$ELSE}
-          pmaplinedef.tag := sc._Integer;
-          {$ENDIF}
-        end
-        else if (token = 'V1') then
-        begin
-          sc.MustGetInteger;
-          pmaplinedef.v1 := sc._Integer;
-        end
-        else if (token = 'V2') then
-        begin
-          sc.MustGetInteger;
-          pmaplinedef.v2 := sc._Integer;
-        end
-        else if (token = 'SPECIAL') then
-        begin
-          sc.MustGetInteger;
-          pmaplinedef.special := sc._Integer;
-        end
-        else if (token = 'BLOCKING') or (token = 'BLOCKEVERYTHING')  then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_BLOCKING;
-        end
-        else if (token = 'BLOCKMONSTERS') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_BLOCKMONSTERS;
-        end
-        else if (token = 'TWOSIDED') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_TWOSIDED;
-        end
-        else if (token = 'DONTPEGTOP') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_DONTPEGTOP;
-        end
-        else if (token = 'DONTPEGBOTTOM') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_DONTPEGBOTTOM;
-        end
-        else if (token = 'SECRET') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_SECRET;
-        end
-        else if (token = 'BLOCKSOUND') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_SOUNDBLOCK;
-        end
-        else if (token = 'DONTDRAW') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_DONTDRAW;
-        end
-        else if (token = 'MAPPED') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_SECRET;
-        end
-        else if (token = 'TRIGGERSCRIPTS') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_TRIGGERSCRIPTS;
-        end
-        {$IFDEF DOOM_OR_HERETIC}
-        else if (token = 'BLOCKLANDMONSTERS') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_BLOCKLANDMONSTERS;
-        end
-        else if (token = 'BLOCKPLAYERS') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_BLOCKPLAYERS;
-        end
-        {$ENDIF}
-        else if (token = 'NOCLIPPING') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_NOCLIP;
-        end
-        {$IFDEF DOOM_OR_STRIFE}
-        else if (token = 'PASSUSE') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_PASSUSE;
-        end
-        {$ENDIF}
-        {$IFDEF STRIFE}
-        else if (token = 'TRANSLUCENT') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_TRANSPARENT1;
-        end
-        else if (token = 'TRANSLUCENT2') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_TRANSPARENT2;
-        end
-        else if (token = 'JUMPOVER') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_JUMPOVER;
-        end
-        else if (token = 'BLOCKFLOATERS') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_BLOCKFLOATERS;
-        end
-        {$ENDIF}
-        {$IFDEF HEXEN}
-        else if (token = 'REPEATSPECIAL') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_REPEAT_SPECIAL;
-        end
-        else if (token = 'PLAYERCROSS') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_CROSS, ML_SPAC_SHIFT);
-        end
-        else if (token = 'PLAYERUSE') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_USE, ML_SPAC_SHIFT);
-        end
-        else if (token = 'MONSTERCROSS') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_MCROSS, ML_SPAC_SHIFT);
-        end
-        else if (token = 'IMPACT') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_IMPACT, ML_SPAC_SHIFT);
-        end
-        else if (token = 'PLAYERPUSH') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_PUSH, ML_SPAC_SHIFT);
-        end
-        else if (token = 'MISSILECROSS') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_PCROSS, ML_SPAC_SHIFT);
-        end
-        else if (token = 'ARG0') then
-        begin
-          sc.MustGetInteger;
-          pmaplinedef.arg1 := sc._Integer;
-        end
-        else if (token = 'ARG1') then
-        begin
-          sc.MustGetInteger;
-          pmaplinedef.arg2 := sc._Integer;
-        end
-        else if (token = 'ARG2') then
-        begin
-          sc.MustGetInteger;
-          pmaplinedef.arg3 := sc._Integer;
-        end
-        else if (token = 'ARG3') then
-        begin
-          sc.MustGetInteger;
-          pmaplinedef.arg4 := sc._Integer;
-        end
-        else if (token = 'ARG4') then
-        begin
-          sc.MustGetInteger;
-          pmaplinedef.arg5 := sc._Integer;
-        end
-        {$ENDIF}
-        else if (token = 'SIDEFRONT') then
-        begin
-          sc.MustGetInteger;
-          if sc._Integer > 32768 then
-            pmaplinedef.sidenum[0] := -1
-          else
-            pmaplinedef.sidenum[0] := sc._Integer;
-        end
-        else if (token = 'SIDEBACK') then
-        begin
-          sc.MustGetInteger;
-          if sc._Integer > 32768 then
-            pmaplinedef.sidenum[1] := -1
-          else
-            pmaplinedef.sidenum[1] := sc._Integer;
-        end
-        else if (token = 'COMMENT') then
-        begin
-          GetToken; // skip comment
-        end;
-      end;
-    end
+      _LoadLinedef
     else if token = 'SIDEDEF' then
-    begin
-      realloc(Pointer(fmapsidedefs), fnummapsidedefs * SizeOf(mapsidedef_t), (fnummapsidedefs + 1) * SizeOf(mapsidedef_t));
-      pmapsidedef := @fmapsidedefs[fnummapsidedefs];
-      ZeroMemory(pmapsidedef, SizeOf(mapsidedef_t));
-      pmapsidedef.toptexture[0] := '-';
-      pmapsidedef.bottomtexture[0] := '-';
-      pmapsidedef.midtexture[0] := '-';
-      inc(fnummapsidedefs);
-      GetToken; // _BEGINBLOCK
-      if token <> '_BEGINBLOCK' then
-        I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in sidedef definition'#13#10, [token]);
-      while token <> '_ENDBLOCK' do
-      begin
-        GetToken;
-        if (token = 'OFFSETX') then
-        begin
-          sc.MustGetFloat;
-          pmapsidedef.textureoffset := Round(sc._Float);
-        end
-        else if (token = 'OFFSETY') then
-        begin
-          sc.MustGetFloat;
-          pmapsidedef.rowoffset := Round(sc._Float);
-        end
-        else if (token = 'TEXTURETOP') then
-        begin
-          GetToken;
-          pmapsidedef.toptexture := stringtochar8(token);
-        end
-        else if (token = 'TEXTUREBOTTOM') then
-        begin
-          GetToken;
-          pmapsidedef.bottomtexture := stringtochar8(token);
-        end
-        else if (token = 'TEXTUREMIDDLE') then
-        begin
-          GetToken;
-          pmapsidedef.midtexture := stringtochar8(token);
-        end
-        else if (token = 'SECTOR') then
-        begin
-          sc.MustGetInteger;
-          pmapsidedef.sector := sc._Integer;
-        end
-        else if (token = 'COMMENT') then
-        begin
-          GetToken; // skip comment
-        end;
-      end;
-    end
+      _LoadSidedef
     else if token = 'VERTEX' then
-    begin
-      realloc(Pointer(fmapvertexes), fnummapvertexes * SizeOf(mapvertex_t), (fnummapvertexes + 1) * SizeOf(mapvertex_t));
-      pmapvertex := @fmapvertexes[fnummapvertexes];
-      ZeroMemory(pmapvertex, SizeOf(mapvertex_t));
-      realloc(Pointer(fextravertexes), fnummapvertexes * SizeOf(extravertex_t), (fnummapvertexes + 1) * SizeOf(extravertex_t));
-      pextravertex := @fextravertexes[fnummapvertexes];
-      ZeroMemory(pextravertex, SizeOf(extravertex_t));
-      inc(fnummapvertexes);
-      GetToken; // _BEGINBLOCK
-      if token <> '_BEGINBLOCK' then
-        I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in vertex definition'#13#10, [token]);
-      while token <> '_ENDBLOCK' do
-      begin
-        GetToken;
-        if (token = 'X') then
-        begin
-          sc.MustGetFloat;
-          pmapvertex.x := Round(sc._Float);
-          pextravertex.x := Round(sc._Float * FRACUNIT);
-        end
-        else if (token = 'Y') then
-        begin
-          sc.MustGetFloat;
-          pmapvertex.y := Round(sc._Float);
-          pextravertex.y := Round(sc._Float * FRACUNIT);
-        end
-        else if (token = 'ZFLOOR') then
-        begin
-          sc.MustGetFloat;
-          pextravertex.zfloor := Round(sc._Float * FRACUNIT);
-          pextravertex.extraflags := pextravertex.extraflags or UDMF_VF_ZFLOOR;
-        end
-        else if (token = 'ZCEILING') then
-        begin
-          sc.MustGetFloat;
-          pextravertex.zceiling := Round(sc._Float * FRACUNIT);
-          pextravertex.extraflags := pextravertex.extraflags or UDMF_VF_ZCEILING;
-        end
-        else if (token = 'COMMENT') then
-        begin
-          GetToken; // skip comment
-        end;
-      end;
-    end
+      _LoadVertex
     else if token = 'SECTOR' then
-    begin
-      realloc(Pointer(fmapsectors), fnummapsectors * SizeOf(mapsector_t), (fnummapsectors + 1) * SizeOf(mapsector_t));
-      pmapsector := @fmapsectors[fnummapsectors];
-      ZeroMemory(pmapsector, SizeOf(mapsector_t));
-      pmapsector.lightlevel := 160;
-      realloc(Pointer(fextrasectors), fnummapsectors * SizeOf(extrasector_t), (fnummapsectors + 1) * SizeOf(extrasector_t));
-      pextrasector := @fextrasectors[fnummapsectors];
-      ZeroMemory(pextrasector, SizeOf(extrasector_t));
-      pextrasector.gravity := FRACUNIT;
-      inc(fnummapsectors);
-      GetToken; // _BEGINBLOCK
-      if token <> '_BEGINBLOCK' then
-        I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in sector definition'#13#10, [token]);
-      while token <> '_ENDBLOCK' do
-      begin
-        GetToken;
-        if (token = 'HEIGHTFLOOR') then
-        begin
-          sc.MustGetFloat;
-          pmapsector.floorheight := Round(sc._Float);
-        end
-        else if (token = 'HEIGHTCEILING') then
-        begin
-          sc.MustGetFloat;
-          pmapsector.ceilingheight := Round(sc._Float);
-        end
-        else if (token = 'TEXTUREFLOOR') then
-        begin
-          GetToken;
-          pmapsector.floorpic := stringtochar8(token);
-        end
-        else if (token = 'TEXTURECEILING') then
-        begin
-          GetToken;
-          pmapsector.ceilingpic := stringtochar8(token);
-        end
-        else if (token = 'LIGHTLEVEL') then
-        begin
-          sc.MustGetInteger;
-          pmapsector.lightlevel := sc._Integer;
-        end
-        else if (token = 'SPECIAL') then
-        begin
-          sc.MustGetInteger;
-          pmapsector.special := sc._Integer;
-        end
-        else if (token = 'ID') then
-        begin
-          sc.MustGetInteger;
-          pmapsector.tag := sc._Integer;
-        end
-        {$IFDEF DOOM_OR_STRIFE}
-        else if (token = 'XPANNINGFLOOR') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.xpanningfloor := Round(sc._Float * FRACUNIT);
-        end
-        else if (token = 'YPANNINGFLOOR') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.ypanningfloor := Round(sc._Float * FRACUNIT);
-        end
-        else if (token = 'XPANNINGCEILING') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.xpanningceiling := Round(sc._Float * FRACUNIT);
-        end
-        else if (token = 'YPANNINGCEILING') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.ypanningceiling := Round(sc._Float * FRACUNIT);
-        end
-        {$ENDIF}
-        else if (token = 'ROTATIONFLOOR') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.rotationfloor := Round(sc._Float * ANG1);
-        end
-        else if (token = 'ROTATIONFLOORX') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.rotationfloorx := Round(sc._Float * FRACUNIT);
-        end
-        else if (token = 'ROTATIONFLOORY') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.rotationfloory := Round(sc._Float * FRACUNIT);
-        end
-        else if (token = 'ROTATIONCEILING') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.rotationceiling := Round(sc._Float * ANG1);
-        end
-        else if (token = 'ROTATIONCEILINGX') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.rotationceilingx := Round(sc._Float * FRACUNIT);
-        end
-        else if (token = 'ROTATIONCEILINGY') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.rotationceilingy := Round(sc._Float * FRACUNIT);
-        end
-        else if (token = 'GRAVITY') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.gravity := Round(sc._Float * FRACUNIT);
-        end
-        else if (token = 'CEILINGPLANE_A') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.ceilingplane_a := sc._Float;
-          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_CEILINGPLANE_A;
-        end
-        else if (token = 'CEILINGPLANE_B') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.ceilingplane_b := sc._Float;
-          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_CEILINGPLANE_B;
-        end
-        else if (token = 'CEILINGPLANE_C') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.ceilingplane_c := sc._Float;
-          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_CEILINGPLANE_C;
-        end
-        else if (token = 'CEILINGPLANE_D') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.ceilingplane_d := sc._Float;
-          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_CEILINGPLANE_D;
-        end
-        else if (token = 'FLOORPLANE_A') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.floorplane_a := sc._Float;
-          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FLOORPLANE_A;
-        end
-        else if (token = 'FLOORPLANE_B') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.floorplane_b := sc._Float;
-          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FLOORPLANE_B;
-        end
-        else if (token = 'FLOORPLANE_C') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.floorplane_c := sc._Float;
-          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FLOORPLANE_C;
-        end
-        else if (token = 'FLOORPLANE_D') then
-        begin
-          sc.MustGetFloat;
-          pextrasector.floorplane_d := sc._Float;
-          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FLOORPLANE_D;
-        end
-        else if (token = 'RIPPLECEILING') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_RIPPLECEILING;
-        end
-        else if (token = 'RIPPLEFLOOR') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_RIPPLEFLOOR;
-        end
-        else if (token = 'FOG') then
-        begin
-          GetToken;
-          if token = 'TRUE' then
-            pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FOG;
-        end
-        else if (token = 'COMMENT') then
-        begin
-          GetToken; // skip comment
-        end;
-      end;
-    end
+      _LoadSector;
   end;
   sc.Free;
 end;
