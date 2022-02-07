@@ -63,6 +63,7 @@ uses
   i_system,
   m_fixed,
   m_rnd,
+  p_mapinfo,
   p_setup,
   p_tick,
   r_data,

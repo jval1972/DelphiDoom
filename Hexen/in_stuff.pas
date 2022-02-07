@@ -55,7 +55,7 @@ uses
   g_game,
   m_menu,
   m_fixed,
-  p_setup,
+  p_mapinfo,
   r_defs,
   v_data,
   v_video,

@@ -403,7 +403,8 @@ uses
   r_translations in 'Base\r_translations.pas',
   sc_defines in 'Base\sc_defines.pas',
   sv_hexen in 'Hexen\sv_hexen.pas',
-  p_serializer in 'Base\p_serializer.pas';
+  p_serializer in 'Base\p_serializer.pas',
+  p_mapinfo in 'Hexen\p_mapinfo.pas';
 
 exports
   dd_compile_hexen,

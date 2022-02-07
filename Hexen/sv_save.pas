@@ -90,6 +90,7 @@ uses
   p_playertrace,
   p_mobj_h,
   p_floor,
+  p_mapinfo,
   p_setup,
   p_acs,
   p_maputl,

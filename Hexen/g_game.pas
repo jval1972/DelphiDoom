@@ -284,6 +284,7 @@ uses
   m_rnd,
   g_demo,
   a_action,
+  p_mapinfo,
   p_setup,
   p_tick,
   p_local,

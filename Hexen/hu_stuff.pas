@@ -130,7 +130,7 @@ uses
   m_fixed,
   p_mobj_h,
   p_tick,
-  p_setup,
+  p_mapinfo,
   r_draw,
   r_main,
   v_data,

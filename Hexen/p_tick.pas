@@ -80,7 +80,7 @@ uses
   p_mobj,
   p_mobj_h,
   p_mobjlist,
-  p_setup,
+  p_mapinfo,
   p_anim,
   ps_main,  // JVAL: Script Events
   z_zone;

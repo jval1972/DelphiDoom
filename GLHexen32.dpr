@@ -378,7 +378,8 @@ uses
   i_xmimusic in 'Base\i_xmimusic.pas',
   sc_defines in 'Base\sc_defines.pas',
   p_serializer in 'Base\p_serializer.pas',
-  sv_hexen in 'Hexen\sv_hexen.pas';
+  sv_hexen in 'Hexen\sv_hexen.pas',
+  p_mapinfo in 'Hexen\p_mapinfo.pas';
 
 var
   Saved8087CW: Word;

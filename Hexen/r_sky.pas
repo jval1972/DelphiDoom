@@ -63,7 +63,7 @@ procedure R_InitSky(map: integer);
 implementation
 
 uses
-  p_setup;
+  p_mapinfo;
 
 //
 // R_InitSkyMap

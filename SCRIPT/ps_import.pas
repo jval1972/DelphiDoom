@@ -108,7 +108,7 @@ uses
   p_maputl,
   p_slopes,
   {$IFDEF HEXEN}
-  p_setup,
+  p_mapinfo,
   {$ENDIF}
   r_main,
   r_renderstyle,
