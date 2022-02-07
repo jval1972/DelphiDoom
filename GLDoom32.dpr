@@ -382,7 +382,8 @@ uses
   p_serializer in 'Base\p_serializer.pas',
   sv_doom in 'Doom\sv_doom.pas',
   p_umapinfo in 'Base\p_umapinfo.pas',
-  p_uactornames in 'Doom\p_uactornames.pas';
+  p_uactornames in 'Doom\p_uactornames.pas',
+  gl_setup in 'OPENGL\gl_setup.pas';
 
 var
   Saved8087CW: Word;

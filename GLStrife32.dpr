@@ -380,7 +380,8 @@ uses
   i_xmimusic in 'Base\i_xmimusic.pas',
   sc_defines in 'Base\sc_defines.pas',
   sv_strife in 'Strife\sv_strife.pas',
-  p_serializer in 'Base\p_serializer.pas';
+  p_serializer in 'Base\p_serializer.pas',
+  gl_setup in 'OPENGL\gl_setup.pas';
 
 var
   Saved8087CW: Word;
