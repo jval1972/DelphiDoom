@@ -851,7 +851,7 @@ var
   richters: integer;
   playnum: integer;
   dist: fixed_t;
-  rnd: longword;
+  rnd: LongWord;
 begin
   richters := actor.args[0];
 

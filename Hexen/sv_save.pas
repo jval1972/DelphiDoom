@@ -503,7 +503,7 @@ end;
 
 procedure MangleSSThinker(sst: Pssthinker_t);
 begin
-  sst.sector := Psector_t((longword(sst.sector) - longword(@sectors[0])) div SizeOf(sector_t));
+  sst.sector := Psector_t((LongWord(sst.sector) - LongWord(@sectors[0])) div SizeOf(sector_t));
 end;
 
 //
@@ -531,9 +531,9 @@ end;
 
 procedure MangleScript(script: Pacs_t);
 begin
-  script.ip := PInteger(longword(script.ip) - longword(ActionCodeBase));
+  script.ip := PInteger(LongWord(script.ip) - LongWord(ActionCodeBase));
   if script.line <> nil then
-    script.line :=  Pline_t((longword(script.line) - longword(@lines[0])) div SizeOf(line_t))
+    script.line :=  Pline_t((LongWord(script.line) - LongWord(@lines[0])) div SizeOf(line_t))
   else
     script.line := Pline_t(-1);
   script.activator := Pmobj_t(GetMobjNum(script.activator));
@@ -726,7 +726,7 @@ begin
     begin
       if tempPlayer.psprites[j].state <> nil then
       begin
-        tempPlayer.psprites[j].state := Pstate_t((longword(tempPlayer.psprites[j].state) - longword(@states[0])) div SizeOf(state_t));
+        tempPlayer.psprites[j].state := Pstate_t((LongWord(tempPlayer.psprites[j].state) - LongWord(@states[0])) div SizeOf(state_t));
       end;
     end;
     if tempPlayer.plinetarget <> nil then
@@ -1099,10 +1099,10 @@ var
   corpse: boolean;
 begin
   corpse := mobj.flags and MF_CORPSE <> 0;
-  mobj.state := Pstate_t((longword(mobj.state) - longword(@states[0])) div SizeOf(state_t));
+  mobj.state := Pstate_t((LongWord(mobj.state) - LongWord(@states[0])) div SizeOf(state_t));
   if mobj.player <> nil then
   begin
-    mobj.player := pointer((longword(mobj.player) - longword(@players[0])) div SizeOf(player_t) + 1);
+    mobj.player := pointer((LongWord(mobj.player) - LongWord(@players[0])) div SizeOf(player_t) + 1);
   end;
   if corpse then
   begin
@@ -1769,7 +1769,7 @@ begin
     if i = po_NumPolyobjs then
     begin // Sound is attached to a sector, not a polyobj
       sec := R_PointInSubsector(node.mobj.x, node.mobj.y).sector;
-      difference := (longword(sec) - longword(@sectors[0])) div SizeOf(sector_t);
+      difference := (LongWord(sec) - LongWord(@sectors[0])) div SizeOf(sector_t);
       StreamOutLong(0); // 0 -- sector sound origin
     end
     else

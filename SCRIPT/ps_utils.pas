@@ -332,9 +332,9 @@ type
 
   TPSUnit = class(TObject)
   private
-    fList     : TPSUnitList;
-    fUnits    : TPSList;
-    fUnitName : TbtString;
+    fList: TPSUnitList;
+    fUnits: TPSList;
+    fUnitName: TbtString;
     procedure SetUnitName(const Value: TbtString);
   public
     constructor Create(List: TPSUnitList);

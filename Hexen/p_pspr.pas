@@ -630,8 +630,8 @@ var
   angle: angle_t;
 begin
   // Change player from attack state
-  if (longword(player.mo.state) >= longword(@states[Ord(PStateAttack[Ord(player._class)])])) and
-     (longword(player.mo.state) <= longword(@states[Ord(PStateAttackEnd[Ord(player._class)])])) then
+  if (LongWord(player.mo.state) >= LongWord(@states[Ord(PStateAttack[Ord(player._class)])])) and
+     (LongWord(player.mo.state) <= LongWord(@states[Ord(PStateAttackEnd[Ord(player._class)])])) then
   begin
     P_SetMobjState(player.mo, PStateNormal[Ord(player._class)]);
   end;
@@ -1061,7 +1061,7 @@ begin
   mo := Pmobj_t(actor.special2);
   if mo <> nil then
   begin
-    if (longword(mo.state) >= longword(@states[mo.info.deathstate])) or
+    if (LongWord(mo.state) >= LongWord(@states[mo.info.deathstate])) or
        (mo.state = @states[Ord(S_FREETARGMOBJ)]) then
     begin
       P_ExplodeMissile(actor);
@@ -2041,7 +2041,7 @@ begin
 
   if parent <> nil then
   begin
-    if longword(parent.state) >= longword(@states[parent.info.deathstate]) then
+    if LongWord(parent.state) >= LongWord(@states[parent.info.deathstate]) then
     begin // Ghost removed, so remove all tail parts
       P_CHolyTailRemove(actor);
       exit;

@@ -399,7 +399,7 @@ var
   angle: angle_t;
   speed: fixed_t;
   skip: boolean;
-  rnd: longword;
+  rnd: LongWord;
   wasonfloorz: boolean;
   wasonslope: boolean;
   oldsector: Psector_t;

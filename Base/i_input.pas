@@ -146,7 +146,7 @@ var
   jwYpos: UINT;
 
 type
-  setcursorposfunc_t = function(x, y:Integer): BOOL; stdcall;
+  setcursorposfunc_t = function(x, y: Integer): BOOL; stdcall;
   getcursorposfunc_t = function(var lpPoint: TPoint): BOOL; stdcall;
 
 var

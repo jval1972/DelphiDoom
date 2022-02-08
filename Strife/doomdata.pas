@@ -91,7 +91,7 @@ type
     bottomtexture: char8_t;
     midtexture: char8_t;
   // Front sector, towards viewer.
-    sector : smallint;
+    sector: smallint;
   end;
   Pmapsidedef_t = ^mapsidedef_t;
   mapsidedef_tArray = array[0..$FFFF] of mapsidedef_t;

@@ -103,9 +103,9 @@ type
     angleoffset: smallint;
 
     // 1 = drone
-    drone : smallint;
+    drone: smallint;
     // The packet data to be sent.
-    data : doomdata_t;
+    data: doomdata_t;
   end;
   Pdoomcom_t = ^doomcom_t;
 

@@ -107,14 +107,14 @@ function EncodeColor8(rgb: LongWord): LongWord;
 function EncodeColor15(rgb: LongWord): LongWord;
 function EncodeColor24(rgb: LongWord): LongWord;
 
-function DecodeColor8(color:integer):integer;
+function DecodeColor8(color: integer): integer;
 
-function BrightenColor8(color:integer; light: integer): integer;
-function BrightenColor24(color:integer; light: integer): integer;
+function BrightenColor8(color: integer; light: integer): integer;
+function BrightenColor24(color: integer; light: integer): integer;
 
 procedure setDefaultPalette(ofs: integer); overload;
 procedure SetRGBPalette(index: word; color: integer); overload;
-procedure SetRGBPalette(index, RedValue, GreenValue, BlueValue:word); overload;
+procedure SetRGBPalette(index, RedValue, GreenValue, BlueValue: word); overload;
 procedure SetRGBPalette(value: pointer); overload;
 
 implementation
@@ -151,7 +151,7 @@ asm
   mov  al, [edx]
 end;
 
-function RGB(RedValue, GreenValue, BlueValue : word):integer; assembler;
+function RGB(RedValue, GreenValue, BlueValue: word): integer; assembler;
 asm
   mov  ax, RedValue    // ------------------------RRRRRRRR
   shl  eax, $16        // --------RRRRRRRR----------------
@@ -267,7 +267,7 @@ begin
    SetRGBPalette(i, PIntegerArray(value)[i]);
 end;
 
-function DecodeColor8(color: integer):integer;assembler;
+function DecodeColor8(color: integer): integer; assembler;
 asm
   mov  edx, color
   shl  edx, $2

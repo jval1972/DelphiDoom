@@ -158,7 +158,7 @@ type
     procedure ConvertTo32bit;
     procedure ConvertToGrayScale;
     function GetBytesPerPixel: word;
-    procedure SetPalette(APalette: Pointer; Count:Word; PaletType: TPaletType; RecordSize: word);
+    procedure SetPalette(APalette: Pointer; Count: word; PaletType: TPaletType; RecordSize: word);
     procedure SetPalColor(AColor: LongWord);
     procedure PutPixels(X, Y: Integer; Count: integer; Buffer: Pointer; PixelFormat: integer);
     procedure Adjust32bitTransparency;

@@ -188,7 +188,7 @@ type
 
     morphTics: integer; // player is a pig if > 0
     jumpTicks: integer; // delay the next jump for a moment
-    worldtimer: longword; // total time the player's been playing
+    worldtimer: LongWord; // total time the player's been playing
     ultimateMessage: boolean;
     yellowMessage: boolean;
     jumpTics: integer;
@@ -318,7 +318,7 @@ type
 
     morphTics: integer; // player is a pig if > 0
     jumpTicks: integer; // delay the next jump for a moment
-    worldtimer: longword; // total time the player's been playing
+    worldtimer: LongWord; // total time the player's been playing
     ultimateMessage: boolean;
     yellowMessage: boolean;
     jumpTics: integer;
@@ -438,7 +438,7 @@ type
 
     morphTics: integer; // player is a pig if > 0
     jumpTicks: integer; // delay the next jump for a moment
-    worldtimer: longword; // total time the player's been playing
+    worldtimer: LongWord; // total time the player's been playing
     ultimateMessage: boolean;
     yellowMessage: boolean;
     jumpTics: integer;
@@ -556,7 +556,7 @@ type
 
     morphTics: integer; // player is a pig if > 0
     jumpTicks: integer; // delay the next jump for a moment
-    worldtimer: longword; // total time the player's been playing
+    worldtimer: LongWord; // total time the player's been playing
     ultimateMessage: boolean;
     yellowMessage: boolean;
     jumpTics: integer;
@@ -674,7 +674,7 @@ type
 
     morphTics: integer; // player is a pig if > 0
     jumpTicks: integer; // delay the next jump for a moment
-    worldtimer: longword; // total time the player's been playing
+    worldtimer: LongWord; // total time the player's been playing
     ultimateMessage: boolean;
     yellowMessage: boolean;
     jumpTics: integer;

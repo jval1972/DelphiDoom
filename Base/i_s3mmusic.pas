@@ -69,7 +69,7 @@ const
   SAMPLING_FREQ = 48000; { 48khz. }
   NUM_CHANNELS = 2;     { Stereo. }
   BUFFER_SAMPLES = 16384; { 64k per buffer. }
-  NUM_BUFFERS    : LongInt = 8;     { 8 buffers. }
+  NUM_BUFFERS: LongInt = 8;     { 8 buffers. }
   EXIT_FAILURE: integer = 1;
 
 procedure CheckMMError(ReturnCode: MMRESULT);

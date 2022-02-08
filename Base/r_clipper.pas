@@ -554,10 +554,10 @@ implementation
 const
   Horizontal: Double = -3.4e+38;
 
-  Unassigned : Integer = -1;
-  Skip       : Integer = -2; //flag for the edge that closes an open path
-  Tolerance  : double = 1.0E-15;
-  Two_Pi     : double = 2 * PI;
+  Unassigned: Integer = -1;
+  Skip: Integer = -2; //flag for the edge that closes an open path
+  Tolerance: double = 1.0E-15;
+  Two_Pi: double = 2 * PI;
 
 resourcestring
   rsDoMaxima = 'DoMaxima error';
@@ -3370,12 +3370,12 @@ begin
 
   case E1FillType of
     pftPositive: E1Wc := E1.WindCnt;
-    pftNegative : E1Wc := -E1.WindCnt;
+    pftNegative: E1Wc := -E1.WindCnt;
     else E1Wc := abs(E1.WindCnt);
   end;
   case E2FillType of
     pftPositive: E2Wc := E2.WindCnt;
-    pftNegative : E2Wc := -E2.WindCnt;
+    pftNegative: E2Wc := -E2.WindCnt;
     else E2Wc := abs(E2.WindCnt);
   end;
 
@@ -4581,7 +4581,7 @@ begin
   CopyAELToSEL;
   {$IFDEF USEGENERICS}
   FIntersectList.Sort(TComparer<PIntersectNode>.Construct(
-    function (const Node1, Node2 : PIntersectNode) : integer
+    function (const Node1, Node2: PIntersectNode): integer
     var
       i: cInt;
     begin

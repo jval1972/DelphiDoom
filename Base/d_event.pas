@@ -46,10 +46,10 @@ type
 // mouse/joystick y move
 
   event_t = record
-    _type : evtype_t;
-    data1 : integer;
-    data2 : integer;
-    data3 : integer;
+    _type: evtype_t;
+    data1: integer;
+    data2: integer;
+    data3: integer;
   end;
   Pevent_t = ^event_t;
 

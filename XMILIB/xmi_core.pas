@@ -3374,7 +3374,7 @@ end;
 
 procedure TXMICore.ReadTrackData_MIDS(var F: TMemoryStream; var Trk: Chunk);
 var
-  Sz, DW: longword;
+  Sz, DW: LongWord;
   Tick: boolean;
   I: integer;
 

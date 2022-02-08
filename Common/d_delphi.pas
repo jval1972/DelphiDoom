@@ -142,7 +142,7 @@ procedure printf(const Fmt: string; const Args: array of const); overload;
 
 function itoa(i: integer): string;
 
-function uitoa(l: longword): string;
+function uitoa(l: LongWord): string;
 
 function ftoa(f: single): string;
 
@@ -867,7 +867,7 @@ begin
   sprintf(result, '%d', [i]);
 end;
 
-function uitoa(l: longword): string;
+function uitoa(l: LongWord): string;
 begin
   sprintf(result, '%d', [l]);
 end;

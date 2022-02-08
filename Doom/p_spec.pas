@@ -3878,7 +3878,7 @@ end;
 //
 // Add a push thinker to the thinker list
 
-procedure Add_Pusher(_type: pushertype_e; x_mag, y_mag: integer; source: Pmobj_t; affectee :integer);
+procedure Add_Pusher(_type: pushertype_e; x_mag, y_mag: integer; source: Pmobj_t; affectee: integer);
 var
   p: Ppusher_t;
 begin

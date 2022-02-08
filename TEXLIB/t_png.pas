@@ -375,7 +375,7 @@ type
   TPNGPointerList = class
   private
     fOwner: TPNGObject;
-    fCount : Cardinal;
+    fCount: Cardinal;
     fMemory: pPointerArray;
     function GetItem(Index: Cardinal): Pointer;
     procedure SetItem(Index: Cardinal; const Value: Pointer);
@@ -795,7 +795,7 @@ type
     {Stores temporary image width and height}
     ImageWidth, ImageHeight: Integer;
     {Size in bytes of each line and offset}
-    Row_Bytes, Offset : Cardinal;
+    Row_Bytes, Offset: Cardinal;
     {Contains data for the lines}
     Encode_Buffer: array[0..5] of PByteArray;
     Row_Buffer: array[Boolean] of PByteArray;
@@ -1181,7 +1181,7 @@ end;
 {Creates a new chunk of this class}
 function CreateClassChunk(Owner: TPngObject; Name: TChunkName): TChunk;
 var
-  i       : Integer;
+  i: Integer;
   NewChunk: TChunkClass;
 begin
   {Looks for this chunk}
@@ -1268,8 +1268,8 @@ function DecompressZLIB(const Input: Pointer; InputSize: Integer;
   var Output: Pointer; var OutputSize: Integer;
   var ErrorOutput: String): Boolean;
 var
-  StreamRec : TZStreamRec;
-  Buffer    : array[Byte] of Byte;
+  StreamRec: TZStreamRec;
+  Buffer: array[Byte] of Byte;
   InflateRet: Integer;
 begin
   with StreamRec do
@@ -1326,8 +1326,8 @@ function CompressZLIB(Input: Pointer; InputSize, CompressionLevel: Integer;
   var Output: Pointer; var OutputSize: Integer;
   var ErrorOutput: String): Boolean;
 var
-  StreamRec : TZStreamRec;
-  Buffer    : array[Byte] of Byte;
+  StreamRec: TZStreamRec;
+  Buffer: array[Byte] of Byte;
   DeflateRet: Integer;
 begin
   with StreamRec do
@@ -2192,10 +2192,10 @@ begin
         {These are supported by windows}
         1, 4, 8: SetInfo(BitDepth, true);
         {2 bits for each pixel is not supported by windows bitmap}
-        2      : SetInfo(4, true);
+        2: SetInfo(4, true);
         {Also 16 bits (2 bytes) for each pixel is not supported}
         {and should be transormed into a 8 bit grayscale}
-        16     : SetInfo(8, true);
+        16: SetInfo(8, true);
       end;
     {Only 1 byte (8 bits) is supported}
     COLOR_RGB, COLOR_RGBALPHA:  SetInfo(24, false);
@@ -2413,7 +2413,7 @@ end;
 procedure TChunkIDAT.PreparePalette;
 var
   Entries: Word;
-  j      : Integer;
+  j: Integer;
   palEntries: TMaxLogPalette;
 begin
   {In case the image uses grayscale, build a grayscale palette}
@@ -2444,9 +2444,9 @@ function TChunkIDAT.IDATZlibRead(var ZLIBStream: TZStreamRec2;
   Buffer: Pointer; Count: Integer; var EndPos: Integer;
   var crcfile: Cardinal): Integer;
 var
-  Procresult : Integer;
-  IDATHeader : array[0..3] of char;
-  IDATCRC    : Cardinal;
+  Procresult: Integer;
+  IDATHeader: array[0..3] of char;
+  IDATCRC: Cardinal;
 begin
   {Uses internal record pointed by ZLIBStream to gather information}
   with ZLIBStream, ZLIBStream.zlib do
@@ -2840,12 +2840,15 @@ begin
     {Palette}
     COLOR_PALETTE, COLOR_GRAYSCALE:
       case Header.BitDepth of
-        1, 4, 8: CopyProc := CopyInterlacedPalette148;
-        2      : if Header.ColorType = COLOR_PALETTE then
-                   CopyProc := CopyInterlacedPalette2
-                 else
-                   CopyProc := CopyInterlacedGray2;
-        16     : CopyProc := CopyInterlacedGrayscale16;
+        1, 4, 8:
+          CopyProc := CopyInterlacedPalette148;
+        2:
+          if Header.ColorType = COLOR_PALETTE then
+            CopyProc := CopyInterlacedPalette2
+          else
+            CopyProc := CopyInterlacedGray2;
+        16:
+          CopyProc := CopyInterlacedGrayscale16;
       end;
     {RGB followed by alpha}
     COLOR_RGBALPHA:
@@ -3123,24 +3126,27 @@ begin
     {Types using palettes}
     COLOR_PALETTE, COLOR_GRAYSCALE:
       case Header.BitDepth of
-        1, 4, 8: CopyProc := CopyNonInterlacedPalette148;
-        2      : if Header.ColorType = COLOR_PALETTE then
-                   CopyProc := CopyNonInterlacedPalette2
-                 else
-                   CopyProc := CopyNonInterlacedGray2;
-        16     : CopyProc := CopyNonInterlacedGrayscale16;
+        1, 4, 8:
+          CopyProc := CopyNonInterlacedPalette148;
+        2:
+          if Header.ColorType = COLOR_PALETTE then
+            CopyProc := CopyNonInterlacedPalette2
+          else
+            CopyProc := CopyNonInterlacedGray2;
+        16:
+          CopyProc := CopyNonInterlacedGrayscale16;
       end;
     {R, G, B followed by alpha}
     COLOR_RGBALPHA:
       case Header.BitDepth of
-        8  : CopyProc := CopyNonInterlacedRGBAlpha8;
-       16  : CopyProc := CopyNonInterlacedRGBAlpha16;
+        8: CopyProc := CopyNonInterlacedRGBAlpha8;
+       16: CopyProc := CopyNonInterlacedRGBAlpha16;
       end;
     {Grayscale followed by alpha}
     COLOR_GRAYSCALEALPHA:
       case Header.BitDepth of
-        8  : CopyProc := CopyNonInterlacedGrayscaleAlpha8;
-       16  : CopyProc := CopyNonInterlacedGrayscaleAlpha16;
+        8: CopyProc := CopyNonInterlacedGrayscaleAlpha8;
+       16: CopyProc := CopyNonInterlacedGrayscaleAlpha16;
       end;
   end;
 
@@ -3247,8 +3253,7 @@ function TChunkIDAT.LoadFromStream(Stream: TDStream; const ChunkName: TChunkName
   Size: Integer): Boolean;
 var
   ZLIBStream: TZStreamRec2;
-  CRCCheck,
-  CRCFile  : Cardinal;
+  CRCCheck, CRCFile: Cardinal;
 begin
   {Get pointer to the header chunk}
   Header := Owner.Chunks.Item[0] as TChunkIHDR;
@@ -3312,7 +3317,7 @@ const
 {Saves the IDAT chunk to a stream}
 function TChunkIDAT.SaveToStream(Stream: TDStream): Boolean;
 var
-  ZLIBStream : TZStreamRec2;
+  ZLIBStream: TZStreamRec2;
 begin
   {Get pointer to the header chunk}
   Header := Owner.Chunks.Item[0] as TChunkIHDR;
@@ -3828,7 +3833,7 @@ procedure TChunkIDAT.EncodeInterlacedAdam7(Stream: TDStream;
 var
   CurrentPass, Filter: Byte;
   PixelsThisRow: Integer;
-  CurrentRow : Integer;
+  CurrentRow: Integer;
   Trans, Data: PChar;
   CopyProc: procedure(const Pass: Byte;
     Src, Dest, Trans: PChar) of object;
@@ -4471,9 +4476,9 @@ const
      biClrImportant: 0);
 var
   {Buffer bitmap creation}
-  BitmapInfo  : TBitmapInfo;
-  BufferDC    : HDC;
-  BufferBits  : Pointer;
+  BitmapInfo: TBitmapInfo;
+  BufferDC: HDC;
+  BufferBits: Pointer;
   OldBitmap,
   BufferBitmap: HBitmap;
   Header: TChunkIHDR;
@@ -4490,13 +4495,13 @@ var
   BytesPerRowSrc,
   BytesPerRowAlpha: Integer;
   ImageSource, ImageSourceOrg,
-  AlphaSource     : PByteArray;
-  ImageData       : pPixelLine;
-  i, j, i2, j2    : Integer;
+  AlphaSource: PByteArray;
+  ImageData: pPixelLine;
+  i, j, i2, j2: Integer;
 
   {for bitmap stretching}
-  W, H            : Cardinal;
-  Stretch         : Boolean;
+  W, H: Cardinal;
+  Stretch: Boolean;
   FactorX, FactorY: Double;
 begin
   {Prepares the rectangle structure to stretch draw}
@@ -4892,7 +4897,7 @@ var
   IEND: TChunkIEND;
   TRNS: TChunkTRNS;
   i: Integer;
-  palEntries : TMaxLogPalette;
+  palEntries: TMaxLogPalette;
 begin
   {Obtain bitmap info}
   GetObject(Handle, SizeOf(BitmapInfo), @BitmapInfo);
