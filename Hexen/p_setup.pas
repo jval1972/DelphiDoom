@@ -577,9 +577,6 @@ begin
 end;
 
 //
-// JVAL: Changed for compatibility with DelphiDoom ver 0.8
-
-//
 // P_LoadLineDefs
 // Also counts secret lines for intermissions.
 //
