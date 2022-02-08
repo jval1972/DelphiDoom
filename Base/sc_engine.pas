@@ -297,7 +297,7 @@ begin
     result := true;
   end
   else
-    result := true;
+    result := false;
 end;
 
 function TScriptEngine.MustGetInteger: boolean;
@@ -346,7 +346,7 @@ begin
     result := true;
   end
   else
-    result := true;
+    result := false;
 end;
 
 function TScriptEngine.MustGetFloat: boolean;
