@@ -82,7 +82,7 @@ begin
   if IsIntegerInRange(lump, 0, W_NumLumps - 1) then
     if (W_GetNameForNum(lump) = 'SCRIPT') or (W_GetNameForNum(lump) = 'SCRIPTS') then
     begin
-      Result := True;
+      Result := W_LumpLength(lump) > 8;
       Exit;
     end;
   Result := False;

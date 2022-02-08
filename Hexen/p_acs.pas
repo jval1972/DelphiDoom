@@ -450,7 +450,6 @@ end;
 // P_StartACS
 //
 
-
 function P_StartACS(number: integer; map: integer; args: PByteArray;
   activator: Pmobj_t; line: Pline_t; side: integer): boolean;
 var
