@@ -126,6 +126,7 @@ procedure P_ACSShutDown;
 implementation
 
 uses
+  acs,
   doomdata,
   d_player,
   i_system,
@@ -271,6 +272,22 @@ begin
   P_AddThinker(@script.thinker);
 end;
 
+//
+// P_CompileACSScript
+//
+
+function P_CompileACSScript(const lump: integer): pointer;
+var
+  args: TDStringList;
+begin
+  args := TDStringList.Create;
+  args.Add(itoa(lump));
+  Result := acc_main(args.Count, args);
+  args.Free;
+end;
+
+const
+  ACS_MAGIC = $534341;
 
 //
 // P_LoadACScripts
@@ -285,12 +302,33 @@ var
   b: PByteArray;
   stmp: string;
 begin
+  ACScriptCount := -1;
+
   if W_LumpLength(lump) = 0 then
+    ACScriptCount := 0;
+
+  header := W_CacheLumpNum(lump, PU_LEVEL);
+  if header.marker <> ACS_MAGIC then
+    ACScriptCount := 0;
+
+  if ACScriptCount = 0 then
+    if acc_isscriptlump(lump) then
+      header := P_CompileACSScript(lump)
+    else if acc_isscriptlump(lump + 1) then
+      header := P_CompileACSScript(lump + 1);
+
+  if header = nil then
   begin
     ACScriptCount := 0;
     exit;
   end;
-  header := W_CacheLumpNum(lump, PU_LEVEL);
+
+  if header.marker <> ACS_MAGIC then
+  begin
+    ACScriptCount := 0;
+    exit;
+  end;
+
   ActionCodeBase := PByteArray(header);
   buffer := PInteger(integer(header) + header.infoOffset);
   ACScriptCount := buffer^;

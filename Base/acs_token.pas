@@ -138,6 +138,8 @@ procedure TK_Init;
 
 procedure TK_OpenSource(const fileName: string);
 
+procedure TK_OpenLump(const slump: integer);
+
 procedure TK_CloseSource;
 
 procedure TK_Undo;
@@ -319,6 +321,33 @@ begin
   FileStart := p;
   tk_SourceName := fileName;
   MakeIncludePath(fileName);
+  SourceOpen := true;
+  FileEnd := FileStart;
+  Inc(FileEnd, size);
+  FilePtr := FileStart;
+  tk_Line := 1;
+  tk_Token := TK_NONE;
+  AlreadyGot := false;
+  NestDepth := 0;
+  NextChr;
+end;
+
+// = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+//
+// TK_OpenSource
+//
+// = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+procedure TK_OpenLump(const slump: integer);
+var
+  size: integer;
+  p: pointer;
+begin
+  TK_CloseSource;
+  size := ACS_LoadLump(slump, p);
+  FileStart := p;
+  tk_SourceName := itoa(slump);
+  IncludePath := '';
   SourceOpen := true;
   FileEnd := FileStart;
   Inc(FileEnd, size);

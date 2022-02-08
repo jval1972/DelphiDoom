@@ -33,7 +33,9 @@ interface
 uses
   d_delphi;
 
-procedure acc_main(const argc: integer; const argv: TDStringList);
+function acc_isscriptlump(const lump: integer): boolean;
+
+function acc_main(const argc: integer; const argv: TDStringList): Pointer;
 
 var
   acs_BigEndianHost: boolean;
@@ -54,7 +56,8 @@ uses
   acs_pcode,
   acs_strlist,
   acs_symbol,
-  acs_token;
+  acs_token,
+  w_wad;
 
 const
   ACC_VERSION_TEXT = '1.10';
@@ -66,6 +69,23 @@ begin
     result := ifone
   else
     result := ifmany;
+end;
+
+// = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+//
+// acc_isscriptlump
+//
+// = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+function acc_isscriptlump(const lump: integer): boolean;
+begin
+  if IsIntegerInRange(lump, 0, W_NumLumps - 1) then
+    if (W_GetNameForNum(lump) = 'SCRIPT') or (W_GetNameForNum(lump) = 'SCRIPTS') then
+    begin
+      Result := True;
+      Exit;
+    end;
+  Result := False;
 end;
 
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -190,7 +210,11 @@ begin
     [decide(acs_BigEndianHost, 'BIG', 'LITTLE')]);
 end;
 
-procedure acc_main(const argc: integer; const argv: TDStringList);
+function acc_main(const argc: integer; const argv: TDStringList): Pointer;
+var
+  slump, sext: string;
+  lump: integer;
+  wadmode: boolean;
 begin
   ArgCount := argc;
   ArgVector := argv;
@@ -198,10 +222,29 @@ begin
   DisplayBanner;
   Init;
 
-  TK_OpenSource(acs_SourceFileName);
+  wadmode := false;
+  splitstring_ch(acs_SourceFileName, slump, sext, '.');
+  if StrIsLongWord(slump) then
+  begin
+    lump := atoi(slump);
+    if acc_isscriptlump(lump) then
+      wadmode := true;
+  end;
+  if wadmode then
+    TK_OpenLump(atoi(slump))
+  else
+    TK_OpenSource(acs_SourceFileName);
+
   PC_OpenObject(ObjectFileName, DEFAULT_OBJECT_SIZE, 0);
   PA_Parse;
-  PC_CloseObject;
+  if wadmode then
+    Result := PC_GetObject
+  else
+  begin
+    PC_CloseObject;
+    Result := nil;
+  end;
+
   TK_CloseSource;
 
   ACS_Message(MSG_NORMAL, #13#10'''%s'':'#13#10'  %d %s (%d included),',

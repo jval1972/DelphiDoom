@@ -101,6 +101,7 @@ const
   ERR_TOO_MANY_STRINGS = 76;
   ERR_UNKNOWN_PRTYPE = 77;
   ERR_BAD_CHARACTER = 78;
+  ERR_ALLOC_SCRIPT_BUFFER = 79;
 
 procedure ERR_Exit(error: integer; info: boolean; fmt: string; args: array of const);
 
@@ -139,7 +140,7 @@ type
   end;
 
 const
-  NUMERRORNAME = 69;
+  NUMERRORNAME = 70;
 
 var
   ErrorNames: array[0..NUMERRORNAME - 1] of errormessage_t = (
@@ -211,6 +212,7 @@ var
     (number: ERR_OUT_OF_MEMORY; name: 'Out of memory.'),
     (number: ERR_TOO_MANY_STRINGS; name: 'Too many strings.'),
     (number: ERR_UNKNOWN_PRTYPE; name: 'Unknown cast type in print statement.'),
+    (number: ERR_ALLOC_SCRIPT_BUFFER; name: 'Can not allocate script buffer.'),
     (number: ERR_NONE; name: '')
   );
 

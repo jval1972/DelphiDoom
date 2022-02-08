@@ -160,6 +160,8 @@ procedure PC_OpenObject(const name: string; const size: Integer; const flags: in
 
 procedure PC_CloseObject;
 
+function PC_GetObject: Pointer;
+
 procedure PC_AddScript(const number: integer; const argCount: integer);
 
 procedure PC_AppendCmd(const command: integer);
@@ -349,6 +351,34 @@ end;
 
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 //
+// PC_GetObject
+//
+// = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+function PC_GetObject: Pointer;
+var
+  i: integer;
+  info: PscriptInfo_t;
+begin
+  ACS_Message(MSG_DEBUG, '---- PC_GetObject ----'#13#10, []);
+  STR_WriteStrings;
+  PC_WriteLong(U_LONG(pc_Address), 4);
+  PC_AppendLong(U_LONG(pc_ScriptCount));
+  for i := 0 to pc_ScriptCount - 1 do
+  begin
+    info := @ScriptInfo[i];
+    ACS_Message(MSG_DEBUG, 'Script %d, address = %d, arg count = %d'#13#10,
+      [info.number, info.address, info.argCount]);
+    PC_AppendLong(U_LONG(info.number));
+    PC_AppendLong(U_LONG(info.address));
+    PC_AppendLong(U_LONG(info.argCount));
+   end;
+  STR_WriteList;
+  Result := pc_Buffer;
+end;
+
+// = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+//
 // PC_Append functions
 //
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -390,7 +420,7 @@ begin
   pb[len - 1] := 0;
   ACS_Message(MSG_DEBUG, 'AS> %06d = ''%s'' (%d bytes)'#13#10, [pc_Address, str, len]);
   Append(pb, len);
-  ACS_Free(Pointer(pb));
+  memfree(pointer(pb), len);
 end;
 
 procedure PC_AppendCmd(const command: integer);

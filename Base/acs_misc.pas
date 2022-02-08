@@ -141,7 +141,7 @@ begin
   end;
 
   size := strm.Size;
-  buffer := malloc(size);
+  buffer := ACS_Alloc(size, ERR_ALLOC_SCRIPT_BUFFER);
   if buffer = nil then
     ERR_Exit(ERR_NONE, false, 'Couldn''t malloc %d bytes for file ''%s''.', [size, name]);
 
@@ -163,7 +163,7 @@ var
 begin
   src := W_TextLumpNum(lump);
   size := Length(src);
-  buffer := malloc(size);
+  buffer := ACS_Alloc(size, ERR_ALLOC_SCRIPT_BUFFER);
   if buffer = nil then
     ERR_Exit(ERR_NONE, false, 'Couldn''t malloc %d bytes for lump ''%d''.', [size, lump]);
   pb := buffer;
