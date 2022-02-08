@@ -922,7 +922,7 @@ var
       begin
         sc.MustGetString;
         sc2 := TScriptEngine.Create(sc._String);
-        while sc.GetInteger do
+        while sc2.GetInteger do
           if IsIntegerInRange(sc2._Integer, 0, 255) then
             Include(pextrasector.moreids, byte(sc2._Integer));
         sc2.Free;
@@ -1072,6 +1072,7 @@ begin
 //        exit;
       end;
     end;
+
     if token = 'THING' then
       _LoadThing
     else if token = 'LINEDEF' then
