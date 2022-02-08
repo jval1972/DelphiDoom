@@ -384,6 +384,7 @@ procedure ND_NodesCheck(const lumpname: string);
 implementation
 
 uses
+  acs,
   m_crc32,
   i_tmp,
   i_exec,
@@ -4295,6 +4296,45 @@ begin
     result := HextW(HiWord) + HextW(LoWord);
 end;
 
+{$IFNDEF HEXEN}
+type
+  hexenmapthing_t = record
+    tid: smallint;
+    x: smallint;
+    y: smallint;
+    height: smallint;
+    angle: smallint;
+    _type: word;
+    options: smallint;
+    special: byte;
+    arg1: byte;
+    arg2: byte;
+    arg3: byte;
+    arg4: byte;
+    arg5: byte;
+  end;
+  Phexenmapthing_t = ^hexenmapthing_t;
+  hexenmapthing_tArray = array[0..$FFFF] of hexenmapthing_t;
+  Phexenmapthing_tArray = ^hexenmapthing_tArray;
+
+  hexenmaplinedef_t = record
+    v1: smallint;
+    v2: smallint;
+    flags: smallint;
+    special: byte;
+    arg1: byte;
+    arg2: byte;
+    arg3: byte;
+    arg4: byte;
+    arg5: byte;
+  // sidenum[1] will be -1 if one sided
+    sidenum: array[0..1] of smallint;
+  end;
+  Phexenmaplinedef_t = ^hexenmaplinedef_t;
+  hexenmaplinedef_tArray = array[0..$FFFF] of hexenmaplinedef_t;
+  Phexenmaplinedef_tArray = ^hexenmaplinedef_tArray;
+{$ENDIF}
+
 function ND_GetNodes(const mapname: string): string;
 var
   header: wadinfo_t;
@@ -4305,8 +4345,20 @@ var
   path: string;
   mapfilename: string;
   gwafilename: string;
-  infotable: array[0..{$IFDEF HEXEN}11{$ELSE}10{$ENDIF}] of filelump_t;
+  infotable: array[0..11] of filelump_t;
+  ninfolumps: integer;
   buf: PByteArray;
+  hasbehavior: boolean;
+{$IFNDEF HEXEN}
+  x: integer;
+  hlen: integer;
+  vthings: Pmapthing_tArray;
+  hthings: Phexenmapthing_tArray;
+  nthings: integer;
+  vlinedefs: Pmaplinedef_tArray;
+  hlinedefs: Phexenmaplinedef_tArray;
+  nlinedefs: integer;
+{$ENDIF}
 begin
   maplump := W_GetNumForName(mapname);
   adler32 := GetMapAdler32(maplump);
@@ -4324,14 +4376,20 @@ begin
 
     header.identification :=
       integer(Ord('P') or (Ord('W') shl 8) or (Ord('A') shl 16) or (Ord('D') shl 24));
-    header.numlumps := {$IFDEF HEXEN}12{$ELSE}11{$ENDIF};
+
+    hasbehavior := acc_isbehaviorlump(maplump + Ord(ML_BEHAVIOR));
+    if hasbehavior then
+      ninfolumps := 12
+    else
+      ninfolumps := 11;
+    header.numlumps := {$IFDEF HEXEN}12{$ELSE}ninfolumps{$ENDIF};
 
     f := TFile.Create(mapfilename, fCreate);
     f.Write(header, SizeOf(header));
 
     ZeroMemory(@infotable, SizeOf(infotable));
 
-    for i := 0 to {$IFDEF HEXEN}11{$ELSE}10{$ENDIF} do
+    for i := 0 to ninfolumps - 1 do
     begin
       lump := maplump + i;
       if lump >= W_NumLumps then
@@ -4340,17 +4398,90 @@ begin
       len := W_LumpLength(lump);
 
       infotable[i].filepos := f.Position;
-      infotable[i].size := len;
       infotable[i].name := lumpinfo[lump].name;
 
-      buf := malloc(len);
-      W_ReadLump(lump, buf);
-      f.Write(buf^, len);
-      memfree(pointer(buf), len);
+      {$IFNDEF HEXEN}
+      if hasbehavior and (i = Ord(ML_THINGS)) then
+      begin
+        vthings := malloc(len);
+        W_ReadLump(lump, vthings);
+        nthings := len div SizeOf(mapthing_t);
+        hlen := nthings * SizeOf(hexenmapthing_t);
+        hthings := malloc(hlen);
+        for x := 0 to nthings - 1 do
+        begin
+          hthings[x].tid := 0;
+          hthings[x].x := vthings[x].x;
+          hthings[x].y := vthings[x].y;
+          hthings[x].height := 0;
+          hthings[x].angle := vthings[x].angle;
+          hthings[x]._type := vthings[x]._type;
+          hthings[x].options := vthings[x].options;
+          hthings[x].special := 0;
+          hthings[x].arg1 := 0;
+          hthings[x].arg2 := 0;
+          hthings[x].arg3 := 0;
+          hthings[x].arg4 := 0;
+          hthings[x].arg5 := 0;
+        end;
+        infotable[i].size := hlen;
+        f.Write(hthings^, hlen);
+        memfree(pointer(vthings), len);
+        memfree(pointer(hthings), hlen);
+      end
+      else if hasbehavior and (i = Ord(ML_LINEDEFS)) then
+      begin
+        vlinedefs := malloc(len);
+        W_ReadLump(lump, vlinedefs);
+        nlinedefs := len div SizeOf(maplinedef_t);
+        hlen := nlinedefs * SizeOf(hexenmaplinedef_t);
+        hlinedefs := malloc(hlen);
+        for x := 0 to nlinedefs - 1 do
+        begin
+          hlinedefs[x].v1 := vlinedefs[x].v1;
+          hlinedefs[x].v2 := vlinedefs[x].v2;
+          hlinedefs[x].flags := vlinedefs[x].flags;
+          if IsIntegerInRange(vlinedefs[x].special, 0, 255) then
+            hlinedefs[x].special := vlinedefs[x].special
+          else
+            hlinedefs[x].special := 0;
+          hlinedefs[x].arg1 := 0;
+          hlinedefs[x].arg2 := 0;
+          hlinedefs[x].arg3 := 0;
+          hlinedefs[x].arg4 := 0;
+          hlinedefs[x].arg5 := 0;
+          // sidenum[1] will be -1 if one sided
+          hlinedefs[x].sidenum[0] := vlinedefs[x].sidenum[0];
+          hlinedefs[x].sidenum[1] := vlinedefs[x].sidenum[1];
+        end;
+        infotable[i].size := hlen;
+        f.Write(hlinedefs^, hlen);
+        memfree(pointer(vlinedefs), len);
+        memfree(pointer(hlinedefs), hlen);
+      end
+      else
+      {$ENDIF}
+      begin
+        infotable[i].size := len;
+
+        buf := malloc(len);
+        W_ReadLump(lump, buf);
+        f.Write(buf^, len);
+        memfree(pointer(buf), len);
+      end;
     end;
 
+    {$IFDEF HEXEN}
+    if not hasbehavior then
+    begin
+      infotable[11].filepos := 0;
+      infotable[11].size := 0;
+      infotable[11].name := stringtochar8('BEHAVIOR');
+    end;
+    {$ENDIF}
+
     header.infotableofs := f.Position;
-    f.Write(infotable, SizeOf(infotable));
+    f.Write(infotable, header.numlumps * SizeOf(filelump_t));
     f.Seek(0, sFromBeginning);
     f.Write(header, SizeOf(header));
     f.Free;
@@ -4362,7 +4493,6 @@ begin
       result := '';
       exit;
     end;
-
   end;
 
   result := gwafilename;
