@@ -3672,7 +3672,7 @@ begin
   V_ScaleBuffer8(pointer(screens[SCN_TMP]), p.width, p.height, 320, 200);
   memcpy(oldscreen, screens[SCN_TMP], 320 * 200);
 
-  memfree(pointer(screens[SCN_TMP]), 320 * 200);
+  memfree(pointer(screens[SCN_TMP]), p.width * p.height);
   screens[SCN_TMP] := oldscreen;
   screendimentions[SCN_TMP].width := 320;
   screendimentions[SCN_TMP].height := 200;
@@ -3744,8 +3744,11 @@ begin
     V_DrawPatch(0, 0, SCN_TMP, p, false);
     V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
   end;
-  Z_ChangeTag(p, PU_CACHE);
+  {$IFDEF DOOM}
+  if (p.width <> 426) or (p.height <> 200) then
+  {$ENDIF}
   V_FullScreenStretch;
+  Z_ChangeTag(p, PU_CACHE);
 end;
 {$ELSE}
 procedure V_PageDrawer(const pagename: string);
