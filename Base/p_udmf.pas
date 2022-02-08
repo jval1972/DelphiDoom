@@ -79,6 +79,9 @@ type
   extrathing_tArray = array[0..$FFFF] of extrathing_t;
   Pextrathing_tArray = ^extrathing_tArray;
 
+type
+  moreids_t = set of Byte;
+
 const
   UDMF_SF_CEILINGPLANE_A = $1;
   UDMF_SF_CEILINGPLANE_B = $2;
@@ -120,6 +123,7 @@ type
     floorplane_b: float;      // 'heightfloor' will still be used to calculate texture alignment.
     floorplane_c: float;      // The plane equation will only be used if all 4 values are given.
     floorplane_d: float;
+    moreids: moreids_t;
   end;
   Pextrasector_t = ^extrasector_t;
   extrasector_tArray = array[0..$FFFF] of extrasector_t;
@@ -267,6 +271,7 @@ end;
 procedure TUDMFManager.LoadFromString(const atext: string);
 var
   sc: TScriptEngine;
+  sc2: TScriptEngine;
   token: string;
   pthing: Pmapthing_t;
   pextrathing: Pextrathing_t;
@@ -912,6 +917,17 @@ var
       begin
         sc.MustGetInteger;
         pmapsector.tag := sc._Integer;
+        if IsIntegerInRange(sc._Integer, 0, 255) then
+          Include(pextrasector.moreids, byte(sc._Integer));
+      end
+      else if (token = 'MOREIDS') then
+      begin
+        sc.MustGetString;
+        sc2 := TScriptEngine.Create(sc._String);
+        while sc.GetInteger do
+          if IsIntegerInRange(sc2._Integer, 0, 255) then
+            Include(pextrasector.moreids, byte(sc2._Integer));
+        sc2.Free;
       end
       {$IFDEF DOOM_OR_STRIFE}
       else if (token = 'XPANNINGFLOOR') then
