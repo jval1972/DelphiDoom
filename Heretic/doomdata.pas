@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiHeretic: A modified and improved Heretic port for Windows
+//  DelphiHeretic is a source port of the game Heretic and it is
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
@@ -65,7 +65,7 @@ type
     ML_SECTORS,   // Sectors, from editing
     ML_REJECT,    // LUT, sector-sector visibility
     ML_BLOCKMAP,  // LUT, motion clipping, walls/grid element
-    ML_CODE       // JVAL: script goes here
+    ML_BEHAVIOR   // ACS Object Code
   );
 
   mapvertex_t = record
@@ -156,7 +156,8 @@ const
   ML_BLOCKLANDMONSTERS = 2048;
 // Block players
   ML_BLOCKPLAYERS = 4096;
-
+
+
 
 type
 // Sector definition, from editing.

@@ -70,7 +70,8 @@ type
     ML_NODES,     // BSP nodes
     ML_SECTORS,   // Sectors, from editing
     ML_REJECT,    // LUT, sector-sector visibility
-    ML_BLOCKMAP   // LUT, motion clipping, walls/grid element
+    ML_BLOCKMAP,  // LUT, motion clipping, walls/grid element
+    ML_BEHAVIOR   // ACS Object Code
   );
 
   mapvertex_t = record

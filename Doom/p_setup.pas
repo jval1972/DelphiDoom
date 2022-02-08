@@ -644,12 +644,6 @@ begin
   P_CheckThings;
 end;
 
-var
-  delphidoom_ver8_map: boolean;
-
-//
-// JVAL: Changed for compatibility with DelphiDoom ver 0.8
-
 //
 // P_LoadLineDefs
 // Also counts secret lines for intermissions.
@@ -759,35 +753,6 @@ begin
 
     inc(mld);
     inc(ld);
-  end;
-
-  // JVAL: Translate old specials
-  if delphidoom_ver8_map then
-  begin
-    mld := Pmaplinedef_t(data);
-    ld := @lines[0];
-
-    for i := 0 to numlines - 1 do
-    begin
-      if mld.special = 142 then  // SCROLLING TEXTURES
-        ld.special := 85
-      else if mld.special = 143 then
-        ld.special := 273
-      else if mld.special = 144 then
-        ld.special := 274
-      else if mld.special = 145 then
-        ld.special := 275
-      else if mld.special = 146 then
-        ld.special := 276
-      else if mld.special = 147 then
-        ld.special := 277
-      else if mld.special = 148 then
-        ld.special := 278;
-
-      inc(mld);
-      inc(ld);
-    end;
-
   end;
 
   Z_Free (data);
@@ -1176,7 +1141,6 @@ var
 {$IFDEF OPENGL}
   glmapname: string;
 {$ENDIF}
-  clumpname: string;
   gwa: TGWAFile;
   gwaname: string;
   gwaloaded: boolean;
@@ -1265,14 +1229,6 @@ begin
     glnodesver := 0;
   end;
 {$ENDIF}
-
-  delphidoom_ver8_map := false;
-  if lumpnum + Ord(ML_CODE) < W_NumLumps then
-  begin
-    clumpname := strupper(char8tostring(W_GetNameForNum(lumpnum + Ord(ML_CODE))));
-    if (clumpname = 'CODE') or (clumpname = 'PCODE') then
-      delphidoom_ver8_map := true;
-  end;
 
   leveltime := 0;
 

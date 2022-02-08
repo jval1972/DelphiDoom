@@ -42,11 +42,8 @@ uses
 function UDMF_Check(const mapname: string): boolean;
 
 const
-  {$IFDEF HEXEN}
-  ML_UDMFSTART = Ord(ML_BEHAVIOR) + 1;
-  {$ELSE}
-  ML_UDMFSTART = Ord(ML_BLOCKMAP) + 1;
-  {$ENDIF}
+  ML_SCRIPT = Ord(ML_BEHAVIOR) + 1;
+  ML_UDMFSTART = Ord(ML_BEHAVIOR) + 2;
   ML_THINGS2 = ML_UDMFSTART + 0;
   ML_SECTORS2 = ML_UDMFSTART + 1;
   ML_VERTEX2 = ML_UDMFSTART + 2;
@@ -158,6 +155,7 @@ implementation
 
 uses
   doomdef,
+  acs,
   m_argv,
   m_crc32,
   m_base,
@@ -191,7 +189,7 @@ type
     constructor Create; virtual;
     procedure LoadFromString(const atext: string);
     procedure UpdateUDMFGlobalStructs;
-    procedure SaveUDMFToVanilla(const amapname: string; const afilename: string{$IFDEF HEXEN};const bl: integer{$ENDIF});
+    procedure SaveUDMFToVanilla(const amapname: string; const afilename: string;const bl, sl: integer);
     procedure Clear;
     destructor Destroy; override;
   end;
@@ -1112,15 +1110,13 @@ begin
   end;
 end;
 
-procedure TUDMFManager.SaveUDMFToVanilla(const amapname: string; const afilename: string{$IFDEF HEXEN};const bl: integer{$ENDIF});
+procedure TUDMFManager.SaveUDMFToVanilla(const amapname: string; const afilename: string;const bl, sl: integer);
 var
   header: wadinfo_t;
   infotable: array[0..ML_NUMUDMFLUMPS - 1] of filelump_t;
   f: TFile;
-{$IFDEF HEXEN}
-  bldata: PByteArray;
-  bllen: integer;
-{$ENDIF}
+  ldata: PByteArray;
+  llen: integer;
 begin
   header.identification :=
     integer(Ord('P') or (Ord('W') shl 8) or (Ord('A') shl 16) or (Ord('D') shl 24));
@@ -1181,20 +1177,33 @@ begin
   infotable[10].size := 0;
   infotable[10].name := stringtochar8('BLOCKMAP');
 
-  {$IFDEF HEXEN}
+  // BEHAVIOR lump
   infotable[11].filepos := f.Position;
   if bl > 0 then
   begin
-    bldata := W_CacheLumpNum(bl, PU_STATIC);
-    bllen := W_LumpLength(bl);
-    infotable[11].size := bllen;
-    f.Write(bldata^, bllen);
-    Z_Free(bldata);
+    ldata := W_CacheLumpNum(bl, PU_STATIC);
+    llen := W_LumpLength(bl);
+    infotable[11].size := llen;
+    f.Write(ldata^, llen);
+    Z_Free(ldata);
   end
   else
     infotable[11].size := 0;
   infotable[11].name := stringtochar8('BEHAVIOR');
-  {$ENDIF}
+
+  // Scripts lump
+  infotable[12].filepos := f.Position;
+  if sl > 0 then
+  begin
+    ldata := W_CacheLumpNum(sl, PU_STATIC);
+    llen := W_LumpLength(sl);
+    infotable[12].size := llen;
+    f.Write(ldata^, llen);
+    Z_Free(ldata);
+  end
+  else
+    infotable[12].size := 0;
+  infotable[12].name := stringtochar8('SCRIPTS');
 
   infotable[ML_THINGS2].filepos := f.Position;
   infotable[ML_THINGS2].size := fnumthings * SizeOf(extrathing_t);
@@ -1244,9 +1253,8 @@ var
   lumpnum: integer;
   crc32: string;
   wadfilemap: string;
-  {$IFDEF HEXEN}
   behav_lump: integer;
-  {$ENDIF}
+  script_lump: integer;
 begin
   hasudmfdata := false;
   udmfthings := nil;
@@ -1288,12 +1296,16 @@ begin
     exit;
   end;
 
-  {$IFDEF HEXEN}
   behav_lump := -1;
   if lumpnum + 2 < W_NumLumps then
     if strupper(stringtochar8(lumpinfo[lumpnum + 2].name)) = 'BEHAVIOR' then
       behav_lump := lumpnum + 2;
-  {$ENDIF}
+
+  script_lump := -1;
+  if acc_isscriptlump(lumpnum + 2) then
+    script_lump := lumpnum + 2
+  else if acc_isscriptlump(lumpnum + 3) then
+    script_lump := lumpnum + 3;
 
   inc(lumpnum);
   crc32 := GetLumpCRC32(lumpnum);
@@ -1307,7 +1319,7 @@ begin
   udmf := TUDMFManager.Create;
   udmf.LoadFromString(W_TextLumpNum(lumpnum));
   udmf.UpdateUDMFGlobalStructs;
-  udmf.SaveUDMFToVanilla(mapname, wadfilemap{$IFDEF HEXEN}, behav_lump{$ENDIF});
+  udmf.SaveUDMFToVanilla(mapname, wadfilemap, behav_lump, script_lump);
   udmf.Free;
 
   W_RuntimeLoad(wadfilemap, F_ORIGIN_WAD);

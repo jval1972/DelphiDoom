@@ -409,7 +409,16 @@ uses
   sc_defines in 'Base\sc_defines.pas',
   p_serializer in 'Base\p_serializer.pas',
   sv_strife in 'Strife\sv_strife.pas',
-  p_blockmap in 'Base\p_blockmap.pas';
+  p_blockmap in 'Base\p_blockmap.pas',
+  acs in 'Base\acs.pas',
+  acs_common in 'Base\acs_common.pas',
+  acs_error in 'Base\acs_error.pas',
+  acs_misc in 'Base\acs_misc.pas',
+  acs_parse in 'Base\acs_parse.pas',
+  acs_pcode in 'Base\acs_pcode.pas',
+  acs_strlist in 'Base\acs_strlist.pas',
+  acs_symbol in 'Base\acs_symbol.pas',
+  acs_token in 'Base\acs_token.pas';
 
 var
   Saved8087CW: Word;
