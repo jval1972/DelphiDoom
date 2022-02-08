@@ -432,7 +432,7 @@ begin
   else
     name := wibackground;
 
-  V_DrawPatchFullScreenTMP320x200(wibackground);
+  V_DrawPatchFullScreenTMP320x200(name);
 end;
 
 // The ticker is used to detect keys
