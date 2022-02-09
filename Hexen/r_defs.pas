@@ -267,6 +267,9 @@ type
 
     clslopestep: array[0..1] of float; // JVAL: Slopes
     flslopestep: array[0..1] of float; // JVAL: Slopes
+
+    // JVAL: 20220209 - UDMF support
+    moreids: moreids_t;
   end;
   PPline_t = ^Pline_t;
   line_tArray = packed array[0..$FFFF] of line_t;

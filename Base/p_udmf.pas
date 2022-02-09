@@ -182,6 +182,8 @@ var
 
 function UDMF_MakeSectors: boolean;
 
+function UDMF_MakeLines: boolean;
+
 implementation
 
 uses
@@ -580,9 +582,9 @@ var
         pmaplinedef.arg1 := sc._Integer;
         {$ELSE}
         pmaplinedef.tag := sc._Integer;
+        {$ENDIF}
         if IsIntegerInRange(sc._Integer, 0, 255) then
           Include(pextraline.moreids, byte(sc._Integer));
-        {$ENDIF}
       end
       else if (token = 'MOREIDS') then
       begin
@@ -1644,6 +1646,47 @@ begin
     UDMF_DoMakeSector(i);
     UDMF_DoMakeAbsoluteHeights(i);
   end;
+
+  result := true;
+end;
+
+procedure UDMF_DoMakeLine(const lineid: integer);
+var
+  line: Pline_t;
+  uline: Pextraline_t;
+begin
+  line := @lines[lineid];
+  uline := @udmflinedefs[lineid];
+
+  {$IFNDEF HEXEN}
+  line.arg1 := uline.arg1;
+  line.arg2 := uline.arg2;
+  line.arg3 := uline.arg3;
+  line.arg4 := uline.arg4;
+  line.arg5 := uline.arg5;
+  line.activators := uline.activators;
+  {$ENDIF}
+  line.moreids := uline.moreids;
+end;
+
+function UDMF_MakeLines: boolean;
+var
+  i: integer;
+begin
+  if not hasudmfdata then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if numudmflinedefs <> numlines then
+  begin
+    result := false;
+    exit;
+  end;
+
+  for i := 0 to numudmflinedefs - 1 do
+    UDMF_DoMakeLine(i);
 
   result := true;
 end;

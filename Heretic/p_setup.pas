@@ -1017,6 +1017,7 @@ begin
 
   rejectmatrix := W_CacheLumpNum(lumpnum + Ord(ML_REJECT), PU_LEVEL);
   rejectmatrixsize := W_LumpLength(lumpnum + Ord(ML_REJECT));
+  UDMF_MakeLines;
   P_GroupLines;
 
   P_3dFloorSetupSegs; // JVAL: 3d Floors
