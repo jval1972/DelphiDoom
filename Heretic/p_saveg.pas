@@ -449,6 +449,23 @@ begin
     put := @put[1];
     PLongWord(put)^ := li.renderflags;
     put := @put[2];
+
+    // JVAL: 20220209 - UDMF support
+    PInteger(@put)^ := li.arg1;
+    put := @put[2];
+    PInteger(@put)^ := li.arg2;
+    put := @put[2];
+    PInteger(@put)^ := li.arg3;
+    put := @put[2];
+    PInteger(@put)^ := li.arg4;
+    put := @put[2];
+    PInteger(@put)^ := li.arg5;
+    put := @put[2];
+    PInteger(@put)^ := li.activators;
+    put := @put[2];
+    Pmoreids_t(put)^ := li.moreids;
+    put := @put[SizeOf(moreids_t)];
+
     for j := 0 to 1 do
     begin
       if li.sidenum[j] = -1 then
@@ -648,6 +665,38 @@ begin
       li.renderflags := PLongWord(get)^;
       get := @get[2];
     end;
+
+    // JVAL: 20220209 - UDMF support
+    if savegameversion >= VERSION207 then
+    begin
+      li.arg1 := PInteger(get)^;
+      get := @get[2];
+      li.arg2 := PInteger(get)^;
+      get := @get[2];
+      li.arg3 := PInteger(get)^;
+      get := @get[2];
+      li.arg4 := PInteger(get)^;
+      get := @get[2];
+      li.arg5 := PInteger(get)^;
+      get := @get[2];
+      li.activators := PInteger(get)^;
+      get := @get[2];
+      li.moreids := Pmoreids_t(get)^;
+      get := @get[SizeOf(moreids_t)];
+    end
+    else
+    begin
+      li.arg1 := 0;
+      li.arg2 := 0;
+      li.arg3 := 0;
+      li.arg4 := 0;
+      li.arg5 := 0;
+      li.activators := 0;
+      li.moreids := [];
+      if IsIntegerInRange(li.tag, 0, 255) then
+        Include(li.moreids, li.tag);
+    end;
+
     for j := 0 to 1 do
     begin
       if li.sidenum[j] = -1 then

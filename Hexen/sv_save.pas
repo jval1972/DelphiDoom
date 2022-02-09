@@ -914,6 +914,7 @@ begin
     StreamOutByte(li.arg3);
     StreamOutByte(li.arg4);
     StreamOutByte(li.arg5);
+    StreamOutBuffer(@li.moreids, SizeOf(moreids_t));
     for j := 0 to 1 do
     begin
       if li.sidenum[j] = -1 then
@@ -1051,6 +1052,13 @@ begin
     li.arg3 := GET_BYTE;
     li.arg4 := GET_BYTE;
     li.arg5 := GET_BYTE;
+    if LOADVERSION >= VERSION207 then
+    begin
+      memcpy(@li.moreids, saveptr, SizeOf(moreids_t));
+      incp(saveptr, SizeOf(moreids_t));
+    end
+    else
+      li.moreids := [];
     for j := 0 to 1 do
     begin
       if li.sidenum[j] = -1 then
