@@ -47,11 +47,13 @@ const
   ML_THINGS2 = ML_UDMFSTART + 0;
   ML_SECTORS2 = ML_UDMFSTART + 1;
   ML_VERTEX2 = ML_UDMFSTART + 2;
-  ML_NUMUDMFLUMPS = ML_UDMFSTART + 3;
+  ML_LINEDEF2 = ML_UDMFSTART + 3;
+  ML_NUMUDMFLUMPS = ML_UDMFSTART + 4;
 
   MLN_THINGS2 = 'THINGS2';
   MLN_SECTORS2 = 'SECTORS2';
   MLN_VERTEX2 = 'VERTEX2';
+  MLN_LINEDEF2 = 'LINEDEF2';
 
 const
   UDMF_TF_SKILL1 = 1;
@@ -140,6 +142,32 @@ type
   extravertex_tArray = array[0..$FFFF] of extravertex_t;
   Pextravertex_tArray = ^extravertex_tArray;
 
+const
+  ULAC_DEFAULT = 1;   // Old style
+  ULAC_REPEAT = 2;    // Repeat special
+  ULAC_CROSS = 4;     // when player crosses line
+  ULAC_USE = 8;       // when player uses line
+  ULAC_MCROSS = 16;   // when monster crosses line
+  ULAC_IMPACT = 32;   // when projectile hits line
+  ULAC_PUSH = 64;     // when player/monster pushes line
+  ULAC_PCROSS = 128;  // when projectile crosses line
+
+type
+  extraline_t = record
+   {$IFNDEF HEXEN}
+    arg1: integer;
+    arg2: integer;
+    arg3: integer;
+    arg4: integer;
+    arg5: integer;
+    activators: integer;  // ULAC_????
+    {$ENDIF}
+    moreids: moreids_t;
+  end;
+  Pextraline_t = ^extraline_t;
+  extraline_tArray = array[0..$FFFF] of extraline_t;
+  Pextraline_tArray = ^extraline_tArray;
+
 var
   udmfthings: Pextrathing_tArray;
   numudmfthings: integer;
@@ -147,6 +175,8 @@ var
   numudmfsectors: integer;
   udmfvertexes: Pextravertex_tArray;
   numudmfvertexes: integer;
+  udmflinedefs: Pextraline_tArray;
+  numudmflinedefs: integer;
   hasudmfdata: boolean;
 
 function UDMF_MakeSectors: boolean;
@@ -175,6 +205,7 @@ type
     fextrathings: Pextrathing_tArray;
     fnumthings: integer;
     fmaplinedefs: Pmaplinedef_tArray;
+    fextralinedefs: Pextraline_tArray;
     fnummaplinedefs: integer;
     fmapsidedefs: Pmapsidedef_tArray;
     fnummapsidedefs: integer;
@@ -201,6 +232,7 @@ begin
   fextrathings := nil;
   fnumthings := 0;
   fmaplinedefs := nil;
+  fextralinedefs := nil;
   fnummaplinedefs := 0;
   fmapsidedefs := nil;
   fnummapsidedefs := 0;
@@ -273,6 +305,7 @@ var
   token: string;
   pthing: Pmapthing_t;
   pextrathing: Pextrathing_t;
+  pextraline: Pextraline_t;
   pmaplinedef: Pmaplinedef_t;
   pmapsidedef: Pmapsidedef_t;
   pmapvertex: Pmapvertex_t;
@@ -523,6 +556,9 @@ var
     realloc(Pointer(fmaplinedefs), fnummaplinedefs * SizeOf(maplinedef_t), (fnummaplinedefs + 1) * SizeOf(maplinedef_t));
     pmaplinedef := @fmaplinedefs[fnummaplinedefs];
     ZeroMemory(pmaplinedef, SizeOf(maplinedef_t));
+    realloc(Pointer(fextralinedefs), fnummaplinedefs * SizeOf(extraline_t), (fnummaplinedefs + 1) * SizeOf(extraline_t));
+    pextraline := @fextralinedefs[fnummaplinedefs];
+    ZeroMemory(pextraline, SizeOf(extraline_t));
     {$IFNDEF HEXEN}
     pmaplinedef.tag := -1;
     {$ENDIF}
@@ -543,7 +579,18 @@ var
         pmaplinedef.arg1 := sc._Integer;
         {$ELSE}
         pmaplinedef.tag := sc._Integer;
+        if IsIntegerInRange(sc._Integer, 0, 255) then
+          Include(pextraline.moreids, byte(sc._Integer));
         {$ENDIF}
+      end
+      else if (token = 'MOREIDS') then
+      begin
+        sc.MustGetString;
+        sc2 := TScriptEngine.Create(sc._String);
+        while sc2.GetInteger do
+          if IsIntegerInRange(sc2._Integer, 0, 255) then
+            Include(pextraline.moreids, byte(sc2._Integer));
+        sc2.Free;
       end
       else if (token = 'V1') then
       begin
@@ -674,75 +721,121 @@ var
           pmaplinedef.flags := pmaplinedef.flags or ML_BLOCKFLOATERS;
       end
       {$ENDIF}
-      {$IFDEF HEXEN}
       else if (token = 'REPEATSPECIAL') then
       begin
         GetToken;
         if token = 'TRUE' then
+          {$IFDEF HEXEN}
           pmaplinedef.flags := pmaplinedef.flags or ML_REPEAT_SPECIAL;
+          {$ELSE}
+          pextraline.activators := pextraline.activators or ULAC_REPEAT;
+          {$ENDIF}
       end
       else if (token = 'PLAYERCROSS') then
       begin
         GetToken;
         if token = 'TRUE' then
+          {$IFDEF HEXEN}
           pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_CROSS, ML_SPAC_SHIFT);
+          {$ELSE}
+          pextraline.activators := pextraline.activators or ULAC_CROSS;
+          {$ENDIF}
       end
       else if (token = 'PLAYERUSE') then
       begin
         GetToken;
         if token = 'TRUE' then
+          {$IFDEF HEXEN}
           pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_USE, ML_SPAC_SHIFT);
+          {$ELSE}
+          pextraline.activators := pextraline.activators or ULAC_USE;
+          {$ENDIF}
       end
       else if (token = 'MONSTERCROSS') then
       begin
         GetToken;
         if token = 'TRUE' then
+          {$IFDEF HEXEN}
           pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_MCROSS, ML_SPAC_SHIFT);
+          {$ELSE}
+          pextraline.activators := pextraline.activators or ULAC_MCROSS;
+          {$ENDIF}
       end
       else if (token = 'IMPACT') then
       begin
         GetToken;
         if token = 'TRUE' then
+          {$IFDEF HEXEN}
           pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_IMPACT, ML_SPAC_SHIFT);
+          {$ELSE}
+          pextraline.activators := pextraline.activators or ULAC_IMPACT;
+          {$ENDIF}
       end
       else if (token = 'PLAYERPUSH') then
       begin
         GetToken;
         if token = 'TRUE' then
+          {$IFDEF HEXEN}
           pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_PUSH, ML_SPAC_SHIFT);
+          {$ELSE}
+          pextraline.activators := pextraline.activators or ULAC_PUSH;
+          {$ENDIF}
       end
       else if (token = 'MISSILECROSS') then
       begin
         GetToken;
         if token = 'TRUE' then
+          {$IFDEF HEXEN}
           pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_PCROSS, ML_SPAC_SHIFT);
+          {$ELSE}
+          pextraline.activators := pextraline.activators or ULAC_PCROSS;
+          {$ENDIF}
       end
       else if (token = 'ARG0') then
       begin
         sc.MustGetInteger;
+        {$IFDEF HEXEN}
         pmaplinedef.arg1 := sc._Integer;
+        {$ELSE}
+        pextraline.arg1 := sc._Integer;
+        {$ENDIF}
       end
       else if (token = 'ARG1') then
       begin
         sc.MustGetInteger;
+        {$IFDEF HEXEN}
         pmaplinedef.arg2 := sc._Integer;
+        {$ELSE}
+        pextraline.arg2 := sc._Integer;
+        {$ENDIF}
       end
       else if (token = 'ARG2') then
       begin
         sc.MustGetInteger;
+        {$IFDEF HEXEN}
         pmaplinedef.arg3 := sc._Integer;
+        {$ELSE}
+        pextraline.arg3 := sc._Integer;
+        {$ENDIF}
       end
       else if (token = 'ARG3') then
       begin
         sc.MustGetInteger;
+        {$IFDEF HEXEN}
         pmaplinedef.arg4 := sc._Integer;
+        {$ELSE}
+        pextraline.arg4 := sc._Integer;
+        {$ENDIF}
       end
       else if (token = 'ARG4') then
       begin
         sc.MustGetInteger;
+        {$IFDEF HEXEN}
         pmaplinedef.arg5 := sc._Integer;
+        {$ELSE}
+        pextraline.arg5 := sc._Integer;
+        {$ENDIF}
       end
-      {$ENDIF}
       else if (token = 'SIDEFRONT') then
       begin
         sc.MustGetInteger;
@@ -1109,6 +1202,13 @@ begin
     udmfvertexes := Z_Malloc(fnummapvertexes * SizeOf(extravertex_t), PU_LEVEL, nil);
     memcpy(udmfvertexes, fextravertexes, fnummapvertexes * SizeOf(extravertex_t));
   end;
+
+  numudmflinedefs := fnummaplinedefs;
+  if numudmflinedefs > 0 then
+  begin
+    udmflinedefs := Z_Malloc(fnummaplinedefs * SizeOf(extraline_t), PU_LEVEL, nil);
+    memcpy(udmflinedefs, fextralinedefs, fnummaplinedefs * SizeOf(extraline_t));
+  end;
 end;
 
 procedure TUDMFManager.SaveUDMFToVanilla(const amapname: string; const afilename: string;const bl, sl: integer);
@@ -1222,6 +1322,11 @@ begin
   infotable[ML_VERTEX2].name := stringtochar8(MLN_VERTEX2);
   f.Write(fextravertexes^, fnummapvertexes * SizeOf(extravertex_t));
 
+  infotable[ML_LINEDEF2].filepos := f.Position;
+  infotable[ML_LINEDEF2].size := fnummaplinedefs * SizeOf(extraline_t);
+  infotable[ML_LINEDEF2].name := stringtochar8(MLN_LINEDEF2);
+  f.Write(fextralinedefs^, fnummaplinedefs * SizeOf(extraline_t));
+
   header.infotableofs := f.Position;
   f.Write(infotable, SizeOf(infotable));
   f.Seek(0, sFromBeginning);
@@ -1234,6 +1339,7 @@ begin
   memfree(Pointer(fthings), fnumthings * SizeOf(mapthing_t));
   memfree(Pointer(fextrathings), fnumthings * SizeOf(extrathing_t));
   memfree(Pointer(fmaplinedefs), fnummaplinedefs * SizeOf(maplinedef_t));
+  memfree(Pointer(fextralinedefs), fnummaplinedefs * SizeOf(extraline_t));
   memfree(Pointer(fmapsidedefs), fnummapsidedefs * SizeOf(mapsidedef_t));
   memfree(Pointer(fmapvertexes), fnummapvertexes * SizeOf(mapvertex_t));
   memfree(Pointer(fextravertexes), fnummapvertexes * SizeOf(extravertex_t));
@@ -1264,6 +1370,8 @@ begin
   numudmfsectors := 0;
   udmfvertexes := nil;
   numudmfvertexes := 0;
+  udmflinedefs := nil;
+  numudmflinedefs := 0;
 
   lumpnum := W_GetNumForName(mapname);
   if (lumpnum < 0) or (lumpnum >= W_NumLumps - 1) then
@@ -1292,7 +1400,13 @@ begin
         udmfvertexes := W_CacheLumpNum(lumpnum + ML_VERTEX2, PU_LEVEL);
         numudmfvertexes := W_LumpLength(lumpnum + ML_VERTEX2) div SizeOf(extravertex_t);
       end;
-    hasudmfdata := (numudmfthings <> 0) and (numudmfsectors <> 0) and (numudmfvertexes <> 0);
+    if lumpnum + ML_LINEDEF2 < W_NumLumps then
+      if strupper(stringtochar8(lumpinfo[lumpnum + ML_LINEDEF2].name)) = MLN_LINEDEF2 then
+      begin
+        udmflinedefs := W_CacheLumpNum(lumpnum + ML_LINEDEF2, PU_LEVEL);
+        numudmflinedefs := W_LumpLength(lumpnum + ML_LINEDEF2) div SizeOf(extraline_t);
+      end;
+    hasudmfdata := (numudmfthings <> 0) and (numudmfsectors <> 0) and (numudmfvertexes <> 0) and (numudmflinedefs <> 0);
     result := false;
     exit;
   end;
