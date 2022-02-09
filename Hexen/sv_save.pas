@@ -914,7 +914,7 @@ begin
     StreamOutByte(li.arg3);
     StreamOutByte(li.arg4);
     StreamOutByte(li.arg5);
-    StreamOutLong(li.renderflags);
+    StreamOutLongWord(li.renderflags);
     StreamOutBuffer(@li.moreids, SizeOf(moreids_t));
     for j := 0 to 1 do
     begin
