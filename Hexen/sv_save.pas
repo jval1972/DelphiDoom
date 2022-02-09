@@ -914,6 +914,7 @@ begin
     StreamOutByte(li.arg3);
     StreamOutByte(li.arg4);
     StreamOutByte(li.arg5);
+    StreamOutLong(li.renderflags);
     StreamOutBuffer(@li.moreids, SizeOf(moreids_t));
     for j := 0 to 1 do
     begin
@@ -1054,6 +1055,7 @@ begin
     li.arg5 := GET_BYTE;
     if LOADVERSION >= VERSION207 then
     begin
+      li.renderflags := GET_LONGWORD;
       memcpy(@li.moreids, saveptr, SizeOf(moreids_t));
       incp(saveptr, SizeOf(moreids_t));
     end
