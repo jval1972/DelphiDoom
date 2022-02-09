@@ -48,6 +48,7 @@ uses
   d_think,
 // SECTORS do store MObjs anyway.
   p_mobj_h,
+  p_udmf,
 {$IFNDEF OPENGL}
   r_range,  // JVAL: 3d Floors
   r_visplanes, // JVAL: 3d Floors
@@ -221,6 +222,7 @@ type
     floorvisslope: integer;
     ceilingvisslope: integer;
 {$ENDIF}
+    moreids: moreids_t;
   end;
   sector_tArray = packed array[0..$FFFF] of sector_t;
   Psector_tArray = ^sector_tArray;

@@ -107,6 +107,7 @@ uses
   p_lights,
   p_params,
   p_levelinfo,
+  p_udmf,
   ps_main,
   psi_globals,
   psi_overlay,
@@ -428,6 +429,10 @@ begin
       put := @put[2];
     end;
 
+    // JVAL: 20200209 - Store moreids
+    Pmoreids_t(put)^ := sec.moreids;
+    put := @put[SizeOf(moreids_t)];
+    
     inc(i);
   end;
 
@@ -606,6 +611,19 @@ begin
         sec.saffectees[j] := PInteger(get)^;
         get := @get[2];
       end;
+    end;
+
+    // JVAL: 20200209 - Read moreids
+    if savegameversion >= VERSION207 then
+    begin
+      sec.moreids := Pmoreids_t(get)^;
+      get := @get[SizeOf(moreids_t)];
+    end
+    else
+    begin
+      sec.moreids := [];
+      if IsIntegerInRange(sec.tag, 0, 255) then
+        Include(sec.moreids, sec.tag);
     end;
 
     sec.specialdata := nil;

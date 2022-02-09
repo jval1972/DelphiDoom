@@ -108,6 +108,7 @@ uses
   p_map,
   p_params,
   p_levelinfo,
+  p_udmf,
   po_man,
   ps_main,
   psi_globals,
@@ -897,6 +898,10 @@ begin
     StreamOutLong(sec.num_saffectees);
     for j := 0 to sec.num_saffectees - 1 do
       StreamOutLong(sec.saffectees[j]);
+
+    // JVAL: 20200209 - Store moreids
+    StreamOutBuffer(@sec.moreids, SizeOf(moreids_t));
+
     inc(sec);
   end;
   li := @lines[0];
@@ -1018,6 +1023,19 @@ begin
       for j := 0 to sec.num_saffectees - 1 do
         sec.saffectees[j] := GET_LONG;
     end;
+
+    if LOADVERSION >= VERSION207 then
+    begin
+      memcpy(@sec.moreids, saveptr, SizeOf(moreids_t));
+      incp(saveptr, SizeOf(moreids_t));
+    end
+    else
+    begin
+      sec.moreids := [];
+      if IsIntegerInRange(sec.tag, 0, 255) then
+        Include(sec.moreids, sec.tag);
+    end;
+
     sec.specialdata := nil;
     sec.soundtarget := nil;
     sec.iSectorID := i;

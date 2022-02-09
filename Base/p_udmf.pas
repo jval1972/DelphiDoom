@@ -80,6 +80,7 @@ type
 
 type
   moreids_t = set of Byte;
+  Pmoreids_t = ^moreids_t;
 
 const
   UDMF_SF_CEILINGPLANE_A = $1;
@@ -1619,6 +1620,7 @@ begin
     sec.renderflags := sec.renderflags or SRF_RIPPLE_FLOOR;
   if usec.extraflags and UDMF_SF_FOG <> 0 then
     sec.renderflags := sec.renderflags or SRF_FOG;
+  sec.moreids := usec.moreids;
 end;
 
 function UDMF_MakeSectors: boolean;
