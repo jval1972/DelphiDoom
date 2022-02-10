@@ -51,25 +51,19 @@ var
 implementation
 
 uses
-  d_delphi,
   doomdata,
   m_fixed,
-  p_local,
   p_setup,
-  p_lights,
   p_plats,
   p_doors,
   p_ceilng,
   p_floor,
   i_system,
-  doomdef,
   g_game,
   s_sound,
   r_data,
 // Data
-  sounddata,
-// State
-  doomstat;
+  sounddata;
 
 type
 //
@@ -261,7 +255,10 @@ begin
       32, // Blue locked door open
       33, // Red locked door open
       34: // Yellow locked door open
-        exit;
+        begin
+          result := false;
+          exit;
+        end;
     end;
 
   // do something
