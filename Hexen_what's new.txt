@@ -234,6 +234,7 @@ Faster proccessing of include files.
 Added #CVARFORCE directive. It can be placed in any text content and forces the value of a console variable to the value specified.
 Search and compile ACS script if the BEHAVIOR lump is invalid or missing.
 Remember line's renderflags in saved games.
+More accurate check while searching the highest surrounding floor.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
