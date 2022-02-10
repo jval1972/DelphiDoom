@@ -5547,7 +5547,7 @@ begin
       args[2] := 0;
       args[3] := 0;
       args[4] := 0;
-      EV_DoFloor(@dummyLine, @args, FLEV_LOWERFLOORTOLOWEST, 666);
+      EVH_DoFloor(@dummyLine, @args, FLEV_LOWERFLOORTOLOWEST, 666);
       exit;
     end;
     if actor.flags4_ex and MF4_EX_MAP07BOSS2 <> 0 then
@@ -5557,7 +5557,7 @@ begin
       args[2] := 0;
       args[3] := 0;
       args[4] := 0;
-      EV_DoFloor(@dummyLine, @args, FLEV_RAISETOTEXTURE, 667);
+      EVH_DoFloor(@dummyLine, @args, FLEV_RAISETOTEXTURE, 667);
       exit;
     end;
   end;

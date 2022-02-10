@@ -45,7 +45,7 @@ uses
 //
 function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; useFog: boolean; floorz, ceilingz: fixed_t): boolean;
 
-function EV_Teleport(tid: integer; thing: Pmobj_t; fog: boolean): boolean;
+function EVH_Teleport(tid: integer; thing: Pmobj_t; fog: boolean): boolean;
 
 const
   TELEPORTZOOM = 15 * FRACUNIT;
@@ -166,10 +166,10 @@ begin
 end;
 
 //
-// EV_Teleport
+// EVH_Teleport
 //
 
-function EV_Teleport(tid: integer; thing: Pmobj_t; fog: boolean): boolean;
+function EVH_Teleport(tid: integer; thing: Pmobj_t; fog: boolean): boolean;
 var
   i: integer;
   count: integer;

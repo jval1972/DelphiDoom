@@ -43,11 +43,11 @@ uses
   p_spec,
   r_defs;
 
-procedure T_VerticalDoor(door: Pvldoor_t);
+procedure TH_VerticalDoor(door: Pvldoor_t);
 
-function EV_DoDoor(line: Pline_t; args: PByteArray; _type: vldoor_e): boolean;
+function EVH_DoDoor(line: Pline_t; args: PByteArray; _type: vldoor_e): boolean;
 
-function EV_VerticalDoor(line: Pline_t; thing: Pmobj_t): boolean;
+function EVH_VerticalDoor(line: Pline_t; thing: Pmobj_t): boolean;
 
 implementation
 
@@ -63,9 +63,9 @@ uses
 //
 
 //
-// T_VerticalDoor
+// TH_VerticalDoor
 //
-procedure T_VerticalDoor(door: Pvldoor_t);
+procedure TH_VerticalDoor(door: Pvldoor_t);
 var
   res: result_e;
 begin
@@ -108,7 +108,7 @@ begin
    -1:
       begin
   // DOWN
-        res := T_MovePlane(door.sector, door.speed, door.sector.floorheight,
+        res := TH_MovePlane(door.sector, door.speed, door.sector.floorheight,
                   false, 1, door.direction);
         if res = RES_PASTDEST then
         begin
@@ -144,7 +144,7 @@ begin
     1:
       begin
   // UP
-        res := T_MovePlane(door.sector, door.speed, door.topheight,
+        res := TH_MovePlane(door.sector, door.speed, door.topheight,
                   false, 1, door.direction);
         if res = RES_PASTDEST then
         begin
@@ -171,13 +171,13 @@ end;
 
 //----------------------------------------------------------------------------
 //
-// EV_DoDoor
+// EVH_DoDoor
 //
 // Move a door up/down
 //
 //----------------------------------------------------------------------------
 
-function EV_DoDoor(line: Pline_t; args: PByteArray; _type: vldoor_e): boolean;
+function EVH_DoDoor(line: Pline_t; args: PByteArray; _type: vldoor_e): boolean;
 var
   initial: boolean;
   secnum: integer;
@@ -207,7 +207,7 @@ begin
     P_AddThinker(@door.thinker);
     sec.specialdata := door;
 
-    door.thinker._function.acp1 := @T_VerticalDoor;
+    door.thinker._function.acp1 := @TH_VerticalDoor;
     door.sector := sec;
 
     case _type of
@@ -241,9 +241,9 @@ begin
 end;
 
 //
-// EV_VerticalDoor : open a door manually, no tag value
+// EVH_VerticalDoor : open a door manually, no tag value
 //
-function EV_VerticalDoor(line: Pline_t; thing: Pmobj_t): boolean;
+function EVH_VerticalDoor(line: Pline_t; thing: Pmobj_t): boolean;
 var
   sec: Psector_t;
   door: Pvldoor_t;
@@ -265,7 +265,7 @@ begin
   door := Z_Malloc(SizeOf(vldoor_t), PU_LEVSPEC, nil);
   P_AddThinker(@door.thinker);
   sec.specialdata := door;
-  door.thinker._function.acp1 := @T_VerticalDoor;
+  door.thinker._function.acp1 := @TH_VerticalDoor;
   door.sector := sec;
   door.direction := 1;
   case line.special of

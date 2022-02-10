@@ -561,7 +561,7 @@ end;
 procedure RestorePlatRaise(plat: Pplat_t);
 begin
   plat.sector := @sectors[integer(plat.sector)];
-  plat.sector.specialdata := @T_PlatRaise;
+  plat.sector.specialdata := @TH_PlatRaise;
   P_AddActivePlat(plat);
 end;
 
@@ -572,7 +572,7 @@ end;
 procedure RestoreMoveCeiling(ceiling: Pceiling_t);
 begin
   ceiling.sector := @sectors[integer(ceiling.sector)];
-  ceiling.sector.specialdata := @T_MoveCeiling;
+  ceiling.sector.specialdata := @TH_MoveCeiling;
   P_AddActiveCeiling(ceiling);
 end;
 
@@ -590,84 +590,84 @@ begin
 // This list has been prioritized using frequency estimates
   pti := @ThinkerInfo[0];
   pti.tClass := TC_MOVE_FLOOR;
-  pti.thinkerFunc.acp1 := @T_MoveFloor;
+  pti.thinkerFunc.acp1 := @TH_MoveFloor;
   pti.mangleFunc := @MangleSSThinker;
   pti.restoreFunc := @RestoreSSThinker;
   pti.size := SizeOf(floormove_t);
 
   inc(pti);
   pti.tClass := TC_PLAT_RAISE;
-  pti.thinkerFunc.acp1 := @T_PlatRaise;
+  pti.thinkerFunc.acp1 := @TH_PlatRaise;
   pti.mangleFunc := @MangleSSThinker;
   pti.restoreFunc := @RestorePlatRaise;
   pti.size := SizeOf(plat_t);
 
   inc(pti);
   pti.tClass := TC_MOVE_CEILING;
-  pti.thinkerFunc.acp1 :=  @T_MoveCeiling;
+  pti.thinkerFunc.acp1 :=  @TH_MoveCeiling;
   pti.mangleFunc := @MangleSSThinker;
   pti.restoreFunc := @RestoreMoveCeiling;
   pti.size := SizeOf(ceiling_t);
 
   inc(pti);
   pti.tClass := TC_LIGHT;
-  pti.thinkerFunc.acp1 := @T_Light;
+  pti.thinkerFunc.acp1 := @TH_Light;
   pti.mangleFunc := @MangleSSThinker;
   pti.restoreFunc := @RestoreSSThinkerNoSD;
   pti.size := SizeOf(light_t);
 
   inc(pti);
   pti.tClass := TC_VERTICAL_DOOR;
-  pti.thinkerFunc.acp1 :=  @T_VerticalDoor;
+  pti.thinkerFunc.acp1 :=  @TH_VerticalDoor;
   pti.mangleFunc := @MangleSSThinker;
   pti.restoreFunc := @RestoreSSThinker;
   pti.size := SizeOf(vldoor_t);
 
   inc(pti);
   pti.tClass := TC_PHASE;
-  pti.thinkerFunc.acp1 := @T_Phase;
+  pti.thinkerFunc.acp1 := @TH_Phase;
   pti.mangleFunc := @MangleSSThinker;
   pti.restoreFunc := @RestoreSSThinkerNoSD;
   pti.size := SizeOf(phase_t);
 
   inc(pti);
   pti.tClass := TC_INTERPRET_ACS;
-  pti.thinkerFunc.acp1 :=  @T_InterpretACS;
+  pti.thinkerFunc.acp1 :=  @TH_InterpretACS;
   pti.mangleFunc := @MangleScript;
   pti.restoreFunc := @RestoreScript;
   pti.size := SizeOf(acs_t);
 
   inc(pti);
   pti.tClass := TC_ROTATE_POLY;
-  pti.thinkerFunc.acp1 :=  @T_RotatePoly;
+  pti.thinkerFunc.acp1 :=  @TH_RotatePoly;
   pti.mangleFunc := nil;
   pti.restoreFunc := nil;
   pti.size := SizeOf(polyevent_t);
 
   inc(pti);
   pti.tClass := TC_BUILD_PILLAR;
-  pti.thinkerFunc.acp1 :=  @T_BuildPillar;
+  pti.thinkerFunc.acp1 :=  @TH_BuildPillar;
   pti.mangleFunc := @MangleSSThinker;
   pti.restoreFunc := @RestoreSSThinker;
   pti.size := SizeOf(pillar_t);
 
   inc(pti);
   pti.tClass := TC_MOVE_POLY;
-  pti.thinkerFunc.acp1 :=  @T_MovePoly;
+  pti.thinkerFunc.acp1 :=  @TH_MovePoly;
   pti.mangleFunc := nil;
   pti.restoreFunc := nil;
   pti.size := SizeOf(polyevent_t);
 
   inc(pti);
   pti.tClass := TC_POLY_DOOR;
-  pti.thinkerFunc.acp1 :=  @T_PolyDoor;
+  pti.thinkerFunc.acp1 :=  @TH_PolyDoor;
   pti.mangleFunc := nil;
   pti.restoreFunc := nil;
   pti.size := SizeOf(polydoor_t);
 
   inc(pti);
   pti.tClass := TC_FLOOR_WAGGLE;
-  pti.thinkerFunc.acp1 :=  @T_FloorWaggle;
+  pti.thinkerFunc.acp1 :=  @TH_FloorWaggle;
   pti.mangleFunc := @MangleSSThinker;
   pti.restoreFunc := @RestoreSSThinker;
   pti.size := SizeOf(floorWaggle_t);

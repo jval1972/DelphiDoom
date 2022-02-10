@@ -48,7 +48,7 @@ type
   );
 
 
-function EV_SpawnLight(line: Pline_t; arg: PByteArray; _type: lighttype_t): boolean;
+function EVH_SpawnLight(line: Pline_t; arg: PByteArray; _type: lighttype_t): boolean;
 
 procedure P_SpawnPhasedLight(sector: Psector_t; base: integer; index: integer);
 
@@ -67,7 +67,7 @@ type
   end;
   Plight_t = ^light_t;
 
-procedure T_Light(light: Plight_t);
+procedure TH_Light(light: Plight_t);
 
 type
   phase_t = record
@@ -79,7 +79,7 @@ type
   Pphase_t = ^phase_t;
 
 
-procedure T_Phase(phase: Pphase_t);
+procedure TH_Phase(phase: Pphase_t);
 
 implementation
 
@@ -98,10 +98,10 @@ const
 
 
 //
-//  T_Light
+//  TH_Light
 //
 
-procedure T_Light(light: Plight_t);
+procedure TH_Light(light: Plight_t);
 begin
   if light.count > 0 then
   begin
@@ -176,10 +176,10 @@ begin
 end;
 
 //
-//  EV_SpawnLight
+//  EVH_SpawnLight
 //
 
-function EV_SpawnLight(line: Pline_t; arg: PByteArray; _type: lighttype_t): boolean;
+function EVH_SpawnLight(line: Pline_t; arg: PByteArray; _type: lighttype_t): boolean;
 var
   light: Plight_t;
   sec: Psector_t;
@@ -271,7 +271,7 @@ begin
     if think then
     begin
       P_AddThinker(@light.thinker);
-      light.thinker._function.acp1 := @T_Light;
+      light.thinker._function.acp1 := @TH_Light;
     end
     else
       Z_Free(light);
@@ -279,7 +279,7 @@ begin
 end;
 
 //
-//  T_Phase
+//  TH_Phase
 //
 
 const
@@ -294,7 +294,7 @@ const
      32,  32,  48,  64,  80,  96, 112, 128
   );
 
-procedure T_Phase(phase: Pphase_t);
+procedure TH_Phase(phase: Pphase_t);
 begin
   phase.index := (phase.index + 1) and 63;
   phase.sector.lightlevel := phase.base + PhaseTable[phase.index];
@@ -321,7 +321,7 @@ begin
   end;
   phase.base := base and 255;
   sector.lightlevel := phase.base + PhaseTable[phase.index];
-  phase.thinker._function.acp1 := @T_Phase;
+  phase.thinker._function.acp1 := @TH_Phase;
 
   sector.special := 0;
 end;

@@ -148,17 +148,17 @@ const
     MT_WRAITHFX2          // T_SPARK_DRIP
   );
 
-function EV_ThingActivate(tid: integer): boolean;
+function EVH_ThingActivate(tid: integer): boolean;
 
-function EV_ThingDeactivate(tid: integer): boolean;
+function EVH_ThingDeactivate(tid: integer): boolean;
 
-function EV_ThingRemove(tid: integer): boolean;
+function EVH_ThingRemove(tid: integer): boolean;
 
-function EV_ThingDestroy(tid: integer): boolean;
+function EVH_ThingDestroy(tid: integer): boolean;
 
-function EV_ThingProjectile(args: PByteArray; gravity: boolean): boolean;
+function EVH_ThingProjectile(args: PByteArray; gravity: boolean): boolean;
 
-function EV_ThingSpawn(args: PByteArray; fog: boolean): boolean;
+function EVH_ThingSpawn(args: PByteArray; fog: boolean): boolean;
 
 implementation
 
@@ -178,10 +178,10 @@ uses
   doomdef;
 
 //
-// EV_ThingProjectile
+// EVH_ThingProjectile
 //
 
-function EV_ThingProjectile(args: PByteArray; gravity: boolean): boolean;
+function EVH_ThingProjectile(args: PByteArray; gravity: boolean): boolean;
 var
   tid: integer;
   angle: angle_t;
@@ -228,10 +228,10 @@ begin
 end;
 
 //
-// EV_ThingSpawn
+// EVH_ThingSpawn
 //
 
-function EV_ThingSpawn(args: PByteArray; fog: boolean): boolean;
+function EVH_ThingSpawn(args: PByteArray; fog: boolean): boolean;
 var
   tid: integer;
   angle: angle_t;
@@ -388,10 +388,10 @@ begin
 end;
 
 //
-// EV_ThingActivate
+// EVH_ThingActivate
 //
 
-function EV_ThingActivate(tid: integer): boolean;
+function EVH_ThingActivate(tid: integer): boolean;
 var
   mobj: Pmobj_t;
   searcher: integer;
@@ -489,10 +489,10 @@ end;
 
 
 //
-// EV_ThingDeactivate
+// EVH_ThingDeactivate
 //
 
-function EV_ThingDeactivate(tid: integer): boolean;
+function EVH_ThingDeactivate(tid: integer): boolean;
 var
   mobj: Pmobj_t;
   searcher: integer;
@@ -505,10 +505,10 @@ begin
 end;
 
 //
-// EV_ThingRemove
+// EVH_ThingRemove
 //
 
-function EV_ThingRemove(tid: integer): boolean;
+function EVH_ThingRemove(tid: integer): boolean;
 var
   mobj: Pmobj_t;
   searcher: integer;
@@ -528,10 +528,10 @@ begin
 end;
 
 //
-// EV_ThingDestroy
+// EVH_ThingDestroy
 //
 
-function EV_ThingDestroy(tid: integer): boolean;
+function EVH_ThingDestroy(tid: integer): boolean;
 var
   mobj: Pmobj_t;
   searcher: integer;

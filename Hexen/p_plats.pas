@@ -39,11 +39,11 @@ uses
 var
   activeplats: array[0..MAXPLATS - 1] of Pplat_t;
 
-procedure T_PlatRaise(plat: Pplat_t);
+procedure TH_PlatRaise(plat: Pplat_t);
 
-function EV_DoPlat(line: Pline_t; args: PByteArray; _type: plattype_e; amount: integer): boolean;
+function EVH_DoPlat(line: Pline_t; args: PByteArray; _type: plattype_e; amount: integer): boolean;
 
-procedure EV_StopPlat(line: Pline_t; args: PByteArray);
+procedure EVH_StopPlat(line: Pline_t; args: PByteArray);
 
 procedure P_AddActivePlat(plat: Pplat_t);
 
@@ -66,14 +66,14 @@ uses
 //
 //      Move a plat up and down
 //
-procedure T_PlatRaise(plat: Pplat_t);
+procedure TH_PlatRaise(plat: Pplat_t);
 var
   res: result_e;
 begin
   case plat.status of
     PLAT_UP:
       begin
-        res := T_MovePlane(plat.sector, plat.speed, plat.high, plat.crush, 0, 1);
+        res := TH_MovePlane(plat.sector, plat.speed, plat.high, plat.crush, 0, 1);
         if (res = RES_CRUSHED) and not plat.crush then
         begin
           plat.count := plat.wait;
@@ -91,7 +91,7 @@ begin
       end;
     PLAT_DOWN:
       begin
-        res := T_MovePlane(plat.sector, plat.speed, plat.low, false, 0, -1);
+        res := TH_MovePlane(plat.sector, plat.speed, plat.low, false, 0, -1);
         if res = RES_PASTDEST then
         begin
           plat.count := plat.wait;
@@ -120,7 +120,7 @@ end;
 //      Do Platforms
 //      "amount" is only used for SOME platforms.
 //
-function EV_DoPlat(line: Pline_t; args: PByteArray; _type: plattype_e; amount: integer): boolean;
+function EVH_DoPlat(line: Pline_t; args: PByteArray; _type: plattype_e; amount: integer): boolean;
 var
   plat: Pplat_t;
   secnum: integer;
@@ -145,7 +145,7 @@ begin
     plat._type := _type;
     plat.sector := sec;
     plat.sector.specialdata := plat;
-    plat.thinker._function.acp1 := @T_PlatRaise;
+    plat.thinker._function.acp1 := @TH_PlatRaise;
     plat.crush := false;
     plat.tag := args[0];
     plat.speed := args[1] * (FRACUNIT div 8);
@@ -203,7 +203,7 @@ begin
   end;
 end;
 
-procedure EV_StopPlat(line: Pline_t; args: PByteArray);
+procedure EVH_StopPlat(line: Pline_t; args: PByteArray);
 var
   i: integer;
 begin

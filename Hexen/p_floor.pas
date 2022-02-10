@@ -46,30 +46,30 @@ uses
 // FLOORS
 //
 
-function T_MovePlane(sector: Psector_t; speed: fixed_t; dest: fixed_t;
+function TH_MovePlane(sector: Psector_t; speed: fixed_t; dest: fixed_t;
   crush: boolean; floorOrCeiling: integer; dir: integer): result_e;
 
-procedure T_MoveFloor(floor: Pfloormove_t);
+procedure TH_MoveFloor(floor: Pfloormove_t);
 
-function EV_DoFloor(line: Pline_t; args: PByteArray; floortype: floor_e; const tag1: integer = -1): boolean;
+function EVH_DoFloor(line: Pline_t; args: PByteArray; floortype: floor_e; const tag1: integer = -1): boolean;
 
-function EV_BuildStairs(line: Pline_t; args: PByteArray; dir: integer;
+function EVH_BuildStairs(line: Pline_t; args: PByteArray; dir: integer;
   stairsType: stairs_e): boolean;
 
-function EV_BuildPillar(line: Pline_t; args: PByteArray; crush: boolean): boolean;
+function EVH_BuildPillar(line: Pline_t; args: PByteArray; crush: boolean): boolean;
 
-function EV_OpenPillar(line: Pline_t; args: PByteArray): boolean;
+function EVH_OpenPillar(line: Pline_t; args: PByteArray): boolean;
 
-function EV_FloorCrushStop(line: Pline_t; args: PByteArray): boolean;
+function EVH_FloorCrushStop(line: Pline_t; args: PByteArray): boolean;
 
-function EV_DoFloorAndCeiling(line: Pline_t; args: PByteArray; doraise: boolean): boolean;
+function EVH_DoFloorAndCeiling(line: Pline_t; args: PByteArray; doraise: boolean): boolean;
 
-function EV_StartFloorWaggle(tag: integer; height: integer; speed: integer;
+function EVH_StartFloorWaggle(tag: integer; height: integer; speed: integer;
   offset: integer; timer: integer): boolean;
 
-procedure T_BuildPillar(pillar: Ppillar_t);
+procedure TH_BuildPillar(pillar: Ppillar_t);
 
-procedure T_FloorWaggle(waggle: PfloorWaggle_t);
+procedure TH_FloorWaggle(waggle: PfloorWaggle_t);
 
 implementation
 
@@ -92,7 +92,7 @@ uses
 //
 // Move a plane (floor or ceiling) and check for crushing
 //
-function T_MovePlane(sector: Psector_t; speed: fixed_t; dest: fixed_t;
+function TH_MovePlane(sector: Psector_t; speed: fixed_t; dest: fixed_t;
   crush: boolean; floorOrCeiling: integer; dir: integer): result_e;
 var
   lastpos: fixed_t;
@@ -223,7 +223,7 @@ end;
 //
 // MOVE A FLOOR TO IT'S DESTINATION (UP OR DOWN)
 //
-procedure T_MoveFloor(floor: Pfloormove_t);
+procedure TH_MoveFloor(floor: Pfloormove_t);
 var
   res: result_e;
 begin
@@ -248,7 +248,7 @@ begin
     exit;
   end;
 
-  res := T_MovePlane(floor.sector, floor.speed, floor.floordestheight,
+  res := TH_MovePlane(floor.sector, floor.speed, floor.floordestheight,
             floor.crush, 0, floor.direction);
 
   if floor._type = FLEV_RAISEBUILDSTEP then
@@ -280,7 +280,7 @@ end;
 //
 //      HANDLE FLOOR TYPES
 //
-function EV_DoFloor(line: Pline_t; args: PByteArray; floortype: floor_e; const tag1: integer = -1): boolean;
+function EVH_DoFloor(line: Pline_t; args: PByteArray; floortype: floor_e; const tag1: integer = -1): boolean;
 var
   secnum: integer;
   sec: Psector_t;
@@ -318,7 +318,7 @@ begin
     memset(floor, 0, sizeof(floormove_t));
     P_AddThinker(@floor.thinker);
     sec.specialdata := floor;
-    floor.thinker._function.acp1 := @T_MoveFloor;
+    floor.thinker._function.acp1 := @TH_MoveFloor;
     floor._type := floortype;
     floor.crush := false;
     floor.speed := args[1] * (FRACUNIT div 8);
@@ -436,10 +436,10 @@ begin
 end;
 
 //
-// EV_DoFloorAndCeiling
+// EVH_DoFloorAndCeiling
 //
 
-function EV_DoFloorAndCeiling(line: Pline_t; args: PByteArray; doraise: boolean): boolean;
+function EVH_DoFloorAndCeiling(line: Pline_t; args: PByteArray; doraise: boolean): boolean;
 var
   floor, ceiling: boolean;
   secnum: integer;
@@ -454,25 +454,25 @@ var
 begin
   if doraise then
   begin
-    floor := EV_DoFloor(line, args, FLEV_RAISEFLOORBYVALUE);
+    floor := EVH_DoFloor(line, args, FLEV_RAISEFLOORBYVALUE);
     secnum := -1;
     while _FindSectorFromTag >= 0 do
     begin
       sec := @sectors[secnum];
       sec.specialdata := nil;
     end;
-    ceiling := EV_DoCeiling(line, args, CLEV_RAISEBYVALUE);
+    ceiling := EVH_DoCeiling(line, args, CLEV_RAISEBYVALUE);
   end
   else
   begin
-    floor := EV_DoFloor(line, args, FLEV_LOWERFLOORBYVALUE);
+    floor := EVH_DoFloor(line, args, FLEV_LOWERFLOORBYVALUE);
     secnum := -1;
     while _FindSectorFromTag >= 0 do
     begin
       sec := @sectors[secnum];
       sec.specialdata := nil;
     end;
-    ceiling := EV_DoCeiling(line, args, CLEV_LOWERBYVALUE);
+    ceiling := EVH_DoCeiling(line, args, CLEV_LOWERBYVALUE);
   end;
   result := floor or ceiling;
 end;
@@ -559,7 +559,7 @@ begin
   memset(floor, 0, SizeOf(floormove_t));
   P_AddThinker(@floor.thinker);
   sec.specialdata := floor;
-  floor.thinker._function.acp1 := @T_MoveFloor;
+  floor.thinker._function.acp1 := @TH_MoveFloor;
   floor._type := FLEV_RAISEBUILDSTEP;
   floor.direction := Direction;
   floor.sector := sec;
@@ -620,7 +620,7 @@ end;
 // Direction is either positive or negative, denoting build stairs
 //      up or down.
 
-function EV_BuildStairs(line: Pline_t; args: PByteArray; dir: integer;
+function EVH_BuildStairs(line: Pline_t; args: PByteArray; dir: integer;
   stairsType: stairs_e): boolean;
 var
   secnum: integer;
@@ -685,18 +685,18 @@ begin
 end;
 
 //
-// T_BuildPillar
+// TH_BuildPillar
 //
 
-procedure T_BuildPillar(pillar: Ppillar_t);
+procedure TH_BuildPillar(pillar: Ppillar_t);
 var
   res1, res2: result_e;
 begin
   // First, doraise the floor
-  res1 := T_MovePlane(pillar.sector, pillar.floorSpeed, pillar.floordest,
+  res1 := TH_MovePlane(pillar.sector, pillar.floorSpeed, pillar.floordest,
     pillar.crush, 0, pillar.direction); // floorOrCeiling, direction
   // Then, lower the ceiling
-  res2 := T_MovePlane(pillar.sector, pillar.ceilingSpeed,
+  res2 := TH_MovePlane(pillar.sector, pillar.ceilingSpeed,
      pillar.ceilingdest, pillar.crush, 1, -pillar.direction);
   if (res1 = RES_PASTDEST) and (res2 = RES_PASTDEST) then
   begin
@@ -708,10 +708,10 @@ begin
 end;
 
 //
-// EV_BuildPillar
+// EVH_BuildPillar
 //
 
-function EV_BuildPillar(line: Pline_t; args: PByteArray; crush: boolean): boolean;
+function EVH_BuildPillar(line: Pline_t; args: PByteArray; crush: boolean): boolean;
 var
   secnum: integer;
   sec: Psector_t;
@@ -745,7 +745,7 @@ begin
     pillar := Z_Malloc(SizeOf(pillar_t), PU_LEVSPEC, nil);
     sec.specialdata := pillar;
     P_AddThinker(@pillar.thinker);
-    pillar.thinker._function.acp1 := @T_BuildPillar;
+    pillar.thinker._function.acp1 := @TH_BuildPillar;
     pillar.sector := sec;
     if args[2] = 0 then
     begin
@@ -773,10 +773,10 @@ begin
 end;
 
 //
-// EV_OpenPillar
+// EVH_OpenPillar
 //
 
-function EV_OpenPillar(line: Pline_t; args: PByteArray): boolean;
+function EVH_OpenPillar(line: Pline_t; args: PByteArray): boolean;
 var
   secnum: integer;
   sec: Psector_t;
@@ -804,7 +804,7 @@ begin
     pillar := Z_Malloc(SizeOf(pillar_t), PU_LEVSPEC, nil);
     sec.specialdata := pillar;
     P_AddThinker(@pillar.thinker);
-    pillar.thinker._function.acp1 := @T_BuildPillar;
+    pillar.thinker._function.acp1 := @TH_BuildPillar;
     pillar.sector := sec;
     if args[2] = 0 then
       pillar.floordest := P_FindLowestFloorSurrounding(sec)
@@ -837,10 +837,10 @@ begin
 end;
 
 //
-// EV_FloorCrushStop
+// EVH_FloorCrushStop
 //
 
-function EV_FloorCrushStop(line: Pline_t; args: PByteArray): boolean;
+function EVH_FloorCrushStop(line: Pline_t; args: PByteArray): boolean;
 var
   think: Pthinker_t;
   floor: Pfloormove_t;
@@ -850,7 +850,7 @@ begin
   think := thinkercap.next;
   while think <> @thinkercap do
   begin
-    if @think._function.acp1 <> @T_MoveFloor then
+    if @think._function.acp1 <> @TH_MoveFloor then
     begin
       think := think.next;
       continue;
@@ -874,7 +874,7 @@ begin
 end;
 
 //
-// T_FloorWaggle
+// TH_FloorWaggle
 //
 
 const
@@ -882,7 +882,7 @@ const
   WGLSTATE_STABLE = 2;
   WGLSTATE_REDUCE = 3;
 
-procedure T_FloorWaggle(waggle: PfloorWaggle_t);
+procedure TH_FloorWaggle(waggle: PfloorWaggle_t);
 begin
   case waggle.state of
     WGLSTATE_EXPAND:
@@ -925,10 +925,10 @@ begin
 end;
 
 //
-// EV_StartFloorWaggle
+// EVH_StartFloorWaggle
 //
 
-function EV_StartFloorWaggle(tag: integer; height: integer; speed: integer;
+function EVH_StartFloorWaggle(tag: integer; height: integer; speed: integer;
   offset: integer; timer: integer): boolean;
 var
   sectorIndex: integer;
@@ -954,7 +954,7 @@ begin
     result := true;
     waggle := Z_Malloc(SizeOf(floorWaggle_t), PU_LEVSPEC, nil);
     sector.specialdata := waggle;
-    waggle.thinker._function.acp1 := @T_FloorWaggle;
+    waggle.thinker._function.acp1 := @TH_FloorWaggle;
     waggle.sector := sector;
     waggle.originalHeight := sector.floorheight;
     waggle.accumulator := offset * FRACUNIT;

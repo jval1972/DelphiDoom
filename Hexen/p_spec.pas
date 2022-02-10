@@ -74,11 +74,11 @@ function P_FindSectorFromTag(tag: integer; start: integer): integer;
 
 function P_FindSectorFromTag2(const tag: integer; var sec: integer): integer;
 
-function EV_SectorSoundChange(args: PByteArray): boolean;
+function EVH_SectorSoundChange(args: PByteArray): boolean;
 
 function CheckedLockedDoor(mo: Pmobj_t; lock: byte): boolean;
 
-function EV_LineSearchForPuzzleItem(line: Pline_t; args: PByteArray; mo: Pmobj_t): boolean;
+function EVH_LineSearchForPuzzleItem(line: Pline_t; args: PByteArray; mo: Pmobj_t): boolean;
 
 function P_ExecuteLineSpecial(special: integer; args: PByteArray; line: Pline_t;
   side: integer; mo: Pmobj_t): boolean;
@@ -652,10 +652,10 @@ var
   TaggedLineCount: integer = 0;
 
 //
-// EV_SectorSoundChange
+// EVH_SectorSoundChange
 //
 
-function EV_SectorSoundChange(args: PByteArray): boolean;
+function EVH_SectorSoundChange(args: PByteArray): boolean;
 var
   secNum: integer;
 begin
@@ -709,10 +709,10 @@ end;
 
 
 //
-// EV_LineSearchForPuzzleItem
+// EVH_LineSearchForPuzzleItem
 //
 
-function EV_LineSearchForPuzzleItem(line: Pline_t; args: PByteArray; mo: Pmobj_t): boolean;
+function EVH_LineSearchForPuzzleItem(line: Pline_t; args: PByteArray; mo: Pmobj_t): boolean;
 var
   player: Pplayer_t;
   i: integer;
@@ -792,17 +792,17 @@ begin
 
     2: // Poly Rotate Left
       begin
-        result := EV_RotatePoly(line, args, 1, false);
+        result := EVH_RotatePoly(line, args, 1, false);
       end;
 
     3: // Poly Rotate Right
       begin
-        result := EV_RotatePoly(line, args, -1, false);
+        result := EVH_RotatePoly(line, args, -1, false);
       end;
 
     4: // Poly Move
       begin
-        result := EV_MovePoly(line, args, false, false);
+        result := EVH_MovePoly(line, args, false, false);
       end;
 
     5: // Poly Explicit Line:  Only used in initialization
@@ -811,38 +811,38 @@ begin
 
     6: // Poly Move Times 8
       begin
-        result := EV_MovePoly(line, args, true, false);
+        result := EVH_MovePoly(line, args, true, false);
       end;
 
     7: // Poly Door Swing
       begin
-        result := EV_OpenPolyDoor(line, args, PODOOR_SWING);
+        result := EVH_OpenPolyDoor(line, args, PODOOR_SWING);
       end;
 
     8: // Poly Door Slide
       begin
-        result := EV_OpenPolyDoor(line, args, PODOOR_SLIDE);
+        result := EVH_OpenPolyDoor(line, args, PODOOR_SLIDE);
       end;
 
     10: // Door Close
       begin
-        result := EV_DoDoor(line, args, DREV_CLOSE);
+        result := EVH_DoDoor(line, args, DREV_CLOSE);
       end;
 
     11: // Door Open
       begin
         if args[0] = 0 then
-          result := EV_VerticalDoor(line, mo)
+          result := EVH_VerticalDoor(line, mo)
         else
-          result := EV_DoDoor(line, args, DREV_OPEN);
+          result := EVH_DoDoor(line, args, DREV_OPEN);
       end;
 
     12: // Door Raise
       begin
         if args[0] = 0 then
-          result := EV_VerticalDoor(line, mo)
+          result := EVH_VerticalDoor(line, mo)
         else
-          result := EV_DoDoor(line, args, DREV_NORMAL);
+          result := EVH_DoDoor(line, args, DREV_NORMAL);
       end;
 
     13: // Door Locked_Raise
@@ -850,177 +850,177 @@ begin
         if CheckedLockedDoor(mo, args[3]) then
         begin
           if args[0] = 0 then
-            result := EV_VerticalDoor(line, mo)
+            result := EVH_VerticalDoor(line, mo)
           else
-            result := EV_DoDoor(line, args, DREV_NORMAL);
+            result := EVH_DoDoor(line, args, DREV_NORMAL);
         end;
       end;
 
     20: // Floor Lower by Value
       begin
-        result := EV_DoFloor(line, args, FLEV_LOWERFLOORBYVALUE);
+        result := EVH_DoFloor(line, args, FLEV_LOWERFLOORBYVALUE);
       end;
 
     21: // Floor Lower to Lowest
       begin
-        result := EV_DoFloor(line, args, FLEV_LOWERFLOORTOLOWEST);
+        result := EVH_DoFloor(line, args, FLEV_LOWERFLOORTOLOWEST);
       end;
 
     22: // Floor Lower to Nearest
       begin
-        result := EV_DoFloor(line, args, FLEV_LOWERFLOOR);
+        result := EVH_DoFloor(line, args, FLEV_LOWERFLOOR);
       end;
 
     23: // Floor Raise by Value
       begin
-        result := EV_DoFloor(line, args, FLEV_RAISEFLOORBYVALUE);
+        result := EVH_DoFloor(line, args, FLEV_RAISEFLOORBYVALUE);
       end;
 
     24: // Floor Raise to Highest
       begin
-        result := EV_DoFloor(line, args, FLEV_RAISEFLOOR);
+        result := EVH_DoFloor(line, args, FLEV_RAISEFLOOR);
       end;
 
     25: // Floor Raise to Nearest
       begin
-        result := EV_DoFloor(line, args, FLEV_RAISEFLOORTONEAREST);
+        result := EVH_DoFloor(line, args, FLEV_RAISEFLOORTONEAREST);
       end;
 
     26: // Stairs Build Down Normal
       begin
-        result := EV_BuildStairs(line, args, -1, STAIRS_NORMAL);
+        result := EVH_BuildStairs(line, args, -1, STAIRS_NORMAL);
       end;
 
     27: // Build Stairs Up Normal
       begin
-        result := EV_BuildStairs(line, args, 1, STAIRS_NORMAL);
+        result := EVH_BuildStairs(line, args, 1, STAIRS_NORMAL);
       end;
 
     28: // Floor Raise and Crush
       begin
-        result := EV_DoFloor(line, args, FLEV_RAISEFLOORCRUSH);
+        result := EVH_DoFloor(line, args, FLEV_RAISEFLOORCRUSH);
       end;
 
     29: // Build Pillar (no crushing)
       begin
-        result := EV_BuildPillar(line, args, false);
+        result := EVH_BuildPillar(line, args, false);
       end;
 
     30: // Open Pillar
       begin
-        result := EV_OpenPillar(line, args);
+        result := EVH_OpenPillar(line, args);
       end;
 
     31: // Stairs Build Down Sync
       begin
-        result := EV_BuildStairs(line, args, -1, STAIRS_SYNC);
+        result := EVH_BuildStairs(line, args, -1, STAIRS_SYNC);
       end;
 
     32: // Build Stairs Up Sync
       begin
-        result := EV_BuildStairs(line, args, 1, STAIRS_SYNC);
+        result := EVH_BuildStairs(line, args, 1, STAIRS_SYNC);
       end;
 
     35: // Raise Floor by Value Times 8
       begin
-        result := EV_DoFloor(line, args, FLEV_RAISEBYVALUETIMES8);
+        result := EVH_DoFloor(line, args, FLEV_RAISEBYVALUETIMES8);
       end;
 
     36: // Lower Floor by Value Times 8
       begin
-        result := EV_DoFloor(line, args, FLEV_LOWERBYVALUETIMES8);
+        result := EVH_DoFloor(line, args, FLEV_LOWERBYVALUETIMES8);
       end;
 
     40: // Ceiling Lower by Value
       begin
-        result := EV_DoCeiling(line, args, CLEV_LOWERBYVALUE);
+        result := EVH_DoCeiling(line, args, CLEV_LOWERBYVALUE);
       end;
 
     41: // Ceiling Raise by Value
       begin
-        result := EV_DoCeiling(line, args, CLEV_RAISEBYVALUE);
+        result := EVH_DoCeiling(line, args, CLEV_RAISEBYVALUE);
       end;
 
     42: // Ceiling Crush and Raise
       begin
-        result := EV_DoCeiling(line, args, CLEV_CRUSHANDRAISE);
+        result := EVH_DoCeiling(line, args, CLEV_CRUSHANDRAISE);
       end;
 
     43: // Ceiling Lower and Crush
       begin
-        result := EV_DoCeiling(line, args, CLEV_LOWERANDCRUSH);
+        result := EVH_DoCeiling(line, args, CLEV_LOWERANDCRUSH);
       end;
 
     44: // Ceiling Crush Stop
       begin
-        result := EV_CeilingCrushStop(line, args);
+        result := EVH_CeilingCrushStop(line, args);
       end;
 
     45: // Ceiling Crush Raise and Stay
       begin
-        result := EV_DoCeiling(line, args, CLEV_CRUSHRAISEANDSTAY);
+        result := EVH_DoCeiling(line, args, CLEV_CRUSHRAISEANDSTAY);
       end;
 
     46: // Floor Crush Stop
       begin
-        result := EV_FloorCrushStop(line, args);
+        result := EVH_FloorCrushStop(line, args);
       end;
 
     60: // Plat Perpetual Raise
       begin
-        result := EV_DoPlat(line, args, PLAT_PERPETUALRAISE, 0);
+        result := EVH_DoPlat(line, args, PLAT_PERPETUALRAISE, 0);
       end;
 
     61: // Plat Stop
       begin
-        EV_StopPlat(line, args);
+        EVH_StopPlat(line, args);
       end;
 
     62: // Plat Down-Wait-Up-Stay
       begin
-        result := EV_DoPlat(line, args, PLAT_DOWNWAITUPSTAY, 0);
+        result := EVH_DoPlat(line, args, PLAT_DOWNWAITUPSTAY, 0);
       end;
 
     63: // Plat Down-by-Value*8-Wait-Up-Stay
       begin
-        result := EV_DoPlat(line, args, PLAT_DOWNBYVALUEWAITUPSTAY, 0);
+        result := EVH_DoPlat(line, args, PLAT_DOWNBYVALUEWAITUPSTAY, 0);
       end;
 
     64: // Plat Up-Wait-Down-Stay
       begin
-        result := EV_DoPlat(line, args, PLAT_UPWAITDOWNSTAY, 0);
+        result := EVH_DoPlat(line, args, PLAT_UPWAITDOWNSTAY, 0);
       end;
 
     65: // Plat Up-by-Value*8-Wait-Down-Stay
       begin
-        result := EV_DoPlat(line, args, PLAT_UPBYVALUEWAITDOWNSTAY, 0);
+        result := EVH_DoPlat(line, args, PLAT_UPBYVALUEWAITDOWNSTAY, 0);
       end;
 
     66: // Floor Lower Instant * 8
       begin
-        result := EV_DoFloor(line, args, FLEV_LOWERTIMES8INSTANT);
+        result := EVH_DoFloor(line, args, FLEV_LOWERTIMES8INSTANT);
       end;
 
     67: // Floor Raise Instant * 8
       begin
-        result := EV_DoFloor(line, args, FLEV_RAISETIMES8INSTANT);
+        result := EVH_DoFloor(line, args, FLEV_RAISETIMES8INSTANT);
       end;
 
     68: // Floor Move to Value * 8
       begin
-        result := EV_DoFloor(line, args, FLEV_MOVETOVALUETIMES8);
+        result := EVH_DoFloor(line, args, FLEV_MOVETOVALUETIMES8);
       end;
 
     69: // Ceiling Move to Value * 8
       begin
-        result := EV_DoCeiling(line, args, CLEV_MOVETOVALUETIMES8);
+        result := EVH_DoCeiling(line, args, CLEV_MOVETOVALUETIMES8);
       end;
 
     70: // Teleport
       begin
         if side = 0 then
         begin // Only teleport when crossing the front side of a line
-          result := EV_Teleport(args[0], mo, true);
+          result := EVH_Teleport(args[0], mo, true);
         end;
       end;
 
@@ -1028,7 +1028,7 @@ begin
       begin
         if side = 0 then
         begin // Only teleport when crossing the front side of a line
-          result := EV_Teleport(args[0], mo, false);
+          result := EVH_Teleport(args[0], mo, false);
         end;
       end;
 
@@ -1111,37 +1111,37 @@ begin
 
     90: // Poly Rotate Left Override
       begin
-        result := EV_RotatePoly(line, args, 1, true);
+        result := EVH_RotatePoly(line, args, 1, true);
       end;
 
     91: // Poly Rotate Right Override
       begin
-        result := EV_RotatePoly(line, args, -1, true);
+        result := EVH_RotatePoly(line, args, -1, true);
       end;
 
     92: // Poly Move Override
       begin
-        result := EV_MovePoly(line, args, false, true);
+        result := EVH_MovePoly(line, args, false, true);
       end;
 
     93: // Poly Move Times 8 Override
       begin
-        result := EV_MovePoly(line, args, true, true);
+        result := EVH_MovePoly(line, args, true, true);
       end;
 
     94: // Build Pillar Crush
       begin
-        result := EV_BuildPillar(line, args, true);
+        result := EVH_BuildPillar(line, args, true);
       end;
 
     95: // Lower Floor and Ceiling
       begin
-        result := EV_DoFloorAndCeiling(line, args, false);
+        result := EVH_DoFloorAndCeiling(line, args, false);
       end;
 
     96: // Raise Floor and Ceiling
       begin
-        result := EV_DoFloorAndCeiling(line, args, true);
+        result := EVH_DoFloorAndCeiling(line, args, true);
       end;
 
     109: // Force Lightning
@@ -1152,37 +1152,37 @@ begin
 
     110: // Light Raise by Value
       begin
-        result := EV_SpawnLight(line, args, LITE_RAISEBYVALUE);
+        result := EVH_SpawnLight(line, args, LITE_RAISEBYVALUE);
       end;
 
     111: // Light Lower by Value
       begin
-        result := EV_SpawnLight(line, args, LITE_LOWERBYVALUE);
+        result := EVH_SpawnLight(line, args, LITE_LOWERBYVALUE);
       end;
 
     112: // Light Change to Value
       begin
-        result := EV_SpawnLight(line, args, LITE_CHANGETOVALUE);
+        result := EVH_SpawnLight(line, args, LITE_CHANGETOVALUE);
       end;
 
     113: // Light Fade
       begin
-        result := EV_SpawnLight(line, args, LITE_FADE);
+        result := EVH_SpawnLight(line, args, LITE_FADE);
       end;
 
     114: // Light Glow
       begin
-        result := EV_SpawnLight(line, args, LITE_GLOW);
+        result := EVH_SpawnLight(line, args, LITE_GLOW);
       end;
 
     115: // Light Flicker
       begin
-        result := EV_SpawnLight(line, args, LITE_FLICKER);
+        result := EVH_SpawnLight(line, args, LITE_FLICKER);
       end;
 
     116: // Light Strobe
       begin
-        result := EV_SpawnLight(line, args, LITE_STROBE);
+        result := EVH_SpawnLight(line, args, LITE_STROBE);
       end;
 
     120: // Quake Tremor
@@ -1192,57 +1192,57 @@ begin
 
     129: // UsePuzzleItem
       begin
-        result := EV_LineSearchForPuzzleItem(line, args, mo);
+        result := EVH_LineSearchForPuzzleItem(line, args, mo);
       end;
 
     130: // Thing_Activate
       begin
-        result := EV_ThingActivate(args[0]);
+        result := EVH_ThingActivate(args[0]);
       end;
 
     131: // Thing_Deactivate
       begin
-        result := EV_ThingDeactivate(args[0]);
+        result := EVH_ThingDeactivate(args[0]);
       end;
 
     132: // Thing_Remove
       begin
-        result := EV_ThingRemove(args[0]);
+        result := EVH_ThingRemove(args[0]);
       end;
 
     133: // Thing_Destroy
       begin
-        result := EV_ThingDestroy(args[0]);
+        result := EVH_ThingDestroy(args[0]);
       end;
 
     134: // Thing_Projectile
       begin
-        result := EV_ThingProjectile(args, false);
+        result := EVH_ThingProjectile(args, false);
       end;
 
     135: // Thing_Spawn
       begin
-        result := EV_ThingSpawn(args, true);
+        result := EVH_ThingSpawn(args, true);
       end;
 
     136: // Thing_ProjectileGravity
       begin
-        result := EV_ThingProjectile(args, true);
+        result := EVH_ThingProjectile(args, true);
       end;
 
     137: // Thing_SpawnNoFog
       begin
-        result := EV_ThingSpawn(args, false);
+        result := EVH_ThingSpawn(args, false);
       end;
 
     138: // Floor_Waggle
       begin
-        result := EV_StartFloorWaggle(args[0], args[1], args[2], args[3], args[4]);
+        result := EVH_StartFloorWaggle(args[0], args[1], args[2], args[3], args[4]);
       end;
 
     140: // Sector_SoundChange
       begin
-        result := EV_SectorSoundChange(args);
+        result := EVH_SectorSoundChange(args);
       end;
 
     // Line specials only processed during level initialization

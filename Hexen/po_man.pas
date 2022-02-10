@@ -54,13 +54,13 @@ procedure PO_Init(lump: integer);
 
 function PO_Busy(polyobj: integer): boolean;
 
-function EV_RotatePoly(line: Pline_t; args: PByteArray; direction: integer;
+function EVH_RotatePoly(line: Pline_t; args: PByteArray; direction: integer;
   overriden: boolean): boolean;
 
-function EV_MovePoly(line: Pline_t; args: PByteArray; timesEight: boolean;
+function EVH_MovePoly(line: Pline_t; args: PByteArray; timesEight: boolean;
   overriden: boolean): boolean;
 
-function EV_OpenPolyDoor(line: Pline_t; args: PByteArray; _type: podoortype_t): boolean;
+function EVH_OpenPolyDoor(line: Pline_t; args: PByteArray; _type: podoortype_t): boolean;
 
 
 var
@@ -85,9 +85,9 @@ type
   Ppolyevent_t = ^polyevent_t;
 
 
-procedure T_RotatePoly(pe: Ppolyevent_t);
+procedure TH_RotatePoly(pe: Ppolyevent_t);
 
-procedure T_MovePoly(pe: Ppolyevent_t);
+procedure TH_MovePoly(pe: Ppolyevent_t);
 
 type
   polydoor_t = record
@@ -106,7 +106,7 @@ type
   Ppolydoor_t = ^polydoor_t;
 
 
-procedure T_PolyDoor(pd: Ppolydoor_t);
+procedure TH_PolyDoor(pd: Ppolydoor_t);
 
 
 var
@@ -193,10 +193,10 @@ end;
 // ===== Polyobj Event Code =====
 
 //
-// T_RotatePoly
+// TH_RotatePoly
 //
 
-procedure T_RotatePoly(pe: Ppolyevent_t);
+procedure TH_RotatePoly(pe: Ppolyevent_t);
 var
   absSpeed: integer;
   poly: Ppolyobj_t;
@@ -233,10 +233,10 @@ begin
 end;
 
 //
-// EV_RotatePoly
+// EVH_RotatePoly
 //
 
-function EV_RotatePoly(line: Pline_t; args: PByteArray; direction: integer;
+function EVH_RotatePoly(line: Pline_t; args: PByteArray; direction: integer;
   overriden: boolean): boolean;
 var
   mirror: integer;
@@ -259,7 +259,7 @@ begin
 
   pe := Z_Malloc(SizeOf(polyevent_t), PU_LEVSPEC, nil);
   P_AddThinker(@pe.thinker);
-  pe.thinker._function.acp1 := @T_RotatePoly;
+  pe.thinker._function.acp1 := @TH_RotatePoly;
   pe.polyobj := polyNum;
   if args[2] <> 0 then
   begin
@@ -283,7 +283,7 @@ begin
     end;
     pe := Z_Malloc(SizeOf(polyevent_t), PU_LEVSPEC, nil);
     P_AddThinker(@pe.thinker);
-    pe.thinker._function.acp1 := @T_RotatePoly;
+    pe.thinker._function.acp1 := @TH_RotatePoly;
     poly.specialdata := pe;
     pe.polyobj := mirror;
     if args[2] <> 0 then
@@ -319,10 +319,10 @@ begin
 end;
 
 //
-// T_MovePoly
+// TH_MovePoly
 //
 
-procedure T_MovePoly(pe: Ppolyevent_t);
+procedure TH_MovePoly(pe: Ppolyevent_t);
 var
   absSpeed: integer;
   poly: Ppolyobj_t;
@@ -355,10 +355,10 @@ begin
 end;
 
 //
-// EV_MovePoly
+// EVH_MovePoly
 //
 
-function EV_MovePoly(line: Pline_t; args: PByteArray; timesEight: boolean;
+function EVH_MovePoly(line: Pline_t; args: PByteArray; timesEight: boolean;
   overriden: boolean): boolean;
 var
   mirror: integer;
@@ -381,7 +381,7 @@ begin
     I_Error('EV_MovePoly(): Invalid polyobj num: %d', [polyNum]);
   pe := Z_Malloc(SizeOf(polyevent_t), PU_LEVSPEC, nil);
   P_AddThinker(@pe.thinker);
-  pe.thinker._function.acp1 := @T_MovePoly;
+  pe.thinker._function.acp1 := @TH_MovePoly;
   pe.polyobj := polyNum;
   if timesEight then
     pe.dist := args[3] * 8 * FRACUNIT
@@ -406,7 +406,7 @@ begin
     end;
     pe := Z_Malloc(SizeOf(polyevent_t), PU_LEVSPEC, nil);
     P_AddThinker(@pe.thinker);
-    pe.thinker._function.acp1 := @T_MovePoly;
+    pe.thinker._function.acp1 := @TH_MovePoly;
     pe.polyobj := mirror;
     poly.specialdata := pe;
     if timesEight then
@@ -425,10 +425,10 @@ begin
 end;
 
 //
-// T_PolyDoor
+// TH_PolyDoor
 //
 
-procedure T_PolyDoor(pd: Ppolydoor_t);
+procedure TH_PolyDoor(pd: Ppolydoor_t);
 var
   absSpeed: integer;
   poly: Ppolyobj_t;
@@ -541,10 +541,10 @@ begin
 end;
 
 //
-// EV_OpenPolyDoor
+// EVH_OpenPolyDoor
 //
 
-function EV_OpenPolyDoor(line: Pline_t; args: PByteArray; _type: podoortype_t): boolean;
+function EVH_OpenPolyDoor(line: Pline_t; args: PByteArray; _type: podoortype_t): boolean;
 var
   mirror: integer;
   polyNum: integer;
@@ -568,7 +568,7 @@ begin
   pd := Z_Malloc(SizeOf(polydoor_t), PU_LEVSPEC, nil);
   memset(pd, 0, SizeOf(polydoor_t));
   P_AddThinker(@pd.thinker);
-  pd.thinker._function.acp1 := @T_PolyDoor;
+  pd.thinker._function.acp1 := @TH_PolyDoor;
   pd._type := _type;
   pd.polyobj := polyNum;
   an := 0; // JVAL: Avoid compiler warning
@@ -606,7 +606,7 @@ begin
     pd := Z_Malloc(SizeOf(polydoor_t), PU_LEVSPEC, nil);
     memset(pd, 0, SizeOf(polydoor_t));
     P_AddThinker(@pd.thinker);
-    pd.thinker._function.acp1 := @T_PolyDoor;
+    pd.thinker._function.acp1 := @TH_PolyDoor;
     pd.polyobj := mirror;
     pd._type := _type;
     poly.specialdata := pd;
@@ -656,7 +656,7 @@ begin
   pe := po.specialdata;
   if pe <> nil then
   begin
-    if @pe.thinker._function.acp1 = @T_RotatePoly then
+    if @pe.thinker._function.acp1 = @TH_RotatePoly then
       force := _SHR(pe.speed, 8)
     else
       force := _SHR(pe.speed, 3);

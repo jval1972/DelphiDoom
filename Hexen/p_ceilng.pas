@@ -43,13 +43,13 @@ uses
 var
   activeceilings: array[0..MAXCEILINGS - 1] of Pceiling_t;
 
-procedure T_MoveCeiling(ceiling: Pceiling_t);
+procedure TH_MoveCeiling(ceiling: Pceiling_t);
 
-function EV_DoCeiling(line: Pline_t; args: PByteArray; _type: ceiling_e): boolean;
+function EVH_DoCeiling(line: Pline_t; args: PByteArray; _type: ceiling_e): boolean;
 
 procedure P_AddActiveCeiling(c: Pceiling_t);
 
-function EV_CeilingCrushStop(line: Pline_t; args: PByteArray): boolean;
+function EVH_CeilingCrushStop(line: Pline_t; args: PByteArray): boolean;
 
 implementation
 
@@ -99,10 +99,10 @@ begin
 end;
 
 //
-// T_MoveCeiling
+// TH_MoveCeiling
 //
 
-procedure T_MoveCeiling(ceiling: Pceiling_t);
+procedure TH_MoveCeiling(ceiling: Pceiling_t);
 var
   res: result_e;
 begin
@@ -114,7 +114,7 @@ begin
     1:
     // UP
       begin
-        res := T_MovePlane(ceiling.sector,
+        res := TH_MovePlane(ceiling.sector,
           ceiling.speed,
           ceiling.topheight,
           false, 1, ceiling.direction);
@@ -134,7 +134,7 @@ begin
    -1:
     // DOWN
       begin
-        res := T_MovePlane(ceiling.sector,
+        res := TH_MovePlane(ceiling.sector,
           ceiling.speed,
           ceiling.bottomheight,
           ceiling.crush, 1, ceiling.direction);
@@ -158,10 +158,10 @@ begin
 end;
 
 //
-// EV_DoCeiling
+// EVH_DoCeiling
 // Move a ceiling up/down and all around!
 //
-function EV_DoCeiling(line: Pline_t; args: PByteArray; _type: ceiling_e): boolean;
+function EVH_DoCeiling(line: Pline_t; args: PByteArray; _type: ceiling_e): boolean;
 var
   initial: boolean;
   secnum: integer;
@@ -189,7 +189,7 @@ begin
     ceiling := Z_Malloc(SizeOf(ceiling_t), PU_LEVSPEC, nil);
     P_AddThinker(@ceiling.thinker);
     sec.specialdata := ceiling;
-    ceiling.thinker._function.acp1 := @T_MoveCeiling;
+    ceiling.thinker._function.acp1 := @TH_MoveCeiling;
     ceiling.sector := sec;
     ceiling.crush := false;
     ceiling.speed := args[1] * (FRACUNIT div 8);
@@ -269,10 +269,10 @@ begin
 end;
 
 //
-// EV_CeilingCrushStop
+// EVH_CeilingCrushStop
 // Stop a ceiling from crushing!
 //
-function EV_CeilingCrushStop(line: Pline_t; args: PByteArray): boolean;
+function EVH_CeilingCrushStop(line: Pline_t; args: PByteArray): boolean;
 var
   i: integer;
 begin

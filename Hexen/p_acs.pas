@@ -113,7 +113,7 @@ var
   ACSWorldVars: array[0..MAX_ACS_WORLD_VARS - 1] of integer;
   ACSStore: array[0..MAX_ACS_STORE] of acsstore_t; // +1 for termination marker
 
-procedure T_InterpretACS(script: Pacs_t);
+procedure TH_InterpretACS(script: Pacs_t);
 
 procedure P_CheckACSStore;
 
@@ -208,10 +208,10 @@ end;
 
 
 //
-// T_InterpretACS
+// TH_InterpretACS
 //
 
-procedure T_InterpretACS(script: Pacs_t);
+procedure TH_InterpretACS(script: Pacs_t);
 var
   cmd: integer;
   action: integer;
@@ -268,7 +268,7 @@ begin
 
   script.infoIndex := infoIndex;
   script.ip := address;
-  script.thinker._function.acp1 := @T_InterpretACS;
+  script.thinker._function.acp1 := @TH_InterpretACS;
   P_AddThinker(@script.thinker);
 end;
 
@@ -498,7 +498,7 @@ begin
   script.line := line;
   script.side := side;
   script.ip := ACSInfo[infoIndex].address;
-  script.thinker._function.acp1 := @T_InterpretACS;
+  script.thinker._function.acp1 := @TH_InterpretACS;
   for i := 0 to ACSInfo[infoIndex].argCount - 1 do
     script.vars[i] := args[i];
 
