@@ -841,6 +841,7 @@ begin
   Result := False;
   if asize < $4C then
     Exit;
+  pb := adata;
   Result :=
     (pb[0] = Ord('s')) and
     (pb[1] = Ord('o')) and
