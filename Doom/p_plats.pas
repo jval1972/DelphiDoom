@@ -81,14 +81,14 @@ begin
         if (plat._type = raiseAndChange) or (plat._type = raiseToNearestAndChange) then
         begin
           if leveltime and 7 = 0 then
-            S_StartSound(Pmobj_t(@plat.sector.soundorg), Ord(sfx_stnmov));
+            S_StartSound(@plat.sector.soundorg, Ord(sfx_stnmov));
         end;
 
         if (res = crushed) and not plat.crush then
         begin
           plat.count := plat.wait;
           plat.status := down;
-          S_StartSound(Pmobj_t(@plat.sector.soundorg), Ord(sfx_pstart));
+          S_StartSound(@plat.sector.soundorg, Ord(sfx_pstart));
         end
         else
         begin
@@ -103,7 +103,7 @@ begin
             begin
               plat.count := plat.wait;
               plat.status := waiting;
-              S_StartSound(Pmobj_t(@plat.sector.soundorg), Ord(sfx_pstop));
+              S_StartSound(@plat.sector.soundorg, Ord(sfx_pstop));
             end;
 
             // lift types and pure raise types are done at end of up stroke
@@ -135,7 +135,7 @@ begin
           begin
             plat.count := plat.wait;
             plat.status := waiting;
-            S_StartSound(Pmobj_t(@plat.sector.soundorg), Ord(sfx_pstop));
+            S_StartSound(@plat.sector.soundorg, Ord(sfx_pstop));
           end;
 
           //jff 1/26/98 remove the plat if it bounced so it can be tried again
@@ -159,7 +159,7 @@ begin
             plat.status := up
           else
             plat.status := down;
-          S_StartSound(Pmobj_t(@plat.sector.soundorg), Ord(sfx_pstart));
+          S_StartSound(@plat.sector.soundorg, Ord(sfx_pstart));
         end;
       end;
   end;
@@ -224,7 +224,7 @@ begin
           // NO MORE DAMAGE, IF APPLICABLE
           sec.special := 0;
           sec.oldspecial := 0;
-          S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_stnmov));
+          S_StartSound(@sec.soundorg, Ord(sfx_stnmov));
         end;
 
       raiseAndChange:
@@ -234,7 +234,7 @@ begin
           plat.high := sec.floorheight + amount * FRACUNIT;
           plat.wait := 0;
           plat.status := up;
-          S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_stnmov));
+          S_StartSound(@sec.soundorg, Ord(sfx_stnmov));
         end;
 
       downWaitUpStay:
@@ -246,7 +246,7 @@ begin
           plat.high := sec.floorheight;
           plat.wait := TICRATE * PLATWAIT;
           plat.status := down;
-          S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_pstart));
+          S_StartSound(@sec.soundorg, Ord(sfx_pstart));
         end;
 
       blazeDWUS:
@@ -258,7 +258,7 @@ begin
           plat.high := sec.floorheight;
           plat.wait := TICRATE * PLATWAIT;
           plat.status := down;
-          S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_pstart));
+          S_StartSound(@sec.soundorg, Ord(sfx_pstart));
         end;
 
       perpetualRaise:
@@ -272,7 +272,7 @@ begin
             plat.high := sec.floorheight;
           plat.wait := TICRATE * PLATWAIT;
           plat.status := plat_e(P_Random and 1);
-          S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_pstart));
+          S_StartSound(@sec.soundorg, Ord(sfx_pstart));
         end;
 
       toggleUpDn: //jff 3/14/98 add new type to support instant toggle

@@ -166,7 +166,7 @@ begin
   begin
     if switchlist[i] = texTop then
     begin
-      S_StartSound(Pmobj_t(@line.frontsector.soundorg), alphSwitchList[i div 2].soundID);
+      S_StartSound(@line.frontsector.soundorg, alphSwitchList[i div 2].soundID);
       sides[line.sidenum[0]].toptexture := switchlist[i xor 1];
 
       if useAgain then
@@ -178,7 +178,7 @@ begin
     begin
       if switchlist[i] = texMid then
       begin
-        S_StartSound(Pmobj_t(@line.frontsector.soundorg), alphSwitchList[i div 2].soundID);
+        S_StartSound(@line.frontsector.soundorg, alphSwitchList[i div 2].soundID);
         sides[line.sidenum[0]].midtexture := switchlist[i xor 1];
 
         if useAgain then
@@ -190,7 +190,7 @@ begin
       begin
         if switchlist[i] = texBot then
         begin
-          S_StartSound(Pmobj_t(@line.frontsector.soundorg), alphSwitchList[i div 2].soundID);
+          S_StartSound(@line.frontsector.soundorg, alphSwitchList[i div 2].soundID);
           sides[line.sidenum[0]].bottomtexture := switchlist[i xor 1];
 
           if useAgain then

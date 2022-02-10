@@ -838,7 +838,7 @@ manual_lift:
         plat.wait := 10 * TICRATE;
     end;
 
-    S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_pstart));
+    S_StartSound(@sec.soundorg, Ord(sfx_pstart));
     P_AddActivePlat(plat); // add this plat to the list of active plats
 
     if manual then
@@ -1231,7 +1231,7 @@ manual_locked:
       end;
     end;
 
-    S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdopn));
+    S_StartSound(@door.sector.soundorg, Ord(sfx_bdopn));
 
     if manual then
       exit;
@@ -1335,7 +1335,7 @@ manual_door:
           door.direction := 1;
           door.topheight := P_FindLowestCeilingSurrounding(sec) - 4 * FRACUNIT;
           if door.topheight <> sec.ceilingheight then
-            S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdopn));
+            S_StartSound(@door.sector.soundorg, Ord(sfx_bdopn));
           if Sped >= Ord(SpeedFast) then
             door._type := vld_genBlazeRaise
           else
@@ -1347,7 +1347,7 @@ manual_door:
           door.direction := 1;
           door.topheight := P_FindLowestCeilingSurrounding(sec) - 4 * FRACUNIT;
           if door.topheight <> sec.ceilingheight then
-            S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdopn));
+            S_StartSound(@door.sector.soundorg, Ord(sfx_bdopn));
           if Sped >= Ord(SpeedFast) then
             door._type := vld_genBlazeOpen
           else
@@ -1358,7 +1358,7 @@ manual_door:
         begin
           door.topheight := sec.ceilingheight;
           door.direction := -1;
-          S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdcls));
+          S_StartSound(@door.sector.soundorg, Ord(sfx_bdcls));
           if Sped >= Ord(SpeedFast) then
             door._type := vld_genBlazeCdO
           else
@@ -1369,7 +1369,7 @@ manual_door:
         begin
           door.topheight := P_FindLowestCeilingSurrounding(sec) - 4 * FRACUNIT;
           door.direction := -1;
-          S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdcls));
+          S_StartSound(@door.sector.soundorg, Ord(sfx_bdcls));
           if Sped >= Ord(SpeedFast) then
             door._type := vld_genBlazeClose
           else

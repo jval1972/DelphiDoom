@@ -135,8 +135,7 @@ begin
           false, 1, ceiling.direction);
 
         if leveltime and 7 = 0 then
-          S_StartSound(Pmobj_t(@ceiling.sector.soundorg),
-            Ord(sfx_dormov));
+          S_StartSound(@ceiling.sector.soundorg, Ord(sfx_dormov));
 
         if res = pastdest then
         begin
@@ -158,7 +157,7 @@ begin
           ceiling.crush, 1, ceiling.direction);
 
         if leveltime and 7 = 0 then
-          S_StartSound(Pmobj_t(@ceiling.sector.soundorg), Ord(sfx_dormov));
+          S_StartSound(@ceiling.sector.soundorg, Ord(sfx_dormov));
 
         if res = pastdest then
         begin

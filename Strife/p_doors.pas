@@ -114,14 +114,14 @@ begin
             vld_genBlazeRaise:
               begin
                 door.direction := -1; // time to go back down
-                S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdcls));
+                S_StartSound(@door.sector.soundorg, Ord(sfx_bdcls));
               end;
             vld_normal,
             vld_genRaise:
               begin
                 door.direction := -1; // time to go back down
                 // villsa [STRIFE] closesound added
-                S_StartSound(Pmobj_t(@door.sector.soundorg), door.closesound);
+                S_StartSound(@door.sector.soundorg, door.closesound);
               end;
 
             // villsa [STRIFE]
@@ -129,7 +129,7 @@ begin
               begin
                 door.direction := 1;
                 door.speed := 2 * FRACUNIT;
-                S_StartSound(Pmobj_t(@door.sector.soundorg), door.opensound);
+                S_StartSound(@door.sector.soundorg, door.opensound);
               end;
 
             vld_close30ThenOpen,
@@ -137,12 +137,12 @@ begin
               begin
                 door.direction := 1;
                 // villsa [STRIFE] opensound added
-                S_StartSound(Pmobj_t(@door.sector.soundorg), door.opensound);
+                S_StartSound(@door.sector.soundorg, door.opensound);
               end;
             vld_genBlazeCdO:
               begin
                 door.direction := 1;
-                S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdopn));
+                S_StartSound(@door.sector.soundorg, Ord(sfx_bdopn));
               end;
           end;
         end;
@@ -158,7 +158,7 @@ begin
               begin
                 door.direction := 1;
                 door._type := vld_normal;
-                S_StartSound(Pmobj_t(@door.sector.soundorg), door.opensound);
+                S_StartSound(@door.sector.soundorg, door.opensound);
               end;
           end;
         end;
@@ -258,7 +258,7 @@ begin
             begin
               door.direction := 1;
               // villsa [STRIFE] opensound added
-              S_StartSound(Pmobj_t(@door.sector.soundorg), door.opensound);
+              S_StartSound(@door.sector.soundorg, door.opensound);
             end;
           end;
         end;
@@ -659,7 +659,7 @@ begin
           if door.topheight = sec.ceilingheight then
             continue;
 
-          S_StartSound(Pmobj_t(@door.sector.soundorg), door.opensound);
+          S_StartSound(@door.sector.soundorg, door.opensound);
         end;
 
       // villsa [STRIFE] new door type
@@ -674,7 +674,7 @@ begin
           if door.topheight = sec.ceilingheight then
             continue;
 
-          S_StartSound(Pmobj_t(@door.sector.soundorg), door.opensound);
+          S_StartSound(@door.sector.soundorg, door.opensound);
         end;
 
       vld_blazeClose,
@@ -684,7 +684,7 @@ begin
           door.topheight := door.topheight - 4 * FRACUNIT;
           door.direction := -1;
           door.speed := VDOORSPEED * 4;
-          S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdcls));
+          S_StartSound(@door.sector.soundorg, Ord(sfx_bdcls));
         end;
 
       vld_close:
@@ -693,7 +693,7 @@ begin
           door.topheight := door.topheight - 4 * FRACUNIT;
           door.direction := -1;
           // villsa [STRIFE] set door sounds
-          S_StartSound(Pmobj_t(@door.sector.soundorg), door.opensound);
+          S_StartSound(@door.sector.soundorg, door.opensound);
         end;
 
       vld_close30ThenOpen:
@@ -701,7 +701,7 @@ begin
           door.topheight := sec.ceilingheight;
           door.direction := -1;
           // villsa [STRIFE] set door sounds
-          S_StartSound(Pmobj_t(@door.sector.soundorg), door.closesound);
+          S_StartSound(@door.sector.soundorg, door.closesound);
         end;
 
       vld_blazeRaise,
@@ -712,7 +712,7 @@ begin
           door.topheight := door.topheight - 4 * FRACUNIT;
           door.speed := VDOORSPEED * 4;
           if door.topheight <> sec.ceilingheight then
-            S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_bdopn));
+            S_StartSound(@door.sector.soundorg, Ord(sfx_bdopn));
         end;
 
       vld_normal,
@@ -722,7 +722,7 @@ begin
           door.topheight := P_FindLowestCeilingSurrounding(sec);
           door.topheight := door.topheight - 4 * FRACUNIT;
           if door.topheight <> sec.ceilingheight then
-            S_StartSound(Pmobj_t(@door.sector.soundorg), door.opensound);
+            S_StartSound(@door.sector.soundorg, door.opensound);
         end;
     end;
   end;
@@ -1057,9 +1057,9 @@ begin
   case line.special of
     117,  // BLAZING DOOR RAISE
     118:  // BLAZING DOOR OPEN
-        S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_bdopn));
+        S_StartSound(@sec.soundorg, Ord(sfx_bdopn));
   else    // NORMAL DOOR SOUND
-    S_StartSound(Pmobj_t(@sec.soundorg), door.opensound);
+    S_StartSound(@sec.soundorg, door.opensound);
   end;
 
     // haleyjd: [STRIFE] - verified all.
@@ -1437,7 +1437,7 @@ begin
               door.line2.flags := door.line2.flags or ML_BLOCKING;
 
               // play close sound
-              S_StartSound(Pmobj_t(@sec.soundorg), Ord(slideCloseSounds[door.whichDoorIndex]));
+              S_StartSound(@sec.soundorg, Ord(slideCloseSounds[door.whichDoorIndex]));
 
               door.status := sd_closing;
               door.timer := SWAITTICS;
@@ -1615,7 +1615,7 @@ begin
             1);
 
     // villsa [STRIFE] play open sound
-    S_StartSound(Pmobj_t(@door.frontsector.soundorg), Ord(slideOpenSounds[door.whichDoorIndex]));
+    S_StartSound(@door.frontsector.soundorg, Ord(slideOpenSounds[door.whichDoorIndex]));
   end;
 end;
 

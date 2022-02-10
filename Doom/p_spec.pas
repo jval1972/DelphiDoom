@@ -3163,7 +3163,7 @@ begin
           bottom:
             sides[button.line.sidenum[0]].bottomtexture := button.btexture;
         end;
-        S_StartSound(Pmobj_t(@button.soundorg), Ord(sfx_swtchn));
+        S_StartSound(@button.soundorg, Ord(sfx_swtchn));
         ZeroMemory(button, SizeOf(button_t));
       end;
 

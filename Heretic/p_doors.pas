@@ -87,12 +87,12 @@ begin
             normal:
               begin
                 door.direction := -1; // time to go back down
-                S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_doropn));
+                S_StartSound(@door.sector.soundorg, Ord(sfx_doropn));
               end;
             close30ThenOpen:
               begin
                 door.direction := 1;
-                S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_doropn));
+                S_StartSound(@door.sector.soundorg, Ord(sfx_doropn));
               end;
           end;
         end;
@@ -108,7 +108,7 @@ begin
               begin
                 door.direction := 1;
                 door._type := normal;
-                S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_doropn));
+                S_StartSound(@door.sector.soundorg, Ord(sfx_doropn));
               end;
           end;
         end;
@@ -127,7 +127,7 @@ begin
               begin
                 door.sector.specialdata := nil;
                 P_RemoveThinker(@door.thinker);  // unlink and free
-                S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_dorcls));
+                S_StartSound(@door.sector.soundorg, Ord(sfx_dorcls));
               end;
             close30ThenOpen:
               begin
@@ -145,7 +145,7 @@ begin
           else
             begin
               door.direction := 1;
-              S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_doropn));
+              S_StartSound(@door.sector.soundorg, Ord(sfx_doropn));
             end;
           end;
         end;
@@ -216,14 +216,14 @@ begin
           door.topheight := P_FindLowestCeilingSurrounding(sec);
           door.topheight := door.topheight - 4 * FRACUNIT;
           door.direction := -1;
-          S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_doropn));
+          S_StartSound(@door.sector.soundorg, Ord(sfx_doropn));
         end;
 
       close30ThenOpen:
         begin
           door.topheight := sec.ceilingheight;
           door.direction := -1;
-          S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_doropn));
+          S_StartSound(@door.sector.soundorg, Ord(sfx_doropn));
         end;
 
       normal,
@@ -233,7 +233,7 @@ begin
           door.topheight := P_FindLowestCeilingSurrounding(sec);
           door.topheight := door.topheight - 4 * FRACUNIT;
           if door.topheight <> sec.ceilingheight then
-            S_StartSound(Pmobj_t(@door.sector.soundorg), Ord(sfx_doropn));
+            S_StartSound(@door.sector.soundorg, Ord(sfx_doropn));
         end;
     end;
   end;
@@ -322,7 +322,7 @@ begin
     end;
   end;
 
-  S_StartSound(Pmobj_t(@sec.soundorg), Ord(sfx_doropn));
+  S_StartSound(@sec.soundorg, Ord(sfx_doropn));
 
   // new door thinker
   door := Z_Malloc(SizeOf(vldoor_t), PU_LEVSPEC, nil);

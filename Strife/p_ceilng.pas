@@ -148,7 +148,7 @@ begin
         begin
           if (ceiling._type <> silentCrushAndRaise) and
              (ceiling._type <> genSilentCrusher) then
-            S_StartSound(Pmobj_t(@ceiling.sector.soundorg), Ord(sfx_stnmov));
+            S_StartSound(@ceiling.sector.soundorg, Ord(sfx_stnmov));
         end;
 
         if res = pastdest then
@@ -173,7 +173,7 @@ begin
 
             silentCrushAndRaise:
               begin
-                S_StartSound(Pmobj_t(@ceiling.sector.soundorg), Ord(sfx_pstop));
+                S_StartSound(@ceiling.sector.soundorg, Ord(sfx_pstop));
                 ceiling.direction := -1;
               end;
             fastCrushAndRaise,
@@ -196,7 +196,7 @@ begin
         begin
           if (ceiling._type <> silentCrushAndRaise) and
              (ceiling._type <> genSilentCrusher) then
-            S_StartSound(Pmobj_t(@ceiling.sector.soundorg), Ord(sfx_stnmov));
+            S_StartSound(@ceiling.sector.soundorg, Ord(sfx_stnmov));
         end;
 
         if res = pastdest then
@@ -213,7 +213,7 @@ begin
               end;
             silentCrushAndRaise:
               begin
-                S_StartSound(Pmobj_t(@ceiling.sector.soundorg), Ord(sfx_pstop));
+                S_StartSound(@ceiling.sector.soundorg, Ord(sfx_pstop));
                 ceiling.speed := CEILSPEED;
                 ceiling.direction := 1;
               end;
