@@ -540,6 +540,7 @@ procedure HU_DrawCrossHair;
 var
   cidx: integer;
   p: Ppatch_t;
+  dx: integer;
 begin
   if not drawcrosshair then
     exit;
@@ -560,11 +561,16 @@ begin
   else
     cidx := (((leveltime - plr.pcrosstic) div 8) mod 4) + 1;
 
+  if plr.lookdir2 < 128 then
+    dx := plr.lookdir2 * viewwidth div 40 
+  else
+    dx := - (255 - plr.lookdir2) * viewwidth div 40;
+
   p := crosshairs[cidx];
   if screenblocks > 10 then
-    V_DrawPatch(160, 100, SCN_FG, p, true)
+    V_DrawPatch(160 + dx, 100, SCN_FG, p, true)
   else
-    V_DrawPatch(160, 84, SCN_FG, p, true);
+    V_DrawPatch(160 + dx, 84, SCN_FG, p, true);
 end;
 
 procedure HU_Drawer;
