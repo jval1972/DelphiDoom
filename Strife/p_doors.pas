@@ -41,15 +41,12 @@ unit p_doors;
 interface
 
 uses
-  z_zone,
   doomdef,
   p_mobj_h,
   p_spec,
   r_defs,
   s_sound,
-  sounddata,
-  dstrings,
-  d_englsh;
+  sounddata;
 
 procedure T_VerticalDoor(door: Pvldoor_t);
 
@@ -91,7 +88,8 @@ uses
   p_tick,
   p_setup,
   p_floor,
-  w_wad;
+  w_wad,
+  z_zone;
 
 //
 // VERTICAL DOORS
