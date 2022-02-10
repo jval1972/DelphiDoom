@@ -39,7 +39,6 @@ uses
   p_spec,
   r_defs,
   s_sound,
-// Data.
   sounddata;
 
 var

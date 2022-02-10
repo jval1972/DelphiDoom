@@ -40,13 +40,6 @@ uses
   p_spec,
   r_defs;
 
-//-----------------------------------------------------------------------------
-//
-// DESCRIPTION:
-//  Ceiling aninmation (lowering, crushing, raising)
-//
-//-----------------------------------------------------------------------------
-
 var
   activeceilings: array[0..MAXCEILINGS - 1] of Pceiling_t;
 
