@@ -163,7 +163,6 @@ var
 implementation
 
 uses
-  doomstat,
   doomdef,
   am_map,
   c_cmds,
