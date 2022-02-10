@@ -571,7 +571,10 @@ var
   check: Pline_t;
   other: Psector_t;
 begin
-  result := -500 * FRACUNIT;
+  if G_PlayingEngineVersion >= VERSION207 then
+    result := -32000 * FRACUNIT
+  else
+    result := -500 * FRACUNIT;
 
   for i := 0 to sec.linecount - 1 do
   begin
