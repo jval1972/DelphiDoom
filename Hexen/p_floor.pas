@@ -42,33 +42,85 @@ uses
   m_fixed,
   r_defs;
 
+//==============================================================================
+// TH_MovePlane
 //
 // FLOORS
 //
-
+//==============================================================================
 function TH_MovePlane(sector: Psector_t; speed: fixed_t; dest: fixed_t;
   crush: boolean; floorOrCeiling: integer; dir: integer): result_e;
 
+//==============================================================================
+//
+// TH_MoveFloor
+//
+//==============================================================================
 procedure TH_MoveFloor(floor: Pfloormove_t);
 
+//==============================================================================
+//
+// EVH_DoFloor
+//
+//==============================================================================
 function EVH_DoFloor(line: Pline_t; args: PByteArray; floortype: floor_e; const tag1: integer = -1): boolean;
 
+//==============================================================================
+//
+// EVH_BuildStairs
+//
+//==============================================================================
 function EVH_BuildStairs(line: Pline_t; args: PByteArray; dir: integer;
   stairsType: stairs_e): boolean;
 
+//==============================================================================
+//
+// EVH_BuildPillar
+//
+//==============================================================================
 function EVH_BuildPillar(line: Pline_t; args: PByteArray; crush: boolean): boolean;
 
+//==============================================================================
+//
+// EVH_OpenPillar
+//
+//==============================================================================
 function EVH_OpenPillar(line: Pline_t; args: PByteArray): boolean;
 
+//==============================================================================
+//
+// EVH_FloorCrushStop
+//
+//==============================================================================
 function EVH_FloorCrushStop(line: Pline_t; args: PByteArray): boolean;
 
+//==============================================================================
+//
+// EVH_DoFloorAndCeiling
+//
+//==============================================================================
 function EVH_DoFloorAndCeiling(line: Pline_t; args: PByteArray; doraise: boolean): boolean;
 
+//==============================================================================
+//
+// EVH_StartFloorWaggle
+//
+//==============================================================================
 function EVH_StartFloorWaggle(tag: integer; height: integer; speed: integer;
   offset: integer; timer: integer): boolean;
 
+//==============================================================================
+//
+// TH_BuildPillar
+//
+//==============================================================================
 procedure TH_BuildPillar(pillar: Ppillar_t);
 
+//==============================================================================
+//
+// TH_FloorWaggle
+//
+//==============================================================================
 procedure TH_FloorWaggle(waggle: PfloorWaggle_t);
 
 implementation
@@ -89,9 +141,12 @@ uses
   r_main,
   s_sndseq;
 
+//==============================================================================
+// TH_MovePlane
 //
 // Move a plane (floor or ceiling) and check for crushing
 //
+//==============================================================================
 function TH_MovePlane(sector: Psector_t; speed: fixed_t; dest: fixed_t;
   crush: boolean; floorOrCeiling: integer; dir: integer): result_e;
 var
@@ -220,9 +275,12 @@ begin
   result := RES_OK;
 end;
 
+//==============================================================================
+// TH_MoveFloor
 //
 // MOVE A FLOOR TO IT'S DESTINATION (UP OR DOWN)
 //
+//==============================================================================
 procedure TH_MoveFloor(floor: Pfloormove_t);
 var
   res: result_e;
@@ -277,9 +335,12 @@ begin
 
 end;
 
+//==============================================================================
+// EVH_DoFloor
 //
 //      HANDLE FLOOR TYPES
 //
+//==============================================================================
 function EVH_DoFloor(line: Pline_t; args: PByteArray; floortype: floor_e; const tag1: integer = -1): boolean;
 var
   secnum: integer;
@@ -435,10 +496,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EVH_DoFloorAndCeiling
 //
-
+//==============================================================================
 function EVH_DoFloorAndCeiling(line: Pline_t; args: PByteArray; doraise: boolean): boolean;
 var
   floor, ceiling: boolean;
@@ -506,10 +568,11 @@ var
   TextureChange: integer;
   StartHeight: integer;
 
+//==============================================================================
 //
 // QueueStairSector
 //
-
+//==============================================================================
 procedure QueueStairSector(sec: Psector_t; _type: integer; height: integer);
 begin
   if (QueueTail + 1) mod STAIR_QUEUE_SIZE = QueueHead then
@@ -522,10 +585,11 @@ begin
   QueueTail := (QueueTail + 1) mod STAIR_QUEUE_SIZE;
 end;
 
+//==============================================================================
 //
 // DequeueStairSector
 //
-
+//==============================================================================
 function DequeueStairSector(_type: PInteger; height: PInteger): Psector_t;
 begin
   if QueueHead = QueueTail then
@@ -540,10 +604,11 @@ begin
   QueueHead := (QueueHead + 1) mod STAIR_QUEUE_SIZE;
 end;
 
+//==============================================================================
 //
 // ProcessStairSector
 //
-
+//==============================================================================
 procedure ProcessStairSector(sec: Psector_t; _type: integer; height: integer;
   stairsType: stairs_e; delay: integer; resetDelay: integer);
 var
@@ -614,12 +679,15 @@ begin
   end;
 end;
 
+//==============================================================================
+// EVH_BuildStairs
 //
 //      BUILD A STAIRCASE!
 //
 // Direction is either positive or negative, denoting build stairs
 //      up or down.
-
+//
+//==============================================================================
 function EVH_BuildStairs(line: Pline_t; args: PByteArray; dir: integer;
   stairsType: stairs_e): boolean;
 var
@@ -684,10 +752,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // TH_BuildPillar
 //
-
+//==============================================================================
 procedure TH_BuildPillar(pillar: Ppillar_t);
 var
   res1, res2: result_e;
@@ -707,10 +776,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EVH_BuildPillar
 //
-
+//==============================================================================
 function EVH_BuildPillar(line: Pline_t; args: PByteArray; crush: boolean): boolean;
 var
   secnum: integer;
@@ -772,10 +842,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EVH_OpenPillar
 //
-
+//==============================================================================
 function EVH_OpenPillar(line: Pline_t; args: PByteArray): boolean;
 var
   secnum: integer;
@@ -836,10 +907,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EVH_FloorCrushStop
 //
-
+//==============================================================================
 function EVH_FloorCrushStop(line: Pline_t; args: PByteArray): boolean;
 var
   think: Pthinker_t;
@@ -882,6 +954,11 @@ const
   WGLSTATE_STABLE = 2;
   WGLSTATE_REDUCE = 3;
 
+//==============================================================================
+//
+// TH_FloorWaggle
+//
+//==============================================================================
 procedure TH_FloorWaggle(waggle: PfloorWaggle_t);
 begin
   case waggle.state of
@@ -924,10 +1001,11 @@ begin
   P_ChangeSector(waggle.sector, true);
 end;
 
+//==============================================================================
 //
 // EVH_StartFloorWaggle
 //
-
+//==============================================================================
 function EVH_StartFloorWaggle(tag: integer; height: integer; speed: integer;
   offset: integer; timer: integer): boolean;
 var

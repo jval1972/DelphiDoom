@@ -42,20 +42,60 @@ uses
   m_fixed,
   tables;
 
+//==============================================================================
+//
+// P_PlayerThink
+//
+//==============================================================================
 procedure P_PlayerThink(player: Pplayer_t);
 
+//==============================================================================
+//
+// P_Thrust
+//
+//==============================================================================
 procedure P_Thrust(player: Pplayer_t; angle: angle_t; const move: fixed_t);
 
+//==============================================================================
+//
+// P_PlayerNextArtifact
+//
+//==============================================================================
 procedure P_PlayerNextArtifact(player: Pplayer_t);
 
+//==============================================================================
+//
+// P_PlayerUseArtifact
+//
+//==============================================================================
 procedure P_PlayerUseArtifact(player: Pplayer_t; arti: artitype_t);
 
+//==============================================================================
+//
+// P_GetPlayerNum
+//
+//==============================================================================
 function P_GetPlayerNum(player: Pplayer_t): integer;
 
+//==============================================================================
+//
+// P_UndoPlayerChicken
+//
+//==============================================================================
 function P_UndoPlayerChicken(player: Pplayer_t): boolean;
 
+//==============================================================================
+//
+// P_UseArtifact
+//
+//==============================================================================
 function P_UseArtifact(player: Pplayer_t; arti: artitype_t): boolean;
 
+//==============================================================================
+//
+// P_PlayerRemoveArtifact
+//
+//==============================================================================
 procedure P_PlayerRemoveArtifact(player: Pplayer_t; slot: integer);
 
 implementation
@@ -102,10 +142,12 @@ const
 var
   onground: boolean;
 
+//==============================================================================
 //
 // P_Thrust
 // Moves the given origin along a given angle.
 //
+//==============================================================================
 procedure P_Thrust(player: Pplayer_t; angle: angle_t; const move: fixed_t);
 var
   mv: fixed_t;
@@ -130,10 +172,12 @@ begin
   end
 end;
 
+//==============================================================================
 //
 // P_CalcHeight
 // Calculate the walking / running height adjustment
 //
+//==============================================================================
 procedure P_CalcHeight(player: Pplayer_t);
 var
   angle: integer;
@@ -243,6 +287,11 @@ begin
     player.viewz := player.mo.floorz + 4 * FRACUNIT;
 end;
 
+//==============================================================================
+//
+// P_CalcHeight205
+//
+//==============================================================================
 procedure P_CalcHeight205(player: Pplayer_t);
 var
   angle: integer;
@@ -324,7 +373,12 @@ begin
     player.viewz := player.mo.floorz + 4 * FRACUNIT;
 end;
 
+//==============================================================================
+// P_SlopesCalcHeight
+//
 // JVAL: Slopes
+//
+//==============================================================================
 procedure P_SlopesCalcHeight(player: Pplayer_t);
 var
   angle: integer;
@@ -448,9 +502,11 @@ begin
   player.oldviewz := oldviewz;
 end;
 
+//==============================================================================
 //
 // P_MovePlayer
 //
+//==============================================================================
 procedure P_MovePlayer(player: Pplayer_t);
 var
   cmd: Pticcmd_t;
@@ -726,6 +782,11 @@ const
   ANG5 = ANG90 div 18;
   ANG355 = ANG270 +  ANG5 * 17; // add by JVAL
 
+//==============================================================================
+//
+// P_DeathThink
+//
+//==============================================================================
 procedure P_DeathThink(player: Pplayer_t);
 var
   angle: angle_t;
@@ -786,7 +847,8 @@ end;
 // PROC P_ChickenPlayerThink
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure P_ChickenPlayerThink(player: Pplayer_t);
 var
   pmo: Pmobj_t;
@@ -816,9 +878,11 @@ begin
     S_StartSound(pmo, Ord(sfx_chicact));
 end;
 
+//==============================================================================
 //
 // P_PlayerThink
 //
+//==============================================================================
 procedure P_PlayerThink(player: Pplayer_t);
 var
   cmd: Pticcmd_t;
@@ -923,7 +987,6 @@ begin
           newweapon := wp_staff;
     end;
 
-
     if (player.weaponowned[Ord(newweapon)] <> 0) and
        (newweapon <> player.readyweapon) then
       player.pendingweapon := newweapon;
@@ -1008,7 +1071,6 @@ begin
   if player.bonuscount <> 0 then
     player.bonuscount := player.bonuscount - 1;
 
-
   // Handling colormaps.
   if player.powers[Ord(pw_invulnerability)] <> 0 then
   begin
@@ -1036,7 +1098,8 @@ end;
 // PROC P_ArtiTele
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure P_ArtiTele(player: Pplayer_t);
 var
   i: integer;
@@ -1074,7 +1137,8 @@ end;
 // PROC P_PlayerNextArtifact
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure P_PlayerNextArtifact(player: Pplayer_t);
 begin
   if player = @players[consoleplayer] then
@@ -1099,13 +1163,13 @@ begin
   end;
 end;
 
-
 //----------------------------------------------------------------------------
 //
 // PROC P_PlayerRemoveArtifact
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure P_PlayerRemoveArtifact(player: Pplayer_t; slot: integer);
 var
   i: integer;
@@ -1143,7 +1207,8 @@ end;
 // PROC P_PlayerUseArtifact
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure P_PlayerUseArtifact(player: Pplayer_t; arti: artitype_t);
 var
   i: integer;
@@ -1175,7 +1240,8 @@ end;
 // Returns true if artifact was used.
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 function P_UseArtifact(player: Pplayer_t; arti: artitype_t): boolean;
 var
   mo: Pmobj_t;
@@ -1293,13 +1359,13 @@ begin
   result := true;
 end;
 
-
 //----------------------------------------------------------------------------
 //
 // FUNC P_GetPlayerNum
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 function P_GetPlayerNum(player: Pplayer_t): integer;
 var
   i: integer;
@@ -1319,7 +1385,8 @@ end;
 // FUNC P_UndoPlayerChicken
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 function P_UndoPlayerChicken(player: Pplayer_t): boolean;
 var
   fog: Pmobj_t;

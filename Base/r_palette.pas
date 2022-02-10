@@ -43,6 +43,11 @@ type
   palette_t = array[0..255] of LongWord;
   palette_p = ^palette_t;
 
+//==============================================================================
+//
+// R_DefaultPalette
+//
+//==============================================================================
 function R_DefaultPalette: palette_p;
 
 implementation
@@ -55,6 +60,11 @@ var
   dpal: palette_t;
   flag: boolean = false;
 
+//==============================================================================
+//
+// R_DefaultPalette
+//
+//==============================================================================
 function R_DefaultPalette: palette_p;
 var
   palette: PByteArray;

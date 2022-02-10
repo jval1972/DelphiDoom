@@ -36,14 +36,39 @@ interface
 uses
   m_fixed;
 
+//==============================================================================
+//
+// R_PointToScreenBuffer
+//
+//==============================================================================
 function R_PointToScreenBuffer(const wx, wy, wz: fixed_t; var x, y: Integer): boolean;
 
+//==============================================================================
+//
+// R_PointToScreenBufferEx
+//
+//==============================================================================
 function R_PointToScreenBufferEx(const wx, wy, wz: fixed_t; var x, y: Integer): boolean;
 
+//==============================================================================
+//
+// R_PointToScreenBufferEx2
+//
+//==============================================================================
 function R_PointToScreenBufferEx2(const wx, wy, wz: fixed_t; var x, y: Integer; var axscale, ayscale: fixed_t): boolean;
 
+//==============================================================================
+//
+// R_ColumnToScreenBuffer
+//
+//==============================================================================
 procedure R_ColumnToScreenBuffer(const wx, wy, wz1, wz2: fixed_t; var x, y1, y2: Integer);
 
+//==============================================================================
+//
+// R_PointToScreen
+//
+//==============================================================================
 function R_PointToScreen(const wx, wy, wz: fixed_t; var x, y: Integer): boolean;
 
 implementation
@@ -53,6 +78,11 @@ uses
   r_main,
   r_draw;
 
+//==============================================================================
+//
+// R_PointToScreenBuffer
+//
+//==============================================================================
 function R_PointToScreenBuffer(const wx, wy, wz: fixed_t; var x, y: Integer): boolean;
 var
   tr_x: fixed_t;
@@ -112,6 +142,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_PointToScreenBufferEx
+//
+//==============================================================================
 function R_PointToScreenBufferEx(const wx, wy, wz: fixed_t; var x, y: Integer): boolean;
 var
   x1, y1: float;
@@ -154,6 +189,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_PointToScreenBufferEx2
+//
+//==============================================================================
 function R_PointToScreenBufferEx2(const wx, wy, wz: fixed_t; var x, y: Integer; var axscale, ayscale: fixed_t): boolean;
 var
   x1, y1: float;
@@ -198,8 +238,11 @@ begin
   end;
 end;
 
-
-
+//==============================================================================
+//
+// R_ColumnToScreenBuffer
+//
+//==============================================================================
 procedure R_ColumnToScreenBuffer(const wx, wy, wz1, wz2: fixed_t; var x, y1, y2: Integer);
 var
   tr_x: fixed_t;
@@ -223,12 +266,16 @@ begin
   y2 := centery - FixedInt_FixedMul(wz2 - viewz, xscale);
 end;
 
+//==============================================================================
+//
+// R_PointToScreen
+//
+//==============================================================================
 function R_PointToScreen(const wx, wy, wz: fixed_t; var x, y: Integer): boolean;
 begin
   result := R_PointToScreenBuffer(wx, wy, wz, x, y);
   x := x + viewwindowx;
   y := y + viewwindowy;
 end;
-
 
 end.

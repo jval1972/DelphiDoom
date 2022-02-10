@@ -80,10 +80,25 @@ type
 var
   gamedefines: TStringList;
 
+//==============================================================================
+//
+// SC_InitGameDefines
+//
+//==============================================================================
 procedure SC_InitGameDefines;
 
+//==============================================================================
+//
+// SC_ShutDownGameDefines
+//
+//==============================================================================
 procedure SC_ShutDownGameDefines;
 
+//==============================================================================
+//
+// SC_AddDefine
+//
+//==============================================================================
 procedure SC_AddDefine(const adef: string);
 
 implementation
@@ -107,12 +122,22 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TDefineStates.Add
+//
+//==============================================================================
 function TDefineStates.Add: TDefineState;
 begin
   Result := TDefineState.Create;
   FItems.Add(Result);
 end;
 
+//==============================================================================
+//
+// TDefineStates.Clear
+//
+//==============================================================================
 procedure TDefineStates.Clear;
 var
   i: integer;
@@ -122,22 +147,42 @@ begin
   FItems.Clear;
 end;
 
+//==============================================================================
+//
+// TDefineStates.Delete
+//
+//==============================================================================
 procedure TDefineStates.Delete(i: integer);
 begin
   TDefineState(FItems[i]).Free;
   FItems.Delete(i);
 end;
 
+//==============================================================================
+//
+// TDefineStates.GetCount
+//
+//==============================================================================
 function TDefineStates.GetCount: integer;
 begin
   Result := FItems.Count;
 end;
 
+//==============================================================================
+//
+// TDefineStates.GetItem
+//
+//==============================================================================
 function TDefineStates.GetItem(i: integer): TDefineState;
 begin
   Result := FItems[i];
 end;
 
+//==============================================================================
+//
+// TDefineStates.GetWrite
+//
+//==============================================================================
 function TDefineStates.GetWrite: Boolean;
 begin
   if FItems.Count = 0 then
@@ -146,7 +191,12 @@ begin
     Result := TDefineState(FItems[FItems.Count - 1]).DoWrite;
 end;
 
+//==============================================================================
+// TDefineStates.GetPrevWrite
+//
 //JeromeWelsh - nesting fix
+//
+//==============================================================================
 function TDefineStates.GetPrevWrite: Boolean;
 begin
   if FItems.Count < 2 then
@@ -170,6 +220,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TDefinesPreprocessor.AddDefine
+//
+//==============================================================================
 procedure TDefinesPreprocessor.AddDefine(const def: string);
 var
   adef: string;
@@ -179,6 +234,11 @@ begin
     FDefines.Add(adef);
 end;
 
+//==============================================================================
+//
+// splitstring
+//
+//==============================================================================
 procedure splitstring(const inp: string; var out1, out2: string; const splitter: string = ' ');
 var
   p: integer;
@@ -196,6 +256,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TDefinesPreprocessor.Preprocess
+//
+//==============================================================================
 function TDefinesPreprocessor.Preprocess(const inp: string): string;
 var
   sinp, sout: TStringList;
@@ -307,16 +372,31 @@ begin
   oldDefines.Free;
 end;
 
+//==============================================================================
+//
+// SC_InitGameDefines
+//
+//==============================================================================
 procedure SC_InitGameDefines;
 begin
   gamedefines := TStringList.Create;
 end;
 
+//==============================================================================
+//
+// SC_ShutDownGameDefines
+//
+//==============================================================================
 procedure SC_ShutDownGameDefines;
 begin
   gamedefines.Free;
 end;
 
+//==============================================================================
+//
+// SC_AddDefine
+//
+//==============================================================================
 procedure SC_AddDefine(const adef: string);
 var
   udef: string;

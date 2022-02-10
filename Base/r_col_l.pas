@@ -30,11 +30,40 @@ unit r_col_l;
 
 interface
 
+//==============================================================================
+// R_DrawWhiteLightColumnHi
+//
 // Light column drawing functions
+//
+//==============================================================================
 procedure R_DrawWhiteLightColumnHi;
+
+//==============================================================================
+//
+// R_DrawRedLightColumnHi
+//
+//==============================================================================
 procedure R_DrawRedLightColumnHi;
+
+//==============================================================================
+//
+// R_DrawGreenLightColumnHi
+//
+//==============================================================================
 procedure R_DrawGreenLightColumnHi;
+
+//==============================================================================
+//
+// R_DrawBlueLightColumnHi
+//
+//==============================================================================
 procedure R_DrawBlueLightColumnHi;
+
+//==============================================================================
+//
+// R_DrawYellowLightColumnHi
+//
+//==============================================================================
 procedure R_DrawYellowLightColumnHi;
 
 implementation
@@ -49,26 +78,51 @@ uses
   r_hires,
   v_video;
 
+//==============================================================================
+//
+// R_DrawWhiteLightColumnHi
+//
+//==============================================================================
 procedure R_DrawWhiteLightColumnHi;
 {$DEFINE WHITE}
 {$I R_DrawLightColumnHi.inc}
 {$UNDEF WHITE}
 
+//==============================================================================
+//
+// R_DrawRedLightColumnHi
+//
+//==============================================================================
 procedure R_DrawRedLightColumnHi;
 {$DEFINE RED}
 {$I R_DrawLightColumnHi.inc}
 {$UNDEF RED}
 
+//==============================================================================
+//
+// R_DrawGreenLightColumnHi
+//
+//==============================================================================
 procedure R_DrawGreenLightColumnHi;
 {$DEFINE GREEN}
 {$I R_DrawLightColumnHi.inc}
 {$UNDEF GREEN}
 
+//==============================================================================
+//
+// R_DrawBlueLightColumnHi
+//
+//==============================================================================
 procedure R_DrawBlueLightColumnHi;
 {$DEFINE BLUE}
 {$I R_DrawLightColumnHi.inc}
 {$UNDEF BLUE}
 
+//==============================================================================
+//
+// R_DrawYellowLightColumnHi
+//
+//==============================================================================
 procedure R_DrawYellowLightColumnHi;
 {$DEFINE YELLOW}
 {$I R_DrawLightColumnHi.inc}

@@ -31,7 +31,12 @@ unit r_cache_sky1_dbl;
 
 interface
 
+//==============================================================================
+// R_ReadDC32InternalSkyCache1dbl
+//
 // Sky Cache, dc_mod = 0
+//
+//==============================================================================
 procedure R_ReadDC32InternalSkyCache1dbl(const rtex, rcol: integer);
 
 implementation
@@ -55,6 +60,12 @@ uses
 //  This version is for the first sky of DoubleSky
 //
 {$DEFINE DOUBLESKY}
+
+//==============================================================================
+//
+// R_ReadDC32InternalSkyCache1dbl
+//
+//==============================================================================
 procedure R_ReadDC32InternalSkyCache1dbl(const rtex, rcol: integer);
 var
   plw: PLongWord;

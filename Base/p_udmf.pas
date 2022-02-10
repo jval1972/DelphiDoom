@@ -39,6 +39,11 @@ uses
   m_fixed,
   tables;
 
+//==============================================================================
+//
+// UDMF_Check
+//
+//==============================================================================
 function UDMF_Check(const mapname: string): boolean;
 
 const
@@ -180,8 +185,18 @@ var
   numudmflinedefs: integer;
   hasudmfdata: boolean;
 
+//==============================================================================
+//
+// UDMF_MakeSectors
+//
+//==============================================================================
 function UDMF_MakeSectors: boolean;
 
+//==============================================================================
+//
+// UDMF_MakeLines
+//
+//==============================================================================
 function UDMF_MakeLines: boolean;
 
 implementation
@@ -228,7 +243,6 @@ type
     destructor Destroy; override;
   end;
 
-
 constructor TUDMFManager.Create;
 begin
   fthings := nil;
@@ -247,6 +261,11 @@ begin
   fnummapsectors := 0;
 end;
 
+//==============================================================================
+//
+// TUDMFManager._udmfPreproccessor
+//
+//==============================================================================
 function TUDMFManager._udmfPreproccessor(atext: string): string;
 var
   i: integer;
@@ -301,6 +320,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TUDMFManager.LoadFromString
+//
+//==============================================================================
 procedure TUDMFManager.LoadFromString(const atext: string);
 var
   sc: TScriptEngine;
@@ -1183,6 +1207,11 @@ begin
   sc.Free;
 end;
 
+//==============================================================================
+//
+// TUDMFManager.UpdateUDMFGlobalStructs
+//
+//==============================================================================
 procedure TUDMFManager.UpdateUDMFGlobalStructs;
 begin
   numudmfthings := fnumthings;
@@ -1214,6 +1243,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TUDMFManager.SaveUDMFToVanilla
+//
+//==============================================================================
 procedure TUDMFManager.SaveUDMFToVanilla(const amapname: string; const afilename: string;const bl, sl: integer);
 var
   header: wadinfo_t;
@@ -1337,6 +1371,11 @@ begin
   f.Free;
 end;
 
+//==============================================================================
+//
+// TUDMFManager.Clear
+//
+//==============================================================================
 procedure TUDMFManager.Clear;
 begin
   memfree(Pointer(fthings), fnumthings * SizeOf(mapthing_t));
@@ -1356,7 +1395,12 @@ begin
   inherited;
 end;
 
+//==============================================================================
+// UDMF_Check
+//
 //------------------------------------------------------------------------------
+//
+//==============================================================================
 function UDMF_Check(const mapname: string): boolean;
 var
   udmf: TUDMFManager;
@@ -1446,6 +1490,11 @@ begin
   hasudmfdata := true;
 end;
 
+//==============================================================================
+//
+// UDMF_DoMakeAbsoluteHeights
+//
+//==============================================================================
 procedure UDMF_DoMakeAbsoluteHeights(const secid: integer);
 var
   sec: Psector_t;
@@ -1573,6 +1622,11 @@ begin
   vids.Free;
 end;
 
+//==============================================================================
+//
+// UDMF_DoMakeSector
+//
+//==============================================================================
 procedure UDMF_DoMakeSector(const secid: integer);
 var
   sec: Psector_t;
@@ -1625,6 +1679,11 @@ begin
   sec.moreids := usec.moreids;
 end;
 
+//==============================================================================
+//
+// UDMF_MakeSectors
+//
+//==============================================================================
 function UDMF_MakeSectors: boolean;
 var
   i: integer;
@@ -1650,6 +1709,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// UDMF_DoMakeLine
+//
+//==============================================================================
 procedure UDMF_DoMakeLine(const lineid: integer);
 var
   line: Pline_t;
@@ -1669,6 +1733,11 @@ begin
   line.moreids := uline.moreids;
 end;
 
+//==============================================================================
+//
+// UDMF_MakeLines
+//
+//==============================================================================
 function UDMF_MakeLines: boolean;
 var
   i: integer;

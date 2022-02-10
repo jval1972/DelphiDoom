@@ -82,6 +82,11 @@ type
 {$ENDIF}
   end;
 
+//==============================================================================
+//
+// CreateWaveFileOBffer
+//
+//==============================================================================
 function CreateWaveFileOBffer(Player: TPlayer; Filename: String): TOBuffer;
 
 implementation
@@ -90,6 +95,11 @@ uses
   i_system,
   Math, mp3_Header;
 
+//==============================================================================
+//
+// CreateWaveFileOBffer
+//
+//==============================================================================
 function CreateWaveFileOBffer(Player: TPlayer; Filename: String): TOBuffer;
 var Mode: TMode;
     WhichChannels: TChannels;
@@ -109,9 +119,14 @@ end;
 
 { TOBuffer_Wave }
 
+//==============================================================================
+// TOBuffer_Wave.Append
+//
 // Need to break up the 32-bit integer into 2 8-bit bytes.
 // (ignore the first two bytes - either 0x0000 or 0xffff)
 // Note that Intel byte order is backwards!!!
+//
+//==============================================================================
 procedure TOBuffer_Wave.Append(Channel: Cardinal; Value: SmallInt);
 begin
   FTemp[FBufferP[Channel]]   := (Value and $ff);
@@ -120,12 +135,16 @@ begin
   inc(FBufferP[Channel], FChannels shl 1);
 end;
 
+//==============================================================================
+//
+// TOBuffer_Wave.ClearBuffer
+//
+//==============================================================================
 procedure TOBuffer_Wave.ClearBuffer;
 begin
   // Since we write each frame, and seeks and stops occur between
   // frames, nothing is needed here.
 end;
-
 
 constructor TOBuffer_Wave.Create(NumberOfChannels: Cardinal; Player: TPlayer; Filename: String);
 var pwf: TWAVEFORMATEX;
@@ -214,10 +233,20 @@ begin
   FreeMem(FTemp);
 end;
 
+//==============================================================================
+//
+// TOBuffer_Wave.SetStopFlag
+//
+//==============================================================================
 procedure TOBuffer_Wave.SetStopFlag;
 begin
 end;
 
+//==============================================================================
+//
+// TOBuffer_Wave.WriteBuffer
+//
+//==============================================================================
 procedure TOBuffer_Wave.WriteBuffer;
 var Write, i: Cardinal;
 begin

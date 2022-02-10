@@ -48,7 +48,6 @@ const
   DEFARGVFILENAME = _GAME + '32.cmd';
   WINCLASSNAME = _GAME + '32';
 
-
 implementation
 
 end.

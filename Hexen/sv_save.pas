@@ -31,23 +31,67 @@ unit sv_save;
 
 interface
 
+//==============================================================================
+//
+// SV_Init
+//
+//==============================================================================
 procedure SV_Init;
 
+//==============================================================================
+//
+// SV_InitBaseSlot
+//
+//==============================================================================
 procedure SV_InitBaseSlot;
 
+//==============================================================================
+//
+// SV_ClearRebornSlot
+//
+//==============================================================================
 procedure SV_ClearRebornSlot;
 
+//==============================================================================
+//
+// SV_RebornSlotAvailable
+//
+//==============================================================================
 function SV_RebornSlotAvailable: boolean;
 
+//==============================================================================
+//
+// SV_MapTeleport
+//
+//==============================================================================
 procedure SV_MapTeleport(map: integer; position: integer);
 
+//==============================================================================
+//
+// SV_LoadGame
+//
+//==============================================================================
 procedure SV_LoadGame(slot: integer);
 
+//==============================================================================
+//
+// SV_GetRebornSlot
+//
+//==============================================================================
 function SV_GetRebornSlot: integer;
 
-
+//==============================================================================
+//
+// P_ArchiveScreenShot
+//
+//==============================================================================
 procedure P_ArchiveScreenShot;
 
+//==============================================================================
+//
+// P_UnArchiveScreenShot
+//
+//==============================================================================
 procedure P_UnArchiveScreenShot;
 var
   SAVEGAMENAME: string = '%s\hex%d00.hxs';
@@ -58,12 +102,32 @@ var
   SAVEGLOBALSNAMEDD: string = '%s\HEXDD%d00.HXW';
   SAVEPATH: string = 'HEXNDATA';
 
+//==============================================================================
+//
+// SV_GetSaveGameName
+//
+//==============================================================================
 function SV_GetSaveGameName(const slot: integer): string;
 
+//==============================================================================
+//
+// SV_GetSaveGameDescription
+//
+//==============================================================================
 function SV_GetSaveGameDescription(const slot: integer): string;
 
+//==============================================================================
+//
+// SV_UpdateRebornSlot
+//
+//==============================================================================
 procedure SV_UpdateRebornSlot;
 
+//==============================================================================
+//
+// SV_SaveGame
+//
+//==============================================================================
 procedure SV_SaveGame(slot: integer; description: string);
 
 implementation
@@ -128,6 +192,11 @@ var
   saveptr: pointer;
   LOADVERSION: integer;
 
+//==============================================================================
+//
+// _SAVEGAMENAME
+//
+//==============================================================================
 function _SAVEGAMENAME: string;
 begin
   if hexdd_pack then
@@ -136,6 +205,11 @@ begin
     Result := SAVEGAMENAME
 end;
 
+//==============================================================================
+//
+// _SAVEGAMEMAP
+//
+//==============================================================================
 function _SAVEGAMEMAP: string;
 begin
   if hexdd_pack then
@@ -144,6 +218,11 @@ begin
     Result := SAVEGAMEMAP
 end;
 
+//==============================================================================
+//
+// _SAVEGLOBALSNAME
+//
+//==============================================================================
 function _SAVEGLOBALSNAME: string;
 begin
   if hexdd_pack then
@@ -152,12 +231,22 @@ begin
     Result := SAVEGLOBALSNAME
 end;
 
+//==============================================================================
+//
+// GET_BYTE
+//
+//==============================================================================
 function GET_BYTE: byte; overload;
 begin
   result := PByte(saveptr)^;
   saveptr := pointer(integer(saveptr) + SizeOf(byte));
 end;
 
+//==============================================================================
+//
+// GET_BYTE
+//
+//==============================================================================
 function GET_BYTE(b: PByte): byte; overload;
 begin
   result := PByte(saveptr)^;
@@ -165,30 +254,55 @@ begin
   saveptr := pointer(integer(saveptr) + SizeOf(byte));
 end;
 
+//==============================================================================
+//
+// GET_BOOLEAN
+//
+//==============================================================================
 function GET_BOOLEAN: boolean;
 begin
   result := PBoolean(saveptr)^;
   saveptr := pointer(integer(saveptr) + SizeOf(boolean));
 end;
 
+//==============================================================================
+//
+// GET_WORD
+//
+//==============================================================================
 function GET_WORD: word;
 begin
   result := PWord(saveptr)^;
   saveptr := pointer(integer(saveptr) + SizeOf(word));
 end;
 
+//==============================================================================
+//
+// GET_LONG
+//
+//==============================================================================
 function GET_LONG: integer;
 begin
   result := PInteger(saveptr)^;
   saveptr := pointer(integer(saveptr) + SizeOf(integer));
 end;
 
+//==============================================================================
+//
+// GET_LONGWORD
+//
+//==============================================================================
 function GET_LONGWORD: LongWord;
 begin
   result := PLongWord(saveptr)^;
   saveptr := pointer(integer(saveptr) + SizeOf(LongWord));
 end;
 
+//==============================================================================
+//
+// GET_STRING
+//
+//==============================================================================
 function GET_STRING: string;
 var
   b: byte;
@@ -202,6 +316,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// GET_CHAR8T
+//
+//==============================================================================
 function GET_CHAR8T: char8_t;
 var
   i: integer;
@@ -210,6 +329,11 @@ begin
     result[i] := Chr(GET_BYTE);
 end;
 
+//==============================================================================
+//
+// GET_FLOAT
+//
+//==============================================================================
 function GET_FLOAT: float;
 begin
   result := Pfloat(saveptr)^;
@@ -223,64 +347,72 @@ end;
 var
   SavingFP: TFile;
 
+//==============================================================================
 //
 // StreamOutBuffer
 //
-
+//==============================================================================
 procedure StreamOutBuffer(buffer: pointer; size: integer);
 begin
   SavingFP.Write(buffer^, size);
 end;
 
+//==============================================================================
 //
 // StreamOutByte
 //
-
+//==============================================================================
 procedure StreamOutByte(val: byte);
 begin
   SavingFP.Write(val, SizeOf(byte));
 end;
 
+//==============================================================================
+// StreamOutBoolean
 //
 // StreamOutByte
 //
-
+//==============================================================================
 procedure StreamOutBoolean(val: boolean);
 begin
   SavingFP.Write(val, SizeOf(boolean));
 end;
 
+//==============================================================================
 //
 // StreamOutWord
 //
-
+//==============================================================================
 procedure StreamOutWord(val: word);
 begin
   SavingFP.Write(val, SizeOf(word));
 end;
 
+//==============================================================================
 //
 // StreamOutLong
 //
-
+//==============================================================================
 procedure StreamOutLong(val: integer);
 begin
   SavingFP.Write(val, SizeOf(integer));
 end;
 
+//==============================================================================
 //
 // StreamOutLongWord
 //
-
+//==============================================================================
 procedure StreamOutLongWord(val: LongWord);
 begin
   SavingFP.Write(val, SizeOf(LongWord));
 end;
 
+//==============================================================================
 //
 // StreamOutString
 //
-
+//==============================================================================
 procedure StreamOutString(const s: string);
 var
   b: byte;
@@ -295,6 +427,11 @@ begin
   SavingFP.Write(b, SizeOf(byte));
 end;
 
+//==============================================================================
+//
+// StreamOutChar8t
+//
+//==============================================================================
 procedure StreamOutChar8t(const s: char8_t);
 var
   b: byte;
@@ -307,11 +444,11 @@ begin
   end;
 end;
 
-
+//==============================================================================
 //
 // StreamOutFloat
 //
-
+//==============================================================================
 procedure StreamOutFloat(val: float);
 begin
   SavingFP.Write(val, SizeOf(float));
@@ -376,7 +513,6 @@ type
   end;
   Pssthinker_t = ^ssthinker_t;
 
-
 type
   TargetPlayerAddrs_t = array[0..$FFFF] of PInteger;
   PTargetPlayerAddrs_t = ^TargetPlayerAddrs_t;
@@ -389,10 +525,11 @@ var
   SaveBuffer: PByteArray;
   SavingPlayers: boolean;
 
+//==============================================================================
 //
 // GetMobjNum
 //
-
+//==============================================================================
 function GetMobjNum(mobj: Pmobj_t): integer;
 begin
   if mobj = nil then
@@ -410,10 +547,11 @@ begin
   result := mobj.archiveNum;
 end;
 
+//==============================================================================
 //
 // SetMobjPtr
 //
-
+//==============================================================================
 procedure SetMobjPtr(archiveNum: PInteger);
 begin
   if archiveNum^ = MOBJ_NULL then
@@ -438,11 +576,11 @@ begin
     archiveNum^ := 0;
 end;
 
-
+//==============================================================================
 //
 // RestoreMobj
 //
-
+//==============================================================================
 procedure RestoreMobj(mobj: Pmobj_t);
 begin
   mobj.state := @states[integer(mobj.state)];
@@ -498,38 +636,42 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // MangleSSThinker
 //
-
+//==============================================================================
 procedure MangleSSThinker(sst: Pssthinker_t);
 begin
   sst.sector := Psector_t((LongWord(sst.sector) - LongWord(@sectors[0])) div SizeOf(sector_t));
 end;
 
+//==============================================================================
 //
 // RestoreSSThinker
 //
-
+//==============================================================================
 procedure RestoreSSThinker(sst: Pssthinker_t);
 begin
   sst.sector := @sectors[integer(sst.sector)];
   sst.sector.specialdata := @sst.thinker._function.acp1;
 end;
 
+//==============================================================================
 //
 // RestoreSSThinkerNoSD
 //
-
+//==============================================================================
 procedure RestoreSSThinkerNoSD(sst: Pssthinker_t);
 begin
   sst.sector := @sectors[integer(sst.sector)];
 end;
 
+//==============================================================================
 //
 // MangleScript
 //
-
+//==============================================================================
 procedure MangleScript(script: Pacs_t);
 begin
   script.ip := PInteger(LongWord(script.ip) - LongWord(ActionCodeBase));
@@ -540,10 +682,11 @@ begin
   script.activator := Pmobj_t(GetMobjNum(script.activator));
 end;
 
+//==============================================================================
 //
 // RestoreScript
 //
-
+//==============================================================================
 procedure RestoreScript(script: Pacs_t);
 begin
   script.ip := @ActionCodeBase[integer(script.ip)];
@@ -554,10 +697,11 @@ begin
   SetMobjPtr(PInteger(@script.activator));
 end;
 
+//==============================================================================
 //
 // RestorePlatRaise
 //
-
+//==============================================================================
 procedure RestorePlatRaise(plat: Pplat_t);
 begin
   plat.sector := @sectors[integer(plat.sector)];
@@ -565,10 +709,11 @@ begin
   P_AddActivePlat(plat);
 end;
 
+//==============================================================================
 //
 // RestoreMoveCeiling
 //
-
+//==============================================================================
 procedure RestoreMoveCeiling(ceiling: Pceiling_t);
 begin
   ceiling.sector := @sectors[integer(ceiling.sector)];
@@ -576,13 +721,17 @@ begin
   P_AddActiveCeiling(ceiling);
 end;
 
-
 const
   SVNUMTHINKINFO = 13;
 
 var
   ThinkerInfo: array[0..SVNUMTHINKINFO - 1] of thinkInfo_t;
 
+//==============================================================================
+//
+// SV_Init
+//
+//==============================================================================
 procedure SV_Init;
 var
   pti: PthinkInfo_t;
@@ -681,19 +830,21 @@ begin
 
 end;
 
+//==============================================================================
 //
 // OpenStreamOut
 //
-
+//==============================================================================
 procedure OpenStreamOut(const fileName: string);
 begin
   SavingFP := TFile.Create(fileName, fCreate);
 end;
 
+//==============================================================================
 //
 // CloseStreamOut
 //
-
+//==============================================================================
 procedure CloseStreamOut;
 begin
   if SavingFP <> nil then
@@ -703,11 +854,11 @@ begin
   end;
 end;
 
-
+//==============================================================================
 //
 // ArchivePlayers
 //
-
+//==============================================================================
 procedure ArchivePlayers;
 var
   i: integer;
@@ -738,21 +889,22 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // AssertSegment
 //
-
+//==============================================================================
 procedure AssertSegment(segType: integer);
 begin
   if GET_LONG <> segType then
     I_Error('AssertSegment(): Corrupted save game: Segment [%d] failed alignment check', [segType]);
 end;
 
-
+//==============================================================================
 //
 // UnarchivePlayers
 //
-
+//==============================================================================
 procedure UnarchivePlayers;
 var
   i, j: integer;
@@ -841,10 +993,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // ArchiveWorld
 //
-
+//==============================================================================
 procedure ArchiveWorld;
 var
   i: integer;
@@ -932,10 +1085,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // UnarchiveWorld
 //
-
+//==============================================================================
 procedure UnarchiveWorld;
 var
   i: integer;
@@ -1087,13 +1241,14 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // SetMobjArchiveNums
 //
 // Sets the archive numbers in all mobj structs.  Also sets the MobjCount
 // global.  Ignores player mobjs if SavingPlayers is false.
 //
-
+//==============================================================================
 procedure SetMobjArchiveNums;
 var
   mobj: Pmobj_t;
@@ -1118,10 +1273,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // MangleMobj
 //
-
+//==============================================================================
 procedure MangleMobj(mobj: Pmobj_t);
 var
   corpse: boolean;
@@ -1209,10 +1365,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // ArchiveMobjs
 //
-
+//==============================================================================
 procedure ArchiveMobjs;
 var
   count: integer;
@@ -1261,10 +1418,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // UnarchiveMobjs
 //
-
+//==============================================================================
 procedure UnarchiveMobjs;
 var
   i: integer;
@@ -1502,10 +1660,11 @@ begin
   P_InitCreatureCorpseQueue(true); // true := scan for corpses
 end;
 
+//==============================================================================
 //
 // ArchiveThinkers
 //
-
+//==============================================================================
 procedure ArchiveThinkers;
 var
   thinker: Pthinker_t;
@@ -1541,10 +1700,11 @@ begin
   StreamOutByte(Ord(TC_NULL));
 end;
 
+//==============================================================================
 //
 // UnarchiveThinkers
 //
-
+//==============================================================================
 procedure UnarchiveThinkers;
 var
   tClass: byte;
@@ -1575,6 +1735,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// SV_ArchiveGlobalVariables
+//
+//==============================================================================
 procedure SV_ArchiveGlobalVariables(const vars: TGlobalVariablesList);
 var
   len: integer;
@@ -1591,6 +1756,11 @@ begin
   memfree(pp, len + SizeOf(integer));
 end;
 
+//==============================================================================
+//
+// SV_UnArchiveGlobalVariables
+//
+//==============================================================================
 procedure SV_UnArchiveGlobalVariables(const vars: TGlobalVariablesList);
 var
   len: integer;
@@ -1604,6 +1774,11 @@ begin
   incp(saveptr, len);
 end;
 
+//==============================================================================
+//
+// SV_ArchivePSMapScript
+//
+//==============================================================================
 procedure SV_ArchivePSMapScript;
 var
   fname: string;
@@ -1627,6 +1802,11 @@ begin
   memfree(pp, sz);
 end;
 
+//==============================================================================
+//
+// SV_UnArchivePSMapScript
+//
+//==============================================================================
 procedure SV_UnArchivePSMapScript;
 var
   fname: string;
@@ -1650,6 +1830,11 @@ begin
   incp(Pointer(saveptr), sz);
 end;
 
+//==============================================================================
+//
+// SV_ArchiveOverlay
+//
+//==============================================================================
 procedure SV_ArchiveOverlay;
 var
   buf, buf1: pointer;
@@ -1663,6 +1848,11 @@ begin
   memfree(buf1, sz);
 end;
 
+//==============================================================================
+//
+// SV_UnArchiveOverlay
+//
+//==============================================================================
 procedure SV_UnArchiveOverlay;
 begin
   if LOADVERSION < VERSION142 then
@@ -1671,10 +1861,11 @@ begin
   overlay.LoadFromBuffer(Pointer(saveptr));
 end;
 
+//==============================================================================
 //
 // ArchiveScripts
 //
-
+//==============================================================================
 procedure ArchiveScripts;
 var
   i: integer;
@@ -1691,10 +1882,11 @@ begin
   SV_ArchiveOverlay;
 end;
 
+//==============================================================================
 //
 // UnarchiveScripts
 //
-
+//==============================================================================
 procedure UnarchiveScripts;
 var
   i: integer;
@@ -1712,10 +1904,11 @@ begin
   SV_UnArchiveOverlay;
 end;
 
+//==============================================================================
 //
 // ArchiveMisc
 //
-
+//==============================================================================
 procedure ArchiveMisc;
 var
   ix: integer;
@@ -1725,10 +1918,11 @@ begin
     StreamOutLong(localQuakeHappening[ix]);
 end;
 
+//==============================================================================
 //
 // UnarchiveMisc
 //
-
+//==============================================================================
 procedure UnarchiveMisc;
 var
   ix: integer;
@@ -1738,10 +1932,11 @@ begin
     localQuakeHappening[ix] := GET_LONG;
 end;
 
+//==============================================================================
 //
 // RemoveAllThinkers
 //
-
+//==============================================================================
 procedure RemoveAllThinkers;
 var
   thinker: Pthinker_t;
@@ -1764,10 +1959,11 @@ begin
   P_InitThinkers;
 end;
 
+//==============================================================================
 //
 // ArchiveSounds
 //
-
+//==============================================================================
 procedure ArchiveSounds;
 var
   node: Pseqnode_t;
@@ -1810,10 +2006,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // UnarchiveSounds
 //
-
+//==============================================================================
 procedure UnarchiveSounds;
 var
   i: integer;
@@ -1856,10 +2053,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // ArchivePolyobjs
 //
-
+//==============================================================================
 procedure ArchivePolyobjs;
 var
   i: integer;
@@ -1875,10 +2073,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // UnarchivePolyobjs
 //
-
+//==============================================================================
 procedure UnarchivePolyobjs;
 var
   i: integer;
@@ -1903,12 +2102,13 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // ClearSaveSlot
 //
 // Deletes all save game files associated with a slot number.
 //
-
+//==============================================================================
 procedure ClearSaveSlot(slot: integer);
 var
   i: integer;
@@ -1928,12 +2128,13 @@ begin
   fdelete(fileName);
 end;
 
+//==============================================================================
 //
 // CopySaveSlot
 //
 // Copies all the save game files from one slot to another.
 //
-
+//==============================================================================
 procedure CopySaveSlot(sourceSlot: integer; destSlot: integer);
 var
   i: integer;
@@ -1969,10 +2170,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // SV_SaveMap
 //
-
+//==============================================================================
 procedure SV_SaveMap(savePlayers: boolean);
 var
   fileName: string;
@@ -2008,11 +2210,11 @@ begin
   CloseStreamOut;
 end;
 
-
+//==============================================================================
 //
 // SV_SaveGame
 //
-
+//==============================================================================
 procedure SV_SaveGame(slot: integer; description: string);
 var
   fileName: string;
@@ -2065,10 +2267,11 @@ begin
   CopySaveSlot(BASE_SLOT, slot);
 end;
 
+//==============================================================================
 //
 // SV_LoadMap
 //
-
+//==============================================================================
 procedure SV_LoadMap;
 var
   fileName: string;
@@ -2117,11 +2320,11 @@ begin
   Z_Free(SaveBuffer);
 end;
 
-
+//==============================================================================
 //
 // SV_LoadGame
 //
-
+//==============================================================================
 procedure SV_LoadGame(slot: integer);
 var
   i: integer;
@@ -2217,31 +2420,34 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // SV_UpdateRebornSlot
 //
 // Copies the base slot to the reborn slot.
 //
-
+//==============================================================================
 procedure SV_UpdateRebornSlot;
 begin
   ClearSaveSlot(REBORN_SLOT);
   CopySaveSlot(BASE_SLOT, REBORN_SLOT);
 end;
 
+//==============================================================================
 //
 // SV_ClearRebornSlot
 //
-
+//==============================================================================
 procedure SV_ClearRebornSlot;
 begin
   ClearSaveSlot(REBORN_SLOT);
 end;
 
+//==============================================================================
 //
 // SV_MapTeleport
 //
-
+//==============================================================================
 procedure SV_MapTeleport(map: integer; position: integer);
 var
   i: integer;
@@ -2414,21 +2620,23 @@ begin
     SV_SaveGame(REBORN_SLOT, REBORN_DESCRIPTION);
 end;
 
+//==============================================================================
 //
 // SV_GetRebornSlot
 //
-
+//==============================================================================
 function SV_GetRebornSlot: integer;
 begin
   result := REBORN_SLOT;
 end;
 
+//==============================================================================
 //
 // SV_RebornSlotAvailable
 //
 // Returns true if the reborn slot is available.
 //
-
+//==============================================================================
 function SV_RebornSlotAvailable: boolean;
 var
   fileName: string;
@@ -2438,21 +2646,32 @@ begin
   result := fexists(fileName);
 end;
 
+//==============================================================================
 //
 // SV_InitBaseSlot
 //
-
+//==============================================================================
 procedure SV_InitBaseSlot;
 begin
   ClearSaveSlot(BASE_SLOT);
 end;
 
+//==============================================================================
+//
+// SV_GetSaveGameName
+//
+//==============================================================================
 function SV_GetSaveGameName(const slot: integer): string;
 begin
   sprintf(result, _SAVEGAMENAME, [SAVEPATH, slot]);
   result := M_SaveFileName(result);
 end;
 
+//==============================================================================
+//
+// SV_GetSaveGameDescription
+//
+//==============================================================================
 function SV_GetSaveGameDescription(const slot: integer): string;
 var
   filename: string;
@@ -2475,6 +2694,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// P_ArchiveScreenShot
+//
+//==============================================================================
 procedure P_ArchiveScreenShot;
 var
   i: integer;
@@ -2485,6 +2709,11 @@ begin
     StreamOutByte(mn_screenshotbuffer.data[i]);
 end;
 
+//==============================================================================
+//
+// P_UnArchiveScreenShot
+//
+//==============================================================================
 procedure P_UnArchiveScreenShot;
 begin
   // Nothing to do, just inc the buffer

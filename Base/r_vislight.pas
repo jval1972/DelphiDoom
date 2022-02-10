@@ -74,10 +74,20 @@ var
   vislight_p: integer = 0;
   vislights: array[0..MAXVISLIGHTS - 1] of vislight_t;
 
+//==============================================================================
+//
+// R_NewVisLight
+//
+//==============================================================================
 function R_NewVisLight: Pvislight_t;
 
 implementation
 
+//==============================================================================
+//
+// R_NewVisLight
+//
+//==============================================================================
 function R_NewVisLight: Pvislight_t;
 begin
   if vislight_p = MAXVISLIGHTS then

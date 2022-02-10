@@ -101,7 +101,6 @@ uses
   vx_voxelsprite,
   v_video;
 
-
 const
   DFS_NEVER = 0;
   DFS_SINGLEPLAYER = 1;
@@ -1523,7 +1522,6 @@ const
      defaultbvalue: false;
      _type: tInteger),
 
-
      // Mouse
     (name: 'Mouse';
      location: nil;
@@ -1899,7 +1897,6 @@ const
      defaultbvalue: true;
      _type: tBoolean),
 
-
     (name: 'Chat strings';
      location: nil;
      oldlocation: nil;
@@ -2133,7 +2130,6 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tString),
-
 
     (name: 'Autoload';
      location: nil;

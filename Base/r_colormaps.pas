@@ -43,12 +43,32 @@ const
   C_START = 'C_START';
   C_END = 'C_END';
 
+//==============================================================================
+//
+// R_InitCustomColormaps
+//
+//==============================================================================
 procedure R_InitCustomColormaps;
 
+//==============================================================================
+//
+// R_ShutDownCustomColormaps
+//
+//==============================================================================
 procedure R_ShutDownCustomColormaps;
 
+//==============================================================================
+//
+// R_CustomColorMapForName
+//
+//==============================================================================
 function R_CustomColorMapForName(const s: string): integer;
 
+//==============================================================================
+//
+// R_RecalcColormaps
+//
+//==============================================================================
 procedure R_RecalcColormaps;
 
 type
@@ -81,6 +101,12 @@ var
   customcolormaps: Pcustomcolormap_tArray = nil;
 
 {$IFNDEF OPENGL}
+
+//==============================================================================
+//
+// R_CustomColorMapColor32
+//
+//==============================================================================
 function R_CustomColorMapColor32(const cm: Pcustomcolormap_t; const color: LongWord): LongWord;
 {$ENDIF}
 
@@ -95,6 +121,11 @@ uses
   w_wad,
   z_zone;
 
+//==============================================================================
+//
+// R_InitCustomColormaps
+//
+//==============================================================================
 procedure R_InitCustomColormaps;
 var
   in_c: Boolean;
@@ -151,7 +182,6 @@ begin
     end;
     Z_ChangeTag(pal, PU_CACHE);
 
-
     customcolormaps := mallocz(numcustomcolormaps * SizeOf(customcolormap_t));
     for i := 0 to numcustomcolormaps - 1 do
     begin
@@ -192,6 +222,11 @@ begin
   lumps.Free;
 end;
 
+//==============================================================================
+//
+// R_ShutDownCustomColormaps
+//
+//==============================================================================
 procedure R_ShutDownCustomColormaps;
 begin
   if numcustomcolormaps > 0 then
@@ -201,6 +236,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_CustomColorMapForName
+//
+//==============================================================================
 function R_CustomColorMapForName(const s: string): integer;
 var
   i: integer;
@@ -217,6 +257,11 @@ begin
   result := -1;
 end;
 
+//==============================================================================
+//
+// R_RecalcColormaps
+//
+//==============================================================================
 procedure R_RecalcColormaps;
 var
   i, j: integer;
@@ -276,6 +321,12 @@ begin
 end;
 
 {$IFNDEF OPENGL}
+
+//==============================================================================
+//
+// R_CustomColorMapColor32
+//
+//==============================================================================
 function R_CustomColorMapColor32(const cm: Pcustomcolormap_t; const color: LongWord): LongWord;
 var
   i, j, k: byte;

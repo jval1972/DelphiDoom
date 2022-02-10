@@ -41,6 +41,9 @@ uses
   p_tick,
   r_defs;
 
+//==============================================================================
+// getNextSector
+//
 //-----------------------------------------------------------------------------
 //
 // DESCRIPTION:
@@ -51,49 +54,150 @@ uses
 //  Line Tag handling. Line and Sector triggers.
 //
 //-----------------------------------------------------------------------------
-
+//
+//==============================================================================
 function getNextSector(line: Pline_t; sec: Psector_t): Psector_t;
 
+//==============================================================================
+//
+// twoSided
+//
+//==============================================================================
 function twoSided(sector: integer; line: integer): boolean;
 
+//==============================================================================
+//
+// getSide
+//
+//==============================================================================
 function getSide(currentSector: integer; line: integer; side: integer): Pside_t;
 
+//==============================================================================
+//
+// P_FindLowestFloorSurrounding
+//
+//==============================================================================
 function P_FindLowestFloorSurrounding(sec: Psector_t): fixed_t;
 
+//==============================================================================
+//
+// P_FindHighestFloorSurrounding
+//
+//==============================================================================
 function P_FindHighestFloorSurrounding(sec: Psector_t): fixed_t;
 
+//==============================================================================
+//
+// P_FindNextHighestFloor
+//
+//==============================================================================
 function P_FindNextHighestFloor(sec: Psector_t; currentheight: integer): fixed_t;
 
+//==============================================================================
+//
+// P_InitLava
+//
+//==============================================================================
 procedure P_InitLava;
 
+//==============================================================================
+//
+// P_FindLowestCeilingSurrounding
+//
+//==============================================================================
 function P_FindLowestCeilingSurrounding(sec: Psector_t): fixed_t;
 
+//==============================================================================
+//
+// P_FindHighestCeilingSurrounding
+//
+//==============================================================================
 function P_FindHighestCeilingSurrounding(sec: Psector_t): fixed_t;
 
+//==============================================================================
+//
+// P_FindSectorFromTag
+//
+//==============================================================================
 function P_FindSectorFromTag(tag: integer; start: integer): integer;
 
+//==============================================================================
+//
+// P_FindSectorFromTag2
+//
+//==============================================================================
 function P_FindSectorFromTag2(const tag: integer; var sec: integer): integer;
 
+//==============================================================================
+//
+// EVH_SectorSoundChange
+//
+//==============================================================================
 function EVH_SectorSoundChange(args: PByteArray): boolean;
 
+//==============================================================================
+//
+// CheckedLockedDoor
+//
+//==============================================================================
 function CheckedLockedDoor(mo: Pmobj_t; lock: byte): boolean;
 
+//==============================================================================
+//
+// EVH_LineSearchForPuzzleItem
+//
+//==============================================================================
 function EVH_LineSearchForPuzzleItem(line: Pline_t; args: PByteArray; mo: Pmobj_t): boolean;
 
+//==============================================================================
+//
+// P_ExecuteLineSpecial
+//
+//==============================================================================
 function P_ExecuteLineSpecial(special: integer; args: PByteArray; line: Pline_t;
   side: integer; mo: Pmobj_t): boolean;
 
+//==============================================================================
+//
+// P_ActivateLine
+//
+//==============================================================================
 function P_ActivateLine(line: Pline_t; mo: Pmobj_t; side: integer;
   activationType: integer): boolean;
 
+//==============================================================================
+//
+// P_PlayerInSpecialSector
+//
+//==============================================================================
 procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 
+//==============================================================================
+//
+// P_PlayerOnSpecialFlat
+//
+//==============================================================================
 procedure P_PlayerOnSpecialFlat(player: Pplayer_t; floorType: integer);
 
+//==============================================================================
+//
+// P_UpdateSpecials
+//
+//==============================================================================
 procedure P_UpdateSpecials;
 
+//==============================================================================
+//
+// P_SpawnSpecials
+//
+//==============================================================================
 procedure P_SpawnSpecials;
 
+//==============================================================================
+//
+// P_FindLine
+//
+//==============================================================================
 function P_FindLine(lineTag: integer; searchPosition: PInteger): Pline_t;
 
 //
@@ -171,7 +275,6 @@ const
 
   // 1 second, in ticks.
   BUTTONTIME = 35;
-
 
 type
 //
@@ -370,6 +473,11 @@ type
 var
   LavaInflictor: mobj_t;
 
+//==============================================================================
+//
+// P_FindSectorFromLineTag2
+//
+//==============================================================================
 function P_FindSectorFromLineTag2(line: Pline_t; var start: integer): integer;
 
 const
@@ -410,7 +518,11 @@ uses
   s_sndseq,
   sounddata;
 
-
+//==============================================================================
+//
+// P_InitLava
+//
+//==============================================================================
 procedure P_InitLava;
 begin
   memset(@LavaInflictor, 0, SizeOf(mobj_t));
@@ -418,30 +530,37 @@ begin
   LavaInflictor.flags2 := MF2_FIREDAMAGE or MF2_NODMGTHRUST;
 end;
 
+//==============================================================================
 //
 // getSide()
 // Will return a side_t*
 //  given the number of the current sector,
 //  the line number, and the side (0/1) that you want.
 //
+//==============================================================================
 function getSide(currentSector: integer; line: integer; side: integer): Pside_t;
 begin
   result := @sides[(sectors[currentSector].lines[line]).sidenum[side]];
 end;
 
+//==============================================================================
 //
 // twoSided()
 // Given the sector number and the line number,
 //  it will tell you whether the line is two-sided or not.
 //
+//==============================================================================
 function twoSided(sector: integer; line: integer): boolean;
 begin
   result := sectors[sector].lines[line].sidenum[1] <> -1;
 end;
 
+//==============================================================================
+// getNextSector
 //
 //      Return sector_t * of sector next to current. NULL if not two-sided line
 //
+//==============================================================================
 function getNextSector(line: Pline_t; sec: Psector_t): Psector_t;
 begin
   if line.flags and ML_TWOSIDED = 0 then
@@ -455,10 +574,12 @@ begin
   end;
 end;
 
-
+//==============================================================================
+// P_FindLowestFloorSurrounding
 //
 //      FIND LOWEST FLOOR HEIGHT IN SURROUNDING SECTORS
 //
+//==============================================================================
 function P_FindLowestFloorSurrounding(sec: Psector_t): fixed_t;
 var
   i: integer;
@@ -478,9 +599,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// P_FindHighestFloorSurrounding
 //
 //      FIND HIGHEST FLOOR HEIGHT IN SURROUNDING SECTORS
 //
+//==============================================================================
 function P_FindHighestFloorSurrounding(sec: Psector_t): fixed_t;
 var
   i: integer;
@@ -503,8 +627,6 @@ begin
   end;
 end;
 
-
-
 //
 //      FIND NEXT HIGHEST FLOOR IN SURROUNDING SECTORS
 //
@@ -513,6 +635,11 @@ end;
 const
   MAX_ADJOINING_SECTORS = 64; // JVAL was = 20
 
+//==============================================================================
+//
+// P_FindNextHighestFloor
+//
+//==============================================================================
 function P_FindNextHighestFloor(sec: Psector_t; currentheight: integer): fixed_t;
 var
   i: integer;
@@ -567,10 +694,12 @@ begin
       result := heightlist[i];
 end;
 
-
+//==============================================================================
+// P_FindLowestCeilingSurrounding
 //
 //      FIND LOWEST CEILING IN THE SURROUNDING SECTORS
 //
+//==============================================================================
 function P_FindLowestCeilingSurrounding(sec: Psector_t): fixed_t;
 var
   i: integer;
@@ -590,9 +719,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// P_FindHighestCeilingSurrounding
 //
 // FIND HIGHEST CEILING IN THE SURROUNDING SECTORS
 //
+//==============================================================================
 function P_FindHighestCeilingSurrounding(sec: Psector_t): fixed_t;
 var
   i: integer;
@@ -615,10 +747,11 @@ begin
   end;
 end;
 
-
+//==============================================================================
 //
 // P_FindSectorFromTag
 //
+//==============================================================================
 function P_FindSectorFromTag(tag: integer; start: integer): integer;
 var
   i: integer;
@@ -633,6 +766,11 @@ begin
   result := -1;
 end;
 
+//==============================================================================
+//
+// P_FindSectorFromTag2
+//
+//==============================================================================
 function P_FindSectorFromTag2(const tag: integer; var sec: integer): integer;
 begin
   result := P_FindSectorFromTag(tag, sec);
@@ -641,7 +779,6 @@ end;
 
 const
   MAX_TAGGED_LINES = 64;
-
 
 // PRIVATE DATA DEFINITIONS ------------------------------------------------
 type
@@ -654,10 +791,11 @@ var
   TaggedLines: array[0..MAX_TAGGED_LINES - 1] of taggedlineitem_t;
   TaggedLineCount: integer = 0;
 
+//==============================================================================
 //
 // EVH_SectorSoundChange
 //
-
+//==============================================================================
 function EVH_SectorSoundChange(args: PByteArray): boolean;
 var
   secNum: integer;
@@ -678,10 +816,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // CheckedLockedDoor
 //
-
+//==============================================================================
 function CheckedLockedDoor(mo: Pmobj_t; lock: byte): boolean;
 var
   LockedBuffer: string;
@@ -710,11 +849,11 @@ begin
   result := true;
 end;
 
-
+//==============================================================================
 //
 // EVH_LineSearchForPuzzleItem
 //
-
+//==============================================================================
 function EVH_LineSearchForPuzzleItem(line: Pline_t; args: PByteArray; mo: Pmobj_t): boolean;
 var
   player: Pplayer_t;
@@ -767,8 +906,6 @@ begin
   result := false;
 end;
 
-
-
 //
 //
 // EVENTS
@@ -778,10 +915,11 @@ end;
 //
 //
 
+//==============================================================================
 //
 // P_ExecuteLineSpecial
 //
-
+//==============================================================================
 function P_ExecuteLineSpecial(special: integer; args: PByteArray; line: Pline_t;
   side: integer; mo: Pmobj_t): boolean;
 begin
@@ -1259,10 +1397,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_ActivateLine
 //
-
+//==============================================================================
 function P_ActivateLine(line: Pline_t; mo: Pmobj_t; side: integer; activationType: integer): boolean;
 var
   lineActivation: integer;
@@ -1322,6 +1461,11 @@ const
     25 * 2048
   );
 
+//==============================================================================
+//
+// P_PlayerInSpecialSector
+//
+//==============================================================================
 procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 begin
   // Falling, not all the way down yet?
@@ -1395,10 +1539,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_PlayerOnSpecialFlat
 //
-
+//==============================================================================
 procedure P_PlayerOnSpecialFlat(player: Pplayer_t; floorType: integer);
 begin
   if player.mo.z <> player.mo.floorz then
@@ -1422,7 +1567,8 @@ end;
 // PROC P_UpdateSpecials
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure P_UpdateSpecials;
 var
   i: integer;
@@ -1456,12 +1602,12 @@ begin
 
 end;
 
-
-//
+//==============================================================================
+// P_FindSectorFromLineTag2
 //
 //              SPECIAL SPAWNING
 //
-//
+//==============================================================================
 function P_FindSectorFromLineTag2(line: Pline_t; var start: integer): integer;
 var
   i: integer;
@@ -1478,14 +1624,14 @@ begin
   start := -1;
 end;
 
+//==============================================================================
 //
 // P_SpawnSpecials
 //
 // After the map has been loaded, scan for specials that
 // spawn thinkers
 //
-//
-
+//==============================================================================
 procedure P_SpawnSpecials;
 var
   sector: Psector_t;
@@ -1513,7 +1659,6 @@ begin
     end;
 
   end;
-
 
   //
   //      Init line EFFECTs
@@ -1595,10 +1740,11 @@ begin
     end;
 end;
 
+//==============================================================================
 //
 // P_FindLine
 //
-
+//==============================================================================
 function P_FindLine(lineTag: integer; searchPosition: PInteger): Pline_t;
 var
   i: integer;

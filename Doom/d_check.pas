@@ -33,8 +33,18 @@ unit d_check;
 
 interface
 
+//==============================================================================
+//
+// D_CheckCustomWad
+//
+//==============================================================================
 procedure D_CheckCustomWad(const filename: string);
 
+//==============================================================================
+//
+// D_GetSavePath
+//
+//==============================================================================
 function D_GetSavePath: string;
 
 implementation
@@ -340,6 +350,11 @@ const
 var
   savepath: string = 'doom';
 
+//==============================================================================
+//
+// D_CheckCustomIWad
+//
+//==============================================================================
 function D_CheckCustomIWad(const filename: string): boolean;
 var
   sname: string;
@@ -480,6 +495,11 @@ begin
   result := false; // Well, not valid IWAD found
 end;
 
+//==============================================================================
+//
+// D_CheckCustomPWad
+//
+//==============================================================================
 function D_CheckCustomPWad(const filename: string): boolean;
 var
   crc32: string[8];
@@ -518,6 +538,11 @@ begin
   result := false;
 end;
 
+//==============================================================================
+//
+// D_CheckUnknownWad
+//
+//==============================================================================
 function D_CheckUnknownWad(const filename: string): boolean;
 const
   sNUMS = '0123456789';
@@ -567,6 +592,11 @@ begin
     savepath := name + '_' + crc;
 end;
 
+//==============================================================================
+//
+// D_CheckCustomWad
+//
+//==============================================================================
 procedure D_CheckCustomWad(const filename: string);
 begin
   if not D_CheckCustomIWad(filename) then
@@ -574,6 +604,11 @@ begin
       D_CheckUnknownWad(filename);
 end;
 
+//==============================================================================
+//
+// D_GetSavePath
+//
+//==============================================================================
 function D_GetSavePath: string;
 var
   s: string;

@@ -94,7 +94,6 @@ uses
   vx_voxelsprite,
   v_video;
 
-
 const
   DFS_NEVER = 0;
   DFS_SINGLEPLAYER = 1;
@@ -2069,7 +2068,6 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tString),
-
 
     (name: 'Autoload';
      location: nil;

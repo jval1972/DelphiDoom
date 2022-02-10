@@ -40,9 +40,19 @@ const
   BOXLEFT = 2;
   BOXRIGHT = 3;
 
+//==============================================================================
+// M_ClearBox
+//
 // Bounding box functions.
+//
+//==============================================================================
 procedure M_ClearBox(box: Pfixed_tArray);
 
+//==============================================================================
+//
+// M_AddToBox
+//
+//==============================================================================
 procedure M_AddToBox(box: Pfixed_tArray; x: fixed_t; y: fixed_t);
 
 implementation
@@ -50,6 +60,11 @@ implementation
 uses
   doomtype;
 
+//==============================================================================
+//
+// M_ClearBox
+//
+//==============================================================================
 procedure M_ClearBox(box: Pfixed_tArray);
 begin
   box[BOXTOP] := MININT;
@@ -58,6 +73,11 @@ begin
   box[BOXLEFT] := MAXINT;
 end;
 
+//==============================================================================
+//
+// M_AddToBox
+//
+//==============================================================================
 procedure M_AddToBox(box: Pfixed_tArray; x: fixed_t; y: fixed_t);
 begin
   if x < box[BOXLEFT] then

@@ -38,18 +38,52 @@ type
     reserved: Integer;    // reserved for future use
   end;
 
+//==============================================================================
+//
+// inflateInit_
+//
+//==============================================================================
 function inflateInit_(var strm: TZStreamRec; version: PChar;
   recsize: Integer): Integer; forward;
+
+//==============================================================================
+//
+// inflate
+//
+//==============================================================================
 function inflate(var strm: TZStreamRec; flush: Integer): Integer; forward;
+
+//==============================================================================
+//
+// inflateEnd
+//
+//==============================================================================
 function inflateEnd(var strm: TZStreamRec): Integer; forward;
+
+//==============================================================================
+//
+// deflateInit_
+//
+//==============================================================================
 function deflateInit_(var strm: TZStreamRec; level: Integer; version: PChar;
   recsize: Integer): Integer; forward;
+
+//==============================================================================
+//
+// deflate
+//
+//==============================================================================
 function deflate(var strm: TZStreamRec; flush: Integer): Integer; forward;
+
+//==============================================================================
+//
+// deflateEnd
+//
+//==============================================================================
 function deflateEnd(var strm: TZStreamRec): Integer; forward;
 
 const
   zlib_version = '1.2.3';
-
 
 const
   Z_NO_FLUSH      = 0;
@@ -135,7 +169,6 @@ type
   indicator when you are writing a large chunk of data to the compression
   stream in a single call.}
 
-
   TCompressionLevel = (clNone, clFastest, clDefault, clMax);
 
   TCompressionStream = class(TCustomZlibStream)
@@ -179,16 +212,19 @@ type
     property OnProgress;
   end;
 
-
-
 { CompressBuf compresses data, buffer to buffer, in one call.
    In: InBuf = ptr to compressed data
        InBytes = number of bytes in InBuf
   Out: OutBuf = ptr to newly allocated buffer containing decompressed data
        OutBytes = number of bytes in OutBuf   }
+
+//==============================================================================
+//
+// CompressBuf
+//
+//==============================================================================
 procedure CompressBuf(const InBuf: Pointer; InBytes: Integer;
                       out OutBuf: Pointer; out OutBytes: Integer);
-
 
 { DecompressBuf decompresses data, buffer to buffer, in one call.
    In: InBuf = ptr to compressed data
@@ -196,6 +232,12 @@ procedure CompressBuf(const InBuf: Pointer; InBytes: Integer;
        OutEstimate = zero, or est. size of the decompressed data
   Out: OutBuf = ptr to newly allocated buffer containing decompressed data
        OutBytes = number of bytes in OutBuf   }
+
+//==============================================================================
+//
+// DecompressBuf
+//
+//==============================================================================
 procedure DecompressBuf(const InBuf: Pointer; InBytes: Integer;
  OutEstimate: Integer; out OutBuf: Pointer; out OutBytes: Integer);
 
@@ -204,9 +246,14 @@ procedure DecompressBuf(const InBuf: Pointer; InBytes: Integer;
        InBytes = number of bytes in InBuf
   Out: OutBuf = ptr to user-allocated buffer to contain decompressed data
        BufSize = number of bytes in OutBuf   }
+
+//==============================================================================
+//
+// DecompressToUserBuf
+//
+//==============================================================================
 procedure DecompressToUserBuf(const InBuf: Pointer; InBytes: Integer;
   const OutBuf: Pointer; BufSize: Integer);
-
 
 implementation
 
@@ -228,57 +275,134 @@ resourcestring
  sInvalidStreamOp = 'ZLib error: Invalid stream operation';
  sError = 'ZLib error';
 
-
+//==============================================================================
+//
+// adler32
+//
+//==============================================================================
 function adler32(adler: LongInt; const buf: PChar; len: Integer): LongInt; external;
 
+//==============================================================================
+//
+// _memset
+//
+//==============================================================================
 procedure _memset(P: Pointer; B: Byte; count: Integer);cdecl;
 begin
   FillChar(P^, count, B);
 end;
 
+//==============================================================================
+//
+// _memcpy
+//
+//==============================================================================
 procedure _memcpy(dest, source: Pointer; count: Integer);cdecl;
 begin
   Move(source^, dest^, count);
 end;
 
-
+//==============================================================================
+// deflateInit_
+//
 // deflate compresses data
+//
+//==============================================================================
 function deflateInit_(var strm: TZStreamRec; level: Integer; version: PChar;
   recsize: Integer): Integer; external;
+
+//==============================================================================
+//
+// deflate
+//
+//==============================================================================
 function deflate(var strm: TZStreamRec; flush: Integer): Integer; external;
+
+//==============================================================================
+//
+// deflateEnd
+//
+//==============================================================================
 function deflateEnd(var strm: TZStreamRec): Integer; external;
 
+//==============================================================================
+// inflateInit_
+//
 // inflate decompresses data
+//
+//==============================================================================
 function inflateInit_(var strm: TZStreamRec; version: PChar;
   recsize: Integer): Integer; external;
-function inflate(var strm: TZStreamRec; flush: Integer): Integer; external;
-function inflateEnd(var strm: TZStreamRec): Integer; external;
-function inflateReset(var strm: TZStreamRec): Integer; external;
 
+//==============================================================================
+//
+// inflate
+//
+//==============================================================================
+function inflate(var strm: TZStreamRec; flush: Integer): Integer; external;
+
+//==============================================================================
+//
+// inflateEnd
+//
+//==============================================================================
+function inflateEnd(var strm: TZStreamRec): Integer; external;
+
+//==============================================================================
+//
+// inflateReset
+//
+//==============================================================================
+function inflateReset(var strm: TZStreamRec): Integer; external;
 
 {** zlib function implementations *******************************************}
 
+//==============================================================================
+//
+// zcalloc
+//
+//==============================================================================
 function zcalloc(opaque: Pointer; items, size: Integer): Pointer;
 begin
   GetMem(result, items * size);
 end;
 
+//==============================================================================
+//
+// zcfree
+//
+//==============================================================================
 procedure zcfree(opaque, block: Pointer);
 begin
   FreeMem(block);
 end;
 
+//==============================================================================
+// zlibAllocMem
+//
 // deflate compresses data
+//
+//==============================================================================
 function zlibAllocMem(AppData: Pointer; Items, Size: Integer): Pointer;
 begin
   GetMem(Result, Items * Size);
 end;
 
+//==============================================================================
+//
+// zlibFreeMem
+//
+//==============================================================================
 procedure zlibFreeMem(AppData, Block: Pointer);
 begin
   FreeMem(Block);
 end;
 
+//==============================================================================
+//
+// CCheck
+//
+//==============================================================================
 function CCheck(code: Integer): Integer;
 begin
   Result := code;
@@ -286,6 +410,11 @@ begin
     raise Exception.CreateRes(@sError); //!!
 end;
 
+//==============================================================================
+//
+// DCheck
+//
+//==============================================================================
 function DCheck(code: Integer): Integer;
 begin
   Result := code;
@@ -293,6 +422,11 @@ begin
     raise Exception.CreateRes(@sError);  //!!
 end;
 
+//==============================================================================
+//
+// CompressBuf
+//
+//==============================================================================
 procedure CompressBuf(const InBuf: Pointer; InBytes: Integer;
                       out OutBuf: Pointer; out OutBytes: Integer);
 var
@@ -330,7 +464,11 @@ begin
   end;
 end;
 
-
+//==============================================================================
+//
+// DecompressBuf
+//
+//==============================================================================
 procedure DecompressBuf(const InBuf: Pointer; InBytes: Integer;
   OutEstimate: Integer; out OutBuf: Pointer; out OutBytes: Integer);
 var
@@ -373,6 +511,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// DecompressToUserBuf
+//
+//==============================================================================
 procedure DecompressToUserBuf(const InBuf: Pointer; InBytes: Integer;
   const OutBuf: Pointer; BufSize: Integer);
 var
@@ -405,11 +548,15 @@ begin
   FZRec.zfree := zlibFreeMem;
 end;
 
+//==============================================================================
+//
+// TCustomZLibStream.Progress
+//
+//==============================================================================
 procedure TCustomZLibStream.Progress(Sender: TObject);
 begin
   if Assigned(FOnProgress) then FOnProgress(Sender);
 end;
-
 
 // TCompressionStream
 
@@ -446,11 +593,21 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TCompressionStream.Read
+//
+//==============================================================================
 function TCompressionStream.Read(var Buffer; Count: Longint): Longint;
 begin
   raise Exception.CreateRes(@sInvalidStreamOp);
 end;
 
+//==============================================================================
+//
+// TCompressionStream.Write
+//
+//==============================================================================
 function TCompressionStream.Write(const Buffer; Count: Longint): Longint;
 begin
   FZRec.next_in := @Buffer;
@@ -471,6 +628,11 @@ begin
   Result := Count;
 end;
 
+//==============================================================================
+//
+// TCompressionStream.Seek
+//
+//==============================================================================
 function TCompressionStream.Seek(Offset: Longint; Origin: Word): Longint;
 begin
   if (Offset = 0) and (Origin = soFromCurrent) then
@@ -479,6 +641,11 @@ begin
     raise Exception.CreateRes(@sInvalidStreamOp);
 end;
 
+//==============================================================================
+//
+// TCompressionStream.GetCompressionRate
+//
+//==============================================================================
 function TCompressionStream.GetCompressionRate: Single;
 begin
   if FZRec.total_in = 0 then
@@ -486,7 +653,6 @@ begin
   else
     Result := (1.0 - (FZRec.total_out / FZRec.total_in)) * 100.0;
 end;
-
 
 // TDecompressionStream
 
@@ -505,6 +671,11 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TDecompressionStream.Read
+//
+//==============================================================================
 function TDecompressionStream.Read(var Buffer; Count: Longint): Longint;
 begin
   FZRec.next_out := @Buffer;
@@ -529,11 +700,21 @@ begin
   Result := Count;
 end;
 
+//==============================================================================
+//
+// TDecompressionStream.Write
+//
+//==============================================================================
 function TDecompressionStream.Write(const Buffer; Count: Longint): Longint;
 begin
   raise Exception.CreateRes(@sInvalidStreamOp);
 end;
 
+//==============================================================================
+//
+// TDecompressionStream.Seek
+//
+//==============================================================================
 function TDecompressionStream.Seek(Offset: Longint; Origin: Word): Longint;
 var
   I: Integer;
@@ -562,7 +743,6 @@ begin
     raise Exception.CreateRes(@sInvalidStreamOp);
   Result := FZRec.total_out;
 end;
-
 
 end.
 

@@ -47,10 +47,25 @@ uses
   s_sound,
   d_player;
 
+//==============================================================================
+//
+// P_GivePower
+//
+//==============================================================================
 function P_GivePower(player: Pplayer_t; power: integer): boolean;
 
+//==============================================================================
+//
+// P_TouchSpecialThing
+//
+//==============================================================================
 procedure P_TouchSpecialThing(special: Pmobj_t; toucher: Pmobj_t);
 
+//==============================================================================
+//
+// P_DamageMobj
+//
+//==============================================================================
 procedure P_DamageMobj(target, inflictor, source: Pmobj_t; damage: integer);
 
 const
@@ -59,6 +74,11 @@ const
   maxammo: array[0..Ord(NUMAMMO) - 1] of integer = (200, 50, 300, 50);
   clipammo: array[0..Ord(NUMAMMO) - 1] of integer = (10, 4, 20, 1);
 
+//==============================================================================
+//
+// P_CmdSuicide
+//
+//==============================================================================
 procedure P_CmdSuicide;
 
 var
@@ -101,14 +121,17 @@ const
 // GET STUFF
 //
 
+//==============================================================================
+// P_GiveAmmoAutoSwitch
 //
 // P_GiveAmmo
 // Num is the number of clip loads,
 // not the individual count (0= 1/2 clip).
 // Returns false if the ammo can't be picked up at all
 //
-
 // mbf21: take into account new weapon autoswitch flags
+//
+//==============================================================================
 function P_GiveAmmoAutoSwitch(player: Pplayer_t; ammo: ammotype_t; oldammo: integer): boolean;
 var
   i: integer;
@@ -133,6 +156,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// P_GiveAmmo
+//
+//==============================================================================
 function P_GiveAmmo(player: Pplayer_t; ammo: ammotype_t; num: integer): boolean;
 var
   oldammo: integer;
@@ -163,7 +191,6 @@ begin
     // you'll need in nightmare
     num := num * 2
   end;
-
 
   oldammo := player.ammo[Ord(ammo)];
   player.ammo[Ord(ammo)] := player.ammo[Ord(ammo)] + num;
@@ -231,10 +258,12 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // P_GiveWeapon
 // The weapon name may have a MF_DROPPED flag ored in.
 //
+//==============================================================================
 function P_GiveWeapon(player: Pplayer_t; weapon: weapontype_t; dropped: boolean): boolean;
 var
   gaveammo: boolean;
@@ -290,10 +319,12 @@ begin
   result := gaveweapon or gaveammo;
 end;
 
+//==============================================================================
 //
 // P_GiveBody
 // Returns false if the body isn't needed at all
 //
+//==============================================================================
 function P_GiveBody(player: Pplayer_t; num: integer): boolean;
 begin
   if player.health >= mobjinfo[Ord(MT_PLAYER)].spawnhealth then
@@ -310,11 +341,13 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // P_GiveArmor
 // Returns false if the armor is worse
 // than the current armor.
 //
+//==============================================================================
 function P_GiveArmor(player: Pplayer_t; armortype: integer): boolean;
 var
   hits: integer;
@@ -332,9 +365,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // P_GiveCard
 //
+//==============================================================================
 procedure P_GiveCard(player: Pplayer_t; card: card_t);
 begin
   if player.cards[Ord(card)] then
@@ -344,9 +379,11 @@ begin
   player.cards[Ord(card)] := true;
 end;
 
+//==============================================================================
 //
 // P_GivePower
 //
+//==============================================================================
 function P_GivePower(player: Pplayer_t; power: integer): boolean;
 begin
   if power = Ord(pw_invulnerability) then
@@ -395,9 +432,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_TouchSpecialThing
 //
+//==============================================================================
 procedure P_TouchSpecialThing(special: Pmobj_t; toucher: Pmobj_t);
 var
   player: Pplayer_t;
@@ -791,9 +830,12 @@ begin
     S_StartSound(nil, sound);
 end;
 
+//==============================================================================
+// P_SpawnDroppedMobj
 //
 // KillMobj
 //
+//==============================================================================
 function P_SpawnDroppedMobj(x, y, z: fixed_t; _type: integer): Pmobj_t;
 begin
   result := P_SpawnMobj(x, y, z, _type);
@@ -811,6 +853,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// P_KillMobj
+//
+//==============================================================================
 procedure P_KillMobj(source: Pmobj_t; target: Pmobj_t);
 var
   item: integer;
@@ -938,6 +985,7 @@ begin
     P_SpawnDroppedMobj(target.x, target.y, ONFLOORZ, item);
 end;
 
+//==============================================================================
 //
 // P_DamageMobj
 // Damages both enemies and players
@@ -949,6 +997,7 @@ end;
 // Source can be NULL for slime, barrel explosions
 // and other environmental stuff.
 //
+//==============================================================================
 procedure P_DamageMobj(target, inflictor, source: Pmobj_t; damage: integer);
 var
   ang: angle_t;
@@ -1006,7 +1055,6 @@ begin
   player := target.player;
   if (player <> nil) and (gameskill = sk_baby) then
     damage := _SHR1(damage); // take half damage in trainer mode
-
 
   if (inflictor <> nil) and (target.flags_ex and MF_EX_FIRERESIST <> 0) then
   begin
@@ -1129,6 +1177,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// P_CmdSuicide
+//
+//==============================================================================
 procedure P_CmdSuicide;
 begin
   if demoplayback then

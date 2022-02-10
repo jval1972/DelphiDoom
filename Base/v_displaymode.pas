@@ -33,8 +33,18 @@ unit v_displaymode;
 
 interface
 
+//==============================================================================
+//
+// V_SetDisplayMode
+//
+//==============================================================================
 function V_SetDisplayMode(const newwidth, newheight: integer): boolean;
 
+//==============================================================================
+//
+// V_DoSetDisplayMode
+//
+//==============================================================================
 function V_DoSetDisplayMode(const newwidth, newheight: integer): boolean;
 
 implementation
@@ -57,6 +67,11 @@ uses
   r_plane,
   v_video;
 
+//==============================================================================
+//
+// V_SetDisplayMode
+//
+//==============================================================================
 function V_SetDisplayMode(const newwidth, newheight: integer): boolean;
 var
   nwidth, nheight: integer;
@@ -85,6 +100,11 @@ begin
     result := V_DoSetDisplayMode(nwidth, nheight);
 end;
 
+//==============================================================================
+//
+// V_DoSetDisplayMode
+//
+//==============================================================================
 function V_DoSetDisplayMode(const newwidth, newheight: integer): boolean;
 begin
   MT_WaitTasks;            // Wait for running tasks to stop

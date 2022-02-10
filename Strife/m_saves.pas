@@ -53,36 +53,116 @@ var
 var
   character_name: string; // Name of "character" for saveslot
 
+//==============================================================================
+//
+// M_SafeFilePath
+//
+//==============================================================================
 function M_SafeFilePath(basepath, newcomponent: string): string;
 
+//==============================================================================
+//
+// M_MakeStrifeSaveDir
+//
+//==============================================================================
 function M_MakeStrifeSaveDir(const slotnum: integer; const extra: string): string;
 
+//==============================================================================
+//
+// M_ToCurr
+//
+//==============================================================================
 procedure M_ToCurr;
 
+//==============================================================================
+//
+// M_FromCurr
+//
+//==============================================================================
 procedure M_FromCurr;
 
+//==============================================================================
+//
+// M_ClearSlot
+//
+//==============================================================================
 procedure M_ClearSlot;
 
+//==============================================================================
+//
+// M_ClearTmp
+//
+//==============================================================================
 procedure M_ClearTmp;
 
+//==============================================================================
+//
+// M_SaveMoveHereToMap
+//
+//==============================================================================
 procedure M_SaveMoveHereToMap;
 
+//==============================================================================
+//
+// M_ReadMisObj
+//
+//==============================================================================
 procedure M_ReadMisObj;
 
+//==============================================================================
+//
+// M_ReadWorldVars
+//
+//==============================================================================
 procedure M_ReadWorldVars;
 
+//==============================================================================
+//
+// M_SaveMoveMapToHere
+//
+//==============================================================================
 procedure M_SaveMoveMapToHere;
 
+//==============================================================================
+//
+// M_SaveMisObj
+//
+//==============================================================================
 procedure M_SaveMisObj(const path: string);
 
+//==============================================================================
+//
+// M_SaveWorldVars
+//
+//==============================================================================
 procedure M_SaveWorldVars(const path: string);
 
+//==============================================================================
+//
+// M_SaveSaveScreenShot
+//
+//==============================================================================
 procedure M_SaveSaveScreenShot(const path: string);
 
+//==============================================================================
+//
+// M_CreateSaveDirs
+//
+//==============================================================================
 procedure M_CreateSaveDirs(const savedir: string);
 
+//==============================================================================
+//
+// M_ClearSlotNum
+//
+//==============================================================================
 procedure M_ClearSlotNum(const num: integer);
 
+//==============================================================================
+//
+// M_CopySlotNum
+//
+//==============================================================================
 procedure M_CopySlotNum(src, dest: integer);
 
 implementation
@@ -95,6 +175,11 @@ uses
   m_argv,
   g_game;
 
+//==============================================================================
+//
+// M_ClearSlotNum
+//
+//==============================================================================
 procedure M_ClearSlotNum(const num: integer);
 var
   files: TDSTringList;
@@ -122,7 +207,11 @@ begin
   files.Free;
 end;
 
-
+//==============================================================================
+//
+// M_CopySlotNum
+//
+//==============================================================================
 procedure M_CopySlotNum(src, dest: integer);
 var
   files: TDSTringList;
@@ -156,12 +245,14 @@ begin
   files.Free;
 end;
 
-
+//==============================================================================
+// M_ClearTmp
 //
 // ClearTmp
 //
 // Clear the temporary save directory
 //
+//==============================================================================
 procedure M_ClearTmp;
 var
   files: TDSTringList;
@@ -187,11 +278,14 @@ begin
   files.Free;
 end;
 
+//==============================================================================
+// M_ClearSlot
 //
 // ClearSlot
 //
 // Clear a single save slot folder
 //
+//==============================================================================
 procedure M_ClearSlot;
 var
   files: TDSTringList;
@@ -217,12 +311,14 @@ begin
   files.Free;
 end;
 
-
+//==============================================================================
+// M_FromCurr
 //
 // FromCurr
 //
 // Copying files from savepathtemp to savepath
 //
+//==============================================================================
 procedure M_FromCurr;
 var
   files: TDSTringList;
@@ -247,11 +343,14 @@ begin
   files.Free;
 end;
 
+//==============================================================================
+// M_ToCurr
 //
 // ToCurr
 //
 // Copying files from savepath to savepathtemp
 //
+//==============================================================================
 procedure M_ToCurr;
 var
   files: TDSTringList;
@@ -277,11 +376,13 @@ begin
   files.Free;
 end;
 
+//==============================================================================
 //
 // M_SaveMoveMapToHere
 //
 // Moves a map to the "HERE" save.
 //
+//==============================================================================
 procedure M_SaveMoveMapToHere;
 var
  mapsave: string;
@@ -294,11 +395,13 @@ begin
   frename(mapsave, heresave);
 end;
 
+//==============================================================================
 //
 // M_SaveMoveHereToMap
 //
 // Moves the "HERE" save to a map.
 //
+//==============================================================================
 procedure M_SaveMoveHereToMap;
 var
  mapsave: string;
@@ -311,11 +414,13 @@ begin
   frename(mapsave, heresave);
 end;
 
+//==============================================================================
 //
 // M_SaveMisObj
 //
 // Writes the mission objective into the MIS_OBJ file.
 //
+//==============================================================================
 procedure M_SaveMisObj(const path: string);
 var
  destpath: string;
@@ -329,21 +434,33 @@ begin
   l.Free;
 end;
 
+//==============================================================================
+//
+// M_SaveWorldVars
+//
+//==============================================================================
 procedure M_SaveWorldVars(const path: string);
 begin
   P_ArchiveWorldVariables(M_SafeFilePath(path, 'world_vars'));
 end;
 
+//==============================================================================
+//
+// M_SaveSaveScreenShot
+//
+//==============================================================================
 procedure M_SaveSaveScreenShot(const path: string);
 begin
   P_ArchiveScreenShot(M_SafeFilePath(path, 'sshot'));
 end;
 
+//==============================================================================
 //
 // M_ReadMisObj
 //
 // Reads the mission objective from the MIS_OBJ file.
 //
+//==============================================================================
 procedure M_ReadMisObj;
 var
   srcpath: string;
@@ -359,11 +476,17 @@ begin
   l.Free;
 end;
 
+//==============================================================================
+//
+// M_ReadWorldVars
+//
+//==============================================================================
 procedure M_ReadWorldVars;
 begin
   P_UnarchiveWorldVariables(M_SafeFilePath(savepathtemp, 'world_vars'));
 end;
 
+//==============================================================================
 //
 // M_NormalizeSlashes
 //
@@ -376,6 +499,7 @@ end;
 // the DIR_SEPARATOR define used by Choco Doom. This routine originated in
 // BOOM.
 //
+//==============================================================================
 function M_NormalizeSlashes(const str: string): string;
 var
   i: integer;
@@ -406,9 +530,11 @@ begin
       setlength(result, len - 1);
 end;
 
+//==============================================================================
 //
 // M_SafeFilePath
 //
+//==============================================================================
 function M_SafeFilePath(basepath, newcomponent: string): string;
 begin
   if basepath = '' then
@@ -420,17 +546,19 @@ begin
   result := M_NormalizeSlashes(basepath + '\' + newcomponent);
 end;
 
-
+//==============================================================================
 //
 // M_MakeStrifeSaveDir
 //
 // haleyjd 20110211: Convenience routine
 //
+//==============================================================================
 function M_MakeStrifeSaveDir(const slotnum: integer; const extra: string): string;
 begin
   sprintf(result, 'strfsav%d.ssg%s', [slotnum, extra]);
 end;
 
+//==============================================================================
 //
 // M_CreateSaveDirs
 //
@@ -439,6 +567,7 @@ end;
 // that's no good for Choco purposes, and I agree, so this routine will create
 // the full set of folders under the configured savegamedir.
 //
+//==============================================================================
 procedure M_CreateSaveDirs(const savedir: string);
 var
   i: integer;

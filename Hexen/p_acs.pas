@@ -89,20 +89,55 @@ type
   end;
   Pacsstore_t = ^acsstore_t;
 
+//==============================================================================
+//
+// P_PolyobjFinished
+//
+//==============================================================================
 procedure P_PolyobjFinished(po: integer);
 
+//==============================================================================
+//
+// P_TagFinished
+//
+//==============================================================================
 procedure P_TagFinished(tag: integer);
 
+//==============================================================================
+//
+// P_StartACS
+//
+//==============================================================================
 function P_StartACS(number: integer; map: integer; args: PByteArray;
   activator: Pmobj_t; line: Pline_t; side: integer): boolean;
 
+//==============================================================================
+//
+// P_SuspendACS
+//
+//==============================================================================
 function P_SuspendACS(number: integer; map: integer): boolean;
 
+//==============================================================================
+//
+// P_TerminateACS
+//
+//==============================================================================
 function P_TerminateACS(number: integer; map: integer): boolean;
 
+//==============================================================================
+//
+// P_StartLockedACS
+//
+//==============================================================================
 function P_StartLockedACS(line: Pline_t; args: PByteArray; mo: Pmobj_t;
   side: integer): boolean;
 
+//==============================================================================
+//
+// P_LoadACScripts
+//
+//==============================================================================
 procedure P_LoadACScripts(const lump: integer);
 
 var
@@ -113,14 +148,39 @@ var
   ACSWorldVars: array[0..MAX_ACS_WORLD_VARS - 1] of integer;
   ACSStore: array[0..MAX_ACS_STORE] of acsstore_t; // +1 for termination marker
 
+//==============================================================================
+//
+// TH_InterpretACS
+//
+//==============================================================================
 procedure TH_InterpretACS(script: Pacs_t);
 
+//==============================================================================
+//
+// P_CheckACSStore
+//
+//==============================================================================
 procedure P_CheckACSStore;
 
+//==============================================================================
+//
+// P_ACSInitNewGame
+//
+//==============================================================================
 procedure P_ACSInitNewGame;
 
+//==============================================================================
+//
+// P_ACSInit
+//
+//==============================================================================
 procedure P_ACSInit;
 
+//==============================================================================
+//
+// P_ACSShutDown
+//
+//==============================================================================
 procedure P_ACSShutDown;
 
 implementation
@@ -193,10 +253,12 @@ var
 
 // CODE --------------------------------------------------------------------
 
+//==============================================================================
+// ACS_ScriptFinished
 //
 // ScriptFinished
 //
-
+//==============================================================================
 procedure ACS_ScriptFinished(number: integer);
 var
   i: integer;
@@ -206,11 +268,11 @@ begin
       ACSInfo[i].state := ASTE_RUNNING;
 end;
 
-
+//==============================================================================
 //
 // TH_InterpretACS
 //
-
+//==============================================================================
 procedure TH_InterpretACS(script: Pacs_t);
 var
   cmd: integer;
@@ -251,10 +313,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// ACS_StartOpenACS
 //
 // StartOpenACS
 //
-
+//==============================================================================
 procedure ACS_StartOpenACS(number: integer; infoIndex: integer; address: PInteger);
 var
   script: Pacs_t;
@@ -272,10 +336,11 @@ begin
   P_AddThinker(@script.thinker);
 end;
 
+//==============================================================================
 //
 // P_CompileACSScript
 //
-
+//==============================================================================
 function P_CompileACSScript(const lump: integer): pointer;
 var
   args: TDStringList;
@@ -289,10 +354,11 @@ end;
 const
   ACS_MAGIC = $534341;
 
+//==============================================================================
 //
 // P_LoadACScripts
 //
-
+//==============================================================================
 procedure P_LoadACScripts(const lump: integer);
 var
   i, j: integer;
@@ -382,10 +448,12 @@ begin
   ZeroMemory(@ACSMapVars, SizeOf(ACSMapVars));
 end;
 
+//==============================================================================
+// ACS_AddToACSStore
 //
 // AddToACSStore
 //
-
+//==============================================================================
 function ACS_AddToACSStore(map: integer; number: integer; args: PByteArray): boolean;
 var
   i: integer;
@@ -422,14 +490,14 @@ begin
   result := true;
 end;
 
-
+//==============================================================================
 //
 // GetACSIndex
 //
 // Returns the index of a script number.  Returns -1 if the script number
 // is not found.
 //
-
+//==============================================================================
 function GetACSIndex(number: integer): integer;
 var
   i: integer;
@@ -445,11 +513,11 @@ begin
   result := -1;
 end;
 
-
+//==============================================================================
 //
 // P_StartACS
 //
-
+//==============================================================================
 function P_StartACS(number: integer; map: integer; args: PByteArray;
   activator: Pmobj_t; line: Pline_t; side: integer): boolean;
 var
@@ -508,13 +576,14 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // P_CheckACSStore
 //
 // Scans the ACS store and executes all scripts belonging to the current
 // map.
 //
-
+//==============================================================================
 procedure P_CheckACSStore;
 var
   store: Pacsstore_t;
@@ -533,11 +602,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_StartLockedACS
 //
-
-
+//==============================================================================
 function P_StartLockedACS(line: Pline_t; args: PByteArray; mo: Pmobj_t;
   side: integer): boolean;
 var
@@ -571,10 +640,11 @@ begin
   result := P_StartACS(newArgs[0], newArgs[1], @newArgs[2], mo, line, side);
 end;
 
+//==============================================================================
 //
 // P_TerminateACS
 //
-
+//==============================================================================
 function P_TerminateACS(number: integer; map: integer): boolean;
 var
   infoIndex: integer;
@@ -597,10 +667,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // P_SuspendACS
 //
-
+//==============================================================================
 function P_SuspendACS(number: integer; map: integer): boolean;
 var
   infoIndex: integer;
@@ -623,19 +694,23 @@ begin
   result := true;
 end;
 
+//==============================================================================
+// P_ACSInitNewGame
 //
 // P_Init
 //
-
+//==============================================================================
 procedure P_ACSInitNewGame;
 begin
   ZeroMemory(@ACSWorldVars, SizeOf(ACSWorldVars));
   ZeroMemory(@ACSStore, SizeOf(ACSStore));
 end;
 
+//==============================================================================
 //
 // P_TagBusy
 //
+//==============================================================================
 function P_TagBusy(tag: integer): boolean;
 var
   sectorIndex: integer;
@@ -652,11 +727,11 @@ begin
   result := false;
 end;
 
-
+//==============================================================================
 //
 // P_TagFinished
 //
-
+//==============================================================================
 procedure P_TagFinished(tag: integer);
 var
   i: integer;
@@ -669,10 +744,11 @@ begin
       ACSInfo[i].state := ASTE_RUNNING;
 end;
 
+//==============================================================================
 //
 // P_PolyobjFinished
 //
-
+//==============================================================================
 procedure P_PolyobjFinished(po: integer);
 var
   i: integer;
@@ -685,70 +761,96 @@ begin
       ACSInfo[i].state := ASTE_RUNNING;
 end;
 
+//==============================================================================
 //
 // ACS_Push
 //
-
+//==============================================================================
 procedure ACS_Push(const value: integer);
 begin
   ACScript.stack[ACScript.stackPtr] := value;
   inc(ACScript.stackPtr);
 end;
 
+//==============================================================================
 //
 // ACS_Pop
 //
-
+//==============================================================================
 function ACS_Pop: integer;
 begin
   dec(ACScript.stackPtr);
   result := ACScript.stack[ACScript.stackPtr];
 end;
 
+//==============================================================================
 //
 // ACS_Top
 //
-
+//==============================================================================
 function ACS_Top: integer;
 begin
   result := ACScript.stack[ACScript.stackPtr - 1];
 end;
 
+//==============================================================================
 //
 // ACS_Drop
 //
-
+//==============================================================================
 procedure ACS_Drop;
 begin
   dec(ACScript.stackPtr);
 end;
 
+//==============================================================================
+// CmdNOP
 //
 // P-Code Commands
 //
-
+//==============================================================================
 function CmdNOP: integer;
 begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdTerminate
+//
+//==============================================================================
 function CmdTerminate: integer;
 begin
   result := SCRIPT_TERMINATE;
 end;
 
+//==============================================================================
+//
+// CmdSuspend
+//
+//==============================================================================
 function CmdSuspend: integer;
 begin
   ACSInfo[ACScript.infoIndex].state := ASTE_SUSPENDED;
   result := SCRIPT_STOP;
 end;
 
+//==============================================================================
+//
+// CmdPushNumber
+//
+//==============================================================================
 function CmdPushNumber: integer;
 begin
   ACS_Push(PCodePtr^); inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdLSpec1
+//
+//==============================================================================
 function CmdLSpec1: integer;
 var
   special: integer;
@@ -760,6 +862,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdLSpec2
+//
+//==============================================================================
 function CmdLSpec2: integer;
 var
   special: integer;
@@ -772,6 +879,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdLSpec3
+//
+//==============================================================================
 function CmdLSpec3: integer;
 var
   special: integer;
@@ -785,6 +897,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdLSpec4
+//
+//==============================================================================
 function CmdLSpec4: integer;
 var
   special: integer;
@@ -799,6 +916,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdLSpec5
+//
+//==============================================================================
 function CmdLSpec5: integer;
 var
   special: integer;
@@ -814,6 +936,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdLSpec1Direct
+//
+//==============================================================================
 function CmdLSpec1Direct: integer;
 var
   special: integer;
@@ -825,6 +952,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdLSpec2Direct
+//
+//==============================================================================
 function CmdLSpec2Direct: integer;
 var
   special: integer;
@@ -837,6 +969,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdLSpec3Direct
+//
+//==============================================================================
 function CmdLSpec3Direct: integer;
 var
   special: integer;
@@ -850,6 +987,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdLSpec4Direct
+//
+//==============================================================================
 function CmdLSpec4Direct: integer;
 var
   special: integer;
@@ -864,6 +1006,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdLSpec5Direct
+//
+//==============================================================================
 function CmdLSpec5Direct: integer;
 var
   special: integer;
@@ -879,12 +1026,22 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdAdd
+//
+//==============================================================================
 function CmdAdd: integer;
 begin
   ACS_Push(ACS_Pop + ACS_Pop);
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdSubtract
+//
+//==============================================================================
 function CmdSubtract: integer;
 var
   operand2: integer;
@@ -894,12 +1051,22 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdMultiply
+//
+//==============================================================================
 function CmdMultiply: integer;
 begin
   ACS_Push(ACS_Pop * ACS_Pop);
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdDivide
+//
+//==============================================================================
 function CmdDivide: integer;
 var
   operand2: integer;
@@ -909,6 +1076,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdModulus
+//
+//==============================================================================
 function CmdModulus: integer;
 var
   operand2: integer;
@@ -918,18 +1090,33 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdEQ
+//
+//==============================================================================
 function CmdEQ: integer;
 begin
   ACS_Push(IntVal(ACS_Pop = ACS_Pop));
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdNE
+//
+//==============================================================================
 function CmdNE: integer;
 begin
   ACS_Push(IntVal(ACS_Pop <> ACS_Pop));
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdLT
+//
+//==============================================================================
 function CmdLT: integer;
 var
   operand2: integer;
@@ -939,6 +1126,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdGT
+//
+//==============================================================================
 function CmdGT: integer;
 var
   operand2: integer;
@@ -948,6 +1140,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdLE
+//
+//==============================================================================
 function CmdLE: integer;
 var
   operand2: integer;
@@ -957,6 +1154,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdGE
+//
+//==============================================================================
 function CmdGE: integer;
 var
   operand2: integer;
@@ -966,6 +1168,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdAssignScriptVar
+//
+//==============================================================================
 function CmdAssignScriptVar: integer;
 begin
   ACScript.vars[PCodePtr^] := ACS_Pop;
@@ -973,6 +1180,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdAssignMapVar
+//
+//==============================================================================
 function CmdAssignMapVar: integer;
 begin
   ACSMapVars[PCodePtr^] := ACS_Pop;
@@ -980,6 +1192,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdAssignWorldVar
+//
+//==============================================================================
 function CmdAssignWorldVar: integer;
 begin
   ACSWorldVars[PCodePtr^] := ACS_Pop;
@@ -987,6 +1204,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdPushScriptVar
+//
+//==============================================================================
 function CmdPushScriptVar: integer;
 begin
   ACS_Push(ACScript.vars[PCodePtr^]);
@@ -994,6 +1216,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdPushMapVar
+//
+//==============================================================================
 function CmdPushMapVar: integer;
 begin
   ACS_Push(ACSMapVars[PCodePtr^]);
@@ -1001,6 +1228,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdPushWorldVar
+//
+//==============================================================================
 function CmdPushWorldVar: integer;
 begin
   ACS_Push(ACSWorldVars[PCodePtr^]);
@@ -1008,6 +1240,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdAddScriptVar
+//
+//==============================================================================
 function CmdAddScriptVar: integer;
 begin
   ACScript.vars[PCodePtr^] := ACScript.vars[PCodePtr^] + ACS_Pop;
@@ -1015,6 +1252,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdAddMapVar
+//
+//==============================================================================
 function CmdAddMapVar: integer;
 begin
   ACSMapVars[PCodePtr^] := ACSMapVars[PCodePtr^] + ACS_Pop;
@@ -1022,6 +1264,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdAddWorldVar
+//
+//==============================================================================
 function CmdAddWorldVar: integer;
 begin
   ACSWorldVars[PCodePtr^] := ACSWorldVars[PCodePtr^] + ACS_Pop;
@@ -1029,6 +1276,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdSubScriptVar
+//
+//==============================================================================
 function CmdSubScriptVar: integer;
 begin
   ACScript.vars[PCodePtr^] := ACScript.vars[PCodePtr^] - ACS_Pop;
@@ -1036,6 +1288,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdSubMapVar
+//
+//==============================================================================
 function CmdSubMapVar: integer;
 begin
   ACSMapVars[PCodePtr^] := ACSMapVars[PCodePtr^] - ACS_Pop;
@@ -1043,6 +1300,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdSubWorldVar
+//
+//==============================================================================
 function CmdSubWorldVar: integer;
 begin
   ACSWorldVars[PCodePtr^] := ACSWorldVars[PCodePtr^] - ACS_Pop;
@@ -1050,6 +1312,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdMulScriptVar
+//
+//==============================================================================
 function CmdMulScriptVar: integer;
 begin
   ACScript.vars[PCodePtr^] := ACScript.vars[PCodePtr^] * ACS_Pop;
@@ -1057,6 +1324,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdMulMapVar
+//
+//==============================================================================
 function CmdMulMapVar: integer;
 begin
   ACSMapVars[PCodePtr^] := ACSMapVars[PCodePtr^] * ACS_Pop;
@@ -1064,6 +1336,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdMulWorldVar
+//
+//==============================================================================
 function CmdMulWorldVar: integer;
 begin
   ACSWorldVars[PCodePtr^] := ACSWorldVars[PCodePtr^] * ACS_Pop;
@@ -1071,6 +1348,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdDivScriptVar
+//
+//==============================================================================
 function CmdDivScriptVar: integer;
 begin
   ACScript.vars[PCodePtr^] := ACScript.vars[PCodePtr^] div ACS_Pop;
@@ -1078,6 +1360,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdDivMapVar
+//
+//==============================================================================
 function CmdDivMapVar: integer;
 begin
   ACSMapVars[PCodePtr^] := ACSMapVars[PCodePtr^] div ACS_Pop;
@@ -1085,6 +1372,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdDivWorldVar
+//
+//==============================================================================
 function CmdDivWorldVar: integer;
 begin
   ACSWorldVars[PCodePtr^] := ACSWorldVars[PCodePtr^] div ACS_Pop;
@@ -1092,6 +1384,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdModScriptVar
+//
+//==============================================================================
 function CmdModScriptVar: integer;
 begin
   ACScript.vars[PCodePtr^] := ACScript.vars[PCodePtr^] mod ACS_Pop;
@@ -1099,6 +1396,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdModMapVar
+//
+//==============================================================================
 function CmdModMapVar: integer;
 begin
   ACSMapVars[PCodePtr^] := ACSMapVars[PCodePtr^] mod ACS_Pop;
@@ -1106,6 +1408,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdModWorldVar
+//
+//==============================================================================
 function CmdModWorldVar: integer;
 begin
   ACSWorldVars[PCodePtr^] := ACSWorldVars[PCodePtr^] mod ACS_Pop;
@@ -1113,6 +1420,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdIncScriptVar
+//
+//==============================================================================
 function CmdIncScriptVar: integer;
 begin
   inc(ACScript.vars[PCodePtr^]);
@@ -1120,6 +1432,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdIncMapVar
+//
+//==============================================================================
 function CmdIncMapVar: integer;
 begin
   inc(ACSMapVars[PCodePtr^]);
@@ -1127,6 +1444,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdIncWorldVar
+//
+//==============================================================================
 function CmdIncWorldVar: integer;
 begin
   inc(ACSWorldVars[PCodePtr^]);
@@ -1134,6 +1456,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdDecScriptVar
+//
+//==============================================================================
 function CmdDecScriptVar: integer;
 begin
   dec(ACScript.vars[PCodePtr^]);
@@ -1141,6 +1468,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdDecMapVar
+//
+//==============================================================================
 function CmdDecMapVar: integer;
 begin
   dec(ACSMapVars[PCodePtr^]);
@@ -1148,6 +1480,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdDecWorldVar
+//
+//==============================================================================
 function CmdDecWorldVar: integer;
 begin
   dec(ACSWorldVars[PCodePtr^]);
@@ -1155,12 +1492,22 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdGoto
+//
+//==============================================================================
 function CmdGoto: integer;
 begin
   PCodePtr := @ActionCodeBase[PCodePtr^];
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdIfGoto
+//
+//==============================================================================
 function CmdIfGoto: integer;
 begin
   if ACS_Pop <> 0 then
@@ -1174,18 +1521,33 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdDrop
+//
+//==============================================================================
 function CmdDrop: integer;
 begin
   ACS_Drop;
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdDelay
+//
+//==============================================================================
 function CmdDelay: integer;
 begin
   ACScript.delayCount := ACS_Pop;
   result := SCRIPT_STOP;
 end;
 
+//==============================================================================
+//
+// CmdDelayDirect
+//
+//==============================================================================
 function CmdDelayDirect: integer;
 begin
   ACScript.delayCount := PCodePtr^;
@@ -1193,6 +1555,11 @@ begin
   result := SCRIPT_STOP;
 end;
 
+//==============================================================================
+//
+// CmdRandom
+//
+//==============================================================================
 function CmdRandom: integer;
 var
   low: integer;
@@ -1204,6 +1571,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdRandomDirect
+//
+//==============================================================================
 function CmdRandomDirect: integer;
 var
   low: integer;
@@ -1217,6 +1589,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// ThingCount
+//
+//==============================================================================
 procedure ThingCount(_type: integer; tid: integer);
 var
   count: integer;
@@ -1289,6 +1666,11 @@ begin
   ACS_Push(count);
 end;
 
+//==============================================================================
+//
+// CmdThingCount
+//
+//==============================================================================
 function CmdThingCount: integer;
 var
   tid: integer;
@@ -1298,6 +1680,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdThingCountDirect
+//
+//==============================================================================
 function CmdThingCountDirect: integer;
 var
   _type: integer;
@@ -1309,6 +1696,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdTagWait
+//
+//==============================================================================
 function CmdTagWait: integer;
 begin
   ACSInfo[ACScript.infoIndex].waitValue := ACS_Pop;
@@ -1316,6 +1708,11 @@ begin
   result := SCRIPT_STOP;
 end;
 
+//==============================================================================
+//
+// CmdTagWaitDirect
+//
+//==============================================================================
 function CmdTagWaitDirect: integer;
 begin
   ACSInfo[ACScript.infoIndex].waitValue := PCodePtr^;
@@ -1324,6 +1721,11 @@ begin
   result := SCRIPT_STOP;
 end;
 
+//==============================================================================
+//
+// CmdPolyWait
+//
+//==============================================================================
 function CmdPolyWait: integer;
 begin
   ACSInfo[ACScript.infoIndex].waitValue := ACS_Pop;
@@ -1331,6 +1733,11 @@ begin
   result := SCRIPT_STOP;
 end;
 
+//==============================================================================
+//
+// CmdPolyWaitDirect
+//
+//==============================================================================
 function CmdPolyWaitDirect: integer;
 begin
   ACSInfo[ACScript.infoIndex].waitValue := PCodePtr^;
@@ -1339,6 +1746,11 @@ begin
   result := SCRIPT_STOP;
 end;
 
+//==============================================================================
+//
+// CmdChangeFloor
+//
+//==============================================================================
 function CmdChangeFloor: integer;
 var
   tag: integer;
@@ -1353,6 +1765,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdChangeFloorDirect
+//
+//==============================================================================
 function CmdChangeFloorDirect: integer;
 var
   tag: integer;
@@ -1369,6 +1786,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdChangeCeiling
+//
+//==============================================================================
 function CmdChangeCeiling: integer;
 var
   tag: integer;
@@ -1383,6 +1805,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdChangeCeilingDirect
+//
+//==============================================================================
 function CmdChangeCeilingDirect: integer;
 var
   tag: integer;
@@ -1399,48 +1826,88 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdRestart
+//
+//==============================================================================
 function CmdRestart: integer;
 begin
   PCodePtr := ACSInfo[ACScript.infoIndex].address;
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdAndLogical
+//
+//==============================================================================
 function CmdAndLogical: integer;
 begin
   ACS_Push(IntVal((ACS_Pop <> 0) and (ACS_Pop <> 0)));
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdOrLogical
+//
+//==============================================================================
 function CmdOrLogical: integer;
 begin
   ACS_Push(IntVal((ACS_Pop <> 0) or (ACS_Pop <> 0)));
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdAndBitwise
+//
+//==============================================================================
 function CmdAndBitwise: integer;
 begin
   ACS_Push(ACS_Pop and ACS_Pop);
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdOrBitwise
+//
+//==============================================================================
 function CmdOrBitwise: integer;
 begin
   ACS_Push(ACS_Pop or ACS_Pop);
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdEorBitwise
+//
+//==============================================================================
 function CmdEorBitwise: integer;
 begin
   ACS_Push(ACS_Pop xor ACS_Pop);
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdNegateLogical
+//
+//==============================================================================
 function CmdNegateLogical: integer;
 begin
   ACS_Push(IntVal(ACS_Pop = 0));
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdLShift
+//
+//==============================================================================
 function CmdLShift: integer;
 var
   operand2: integer;
@@ -1450,6 +1917,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdRShift
+//
+//==============================================================================
 function CmdRShift: integer;
 var
   operand2: integer;
@@ -1459,12 +1931,22 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdUnaryMinus
+//
+//==============================================================================
 function CmdUnaryMinus: integer;
 begin
   ACS_Push(-ACS_Pop);
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdIfNotGoto
+//
+//==============================================================================
 function CmdIfNotGoto: integer;
 begin
   if ACS_Pop <> 0 then
@@ -1478,12 +1960,22 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdLineSide
+//
+//==============================================================================
 function CmdLineSide: integer;
 begin
   ACS_Push(ACScript.side);
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdScriptWait
+//
+//==============================================================================
 function CmdScriptWait: integer;
 begin
   ACSInfo[ACScript.infoIndex].waitValue := ACS_Pop;
@@ -1491,6 +1983,11 @@ begin
   result := SCRIPT_STOP;
 end;
 
+//==============================================================================
+//
+// CmdScriptWaitDirect
+//
+//==============================================================================
 function CmdScriptWaitDirect: integer;
 begin
   ACSInfo[ACScript.infoIndex].waitValue := PCodePtr^;
@@ -1499,6 +1996,11 @@ begin
   result := SCRIPT_STOP;
 end;
 
+//==============================================================================
+//
+// CmdClearLineSpecial
+//
+//==============================================================================
 function CmdClearLineSpecial: integer;
 begin
   if ACScript.line <> nil then
@@ -1507,6 +2009,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdCaseGoto
+//
+//==============================================================================
 function CmdCaseGoto: integer;
 begin
   if ACS_Top = PCodePtr^ then // JVAL SOS
@@ -1523,12 +2030,22 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdBeginPrint
+//
+//==============================================================================
 function CmdBeginPrint: integer;
 begin
   PrintBuffer := '';
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdEndPrint
+//
+//==============================================================================
 function CmdEndPrint: integer;
 var
   player: Pplayer_t;
@@ -1545,6 +2062,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdEndPrintBold
+//
+//==============================================================================
 function CmdEndPrintBold: integer;
 var
   i: integer;
@@ -1559,24 +2081,44 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdPrintString
+//
+//==============================================================================
 function CmdPrintString: integer;
 begin
   PrintBuffer := ACStrings.Strings[ACS_Pop];
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdPrintNumber
+//
+//==============================================================================
 function CmdPrintNumber: integer;
 begin
   printbuffer := itoa(ACS_Pop);
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdPrintCharacter
+//
+//==============================================================================
 function CmdPrintCharacter: integer;
 begin
   PrintBuffer := PrintBuffer + Chr(ACS_Pop); // JVAL SOS
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdPlayerCount
+//
+//==============================================================================
 function CmdPlayerCount: integer;
 var
   i: integer;
@@ -1590,6 +2132,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdGameType
+//
+//==============================================================================
 function CmdGameType: integer;
 var
   gametype: integer;
@@ -1604,18 +2151,33 @@ begin            // JVAL SOS
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdGameSkill
+//
+//==============================================================================
 function CmdGameSkill: integer;
 begin
   ACS_Push(Ord(gameskill));
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdTimer
+//
+//==============================================================================
 function CmdTimer: integer;
 begin
   ACS_Push(leveltime);
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdSectorSound
+//
+//==============================================================================
 function CmdSectorSound: integer;
 var
   volume: integer;
@@ -1631,6 +2193,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdThingSound
+//
+//==============================================================================
 function CmdThingSound: integer;
 var
   tid: integer;
@@ -1645,7 +2212,6 @@ var
     mobj := result;
   end;
 
-
 begin
   volume := ACS_Pop;
   sound := S_GetSoundNumForName(ACStrings.Strings[ACS_Pop]);
@@ -1658,6 +2224,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdAmbientSound
+//
+//==============================================================================
 function CmdAmbientSound: integer;
 var
   volume: integer;
@@ -1667,6 +2238,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdSoundSequence
+//
+//==============================================================================
 function CmdSoundSequence: integer;
 var
   mobj: Pmobj_t;
@@ -1678,6 +2254,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdSetLineTexture
+//
+//==============================================================================
 function CmdSetLineTexture: integer;
 var
   line: Pline_t;
@@ -1717,6 +2298,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdSetLineBlocking
+//
+//==============================================================================
 function CmdSetLineBlocking: integer;
 var
   line: Pline_t;
@@ -1744,6 +2330,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// CmdSetLineSpecial
+//
+//==============================================================================
 function CmdSetLineSpecial: integer;
 var
   line: Pline_t;
@@ -1778,6 +2369,11 @@ begin
   result := SCRIPT_CONTINUE;
 end;
 
+//==============================================================================
+//
+// P_ACSInitCodeCmds
+//
+//==============================================================================
 procedure P_ACSInitCodeCmds;
 var
   i: integer;
@@ -1988,13 +2584,22 @@ begin
   PCodeCmds[i] := @CmdEndPrintBold;
 end;
 
-
+//==============================================================================
+//
+// P_ACSInit
+//
+//==============================================================================
 procedure P_ACSInit;
 begin
   ACStrings := TDStringList.Create;
   P_ACSInitCodeCmds;
 end;
 
+//==============================================================================
+//
+// P_ACSShutDown
+//
+//==============================================================================
 procedure P_ACSShutDown;
 begin
   ACStrings.Free;

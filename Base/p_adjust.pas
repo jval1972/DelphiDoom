@@ -30,6 +30,11 @@ unit p_adjust;
 
 interface
 
+//==============================================================================
+//
+// P_AdjustMissingTextures
+//
+//==============================================================================
 procedure P_AdjustMissingTextures;
 
 var
@@ -40,11 +45,14 @@ implementation
 uses
   r_defs,
   p_setup;
+
+//==============================================================================
 //
 // P_AdjustMissingTextures()
 //
 // JVAL: Try to adjust missing textures
 //
+//==============================================================================
 procedure P_AdjustMissingTextures;
 var
   i, j: integer;

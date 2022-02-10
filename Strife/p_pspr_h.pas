@@ -56,7 +56,6 @@ type
     NUMPSPRITES
   );
 
-
   pspdef_t = record
     state: Pstate_t; // a NULL state means not active
     tics: integer;
@@ -64,7 +63,6 @@ type
     sy: fixed_t;
   end;
   Ppspdef_t = ^pspdef_t;
-
 
 implementation
 

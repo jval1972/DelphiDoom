@@ -69,7 +69,12 @@ implementation
 
 { TCRC16 }
 
+//==============================================================================
+// TCRC16.AddBits
+//
 // feed a bitstring to the crc calculation (0 < length <= 32)
+//
+//==============================================================================
 procedure TCRC16.AddBits(BitString, Length: Cardinal);
 var BitMask: Cardinal;
 begin
@@ -87,7 +92,12 @@ begin
   until (BitMask = 0);
 end;
 
+//==============================================================================
+// TCRC16.Checksum
+//
 // return the calculated checksum and erase it for next calls to add_bits()
+//
+//==============================================================================
 function TCRC16.Checksum: Word;
 begin
   result := FCRC;

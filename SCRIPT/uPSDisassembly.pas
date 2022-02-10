@@ -6,6 +6,11 @@ interface
 uses
   ps_runtime, ps_utils, SysUtils, ps_defs;
 
+//==============================================================================
+//
+// IFPS3DataToText
+//
+//==============================================================================
 function IFPS3DataToText(const Input: tbtstring; var Output: string): Boolean;
 
 implementation
@@ -18,6 +23,11 @@ type
     function ImportProc(const Name: ShortString; proc: TIFExternalProcRec): Boolean; override;
   end;
 
+//==============================================================================
+//
+// Debug2Str
+//
+//==============================================================================
 function Debug2Str(const s: string): string;
 var
   i: Integer;
@@ -34,8 +44,18 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// SpecImportProc
+//
+//==============================================================================
 function SpecImportProc(Sender: TObject; p: TIFExternalProcRec): Boolean; forward;
 
+//==============================================================================
+//
+// MyFloatToStr
+//
+//==============================================================================
 function MyFloatToStr(Value: Extended): string;
 begin
   try
@@ -45,6 +65,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// IFPS3DataToText
+//
+//==============================================================================
 function IFPS3DataToText(const Input: tbtstring; var Output: string): Boolean;
 var
   I: TMyPSExec;
@@ -620,11 +645,22 @@ begin
 end;
 
 { TMyIFPSExec }
+
+//==============================================================================
+//
+// MyDummyProc
+//
+//==============================================================================
 function MyDummyProc(Caller: TPSExec; p: TIFExternalProcRec; Global, Stack: TPSStack): Boolean;
 begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TMyPSExec.ImportProc
+//
+//==============================================================================
 function TMyPSExec.ImportProc(const Name: ShortString;
   proc: TIFExternalProcRec): Boolean;
 begin
@@ -632,6 +668,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// SpecImportProc
+//
+//==============================================================================
 function SpecImportProc(Sender: TObject; p: TIFExternalProcRec): Boolean;
 begin
   p.ProcPtr := MyDummyProc;

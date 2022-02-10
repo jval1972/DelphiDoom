@@ -44,10 +44,25 @@ type
     constructor Create(const strm: TDStream); virtual;
   end;
 
+//==============================================================================
+//
+// S_ExternalMusicInit
+//
+//==============================================================================
 procedure S_ExternalMusicInit;
 
+//==============================================================================
+//
+// S_ShutDownExternalMusic
+//
+//==============================================================================
 procedure S_ShutDownExternalMusic;
 
+//==============================================================================
+//
+// S_TryLoadExternalMusic
+//
+//==============================================================================
 function S_TryLoadExternalMusic(music: Pmusicinfo_t): boolean;
 
 implementation
@@ -70,13 +85,21 @@ end;
 var
   externalmusic: TDStringList;
 
-
+//==============================================================================
+//
+// S_ExternalMusicInit
+//
+//==============================================================================
 procedure S_ExternalMusicInit;
 begin
   externalmusic := TDStringList.Create;
 end;
 
-
+//==============================================================================
+//
+// S_ShutDownExternalMusic
+//
+//==============================================================================
 procedure S_ShutDownExternalMusic;
 var
   i: integer;
@@ -96,6 +119,11 @@ const
     '.MOD', '.S3M', '.IT', '.XM'
   );
 
+//==============================================================================
+//
+// S_TryLoadExternalMusic
+//
+//==============================================================================
 function S_TryLoadExternalMusic(music: Pmusicinfo_t): boolean;
 var
   i: integer;

@@ -77,7 +77,6 @@ type
     property numitems: integer read fnumitems write fnumitems;
   end;
 
-
 implementation
 
 {$IFDEF DEBUG}
@@ -102,6 +101,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TMemManager.item2ptr
+//
+//==============================================================================
 function TMemManager.item2ptr(const id: integer): Pointer;
 begin
 {$IFDEF DEBUG}
@@ -111,6 +115,11 @@ begin
   result := pointer(integer(fitems[id]) + SizeOf(memmanageritem_t));
 end;
 
+//==============================================================================
+//
+// TMemManager.ptr2item
+//
+//==============================================================================
 function TMemManager.ptr2item(const ptr: Pointer): integer;
 begin
   result := Pmemmanageritem_t(Integer(ptr) - SizeOf(memmanageritem_t)).index;
@@ -120,6 +129,11 @@ begin
 {$ENDIF}
 end;
 
+//==============================================================================
+//
+// TMemManager.M_Free
+//
+//==============================================================================
 procedure TMemManager.M_Free(ptr: Pointer);
 var
   i: integer;
@@ -139,6 +153,11 @@ begin
   dec(fnumitems);
 end;
 
+//==============================================================================
+//
+// TMemManager.M_FreeTags
+//
+//==============================================================================
 procedure TMemManager.M_FreeTags(lowtag, hightag: integer);
 var
   i: integer;
@@ -148,11 +167,21 @@ begin
       M_Free(item2ptr(i));
 end;
 
+//==============================================================================
+//
+// TMemManager.M_ChangeTag
+//
+//==============================================================================
 procedure TMemManager.M_ChangeTag(ptr: Pointer; tag: integer);
 begin
   fitems[ptr2item(ptr)].tag := tag;
 end;
 
+//==============================================================================
+//
+// TMemManager.M_Malloc
+//
+//==============================================================================
 function TMemManager.M_Malloc(size: integer; tag: integer; user: Pointer): pointer;
 var
   i: integer;
@@ -179,6 +208,11 @@ begin
     PPointer(user)^ := result;
 end;
 
+//==============================================================================
+//
+// TMemManager.M_Realloc
+//
+//==============================================================================
 function TMemManager.M_Realloc(ptr: Pointer; size: integer; tag: integer; user: Pointer): pointer;
 var
   tmp: pointer;
@@ -219,6 +253,11 @@ begin
   memfree(tmp, copysize);
 end;
 
+//==============================================================================
+//
+// TMemManager.M_Size
+//
+//==============================================================================
 function TMemManager.M_Size(ptr: Pointer): integer;
 var
   i: integer;

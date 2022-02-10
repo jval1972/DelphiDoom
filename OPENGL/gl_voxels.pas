@@ -52,8 +52,18 @@ type
     procedure Draw(const frm: Integer; const rot: angle_t);
   end;
 
+//==============================================================================
+//
+// gld_InitVoxels
+//
+//==============================================================================
 procedure gld_InitVoxels;
 
+//==============================================================================
+//
+// gld_VoxelsDone
+//
+//==============================================================================
 procedure gld_VoxelsDone;
 
 var
@@ -63,7 +73,6 @@ var
 
 const
   MAX_VX_OPTIMIZE = 3;
-
 
 implementation
 
@@ -172,6 +181,11 @@ begin
   memfree(Pointer(fquads), frealnumquads * SizeOf(voxelquad_t));
 end;
 
+//==============================================================================
+//
+// TVoxelMeshOptimizer.AddQuad
+//
+//==============================================================================
 procedure TVoxelMeshOptimizer.AddQuad(const c: GLuint; const x0, y0, z0, x1, y1, z1, x2, y2, z2, x3, y3, z3: float);
 var
   q: voxelquad_p;
@@ -208,6 +222,11 @@ end;
 const
   VXOGROWSTEP = 256;
 
+//==============================================================================
+//
+// TVoxelMeshOptimizer.Grow
+//
+//==============================================================================
 procedure TVoxelMeshOptimizer.Grow;
 begin
   Inc(fnumquads);
@@ -218,6 +237,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TVoxelMeshOptimizer.SortQuadVertexes
+//
+//==============================================================================
 procedure TVoxelMeshOptimizer.SortQuadVertexes(const q: voxelquad_p);
 var
   i, si: integer;
@@ -364,6 +388,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// TVoxelMeshOptimizer.Optimize
+//
+//==============================================================================
 procedure TVoxelMeshOptimizer.Optimize;
 var
   cnt: integer;
@@ -396,10 +425,15 @@ end;
 const
   FASTOPTIMIZEAHEAD = 128;
 
+//==============================================================================
+// TVoxelMeshOptimizer.FastOptimize
+//
 // As simple as it looks, we check only the next FASTOPTIMIZEAHEAD quads of the array
 // FastOptimize() reduces a typical voxel mesh fast.
 // Optimize() reduces the mesh about 50% - 60% more than FastOptimize() but it's much slower,
 // we can' afford it at load time
+//
+//==============================================================================
 procedure TVoxelMeshOptimizer.FastOptimize;
 var
   i, j: integer;
@@ -479,6 +513,11 @@ begin
     printf('    TVoxelMeshOptimizer.FastOptimize(): Can not reduce mesh complexity, size is %d quads.'#13#10, [fnumquads]);
 end;
 
+//==============================================================================
+//
+// TVoxelMeshOptimizer.InnerOptimize
+//
+//==============================================================================
 procedure TVoxelMeshOptimizer.InnerOptimize;
 var
   i, j: integer;
@@ -552,11 +591,14 @@ begin
   end;
 end;
 
+//==============================================================================
+// TVoxelMeshOptimizer.TryMergeQuads
 //
 // jval
 // Check if q1 & q2 quads can be merged to reduce mesh complexity
 // Merged quad returned to q1, q2 is flaged as invalid (we will remove it later from list)
 //
+//==============================================================================
 procedure TVoxelMeshOptimizer.TryMergeQuads(const q1, q2: voxelquad_p);
 var
   match1, match2: array[0..3] of integer; // Matching points
@@ -757,21 +799,41 @@ begin
 
 end;
 
+//==============================================================================
+//
+// TVoxelMeshOptimizer.RenderVertexGL
+//
+//==============================================================================
 procedure TVoxelMeshOptimizer.RenderVertexGL(const v: voxelvertex_p);
 begin
   glVertex3fv(@v);
 end;
 
+//==============================================================================
+//
+// TVoxelMeshOptimizerKVX.RenderVertexGL
+//
+//==============================================================================
 procedure TVoxelMeshOptimizerKVX.RenderVertexGL(const v: voxelvertex_p);
 begin
   glVertex3f(v.x, v.z, -v.y);
 end;
 
+//==============================================================================
+//
+// TVoxelMeshOptimizerDDVOX.RenderVertexGL
+//
+//==============================================================================
 procedure TVoxelMeshOptimizerDDVOX.RenderVertexGL(const v: voxelvertex_p);
 begin
   glVertex3f(midx - v.x * step, v.y * step - midy, v.z * step - midz);
 end;
 
+//==============================================================================
+//
+// TVoxelMeshOptimizer.RenderGL
+//
+//==============================================================================
 procedure TVoxelMeshOptimizer.RenderGL;
 var
   i: integer;
@@ -812,6 +874,11 @@ begin
   glEnd;
 end;
 
+//==============================================================================
+//
+// gld_BuildVoxelbufferFlags
+//
+//==============================================================================
 procedure gld_BuildVoxelbufferFlags(const voxelbuffer: voxelbuffer_p; const voxelsize: integer);
 var
   xx, yy, zz: integer;
@@ -837,6 +904,11 @@ begin
       end;
 end;
 
+//==============================================================================
+//
+// gld_VoxelRGBSwap
+//
+//==============================================================================
 function gld_VoxelRGBSwap(buffer: LongWord): LongWord;
 var
   r, g, b: LongWord;
@@ -850,6 +922,11 @@ begin
   Result := r + g shl 8 + b shl 16;
 end;
 
+//==============================================================================
+//
+// gld_ClearVoxelBuffer
+//
+//==============================================================================
 procedure gld_ClearVoxelBuffer(const voxelbuffer: voxelbuffer_p; const voxelsize: integer);
 var
   xx, yy, zz: integer;
@@ -863,6 +940,11 @@ begin
       end;
 end;
 
+//==============================================================================
+//
+// gld_LoadDDVOX
+//
+//==============================================================================
 function gld_LoadDDVOX(const fname: string; const offset, scale: float): GLuint;
 var
   buf: TDStringList;
@@ -1053,6 +1135,11 @@ type
     vertexes: array[0..3] of ddmeshvertex_t;
   end;
 
+//==============================================================================
+//
+// gld_LoadDDMESH
+//
+//==============================================================================
 function gld_LoadDDMESH(const fname: string; const offset, scale: float): GLuint;
 var
   HDR: LongWord;
@@ -1141,7 +1228,6 @@ begin
 
 end;
 
-
 const
   MAXKVXSIZE = 256;
 
@@ -1158,7 +1244,11 @@ type
   end;
   kvxslab_p = ^kvxslab_t;
 
-
+//==============================================================================
+//
+// gld_LoadKVX
+//
+//==============================================================================
 function gld_LoadKVX(const fn: string; const offset, scale: float): GLuint;
 var
   strm: TDStream;
@@ -1453,7 +1543,6 @@ begin
                         xxx1, yyy , zzz1);
           end;
 
-
         end;
 
       end;
@@ -1480,11 +1569,13 @@ begin
   vmx.Free;
 end;
 
-
+//==============================================================================
+// gld_LoadSlab6VOX
 //
 // R_LoadSlab6VOX
 // JVAL 20191004 Support for slab6 VOX files
 //
+//==============================================================================
 function gld_LoadSlab6VOX(const fn: string; const offset, scale: float): GLuint;
 var
   strm: TDStream;
@@ -1728,7 +1819,6 @@ begin
   vmx.Free;
 end;
 
-
 constructor TVoxelModel.Create(const name: string; const offset, scale: float);
 var
   ext: string;
@@ -1777,6 +1867,11 @@ end;
 var
   voxeltexture: TGLuint;
 
+//==============================================================================
+//
+// TVoxelModel.Draw
+//
+//==============================================================================
 procedure TVoxelModel.Draw(const frm: Integer; const rot: angle_t);
 begin
   glBindTexture(GL_TEXTURE_2D, voxeltexture);
@@ -1792,10 +1887,13 @@ begin
   end;
 end;
 
+//==============================================================================
+// gld_InitVoxelTexture
 //
 // JVAL
 //  Create the palette texture, 512x512
 //
+//==============================================================================
 procedure gld_InitVoxelTexture;
 var
   buffer: PLongWordArray;
@@ -1826,6 +1924,11 @@ begin
   memfree(pointer(buffer), 512 * 512 * SizeOf(LongWord));
 end;
 
+//==============================================================================
+//
+// gld_InitVoxels
+//
+//==============================================================================
 procedure gld_InitVoxels;
 var
   size: integer;
@@ -1840,12 +1943,16 @@ begin
   memfree(vx_membuffer, size);
 end;
 
+//==============================================================================
+//
+// gld_VoxelsDone
+//
+//==============================================================================
 procedure gld_VoxelsDone;
 begin
   VX_VoxelsDone;
   glDeleteTextures(1, @voxeltexture);
 end;
-
 
 end.
 

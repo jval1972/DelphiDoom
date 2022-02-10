@@ -14,21 +14,42 @@ type
   end;
   IFFNodes = array of TChunk;
 
+//==============================================================================
+// IFFGetNodes
+//
 // Tree types:
 // IFF   - Electronic Arts IFF/FORM chunk tree structure
 // OIFF  - IFF with possible odd chunk sizes
 // RIFF  - Microsoft RIFF chunk tree structure
 // ORIFF - RIFF with possible odd chunk sizes
-
+//
+//==============================================================================
 function IFFGetNodes(Tree: ansistring; P: Pointer; Offs, MaxSz: cardinal;
   var Nodes: IFFNodes): integer;
+
+//==============================================================================
+//
+// IFFSearchNode
+//
+//==============================================================================
 function IFFSearchNode(Nodes: IFFNodes; var Found: IFFNodes; Name: ansistring;
   Sub: ansistring = ''): integer; overload;
+
+//==============================================================================
+//
+// IFFSearchNode
+//
+//==============================================================================
 function IFFSearchNode(Nodes: IFFNodes; Name: ansistring;
   Sub: ansistring = ''): integer; overload;
 
 implementation
 
+//==============================================================================
+//
+// CheckName
+//
+//==============================================================================
 function CheckName(Name: ansistring): boolean;
 begin
   Result := False;
@@ -45,6 +66,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// IFFGetNodes
+//
+//==============================================================================
 function IFFGetNodes(Tree: ansistring; P: Pointer; Offs, MaxSz: cardinal;
   var Nodes: IFFNodes): integer;
 var
@@ -145,6 +171,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// IFFSearchNode
+//
+//==============================================================================
 function IFFSearchNode(Nodes: IFFNodes; var Found: IFFNodes; Name: ansistring;
   Sub: ansistring = ''): integer; overload;
 var
@@ -162,6 +193,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// IFFSearchNode
+//
+//==============================================================================
 function IFFSearchNode(Nodes: IFFNodes; Name: ansistring;
   Sub: ansistring = ''): integer; overload;
 var

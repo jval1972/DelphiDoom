@@ -30,6 +30,11 @@ unit p_affectees;
 
 interface
 
+//==============================================================================
+//
+// P_SetupSectorAffectees
+//
+//==============================================================================
 procedure P_SetupSectorAffectees;
 
 implementation
@@ -40,6 +45,11 @@ uses
   r_defs,
   z_zone;
 
+//==============================================================================
+//
+// P_SetupSectorAffectees
+//
+//==============================================================================
 procedure P_SetupSectorAffectees;
 var
   l: TDStringList;

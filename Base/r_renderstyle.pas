@@ -35,6 +35,11 @@ type
     mrs_normal, mrs_translucent, mrs_add, mrs_subtract, NUMMOBJRENDERSTYLES
   );
 
+//==============================================================================
+//
+// R_GetRenderstyleForName
+//
+//==============================================================================
 function R_GetRenderstyleForName(const s: string): mobjrenderstyle_t;
 
 implementation
@@ -43,6 +48,11 @@ uses
   d_delphi,
   deh_main;
 
+//==============================================================================
+//
+// R_GetRenderstyleForName
+//
+//==============================================================================
 function R_GetRenderstyleForName(const s: string): mobjrenderstyle_t;
 var
   check: string;

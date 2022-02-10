@@ -55,10 +55,25 @@ var
   mn_screenshotbuffer: menuscreenbuffer_t;
   mn_makescreenshot: boolean = false;
 
+//==============================================================================
+//
+// MN_ScreenShotFromBlitBuffer
+//
+//==============================================================================
 procedure MN_ScreenShotFromBlitBuffer;
 
+//==============================================================================
+//
+// MN_ScreenShotFromSaveGame
+//
+//==============================================================================
 procedure MN_ScreenShotFromSaveGame(const path: string; const outbuff: Pmenuscreenbuffer_t);
 
+//==============================================================================
+//
+// MN_ValidScreenShot
+//
+//==============================================================================
 function MN_ValidScreenShot(const mnbuf: Pmenuscreenbuffer_t): boolean;
 
 implementation
@@ -74,6 +89,11 @@ uses
   r_draw,
   v_video;
 
+//==============================================================================
+//
+// MN_ScreenShotFromBlitBuffer
+//
+//==============================================================================
 procedure MN_ScreenShotFromBlitBuffer;
 var
   i, x, y: integer;
@@ -113,6 +133,11 @@ begin
   mn_makescreenshot := false;
 end;
 
+//==============================================================================
+//
+// MN_ScreenShotFromSaveGame
+//
+//==============================================================================
 procedure MN_ScreenShotFromSaveGame(const path: string; const outbuff: Pmenuscreenbuffer_t);
 var
   f: TFile;
@@ -135,6 +160,11 @@ begin
   f.Free;
 end;
 
+//==============================================================================
+//
+// MN_ValidScreenShot
+//
+//==============================================================================
 function MN_ValidScreenShot(const mnbuf: Pmenuscreenbuffer_t): boolean;
 var
   i: integer;

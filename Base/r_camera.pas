@@ -38,8 +38,18 @@ uses
   m_fixed,
   p_mobj_h;
 
+//==============================================================================
+//
+// R_AdjustChaseCamera
+//
+//==============================================================================
 procedure R_AdjustChaseCamera;
 
+//==============================================================================
+//
+// R_AdjustTeleportZoom
+//
+//==============================================================================
 procedure R_AdjustTeleportZoom(const player: Pplayer_t);
 
 var
@@ -70,12 +80,15 @@ uses
 const
   CAMERARADIOUS = 8 * FRACUNIT;
 
+//==============================================================================
+// R_AdjustChaseCamera
 //
 // P_AdjustChaseCamera
 //
 // JVAL: Adjust the chace camera position
 //       A bit clumsy but works OK
 //
+//==============================================================================
 procedure R_AdjustChaseCamera;
 var
   c_an: angle_t;
@@ -139,6 +152,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// R_AdjustTeleportZoom
+//
+//==============================================================================
 procedure R_AdjustTeleportZoom(const player: Pplayer_t);
 var
   mo: Pmobj_t;

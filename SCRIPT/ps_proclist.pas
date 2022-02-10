@@ -84,7 +84,6 @@ begin
   inherited Create;
 end;
 
-
 destructor TProcedureList.Destroy;
 var
   i: integer;
@@ -104,6 +103,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TProcedureList.Add
+//
+//==============================================================================
 procedure TProcedureList.Add(const decl: string; const proc: pointer);
 const
   REALLOCSTEP = 16;
@@ -136,6 +140,11 @@ begin
   inc(fNumItems);
 end;
 
+//==============================================================================
+//
+// TProcedureList.AddWithCustomResult
+//
+//==============================================================================
 procedure TProcedureList.AddWithCustomResult(const decl: string; const ret: string;
       const decl2: string; proc: pointer);
 const
@@ -170,6 +179,11 @@ begin
   inc(fNumItems);
 end;
 
+//==============================================================================
+//
+// TProcedureList.RegisterProcsComp
+//
+//==============================================================================
 procedure TProcedureList.RegisterProcsComp(Sender: TPSPascalCompiler);
 var
   i: integer;
@@ -189,6 +203,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TProcedureList.RegisterProcsExec
+//
+//==============================================================================
 procedure TProcedureList.RegisterProcsExec(Sender: TPSExec);
 var
   i: integer;
@@ -198,6 +217,11 @@ begin
       Sender.RegisterDelphiFunction(fList[i].proc, fList[i].name.str, cdRegister);
 end;
 
+//==============================================================================
+//
+// TProcedureList.Reset
+//
+//==============================================================================
 procedure TProcedureList.Reset;
 var
   i: integer;
@@ -206,6 +230,11 @@ begin
     fList[i].iscomputed := false;
 end;
 
+//==============================================================================
+//
+// TProcedureList.GetDeclarations
+//
+//==============================================================================
 function TProcedureList.GetDeclarations: string;
 var
   i: integer;
@@ -215,6 +244,11 @@ begin
     Result := Result + flist[i].exportdecl.str + #13#10;
 end;
 
+//==============================================================================
+//
+// TProcedureList.GetFunctionNames
+//
+//==============================================================================
 function TProcedureList.GetFunctionNames: string;
 var
   i: integer;

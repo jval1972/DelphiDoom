@@ -229,7 +229,6 @@ var
   TXT_NEEDGREENKEY: string = 'YOU NEED A GREEN KEY TO OPEN THIS DOOR';
   TXT_NEEDYELLOWKEY: string = 'YOU NEED A YELLOW KEY TO OPEN THIS DOOR';
 
-
 //
 // G_game.C
 //
@@ -480,7 +479,6 @@ var
         '===========================================================================' + #13#10 +
         '                       Undetermined version! (Ouch)' + #13#10 +
         '===========================================================================' + #13#10;
-
 
 var
   startmsg: array[0..NUM_STARTUPMESSAGES - 1] of string;

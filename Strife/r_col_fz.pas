@@ -37,13 +37,60 @@ unit r_col_fz;
 
 interface
 
+//==============================================================================
+//
+// R_DrawFuzzColumn1
+//
+//==============================================================================
 procedure R_DrawFuzzColumn1;
+
+//==============================================================================
+//
+// R_DrawFuzzColumn2
+//
+//==============================================================================
 procedure R_DrawFuzzColumn2;
+
+//==============================================================================
+//
+// R_DrawFuzzColumnTL
+//
+//==============================================================================
 procedure R_DrawFuzzColumnTL;
+
+//==============================================================================
+//
+// R_DrawFuzzColumn1Hi
+//
+//==============================================================================
 procedure R_DrawFuzzColumn1Hi;
+
+//==============================================================================
+//
+// R_DrawFuzzColumn2Hi
+//
+//==============================================================================
 procedure R_DrawFuzzColumn2Hi;
+
+//==============================================================================
+//
+// R_DrawFuzzColumnHiTL
+//
+//==============================================================================
 procedure R_DrawFuzzColumnHiTL;
+
+//==============================================================================
+//
+// R_DrawFuzzColumn1Hi32
+//
+//==============================================================================
 procedure R_DrawFuzzColumn1Hi32;
+
+//==============================================================================
+//
+// R_DrawFuzzColumn2Hi32
+//
+//==============================================================================
 procedure R_DrawFuzzColumn2Hi32;
 
 implementation
@@ -60,7 +107,8 @@ uses
   r_precalc,
   v_video;
 
-
+//==============================================================================
+// R_DrawFuzzColumn1
 //
 // Framebuffer postprocessing.
 // Creates a fuzzy image by copying pixels
@@ -69,6 +117,7 @@ uses
 //  could create the SHADOW effect,
 //  i.e. spectres and invisible players.
 //
+//==============================================================================
 procedure R_DrawFuzzColumn1; // DrawTLColumn
 var
   count: integer;
@@ -97,6 +146,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawFuzzColumn2
+//
+//==============================================================================
 procedure R_DrawFuzzColumn2; // DrawMVisTLColumn
 var
   count: integer;
@@ -125,6 +179,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawFuzzColumnTL
+//
+//==============================================================================
 procedure R_DrawFuzzColumnTL;
 var
   count: integer;
@@ -153,6 +212,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawFuzzColumn1Hi
+//
+//==============================================================================
 procedure R_DrawFuzzColumn1Hi;
 var
   count: integer;
@@ -187,7 +251,6 @@ begin
   cfrac2 := FRACUNIT div 4;
   factor1 := FRACUNIT - 1 - cfrac2;
 
-
   fraclimit := frac + fracstep * count;
   while frac < fraclimit do
   begin
@@ -201,6 +264,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawFuzzColumn2Hi
+//
+//==============================================================================
 procedure R_DrawFuzzColumn2Hi;
 var
   count: integer;
@@ -235,7 +303,6 @@ begin
   cfrac2 := 3 * (FRACUNIT div 4);
   factor1 := FRACUNIT - 1 - cfrac2;
 
-
   fraclimit := frac + fracstep * count;
   while frac < fraclimit do
   begin
@@ -249,6 +316,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawFuzzColumnHiTL
+//
+//==============================================================================
 procedure R_DrawFuzzColumnHiTL;
 var
   count: integer;
@@ -283,7 +355,6 @@ begin
   cfrac2 := 3 * (FRACUNIT div 4);
   factor1 := FRACUNIT - 1 - cfrac2;
 
-
   fraclimit := frac + fracstep * count;
   while frac < fraclimit do
   begin
@@ -297,11 +368,20 @@ begin
   end;
 end;
 
-
+//==============================================================================
+//
+// R_DrawFuzzColumn1Hi32
+//
+//==============================================================================
 procedure R_DrawFuzzColumn1Hi32;
 {$DEFINE ONE}
 {$I R_DrawFuzzColumnHi32.inc}
 
+//==============================================================================
+//
+// R_DrawFuzzColumn2Hi32
+//
+//==============================================================================
 procedure R_DrawFuzzColumn2Hi32;
 {$UNDEF ONE}
 {$I R_DrawFuzzColumnHi32.inc}

@@ -40,12 +40,32 @@ uses
 type
   lightmappass_t = (lp_solid, lp_masked);
 
+//==============================================================================
+//
+// R_MarkDLights
+//
+//==============================================================================
 procedure R_MarkDLights(const mo: Pmobj_t);
 
+//==============================================================================
+//
+// R_AddAdditionalLights
+//
+//==============================================================================
 procedure R_AddAdditionalLights;
 
+//==============================================================================
+//
+// R_DrawLightsSingleThread
+//
+//==============================================================================
 procedure R_DrawLightsSingleThread(const pass: lightmappass_t);
 
+//==============================================================================
+//
+// R_DrawLightsMultiThread
+//
+//==============================================================================
 procedure R_DrawLightsMultiThread(const pass: lightmappass_t);
 
 var
@@ -74,8 +94,18 @@ const
   LIGHTMAPFADEOUT_SIGMOID = 4;
   NUMLIGHTMAPFADEOUTFUNCS = 5;
 
+//==============================================================================
+//
+// R_InitLightTexture
+//
+//==============================================================================
 procedure R_InitLightTexture;
 
+//==============================================================================
+//
+// R_ShutDownLightTexture
+//
+//==============================================================================
 procedure R_ShutDownLightTexture;
 
 implementation
@@ -110,9 +140,11 @@ var
   lightexturelookup: array[0..LIGHTTEXTURESIZE - 1] of lpost_t;
   lighttexture: PLongWordArray = nil;
 
+//==============================================================================
 //
 // R_InitLightTexture
 //
+//==============================================================================
 procedure R_InitLightTexture;
 var
   i, j: integer;
@@ -169,9 +201,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // R_ShutDownLightTexture
 //
+//==============================================================================
 procedure R_ShutDownLightTexture;
 begin
   if lighttexture <> nil then
@@ -182,6 +216,11 @@ const
   MAXLIGHTDISTANCE = 2048;
   MAXSQRLIGHTDISTANCE = MAXLIGHTDISTANCE * MAXLIGHTDISTANCE;
 
+//==============================================================================
+//
+// R_MarkDLights
+//
+//==============================================================================
 procedure R_MarkDLights(const mo: Pmobj_t);
 var
   l: PGLDRenderLight;
@@ -231,6 +270,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// RIT_AddAdditionalLights
+//
+//==============================================================================
 function RIT_AddAdditionalLights(mo: Pmobj_t): boolean;
 begin
   R_MarkDLights(mo);
@@ -241,6 +285,11 @@ end;
 const
   MAXLIGHTRADIUS = 256 * FRACUNIT;
 
+//==============================================================================
+//
+// R_AddAdditionalLights
+//
+//==============================================================================
 procedure R_AddAdditionalLights;
 var
   x: integer;
@@ -274,6 +323,11 @@ const
   DEPTHBUFFER_NEAR = $3FFF * FRACUNIT;
   DEPTHBUFFER_FAR = 256;
 
+//==============================================================================
+//
+// R_GetVisLightProjection
+//
+//==============================================================================
 function R_GetVisLightProjection(const x, y, z: fixed_t; const radius: fixed_t;
   const color: LongWord; mo: Pmobj_t): Pvislight_t;
 var
@@ -358,7 +412,6 @@ begin
   else
     result.x2 := x2;
 
-
   // get depthbuffer range
   an := R_PointToAngle(x, y);
   an := an shr ANGLETOFINESHIFT;
@@ -421,11 +474,13 @@ begin
   result.color32 := color;
 end;
 
+//==============================================================================
 //
 //  R_SortDlights()
 //  JVAL: Sort the dynamic lights according to square distance of view
 //        (note: closer light is first!)
 //
+//==============================================================================
 procedure R_SortDlights;
 
   procedure qsort(l, r: Integer);
@@ -506,6 +561,11 @@ var
   precalc32op1A: array[0..255] of precalc32op1_p;
   precalc32op1_calced: boolean = false;
 
+//==============================================================================
+//
+// calc_precalc32op1
+//
+//==============================================================================
 procedure calc_precalc32op1;
 var
   i, j: integer;
@@ -531,6 +591,11 @@ type
   end;
   Pfastzbuf_t = ^fastzbuf_t;
 
+//==============================================================================
+//
+// R_FastZBufferAt
+//
+//==============================================================================
 function R_FastZBufferAt(const x, y: integer; const pfdb: Pfastzbuf_t): Pzbufferitem_t;
 begin
   if pfdb.next >= y then
@@ -546,6 +611,11 @@ begin
     pfdb.next := y;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnLightmap8
+//
+//==============================================================================
 procedure R_DrawColumnLightmap8(const parms: Plightparams_t);
 var
   count, x, y: integer;
@@ -662,6 +732,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnLightmap8FF
+//
+//==============================================================================
 procedure R_DrawColumnLightmap8FF(const parms: Plightparams_t);
 var
   count, x, y: integer;
@@ -779,6 +854,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnLightmap8Masked
+//
+//==============================================================================
 procedure R_DrawColumnLightmap8Masked(const parms: Plightparams_t);
 var
   count, x, y: integer;
@@ -902,6 +982,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnLightmap32
+//
+//==============================================================================
 procedure R_DrawColumnLightmap32(const parms: Plightparams_t);
 var
   count, x, y: integer;
@@ -1011,6 +1096,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnLightmap32FF
+//
+//==============================================================================
 procedure R_DrawColumnLightmap32FF(const parms: Plightparams_t);
 var
   count, x, y: integer;
@@ -1121,6 +1211,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnLightmap32Masked
+//
+//==============================================================================
 procedure R_DrawColumnLightmap32Masked(const parms: Plightparams_t);
 var
   count, x, y: integer;
@@ -1237,6 +1332,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawVisLight
+//
+//==============================================================================
 procedure R_DrawVisLight(const psl: Pdlsortitem_t; const threadid, numlthreads: integer);
 var
   frac: fixed_t;
@@ -1311,6 +1411,11 @@ var
   old_lightwidthfactor: integer = -1;
   old_lightmapfadeoutfunc: integer = -1;
 
+//==============================================================================
+//
+// R_SetUpLightEffects
+//
+//==============================================================================
 procedure R_SetUpLightEffects(const pass: lightmappass_t);
 begin
   lightmapcolorintensity := ibetween(lightmapcolorintensity, MINLMCOLORSENSITIVITY, MAXLMCOLORSENSITIVITY);
@@ -1349,6 +1454,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// f2b
+//
+//==============================================================================
 function f2b(const ff: float): byte;
 var
   ii: integer;
@@ -1362,6 +1472,11 @@ begin
     result := ii;
 end;
 
+//==============================================================================
+//
+// R_GetVisLightProjections
+//
+//==============================================================================
 procedure R_GetVisLightProjections;
 var
   i: integer;
@@ -1387,12 +1502,22 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawLightSingleThread
+//
+//==============================================================================
 procedure R_DrawLightSingleThread(const psl: Pdlsortitem_t);
 begin
   if psl.vis <> nil then
     R_DrawVisLight(psl, 0, 1);
 end;
 
+//==============================================================================
+//
+// R_DrawLightsSingleThread
+//
+//==============================================================================
 procedure R_DrawLightsSingleThread(const pass: lightmappass_t);
 var
   i: integer;
@@ -1404,12 +1529,22 @@ begin
     R_DrawLightSingleThread(@dlbuffer[i]);
 end;
 
+//==============================================================================
+//
+// R_DrawLightMultiThread
+//
+//==============================================================================
 procedure R_DrawLightMultiThread(const psl: Pdlsortitem_t; const threadid, numlthreads: integer);
 begin
   if psl.vis <> nil then
     R_DrawVisLight(psl, threadid, numlthreads);
 end;
 
+//==============================================================================
+//
+// _DrawLightsMultiThread_thr
+//
+//==============================================================================
 function _DrawLightsMultiThread_thr(p: iterator_p): integer; stdcall;
 var
   i: integer;
@@ -1419,6 +1554,11 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+//
+// R_DrawLightsMultiThread
+//
+//==============================================================================
 procedure R_DrawLightsMultiThread(const pass: lightmappass_t);
 begin
   R_SetUpLightEffects(pass);

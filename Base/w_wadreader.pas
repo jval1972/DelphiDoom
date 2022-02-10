@@ -81,6 +81,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TWadReader.Clear
+//
+//==============================================================================
 procedure TWadReader.Clear;
 begin
   if h.numlumps > 0 then
@@ -104,6 +109,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TWadReader.OpenWadFile
+//
+//==============================================================================
 procedure TWadReader.OpenWadFile(const aname: string);
 begin
   if aname = '' then
@@ -131,6 +141,11 @@ begin
     I_Warning('TWadReader.OpenWadFile(): Can not find WAD file ' + aname + #13#10);
 end;
 
+//==============================================================================
+//
+// TWadReader.EntryAsString
+//
+//==============================================================================
 function TWadReader.EntryAsString(const id: integer): string;
 begin
   if (fs <> nil) and (id >= 0) and (id < h.numlumps) then
@@ -143,6 +158,11 @@ begin
     Result := '';
 end;
 
+//==============================================================================
+//
+// TWadReader.EntryAsString
+//
+//==============================================================================
 function TWadReader.EntryAsString(const aname: string): string;
 var
   id: integer;
@@ -154,6 +174,11 @@ begin
     Result := '';
 end;
 
+//==============================================================================
+//
+// TWadReader.ReadEntry
+//
+//==============================================================================
 function TWadReader.ReadEntry(const id: integer; var buf: pointer; var bufsize: integer): boolean;
 begin
   if (fs <> nil) and (id >= 0) and (id < h.numlumps) then
@@ -168,6 +193,11 @@ begin
     Result := false;
 end;
 
+//==============================================================================
+//
+// TWadReader.ReadEntry
+//
+//==============================================================================
 function TWadReader.ReadEntry(const aname: string; var buf: pointer; var bufsize: integer): boolean;
 var
   id: integer;
@@ -179,6 +209,11 @@ begin
     Result := false;
 end;
 
+//==============================================================================
+//
+// TWadReader.EntryName
+//
+//==============================================================================
 function TWadReader.EntryName(const id: integer): string;
 begin
   if (id >= 0) and (id < h.numlumps) then
@@ -187,6 +222,11 @@ begin
     Result := '';
 end;
 
+//==============================================================================
+//
+// TWadReader.EntryId
+//
+//==============================================================================
 function TWadReader.EntryId(const aname: string): integer;
 var
   i: integer;
@@ -202,6 +242,11 @@ begin
   Result := -1;
 end;
 
+//==============================================================================
+//
+// TWadReader.EntryInfo
+//
+//==============================================================================
 function TWadReader.EntryInfo(const id: integer): Pfilelump_t;
 begin
   if (id >= 0) and (id < h.numlumps) then
@@ -210,16 +255,31 @@ begin
     Result := nil;
 end;
 
+//==============================================================================
+//
+// TWadReader.EntryInfo
+//
+//==============================================================================
 function TWadReader.EntryInfo(const aname: string): Pfilelump_t;
 begin
   result := EntryInfo(EntryId(aname));
 end;
 
+//==============================================================================
+//
+// TWadReader.NumEntries
+//
+//==============================================================================
 function TWadReader.NumEntries: integer;
 begin
   Result := h.numlumps;
 end;
 
+//==============================================================================
+//
+// TWadReader.FileSize
+//
+//==============================================================================
 function TWadReader.FileSize: integer;
 begin
   if fs <> nil then

@@ -61,6 +61,11 @@ var
   nummobjtypes: integer = Ord(DO_NUMMOBJTYPES);
   numrealmobjtypes: integer = Ord(DO_NUMMOBJTYPES);
 
+//==============================================================================
+//
+// Info_Init
+//
+//==============================================================================
 procedure Info_Init(const usethinkers: boolean);
 
 const
@@ -65324,6 +65329,11 @@ const // Hexen Original mobjinfo
 
   );
 
+//==============================================================================
+//
+// Info_Init
+//
+//==============================================================================
 procedure Info_Init(const usethinkers: boolean);
 var
   i: integer;

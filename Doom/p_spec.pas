@@ -54,50 +54,155 @@ const
 //      Define values for map objects
   MO_TELEPORTMAN = 14;
 
+//==============================================================================
+// P_InitPicAnims
+//
 // at game start
+//
+//==============================================================================
 procedure P_InitPicAnims;
 
+//==============================================================================
+// P_SpawnSpecials
+//
 // at map load
+//
+//==============================================================================
 procedure P_SpawnSpecials;
 
+//==============================================================================
+// P_UpdateSpecials
+//
 // every tic
+//
+//==============================================================================
 procedure P_UpdateSpecials;
 
+//==============================================================================
+// P_ShootSpecialLine
+//
 // when needed
+//
+//==============================================================================
 procedure P_ShootSpecialLine(thing: Pmobj_t; line: Pline_t);
 
+//==============================================================================
+//
+// P_CrossSpecialLine
+//
+//==============================================================================
 procedure P_CrossSpecialLine(linenum: integer; side: integer; thing: Pmobj_t; const bossaction: boolean = false);
 
+//==============================================================================
+//
+// P_CrossSpecialLinePtr
+//
+//==============================================================================
 procedure P_CrossSpecialLinePtr(line: Pline_t; side: integer; thing: Pmobj_t; const bossaction: boolean = false);
 
+//==============================================================================
+//
+// P_PlayerInSpecialSector
+//
+//==============================================================================
 procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 
+//==============================================================================
+//
+// P_MobjInSpecialSector
+//
+//==============================================================================
 procedure P_MobjInSpecialSector(mo: Pmobj_t);
 
+//==============================================================================
+//
+// twoSided
+//
+//==============================================================================
 function twoSided(sector: integer; line: integer): boolean;
 
+//==============================================================================
+//
+// twoSidedS
+//
+//==============================================================================
 function twoSidedS(sector: Psector_t; line: integer): boolean;
 
+//==============================================================================
+//
+// getSide
+//
+//==============================================================================
 function getSide(currentSector: integer; line: integer; side: integer): Pside_t;
 
+//==============================================================================
+//
+// P_FindLowestFloorSurrounding
+//
+//==============================================================================
 function P_FindLowestFloorSurrounding(sec: Psector_t): fixed_t;
 
+//==============================================================================
+//
+// P_FindHighestFloorSurrounding
+//
+//==============================================================================
 function P_FindHighestFloorSurrounding(sec: Psector_t): fixed_t;
 
+//==============================================================================
+//
+// P_FindNextHighestFloor
+//
+//==============================================================================
 function P_FindNextHighestFloor(sec: Psector_t; currentheight: integer): fixed_t;
 
+//==============================================================================
+//
+// P_FindLowestCeilingSurrounding
+//
+//==============================================================================
 function P_FindLowestCeilingSurrounding(sec: Psector_t): fixed_t;
 
+//==============================================================================
+//
+// P_FindHighestCeilingSurrounding
+//
+//==============================================================================
 function P_FindHighestCeilingSurrounding(sec: Psector_t): fixed_t;
 
+//==============================================================================
+//
+// P_FindSectorFromLineTag
+//
+//==============================================================================
 function P_FindSectorFromLineTag(line: Pline_t; start: integer): integer;
 
+//==============================================================================
+//
+// P_FindSectorFromLineTag2
+//
+//==============================================================================
 function P_FindSectorFromLineTag2(line: Pline_t; var start: integer): integer;
 
+//==============================================================================
+//
+// P_FindLineFromLineTag2
+//
+//==============================================================================
 function P_FindLineFromLineTag2(line: Pline_t; var start: integer): integer;
 
+//==============================================================================
+//
+// P_FindMinSurroundingLight
+//
+//==============================================================================
 function P_FindMinSurroundingLight(sector: Psector_t; max: integer): integer;
 
+//==============================================================================
+//
+// getNextSector
+//
+//==============================================================================
 function getNextSector(line: Pline_t; sec: Psector_t): Psector_t;
 
 //
@@ -172,7 +277,6 @@ const
 
   // 1 second, in ticks.
   BUTTONTIME = 35;
-
 
 type
   change_e = (
@@ -516,29 +620,89 @@ type
     lighting_special
   );
 
+//==============================================================================
+// P_SectorActive
+//
 // JVAL: BOOM compatibility
+//
+//==============================================================================
 function P_SectorActive(const s: special_e; const sec: Psector_t): boolean;
 
+//==============================================================================
+//
+// P_FindNextLowestFloor
+//
+//==============================================================================
 function P_FindNextLowestFloor(sec: Psector_t; currentheight: fixed_t): fixed_t;
 
+//==============================================================================
+//
+// P_FindShortestTextureAround
+//
+//==============================================================================
 function P_FindShortestTextureAround(secnum: integer): fixed_t;
 
+//==============================================================================
+//
+// P_FindModelCeilingSector
+//
+//==============================================================================
 function P_FindModelCeilingSector(ceildestheight: fixed_t; secnum: integer): Psector_t;
 
+//==============================================================================
+//
+// P_FindModelFloorSector
+//
+//==============================================================================
 function P_FindModelFloorSector(floordestheight: fixed_t; secnum: integer): Psector_t;
 
+//==============================================================================
+//
+// P_FindNextHighestCeiling
+//
+//==============================================================================
 function P_FindNextHighestCeiling(sec: Psector_t; currentheight: fixed_t): fixed_t;
 
+//==============================================================================
+//
+// P_FindNextLowestCeiling
+//
+//==============================================================================
 function P_FindNextLowestCeiling(sec: Psector_t; currentheight: fixed_t): fixed_t;
 
+//==============================================================================
+//
+// P_FindShortestUpperAround
+//
+//==============================================================================
 function P_FindShortestUpperAround(secnum: integer): fixed_t;
 
+//==============================================================================
+//
+// P_CanUnlockGenDoor
+//
+//==============================================================================
 function P_CanUnlockGenDoor(line: Pline_t; player: Pplayer_t): boolean;
 
+//==============================================================================
+//
+// P_CheckTag
+//
+//==============================================================================
 function P_CheckTag(line: Pline_t): boolean;
 
+//==============================================================================
+//
+// T_Friction
+//
+//==============================================================================
 procedure T_Friction(f: Pfriction_t);
 
+//==============================================================================
+//
+// T_Pusher
+//
+//==============================================================================
 procedure T_Pusher(p: Ppusher_t);
 
 type
@@ -550,10 +714,25 @@ const
   ORIG_FRICTION_FACTOR = 2048;    // original value
   CROUCH_FRICTION_FACTOR = 1536;  // JVAL: 20211101 - Crouch
 
+//==============================================================================
+//
+// P_SpawnFriction
+//
+//==============================================================================
 procedure P_SpawnFriction;
 
+//==============================================================================
+//
+// P_SpawnPushers
+//
+//==============================================================================
 procedure P_SpawnPushers;
 
+//==============================================================================
+//
+// P_GetPushThing
+//
+//==============================================================================
 function P_GetPushThing(const snum: integer): Pmobj_t;
 
 implementation
@@ -624,7 +803,6 @@ type
   Panimdef_t = ^animdef_t;
   animdef_tArray = array[0..$FFFF] of animdef_t;
   Panimdef_tArray = ^animdef_tArray;
-
 
   // for ANIMATED lump (BOOM compatibility)
   wad_animdef_t = packed record
@@ -697,6 +875,11 @@ const
 //
   MAXLINEANIMS = 1024; // JVAL Originally was 64
 
+//==============================================================================
+//
+// P_InitPicAnims
+//
+//==============================================================================
 procedure P_InitPicAnims;
 var
   i: integer;
@@ -791,29 +974,29 @@ begin
   Z_Free(animdefs);
 end;
 
+//==============================================================================
 //
 // UTILITIES
-//
-
-
-
 //
 // getSide()
 // Will return a side_t*
 //  given the number of the current sector,
 //  the line number, and the side (0/1) that you want.
 //
+//==============================================================================
 function getSide(currentSector: integer; line: integer; side: integer): Pside_t;
 begin
   result := @sides[(sectors[currentSector].lines[line]).sidenum[side]];
 end;
 
+//==============================================================================
 //
 // getSector()
 // Will return a sector_t*
 //  given the number of the current sector,
 //  the line number and the side (0/1) that you want.
 //
+//==============================================================================
 function getSector(currentSector: integer; line: integer; side: integer): Psector_t;
 var
   sidenum: integer;
@@ -825,11 +1008,13 @@ begin
     result := nil;
 end;
 
+//==============================================================================
 //
 // twoSided()
 // Given the sector number and the line number,
 //  it will tell you whether the line is two-sided or not.
 //
+//==============================================================================
 function twoSided(sector: integer; line: integer): boolean;
 begin
   if G_PlayingEngineVersion > VERSION115 then
@@ -838,16 +1023,23 @@ begin
     result := sectors[sector].lines[line].flags and ML_TWOSIDED <> 0;
 end;
 
+//==============================================================================
+//
+// twoSidedS
+//
+//==============================================================================
 function twoSidedS(sector: Psector_t; line: integer): boolean;
 begin
   result := sector.lines[line].sidenum[1] <> -1
 end;
 
+//==============================================================================
 //
 // getNextSector()
 // Return sector_t * of sector next to current.
 // NULL if not two-sided line
 //
+//==============================================================================
 function getNextSector(line: Pline_t; sec: Psector_t): Psector_t;
 var
   oldcompatibility: boolean;
@@ -875,10 +1067,12 @@ begin
   result := line.frontsector;
 end;
 
+//==============================================================================
 //
 // P_FindLowestFloorSurrounding()
 // FIND LOWEST FLOOR HEIGHT IN SURROUNDING SECTORS
 //
+//==============================================================================
 function P_FindLowestFloorSurrounding(sec: Psector_t): fixed_t;
 var
   i: integer;
@@ -898,10 +1092,12 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_FindHighestFloorSurrounding()
 // FIND HIGHEST FLOOR HEIGHT IN SURROUNDING SECTORS
 //
+//==============================================================================
 function P_FindHighestFloorSurrounding(sec: Psector_t): fixed_t;
 var
   i: integer;
@@ -933,6 +1129,11 @@ end;
 const
   MAX_ADJOINING_SECTORS = 64; // JVAL was = 20
 
+//==============================================================================
+//
+// P_FindNextHighestFloor
+//
+//==============================================================================
 function P_FindNextHighestFloor(sec: Psector_t; currentheight: integer): fixed_t;
 var
   i: integer;
@@ -987,6 +1188,7 @@ begin
       result := heightlist[i];
 end;
 
+//==============================================================================
 //
 // P_FindNextLowestFloor()
 //
@@ -999,6 +1201,7 @@ end;
 //
 // JVAL BOOM compatibility
 //
+//==============================================================================
 function P_FindNextLowestFloor(sec: Psector_t; currentheight: fixed_t): fixed_t;
 var
   other: Psector_t;
@@ -1027,6 +1230,7 @@ begin
   result := currentheight;
 end;
 
+//==============================================================================
 //
 // P_FindNextLowestCeiling()
 //
@@ -1039,6 +1243,7 @@ end;
 //
 // JVAL BOOM compatibility
 //
+//==============================================================================
 function P_FindNextLowestCeiling(sec: Psector_t; currentheight: fixed_t): fixed_t;
 var
   other: Psector_t;
@@ -1067,6 +1272,7 @@ begin
   result := currentheight;
 end;
 
+//==============================================================================
 //
 // P_FindNextHighestCeiling()
 //
@@ -1079,6 +1285,7 @@ end;
 //
 // JVAL BOOM compatibility
 //
+//==============================================================================
 function P_FindNextHighestCeiling(sec: Psector_t; currentheight: fixed_t): fixed_t;
 var
   other: Psector_t;
@@ -1107,9 +1314,12 @@ begin
   result := currentheight;
 end;
 
+//==============================================================================
+// P_FindLowestCeilingSurrounding
 //
 // FIND LOWEST CEILING IN THE SURROUNDING SECTORS
 //
+//==============================================================================
 function P_FindLowestCeilingSurrounding(sec: Psector_t): fixed_t;
 var
   i: integer;
@@ -1132,9 +1342,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// P_FindHighestCeilingSurrounding
 //
 // FIND HIGHEST CEILING IN THE SURROUNDING SECTORS
 //
+//==============================================================================
 function P_FindHighestCeilingSurrounding(sec: Psector_t): fixed_t;
 var
   i: integer;
@@ -1157,6 +1370,7 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_FindShortestTextureAround()
 //
@@ -1170,6 +1384,7 @@ end;
 //
 // JVAL BOOM compatibility
 //
+//==============================================================================
 function P_FindShortestTextureAround(secnum: integer): fixed_t;
 var
   side: Pside_t;
@@ -1195,7 +1410,7 @@ begin
 
 end;
 
-
+//==============================================================================
 //
 // P_FindShortestUpperAround()
 //
@@ -1209,6 +1424,7 @@ end;
 //
 // JVAL BOOM compatibility
 //
+//==============================================================================
 function P_FindShortestUpperAround(secnum: integer): fixed_t;
 var
   side: Pside_t;
@@ -1234,6 +1450,7 @@ begin
 
 end;
 
+//==============================================================================
 //
 // P_FindModelFloorSector()
 //
@@ -1250,6 +1467,7 @@ end;
 //
 // JVAL BOOM compatibility
 //
+//==============================================================================
 function P_FindModelFloorSector(floordestheight: fixed_t; secnum: integer): Psector_t;
 var
   i: integer;
@@ -1287,6 +1505,7 @@ begin
   result := nil;
 end;
 
+//==============================================================================
 //
 // P_FindModelCeilingSector()
 //
@@ -1304,6 +1523,7 @@ end;
 //
 // JVAL BOOM compatibility
 //
+//==============================================================================
 function P_FindModelCeilingSector(ceildestheight: fixed_t; secnum: integer): Psector_t;
 var
   i: integer;
@@ -1341,9 +1561,12 @@ begin
   result := nil;
 end;
 
+//==============================================================================
+// P_FindSectorFromLineTag
 //
 // RETURN NEXT SECTOR # THAT LINE TAG REFERS TO
 //
+//==============================================================================
 function P_FindSectorFromLineTag(line: Pline_t; start: integer): integer;
 var
   i: integer;
@@ -1358,6 +1581,11 @@ begin
   result := -1;
 end;
 
+//==============================================================================
+//
+// P_FindSectorFromLineTag2
+//
+//==============================================================================
 function P_FindSectorFromLineTag2(line: Pline_t; var start: integer): integer;
 var
   i: integer;
@@ -1374,11 +1602,14 @@ begin
   start := -1;
 end;
 
+//==============================================================================
+// P_FindLineFromLineTag
 //
 // killough 4/16/98: Same thing, only for linedefs
 //
 // JVAL BOOM compatibility
 //
+//==============================================================================
 function P_FindLineFromLineTag(line: Pline_t; start: integer): integer;
 var
   i: integer;
@@ -1393,6 +1624,11 @@ begin
   result := -1;
 end;
 
+//==============================================================================
+//
+// P_FindLineFromLineTag2
+//
+//==============================================================================
 function P_FindLineFromLineTag2(line: Pline_t; var start: integer): integer;
 var
   i: integer;
@@ -1409,9 +1645,12 @@ begin
   start := -1;
 end;
 
+//==============================================================================
+// P_FindMinSurroundingLight
 //
 // Find minimum light from an adjacent sector
 //
+//==============================================================================
 function P_FindMinSurroundingLight(sector: Psector_t; max: integer): integer;
 var
   i: integer;
@@ -1430,6 +1669,7 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_CanUnlockGenDoor
 //
@@ -1442,6 +1682,7 @@ end;
 // jff 02/05/98 routine added to test for unlockability of
 //  generalized locked doors
 //
+//==============================================================================
 function P_CanUnlockGenDoor(line: Pline_t; player: Pplayer_t): boolean;
 var
   skulliscard: boolean;
@@ -1592,7 +1833,7 @@ begin
   result := true;
 end;
 
-
+//==============================================================================
 //
 // P_CheckTag
 //
@@ -1605,6 +1846,7 @@ end;
 //
 // jff 2/27/98 Added to check for zero tag allowed for regular special types
 //
+//==============================================================================
 function P_CheckTag(line: Pline_t): boolean;
 begin
   // allow zero tags in compatibility mode
@@ -1682,6 +1924,7 @@ begin
   result := false;       // zero tag not allowed
 end;
 
+//==============================================================================
 //
 // P_IsSecret()
 //
@@ -1691,12 +1934,13 @@ end;
 // jff 3/14/98 added to simplify checks for whether sector is secret
 //  in automap and other places
 //
+//==============================================================================
 function P_IsSecret(sec: Psector_t): boolean;
 begin
   result := (sec.special = 9) or (sec.special and SECRET_MASK <> 0);
 end;
 
-
+//==============================================================================
 //
 // P_WasSecret()
 //
@@ -1706,28 +1950,33 @@ end;
 // jff 3/14/98 added to simplify checks for whether sector is secret
 //  in automap and other places
 //
+//==============================================================================
 function P_WasSecret(sec: Psector_t): boolean;
 begin
   result := (sec.oldspecial = 9) or (sec.oldspecial and SECRET_MASK <> 0);
 end;
 
-
+//==============================================================================
 //
 // EVENTS
 // Events are operations triggered by using, crossing,
 // or shooting special lines, or by timed thinkers.
 //
-
-//
 // P_CrossSpecialLine - TRIGGER
 // Called every time a thing origin is about
 //  to cross a line with a non 0 special.
 //
+//==============================================================================
 procedure P_CrossSpecialLine(linenum: integer; side: integer; thing: Pmobj_t; const bossaction: boolean = false);
 begin
   P_CrossSpecialLinePtr(@lines[linenum], side, thing, bossaction);
 end;
 
+//==============================================================================
+//
+// P_CrossSpecialLinePtr
+//
+//==============================================================================
 procedure P_CrossSpecialLinePtr(line: Pline_t; side: integer; thing: Pmobj_t; const bossaction: boolean = false);
 var
   linefunc: linefunc_t;
@@ -2731,6 +2980,7 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_ShootSpecialLine - IMPACT SPECIALS
 // Called when a thing shoots a special line.
@@ -2904,11 +3154,13 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_PlayerInSpecialSector
 // Called every tic frame
 //  that the player origin is in a special sector
 //
+//==============================================================================
 procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 var
   i: integer;
@@ -3053,6 +3305,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// P_MobjInSpecialSector
+//
+//==============================================================================
 procedure P_MobjInSpecialSector(mo: Pmobj_t);
 var
   sec: Psector_t;
@@ -3082,7 +3339,6 @@ var
   numlinespecials: smallint;
   linespeciallist: array[0..MAXLINEANIMS - 1] of Pline_t;
 
-
 //
 // P_UpdateSpecials
 // Animate planes, scroll walls, etc.
@@ -3091,6 +3347,11 @@ var
   levelTimer: boolean;
   levelTimeCount: integer;
 
+//==============================================================================
+//
+// P_UpdateSpecials
+//
+//==============================================================================
 procedure P_UpdateSpecials;
 var
   anim: Panim_t;
@@ -3142,7 +3403,6 @@ begin
     end;
   end;
 
-
   // DO BUTTONS
   button := @buttonlist[0];
   for i := 0 to MAXBUTTONS - 1 do
@@ -3172,16 +3432,17 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // SPECIAL SPAWNING
-//
-
 //
 // P_SpawnSpecials
 // After the map has been loaded, scan for specials
 //  that spawn thinkers
 //
 // Parses command line parameters.
+//
+//==============================================================================
 procedure P_SpawnSpecials;
 var
   sector: Psector_t;
@@ -3192,7 +3453,6 @@ var
 begin
   if W_CheckNumForName('texture2') < 0 then
     gameepisode := 1; // ???
-
 
   // See if -TIMER needs to be used.
   levelTimer := false;
@@ -3300,7 +3560,6 @@ begin
     end;
   end;
 
-
     //  Init line EFFECTs
   numlinespecials := 0;
   for i := 0 to numlines - 1 do
@@ -3317,7 +3576,6 @@ begin
         end;
     end;
   end;
-
 
   //  Init other misc stuff
   for i := 0 to MAXCEILINGS - 1 do
@@ -3447,8 +3705,12 @@ begin
     end;
 end;
 
-
+//==============================================================================
+// P_SectorActive
+//
 // JVAL: BOOM compatibility
+//
+//==============================================================================
 function P_SectorActive(const s: special_e; const sec: Psector_t): boolean;
 begin
   case s of
@@ -3459,7 +3721,6 @@ begin
     result := false;
   end;
 end;
-
 
 // killough 3/7/98 -- end generalized scroll effects
 
@@ -3491,13 +3752,17 @@ end;
 // their floors. Players satisfying this condition are given new friction
 // values that are applied by the player movement code later.
 
+//==============================================================================
+// T_Friction
+//
 /////////////////////////////
 //
 // This is where abnormal friction is applied to objects in the sectors.
 // A friction thinker has been spawned for each sector where less or
 // more friction should be applied. The amount applied is proportional to
 // the length of the controlling linedef.
-
+//
+//==============================================================================
 procedure T_Friction(f: Pfriction_t);
 var
   sec: Psector_t;
@@ -3547,7 +3812,7 @@ end;
 //
 // Add_Friction adds a new friction thinker to the list of active thinkers.
 //
-
+//==============================================================================
 procedure Add_Friction(friction: integer; movefactor: integer; affectee: integer);
 var
   f: Pfriction_t;
@@ -3561,11 +3826,14 @@ begin
   P_AddThinker(@f.thinker);
 end;
 
-
+//==============================================================================
+// P_SpawnFriction
+//
 /////////////////////////////
 //
 // Initialize the sectors where friction is increased or decreased
-
+//
+//==============================================================================
 procedure P_SpawnFriction;
 var
   l, le: Pline_t;
@@ -3649,7 +3917,6 @@ end;
 // at run-time, the effect will not occur. The controlling sector for
 // types 1 & 2 is the sector containing the MT_PUSH/MT_PULL Thing.
 
-
 const
   PUSH_FACTOR = 7;
 
@@ -3663,7 +3930,7 @@ var
 // PIT_PushThing determines the angle and magnitude of the effect.
 // The object's x and y momentum values are changed.
 //
-
+//==============================================================================
 function PIT_PushThing(thing: Pmobj_t): boolean;
 var
   pushangle: angle_t;
@@ -3709,7 +3976,7 @@ end;
 // T_Pusher looks for all objects that are inside the radius of
 // the effect.
 //
-
+//==============================================================================
 procedure T_Pusher(p: Ppusher_t);
 var
   sec: Psector_t;
@@ -3874,10 +4141,14 @@ begin
   end;
 end;
 
+//==============================================================================
+// Add_Pusher
+//
 /////////////////////////////
 //
 // Add a push thinker to the thinker list
-
+//
+//==============================================================================
 procedure Add_Pusher(_type: pushertype_e; x_mag, y_mag: integer; source: Pmobj_t; affectee: integer);
 var
   p: Ppusher_t;
@@ -3904,7 +4175,8 @@ end;
 //
 // P_GetPushThing returns a pointer to an MT_PUSH or MT_PULL thing,
 // nil otherwise.
-
+//
+//==============================================================================
 function P_GetPushThing(const snum: integer): Pmobj_t;
 var
   thing: Pmobj_t;
@@ -3928,11 +4200,14 @@ begin
   result := nil;
 end;
 
+//==============================================================================
+// P_SpawnPushers
+//
 /////////////////////////////
 //
 // Initialize the sectors where pushers are present
 //
-
+//==============================================================================
 procedure P_SpawnPushers;
 var
   l, le: Pline_t;

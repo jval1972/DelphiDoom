@@ -73,6 +73,11 @@ uses
   Windows,
   i_system;
 
+//==============================================================================
+//
+// ThreadWorker
+//
+//==============================================================================
 function ThreadWorker(p: Pointer): integer; stdcall;
 var
   th: TDThread;
@@ -118,7 +123,12 @@ begin
   Inherited Destroy;
 end;
 
+//==============================================================================
+// TDThread.Activate
+//
 // JVAL: Should check for fstatus, but it is not called while active
+//
+//==============================================================================
 procedure TDThread.Activate(const parms: pointer);
 begin
   if not Assigned(ffunc) then
@@ -129,12 +139,22 @@ begin
   ResumeThread(fid);
 end;
 
+//==============================================================================
+//
+// TDThread.Activate
+//
+//==============================================================================
 procedure TDThread.Activate(const func: threadfunc_t; const parms: pointer);
 begin
   ffunc := func;
   Activate(parms);
 end;
 
+//==============================================================================
+//
+// TDThread.Wait
+//
+//==============================================================================
 procedure TDThread.Wait;
 begin
   if suspended then
@@ -148,6 +168,11 @@ begin
   SuspendThread(fid);
 end;
 
+//==============================================================================
+//
+// TDThread.CheckJobDone
+//
+//==============================================================================
 function TDThread.CheckJobDone: Boolean;
 begin
   if fstatus = THR_IDLE then
@@ -163,6 +188,11 @@ begin
     result := false;
 end;
 
+//==============================================================================
+//
+// TDThread.IsIdle
+//
+//==============================================================================
 function TDThread.IsIdle: Boolean;
 begin
   result := fstatus = THR_IDLE;

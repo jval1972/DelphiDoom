@@ -30,10 +30,21 @@ unit r_col_tr;
 
 interface
 
+//==============================================================================
+// R_DrawTranslatedColumn
+//
 // Draw with color translation tables,
 //  for player sprite rendering,
 //  Green/Red/Blue/Indigo shirts.
+//
+//==============================================================================
 procedure R_DrawTranslatedColumn;
+
+//==============================================================================
+//
+// R_DrawTranslatedColumnHi
+//
+//==============================================================================
 procedure R_DrawTranslatedColumnHi;
 
 implementation
@@ -48,6 +59,7 @@ uses
   r_hires,
   v_video;
 
+//==============================================================================
 //
 // R_DrawTranslatedColumn
 // Used to draw player sprites
@@ -57,7 +69,7 @@ uses
 //  of the BaronOfHell, the HellKnight, uses
 //  identical sprites, kinda brightened up.
 //
-
+//==============================================================================
 procedure R_DrawTranslatedColumn;
 var
   count: integer;
@@ -93,6 +105,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawTranslatedColumnHi
+//
+//==============================================================================
 procedure R_DrawTranslatedColumnHi;
 var
   count: integer;

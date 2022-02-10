@@ -49,6 +49,11 @@ type
     procedure SaveToFile(const fname: string);
   end;
 
+//==============================================================================
+//
+// AddDataToWAD
+//
+//==============================================================================
 function AddDataToWAD(const wad: TWADWriter; const lumpname, data: string): boolean;
 
 implementation
@@ -73,6 +78,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TWadWriter.Clear
+//
+//==============================================================================
 procedure TWadWriter.Clear;
 var
   i: integer;
@@ -83,6 +93,11 @@ begin
   lumps.Clear;
 end;
 
+//==============================================================================
+//
+// TWadWriter.AddData
+//
+//==============================================================================
 procedure TWadWriter.AddData(const lumpname: string; const data: pointer; const size: integer);
 var
   m: TDMemoryStream;
@@ -92,6 +107,11 @@ begin
   lumps.AddObject(strupper(lumpname), m);
 end;
 
+//==============================================================================
+//
+// TWadWriter.AddString
+//
+//==============================================================================
 procedure TWadWriter.AddString(const lumpname: string; const data: string);
 var
   m: TDMemoryStream;
@@ -103,11 +123,21 @@ begin
   lumps.AddObject(strupper(lumpname), m);
 end;
 
+//==============================================================================
+//
+// TWadWriter.AddSeparator
+//
+//==============================================================================
 procedure TWadWriter.AddSeparator(const lumpname: string);
 begin
   lumps.Add(strupper(lumpname));
 end;
 
+//==============================================================================
+//
+// TWadWriter.SaveToStream
+//
+//==============================================================================
 procedure TWadWriter.SaveToStream(const strm: TDStream);
 var
   h: wadinfo_t;
@@ -146,6 +176,11 @@ begin
   strm.Seek(ssize, sFromBeginning);
 end;
 
+//==============================================================================
+//
+// TWadWriter.SaveToFile
+//
+//==============================================================================
 procedure TWadWriter.SaveToFile(const fname: string);
 var
   fs: TFile;
@@ -158,6 +193,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// AddDataToWAD
+//
+//==============================================================================
 function AddDataToWAD(const wad: TWADWriter; const lumpname, data: string): boolean;
 begin
   if wad <> nil then

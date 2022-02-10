@@ -33,8 +33,18 @@ unit m_sha1;
 
 interface
 
+//==============================================================================
+//
+// SHA1_CalcSHA1String
+//
+//==============================================================================
 function SHA1_CalcSHA1String(const Buf: AnsiString): AnsiString;
 
+//==============================================================================
+//
+// SHA1_CalcSHA1Buf
+//
+//==============================================================================
 function SHA1_CalcSHA1Buf(const Buf; const BufSize: Integer): AnsiString;
 
 implementation
@@ -48,6 +58,11 @@ type
     end;
   P160BitDigest = ^T160BitDigest;
 
+//==============================================================================
+//
+// SHA1InitDigest
+//
+//==============================================================================
 procedure SHA1InitDigest(var Digest: T160BitDigest);
 begin
   Digest.Longs[0] := $67452301;
@@ -57,6 +72,11 @@ begin
   Digest.Longs[4] := $C3D2E1F0;
 end;
 
+//==============================================================================
+//
+// SwapEndian
+//
+//==============================================================================
 function SwapEndian(const Value: LongWord): LongWord; register; assembler;
 asm
   XCHG    AH, AL
@@ -64,6 +84,11 @@ asm
   XCHG    AH, AL
 end;
 
+//==============================================================================
+//
+// RotateLeftBits
+//
+//==============================================================================
 function RotateLeftBits(const Value: LongWord; const Bits: Byte): LongWord;
 asm
   MOV     CL, DL
@@ -72,6 +97,12 @@ end;
 
 { Calculates a SHA Digest (20 bytes) given a Buffer (64 bytes)                 }
 {$IFOPT Q+}{$DEFINE QOn}{$Q-}{$ELSE}{$UNDEF QOn}{$ENDIF}
+
+//==============================================================================
+//
+// TransformSHABuffer
+//
+//==============================================================================
 procedure TransformSHABuffer(var Digest: T160BitDigest; const Buffer; const SHA1: Boolean);
 var
   A, B, C, D, E: LongWord;
@@ -156,6 +187,11 @@ begin
 end;
 {$IFDEF QOn}{$Q+}{$ENDIF}
 
+//==============================================================================
+//
+// SHA1Buf
+//
+//==============================================================================
 procedure SHA1Buf(var Digest: T160BitDigest; const Buf; const BufSize: Integer);
 var
   P: PByte;
@@ -176,6 +212,11 @@ end;
 type
   T512BitBuf  = array[0..63] of Byte;
 
+//==============================================================================
+//
+// ReverseMem
+//
+//==============================================================================
 procedure ReverseMem(var Buf; const BufSize: Integer);
 var
   I: Integer;
@@ -195,7 +236,6 @@ begin
     Dec(Q);
   end;
 end;
-
 
 {                                                                              }
 { StdFinalBuf                                                                  }
@@ -248,6 +288,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// SwapEndianBuf
+//
+//==============================================================================
 procedure SwapEndianBuf(var Buf; const Count: Integer);
 var
   P: PLongWord;
@@ -261,6 +306,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// SecureClear
+//
+//==============================================================================
 procedure SecureClear(var Buf; const BufSize: Integer);
 begin
   if BufSize <= 0 then
@@ -268,11 +318,21 @@ begin
   FillChar(Buf, BufSize, #$00);
 end;
 
+//==============================================================================
+//
+// SecureClear512
+//
+//==============================================================================
 procedure SecureClear512(var Buf: T512BitBuf);
 begin
   SecureClear(Buf, SizeOf(Buf));
 end;
 
+//==============================================================================
+//
+// SHA1FinalBuf
+//
+//==============================================================================
 procedure SHA1FinalBuf(var Digest: T160BitDigest; const Buf; const BufSize: Integer; const TotalSize: Int64);
 var
   B1, B2: T512BitBuf;
@@ -288,6 +348,11 @@ begin
     SecureClear512(B2);
 end;
 
+//==============================================================================
+//
+// CalcSHA1Buf
+//
+//==============================================================================
 function CalcSHA1Buf(const Buf; const BufSize: Integer): T160BitDigest;
 var
   I, J: Integer;
@@ -309,22 +374,42 @@ begin
   SHA1FinalBuf(Result, P^, I, BufSize);
 end;
 
+//==============================================================================
+//
+// CalcSHA1String
+//
+//==============================================================================
 function CalcSHA1String(const Buf: AnsiString): T160BitDigest;
 begin
   Result := CalcSHA1Buf(Pointer(Buf)^, Length(Buf));
 end;
 
+//==============================================================================
+//
+// SHA1DigestAsString
+//
+//==============================================================================
 function SHA1DigestAsString(const Digest: T160BitDigest): AnsiString;
 begin
   SetLength(Result, Sizeof(Digest));
   Move(Digest, Pointer(Result)^, Sizeof(Digest));
 end;
 
+//==============================================================================
+//
+// SHA1_CalcSHA1String
+//
+//==============================================================================
 function SHA1_CalcSHA1String(const Buf: AnsiString): AnsiString;
 begin
   result := SHA1DigestAsString(CalcSHA1String(Buf));
 end;
 
+//==============================================================================
+//
+// SHA1_CalcSHA1Buf
+//
+//==============================================================================
 function SHA1_CalcSHA1Buf(const Buf; const BufSize: Integer): AnsiString;
 begin
   result := SHA1DigestAsString(CalcSHA1Buf(Buf, BufSize));

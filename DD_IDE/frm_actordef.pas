@@ -77,6 +77,11 @@ implementation
 uses
   ddc_base, ide_utils;
 
+//==============================================================================
+//
+// TActorDefFuncExampleSynEdit.GetSaveFileName
+//
+//==============================================================================
 function TActorDefFuncExampleSynEdit.GetSaveFileName(const fn: string): string;
 var
   base: string;
@@ -88,6 +93,11 @@ begin
   Result := base + fn + '.txt';
 end;
 
+//==============================================================================
+//
+// TActorDefFuncExampleSynEdit.SetFuncName
+//
+//==============================================================================
 procedure TActorDefFuncExampleSynEdit.SetFuncName(const fn: string);
 var
   lst: TStringList;
@@ -113,6 +123,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TActorDefFuncExampleSynEdit.DoSave
+//
+//==============================================================================
 procedure TActorDefFuncExampleSynEdit.DoSave;
 var
   lst: TStringList;
@@ -150,6 +165,11 @@ begin
   SynEdit1.ReadOnly := CheckParm('-devparm') <= 0;
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.CreateParams
+//
+//==============================================================================
 procedure TFrame_Actordef.CreateParams(var Params: TCreateParams);
 begin
   sortcolumn := 0;
@@ -162,24 +182,44 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.OnExampleChange
+//
+//==============================================================================
 procedure TFrame_Actordef.OnExampleChange(Sender: TObject);
 begin
   if SynEdit1.Modified then
     SynEdit1.DoSave;
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.ClearActorDefFuncs
+//
+//==============================================================================
 procedure TFrame_Actordef.ClearActorDefFuncs;
 begin
   FreeMem(actordeffuncs);
   numactordeffuncs := 0;
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.ResizeActorDefFuncs
+//
+//==============================================================================
 procedure TFrame_Actordef.ResizeActorDefFuncs(const sz: Integer);
 begin
   ReallocMem(actordeffuncs, sz * SizeOf(actordeffuncinfo_t));
   numactordeffuncs := sz;
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.FocusAndSelectFirstItem
+//
+//==============================================================================
 procedure TFrame_Actordef.FocusAndSelectFirstItem;
 begin
   if ListView1.Items.Count > 0 then
@@ -189,6 +229,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.UpdateGameControls
+//
+//==============================================================================
 procedure TFrame_Actordef.UpdateGameControls(const game: string);
 var
   i, j: integer;
@@ -232,6 +277,11 @@ begin
   FillListView;
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.FillListView
+//
+//==============================================================================
 procedure TFrame_Actordef.FillListView;
 
   procedure AddListItem(Info: actordeffuncinfo_p);
@@ -269,12 +319,22 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.ListView1Data
+//
+//==============================================================================
 procedure TFrame_Actordef.ListView1Data(Sender: TObject;
   Item: TListItem);
 begin
   //
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.ListView1Compare
+//
+//==============================================================================
 procedure TFrame_Actordef.ListView1Compare(Sender: TObject; Item1,
   Item2: TListItem; Data: Integer; var Compare: Integer);
 var
@@ -293,6 +353,11 @@ begin
   Compare := AnsiCompareText(value1, value2);
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.ListView1ColumnClick
+//
+//==============================================================================
 procedure TFrame_Actordef.ListView1ColumnClick(Sender: TObject;
   Column: TListColumn);
 begin
@@ -300,6 +365,11 @@ begin
   FillListView;
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.SearchEditChange
+//
+//==============================================================================
 procedure TFrame_Actordef.SearchEditChange(Sender: TObject);
 begin
   FillListView;
@@ -312,6 +382,11 @@ begin
   SearchEdit.Clear;
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.ListView1Change
+//
+//==============================================================================
 procedure TFrame_Actordef.ListView1Change(Sender: TObject;
   Item: TListItem; Change: TItemChange);
 var
@@ -327,6 +402,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.DeclPanelResize
+//
+//==============================================================================
 procedure TFrame_Actordef.DeclPanelResize(Sender: TObject);
 begin
   DeclEdit.Width := DeclPanel.Width - 16;

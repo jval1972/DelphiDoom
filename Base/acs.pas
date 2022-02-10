@@ -33,10 +33,25 @@ interface
 uses
   d_delphi;
 
+//==============================================================================
+//
+// acc_isscriptlump
+//
+//==============================================================================
 function acc_isscriptlump(const lump: integer): boolean;
 
+//==============================================================================
+//
+// acc_isbehaviorlump
+//
+//==============================================================================
 function acc_isbehaviorlump(const lump: integer): boolean;
 
+//==============================================================================
+//
+// acc_main
+//
+//==============================================================================
 function acc_main(const argc: integer; const argv: TDStringList): Pointer;
 
 var
@@ -65,6 +80,11 @@ const
   ACC_VERSION_TEXT = '1.10';
   ACC_COPYRIGHT_YEARS_TEXT = '1995';
 
+//==============================================================================
+//
+// one_or_many
+//
+//==============================================================================
 function one_or_many(const x: integer; const ifone, ifmany: string): string;
 begin
   if x = 1 then
@@ -78,7 +98,8 @@ end;
 // acc_isscriptlump
 //
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
+//
+//==============================================================================
 function acc_isscriptlump(const lump: integer): boolean;
 begin
   if IsIntegerInRange(lump, 0, W_NumLumps - 1) then
@@ -95,7 +116,8 @@ end;
 // acc_isbehaviorlump
 //
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
+//
+//==============================================================================
 function acc_isbehaviorlump(const lump: integer): boolean;
 begin
   if IsIntegerInRange(lump, 0, W_NumLumps - 1) then
@@ -112,7 +134,8 @@ end;
 // DisplayBanner
 //
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
+//
+//==============================================================================
 procedure DisplayBanner;
 begin
   printf(#13#10'ACC Version ' + ACC_VERSION_TEXT + ' by Ben Gokey'#13#10);
@@ -124,7 +147,8 @@ end;
 // DisplayUsage
 //
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
+//
+//==============================================================================
 procedure DisplayUsage;
 begin
   printf('Usage: ACCP [options] source[.acs] [object[.o]]'#13#10);
@@ -139,7 +163,8 @@ end;
 // ProcessArgs
 //
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
+//
+//==============================================================================
 procedure ProcessArgs;
 var
   i: integer;
@@ -215,7 +240,8 @@ end;
 // Init
 //
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
+//
+//==============================================================================
 procedure Init;
 begin
   acs_BigEndianHost := false;
@@ -229,6 +255,11 @@ begin
     [decide(acs_BigEndianHost, 'BIG', 'LITTLE')]);
 end;
 
+//==============================================================================
+//
+// acc_main
+//
+//==============================================================================
 function acc_main(const argc: integer; const argv: TDStringList): Pointer;
 var
   slump, sext: string;

@@ -48,26 +48,81 @@ uses
   s_sound,
   sounddata;
 
+//==============================================================================
+//
+// T_VerticalDoor
+//
+//==============================================================================
 procedure T_VerticalDoor(door: Pvldoor_t);
 
+//==============================================================================
+//
+// EV_DoLockedDoor
+//
+//==============================================================================
 function EV_DoLockedDoor(line: Pline_t; _type: vldoor_e; thing: Pmobj_t): integer;
 
+//==============================================================================
+//
+// EV_DoDoor
+//
+//==============================================================================
 function EV_DoDoor(line: Pline_t; _type: vldoor_e): integer;
 
+//==============================================================================
+//
+// EV_VerticalDoor
+//
+//==============================================================================
 procedure EV_VerticalDoor(line: Pline_t; thing: Pmobj_t);
 
+//==============================================================================
+//
+// EV_SlidingDoor
+//
+//==============================================================================
 procedure EV_SlidingDoor(line: Pline_t; thing: Pmobj_t);
 
+//==============================================================================
+//
+// EV_ClearForceFields
+//
+//==============================================================================
 function EV_ClearForceFields(line: Pline_t): integer;
 
+//==============================================================================
+//
+// EV_RemoteSlidingDoor
+//
+//==============================================================================
 function EV_RemoteSlidingDoor(line: Pline_t; thing: Pmobj_t): integer;
 
+//==============================================================================
+//
+// P_SpawnDoorCloseIn30
+//
+//==============================================================================
 procedure P_SpawnDoorCloseIn30(sec: Psector_t);
 
+//==============================================================================
+//
+// P_SpawnDoorRaiseIn5Mins
+//
+//==============================================================================
 procedure P_SpawnDoorRaiseIn5Mins(sec: Psector_t; secnum: integer);
 
+//==============================================================================
+//
+// P_InitSlidingDoorFrames
+//
+//==============================================================================
 procedure P_InitSlidingDoorFrames;
 
+//==============================================================================
+//
+// T_SlidingDoor
+//
+//==============================================================================
 procedure T_SlidingDoor(door: Pslidedoor_t);
 
 implementation
@@ -91,13 +146,13 @@ uses
   w_wad,
   z_zone;
 
+//==============================================================================
 //
 // VERTICAL DOORS
 //
-
-//
 // T_VerticalDoor
 //
+//==============================================================================
 procedure T_VerticalDoor(door: Pvldoor_t);
 var
   res1, res2: result_e;
@@ -321,6 +376,7 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EV_DoLockedDoor
 // Move a locked door up/down
@@ -328,6 +384,7 @@ end;
 // [STRIFE] This game has a crap load of keys. And this function doesn't even
 // deal with all of them...
 //
+//==============================================================================
 function EV_DoLockedDoor(line: Pline_t; _type: vldoor_e; thing: Pmobj_t): integer;
 var
   p: Pplayer_t;
@@ -519,7 +576,7 @@ begin
   result := EV_DoDoor(line, _type);
 end;
 
-
+//==============================================================================
 //
 // R_SoundNumForDoor
 //
@@ -607,9 +664,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EV_DoDoor
 //
+//==============================================================================
 function EV_DoDoor(line: Pline_t; _type: vldoor_e): integer;
 var
   initial: boolean;
@@ -728,11 +787,13 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EV_ClearForceFields
 //
 // villsa [STRIFE] new function
 //
+//==============================================================================
 function EV_ClearForceFields(line: Pline_t): integer;
 var
   secnum: integer;
@@ -780,11 +841,13 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EV_VerticalDoor : open a door manually, no tag value
 //
 // [STRIFE] Tons of new door types were added.
 //
+//==============================================================================
 procedure EV_VerticalDoor(line: Pline_t; thing: Pmobj_t);
 var
   player: Pplayer_t;
@@ -1104,9 +1167,12 @@ begin
   door.topheight := P_FindLowestCeilingSurrounding(sec) - 4 * FRACUNIT;
 end;
 
+//==============================================================================
+// P_SpawnDoorCloseIn30
 //
 // Spawn a door that closes after 30 seconds
 //
+//==============================================================================
 procedure P_SpawnDoorCloseIn30(sec: Psector_t);
 var
   door: Pvldoor_t;
@@ -1127,9 +1193,12 @@ begin
   door.line := nil; // remember line that triggered us
 end;
 
+//==============================================================================
+// P_SpawnDoorRaiseIn5Mins
 //
 // Spawn a door that opens after 5 minutes
 //
+//==============================================================================
 procedure P_SpawnDoorRaiseIn5Mins(sec: Psector_t; secnum: integer);
 var
   door: Pvldoor_t;
@@ -1257,7 +1326,6 @@ var
     frame8: '';  // frame8
    )
 
-
   );
 
 //
@@ -1285,12 +1353,15 @@ var
 var
   slideFrames: array[0..MAXSLIDEDOORS - 1] of slideframe_t;
 
+//==============================================================================
 //
 // P_InitSlidingDoorFrames
 //
 // villsa [STRIFE] resurrected
 //
 // JVAL: Allow missing from IWAD, calls R_CheckTextureNumForName instead of R_TextureNumForName
+//
+//==============================================================================
 procedure P_InitSlidingDoorFrames;
 var
   i: integer;
@@ -1323,7 +1394,7 @@ begin
   end;
 end;
 
-
+//==============================================================================
 //
 // P_FindSlidingDoorType
 //
@@ -1332,6 +1403,7 @@ end;
 //
 // villsa [STRIFE] resurrected
 //
+//==============================================================================
 function P_FindSlidingDoorType(line: Pline_t): integer;
 var
   i: integer;
@@ -1346,11 +1418,13 @@ begin
   result := -1;
 end;
 
+//==============================================================================
 //
 // T_SlidingDoor
 //
 // villsa [STRIFE] resurrected
 //
+//==============================================================================
 procedure T_SlidingDoor(door: Pslidedoor_t);
 var
   sec: Psector_t;
@@ -1483,11 +1557,13 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EV_RemoteSlidingDoor
 //
 // villsa [STRIFE] new function
 //
+//==============================================================================
 function EV_RemoteSlidingDoor(line: Pline_t; thing: Pmobj_t): integer;
 var
   secnum: integer;
@@ -1522,11 +1598,13 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EV_SlidingDoor
 //
 // villsa [STRIFE]
 //
+//==============================================================================
 procedure EV_SlidingDoor(line: Pline_t; thing: Pmobj_t);
 var
   sec: Psector_t;
@@ -1618,6 +1696,5 @@ begin
     S_StartSound(@door.frontsector.soundorg, Ord(slideOpenSounds[door.whichDoorIndex]));
   end;
 end;
-
 
 end.

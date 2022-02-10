@@ -68,6 +68,11 @@ begin
   statenames := nil;
 end;
 
+//==============================================================================
+//
+// TFrame_Mobjinfo.CreateParams
+//
+//==============================================================================
 procedure TFrame_Mobjinfo.CreateParams(var Params: TCreateParams);
 begin
   sortcolumn := 0;
@@ -83,6 +88,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_Mobjinfo.ClearMinfo
+//
+//==============================================================================
 procedure TFrame_Mobjinfo.ClearMinfo;
 var
   i: integer;
@@ -96,6 +106,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Mobjinfo.ClearSinfo
+//
+//==============================================================================
 procedure TFrame_Mobjinfo.ClearSinfo;
 var
   i: integer;
@@ -109,6 +124,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Mobjinfo.FocusAndSelectFirstItem
+//
+//==============================================================================
 procedure TFrame_Mobjinfo.FocusAndSelectFirstItem;
 var
   i: integer;
@@ -122,6 +142,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Mobjinfo.FocusAndSelectFirstListItem
+//
+//==============================================================================
 procedure TFrame_Mobjinfo.FocusAndSelectFirstListItem;
 begin
   if ListView1.Items.Count > 0 then
@@ -131,6 +156,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Mobjinfo.UpdateGameControls
+//
+//==============================================================================
 procedure TFrame_Mobjinfo.UpdateGameControls(const game: string);
 var
   lst: TStringList;
@@ -160,6 +190,11 @@ begin
   FillListView;
 end;
 
+//==============================================================================
+//
+// _MinfoItemsCompare
+//
+//==============================================================================
 function _MinfoItemsCompare(List: TStringList; Index1, Index2: Integer): Integer;
 var
   s1, s2: string;
@@ -240,6 +275,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Mobjinfo.FillTreeView
+//
+//==============================================================================
 procedure TFrame_Mobjinfo.FillTreeView;
 
   procedure AddTreeItem(const id: integer);
@@ -305,6 +345,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Mobjinfo.FillListView
+//
+//==============================================================================
 procedure TFrame_Mobjinfo.FillListView;
 
   procedure AddListItem(const idx: integer; const fieldname, fieldvalue: string);
@@ -389,6 +434,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Mobjinfo.SearchEditChange
+//
+//==============================================================================
 procedure TFrame_Mobjinfo.SearchEditChange(Sender: TObject);
 begin
   FillTreeView;
@@ -401,17 +451,32 @@ begin
   SearchEdit.Clear;
 end;
 
+//==============================================================================
+//
+// TFrame_Mobjinfo.HintPanelResize
+//
+//==============================================================================
 procedure TFrame_Mobjinfo.HintPanelResize(Sender: TObject);
 begin
   HintEdit.Width := HintPanel.Width - 16;
 end;
 
+//==============================================================================
+//
+// TFrame_Mobjinfo.TreeView1Editing
+//
+//==============================================================================
 procedure TFrame_Mobjinfo.TreeView1Editing(Sender: TObject; Node: TTreeNode;
   var AllowEdit: Boolean);
 begin
   AllowEdit := False;
 end;
 
+//==============================================================================
+//
+// TFrame_Mobjinfo.TreeView1Change
+//
+//==============================================================================
 procedure TFrame_Mobjinfo.TreeView1Change(Sender: TObject; Node: TTreeNode);
 var
   it: TTreeNode;

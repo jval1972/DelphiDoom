@@ -33,6 +33,11 @@ unit i_xmmusic;
 
 interface
 
+//==============================================================================
+//
+// IsXMMusicFile
+//
+//==============================================================================
 function IsXMMusicFile(const buf: pointer; const size: integer): boolean;
 
 implementation
@@ -40,6 +45,11 @@ implementation
 uses
   d_delphi;
 
+//==============================================================================
+//
+// IsXMMusicFile
+//
+//==============================================================================
 function IsXMMusicFile(const buf: pointer; const size: integer): boolean;
 var
   pb: PByteArray;

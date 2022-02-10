@@ -1899,7 +1899,6 @@ type
 
     S_TNT1,
 
-
     DO_NUMSTATES
   );
 

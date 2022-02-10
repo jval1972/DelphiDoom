@@ -42,6 +42,12 @@ uses
 {$I jconfig.inc}
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_1pass_quantizer 
+//
+//==============================================================================
 procedure jinit_1pass_quantizer (cinfo: j_decompress_ptr);
 
 implementation
@@ -82,7 +88,6 @@ uses
   equidistant in linear space.  At this writing, gamma correction is not
   implemented by jdcolor, so nothing is done here. }
 
-
 { Declarations for ordered dithering.
 
   We use a standard 16x16 ordered dither array.  The basic concept of ordered
@@ -99,7 +104,6 @@ uses
   this to 0..MAXJSAMPLE, and then index into the colorindex table as usual.
   We can skip the separate range-limiting step by extending the colorindex
   table in both directions. }
-
 
 const
   ODITHER_SIZE  = 16;   { dimension of dither matrix }
@@ -137,7 +141,6 @@ const
   (  42,234, 26,218, 38,230, 22,214, 41,233, 25,217, 37,229, 21,213 ),
   ( 170,106,154, 90,166,102,150, 86,169,105,153, 89,165,101,149, 85 )
   );
-
 
 { Declarations for Floyd-Steinberg dithering.
 
@@ -179,7 +182,6 @@ type
                                 { pointer to error array (in FAR storage!) }
   FSERRORPTR = ^FSERROR;
 
-
 { Private subobject }
 
 const
@@ -214,7 +216,6 @@ type
     on_odd_row: boolean;       { flag to remember which row we are on }
   end;
 
-
 { Policy-making subroutines for create_colormap and create_colorindex.
   These routines determine the colormap to be used.  The rest of the module
   only assumes that the colormap is orthogonal.
@@ -227,9 +228,13 @@ type
   Note that the latter two routines may impose different policies for
   different components, though this is not currently done. }
 
-
-
 {LOCAL}
+
+//==============================================================================
+//
+// select_ncolors 
+//
+//==============================================================================
 function select_ncolors (cinfo: j_decompress_ptr;
                          var Ncolors: array of int): int;
 { Determine allocation of desired colors to components, }
@@ -298,8 +303,13 @@ begin
   select_ncolors := total_colors;
 end;
 
-
 {LOCAL}
+
+//==============================================================================
+//
+// output_value 
+//
+//==============================================================================
 function output_value (cinfo: j_decompress_ptr;
                        ci: int; j: int; maxj: int): int;
 { Return j'th output value, where j will range from 0 to maxj }
@@ -313,8 +323,13 @@ begin
   output_value := int (( INT32(j) * MAXJSAMPLE + maxj div 2) div maxj);
 end;
 
-
 {LOCAL}
+
+//==============================================================================
+//
+// largest_input_value 
+//
+//==============================================================================
 function largest_input_value (cinfo: j_decompress_ptr;
                               ci: int; j: int; maxj: int): int;
 { Return largest input value that should map to j'th output value }
@@ -325,10 +340,15 @@ begin
                                  maxj) div (2*maxj));
 end;
 
-
 { Create the colormap. }
 
 {LOCAL}
+
+//==============================================================================
+//
+// create_colormap 
+//
+//==============================================================================
 procedure create_colormap (cinfo: j_decompress_ptr);
 var
   cquantize: my_cquantize_ptr;
@@ -397,6 +417,12 @@ end;
 { Create the color index table. }
 
 {LOCAL}
+
+//==============================================================================
+//
+// create_colorindex 
+//
+//==============================================================================
 procedure create_colorindex (cinfo: j_decompress_ptr);
 var
   cquantize: my_cquantize_ptr;
@@ -471,11 +497,16 @@ begin
   end;
 end;
 
-
 { Create an ordered-dither array for a component having ncolors
   distinct output values. }
 
 {LOCAL}
+
+//==============================================================================
+//
+// make_odither_array 
+//
+//==============================================================================
 function make_odither_array (cinfo: j_decompress_ptr;
                              ncolors: int): ODITHER_MATRIX_PTR;
 var
@@ -510,12 +541,17 @@ begin
   make_odither_array := odither;
 end;
 
-
 { Create the ordered-dither tables.
   Components having the same number of representative colors may
   share a dither table. }
 
 {LOCAL}
+
+//==============================================================================
+//
+// create_odither_tables 
+//
+//==============================================================================
 procedure create_odither_tables (cinfo: j_decompress_ptr);
 var
   cquantize: my_cquantize_ptr;
@@ -542,10 +578,15 @@ begin
   end;
 end;
 
-
 { Map some rows of pixels to the output colormapped representation. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// color_quantize 
+//
+//==============================================================================
 procedure color_quantize (cinfo: j_decompress_ptr;
                           input_buf: JSAMPARRAY;
               output_buf: JSAMPARRAY;
@@ -584,8 +625,13 @@ begin
   end;
 end;
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// color_quantize3 
+//
+//==============================================================================
 procedure color_quantize3 (cinfo: j_decompress_ptr;
                            input_buf: JSAMPARRAY;
                output_buf: JSAMPARRAY;
@@ -626,8 +672,13 @@ begin
   end;
 end;
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// quantize_ord_dither 
+//
+//==============================================================================
 procedure quantize_ord_dither (cinfo: j_decompress_ptr;
                                input_buf:  JSAMPARRAY;
                    output_buf: JSAMPARRAY;
@@ -699,6 +750,12 @@ begin
 end;
 
 {METHODDEF}
+
+//==============================================================================
+//
+// quantize3_ord_dither 
+//
+//==============================================================================
 procedure quantize3_ord_dither (cinfo: j_decompress_ptr;
                                 input_buf: JSAMPARRAY;
                     output_buf: JSAMPARRAY;
@@ -748,7 +805,6 @@ begin
     dither2 := @(cquantize^.odither[2]^[row_index]);
     col_index := 0;
 
-
     for col := pred(width) downto 0 do
     begin
       pixcode := GETJSAMPLE(colorindex0^[GETJSAMPLE(input_ptr^) + pad_offset
@@ -769,8 +825,13 @@ begin
   end;
 end;
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// quantize_fs_dither 
+//
+//==============================================================================
 procedure quantize_fs_dither (cinfo: j_decompress_ptr;
                               input_buf: JSAMPARRAY;
                   output_buf: JSAMPARRAY;
@@ -899,10 +960,15 @@ begin
   end;
 end;
 
-
 { Allocate workspace for Floyd-Steinberg errors. }
 
 {LOCAL}
+
+//==============================================================================
+//
+// alloc_fs_workspace 
+//
+//==============================================================================
 procedure alloc_fs_workspace (cinfo: j_decompress_ptr);
 var
   cquantize: my_cquantize_ptr;
@@ -918,10 +984,15 @@ begin
   end;
 end;
 
-
 { Initialize for one-pass color quantization. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// start_pass_1_quant 
+//
+//==============================================================================
 procedure start_pass_1_quant (cinfo: j_decompress_ptr;
                               is_pre_scan: boolean); far;
 var
@@ -975,29 +1046,44 @@ begin
   end;
 end;
 
-
 { Finish up at the end of the pass. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// finish_pass_1_quant 
+//
+//==============================================================================
 procedure finish_pass_1_quant (cinfo: j_decompress_ptr); far;
 begin
   { no work in 1-pass case }
 end;
 
-
 { Switch to a new external colormap between output passes.
   Shouldn't get to this module! }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// new_color_map_1_quant 
+//
+//==============================================================================
 procedure new_color_map_1_quant (cinfo: j_decompress_ptr); far;
 begin
   ERREXIT(j_common_ptr(cinfo), JERR_MODE_CHANGE);
 end;
 
-
 { Module initialization routine for 1-pass color quantization. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_1pass_quantizer 
+//
+//==============================================================================
 procedure jinit_1pass_quantizer (cinfo: j_decompress_ptr);
 var
   cquantize: my_cquantize_ptr;
@@ -1032,6 +1118,5 @@ begin
   if (cinfo^.dither_mode = JDITHER_FS) then
     alloc_fs_workspace(cinfo);
 end;
-
 
 end.

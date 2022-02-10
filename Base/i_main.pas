@@ -42,6 +42,11 @@ uses
 const
   WINDOW_STYLE = (WS_OVERLAPPED);
 
+//==============================================================================
+//
+// DoomMain
+//
+//==============================================================================
 procedure DoomMain;
 
 var
@@ -63,6 +68,11 @@ uses
   m_base,
   d_main;
 
+//==============================================================================
+//
+// WindowProc
+//
+//==============================================================================
 function WindowProc(hWnd: HWND; Msg: UINT; wParam: WPARAM;
   lParam: LPARAM): LRESULT; stdcall; export;
 begin
@@ -114,6 +124,11 @@ begin
   result := DefWindowProc(hWnd, Msg, WParam, LParam);
 end;
 
+//==============================================================================
+//
+// DoomMain
+//
+//==============================================================================
 procedure DoomMain;
 var
   WindowClass: TWndClass;

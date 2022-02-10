@@ -43,10 +43,25 @@ uses
 var
   gl_drawshadows: boolean = true;
 
+//==============================================================================
+//
+// gld_InitDynamicShadows
+//
+//==============================================================================
 procedure gld_InitDynamicShadows;
 
+//==============================================================================
+//
+// gld_DynamicShadowsDone
+//
+//==============================================================================
 procedure gld_DynamicShadowsDone;
 
+//==============================================================================
+//
+// gld_GetDynamicShadow
+//
+//==============================================================================
 function gld_GetDynamicShadow(const radious: integer): PGLDRenderLight;
 
 const
@@ -65,6 +80,11 @@ const
 var
   shadows: array[0..NUMSHADOWS - 1] of GLDRenderLight;
 
+//==============================================================================
+//
+// gld_InitDynamicShadows
+//
+//==============================================================================
 procedure gld_InitDynamicShadows;
 var
   i: integer;
@@ -83,10 +103,20 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// gld_DynamicShadowsDone
+//
+//==============================================================================
 procedure gld_DynamicShadowsDone;
 begin
 end;
 
+//==============================================================================
+//
+// gld_GetDynamicShadow
+//
+//==============================================================================
 function gld_GetDynamicShadow(const radious: integer): PGLDRenderLight;
 var
   idx: integer;

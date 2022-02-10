@@ -49,12 +49,16 @@ uses
 {$I jconfig.inc}
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_d_coef_controller 
+//
+//==============================================================================
 procedure jinit_d_coef_controller (cinfo: j_decompress_ptr;
                                    need_full_buffer: boolean);
 
-
 implementation
-
 
 { Block smoothing is only applicable for progressive JPEG, so: }
 {$ifndef D_PROGRESSIVE_SUPPORTED}
@@ -108,24 +112,53 @@ type
 
 { Forward declarations }
 {METHODDEF}
+
+//==============================================================================
+//
+// decompress_onepass 
+//
+//==============================================================================
 function decompress_onepass (cinfo: j_decompress_ptr;
                              output_buf: JSAMPIMAGE): int; far; forward;
 {$ifdef D_MULTISCAN_FILES_SUPPORTED}
 {METHODDEF}
+
+//==============================================================================
+//
+// decompress_data 
+//
+//==============================================================================
 function decompress_data (cinfo: j_decompress_ptr;
                           output_buf: JSAMPIMAGE): int; far; forward;
 {$endif}
 {$ifdef BLOCK_SMOOTHING_SUPPORTED}
 {LOCAL}
+
+//==============================================================================
+//
+// smoothing_ok 
+//
+//==============================================================================
 function smoothing_ok (cinfo: j_decompress_ptr): boolean; forward;
 
 {METHODDEF}
+
+//==============================================================================
+//
+// decompress_smooth_data  
+//
+//==============================================================================
 function decompress_smooth_data  (cinfo: j_decompress_ptr;
                                  output_buf: JSAMPIMAGE): int; far; forward;
 {$endif}
 
-
 {LOCAL}
+
+//==============================================================================
+//
+// start_iMCU_row 
+//
+//==============================================================================
 procedure start_iMCU_row (cinfo: j_decompress_ptr);
 { Reset within-iMCU-row counters for a new row (input side) }
 var
@@ -153,20 +186,30 @@ begin
   coef^.MCU_vert_offset := 0;
 end;
 
-
 { Initialize for an input processing pass. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// start_input_pass 
+//
+//==============================================================================
 procedure start_input_pass (cinfo: j_decompress_ptr); far;
 begin
   cinfo^.input_iMCU_row := 0;
   start_iMCU_row(cinfo);
 end;
 
-
 { Initialize for an output processing pass. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// start_output_pass 
+//
+//==============================================================================
 procedure start_output_pass (cinfo: j_decompress_ptr); far;
 var
   coef: my_coef_ptr;
@@ -186,7 +229,6 @@ begin
   cinfo^.output_iMCU_row := 0;
 end;
 
-
 { Decompress and return some data in the single-pass case.
   Always attempts to emit one fully interleaved MCU row ("iMCU" row).
   Input and output must run in lockstep since we have only a one-MCU buffer.
@@ -196,6 +238,12 @@ end;
   which we index according to the component's SOF position.}
 
 {METHODDEF}
+
+//==============================================================================
+//
+// decompress_onepass 
+//
+//==============================================================================
 function decompress_onepass (cinfo: j_decompress_ptr;
                              output_buf: JSAMPIMAGE): int;
 var
@@ -293,11 +341,16 @@ end;
 { Dummy consume-input routine for single-pass operation. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// dummy_consume_data 
+//
+//==============================================================================
 function dummy_consume_data (cinfo: j_decompress_ptr): int; far;
 begin
   dummy_consume_data := JPEG_SUSPENDED;  { Always indicate nothing was done }
 end;
-
 
 {$ifdef D_MULTISCAN_FILES_SUPPORTED}
 
@@ -307,6 +360,12 @@ end;
   Return value is JPEG_ROW_COMPLETED, JPEG_SCAN_COMPLETED, or JPEG_SUSPENDED.}
 
 {METHODDEF}
+
+//==============================================================================
+//
+// consume_data 
+//
+//==============================================================================
 function consume_data (cinfo: j_decompress_ptr): int; far;
 var
   coef: my_coef_ptr;
@@ -381,7 +440,6 @@ begin
   consume_data := JPEG_SCAN_COMPLETED;
 end;
 
-
 { Decompress and return some data in the multi-pass case.
   Always attempts to emit one fully interleaved MCU row ("iMCU" row).
   Return value is JPEG_ROW_COMPLETED, JPEG_SCAN_COMPLETED, or JPEG_SUSPENDED.
@@ -389,6 +447,12 @@ end;
   NB: output_buf contains a plane for each component in image. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// decompress_data 
+//
+//==============================================================================
 function decompress_data (cinfo: j_decompress_ptr;
                           output_buf: JSAMPIMAGE): int;
 var
@@ -470,7 +534,6 @@ end;
 
 {$endif} { D_MULTISCAN_FILES_SUPPORTED }
 
-
 {$ifdef BLOCK_SMOOTHING_SUPPORTED}
 
 { This code applies interblock smoothing as described by section K.8
@@ -494,6 +557,12 @@ const
   more accurately than they really are. }
 
 {LOCAL}
+
+//==============================================================================
+//
+// smoothing_ok 
+//
+//==============================================================================
 function smoothing_ok (cinfo: j_decompress_ptr): boolean;
 var
   coef: my_coef_ptr;
@@ -563,10 +632,15 @@ begin
   smoothing_ok := smoothing_useful;
 end;
 
-
 { Variant of decompress_data for use when doing block smoothing. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// decompress_smooth_data 
+//
+//==============================================================================
 function decompress_smooth_data (cinfo: j_decompress_ptr;
                         output_buf: JSAMPIMAGE): int;
 var
@@ -843,10 +917,15 @@ end;
 
 {$endif} { BLOCK_SMOOTHING_SUPPORTED }
 
-
 { Initialize coefficient buffer controller. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_d_coef_controller 
+//
+//==============================================================================
 procedure jinit_d_coef_controller (cinfo: j_decompress_ptr;
                                    need_full_buffer: boolean);
 var

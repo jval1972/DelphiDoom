@@ -39,26 +39,71 @@ uses
   Windows,
   d_delphi;
 
+//==============================================================================
+// I_InitGraphics
+//
 // Called by D_DoomMain,
 // determines the hardware configuration
 // and sets up the video mode
+//
+//==============================================================================
 procedure I_InitGraphics;
 
+//==============================================================================
+//
+// I_ChangeFullScreen
+//
+//==============================================================================
 procedure I_ChangeFullScreen(const newmode: integer);
 
+//==============================================================================
+//
+// I_ShutDownGraphics
+//
+//==============================================================================
 procedure I_ShutDownGraphics;
 
+//==============================================================================
+// I_SetPalette
+//
 // Takes full 8 bit values.
+//
+//==============================================================================
 procedure I_SetPalette(const palette: PByteArray);
 
+//==============================================================================
+//
+// IV_SetPalette
+//
+//==============================================================================
 procedure IV_SetPalette(const palette: PByteArray);
 
+//==============================================================================
+//
+// I_BlitBuffer
+//
+//==============================================================================
 procedure I_BlitBuffer;
 
+//==============================================================================
+//
+// I_FinishUpdate
+//
+//==============================================================================
 procedure I_FinishUpdate;
 
+//==============================================================================
+//
+// I_ReadScreen32
+//
+//==============================================================================
 procedure I_ReadScreen32(dest: pointer);
 
+//==============================================================================
+//
+// I_SetPalette64
+//
+//==============================================================================
 procedure I_SetPalette64;
 
 var
@@ -98,11 +143,21 @@ var
   screen: PLongWordArray;
   oscreen: pointer;
 
+//==============================================================================
+//
+// I_RestoreWindowPos
+//
+//==============================================================================
 procedure I_RestoreWindowPos(const mode: integer);
 begin
   SetWindowPos(hMainWnd, HWND_TOP, 0, 0, WINDOWWIDTH, WINDOWHEIGHT, SWP_SHOWWINDOW)
 end;
 
+//==============================================================================
+//
+// I_DisableAltTab
+//
+//==============================================================================
 procedure I_DisableAltTab;
 var
   old: Boolean;
@@ -123,6 +178,11 @@ begin
   s_alttab_disabled := true;
 end;
 
+//==============================================================================
+//
+// I_EnableAltTab
+//
+//==============================================================================
 procedure I_EnableAltTab;
 var
   old: Boolean;
@@ -149,6 +209,11 @@ var
 var
   allocscreensize: integer;
 
+//==============================================================================
+//
+// I_ShutDownGraphics
+//
+//==============================================================================
 procedure I_ShutDownGraphics;
 begin
   fu8_64a.Free;
@@ -185,9 +250,12 @@ type
 var
   curpal64: array[0..$FFFF] of Int64;
 
+//==============================================================================
+// I_SetPalette64
 //
 // JVAL: Create extended pallete of int64 values for fast update in 8 bid color mode
 //
+//==============================================================================
 procedure I_SetPalette64;
 var
   idx: twobytes_t;
@@ -207,9 +275,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// I_FinishUpdate8
 //
 // I_FinishUpdate
 //
+//==============================================================================
 procedure I_FinishUpdate8(parms: Pfinishupdateparms_t);
 var
   dest: PLongWord;
@@ -247,6 +318,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// I_FinishUpdate8_64
+//
+//==============================================================================
 procedure I_FinishUpdate8_64;
 var
   dest: PInt64;
@@ -271,6 +347,11 @@ type
   end;
   Pfinishupdate8param_t = ^finishupdate8param_t;
 
+//==============================================================================
+//
+// I_FinishUpdate8_64a
+//
+//==============================================================================
 function I_FinishUpdate8_64a(p: pointer): integer; stdcall;
 var
   dest: PInt64;
@@ -290,12 +371,22 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+//
+// I_Thr_FinishUpdate8
+//
+//==============================================================================
 function I_Thr_FinishUpdate8(parms: pointer): integer; stdcall;
 begin
   I_FinishUpdate8(Pfinishupdateparms_t(parms));
   result := 0;
 end;
 
+//==============================================================================
+//
+// I_FinishUpdate16
+//
+//==============================================================================
 procedure I_FinishUpdate16;
 var
   i: integer;
@@ -318,6 +409,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// I_BlitBuffer
+//
+//==============================================================================
 procedure I_BlitBuffer;
 var
   h1: integer;
@@ -463,6 +559,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// I_FinishUpdate
+//
+//==============================================================================
 procedure I_FinishUpdate;
 var
   srcrect: TRect;
@@ -524,13 +625,13 @@ begin
 
 end;
 
+//==============================================================================
 //
 // Palette stuff.
 //
-
-//
 // I_SetPalette
 //
+//==============================================================================
 procedure I_SetPalette(const palette: PByteArray);
 var
   dest: PLongWord;
@@ -552,6 +653,11 @@ begin
     I_SetPalette64;
 end;
 
+//==============================================================================
+//
+// IV_SetPalette
+//
+//==============================================================================
 procedure IV_SetPalette(const palette: PByteArray);
 var
   dest: PLongWord;
@@ -574,6 +680,11 @@ begin
   V_SetPalette(palette);
 end;
 
+//==============================================================================
+//
+// I_AdjustWindowMode
+//
+//==============================================================================
 function I_AdjustWindowMode: boolean;
 begin
   result := false;
@@ -589,6 +700,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// I_MemoryStallHack
+//
+//==============================================================================
 function I_MemoryStallHack: boolean;
 // JVAL: Memory stall can dramatically reduce performance in inc operation of
 // esi register of value 4096 etc
@@ -613,9 +729,14 @@ end;
 const
   ERROR_OFFSET = 20;
 
+//==============================================================================
+// I_InitGraphics
+//
 // Called by D_DoomMain,
 // determines the hardware configuration
 // and sets up the video mode
+//
+//==============================================================================
 procedure I_InitGraphics;
 var
   hres: HRESULT;
@@ -708,7 +829,6 @@ begin
     I_AdjustWindowMode;
     I_RestoreWindowPos(fullscreen);
 
-
     hres := g_pDD.SetCooperativeLevel(hMainWnd, DDSCL_NORMAL);
     if hres <> DD_OK then
       I_ErrorInitGraphics('SetCooperativeLevel');
@@ -730,7 +850,6 @@ begin
     if hres <> DD_OK then
       I_ErrorInitGraphics('CreateSurface');
   end;
-
 
   ZeroMemory(@ddsd, SizeOf(ddsd));
   ZeroMemory(@ddsd.ddpfPixelFormat, SizeOf(ddsd.ddpfPixelFormat));
@@ -784,6 +903,11 @@ const
     (1920, 1080), (1366, 768), (1280, 1024), (1280, 800), (1024, 768), (800, 600), (640, 480), (600, 400), (512, 384), (400, 300), (320, 200)
   );
 
+//==============================================================================
+//
+// I_ChangeFullScreen
+//
+//==============================================================================
 procedure I_ChangeFullScreen(const newmode: integer);
 
   procedure I_ChangeFullScreenError(full: boolean);
@@ -929,6 +1053,11 @@ begin
   dpi := I_GetWindowDPI(hMainWnd);
 end;
 
+//==============================================================================
+//
+// I_ReadScreen32
+//
+//==============================================================================
 procedure I_ReadScreen32(dest: pointer);
 var
   i: integer;

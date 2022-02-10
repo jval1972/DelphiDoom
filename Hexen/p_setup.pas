@@ -45,14 +45,34 @@ uses
   p_udmf,
   r_defs;
 
+//==============================================================================
+//
+// P_GetMapName
+//
+//==============================================================================
 function P_GetMapName(const map: integer): string;
 
+//==============================================================================
+// P_SetupLevel
+//
 // NOT called by W_Ticker. Fixme.
+//
+//==============================================================================
 procedure P_SetupLevel(map, playermask: integer; skill: skill_t);
 
+//==============================================================================
+// P_Init
+//
 // Called by startup code.
+//
+//==============================================================================
 procedure P_Init;
 
+//==============================================================================
+//
+// P_ShutDown
+//
+//==============================================================================
 procedure P_ShutDown;
 
 var
@@ -146,6 +166,11 @@ var
   playerstarts: array[0..MAX_PLAYER_STARTS - 1, 0..MAXPLAYERS - 1] of mapthing_t;
   uplayerstarts: array[0..MAX_PLAYER_STARTS - 1, 0..MAXPLAYERS - 1] of extrathing_t;
 
+//==============================================================================
+//
+// P_GameValidThing
+//
+//==============================================================================
 function P_GameValidThing(const doomdnum: integer): boolean;
 
 var
@@ -210,10 +235,11 @@ uses
   s_sndseq,
   doomstat;
 
-
+//==============================================================================
 //
 // P_LoadVertexes
 //
+//==============================================================================
 procedure P_LoadVertexes(lump: integer);
 var
   data: pointer;
@@ -273,10 +299,11 @@ begin
   Z_Free(data);
 end;
 
-
+//==============================================================================
 //
 // P_LoadSegs
 //
+//==============================================================================
 procedure P_LoadSegs(lump: integer);
 var
   data: pointer;
@@ -334,9 +361,11 @@ begin
   Z_Free(data);
 end;
 
+//==============================================================================
 //
 // P_LoadSubsectors
 //
+//==============================================================================
 procedure P_LoadSubsectors(lump: integer);
 var
   data: pointer;
@@ -363,10 +392,11 @@ begin
   Z_Free(data);
 end;
 
-
+//==============================================================================
 //
 // P_LoadSectors
 //
+//==============================================================================
 procedure P_LoadSectors(lump: integer);
 var
   data: pointer;
@@ -426,9 +456,11 @@ begin
   Z_Free(data);
 end;
 
+//==============================================================================
 //
 // P_LoadNodes
 //
+//==============================================================================
 procedure P_LoadNodes(lump: integer);
 var
   data: pointer;
@@ -472,7 +504,11 @@ begin
   Z_Free(data);
 end;
 
-
+//==============================================================================
+//
+// P_GameValidThing
+//
+//==============================================================================
 function P_GameValidThing(const doomdnum: integer): boolean;
 begin
   // Don't spawn DoomBuilder 3D Editing mode camera
@@ -508,9 +544,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // P_LoadThings
 //
+//==============================================================================
 procedure P_LoadThings(lump: integer);
 var
   data: pointer;
@@ -576,10 +614,12 @@ begin
 
 end;
 
+//==============================================================================
 //
 // P_LoadLineDefs
 // Also counts secret lines for intermissions.
 //
+//==============================================================================
 procedure P_LoadLineDefs(lump: integer);
 var
   data: pointer;
@@ -675,9 +715,11 @@ begin
   Z_Free (data);
 end;
 
+//==============================================================================
 //
 // P_LoadSideDefs
 //
+//==============================================================================
 procedure P_LoadSideDefs(lump: integer);
 var
   data: pointer;
@@ -707,11 +749,13 @@ begin
   Z_Free(data);
 end;
 
+//==============================================================================
 //
 // P_GroupLines
 // Builds sector line lists and subsector sector numbers.
 // Finds block bounding boxes for sectors.
 //
+//==============================================================================
 procedure P_GroupLines;
 var
   linebuffer: Pline_tPArray; // pointer to an array of pointers Pline_t
@@ -831,10 +875,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_GetMapName
 //
-
+//==============================================================================
 function P_GetMapName(const map: integer): string;
 begin
   // find map name
@@ -844,9 +889,11 @@ begin
     sprintf(result,'MAP%d', [map]);
 end;
 
+//==============================================================================
 //
 // P_SetupLevel
 //
+//==============================================================================
 procedure P_SetupLevel(map, playermask: integer; skill: skill_t);
 var
   i: integer;
@@ -1061,7 +1108,6 @@ begin
     printf('P_SpawnSpecials()'#13#10);
   P_SpawnSpecials;
 
-
   R_ChangeColormap(W_GetNameForNum(P_GetMapFadeTable(gamemap)));
 
   {$IFNDEF OPENGL}
@@ -1099,9 +1145,11 @@ begin
 //  S_StartSong(gamemap, true); JVAL SOS
 end;
 
+//==============================================================================
 //
 // P_Init
 //
+//==============================================================================
 procedure P_Init;
 begin
   P_InitMapInfo;
@@ -1120,7 +1168,8 @@ end;
 // P_ShutDown
 //
 //==========================================================================
-
+//
+//==============================================================================
 procedure P_ShutDown;
 begin
   P_ShutDownAnimations;

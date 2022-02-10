@@ -30,6 +30,11 @@ unit c_utils;
 
 interface
 
+//==============================================================================
+//
+// C_RegisterUtilityCommands
+//
+//==============================================================================
 procedure C_RegisterUtilityCommands;
 
 implementation
@@ -46,6 +51,11 @@ uses
   i_displaymodes,
   i_system;
 
+//==============================================================================
+//
+// C_CmdDir
+//
+//==============================================================================
 procedure C_CmdDir(const parm1, parm2: string);
 var
   mask: string;
@@ -74,6 +84,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// C_CmdCD
+//
+//==============================================================================
 procedure C_CmdCD;
 var
   cd: string;
@@ -82,6 +97,11 @@ begin
   printf('%s'#13#10, [cd]);
 end;
 
+//==============================================================================
+//
+// C_CmdCat
+//
+//==============================================================================
 procedure C_CmdCat(const parm1, parm2: string);
 var
   files: TDStringList;
@@ -122,6 +142,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// C_CmdGoToWebPage
+//
+//==============================================================================
 procedure C_CmdGoToWebPage(const parm: string);
 begin
   if fullscreen {$IFNDEF OPENGL}= FULLSCREEN_EXCLUSIVE {$ENDIF} then
@@ -133,28 +158,52 @@ begin
   I_GoToWebPage(parm);
 end;
 
-
+//==============================================================================
+//
+// C_CmdHomepage
+//
+//==============================================================================
 procedure C_CmdHomepage;
 begin
   C_CmdGoToWebPage('http://sourceforge.net/projects/delphidoom/');
 end;
 
+//==============================================================================
+//
+// C_CmdHelp
+//
+//==============================================================================
 procedure C_CmdHelp;
 begin
   C_CmdGoToWebPage('http://sourceforge.net/projects/delphidoom/');
 end;
 
+//==============================================================================
+//
+// C_CmdForums
+//
+//==============================================================================
 procedure C_CmdForums;
 begin
   C_CmdGoToWebPage('http://delphidoom.forumotion.com/index.htm');
 end;
 
+//==============================================================================
+//
+// C_CmdGetLatestVersion
+//
+//==============================================================================
 procedure C_CmdGetLatestVersion;
 begin
   C_ExecuteCmd('ver');
   C_CmdGoToWebPage('http://sourceforge.net/projects/delphidoom/files/');
 end;
 
+//==============================================================================
+//
+// C_RegisterUtilityCommands
+//
+//==============================================================================
 procedure C_RegisterUtilityCommands;
 begin
   C_AddCmd('dir, ls', @C_CmdDir);

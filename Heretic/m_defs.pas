@@ -92,7 +92,6 @@ uses
   vx_voxelsprite,
   v_video;
 
-
 const
   DFS_NEVER = 0;
   DFS_SINGLEPLAYER = 1;
@@ -1334,7 +1333,6 @@ const
      defaultbvalue: false;
      _type: tInteger),
 
-
     (name: 'key_invleft';
      location: @key_invleft;
      oldlocation: nil;
@@ -2015,7 +2013,6 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tString),
-
 
     (name: 'Autoload';
      location: nil;

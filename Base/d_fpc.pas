@@ -95,17 +95,36 @@ type
   end;
   PImageOptionalHeader = ^TImageOptionalHeader;
 
-
+//==============================================================================
+//
+// GetEnvironmentVariable
+//
+//==============================================================================
 function GetEnvironmentVariable(lpName: PChar; lpBuffer: PChar; nSize: DWORD): DWORD; stdcall;
 
+//==============================================================================
+//
+// AllocMemSize
+//
+//==============================================================================
 function AllocMemSize: integer;
 
 {$ENDIF}
 implementation
 {$IFDEF FPC}
 
+//==============================================================================
+//
+// GetEnvironmentVariable
+//
+//==============================================================================
 function GetEnvironmentVariable(lpName: PChar; lpBuffer: PChar; nSize: DWORD): DWORD; stdcall; external 'kernel32.dll' name 'GetEnvironmentVariableA';
 
+//==============================================================================
+//
+// AllocMemSize
+//
+//==============================================================================
 function AllocMemSize: integer;
 begin
   result := 0;

@@ -46,12 +46,28 @@ type
   dihertable_t = array[0..DIHERRANGE - 1, 0..DIHERRANGE - 1, 0..DIHERRANGE - 1] of LongWord; // diheritem_t;
   Pdihertable_t = ^dihertable_t;
 
+//==============================================================================
+//
+// R_CreateDiherTable
+//
+//==============================================================================
 procedure R_CreateDiherTable(const dihertable: Pdihertable_t; const pal: PLongWordArray);
 
 {$IFDEF OPENGL}
+
+//==============================================================================
+//
+// R_GetColormapFogColors
+//
+//==============================================================================
 procedure R_GetColormapFogColors(var r, g, b, dens: float; const pal: PLongWordArray);
 {$ENDIF}
 
+//==============================================================================
+//
+// R_InitNonUniformDiherFactor
+//
+//==============================================================================
 procedure R_InitNonUniformDiherFactor;
 
 var
@@ -65,8 +81,13 @@ uses
 var
   non_uniform_table: array[0..255] of Double;
 
+//==============================================================================
+// R_InitNonUniformDiherFactor
+//
 // JVAL
 // Maps double from [0.0 to 256.0] to 8 bits (1 byte) with non uniform way
+//
+//==============================================================================
 procedure R_InitNonUniformDiherFactor;
 const
   BYTEBITS = 6;
@@ -112,11 +133,21 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// R_DiherFactorToDouble
+//
+//==============================================================================
 function R_DiherFactorToDouble(const f: Byte): Double;
 begin
   result := non_uniform_table[f];
 end;
 
+//==============================================================================
+//
+// R_DiherFactorToByte
+//
+//==============================================================================
 function R_DiherFactorToByte(const f: Double): Byte;
 var
   l, h, i: integer;
@@ -167,6 +198,11 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+//
+// R_GetDiherFactor
+//
+//==============================================================================
 function R_GetDiherFactor(const before, after: Byte): byte;
 var
   b, a: integer;
@@ -186,6 +222,11 @@ begin
   result := R_DiherFactorToByte(a / b);
 end;
 
+//==============================================================================
+//
+// R_GetDiherFactorDouble
+//
+//==============================================================================
 function R_GetDiherFactorDouble(const before, after: Byte): double;
 var
   b, a: integer;
@@ -205,6 +246,11 @@ begin
   result := (a / b);
 end;
 
+//==============================================================================
+//
+// R_CreateDiherTable
+//
+//==============================================================================
 procedure R_CreateDiherTable(const dihertable: Pdihertable_t; const pal: PLongWordArray);
 var
   i, j, k: integer;
@@ -239,6 +285,12 @@ begin
 end;
 
 {$IFDEF OPENGL}
+
+//==============================================================================
+//
+// R_GetColormapFogColors
+//
+//==============================================================================
 procedure R_GetColormapFogColors(var r, g, b, dens: float; const pal: PLongWordArray);
 var
   i, j, k: integer;

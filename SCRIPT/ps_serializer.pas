@@ -94,6 +94,11 @@ begin
   fExec := aExec;
 end;
 
+//==============================================================================
+//
+// TScriptSerializer.SaveVariable
+//
+//==============================================================================
 function TScriptSerializer.SaveVariable(SaveStream: TStream; Src: Pointer; aType: TPSTypeRec): boolean;
 var
   ElemCount: Integer;
@@ -206,6 +211,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TScriptSerializer.LoadVariable
+//
+//==============================================================================
 function TScriptSerializer.LoadVariable(LoadStream: TStream; Src: Pointer; aType: TPSTypeRec): boolean;
 var
   ElemCount: Integer;
@@ -349,6 +359,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TScriptSerializer.SaveToFile
+//
+//==============================================================================
 function TScriptSerializer.SaveToFile(const fname: string): boolean;
 var
   fs: TFileStream;
@@ -364,6 +379,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TScriptSerializer.AppendToFile
+//
+//==============================================================================
 function TScriptSerializer.AppendToFile(const fname: string): boolean;
 var
   fs: TFileStream;
@@ -380,6 +400,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TScriptSerializer.LoadFromFile
+//
+//==============================================================================
 function TScriptSerializer.LoadFromFile(const fname: string): boolean;
 var
   fs: TFileStream;
@@ -398,6 +423,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TScriptSerializer.LoadFromFilePos
+//
+//==============================================================================
 function TScriptSerializer.LoadFromFilePos(const fname: string; var position: integer): boolean;
 var
   fs: TFileStream;
@@ -418,6 +448,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TScriptSerializer.SaveToStream
+//
+//==============================================================================
 function TScriptSerializer.SaveToStream(const SaveStream: TStream): boolean;
 var
   ElemCount: Integer;
@@ -453,6 +488,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TScriptSerializer.LoadFromStream
+//
+//==============================================================================
 function TScriptSerializer.LoadFromStream(const LoadStream: TStream): boolean;
 var
   ElemCount: Integer;
@@ -495,6 +535,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TScriptSerializer.SaveSize
+//
+//==============================================================================
 function TScriptSerializer.SaveSize: Integer;
 var
   ms: TMemoryStream;

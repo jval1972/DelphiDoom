@@ -19,7 +19,11 @@ const
   RPS_Invalid_External = 'Invalid External';
   RPS_InvalidCallingConvention = 'Invalid Calling Convention';
 
-
+//==============================================================================
+//
+// DllExternalProc
+//
+//==============================================================================
 function DllExternalProc(Sender: TPSPascalCompiler; Decl: TPSParametersDecl; const OriginalName, FExternal: TbtString): TPSRegProc;
 
 type
@@ -33,10 +37,20 @@ type
 var
   DefaultCC: TDllCallingConvention;
 
+//==============================================================================
+//
+// RegisterDll_Compiletime
+//
+//==============================================================================
 procedure RegisterDll_Compiletime(cs: TPSPascalCompiler);
 
 implementation
 
+//==============================================================================
+//
+// rpos
+//
+//==============================================================================
 function rpos(ch: TbtChar; const s: TbtString): Longint;
 var
   i: Longint;
@@ -50,6 +64,11 @@ begin
   Result := 0;
 end;
 
+//==============================================================================
+//
+// RemoveQuotes
+//
+//==============================================================================
 function RemoveQuotes(s: TbtString): TbtString;
 begin
   Result := s;
@@ -61,6 +80,11 @@ begin
     Delete(Result, Length(Result), 1);
 end;
 
+//==============================================================================
+//
+// DllExternalProc
+//
+//==============================================================================
 function DllExternalProc(Sender: TPSPascalCompiler; Decl: TPSParametersDecl; const OriginalName, FExternal: TbtString): TPSRegProc;
 var
   FuncName,
@@ -160,6 +184,11 @@ begin
   Result.ExportName := False;
 end;
 
+//==============================================================================
+//
+// RegisterDll_Compiletime
+//
+//==============================================================================
 procedure RegisterDll_Compiletime(cs: TPSPascalCompiler);
 begin
   cs.OnExternalProc := DllExternalProc;

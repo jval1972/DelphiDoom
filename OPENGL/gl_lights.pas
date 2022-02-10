@@ -33,6 +33,11 @@ interface
 uses
   d_delphi;
 
+//==============================================================================
+//
+// gld_SetUplight
+//
+//==============================================================================
 procedure gld_SetUplight(const r, g, b: float);
 
 const
@@ -51,6 +56,11 @@ uses
 var
   lighttexture: PGLTexture;
 
+//==============================================================================
+//
+// gld_BindLightTexture
+//
+//==============================================================================
 procedure gld_BindLightTexture;
 var
   buffer: PLongWordArray;
@@ -113,6 +123,11 @@ begin
   glBindTexture(GL_TEXTURE_2D, lighttexture.glTexID[Ord(CR_DEFAULT)]);
 end;
 
+//==============================================================================
+//
+// gld_SetUplight
+//
+//==============================================================================
 procedure gld_SetUplight(const r, g, b: float);
 begin
   gld_BindLightTexture;

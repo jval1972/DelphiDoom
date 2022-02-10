@@ -33,6 +33,11 @@ unit vx_voxelsprite;
 
 interface
 
+//==============================================================================
+//
+// VX_VoxelToSprite
+//
+//==============================================================================
 procedure VX_VoxelToSprite;
 
 var
@@ -99,11 +104,21 @@ begin
   memfree(pointer(fvoxelbuffer), SizeOf(voxelbuffer3d_t));
 end;
 
+//==============================================================================
+//
+// TVoxelImageLoader.Clear
+//
+//==============================================================================
 procedure TVoxelImageLoader.Clear;
 begin
   ZeroMemory(fvoxelbuffer, SizeOf(voxelbuffer3d_t));
 end;
 
+//==============================================================================
+//
+// SwapRGB
+//
+//==============================================================================
 function SwapRGB(const c: LongWord): LongWord;
 var
   r, g, b: byte;
@@ -114,6 +129,11 @@ begin
   result := b shl 16 + g shl 8 + r;
 end;
 
+//==============================================================================
+//
+// TVoxelImageLoader.LoadDDVOX
+//
+//==============================================================================
 function TVoxelImageLoader.LoadDDVOX(const vname: string): boolean;
 var
   buf: TDStringList;
@@ -192,6 +212,11 @@ type
   end;
   kvxslab_p = ^kvxslab_t;
 
+//==============================================================================
+//
+// TVoxelImageLoader.LoadKVX
+//
+//==============================================================================
 function TVoxelImageLoader.LoadKVX(const vname: string): boolean;
 var
   strm: TDStream;
@@ -393,6 +418,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// TVoxelImageLoader.LoadVOX
+//
+//==============================================================================
 function TVoxelImageLoader.LoadVOX(const vname: string): boolean;
 var
   strm: TDStream;
@@ -528,6 +558,11 @@ type
   ddmeshitem_a = array[0..$FFF] of ddmeshitem_t;
   ddmeshitem_pa = ^ddmeshitem_a;
 
+//==============================================================================
+//
+// TVoxelImageLoader.LoadDDMESH
+//
+//==============================================================================
 function TVoxelImageLoader.LoadDDMESH(const vname: string): boolean;
 var
   strm: TPakStream;
@@ -599,6 +634,11 @@ type
     topoffset: smallint;  // pixels below the origin
   end;
 
+//==============================================================================
+//
+// TVoxelImageLoader.CreateDoomPatch
+//
+//==============================================================================
 procedure TVoxelImageLoader.CreateDoomPatch(out p: pointer; out size: integer);
 var
   x, y, z: integer;
@@ -710,6 +750,11 @@ end;
 var
   vx_names: TDStringList = nil;
 
+//==============================================================================
+//
+// VX_SpriteExistsInWAD
+//
+//==============================================================================
 function VX_SpriteExistsInWAD(const filename: string): boolean;
 var
   check, lumpname: string;
@@ -738,6 +783,11 @@ begin
   result := false;
 end;
 
+//==============================================================================
+//
+// VX_AddFileName
+//
+//==============================================================================
 procedure VX_AddFileName(const filename: string);
 var
   check: string;
@@ -791,6 +841,11 @@ const
     $C2, $B3, $80, $00, $00, $00, $00, $49, $45, $4E, $44, $AE, $42, $60, $82
   );
 
+//==============================================================================
+//
+// VX_VoxelToSprite
+//
+//==============================================================================
 procedure VX_VoxelToSprite;
 var
   wad: TWADWriter;

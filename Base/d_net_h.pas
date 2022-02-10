@@ -56,7 +56,6 @@ type
   end;
   Pdoomdata_t = ^doomdata_t;
 
-
 var
   netbuffer: Pdoomdata_t; // points inside doomcom
 

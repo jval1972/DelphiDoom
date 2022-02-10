@@ -33,8 +33,18 @@ unit p_blockmap;
 
 interface
 
+//==============================================================================
+//
+// P_LoadBlockMap
+//
+//==============================================================================
 procedure P_LoadBlockMap(lump: integer);
 
+//==============================================================================
+//
+// P_RemoveSlimeTrails
+//
+//==============================================================================
 procedure P_RemoveSlimeTrails;  // killough 10/98
 
 implementation
@@ -70,11 +80,13 @@ type
   linelist_tPArray = array[0..$FFFF] of Plinelist_t;
   Plinelist_tPArray = ^linelist_tPArray;
 
+//==============================================================================
+// AddBlockLine
 //
 // Subroutine to add a line number to a block list
 // It simply returns if the line is already in the block
 //
-
+//==============================================================================
 procedure AddBlockLine(lists: Plinelist_tPArray; count: PIntegerArray; done: PIntegerArray;
   blockno: integer; lineno: integer);
 var
@@ -91,6 +103,8 @@ begin
   done[blockno] := 1;
 end;
 
+//==============================================================================
+// P_CreateBlockMap
 //
 // Actually construct the blockmap lump from the level data
 //
@@ -98,7 +112,7 @@ end;
 // row lines at the left and bottom of each blockmap cell. It then
 // adds the line to all block lists touching the intersection.
 //
-
+//==============================================================================
 procedure P_CreateBlockMap;
 var
   xorg, yorg: integer;            // blockmap origin (lower left)
@@ -233,7 +247,6 @@ begin
     bx := _SHR(x2 - xorg, blkshift);
     by := _SHR(y2 - yorg, blkshift);
     AddBlockLine(blocklists, blockcount, blockdone, by * ncols + bx, i);
-
 
     // For each column, see where the line along its left edge, which
     // it contains, intersects the Linedef i. Add i to each corresponding
@@ -414,9 +427,11 @@ begin
   memfree(pointer(blockdone), NBlocks * SizeOf(integer));
 end;
 
+//==============================================================================
 //
 // P_LoadBlockMap
 //
+//==============================================================================
 procedure P_LoadBlockMap(lump: integer);
 var
   i, count: integer;
@@ -467,7 +482,8 @@ begin
   ZeroMemory(blocklinks, count);
 end;
 
-
+//==============================================================================
+// P_RemoveSlimeTrails
 //
 // killough 10/98
 //
@@ -513,7 +529,7 @@ end;
 //
 // Firelines (TM) is a Rezistered Trademark of MBF Productions
 //
-
+//==============================================================================
 procedure P_RemoveSlimeTrails;  // killough 10/98
 var
   hit: PByteArray;

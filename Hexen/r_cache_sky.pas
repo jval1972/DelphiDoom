@@ -31,7 +31,12 @@ unit r_cache_sky;
 
 interface
 
+//==============================================================================
+// R_ReadDC32InternalSkyCache
+//
 // Sky Cache
+//
+//==============================================================================
 procedure R_ReadDC32InternalSkyCache(const rtex, rcol: integer);
 
 implementation
@@ -43,12 +48,15 @@ uses
   r_cache_sky1_dbl,
   r_cache_sky2;
 
+//==============================================================================
+// R_ReadDC32InternalSkyCache
 //
 // R_ReadDC32InternalCache
 //
 // JVAL
 //  Create dc_source32 from internal (IWAD) texture
 //
+//==============================================================================
 procedure R_ReadDC32InternalSkyCache(const rtex, rcol: integer);
 begin
   if dc_mod = 0 then

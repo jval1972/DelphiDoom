@@ -102,6 +102,11 @@ begin
   precalc := mallocz(fNumFrames * SizeOf(GLuint));
 end;
 
+//==============================================================================
+//
+// TDDModel.LoadFrom
+//
+//==============================================================================
 procedure TDDModel.LoadFrom(const fn: string);
 var
   strm: TPakStream;
@@ -146,6 +151,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TDDModel.Draw
+//
+//==============================================================================
 procedure TDDModel.Draw(const frm1, frm2: integer; const offset: float);
 var
   idx1, idx2: integer;
@@ -185,6 +195,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TDDModel.DrawSimpleIdx
+//
+//==============================================================================
 procedure TDDModel.DrawSimpleIdx(const idx: integer);
 begin
   if precalc[idx] > 0 then
@@ -208,6 +223,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TDDModel.DrawSimple
+//
+//==============================================================================
 procedure TDDModel.DrawSimple(const frm: integer);
 var
   idx: integer;

@@ -86,6 +86,11 @@ type
     procedure SetStopFlag; override;
   end;
 
+//==============================================================================
+//
+// CreateMCIOBffer
+//
+//==============================================================================
 function CreateMCIOBffer(Player: TPlayer): TOBuffer;
 
 implementation
@@ -94,6 +99,11 @@ uses
   i_system,
   mp3_Header;
 
+//==============================================================================
+//
+// CreateMCIOBffer
+//
+//==============================================================================
 function CreateMCIOBffer(Player: TPlayer): TOBuffer;
 var Mode: TMode;
     WhichChannels: TChannels;
@@ -112,9 +122,14 @@ end;
 
 { TOBuffer_MCI }
 
+//==============================================================================
+// TOBuffer_MCI.Append
+//
 // Need to break up the 32-bit integer into 2 8-bit bytes.
 // (ignore the first two bytes - either 0x0000 or 0xffff)
 // Note that Intel byte order is backwards!!!
+//
+//==============================================================================
 procedure TOBuffer_MCI.Append(Channel: Cardinal; Value: SmallInt);
 var Temp: PChar;
 begin
@@ -125,7 +140,12 @@ begin
   FBuffer[channel] := FBuffer[channel] + (FChannels shl 1);
 end;
 
+//==============================================================================
+// TOBuffer_MCI.ClearBuffer
+//
 // Clear all the data in the buffers
+//
+//==============================================================================
 procedure TOBuffer_MCI.ClearBuffer;
 var i, j: Cardinal;
     temp: PWaveHdr;
@@ -276,12 +296,22 @@ begin
    I_Sleep(SLEEPTIME);
 end;
 
+//==============================================================================
+// TOBuffer_MCI.SetStopFlag
+//
 // Set the flag to avoid unpreparing non-existent headers
+//
+//==============================================================================
 procedure TOBuffer_MCI.SetStopFlag;
 begin
   FUserStop := 1;
 end;
 
+//==============================================================================
+//
+// TOBuffer_MCI.WaveSwap
+//
+//==============================================================================
 procedure TOBuffer_MCI.WaveSwap;
 var temp: Pointer;
 begin
@@ -291,7 +321,12 @@ begin
   PPointerArray(FWaveHdrArr)[0] := temp;
 end;
 
+//==============================================================================
+// TOBuffer_MCI.WriteBuffer
+//
 // Actually write only when buffer is actually full.
+//
+//==============================================================================
 procedure TOBuffer_MCI.WriteBuffer;
 var
   i: Cardinal;

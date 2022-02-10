@@ -62,8 +62,18 @@ var
   nummobjtypes: integer = Ord(DO_NUMMOBJTYPES);
   numrealmobjtypes: integer = Ord(DO_NUMMOBJTYPES);
 
+//==============================================================================
+//
+// Info_Init
+//
+//==============================================================================
 procedure Info_Init(const usethinkers: boolean);
 
+//==============================================================================
+//
+// Info_ResolveActordefActors
+//
+//==============================================================================
 procedure Info_ResolveActordefActors;
 
 const
@@ -24502,6 +24512,11 @@ const // Doom Original mobjinfo
 
   );
 
+//==============================================================================
+//
+// Info_Init
+//
+//==============================================================================
 procedure Info_Init(const usethinkers: boolean);
 var
   i: integer;
@@ -25103,7 +25118,12 @@ begin
   Info_InitExportCommands;
 end;
 
+//==============================================================================
+// Info_ResolveActordefActors
+//
 // Must be called after parsing ACTORDEF lumps
+//
+//==============================================================================
 procedure Info_ResolveActordefActors;
 begin
   if not Info_ResolveMobjType('Green Blood', @MT_GREENBLOOD) then

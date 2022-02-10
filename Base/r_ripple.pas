@@ -45,6 +45,11 @@ var
   ds_ripple: PIntegerArray = nil;
   curripple: PIntegerArray = nil;
 
+//==============================================================================
+//
+// R_InitRippleEffects
+//
+//==============================================================================
 procedure R_InitRippleEffects;
 
 implementation
@@ -52,6 +57,11 @@ implementation
 uses
   m_fixed;
 
+//==============================================================================
+//
+// R_InitDefaultRipple
+//
+//==============================================================================
 procedure R_InitDefaultRipple;
 var
   i: integer;
@@ -66,6 +76,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// R_InitRippleEffects
+//
+//==============================================================================
 procedure R_InitRippleEffects;
 begin
   R_InitDefaultRipple;

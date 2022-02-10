@@ -60,6 +60,11 @@ const
     (name: 'Neutral'; ob_g: 'it';   ob_h: 'it';   ob_p: 'its';    ob_s: 'its';    ob_r: 'it''s')
   );
 
+//==============================================================================
+//
+// R_GetGenderForName
+//
+//==============================================================================
 function R_GetGenderForName(const s: string): gender_t;
 
 implementation
@@ -67,6 +72,11 @@ implementation
 uses
   d_delphi;
 
+//==============================================================================
+//
+// R_GetGenderForName
+//
+//==============================================================================
 function R_GetGenderForName(const s: string): gender_t;
 var
   check: string;

@@ -117,6 +117,11 @@ begin
   Inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TBinary.SetModified
+//
+//==============================================================================
 procedure TBinary.SetModified(Value: Boolean);
 begin
   if Value then
@@ -125,12 +130,22 @@ begin
     FModified := False;
 end;
 
+//==============================================================================
+//
+// TBinary.Changed
+//
+//==============================================================================
 procedure TBinary.Changed(Sender: TObject);
 begin
   FModified := True;
   if Assigned(FOnChange) then FOnChange(Self);
 end;
 
+//==============================================================================
+//
+// TBinary.DefineProperties
+//
+//==============================================================================
 procedure TBinary.DefineProperties(Filer: TFiler);
 
   function DoWrite: Boolean;
@@ -146,6 +161,11 @@ begin
   Filer.DefineBinaryProperty('Data', ReadData, WriteData, DoWrite);
 end;
 
+//==============================================================================
+//
+// TBinary.Equals
+//
+//==============================================================================
 function TBinary.Equals(Binary: TBinary): Boolean;
 var
   MyData, BinaryData: TMemoryStream;
@@ -175,6 +195,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TBinary.Progress
+//
+//==============================================================================
 procedure TBinary.Progress(Sender: TObject; Stage: TZProgressStage;
   Operation: TZProgressOperation; PercentDone: Byte);
 begin
@@ -182,21 +207,41 @@ begin
     FOnProgress(Sender, Stage, PercentDone);
 end;
 
+//==============================================================================
+//
+// TBinary.GetEmpty
+//
+//==============================================================================
 function TBinary.GetEmpty: Boolean;
 begin
   GetEmpty := FMemoryCache.Size = 0
 end;
 
+//==============================================================================
+//
+// TBinary.GetMemory
+//
+//==============================================================================
 function TBinary.GetMemory: Pointer;
 begin
   GetMemory := FMemoryCache.Memory;
 end;
 
+//==============================================================================
+//
+// TBinary.GetSize
+//
+//==============================================================================
 function TBinary.GetSize: integer;
 begin
   GetSize := FMemoryCache.Size;
 end;
 
+//==============================================================================
+//
+// TBinary.LoadFromFile
+//
+//==============================================================================
 procedure TBinary.LoadFromFile(const Filename: string; Compressed: boolean);
 var
   Stream: TStream;
@@ -209,11 +254,21 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TBinary.ReadData
+//
+//==============================================================================
 procedure TBinary.ReadData(Stream: TStream);
 begin
   LoadFromStream(Stream, true);
 end;
 
+//==============================================================================
+//
+// TBinary.LoadFromStream
+//
+//==============================================================================
 procedure TBinary.LoadFromStream(Stream: TStream; Compressed: boolean);
 const BufSize = $FFFF;
 var
@@ -267,6 +322,11 @@ begin
   end
 end;
 
+//==============================================================================
+//
+// TBinary.SaveToFile
+//
+//==============================================================================
 procedure TBinary.SaveToFile(const Filename: string; Compressed: boolean);
 var
   Stream: TStream;
@@ -279,11 +339,21 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TBinary.WriteData
+//
+//==============================================================================
 procedure TBinary.WriteData(Stream: TStream);
 begin
   SaveToStream(Stream, true);
 end;
 
+//==============================================================================
+//
+// TBinary.SaveToStream
+//
+//==============================================================================
 procedure TBinary.SaveToStream(Stream: TStream; Compressed: boolean);
 var
   CStream: TCompressionStream;
@@ -322,11 +392,21 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TBinary.Clear
+//
+//==============================================================================
 procedure TBinary.Clear;
 begin
   FMemoryCache.Clear;
 end;
 
+//==============================================================================
+//
+// TBinary.Assign
+//
+//==============================================================================
 procedure TBinary.Assign(Source: TPersistent);
 begin
   if Source = nil then
@@ -357,11 +437,21 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.Clear
+//
+//==============================================================================
 procedure TCustomBinaryData.Clear;
 begin
   if Assigned(FBinary) then FBinary.Clear;
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.AsText
+//
+//==============================================================================
 function TCustomBinaryData.AsText: string;
 var m: TMemoryStream;
 begin
@@ -376,26 +466,51 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.LoadFromFile
+//
+//==============================================================================
 procedure TCustomBinaryData.LoadFromFile(const Filename: string; Compressed: boolean);
 begin
   if Assigned(FBinary) then FBinary.LoadFromFile(Filename, Compressed);
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.SaveToFile
+//
+//==============================================================================
 procedure TCustomBinaryData.SaveToFile(const Filename: string; Compressed: boolean);
 begin
   if Assigned(FBinary) then FBinary.SaveToFile(Filename, Compressed);
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.LoadFromStream
+//
+//==============================================================================
 procedure TCustomBinaryData.LoadFromStream(Stream: TStream; Compressed: boolean);
 begin
   if Assigned(FBinary) then FBinary.LoadFromStream(Stream, Compressed);
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.SaveToStream
+//
+//==============================================================================
 procedure TCustomBinaryData.SaveToStream(Stream: TStream; Compressed: boolean);
 begin
   if Assigned(FBinary) then FBinary.SaveToStream(Stream, Compressed);
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.GetEmpty
+//
+//==============================================================================
 function TCustomBinaryData.GetEmpty: Boolean;
 begin
   if Assigned(FBinary) then
@@ -404,6 +519,11 @@ begin
     result := true;
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.GetMemory
+//
+//==============================================================================
 function TCustomBinaryData.GetMemory: Pointer;
 begin
   if Assigned(FBinary) then
@@ -412,6 +532,11 @@ begin
     result := nil;
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.GetSize
+//
+//==============================================================================
 function TCustomBinaryData.GetSize: integer;
 begin
   if Assigned(FBinary) then
@@ -420,6 +545,11 @@ begin
     result := 0;
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.GetData
+//
+//==============================================================================
 function TCustomBinaryData.GetData: TMemoryStream;
 begin
   if Assigned(FBinary) then
@@ -428,6 +558,11 @@ begin
     result := nil;
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.GetCompressedSize
+//
+//==============================================================================
 function TCustomBinaryData.GetCompressedSize: integer;
 begin
   if Assigned(FBinary) then
@@ -436,6 +571,11 @@ begin
     result := 0;
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.GetCompressionLevel
+//
+//==============================================================================
 function TCustomBinaryData.GetCompressionLevel: TCompressionLevel;
 begin
   if Assigned(FBinary) then
@@ -444,12 +584,22 @@ begin
     result := clDefault;
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.SetCompressionLevel
+//
+//==============================================================================
 procedure TCustomBinaryData.SetCompressionLevel(Value: TCompressionLevel);
 begin
   if Assigned(FBinary) then
     FBinary.CompressionLevel := Value
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.SetBinary
+//
+//==============================================================================
 procedure TCustomBinaryData.SetBinary(Value: TBinary);
 begin
   FBinary.Assign(Value);

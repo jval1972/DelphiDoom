@@ -31,6 +31,11 @@ unit p_terrain;
 
 interface
 
+//==============================================================================
+//
+// P_TerrainTypeForName
+//
+//==============================================================================
 function P_TerrainTypeForName(flatname: string): integer;
 
 implementation
@@ -56,7 +61,11 @@ var
     (name: 'END'; _type: -1)
   );
 
-
+//==============================================================================
+//
+// P_TerrainTypeForName
+//
+//==============================================================================
 function P_TerrainTypeForName(flatname: string): integer;
 var
   i: integer;

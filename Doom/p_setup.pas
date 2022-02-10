@@ -44,14 +44,34 @@ uses
   p_udmf,
   r_defs;
 
+//==============================================================================
+//
+// P_GetMapName
+//
+//==============================================================================
 function P_GetMapName(const episode, map: integer): string;
 
+//==============================================================================
+// P_SetupLevel
+//
 // NOT called by W_Ticker. Fixme.
+//
+//==============================================================================
 procedure P_SetupLevel(episode, map, playermask: integer; skill: skill_t);
 
+//==============================================================================
+// P_Init
+//
 // Called by startup code.
+//
+//==============================================================================
 procedure P_Init;
 
+//==============================================================================
+//
+// P_ShutDown
+//
+//==============================================================================
 procedure P_ShutDown;
 
 var
@@ -157,6 +177,11 @@ var
 
   playerstarts: array[0..MAXPLAYERS - 1] of mapthing_t;
 
+//==============================================================================
+//
+// P_GameValidThing
+//
+//==============================================================================
 function P_GameValidThing(const doomdnum: integer): boolean;
 
 var
@@ -221,10 +246,11 @@ uses
   s_sound,
   doomstat;
 
-
+//==============================================================================
 //
 // P_LoadVertexes
 //
+//==============================================================================
 procedure P_LoadVertexes(lump: integer);
 var
   data: pointer;
@@ -284,10 +310,11 @@ begin
   Z_Free(data);
 end;
 
-
+//==============================================================================
 //
 // P_LoadSegs
 //
+//==============================================================================
 procedure P_LoadSegs(lump: integer);
 var
   data: pointer;
@@ -345,9 +372,11 @@ begin
   Z_Free(data);
 end;
 
+//==============================================================================
 //
 // P_LoadSubsectors
 //
+//==============================================================================
 procedure P_LoadSubsectors(lump: integer);
 var
   data: pointer;
@@ -374,10 +403,11 @@ begin
   Z_Free(data);
 end;
 
-
+//==============================================================================
 //
 // P_LoadSectors
 //
+//==============================================================================
 procedure P_LoadSectors(lump: integer);
 var
   data: pointer;
@@ -456,9 +486,11 @@ begin
   Z_Free(data);
 end;
 
+//==============================================================================
 //
 // P_LoadNodes
 //
+//==============================================================================
 procedure P_LoadNodes(lump: integer);
 var
   data: pointer;
@@ -502,7 +534,11 @@ begin
   Z_Free(data);
 end;
 
-
+//==============================================================================
+//
+// P_GameValidThing
+//
+//==============================================================================
 function P_GameValidThing(const doomdnum: integer): boolean;
 begin
   // Don't spawn DoomBuilder 3D Editing mode camera
@@ -540,6 +576,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// P_DontDrawDuplicateThings
+//
+//==============================================================================
 procedure P_DontDrawDuplicateThings(const _type: integer);
 var
   i, j, count: integer;
@@ -583,16 +624,22 @@ begin
   end;
 end;
 
-
+//==============================================================================
+//
+// P_CheckThings
+//
+//==============================================================================
 procedure P_CheckThings;
 begin
   if hidedoublicatedbarrels then
     P_DontDrawDuplicateThings(Ord(MT_BARREL));
 end;
 
+//==============================================================================
 //
 // P_LoadThings
 //
+//==============================================================================
 procedure P_LoadThings(lump: integer);
 var
   data: pointer;
@@ -644,10 +691,12 @@ begin
   P_CheckThings;
 end;
 
+//==============================================================================
 //
 // P_LoadLineDefs
 // Also counts secret lines for intermissions.
 //
+//==============================================================================
 procedure P_LoadLineDefs(lump: integer);
 var
   data: pointer;
@@ -758,9 +807,11 @@ begin
   Z_Free (data);
 end;
 
+//==============================================================================
 //
 // P_LoadSideDefs
 //
+//==============================================================================
 procedure P_LoadSideDefs(lump: integer);
 var
   data: pointer;
@@ -799,6 +850,11 @@ begin
   Z_Free(data);
 end;
 
+//==============================================================================
+//
+// P_InitVanillaBlockLinks
+//
+//==============================================================================
 procedure P_InitVanillaBlockLinks;
 var
   count: integer;
@@ -808,11 +864,13 @@ begin
   ZeroMemory(vanillablocklinks, count);
 end;
 
+//==============================================================================
 //
 // P_GroupLines
 // Builds sector line lists and subsector sector numbers.
 // Finds block bounding boxes for sectors.
 //
+//==============================================================================
 procedure P_GroupLines;
 var
   linebuffer: Pline_tPArray; // pointer to an array of pointers Pline_t
@@ -965,7 +1023,6 @@ begin
     inc(sector);
   end;
 
-
   li := @lines[0];
   for i := 0 to numlines - 1 do
   begin
@@ -992,10 +1049,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_GetMapName
 //
-
+//==============================================================================
 function P_GetMapName(const episode, map: integer): string;
 begin
   // find map name
@@ -1011,6 +1069,8 @@ begin
 end;
 
 // P_LoadVanillaSegs
+//
+//==============================================================================
 procedure P_LoadVanillaSegs(lump: integer);
 var
   Data: pointer;
@@ -1058,6 +1118,8 @@ begin
 end;
 
 // P_LoadVanillaSubsectors
+//
+//==============================================================================
 procedure P_LoadVanillaSubsectors(lump: integer);
 var
   data: pointer;
@@ -1089,7 +1151,12 @@ begin
   Z_Free(data);
 end;
 
+//==============================================================================
+// P_LoadVanillaNodes
+//
 // P_LoadNodes
+//
+//==============================================================================
 procedure P_LoadVanillaNodes(lump: integer);
 var
   data: pointer;
@@ -1130,9 +1197,11 @@ begin
   Z_Free(data);
 end;
 
+//==============================================================================
 //
 // P_SetupLevel
 //
+//==============================================================================
 procedure P_SetupLevel(episode, map, playermask: integer; skill: skill_t);
 var
   i: integer;
@@ -1392,9 +1461,11 @@ begin
   R_SetInterpolateSkipTicks(2);
 end;
 
+//==============================================================================
 //
 // P_Init
 //
+//==============================================================================
 procedure P_Init;
 begin
   P_InitSwitchList;
@@ -1412,7 +1483,8 @@ end;
 // P_ShutDown
 //
 //==========================================================================
-
+//
+//==============================================================================
 procedure P_ShutDown;
 begin
   P_ShutDownAnimations;

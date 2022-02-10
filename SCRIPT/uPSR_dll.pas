@@ -6,16 +6,46 @@ interface
 uses
   ps_runtime, ps_utils, ps_defs;
 
+//==============================================================================
+//
+// RegisterDLLRuntime
+//
+//==============================================================================
 procedure RegisterDLLRuntime(Caller: TPSExec);
 
+//==============================================================================
+//
+// RegisterDLLRuntimeEx
+//
+//==============================================================================
 procedure RegisterDLLRuntimeEx(Caller: TPSExec; AddDllProcImport, RegisterUnloadDLL: Boolean);
 
+//==============================================================================
+//
+// ProcessDllImport
+//
+//==============================================================================
 function ProcessDllImport(Caller: TPSExec; P: TPSExternalProcRec): Boolean;
 
+//==============================================================================
+//
+// ProcessDllImportEx
+//
+//==============================================================================
 function ProcessDllImportEx(Caller: TPSExec; P: TPSExternalProcRec; ForceDelayLoad: Boolean): Boolean;
 
+//==============================================================================
+//
+// UnloadDLL
+//
+//==============================================================================
 procedure UnloadDLL(Caller: TPSExec; const sname: TbtString);
 
+//==============================================================================
+//
+// UnloadProc
+//
+//==============================================================================
 function UnloadProc(Caller: TPSExec; p: TPSExternalProcRec; Global, Stack: TPSStack): Boolean;
 
 implementation
@@ -45,11 +75,21 @@ type
   TMyExec = class(TPSExec);
   PInteger = ^Integer;
 
+//==============================================================================
+//
+// LastErrorFree
+//
+//==============================================================================
 procedure LastErrorFree(Sender: TPSExec; P: PInteger);
 begin
   dispose(p);
 end;
 
+//==============================================================================
+//
+// DLLSetLastError
+//
+//==============================================================================
 procedure DLLSetLastError(Sender: TPSExec; P: Integer);
 var
   pz: PInteger;
@@ -63,6 +103,11 @@ begin
   pz^ := p;
 end;
 
+//==============================================================================
+//
+// DLLGetLastError
+//
+//==============================================================================
 function DLLGetLastError(Sender: TPSExec): Integer;
 var
   pz: PInteger;
@@ -74,13 +119,22 @@ begin
     Result := pz^;
 end;
 
-
+//==============================================================================
+//
+// DllFree
+//
+//==============================================================================
 procedure DllFree(Sender: TPSExec; P: PLoadedDll);
 begin
   FreeLibrary(p^.dllhandle);
   Dispose(p);
 end;
 
+//==============================================================================
+//
+// LoadDll
+//
+//==============================================================================
 function LoadDll(Caller: TPSExec; P: TPSExternalProcRec): Boolean;
 var
   s, s2, s3: TbtString;
@@ -173,6 +227,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// DllProc
+//
+//==============================================================================
 function DllProc(Caller: TPSExec; p: TPSExternalProcRec; Global, Stack: TPSStack): Boolean;
 var
   i: Longint;
@@ -236,11 +295,21 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// ProcessDllImport
+//
+//==============================================================================
 function ProcessDllImport(Caller: TPSExec; P: TPSExternalProcRec): Boolean;
 begin
   Result := ProcessDllImportEx(Caller, P, False);
 end;
 
+//==============================================================================
+//
+// ProcessDllImportEx
+//
+//==============================================================================
 function ProcessDllImportEx(Caller: TPSExec; P: TPSExternalProcRec; ForceDelayLoad: Boolean): Boolean;
 var
   DelayLoad: Boolean;
@@ -268,13 +337,22 @@ begin
   end;
 end;
 
-
+//==============================================================================
+//
+// GetLastErrorProc
+//
+//==============================================================================
 function GetLastErrorProc(Caller: TPSExec; p: TPSExternalProcRec; Global, Stack: TPSStack): Boolean;
 begin
   Stack.SetInt(-1, DLLGetLastError(Caller));
   Result := True;
 end;
 
+//==============================================================================
+//
+// UnloadDLL
+//
+//==============================================================================
 procedure UnloadDLL(Caller: TPSExec; const sname: TbtString);
 var
   h, i: Longint;
@@ -314,17 +392,32 @@ begin
   until False;
 end;
 
+//==============================================================================
+//
+// UnloadProc
+//
+//==============================================================================
 function UnloadProc(Caller: TPSExec; p: TPSExternalProcRec; Global, Stack: TPSStack): Boolean;
 begin
   UnloadDLL(Caller, Stack.GetAnsiString(-1));
   Result := True;
 end;
 
+//==============================================================================
+//
+// RegisterDLLRuntime
+//
+//==============================================================================
 procedure RegisterDLLRuntime(Caller: TPSExec);
 begin
   RegisterDLLRuntimeEx(Caller, True, True);
 end;
 
+//==============================================================================
+//
+// RegisterDLLRuntimeEx
+//
+//==============================================================================
 procedure RegisterDLLRuntimeEx(Caller: TPSExec; AddDllProcImport, RegisterUnloadDLL: Boolean);
 begin
   if AddDllProcImport then

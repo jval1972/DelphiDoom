@@ -131,6 +131,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TSerializer.Clear
+//
+//==============================================================================
 procedure TSerializer.Clear;
 begin
   if fnumitems > 0 then
@@ -140,6 +145,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TSerializer.AddItem
+//
+//==============================================================================
 procedure TSerializer.AddItem(const offs: Pointer; const size: integer; const lproc: PPointerParmProcedure = nil);
 var
   item: Pserializeitem_t;
@@ -158,6 +168,11 @@ begin
   item.loadproc := lproc;
 end;
 
+//==============================================================================
+//
+// TSerializer.AddStringItem
+//
+//==============================================================================
 procedure TSerializer.AddStringItem(const offs: Pointer; const def: string; const lproc: PPointerParmProcedure = nil);
 var
   item: Pserializeitem_t;
@@ -176,6 +191,11 @@ begin
   item.loadproc := lproc;
 end;
 
+//==============================================================================
+//
+// TSerializer.AddFloatItem
+//
+//==============================================================================
 procedure TSerializer.AddFloatItem(const offs: Pointer; const def: float; const lproc: PPointerParmProcedure = nil);
 var
   item: Pserializeitem_t;
@@ -194,6 +214,11 @@ begin
   item.loadproc := lproc;
 end;
 
+//==============================================================================
+//
+// TSerializer.AddTypedItem
+//
+//==============================================================================
 procedure TSerializer.AddTypedItem(const offs: Pointer; const typ: serializetype_t; const def: int64; const lproc: PPointerParmProcedure = nil);
 var
   item: Pserializeitem_t;
@@ -212,6 +237,11 @@ begin
   item.loadproc := lproc;
 end;
 
+//==============================================================================
+//
+// TSerializer.LoadItem
+//
+//==============================================================================
 function TSerializer.LoadItem(const strm: TDStream; const struct: Pointer; const it: Pserializeitem_t): boolean;
 var
   b: PByteArray;
@@ -249,6 +279,11 @@ begin
       it.loadproc(struct);
 end;
 
+//==============================================================================
+//
+// TSerializer.SaveItem
+//
+//==============================================================================
 function TSerializer.SaveItem(const strm: TDStream; const struct: Pointer; const it: Pserializeitem_t): boolean;
 var
   b: PByteArray;
@@ -374,6 +409,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TSerializer.SetDefault
+//
+//==============================================================================
 function TSerializer.SetDefault(const struct: Pointer; const it: Pserializeitem_t): boolean;
 var
   b: PByteArray;
@@ -434,6 +474,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TSerializer.SaveToMem
+//
+//==============================================================================
 function TSerializer.SaveToMem(const mem, struct: Pointer; const maxsize: integer): integer;
 var
   strm: TAttachableMemoryStream;
@@ -444,6 +489,11 @@ begin
   strm.Free;
 end;
 
+//==============================================================================
+//
+// TSerializer.SaveToStream
+//
+//==============================================================================
 function TSerializer.SaveToStream(const strm: TDStream; const struct: Pointer; const maxsize: integer): integer;
 var
   id: word;
@@ -459,6 +509,11 @@ begin
   result := newpos - oldpos;
 end;
 
+//==============================================================================
+//
+// TSerializer.LoadFromMem
+//
+//==============================================================================
 function TSerializer.LoadFromMem(const mem, struct: Pointer; const maxsize: integer): integer;
 var
   strm: TAttachableMemoryStream;
@@ -469,6 +524,11 @@ begin
   strm.Free;
 end;
 
+//==============================================================================
+//
+// TSerializer.LoadFromStream
+//
+//==============================================================================
 function TSerializer.LoadFromStream(const strm: TDStream; const struct: Pointer; const maxsize: integer): integer;
 var
   id: word;
@@ -489,6 +549,11 @@ begin
   result := newpos - oldpos;
 end;
 
+//==============================================================================
+//
+// TSerializer.ResolvePointers
+//
+//==============================================================================
 procedure TSerializer.ResolvePointers(const struct: Pointer);
 var
   i: integer;

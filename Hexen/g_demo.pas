@@ -34,27 +34,77 @@ interface
 uses
   d_ticcmd;
 
+//==============================================================================
+//
+// G_FinishedDemoPlayback
+//
+//==============================================================================
 procedure G_FinishedDemoPlayback;
 
+//==============================================================================
+//
+// G_DoPlayDemo
+//
+//==============================================================================
 procedure G_DoPlayDemo;
 
+//==============================================================================
+//
+// G_ReadDemoTiccmd
+//
+//==============================================================================
 procedure G_ReadDemoTiccmd(cmd: Pticcmd_t);
 
+//==============================================================================
+//
+// G_WriteDemoTiccmd
+//
+//==============================================================================
 procedure G_WriteDemoTiccmd(cmd: Pticcmd_t);
 
+//==============================================================================
+//
+// G_DeferedPlayDemo
+//
+//==============================================================================
 function G_DeferedPlayDemo(const name: string): boolean;
 
+//==============================================================================
+//
+// G_CmdPlayDemo
+//
+//==============================================================================
 procedure G_CmdPlayDemo(const name: string);
 
 { Only called by startup code. }
+
+//==============================================================================
+//
+// G_RecordDemo
+//
+//==============================================================================
 procedure G_RecordDemo(const name: string);
 
+//==============================================================================
+//
+// G_BeginRecording
+//
+//==============================================================================
 procedure G_BeginRecording;
 
+//==============================================================================
+//
+// G_TimeDemo
+//
+//==============================================================================
 procedure G_TimeDemo(const name: string);
 
+//==============================================================================
+//
+// G_CheckDemoStatus
+//
+//==============================================================================
 function G_CheckDemoStatus: boolean;
-
 
 var
   netdemo: boolean;
@@ -95,13 +145,17 @@ var
   demo_p: PByteArray;
   demoend: PByte;
 
+//==============================================================================
+//
+// G_FinishedDemoPlayback
+//
+//==============================================================================
 procedure G_FinishedDemoPlayback;
 begin
   demoplayback := false;
   // Restore old compatibility mode
   compatibilitymode := oldcompatibilitymode;
 end;
-
 
 (*
 ===================
@@ -116,6 +170,11 @@ end;
 var
   timingdemo: boolean;       // if true, exit with report on completion
 
+//==============================================================================
+//
+// G_CheckDemoStatus
+//
+//==============================================================================
 function G_CheckDemoStatus: boolean;
 var
   endtime: integer;
@@ -162,7 +221,11 @@ begin
   result := false;
 end;
 
-
+//==============================================================================
+//
+// G_ReadDemoTiccmd
+//
+//==============================================================================
 procedure G_ReadDemoTiccmd(cmd: Pticcmd_t);
 begin
   if demo_p[0] = DEMOMARKER then
@@ -208,11 +271,14 @@ begin
   cmd.lookupdown := cmd.lookupdown16 div 256; // JVAL unused :)
 end;
 
+//==============================================================================
+// G_IncreaseDemoBuffer
 //
 // DEMO RECORDING
 //
-
 // Increase the size of the demo buffer to allow unlimited demos
+//
+//==============================================================================
 procedure G_IncreaseDemoBuffer;
 var
   current_length: integer;
@@ -246,6 +312,11 @@ begin
   demoend := @demobuffer[new_length];
 end;
 
+//==============================================================================
+//
+// G_WriteDemoTiccmd
+//
+//==============================================================================
 procedure G_WriteDemoTiccmd(cmd: Pticcmd_t);
 var
   demo_start: PByteArray;
@@ -291,9 +362,11 @@ begin
   G_ReadDemoTiccmd(cmd);  // make SURE it is exactly the same
 end;
 
+//==============================================================================
 //
 // G_RecordDemo
 //
+//==============================================================================
 procedure G_RecordDemo(const name: string);
 var
   i: integer;
@@ -326,6 +399,11 @@ end;
 const
   DEMOHDR: integer = $4D454458; // JVAL: XDEM in hex
 
+//==============================================================================
+//
+// G_BeginRecording
+//
+//==============================================================================
 procedure G_BeginRecording;
 var
   i: integer;
@@ -387,6 +465,11 @@ var
   defdemoname: string;
   externaldemo: boolean = false;
 
+//==============================================================================
+//
+// G_DoPlayExternalDemo
+//
+//==============================================================================
 function G_DoPlayExternalDemo(const name: string): boolean;
 var
   dmname: string;
@@ -407,6 +490,11 @@ begin
   result := false;
 end;
 
+//==============================================================================
+//
+// G_DeferedPlayDemo
+//
+//==============================================================================
 function G_DeferedPlayDemo(const name: string): boolean;
 var
   dmname: string;
@@ -463,12 +551,22 @@ begin
   result := false;
 end;
 
+//==============================================================================
+//
+// G_CmdPlayDemo
+//
+//==============================================================================
 procedure G_CmdPlayDemo(const name: string);
 begin
   if G_DeferedPlayDemo(name) then
     C_ExecuteCmd('closeconsole', '1');
 end;
 
+//==============================================================================
+//
+// G_DoPlayDemo
+//
+//==============================================================================
 procedure G_DoPlayDemo;
 var
   skill: skill_t;
@@ -580,9 +678,11 @@ begin
 
 end;
 
+//==============================================================================
 //
 // G_TimeDemo
 //
+//==============================================================================
 procedure G_TimeDemo(const name: string);
 begin
   timingdemo := true;

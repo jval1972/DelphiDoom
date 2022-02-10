@@ -43,8 +43,18 @@ var
   SectorSerializer: TSerializer;
   LinesSerializer: TSerializer;
 
+//==============================================================================
+//
+// SV_InitializeSerializers
+//
+//==============================================================================
 procedure SV_InitializeSerializers;
 
+//==============================================================================
+//
+// SV_ShutDownSerializers
+//
+//==============================================================================
 procedure SV_ShutDownSerializers;
 
 implementation
@@ -57,6 +67,11 @@ uses
   r_defs,
   r_renderstyle;
 
+//==============================================================================
+//
+// OnLoadMobjInfoType
+//
+//==============================================================================
 procedure OnLoadMobjInfoType(const struct: Pointer);
 var
   amobj: Pmobj_t;
@@ -76,6 +91,11 @@ begin
   amobj.translationname := info.translationname;
 end;
 
+//==============================================================================
+//
+// SV_InitializeSerializers
+//
+//==============================================================================
 procedure SV_InitializeSerializers;
 var
   mo206: Pmobj_t206;
@@ -250,6 +270,11 @@ begin
   LinesSerializer := TSerializer.Create;
 end;
 
+//==============================================================================
+//
+// SV_ShutDownSerializers
+//
+//==============================================================================
 procedure SV_ShutDownSerializers;
 begin
   MobjSerializer206.Free;

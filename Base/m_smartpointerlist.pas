@@ -71,6 +71,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TSmartPointerList.AddItem
+//
+//==============================================================================
 procedure TSmartPointerList.AddItem(const value: pointer);
 var
   newsize: integer;
@@ -92,6 +97,11 @@ begin
   Inc(fNumItems);
 end;
 
+//==============================================================================
+//
+// TSmartPointerList.DeleteItem
+//
+//==============================================================================
 function TSmartPointerList.DeleteItem(const item: pointer): boolean;
 var
   i: integer;
@@ -108,6 +118,11 @@ begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TSmartPointerList.ItemExists
+//
+//==============================================================================
 function TSmartPointerList.ItemExists(const value: pointer): boolean;
 var
   i: integer;
@@ -128,6 +143,11 @@ begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TSmartPointerList.Clear
+//
+//==============================================================================
 procedure TSmartPointerList.Clear;
 begin
   realloc(pointer(fList), fNumItems * SizeOf(pointer), 0);
@@ -136,6 +156,11 @@ begin
   fRealSize := 0;
 end;
 
+//==============================================================================
+//
+// TSmartPointerList.Priority
+//
+//==============================================================================
 procedure TSmartPointerList.Priority(const index: integer);
 var
   newindex: integer;

@@ -93,6 +93,12 @@ uses
 { Perform dequantization and inverse DCT on one block of coefficients. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_idct_islow
+//
+//==============================================================================
 procedure jpeg_idct_islow(cinfo: j_decompress_ptr; compptr: jpeg_component_info_ptr;
   coef_block: JCOEFPTR; output_buf: JSAMPARRAY; output_col: JDIMENSION);
 
@@ -163,7 +169,6 @@ const
   FIX_2_562915447 = INT32(Round(CONST_SCALE * 2.562915447));  {20995}
   FIX_3_072711026 = INT32(Round(CONST_SCALE * 3.072711026));  {25172}
 
-
 { for DESCALE }
 const
   ROUND_CONST = (INT32(1) shl (CONST_BITS-PASS1_BITS-1));
@@ -173,6 +178,12 @@ const
 { Perform dequantization and inverse DCT on one block of coefficients. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_idct_islow 
+//
+//==============================================================================
 procedure jpeg_idct_islow (cinfo: j_decompress_ptr;
                            compptr: jpeg_component_info_ptr;
                coef_block: JCOEFPTR;
@@ -598,7 +609,6 @@ asm
     {end;}
 @loop525:
 {$endif}
-
 
     { Even part: reverse the even part of the forward DCT. }
     { The rotator is sqrt(2)*c(-6). }

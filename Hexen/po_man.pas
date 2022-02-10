@@ -45,23 +45,56 @@ type
     PODOOR_SWING
   );
 
-
+//==============================================================================
+//
+// PO_MovePolyobj
+//
+//==============================================================================
 function PO_MovePolyobj(num: integer; x, y: integer): boolean;
 
+//==============================================================================
+//
+// PO_RotatePolyobj
+//
+//==============================================================================
 function PO_RotatePolyobj(num: integer; angle: angle_t): boolean;
 
+//==============================================================================
+//
+// PO_Init
+//
+//==============================================================================
 procedure PO_Init(lump: integer);
 
+//==============================================================================
+//
+// PO_Busy
+//
+//==============================================================================
 function PO_Busy(polyobj: integer): boolean;
 
+//==============================================================================
+//
+// EVH_RotatePoly
+//
+//==============================================================================
 function EVH_RotatePoly(line: Pline_t; args: PByteArray; direction: integer;
   overriden: boolean): boolean;
 
+//==============================================================================
+//
+// EVH_MovePoly
+//
+//==============================================================================
 function EVH_MovePoly(line: Pline_t; args: PByteArray; timesEight: boolean;
   overriden: boolean): boolean;
 
+//==============================================================================
+//
+// EVH_OpenPolyDoor
+//
+//==============================================================================
 function EVH_OpenPolyDoor(line: Pline_t; args: PByteArray; _type: podoortype_t): boolean;
-
 
 var
   PolyBlockMap: Ppolyblock_tPArray;
@@ -84,9 +117,18 @@ type
   end;
   Ppolyevent_t = ^polyevent_t;
 
-
+//==============================================================================
+//
+// TH_RotatePoly
+//
+//==============================================================================
 procedure TH_RotatePoly(pe: Ppolyevent_t);
 
+//==============================================================================
+//
+// TH_MovePoly
+//
+//==============================================================================
 procedure TH_MovePoly(pe: Ppolyevent_t);
 
 type
@@ -105,9 +147,12 @@ type
   end;
   Ppolydoor_t = ^polydoor_t;
 
-
+//==============================================================================
+//
+// TH_PolyDoor
+//
+//==============================================================================
 procedure TH_PolyDoor(pd: Ppolydoor_t);
-
 
 var
   polyobjs: Ppolyobj_tArray; // list of all poly-objects on the level
@@ -150,10 +195,11 @@ var
 
 // ===== Higher Level Poly Interface code =====
 
+//==============================================================================
 //
 // GetPolyobj
 //
-
+//==============================================================================
 function GetPolyobj(polyNum: integer): Ppolyobj_t;
 var
   i: integer;
@@ -169,10 +215,11 @@ begin
   result := nil;
 end;
 
+//==============================================================================
 //
 // GetPolyobjMirror
 //
-
+//==============================================================================
 function GetPolyobjMirror(poly: integer; mir: PInteger): integer;
 var
   i: integer;
@@ -192,10 +239,11 @@ end;
 
 // ===== Polyobj Event Code =====
 
+//==============================================================================
 //
 // TH_RotatePoly
 //
-
+//==============================================================================
 procedure TH_RotatePoly(pe: Ppolyevent_t);
 var
   absSpeed: integer;
@@ -232,10 +280,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EVH_RotatePoly
 //
-
+//==============================================================================
 function EVH_RotatePoly(line: Pline_t; args: PByteArray; direction: integer;
   overriden: boolean): boolean;
 var
@@ -318,10 +367,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // TH_MovePoly
 //
-
+//==============================================================================
 procedure TH_MovePoly(pe: Ppolyevent_t);
 var
   absSpeed: integer;
@@ -354,10 +404,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EVH_MovePoly
 //
-
+//==============================================================================
 function EVH_MovePoly(line: Pline_t; args: PByteArray; timesEight: boolean;
   overriden: boolean): boolean;
 var
@@ -424,10 +475,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // TH_PolyDoor
 //
-
+//==============================================================================
 procedure TH_PolyDoor(pd: Ppolydoor_t);
 var
   absSpeed: integer;
@@ -540,10 +592,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EVH_OpenPolyDoor
 //
-
+//==============================================================================
 function EVH_OpenPolyDoor(line: Pline_t; args: PByteArray; _type: podoortype_t): boolean;
 var
   mirror: integer;
@@ -636,10 +689,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // ThrustMobj
 //
-
+//==============================================================================
 procedure ThrustMobj(mobj: Pmobj_t; seg: Pseg_t; po: Ppolyobj_t);
 var
   thrustAngle: integer;
@@ -679,10 +733,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // UpdateSegBBox
 //
-
+//==============================================================================
 procedure UpdateSegBBox(seg: Pseg_t);
 var
   line: Pline_t;
@@ -726,10 +781,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // UnLinkPolyobj
 //
-
+//==============================================================================
 procedure UnLinkPolyobj(po: Ppolyobj_t);
 var
   link: Ppolyblock_t;
@@ -762,10 +818,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // LinkPolyobj
 //
-
+//==============================================================================
 procedure LinkPolyobj(po: Ppolyobj_t);
 var
   leftX, rightX: integer;
@@ -854,11 +911,11 @@ begin
   end;
 end;
 
-
+//==============================================================================
 //
 // PO_CheckMobjBlocking
 //
-
+//==============================================================================
 function PO_CheckMobjBlocking(seg: Pseg_t; po: Ppolyobj_t): boolean;
 var
   mobj: Pmobj_t;
@@ -947,10 +1004,11 @@ begin
   result := blocked;
 end;
 
+//==============================================================================
 //
 // PO_MovePolyobj
 //
-
+//==============================================================================
 function PO_MovePolyobj(num: integer; x, y: integer): boolean;
 var
   count: integer;
@@ -1068,10 +1126,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // RotatePt
 //
-
+//==============================================================================
 procedure RotatePt(an: angle_t; x, y: Pfixed_t; startSpotX, startSpotY: fixed_t);
 var
   tr_x, tr_y: fixed_t;
@@ -1089,10 +1148,11 @@ begin
   y^ := (gyt + gxt) + startSpotY;
 end;
 
+//==============================================================================
 //
 // PO_RotatePolyobj
 //
-
+//==============================================================================
 function PO_RotatePolyobj(num: integer; angle: angle_t): boolean;
 var
   count: integer;
@@ -1198,10 +1258,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // InitBlockMap
 //
-
+//==============================================================================
 procedure InitBlockMap;
 var
   i, j: integer;
@@ -1245,12 +1306,14 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // IterFindPolySegs
 //
 //              Passing NULL for segList will cause IterFindPolySegs to
 //      count the number of segs in the polyobj
-
+//
+//==============================================================================
 procedure IterFindPolySegs(x, y: integer; segList: PPseg_t);
 var
   i: integer;
@@ -1278,11 +1341,11 @@ begin
   I_Error('IterFindPolySegs(): Non-closed Polyobj located.');
 end;
 
-
+//==============================================================================
 //
 // SpawnPolyobj
 //
-
+//==============================================================================
 procedure SpawnPolyobj(index: integer; tag: integer; crush: boolean);
 var
   i, j: integer;
@@ -1387,10 +1450,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // TranslateToStartSpot
 //
-
+//==============================================================================
 procedure TranslateToStartSpot(tag: integer; originX, originY: integer);
 var
   tempSeg: PPseg_t;
@@ -1477,10 +1541,11 @@ begin
   sub.poly := po;
 end;
 
+//==============================================================================
 //
 // PO_Init
 //
-
+//==============================================================================
 procedure PO_Init(lump: integer);
 var
   data: PByteArray;
@@ -1526,10 +1591,11 @@ begin
   InitBlockMap;
 end;
 
+//==============================================================================
 //
 // PO_Busy
 //
-
+//==============================================================================
 function PO_Busy(polyobj: integer): boolean;
 var
   poly: Ppolyobj_t;

@@ -19,29 +19,54 @@ const
   scOverflow = 8;
   scEOF = -1;
 
+//==============================================================================
+//
+// Scanf_core
+//
+//==============================================================================
 function Scanf_core(var Buffer: PChar; var Format : PChar;
                     Pointers : array of Pointer) : Integer;
 
+//==============================================================================
+//
+// Scanf_stream
+//
+//==============================================================================
 function Scanf_stream(Inp : TStream; var Format : PChar;
                       Pointers : array of Pointer)
                       : Integer;
 
+//==============================================================================
+//
+// DeFormat_core
+//
+//==============================================================================
 function DeFormat_core(var Buffer : PChar; BufLen: Cardinal;
                        var Format : PChar; FmtLen: Cardinal;
                        Args: array of const;
                        DecSep, ThSep : char): Cardinal;
 
+//==============================================================================
+//
+// StrToCurrF_core
+//
+//==============================================================================
 function StrToCurrF_core(var Buffer : PChar; BufLen : Cardinal;
                          var Res : Currency;
                          CurrStr : PChar; CurrF, NegCurrF : byte;
                          DecSep, ThSep : char) : Integer;
 
+//==============================================================================
+// Ext_scanner
+//
 // Scans Str, assuming it starts with first digit or decimal point (no sign!)
 // EShift is the integer, added to the decimal exponent
 // (should be 4 for Currency and 0 otherwise, but may be used for any other purpose).
 // On success returns scOK, conversion result on st(0)
 // On error returns 0, st(0) undefined.
 // In $Q+ mode, returns scOverflow bit is set on overflow, conversion result on st(0).
+//
+//==============================================================================
 function Ext_scanner(var Str : PChar; Width : cardinal; EShift : integer; DecSep, ThSep : char) : integer;
 
 resourcestring
@@ -58,6 +83,11 @@ implementation
 uses
   SysUtils;
 
+//==============================================================================
+//
+// Hex_scanner
+//
+//==============================================================================
 function Hex_scanner(var Str : PChar; var P : int64; Width : cardinal) : integer; register;
 asm
 // Validity checks
@@ -136,6 +166,11 @@ asm
         JMP     @@Exit
 end;
 
+//==============================================================================
+//
+// Oct_scanner
+//
+//==============================================================================
 function Oct_scanner(var Str : PChar; var P : int64; Width : cardinal) : integer; register;
 asm
 // Validity checks
@@ -205,7 +240,11 @@ asm
         JMP     @@Exit
 end;
 
-
+//==============================================================================
+//
+// Dec_scanner
+//
+//==============================================================================
 function Dec_scanner(var Str : PChar; var P : int64; Width : cardinal) : integer; register;
 asm
 // Validity checks
@@ -291,12 +330,16 @@ asm
         JMP     @@Exit
 end;
 
-
 const single10   : single =   10.0;
       single1000 : single = 1000.0;
       // 10.0 and 1000.0 have exact representations, single precision is sufficient
       // FMUL with single is the fastest [The 386 Book].
 
+//==============================================================================
+//
+// Ext_scanner
+//
+//==============================================================================
 function Ext_scanner(var Str : PChar; Width : cardinal; EShift : integer; DecSep, ThSep : char) : integer; register;
 var
   Tmp: integer;
@@ -586,6 +629,11 @@ const
       '(%%m %s)'       // 15 = (1 $)
      );
 
+//==============================================================================
+//
+// StrToCurrF_core
+//
+//==============================================================================
 function StrToCurrF_core(var Buffer: PChar; BufLen: Cardinal; var Res: currency;
   CurrStr: PChar; CurrF, NegCurrF: byte; DecSep, ThSep: char): Integer;
 var
@@ -616,14 +664,18 @@ begin
   end;
 end;
 
+//==============================================================================
+// NumScan
+//
 // *********** Common routines *******************************************//
-
 // Scan numerical string (float, decimal, $hex or 0x..)
 // Str    : points to the first char in a string
 // Width  : maximum length and assumed to not exceed actual length
 // FType  : type and length of result, see scXXXX constants
 // P      : where to put the conversion result if scNoAssign is not set.
 // Result : 0 on error, > 0 on success (e.g. scOverflow in $Q+ mode)
+//
+//==============================================================================
 function NumScan(var Str: PChar; Width: integer; FType: integer; P: Pointer;
   DecSep, ThSep: char): integer;
 var
@@ -739,10 +791,15 @@ begin
   end;
 end;
 
+//==============================================================================
+// ParseSet
+//
 // Parse a search-set specifier in format string
 // Return value : set of allowed characters
 // Format is updated to the first unparsed character
 // On error result is False
+//
+//==============================================================================
 function ParseSet(var Format : PChar; FmtEnd : PChar; var Res : TCharSet) : boolean;
 type T32Int = array [0..7] of integer;
 var TI : T32Int absolute Res;
@@ -783,8 +840,13 @@ begin // Assume that Format points to a character after opening "["
     for i:=0 to 7 do TI[i] := not TI[i];
 end;
 
+//==============================================================================
+// GetSizeType
+//
 // Process [size] type portions of a format specifier
 // On error, scIllegal is returned
+//
+//==============================================================================
 function GetSizeType(var Format : PChar) : TscRec;
 var FType : TscRec;
     PW : ^word absolute Format;
@@ -847,8 +909,12 @@ begin
   Result:=FType;
 end;
 
+//==============================================================================
+// DeFormat_core
+//
 // ***********  DeFormat ***********************************************//
-
+//
+//==============================================================================
 function DeFormat_core(var Buffer : PChar; BufLen: Cardinal;
                        var Format : PChar; FmtLen: Cardinal;
                        Args: array of TVarRec;
@@ -1101,8 +1167,12 @@ end;
 {$ENDIF}
 end;
 
+//==============================================================================
+// scGetFType
+//
 // ***********  scanf ************************************************//
-
+//
+//==============================================================================
 function scGetFType( var Fmt : PChar; var Width : cardinal)  : integer;
 var Temp : integer;
     NoAssign : integer;
@@ -1122,6 +1192,11 @@ begin
   If Fmt^ <> #0 then Result:=Integer(GetSizeType(Fmt)) or NoAssign;
 end;
 
+//==============================================================================
+//
+// scCopyStr
+//
+//==============================================================================
 procedure scCopyStr(Size : char; Dest : pointer; Src : PChar; Width : integer);
 begin
   Case Size of
@@ -1134,6 +1209,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// Scanf_core
+//
+//==============================================================================
 function Scanf_core(var Buffer: PChar; var Format : PChar;
                     Pointers : array of Pointer)
                     : Integer;
@@ -1286,7 +1366,11 @@ begin
 {$ENDIF}
 end;
 
-
+//==============================================================================
+//
+// Scanf_stream
+//
+//==============================================================================
 function Scanf_stream(Inp : TStream; var Format : PChar;
                       Pointers : array of Pointer)
                       : Integer;

@@ -387,11 +387,9 @@ const
   KEY_PAGEUP = $80 + $46;
   KEY_INS = $80 + $47;
 
-
   KEY_HOME = $80 + $48;
   KEY_END = $80 + $49;
   KEY_DELETE = $80 + $4a;
-
 
   KEY_LALT = KEY_RALT;
 

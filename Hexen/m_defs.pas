@@ -92,7 +92,6 @@ uses
   vx_voxelsprite,
   v_video;
 
-
 const
   DFS_NEVER = 0;
   DFS_SINGLEPLAYER = 1;
@@ -1370,7 +1369,6 @@ const
 
      _type: tInteger),
 
-
     (name: 'key_invleft';
      location: @key_invleft;
      oldlocation: nil;
@@ -1379,7 +1377,6 @@ const
      defaultivalue: Ord('[');
      defaultbvalue: false;
      _type: tInteger),
-
 
     (name: 'key_invright';
      location: @key_invright;
@@ -1390,7 +1387,6 @@ const
      defaultbvalue: false;
      _type: tInteger),
 
-
     (name: 'key_useartifact';
      location: @key_useartifact;
      oldlocation: nil;
@@ -1399,7 +1395,6 @@ const
      defaultivalue: KEY_ENTER;
      defaultbvalue: false;
      _type: tInteger),
-
 
      // Mouse
     (name: 'Mouse';
@@ -1982,7 +1977,6 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tString),
-
 
     (name: 'Autoload';
      location: nil;

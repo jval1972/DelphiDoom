@@ -50,14 +50,39 @@ uses
 var
   activeceilings: array[0..MAXCEILINGS - 1] of Pceiling_t;
 
+//==============================================================================
+//
+// T_MoveCeiling
+//
+//==============================================================================
 procedure T_MoveCeiling(ceiling: Pceiling_t);
 
+//==============================================================================
+//
+// EV_DoCeiling
+//
+//==============================================================================
 function EV_DoCeiling(line: Pline_t; _type: ceiling_e): integer;
 
+//==============================================================================
+//
+// P_AddActiveCeiling
+//
+//==============================================================================
 procedure P_AddActiveCeiling(c: Pceiling_t);
 
+//==============================================================================
+//
+// EV_CeilingCrushStop
+//
+//==============================================================================
 function EV_CeilingCrushStop(line: Pline_t): integer;
 
+//==============================================================================
+//
+// P_ActivateInStasisCeiling
+//
+//==============================================================================
 function P_ActivateInStasisCeiling(line: Pline_t): integer;
 
 implementation
@@ -71,9 +96,12 @@ uses
   p_slopes,
   p_floor;
 
+//==============================================================================
+// P_AddActiveCeiling
 //
 // Add an active ceiling
 //
+//==============================================================================
 procedure P_AddActiveCeiling(c: Pceiling_t);
 var
   i: integer;
@@ -87,9 +115,12 @@ begin
   I_Warning('P_AddActiveCeiling(): Can not add ceiling, limit %d reached'#13#10, [MAXCEILINGS]);
 end;
 
+//==============================================================================
+// P_RemoveActiveCeiling
 //
 // Remove a ceiling's thinker
 //
+//==============================================================================
 procedure P_RemoveActiveCeiling(c: Pceiling_t);
 var
   i: integer;
@@ -104,9 +135,12 @@ begin
     end;
 end;
 
+//==============================================================================
+// P_ActivateInStasisCeiling
 //
 // Restart a ceiling that's in-stasis
 //
+//==============================================================================
 function P_ActivateInStasisCeiling(line: Pline_t): integer;
 var
   i: integer;
@@ -123,10 +157,11 @@ begin
     end;
 end;
 
+//==============================================================================
 //
 // T_MoveCeiling
 //
-
+//==============================================================================
 procedure T_MoveCeiling(ceiling: Pceiling_t);
 var
   res: result_e;
@@ -270,6 +305,7 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EV_DoCeiling
 // Move a ceiling up/down and all around!
@@ -279,6 +315,8 @@ end;
 // * lowerAndCrush was apparently "fixed" to actually crush, and was also
 //   altered to lower all the way to the floor rather than remain 8 above.
 // * silentCrushAndRaise and crushAndRaise no longer crush.
+//
+//==============================================================================
 function EV_DoCeiling(line: Pline_t; _type: ceiling_e): integer;
 var
   initial: boolean;
@@ -389,10 +427,12 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EV_CeilingCrushStop
 // Stop a ceiling from crushing!
 //
+//==============================================================================
 function EV_CeilingCrushStop(line: Pline_t): integer;
 var
   i: integer;

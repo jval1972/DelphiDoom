@@ -48,20 +48,60 @@ uses
   p_mobj_h,
   d_player;
 
+//==============================================================================
+//
+// P_PlayerThink
+//
+//==============================================================================
 procedure P_PlayerThink(player: Pplayer_t);
 
+//==============================================================================
+//
+// P_CalcHeight
+//
+//==============================================================================
 procedure P_CalcHeight(player: Pplayer_t);
 
+//==============================================================================
+//
+// P_PlayerFaceMobj
+//
+//==============================================================================
 procedure P_PlayerFaceMobj(const player: Pplayer_t; const face: Pmobj_t; const ticks: integer);
 
+//==============================================================================
+//
+// P_Thrust
+//
+//==============================================================================
 procedure P_Thrust(player: Pplayer_t; angle: angle_t; const move: fixed_t);
 
+//==============================================================================
+//
+// P_UseInventoryItem
+//
+//==============================================================================
 function P_UseInventoryItem(player: Pplayer_t; item: integer): boolean;
 
+//==============================================================================
+//
+// P_DropInventoryItem
+//
+//==============================================================================
 procedure P_DropInventoryItem(player: Pplayer_t; sprite: integer);
 
+//==============================================================================
+//
+// P_RemoveInventoryItem
+//
+//==============================================================================
 function P_RemoveInventoryItem(player: Pplayer_t; slot: integer; amount: integer): string;
 
+//==============================================================================
+//
+// P_ItemBehavior
+//
+//==============================================================================
 function P_ItemBehavior(player: Pplayer_t; item: integer): boolean;
 
 var
@@ -117,10 +157,12 @@ const
 var
   onground: boolean;
 
+//==============================================================================
 //
 // P_Thrust
 // Moves the given origin along a given angle.
 //
+//==============================================================================
 procedure P_Thrust(player: Pplayer_t; angle: angle_t; const move: fixed_t);
 begin
   {$IFDEF FPC}
@@ -133,10 +175,12 @@ begin
   player.mo.momy := player.mo.momy + FixedMul(move, finesine[angle]);
 end;
 
+//==============================================================================
 //
 // P_CalcHeight
 // Calculate the walking / running height adjustment
 //
+//==============================================================================
 procedure P_CalcHeight(player: Pplayer_t);
 var
   angle: integer;
@@ -233,6 +277,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// P_CalcHeight205
+//
+//==============================================================================
 procedure P_CalcHeight205(player: Pplayer_t);
 var
   angle: integer;
@@ -306,7 +355,12 @@ begin
 
 end;
 
+//==============================================================================
+// P_SlopesCalcHeight
+//
 // JVAL: Slopes
+//
+//==============================================================================
 procedure P_SlopesCalcHeight(player: Pplayer_t);
 var
   angle: integer;
@@ -427,6 +481,11 @@ begin
   player.oldviewz := oldviewz;
 end;
 
+//==============================================================================
+//
+// P_GetMoveFactor
+//
+//==============================================================================
 function P_GetMoveFactor(const mo: Pmobj_t): fixed_t;
 var
   momentum, friction: integer;
@@ -468,9 +527,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_MovePlayer
 //
+//==============================================================================
 procedure P_MovePlayer(player: Pplayer_t);
 var
   cmd: Pticcmd_t;
@@ -719,6 +780,11 @@ const
   ANG5 = ANG90 div 18;
   ANG355 = ANG270 +  ANG5 * 17; // add by JVAL
 
+//==============================================================================
+//
+// P_DeathThink
+//
+//==============================================================================
 procedure P_DeathThink(player: Pplayer_t);
 var
   angle: angle_t;
@@ -779,6 +845,11 @@ var
   brsnd2: integer = -1;
   rnd_breath: Integer = 0;
 
+//==============================================================================
+//
+// A_PlayerBreath
+//
+//==============================================================================
 procedure A_PlayerBreath(p: Pplayer_t);
 var
   sndidx: integer;
@@ -813,6 +884,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// P_AngleTarget
+//
+//==============================================================================
 procedure P_AngleTarget(player: Pplayer_t);
 var
   ticks: LongWord;
@@ -838,6 +914,11 @@ begin
   dec(player.angletargetticks);
 end;
 
+//==============================================================================
+//
+// P_PlayerFaceMobj
+//
+//==============================================================================
 procedure P_PlayerFaceMobj(const player: Pplayer_t; const face: Pmobj_t; const ticks: integer);
 begin
   player.angletargetx := face.x;
@@ -845,9 +926,11 @@ begin
   player.angletargetticks := ticks;
 end;
 
+//==============================================================================
 //
 // P_PlayerThink
 //
+//==============================================================================
 procedure P_PlayerThink(player: Pplayer_t);
 var
   cmd: Pticcmd_t;
@@ -1100,11 +1183,12 @@ begin
     player.fixedcolormap := INVERSECOLORMAP;
 end;
 
-
+//==============================================================================
 //
 // P_RemoveInventoryItem
 // villsa [STRIFE] new function
 //
+//==============================================================================
 function P_RemoveInventoryItem(player: Pplayer_t; slot: integer; amount: integer): string;
 var
   _type: integer;
@@ -1136,7 +1220,6 @@ begin
     end;
     dec(player.numinventory);
 
-
     // update cursor position
     if player.inventorycursor >= player.numinventory then
       if player.inventorycursor > 0 then
@@ -1146,10 +1229,12 @@ begin
   result := mobjinfo[_type].name2;
 end;
 
+//==============================================================================
 //
 // P_DropInventoryItem
 // villsa [STRIFE] new function
 //
+//==============================================================================
 procedure P_DropInventoryItem(player: Pplayer_t; sprite: integer);
 var
   invslot: integer;
@@ -1231,10 +1316,12 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_TossDegninOre
 // villsa [STRIFE] new function
 //
+//==============================================================================
 function P_TossDegninOre(player: Pplayer_t): boolean;
 var
   angle: angle_t;
@@ -1276,12 +1363,14 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_SpawnTeleportBeacon
 //
 // villsa [STRIFE] new function
 // haleyjd 20140918: bug fixed to propagate allegiance properly.
 //
+//==============================================================================
 function P_SpawnTeleportBeacon(player: Pplayer_t): boolean;
 var
   angle: angle_t;
@@ -1328,10 +1417,12 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_UseInventoryItem
 // villsa [STRIFE] new function
 //
+//==============================================================================
 function P_UseInventoryItem(player: Pplayer_t; item: integer): boolean;
 var
   i: integer;
@@ -1371,10 +1462,12 @@ begin
   result := false;
 end;
 
+//==============================================================================
 //
 // P_ItemBehavior
 // villsa [STRIFE] new function
 //
+//==============================================================================
 function P_ItemBehavior(player: Pplayer_t; item: integer): boolean;
 begin
   case item of

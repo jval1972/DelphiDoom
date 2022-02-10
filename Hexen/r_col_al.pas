@@ -31,8 +31,19 @@ unit r_col_al;
 
 interface
 
+//==============================================================================
+// R_DrawColumnAlphaMedium
+//
 // Alpha column drawers (transparency effects)
+//
+//==============================================================================
 procedure R_DrawColumnAlphaMedium;
+
+//==============================================================================
+//
+// R_DrawColumnAlphaHi
+//
+//==============================================================================
 procedure R_DrawColumnAlphaHi;
 
 implementation
@@ -47,7 +58,12 @@ uses
   r_hires,
   v_video;
 
+//==============================================================================
+// R_DrawColumnAlphaMedium
+//
 // In 8 bit mode we diher, regardless of dc_alpha value
+//
+//==============================================================================
 procedure R_DrawColumnAlphaMedium;
 var
   count: integer;
@@ -96,6 +112,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnAlphaHi
+//
+//==============================================================================
 procedure R_DrawColumnAlphaHi;
 var
   count: integer;

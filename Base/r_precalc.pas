@@ -39,13 +39,34 @@ uses
   d_delphi,
   m_fixed;
 
+//==============================================================================
+//
+// R_InitPrecalc
+//
+//==============================================================================
 procedure R_InitPrecalc;
 
+//==============================================================================
+//
+// R_ShutDownPrecalc
+//
+//==============================================================================
 procedure R_ShutDownPrecalc;
 
+//==============================================================================
+//
+// R_GetPrecalc32Tables
+//
+//==============================================================================
 procedure R_GetPrecalc32Tables(const f: fixed_t; var tr, tg, tb: PIntegerArray; const fog: boolean);  // JVAL: Mars fog sectors
 
 {$IFDEF HEXEN}
+
+//==============================================================================
+//
+// R_GetFogPrecalc32Tables
+//
+//==============================================================================
 procedure R_GetFogPrecalc32Tables(const f: fixed_t; var tr, tg, tb: PIntegerArray);
 {$ENDIF}
 
@@ -66,6 +87,11 @@ var
   precalc32_g: array[0..255] of PIntegerArray;
   precalc32_b: array[0..255] of PIntegerArray;
 
+//==============================================================================
+//
+// R_InitPrecalc
+//
+//==============================================================================
 procedure R_InitPrecalc;
 var
   i, j: integer;
@@ -131,6 +157,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// R_ShutDownPrecalc
+//
+//==============================================================================
 procedure R_ShutDownPrecalc;
 var
   i: integer;
@@ -146,6 +177,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_GetPrecalc32Tables
+//
+//==============================================================================
 procedure R_GetPrecalc32Tables(const f: fixed_t; var tr, tg, tb: PIntegerArray; const fog: boolean);  // JVAL: Mars fog sectors
 var
   lf: Integer;
@@ -168,6 +204,12 @@ begin
 end;
 
 {$IFDEF HEXEN}
+
+//==============================================================================
+//
+// R_GetFogPrecalc32Tables
+//
+//==============================================================================
 procedure R_GetFogPrecalc32Tables(const f: fixed_t; var tr, tg, tb: PIntegerArray);
 var
   lf: Integer;

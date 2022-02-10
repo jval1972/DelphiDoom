@@ -38,16 +38,46 @@ interface
 uses
   d_delphi;
 
+//==============================================================================
+//
+// S_GetSoundNumForName
+//
+//==============================================================================
 function S_GetSoundNumForName(const sfx_name: string): integer;
 
+//==============================================================================
+//
+// S_GetSoundNameForNum
+//
+//==============================================================================
 function S_GetSoundNameForNum(const sfx_num: integer): string;
 
+//==============================================================================
+//
+// S_GetRandomSoundList
+//
+//==============================================================================
 function S_GetRandomSoundList(const sfx_num: integer): TDNumberList;
 
+//==============================================================================
+//
+// S_FreeRandomSoundLists
+//
+//==============================================================================
 procedure S_FreeRandomSoundLists;
 
+//==============================================================================
+//
+// S_FreeMP3Streams
+//
+//==============================================================================
 procedure S_FreeMP3Streams;
 
+//==============================================================================
+//
+// S_GetMusicNumForName
+//
+//==============================================================================
 function S_GetMusicNumForName(const mus_name: string): integer;
 
 implementation
@@ -58,6 +88,11 @@ uses
   sc_actordef,
   w_wad;
 
+//==============================================================================
+//
+// S_GetSoundNumForName
+//
+//==============================================================================
 function S_GetSoundNumForName(const sfx_name: string): integer;
 var
   i: integer;
@@ -121,6 +156,11 @@ begin
   inc(numsfx);
 end;
 
+//==============================================================================
+//
+// S_GetSoundNameForNum
+//
+//==============================================================================
 function S_GetSoundNameForNum(const sfx_num: integer): string;
 begin
   if (sfx_num < 0) or (sfx_num >= numsfx) then
@@ -133,6 +173,8 @@ begin
   result := strupper(S_sfx[sfx_num].name);
 end;
 
+//==============================================================================
+// S_GetRandomSoundList
 //
 // JVAL
 // Retrieve the random sound list for a sfx number
@@ -148,6 +190,8 @@ end;
 // Random sound list is saved not only to the sfx_num, but also to other sounds numbers
 // of the same 'random' group
 // Check WAD for presence of lumps
+//
+//==============================================================================
 function S_GetRandomSoundList(const sfx_num: integer): TDNumberList;
 var
   sfxname: string;
@@ -221,6 +265,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// S_FreeRandomSoundLists
+//
+//==============================================================================
 procedure S_FreeRandomSoundLists;
 var
   i, j: integer;
@@ -239,6 +288,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// S_FreeMP3Streams
+//
+//==============================================================================
 procedure S_FreeMP3Streams;
 var
   i, j: integer;
@@ -255,6 +309,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// S_GetMusicNumForName
+//
+//==============================================================================
 function S_GetMusicNumForName(const mus_name: string): integer;
 var
   i: integer;

@@ -31,6 +31,11 @@ unit r_span32_fog;
 
 interface
 
+//==============================================================================
+//
+// R_DrawSpanNormal_Fog
+//
+//==============================================================================
 procedure R_DrawSpanNormal_Fog;
 
 implementation
@@ -48,9 +53,12 @@ uses
   r_grow,
   v_video;
 
+//==============================================================================
+// R_DrawSpanNormal_Fog
 //
 // Draws the actual span (Normal resolution).
 //
+//==============================================================================
 procedure R_DrawSpanNormal_Fog;
 var
   xfrac: fixed_t;

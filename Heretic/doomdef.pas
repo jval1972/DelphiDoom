@@ -106,7 +106,6 @@ var
 
   SCREENWIDTH32PITCH: integer;
 
-
   fullscreen: {$IFDEF OPENGL}boolean{$ELSE}integer = 0{$ENDIF};
   zaxisshift: boolean = true;
 
@@ -192,7 +191,6 @@ type
     NUMKEYCARDS
   );
 
-
 // The defined weapons,
 //  including a marker indicating
 //  user has not changed weapon.
@@ -210,7 +208,6 @@ type
     // No pending weapon change.
     wp_nochange
   );
-
 
 // Ammunition types defined.
   ammotype_t = (
@@ -268,7 +265,6 @@ type
     pw_health2,
     NUMPOWERS
   );
-
 
 const
   AMMO_GWND_WIMPY = 10;
@@ -354,11 +350,9 @@ const
   KEY_PAGEUP = $80 + $46;
   KEY_INS = $80 + $47;
 
-
   KEY_HOME = $80 + $48;
   KEY_END = $80 + $49;
   KEY_DELETE = $80 + $4a;
-
 
   KEY_LALT = KEY_RALT;
 

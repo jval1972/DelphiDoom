@@ -33,6 +33,11 @@ unit i_exec;
 
 interface
 
+//==============================================================================
+//
+// I_ExecProgram
+//
+//==============================================================================
 function I_ExecProgram(const cmd: string; const quiet: boolean): boolean;
 
 implementation
@@ -41,6 +46,11 @@ uses
   d_delphi,
   Windows;
 
+//==============================================================================
+//
+// I_ExecProgram
+//
+//==============================================================================
 function I_ExecProgram(const cmd: string; const quiet: boolean): boolean;
 var
   chReadBuffer: array[0..1023] of char; // pipe read buffer

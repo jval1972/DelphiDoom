@@ -44,7 +44,6 @@ interface
   defining macro JMESSAGE.  To create a message string table, include it
   again with a suitable JMESSAGE definition (see jerror.c for an example). }
 
-
 { Original: jversion.h ; Copyright (C) 1991-1996, Thomas G. Lane. }
 { This file contains software version identification. }
 
@@ -189,7 +188,6 @@ type
     JWRN_NOT_SEQUENTIAL,
     JWRN_TOO_MUCH_DATA,
 
-
      JMSG_FIRSTADDONCODE,  { Must be first entry! }
 
    {$ifdef BMP_SUPPORTED}
@@ -276,7 +274,6 @@ type
 
      JMSG_LASTADDONCODE
    );
-
 
 const
   JMSG_LASTMSGCODE: J_MESSAGE_CODE = JMSG_LASTADDONCODE;
@@ -516,7 +513,6 @@ const
   { JERR_UNKNOWN_FORMAT } 'Unrecognized input file format',
 {$endif}
   { JERR_UNSUPPORTED_FORMAT } 'Unsupported output file format',
-
 
   { JMSG_LASTADDONCODE } '');
 

@@ -57,12 +57,32 @@ var
 var
   playerkeys: integer = 0;
 
+//==============================================================================
+//
+// SB_Responder
+//
+//==============================================================================
 function SB_Responder(ev: Pevent_t): boolean;
 
+//==============================================================================
+//
+// SB_Ticker
+//
+//==============================================================================
 procedure SB_Ticker;
 
+//==============================================================================
+//
+// SB_Init
+//
+//==============================================================================
 procedure SB_Init;
 
+//==============================================================================
+//
+// SB_Drawer
+//
+//==============================================================================
 procedure SB_Drawer;
 
 implementation
@@ -144,9 +164,12 @@ var
   spinflylump: integer;
   useartibase: integer;
 
+//==============================================================================
+// SB_CmdCheckPlayerStatus
 //
 // Commands
 //
+//==============================================================================
 function SB_CmdCheckPlayerStatus: boolean;
 begin
   if (CPlayer = nil) or (gamestate <> GS_LEVEL) or demoplayback or netgame then
@@ -158,6 +181,11 @@ begin
     result := true;
 end;
 
+//==============================================================================
+//
+// SB_CmdGod
+//
+//==============================================================================
 procedure SB_CmdGod;
 begin
   if not SB_CmdCheckPlayerStatus then
@@ -184,6 +212,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// SB_CmdIddqd
+//
+//==============================================================================
 procedure SB_CmdIddqd;
 begin
   if not SB_CmdCheckPlayerStatus then
@@ -196,6 +229,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// SB_CmdLowGravity
+//
+//==============================================================================
 procedure SB_CmdLowGravity;
 begin
   if not SB_CmdCheckPlayerStatus then
@@ -208,6 +246,11 @@ begin
     CPlayer._message := STSTR_LGOFF;
 end;
 
+//==============================================================================
+//
+// SB_CmdIDFA
+//
+//==============================================================================
 procedure SB_CmdIDFA;
 var
   i: integer;
@@ -234,6 +277,11 @@ begin
   CPlayer._message := STSTR_FAADDED;
 end;
 
+//==============================================================================
+//
+// SB_CmdIDKFA
+//
+//==============================================================================
 procedure SB_CmdIDKFA;
 var
   i: integer;
@@ -264,6 +312,11 @@ begin
    CPlayer._message := TXT_CHEATWEAPONS;
 end;
 
+//==============================================================================
+//
+// SB_CmdSkel
+//
+//==============================================================================
 procedure SB_CmdSkel;
 var
   i: integer;
@@ -278,6 +331,11 @@ begin
   CPlayer._message := TXT_CHEATKEYS;
 end;
 
+//==============================================================================
+//
+// SB_CmdIDDT
+//
+//==============================================================================
 procedure SB_CmdIDDT;
 begin
   if not SB_CmdCheckPlayerStatus then
@@ -286,6 +344,11 @@ begin
   am_cheating := (am_cheating + 1) mod 3;
 end;
 
+//==============================================================================
+//
+// SB_CmdIDNoClip
+//
+//==============================================================================
 procedure SB_CmdIDNoClip;
 begin
   if not SB_CmdCheckPlayerStatus then
@@ -299,6 +362,11 @@ begin
     CPlayer._message := STSTR_NCOFF;
 end;
 
+//==============================================================================
+//
+// SB_CmdMassacre
+//
+//==============================================================================
 procedure SB_CmdMassacre;
 begin
   if not SB_CmdCheckPlayerStatus then
@@ -308,6 +376,11 @@ begin
   CPlayer._message := TXT_CHEATMASSACRE;
 end;
 
+//==============================================================================
+//
+// SB_CmdPonce
+//
+//==============================================================================
 procedure SB_CmdPonce;
 var
   health: integer;
@@ -326,6 +399,11 @@ begin
   P_SetMessage(CPlayer, TXT_CHEATHEALTH, false);
 end;
 
+//==============================================================================
+//
+// SB_CmdCheatSoundFunc
+//
+//==============================================================================
 procedure SB_CmdCheatSoundFunc;
 begin
   DebugSound := not DebugSound;
@@ -335,6 +413,11 @@ begin
     P_SetMessage(CPlayer, TXT_CHEATSOUNDOFF, true);
 end;
 
+//==============================================================================
+//
+// SB_GiveArtifacts
+//
+//==============================================================================
 procedure SB_GiveArtifacts(arti: artitype_t; num: integer);
 var
   i: integer;
@@ -367,7 +450,11 @@ begin
   inc(CPlayer.artifactCount);
 end;
 
-
+//==============================================================================
+//
+// SB_CmdGimme
+//
+//==============================================================================
 procedure SB_CmdGimme(const art: string; const num: string);
 var
   narti: integer;
@@ -577,8 +664,6 @@ const
     Chr($2a), Chr($ff)  // idclip
   );
 
-
-
   cheat_powerup_seq0: array[0..9] of char = (
     Chr($b2), Chr($26), Chr($62), Chr($a6), Chr($32),
     Chr($f6), Chr($36), Chr($26), Chr($6e), Chr($ff)  // beholdv
@@ -613,7 +698,6 @@ const
     Chr($b2), Chr($26), Chr($62), Chr($a6), Chr($32),
     Chr($f6), Chr($36), Chr($26), Chr($ff)  // behold
   );
-
 
   cheat_clev_seq: array[0..9] of char = (
     Chr($b2), Chr($26), Chr($e2), Chr($36), Chr($a6),
@@ -661,7 +745,6 @@ const
     Chr($ff) // noise
   );
 
-
 var
 // Now what?
   cheat_mus: cheatseq_t;
@@ -683,13 +766,13 @@ var
   cheat_kitty: cheatseq_t;
   cheat_rambo: cheatseq_t;
 
-
 //---------------------------------------------------------------------------
 //
 // PROC SB_Init
 //
 //---------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure SB_Init;
 var
   i: integer;
@@ -742,7 +825,6 @@ begin
   cheat_kitty.p := get_cheatseq_string(0);
   cheat_rambo.sequence := get_cheatseq_string(cheat_rambo_seq);
   cheat_rambo.p := get_cheatseq_string(0);
-
 
   PatchLTFACE := W_CacheLumpName('LTFACE', PU_STATIC);
   PatchRTFACE := W_CacheLumpName('RTFACE', PU_STATIC);
@@ -805,7 +887,8 @@ end;
 // PROC SB_Ticker
 //
 //---------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure SB_Ticker;
 var
   delta: integer;
@@ -841,6 +924,11 @@ end;
 var
   sb_topoffset: integer = 0;
 
+//==============================================================================
+//
+// SB_DrawPatch
+//
+//==============================================================================
 procedure SB_DrawPatch(const x, y: integer; patch: Ppatch_t); overload;
 var
   toffs: integer;
@@ -854,6 +942,11 @@ begin
   V_DrawPatch(x, y, SCN_SB, patch, false);
 end;
 
+//==============================================================================
+//
+// SB_DrawPatch
+//
+//==============================================================================
 procedure SB_DrawPatch(const x, y: integer; const patchname: string); overload;
 var
   toffs: integer;
@@ -880,7 +973,8 @@ end;
 // Draws a three digit number.
 //
 //---------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure SB_DrINumber(val: integer; x, y: integer);
 var
   patch: Ppatch_t;
@@ -922,7 +1016,8 @@ end;
 // Draws a three digit number using FontB
 //
 //---------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure SB_DrBNumber(val: integer; x, y: integer);
 var
   patch: Ppatch_t;
@@ -958,7 +1053,8 @@ end;
 // Draws a small two digit number.
 //
 //---------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure SB_DrSmallNumber(val: integer; x, y: integer);
 var
   patch: Ppatch_t;
@@ -981,7 +1077,8 @@ end;
 // PROC SB_ShadeLine
 //
 //---------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure SB_ShadeLine(x, y: integer; height: integer; shade: integer);
 var
   dest: PByte;
@@ -1002,7 +1099,8 @@ end;
 // PROC SB_ShadeChain
 //
 //---------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure SB_ShadeChain;
 var
   i: integer;
@@ -1014,9 +1112,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// SB_WriteText
 //
 //      Write a string using the hu_font
 //
+//==============================================================================
 procedure SB_WriteText(x, y: integer; const str: string);
 var
   w: integer;
@@ -1072,7 +1173,6 @@ begin
   end;
 end;
 
-
 //---------------------------------------------------------------------------
 //
 // PROC SB_DrawSoundInfo
@@ -1084,6 +1184,11 @@ end;
 const
   si_xpos: array[0..6] of integer = (1, 72, 110, 156, 200, 250, 280);
 
+//==============================================================================
+//
+// SB_DrawSoundInfo
+//
+//==============================================================================
 procedure SB_DrawSoundInfo;
 var
   i: integer;
@@ -1172,6 +1277,11 @@ var
   oldhealth: integer = -1;
   hitCenterFrame: boolean = false;
 
+//==============================================================================
+//
+// SB_DrawFullScreenStuff
+//
+//==============================================================================
 procedure SB_DrawFullScreenStuff;
 var
   i: integer;
@@ -1230,13 +1340,13 @@ begin
   end;
 end;
 
-
 //---------------------------------------------------------------------------
 //
 // PROC SB_DrawCommonBar
 //
 //---------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure SB_DrawCommonBar;
 var
   chainY: integer;
@@ -1272,7 +1382,8 @@ end;
 // PROC SB_DrawMainBar
 //
 //---------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure SB_DrawMainBar;
 var
   i: integer;
@@ -1340,7 +1451,8 @@ end;
 // PROC SB_DrawInventoryBar
 //
 //---------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure SB_DrawInventoryBar;
 var
   i: integer;
@@ -1379,6 +1491,11 @@ end;
 var
   sb_palette: integer = -1;
 
+//==============================================================================
+//
+// SB_PaletteFlash
+//
+//==============================================================================
 procedure SB_PaletteFlash;
 var
   palette: integer;
@@ -1418,6 +1535,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// SB_Drawer
+//
+//==============================================================================
 procedure SB_Drawer;
 var
   frame: integer;
@@ -1519,9 +1641,13 @@ begin
   V_CopyRectTransparent(0, sb_topoffset, SCN_SB, 320, 200 - sb_topoffset, 0, sb_topoffset, SCN_FG, true);
 end;
 
-
+//==============================================================================
+// SB_Responder
+//
 // Respond to keyboard input events,
 //  intercept cheats.
+//
+//==============================================================================
 function SB_Responder(ev: Pevent_t): boolean;
 var
   buf: string;
@@ -1663,7 +1789,6 @@ begin
       if map > 9 then
         exit;
 
-
       // First check if we have a mapinfo entry for the requested level.
       // If this is present the remaining checks should be skipped.
       entry := G_LookupMapinfo(epsd, map);
@@ -1702,5 +1827,4 @@ begin
 end;
 
 end.
-
 

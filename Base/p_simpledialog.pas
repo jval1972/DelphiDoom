@@ -36,6 +36,11 @@ interface
 uses
   p_mobj_h;
 
+//==============================================================================
+//
+// A_SimpleDialog
+//
+//==============================================================================
 procedure A_SimpleDialog(actor: Pmobj_t);
 
 implementation
@@ -61,6 +66,11 @@ uses
 const
   FOLDER_DIALOGS = 'DIALOGS';
 
+//==============================================================================
+//
+// P_SimpleDialogLoadText
+//
+//==============================================================================
 function P_SimpleDialogLoadText(const lumpname: string): string;
 var
   lump: integer;
@@ -97,6 +107,11 @@ begin
   strm.Free;
 end;
 
+//==============================================================================
+//
+// M_SimpleDialogDimMsg
+//
+//==============================================================================
 function M_SimpleDialogDimMsg(x, y: integer; str: string): string;
 var
   maxwidth: integer;
@@ -179,6 +194,11 @@ var
   numsimpledialogs: Integer;
   currentsimpledialog: Integer;
 
+//==============================================================================
+//
+// M_SimpleDialogChoice
+//
+//==============================================================================
 procedure M_SimpleDialogChoice(choice: Integer);
 begin
   Inc(currentsimpledialog);
@@ -188,6 +208,11 @@ begin
     M_SetupNextMenu(@simpledialogmenus[currentsimpledialog]);
 end;
 
+//==============================================================================
+//
+// M_SimpleDialogDrawer
+//
+//==============================================================================
 procedure M_SimpleDialogDrawer;
 var
   str: string;
@@ -197,6 +222,11 @@ begin
   M_WriteText(39, 17, str);
 end;
 
+//==============================================================================
+//
+// A_SimpleDialog
+//
+//==============================================================================
 procedure A_SimpleDialog(actor: Pmobj_t);
 var
   i, cnt: integer;

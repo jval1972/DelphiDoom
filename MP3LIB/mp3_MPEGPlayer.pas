@@ -132,6 +132,11 @@ uses
   mp3_SubBand1,
   mp3_SubBand2;
 
+//==============================================================================
+//
+// _ThreadProc
+//
+//==============================================================================
 function _ThreadProc(Self: TMPEGPlayer): Cardinal; cdecl;
 begin
   result := Self.ThreadProc;
@@ -176,6 +181,11 @@ begin
   FreeAndNil(FArgs);
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.DoDecode
+//
+//==============================================================================
 procedure TMPEGPlayer.DoDecode;
 var
   Mode: TMode;
@@ -292,46 +302,91 @@ begin
     FLayer3.Decode;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.GetBitrate
+//
+//==============================================================================
 function TMPEGPlayer.GetBitrate: Integer;
 begin
   result := FArgs.MPEGHeader.Bitrate;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.GetChannels
+//
+//==============================================================================
 function TMPEGPlayer.GetChannels: TChannels;
 begin
   result := FArgs.WhichC;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.GetDoRepeat
+//
+//==============================================================================
 function TMPEGPlayer.GetDoRepeat: Boolean;
 begin
   result := FDoRepeat;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.GetFrequency
+//
+//==============================================================================
 function TMPEGPlayer.GetFrequency: Cardinal;
 begin
   result := FArgs.MPEGHeader.Frequency;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.GetIsPlaying
+//
+//==============================================================================
 function TMPEGPlayer.GetIsPlaying: Boolean;
 begin
   result := FIsPlaying;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.GetLayer
+//
+//==============================================================================
 function TMPEGPlayer.GetLayer: Integer;
 begin
   result := FArgs.MPEGHeader.Layer;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.GetLength
+//
+//==============================================================================
 function TMPEGPlayer.GetLength: Integer;
 begin
   result := Round(FArgs.MPEGHeader.TotalMS(FArgs.Stream) / 1000);
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.GetMode
+//
+//==============================================================================
 function TMPEGPlayer.GetMode: TMode;
 begin
   result := FArgs.MPEGHeader.Mode;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.GetPosition
+//
+//==============================================================================
 function TMPEGPlayer.GetPosition: Integer;
 begin
   if FThreadHandle = 0 then
@@ -340,11 +395,21 @@ begin
     result := GetTickCount - FStartTime;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.GetVersion
+//
+//==============================================================================
 function TMPEGPlayer.GetVersion: TVersion;
 begin
   result := FArgs.MPEGHeader.Version;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.LoadStream
+//
+//==============================================================================
 procedure TMPEGPlayer.LoadStream(AStream: TDStream);
 begin
   if FCRC <> nil then
@@ -358,6 +423,11 @@ begin
   FArgs.MPEGHeader.ReadHeader(FArgs.Stream, FCRC);
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.Play
+//
+//==============================================================================
 procedure TMPEGPlayer.Play;
 begin
   // Start the thread.
@@ -368,16 +438,31 @@ begin
   FStartTime := GetTickCount;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.SetDoRepeat
+//
+//==============================================================================
 procedure TMPEGPlayer.SetDoRepeat(Value: Boolean);
 begin
   FDoRepeat := Value;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.SetOutput
+//
+//==============================================================================
 procedure TMPEGPlayer.SetOutput(Output: TOBuffer);
 begin
   FOutput := Output;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.Stop
+//
+//==============================================================================
 procedure TMPEGPlayer.Stop;
 begin
   if FThreadHandle <> 0 then
@@ -389,6 +474,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.ThreadProc
+//
+//==============================================================================
 function TMPEGPlayer.ThreadProc: Cardinal;
 var
   FrameRead: Boolean;
@@ -439,11 +529,21 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.Pause
+//
+//==============================================================================
 procedure TMPEGPlayer.Pause;
 begin
   FPaused := True;
 end;
 
+//==============================================================================
+//
+// TMPEGPlayer.Resume
+//
+//==============================================================================
 procedure TMPEGPlayer.Resume;
 begin
   FPaused := False;

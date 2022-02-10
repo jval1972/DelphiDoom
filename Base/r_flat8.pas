@@ -57,23 +57,63 @@ type
   flatrenderinfo8_tArray = array[0..$FFF] of flatrenderinfo8_t;
   Pflatrenderinfo8_tArray = ^flatrenderinfo8_tArray;
 
+//==============================================================================
+//
+// R_StoreFlatSpan8
+//
+//==============================================================================
 procedure R_StoreFlatSpan8;
 
+//==============================================================================
+//
+// R_InitFlatsCache8
+//
+//==============================================================================
 procedure R_InitFlatsCache8;
 
+//==============================================================================
+//
+// R_ShutDownFlatsCache8
+//
+//==============================================================================
 procedure R_ShutDownFlatsCache8;
 
+//==============================================================================
+//
+// R_RenderMultiThreadFlats8
+//
+//==============================================================================
 procedure R_RenderMultiThreadFlats8;
 
+//==============================================================================
+//
+// R_RenderMultiThreadFFloors8
+//
+//==============================================================================
 procedure R_RenderMultiThreadFFloors8;
 
 var
   force_numflatrenderingthreads_8bit: integer = 0;
 
+//==============================================================================
+//
+// R_DrawSpanLowMT
+//
+//==============================================================================
 procedure R_DrawSpanLowMT(const fi: pointer);
 
+//==============================================================================
+//
+// R_DrawSpanMediumMT
+//
+//==============================================================================
 procedure R_DrawSpanMediumMT(const fi: pointer);
 
+//==============================================================================
+//
+// R_DrawSpanMedium_RippleMT
+//
+//==============================================================================
 procedure R_DrawSpanMedium_RippleMT(const fi: pointer);
 
 implementation
@@ -91,6 +131,11 @@ var
   flatcachesize8: integer;
   flatcacherealsize8: integer;
 
+//==============================================================================
+//
+// R_GrowFlatsCache8
+//
+//==============================================================================
 procedure R_GrowFlatsCache8;
 begin
   if flatcachesize8 >= flatcacherealsize8 then
@@ -100,6 +145,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_StoreFlatSpan8
+//
+//==============================================================================
 procedure R_StoreFlatSpan8;
 var
   flat: Pflatrenderinfo8_t;
@@ -125,6 +175,11 @@ begin
   inc(flatcachesize8);
 end;
 
+//==============================================================================
+//
+// R_InitFlatsCache8
+//
+//==============================================================================
 procedure R_InitFlatsCache8;
 begin
   flatcache8 := nil;
@@ -132,6 +187,11 @@ begin
   flatcacherealsize8 := 0;
 end;
 
+//==============================================================================
+//
+// R_ShutDownFlatsCache8
+//
+//==============================================================================
 procedure R_ShutDownFlatsCache8;
 begin
   if flatcacherealsize8 <> 0 then
@@ -144,6 +204,11 @@ end;
 const
   MAXFLATRENDERINGTHREADS8 = 16;
 
+//==============================================================================
+//
+// _flat_thread_worker8
+//
+//==============================================================================
 procedure _flat_thread_worker8(const p: pointer) stdcall;
 var
   item1, item2: Pflatrenderinfo8_t;
@@ -157,6 +222,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_RenderMultiThreadFlats8
+//
+//==============================================================================
 procedure R_RenderMultiThreadFlats8;
 var
   R: array[0..MAXFLATRENDERINGTHREADS8 - 1] of mt_range_t;
@@ -391,6 +461,11 @@ begin
   flatcachesize8 := 0;
 end;
 
+//==============================================================================
+//
+// _flat3D_thread_worker8
+//
+//==============================================================================
 procedure _flat3D_thread_worker8(const p: pointer) stdcall;
 var
   item1, item2: Pflatrenderinfo8_t;
@@ -409,6 +484,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_RenderMultiThreadFFloors8
+//
+//==============================================================================
 procedure R_RenderMultiThreadFFloors8;
 var
   R: array[0..MAXFLATRENDERINGTHREADS8 - 1] of mt_range_t;
@@ -643,10 +723,12 @@ begin
   flatcachesize8 := 0;
 end;
 
-
+//==============================================================================
+// R_DrawSpanLowMT
 //
 // Draws the actual span (Low resolution).
 //
+//==============================================================================
 procedure R_DrawSpanLowMT(const fi: pointer);
 var
   ds_source: PByteArray;
@@ -684,7 +766,6 @@ begin
   ds_size := Pflatrenderinfo8_t(fi).ds_size;
 
   dest := @((ylookup[ds_y]^)[columnofs[ds_x1]]);
-
 
   case ds_size of
   FS64x64:
@@ -913,9 +994,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// R_DrawSpanMediumMT
 //
 // Draws the actual span (Medium resolution).
 //
+//==============================================================================
 procedure R_DrawSpanMediumMT(const fi: pointer);
 var
   ds_source: PByteArray;
@@ -957,6 +1041,11 @@ begin
   {$I R_DrawSpanMedium.inc}
 end;
 
+//==============================================================================
+//
+// R_DrawSpanMedium_RippleMT
+//
+//==============================================================================
 procedure R_DrawSpanMedium_RippleMT(const fi: pointer);
 var
   ds_source: PByteArray;

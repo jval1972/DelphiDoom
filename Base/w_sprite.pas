@@ -36,10 +36,32 @@ interface
 uses
   d_delphi;
 
+//==============================================================================
+//
+// W_InitSprites
+//
+//==============================================================================
 procedure W_InitSprites;
+
+//==============================================================================
+//
+// W_ShutDownSprites
+//
+//==============================================================================
 procedure W_ShutDownSprites;
 
+//==============================================================================
+//
+// W_CacheSpriteNum
+//
+//==============================================================================
 function W_CacheSpriteNum(const lump: integer; const ftranslation: pointer; const tag: integer): pointer;
+
+//==============================================================================
+//
+// W_CacheSpriteName
+//
+//==============================================================================
 function W_CacheSpriteName(const name: string; const ftranslation: pointer; const tag: integer): pointer;
 
 implementation
@@ -102,6 +124,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TSpriteLumpCache.NotifySize
+//
+//==============================================================================
 procedure TSpriteLumpCache.NotifySize(const lastsprite: integer);
 begin
   if fsize <> 0 then
@@ -115,12 +142,22 @@ end;
 var
   spritecache: TSpriteLumpCache;
 
+//==============================================================================
+//
+// W_InitSprites
+//
+//==============================================================================
 procedure W_InitSprites;
 begin
   spritecache := TSpriteLumpCache.Create;
   spritecache.NotifySize(W_NumLumps);
 end;
 
+//==============================================================================
+//
+// W_ShutDownSprites
+//
+//==============================================================================
 procedure W_ShutDownSprites;
 begin
   spritecache.Free;
@@ -134,6 +171,11 @@ type
     topoffset: smallint;  // pixels below the origin
   end;
 
+//==============================================================================
+//
+// W_TextureAsPatch
+//
+//==============================================================================
 function W_TextureAsPatch(const tex: PTexture; const tag: integer; const user: pointer): pointer;
 var
   m, fs: TDMemoryStream;
@@ -227,6 +269,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// W_CacheSpriteNumUntranslated
+//
+//==============================================================================
 function W_CacheSpriteNumUntranslated(const lump: integer; const tag: integer): pointer;
 var
   ext: string;
@@ -289,6 +336,11 @@ begin
   strm.Free;
 end;
 
+//==============================================================================
+//
+// W_CacheSpriteNum
+//
+//==============================================================================
 function W_CacheSpriteNum(const lump: integer; const ftranslation: pointer; const tag: integer): pointer;
 var
   i: integer;
@@ -395,6 +447,11 @@ begin
   result := newpatch;
 end;
 
+//==============================================================================
+//
+// W_CacheSpriteName
+//
+//==============================================================================
 function W_CacheSpriteName(const name: string; const ftranslation: pointer; const tag: integer): pointer;
 begin
   result := W_CacheSpriteNum(W_GetNumForName(name, TYPE_SPRITE), ftranslation, tag);

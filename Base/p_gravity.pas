@@ -39,8 +39,18 @@ uses
   p_mobj_h,
   r_defs;
 
+//==============================================================================
+//
+// P_GetMobjGravity
+//
+//==============================================================================
 function P_GetMobjGravity(const mo: Pmobj_t): fixed_t;
 
+//==============================================================================
+//
+// P_GetSectorGravity
+//
+//==============================================================================
 function P_GetSectorGravity(const sec: Psector_t): fixed_t;
 
 implementation
@@ -49,6 +59,11 @@ uses
   doomdef,
   g_game;
 
+//==============================================================================
+//
+// P_GetMobjGravity
+//
+//==============================================================================
 function P_GetMobjGravity(const mo: Pmobj_t): fixed_t;
 begin
   if G_PlayingEngineVersion > VERSION204 then
@@ -59,6 +74,11 @@ begin
     result := GRAVITY;
 end;
 
+//==============================================================================
+//
+// P_GetSectorGravity
+//
+//==============================================================================
 function P_GetSectorGravity(const sec: Psector_t): fixed_t;
 begin
   if G_PlayingEngineVersion < VERSION204 then

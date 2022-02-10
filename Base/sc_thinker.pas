@@ -43,6 +43,11 @@ type
   end;
   Prtl_thinker_t = ^rtl_thinker_t;
 
+//==============================================================================
+//
+// SC_SubmitThinker
+//
+//==============================================================================
 procedure SC_SubmitThinker(const th: Prtl_thinker_t);
 
 implementation
@@ -52,6 +57,11 @@ uses
   i_system,
   sc_actordef;
 
+//==============================================================================
+//
+// SC_SubmitThinker
+//
+//==============================================================================
 procedure SC_SubmitThinker(const th: Prtl_thinker_t);
 var
   res: string;

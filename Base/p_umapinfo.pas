@@ -91,10 +91,25 @@ const
   S_UMAPINFO = 'UMAPINFO';
   S_UMAPDEF = 'UMAPDEF';
 
+//==============================================================================
+//
+// U_ParseMapInfo
+//
+//==============================================================================
 procedure U_ParseMapInfo(const is_default: boolean; const lumppname: string);
 
+//==============================================================================
+//
+// U_FreeMapInfo
+//
+//==============================================================================
 procedure U_FreeMapInfo;
 
+//==============================================================================
+//
+// ubigstringtostring
+//
+//==============================================================================
 function ubigstringtostring(const ub: ubigstring_t): string;
 
 implementation
@@ -113,6 +128,11 @@ uses
   w_wad,
   z_zone;
 
+//==============================================================================
+//
+// ubigstringtostring
+//
+//==============================================================================
 function ubigstringtostring(const ub: ubigstring_t): string;
 var
   i: integer;
@@ -128,6 +148,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// stringtoubigstring
+//
+//==============================================================================
 function stringtoubigstring(const s: string): ubigstring_t;
 var
   i, len: integer;
@@ -144,6 +169,11 @@ begin
   result[i] := #0;
 end;
 
+//==============================================================================
+//
+// FreeMap
+//
+//==============================================================================
 procedure FreeMap(mape: Pmapentry_t);
 begin
   mape.mapname := '';
@@ -153,6 +183,11 @@ begin
   mape.intertextsecret := '';
 end;
 
+//==============================================================================
+//
+// UpdateMapEntry
+//
+//==============================================================================
 procedure UpdateMapEntry(mape: Pmapentry_t; newe: Pmapentry_t);
 begin
   if newe.mapname <> '' then
@@ -210,10 +245,15 @@ begin
   end;
 end;
 
+//==============================================================================
+// U_ParseMultiString
+//
 // -----------------------------------------------
 // Parses a set of string and concatenates them
 // Returns a pointer to the string (must be freed)
 // -----------------------------------------------
+//
+//==============================================================================
 function U_ParseMultiString(sc: TScriptEngine): string;
 var
   i: integer;
@@ -253,6 +293,9 @@ begin
       end;
 end;
 
+//==============================================================================
+// ParseLumpName
+//
 // -----------------------------------------------
 // Parses a lump name. The buffer must be at least 9 characters.
 // If parsed name is longer than 8 chars, sets NULL pointer.
@@ -260,6 +303,8 @@ end;
 // returns 1 on successfully parsing an element
 //         0 on parse error in last read token
 // -----------------------------------------------
+//
+//==============================================================================
 function ParseLumpName(sc: TScriptEngine; var buffer: ulumpname_t): boolean;
 begin
   if not sc.GetString then
@@ -279,7 +324,9 @@ begin
   result := true;
 end;
 
-
+//==============================================================================
+// U_ParseStandardProperty
+//
 // -----------------------------------------------
 // Parses a standard property that is already known
 // These do not get stored in the property list
@@ -288,6 +335,8 @@ end;
 // returns 1 on successfully parsing an element
 //         0 on parse error in last read token
 // -----------------------------------------------
+//
+//==============================================================================
 function U_ParseStandardProperty(sc: TScriptEngine; mape: Pmapentry_t): boolean;
 var
   pname: string;
@@ -570,11 +619,16 @@ begin
     sc.GetStringEOLUnChanged;
 end;
 
+//==============================================================================
+// ParseMapEntry
+//
 // -----------------------------------------------
 //
 // Parses a complete map entry
 //
 // -----------------------------------------------
+//
+//==============================================================================
 function ParseMapEntry(const sc: TScriptEngine; const entry: Pmapentry_t): boolean;
 begin
   entry.mapname := '';
@@ -610,7 +664,6 @@ begin
   result := true;
 end;
 
-
 // -----------------------------------------------
 //
 // Parses a complete UMAPINFO lump
@@ -619,6 +672,11 @@ end;
 var
   uis_default: boolean;
 
+//==============================================================================
+//
+// U_DoParseMapInfoLump
+//
+//==============================================================================
 procedure U_DoParseMapInfoLump(const in_text: string);
 var
   i: integer;
@@ -687,6 +745,11 @@ begin
   sc.Free;
 end;
 
+//==============================================================================
+//
+// U_Preproccessor
+//
+//==============================================================================
 function U_Preproccessor(in_text: string): string;
 var
   i: integer;
@@ -740,11 +803,21 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// U_ParseMapInfoLump
+//
+//==============================================================================
 procedure U_ParseMapInfoLump(const in_text: string);
 begin
   U_DoParseMapInfoLump(U_Preproccessor(SC_Preprocess(in_text, false)));
 end;
 
+//==============================================================================
+//
+// U_ParseMapInfo
+//
+//==============================================================================
 procedure U_ParseMapInfo(const is_default: boolean; const lumppname: string);
 var
   i: integer;
@@ -774,6 +847,11 @@ begin
   PAK_StringIterator(lumppname + '.txt', @U_ParseMapInfoLump);
 end;
 
+//==============================================================================
+//
+// U_FreeMapInfo
+//
+//==============================================================================
 procedure U_FreeMapInfo;
 var
   i: integer;

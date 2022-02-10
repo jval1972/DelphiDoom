@@ -38,12 +38,32 @@ uses
   m_fixed,
   p_mobj_h;
 
+//==============================================================================
+//
+// P_CheckSight
+//
+//==============================================================================
 function P_CheckSight(t1: Pmobj_t; t2: Pmobj_t): boolean;
 
+//==============================================================================
+//
+// P_CheckSightXYZ
+//
+//==============================================================================
 function P_CheckSightXYZ(const x, y, z: fixed_t; t2: Pmobj_t): boolean;
 
+//==============================================================================
+//
+// P_SightPathTraverse
+//
+//==============================================================================
 function P_SightPathTraverse(x1, y1, x2, y2: fixed_t): boolean;
 
+//==============================================================================
+//
+// P_CheckCameraSight
+//
+//==============================================================================
 function P_CheckCameraSight(camx, camy, camz: fixed_t; mo: Pmobj_t): boolean;
 
 var
@@ -79,7 +99,7 @@ type
   end;
   Plos_t = ^los_t;
 
-
+//==============================================================================
 //
 //==============
 //
@@ -87,7 +107,7 @@ type
 //
 //==============
 //
-
+//==============================================================================
 function PTR_SightTraverse(_in: Pintercept_t): boolean;
 var
   li: Pline_t;
@@ -123,8 +143,7 @@ begin
   result := topslope > bottomslope;
 end;
 
-
-
+//==============================================================================
 //
 //==================
 //
@@ -132,7 +151,7 @@ end;
 //
 //===================
 //
-
+//==============================================================================
 function P_SightBlockLinesIterator(x, y: integer): boolean;
 var
   offset: integer;
@@ -251,6 +270,7 @@ begin
   result := true; // everything was checked
 end;
 
+//==============================================================================
 //
 //====================
 //
@@ -259,7 +279,7 @@ end;
 // Returns true if the traverser function returns true for all lines
 //====================
 //
-
+//==============================================================================
 function P_SightTraverseIntercepts: boolean;
 var
   i: integer;
@@ -309,8 +329,8 @@ begin
   result := true; // everything was traversed
 end;
 
-
-
+//==============================================================================
+// P_SightPathTraverse32
 //
 //==================
 //
@@ -320,7 +340,7 @@ end;
 // Returns true if the traverser function returns true for all lines
 //==================
 //
-
+//==============================================================================
 function P_SightPathTraverse32(x1, y1, x2, y2: fixed_t): boolean;
 var
   xt1, yt1, xt2, yt2: fixed_t;
@@ -381,7 +401,6 @@ begin
   end;
   yintercept := MapToFrac(y1) + FixedMul(partial, ystep);
 
-
   if yt2 > yt1 then
   begin
     mapystep := 1;
@@ -402,13 +421,11 @@ begin
   end;
   xintercept := MapToFrac(x1) + FixedMul(partial, xstep);
 
-
 //
 // step through map blocks
 // Count is present to prevent a round off error from skipping the break
   mapx := xt1;
   mapy := yt1;
-
 
   for count := 0 to 63 do
   begin
@@ -434,13 +451,17 @@ begin
 
   end;
 
-
 //
 // couldn't early out, so go through the sorted list
 //
   result := P_SightTraverseIntercepts;
 end;
 
+//==============================================================================
+//
+// P_SightPathTraverse64
+//
+//==============================================================================
 function P_SightPathTraverse64(x1, y1, x2, y2: fixed_t): boolean;
 var
   _x1, _x2, _y1, _y2: int64;
@@ -518,7 +539,6 @@ begin
   end;
   yintercept := MapToFrac(y1) + FixedMul(partial, ystep);
 
-
   if yt2 > yt1 then
   begin
     mapystep := 1;
@@ -539,13 +559,11 @@ begin
   end;
   xintercept := MapToFrac(x1) + FixedMul(partial, xstep);
 
-
 //
 // step through map blocks
 // Count is present to prevent a round off error from skipping the break
   mapx := xt1;
   mapy := yt1;
-
 
   for count := 0 to 63 do
   begin
@@ -571,13 +589,17 @@ begin
 
   end;
 
-
 //
 // couldn't early out, so go through the sorted list
 //
   result := P_SightTraverseIntercepts;
 end;
 
+//==============================================================================
+//
+// P_SightPathTraverse
+//
+//==============================================================================
 function P_SightPathTraverse(x1, y1, x2, y2: fixed_t): boolean;
 begin
   if largemap or internalblockmapformat then
@@ -586,6 +608,7 @@ begin
     result := P_SightPathTraverse32(x1, y1, x2, y2);
 end;
 
+//==============================================================================
 //
 //=====================
 //
@@ -596,7 +619,7 @@ end;
 //
 //=====================
 //
-
+//==============================================================================
 function P_CheckSight(t1: Pmobj_t; t2: Pmobj_t): boolean;
 var
   s1: integer;
@@ -668,7 +691,6 @@ begin
     end;
   end;
 
-
 //
 // check precisely
 //
@@ -679,17 +701,23 @@ begin
   result := P_SightPathTraverse(t1.x, t1.y, t2.x, t2.y);
 end;
 
+//==============================================================================
+//
+// P_CheckSightXYZ
+//
+//==============================================================================
 function P_CheckSightXYZ(const x, y, z: fixed_t; t2: Pmobj_t): boolean;
 begin
   Result := P_CheckCameraSight(x, y, z, t2);
 end;
 
+//==============================================================================
 //
 // P_CheckCameraSight
 //
 // JVAL: Check if the camera can see mo (=player.mo)
 //
-
+//==============================================================================
 function P_CheckCameraSight(camx, camy, camz: fixed_t; mo: Pmobj_t): boolean;
 begin
   if mo = nil then

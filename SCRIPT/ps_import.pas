@@ -41,10 +41,19 @@ uses
   ps_runtime,
   ps_utils;
 
+//==============================================================================
+//
+// PS_InitProcLists
+//
+//==============================================================================
 procedure PS_InitProcLists;
 
+//==============================================================================
+//
+// PS_ShutDownProcLists
+//
+//==============================================================================
 procedure PS_ShutDownProcLists;
-
 
 type
   TDoomCompiler = class(TPSPascalCompiler)
@@ -72,8 +81,18 @@ type
 const
   ID_DDPS = 1397769284; // 'DDPS'
 
+//==============================================================================
+//
+// PS_ImportUnits
+//
+//==============================================================================
 function PS_ImportUnits: TObject;
 
+//==============================================================================
+//
+// PS_ScriptOnUses
+//
+//==============================================================================
 function PS_ScriptOnUses(Sender: TPSPascalCompiler; const Name: string): Boolean;
 
 implementation
@@ -121,6 +140,11 @@ uses
 var
   units: TStringList;
 
+//==============================================================================
+//
+// PS_InitProcLists
+//
+//==============================================================================
 procedure PS_InitProcLists;
 var
   baseproclist: TProcedureList;
@@ -687,6 +711,11 @@ begin
   units.Sorted := True;
 end;
 
+//==============================================================================
+//
+// PS_ResetProcLists
+//
+//==============================================================================
 procedure PS_ResetProcLists;
 var
   i: integer;
@@ -699,6 +728,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// PS_ShutDownProcLists
+//
+//==============================================================================
 procedure PS_ShutDownProcLists;
 var
   i: integer;
@@ -712,6 +746,11 @@ begin
   units.Free;
 end;
 
+//==============================================================================
+//
+// PS_ScriptOnUses
+//
+//==============================================================================
 function PS_ScriptOnUses(Sender: TPSPascalCompiler; const Name: string): Boolean;
 var
   i: integer;
@@ -1160,6 +1199,11 @@ end;
 var
   dccnt: integer = 0;
 
+//==============================================================================
+//
+// CompTranslateLineInfo
+//
+//==============================================================================
 procedure CompTranslateLineInfo(Sender: TPSPascalCompiler; var Pos, Row, Col: Cardinal; var Name: TbtString);
 var
   res: TPSLineInfoResults;
@@ -1191,7 +1235,11 @@ procedure callObjectOnProcessUnknowDirective (
 begin
 end;
 
-
+//==============================================================================
+//
+// FPPNeedFile
+//
+//==============================================================================
 function FPPNeedFile(Sender: TPSPreProcessor; const callingfilename: TbtString; var FileName, Output: TbtString): Boolean;
 begin
   Output := PAK_ReadFileAsString(FileName);
@@ -1226,6 +1274,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TDoomCompiler.CompileDoomScript
+//
+//==============================================================================
 function TDoomCompiler.CompileDoomScript(const source: TbtString; var pcode: string): Boolean;
 var
   ppsrc: string;
@@ -1320,6 +1373,11 @@ begin
   RegisterDateTimeLibrary_R(Self);
 end;
 
+//==============================================================================
+//
+// TDoomExec.LoadData
+//
+//==============================================================================
 function TDoomExec.LoadData(const pcode: TbtString): Boolean;
 var
   dta: string;
@@ -1425,6 +1483,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// PS_ImportUnits
+//
+//==============================================================================
 function PS_ImportUnits: TObject;
 begin
   Result := units;
@@ -1436,6 +1499,11 @@ type
     procedure FakeFree;
   end;
 
+//==============================================================================
+//
+// TRTLObject.FakeFree
+//
+//==============================================================================
 procedure TRTLObject.FakeFree;
 begin
   // JVAL: Do nothing :)

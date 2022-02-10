@@ -78,12 +78,22 @@ type
 
   EZipFileCRCError = class(Exception);
 
+//==============================================================================
+//
+// ZipCRC32
+//
+//==============================================================================
 function ZipCRC32(const Data: string): LongWord;
 
 implementation
 
 { TZipFile }
 
+//==============================================================================
+//
+// TZipFile.SaveToFile
+//
+//==============================================================================
 procedure TZipFile.SaveToFile(const filename: string);
 var
   ZipFileStream: TFileStream;
@@ -96,6 +106,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TZipFile.SaveToStream
+//
+//==============================================================================
 procedure TZipFile.SaveToStream(ZipFileStream: TStream);
 var
   i: integer;
@@ -153,7 +168,11 @@ begin
   ZipFileStream.Write(PChar(ZipFileComment)^, Length(ZipFileComment));
 end;
 
-
+//==============================================================================
+//
+// TZipFile.LoadFromStream
+//
+//==============================================================================
 procedure TZipFile.LoadFromStream(const ZipFileStream: TStream);
 var
   n: integer;
@@ -236,6 +255,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TZipFile.LoadFromFile
+//
+//==============================================================================
 procedure TZipFile.LoadFromFile(const filename: string);
 var
   ZipFileStream: TFileStream;
@@ -248,6 +272,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TZipFile.GetUncompressed
+//
+//==============================================================================
 function TZipFile.GetUncompressed(i: integer): string;
 var
   Decompressor: TDecompressionStream;
@@ -284,6 +313,11 @@ begin
       'TZipFile.GetUncompressed(): CRC Error in "%s".', [Files[i].filename]);
 end;
 
+//==============================================================================
+//
+// TZipFile.SetUncompressed
+//
+//==============================================================================
 procedure TZipFile.SetUncompressed(i: integer; const Value: string);
 var
   Compressor: TCompressionStream;
@@ -337,6 +371,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TZipFile.AddFile
+//
+//==============================================================================
 function TZipFile.AddFile(const name: string; FAttribute: LongWord = 0): integer;
 begin
   SetLength(Files, High(Files) + 2);
@@ -375,6 +414,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TZipFile.GetDateTime
+//
+//==============================================================================
 function TZipFile.GetDateTime(i: integer): TDateTime;
 begin
   if i > High(Files) then
@@ -383,6 +427,11 @@ begin
   Result := FileDateToDateTime(Files[i].CommonFileHeader.LastModFileTimeDate);
 end;
 
+//==============================================================================
+//
+// TZipFile.SetDateTime
+//
+//==============================================================================
 procedure TZipFile.SetDateTime(i: integer; const Value: TDateTime);
 begin
   if i > High(Files) then
@@ -391,16 +440,31 @@ begin
   Files[i].CommonFileHeader.LastModFileTimeDate := DateTimeToFileDate(Value);
 end;
 
+//==============================================================================
+//
+// TZipFile.GetCount
+//
+//==============================================================================
 function TZipFile.GetCount: integer;
 begin
   Result := High(Files) + 1;
 end;
 
+//==============================================================================
+//
+// TZipFile.GetName
+//
+//==============================================================================
 function TZipFile.GetName(i: integer): string;
 begin
   Result := Files[i].filename;
 end;
 
+//==============================================================================
+//
+// TZipFile.SetName
+//
+//==============================================================================
 procedure TZipFile.SetName(i: integer; const Value: string);
 begin
   Files[i].filename := Value;
@@ -466,6 +530,11 @@ const
     $2D02EF8D
   );
 
+//==============================================================================
+//
+// ZipCRC32
+//
+//==============================================================================
 function ZipCRC32(const Data: string): LongWord;
 var
   i: integer;

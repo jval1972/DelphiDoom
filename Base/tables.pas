@@ -53,7 +53,6 @@ const
   D_PI = 3.141592657;
   ANGLE_T_TO_RAD = 2 * D_PI / $100000000;
 
-
 const
 // 0x100000000 to 0x2000
   ANGLETOFINESHIFT = 19;
@@ -1381,7 +1380,6 @@ var
     65531,65531,65532,65532,65533,65533,65534,65534,
     65534,65535,65535,65535,65535,65535,65535,65535);
 
-
 // Re-use data, is just PI/2 pahse shift.
   finecosine: Pfixed_tArray;
 
@@ -2163,6 +2161,11 @@ var
     535533216,535700704,535868128,536035456,536202720,536369888,536536992,536704000,
     536870912);
 
+//==============================================================================
+//
+// SlopeDiv
+//
+//==============================================================================
 function SlopeDiv(const num: integer; const den: integer): LongWord;
 
 const
@@ -12416,10 +12419,25 @@ var
   // Re-use data, is just PI/2 pahse shift.
   fixedcosine: Pfixed_tArray;
 
+//==============================================================================
+//
+// DegToSlope
+//
+//==============================================================================
 function DegToSlope(a: fixed_t): fixed_t;
 
+//==============================================================================
+//
+// FixedToAngle
+//
+//==============================================================================
 function FixedToAngle(a: fixed_t): angle_t;
 
+//==============================================================================
+//
+// AngleToFixed
+//
+//==============================================================================
 function AngleToFixed(a: angle_t): fixed_t;
 
 implementation
@@ -12427,6 +12445,11 @@ implementation
 uses
   d_delphi;
 
+//==============================================================================
+//
+// SlopeDiv
+//
+//==============================================================================
 function SlopeDiv(const num: integer; const den: integer): LongWord;
 begin
   if den < 512 then
@@ -12439,19 +12462,34 @@ begin
   end;
 end;
 
+//==============================================================================
+// FixedToAngle
+//
 // mbf21: More utility functions, courtesy of Quasar (James Haley).
 // These are straight from Eternity so demos stay in sync.
+//
+//==============================================================================
 function FixedToAngle(a: fixed_t): angle_t;
 begin
   result := trunc((a / FRACUNIT) * ANG1);
 end;
 
+//==============================================================================
+//
+// AngleToFixed
+//
+//==============================================================================
 function AngleToFixed(a: angle_t): fixed_t;
 begin
   result := trunc((a / ANG1) * FRACUNIT);
 end;
 
+//==============================================================================
+// AngleToSlope
+//
 // [XA] Clamped angle->slope, for convenience
+//
+//==============================================================================
 function AngleToSlope(a: integer): fixed_t;
 begin
   if a > ANG90 then
@@ -12462,7 +12500,12 @@ begin
     result := finetangent[(ANG90 - a) div ANGLETOFINEUNIT];
 end;
 
+//==============================================================================
+// DegToSlope
+//
 // [XA] Ditto, using fixed-point-degrees input
+//
+//==============================================================================
 function DegToSlope(a: fixed_t): fixed_t;
 var
   i: integer;

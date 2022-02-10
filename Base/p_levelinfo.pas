@@ -45,8 +45,18 @@ type
     next: Plevelinfo_t;
   end;
 
+//==============================================================================
+//
+// P_GetLevelInfo
+//
+//==============================================================================
 function P_GetLevelInfo(const levelname: string): Plevelinfo_t;
 
+//==============================================================================
+//
+// P_LevelInfoChangeMusic
+//
+//==============================================================================
 procedure P_LevelInfoChangeMusic;
 
 implementation
@@ -62,6 +72,11 @@ uses
 var
   levelinfo: Plevelinfo_t;
 
+//==============================================================================
+//
+// P_GetLevelInfo
+//
+//==============================================================================
 function P_GetLevelInfo(const levelname: string): Plevelinfo_t;
 var
   check: string;
@@ -84,6 +99,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// P_LevelInfoChangeMusic
+//
+//==============================================================================
 procedure P_LevelInfoChangeMusic;
 var
   linfo: Plevelinfo_t;

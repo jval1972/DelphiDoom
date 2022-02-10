@@ -125,6 +125,11 @@ begin
   OutputFileName := '';
 end;
 
+//==============================================================================
+//
+// TMPEGArgs.ErrorCode
+//
+//==============================================================================
 function TMPEGArgs.ErrorCode: Cardinal;
 begin
   result := FErrorcode;

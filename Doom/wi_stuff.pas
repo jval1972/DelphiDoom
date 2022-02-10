@@ -45,14 +45,29 @@ const
 type
   stateenum_t = integer;
 
+//==============================================================================
+// WI_Ticker
+//
 // Called by main loop, animate the intermission.
+//
+//==============================================================================
 procedure WI_Ticker;
 
+//==============================================================================
+// WI_Drawer
+//
 // Called by main loop,
 // draws the intermission directly into the screen buffer.
+//
+//==============================================================================
 procedure WI_Drawer;
 
+//==============================================================================
+// WI_Start
+//
 // Setup for an intermission screen.
+//
+//==============================================================================
 procedure WI_Start(wbstartstruct: Pwbstartstruct_t);
 
 implementation
@@ -82,7 +97,6 @@ const
 // Loads of by-pixel layout and placement, offsets etc.
 //
 
-
 //
 // Different between registered DOOM (1994) and
 //  Ultimate DOOM - Final edition (retail, 1995?).
@@ -92,7 +106,6 @@ const
   NUMEPISODES = 4;
   NUMMAPS = 9;
 
-
 // in tics
 //U #define PAUSELEN    (TICRATE*2)
 //U #define SCORESTEP    100
@@ -100,7 +113,6 @@ const
 // pixel distance from "(YOU)" to "PLAYER N"
 //U #define STARDIST    10
 //U #define WK 1
-
 
 // GLOBAL LOCATIONS
   WI_TITLEY = 2;
@@ -117,7 +129,6 @@ const
   NG_STATSY = 50;
 
   NG_SPACINGX = 64;
-
 
 // DEATHMATCH STUFF
   DM_MATRIXX = 42;
@@ -139,13 +150,11 @@ type
     ANIM_LEVEL
   );
 
-
 type
   point_t = record
     x: integer;
     y: integer;
   end;
-
 
 //
 // Animation.
@@ -194,7 +203,6 @@ type
   Pwianim_t = ^wianim_t;
   wianim_tArray = packed array[0..$FFFF] of wianim_t;
   Pwianim_tArray = ^wianim_tArray;
-
 
 var
   lnodes: array[0..NUMEPISODES - 1, 0..NUMMAPS - 1] of point_t = (
@@ -295,7 +303,6 @@ const
 var
   anims: array[0..NUMEPISODES - 1] of Pwianim_tArray;
 
-
 //
 // GENERAL DATA
 //
@@ -340,7 +347,6 @@ var
 
 // # of commercial levels
   NUMCMAPS: integer = 0;
-
 
 //
 //  GRAPHICS
@@ -409,10 +415,13 @@ var
 // CODE
 //
 
+//==============================================================================
+// WI_SlamBackground
+//
 // slam background
 // UNUSED static unsigned char *background=0;
-
-
+//
+//==============================================================================
 procedure WI_SlamBackground;
 var
   name: string;
@@ -435,14 +444,24 @@ begin
   V_DrawPatchFullScreenTMP320x200(name);
 end;
 
+//==============================================================================
+// WI_Responder
+//
 // The ticker is used to detect keys
 //  because of timing issues in netgames.
+//
+//==============================================================================
 function WI_Responder(ev: Pevent_t): boolean;
 begin
   result := false;
 end;
 
+//==============================================================================
+// WI_DrawLF
+//
 // Draws "<Levelname> Finished!"
+//
+//==============================================================================
 procedure WI_DrawLF;
 var
   y: integer;
@@ -478,7 +497,12 @@ begin
   V_DrawPatch((320 - finished.width) div 2, y, SCN_TMP, finished, false);
 end;
 
+//==============================================================================
+// WI_DrawEL
+//
 // Draws "Entering <LevelName>"
+//
+//==============================================================================
 procedure WI_DrawEL;
 var
   y: integer;
@@ -516,6 +540,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// WI_DrawOnLnode
+//
+//==============================================================================
 procedure WI_DrawOnLnode(n: integer; c: Ppatch_tPArray);
 var
   i: integer;
@@ -550,6 +579,11 @@ begin
     I_Warning('WI_DrawOnLnode(): Could not place patch on level %d'#13#10, [n + 1]);
 end;
 
+//==============================================================================
+//
+// WI_InitAnimatedBack
+//
+//==============================================================================
 procedure WI_InitAnimatedBack;
 var
   i: integer;
@@ -584,6 +618,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// WI_UpdateAnimatedBack
+//
+//==============================================================================
 procedure WI_UpdateAnimatedBack;
 var
   i: integer;
@@ -643,6 +682,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// WI_DrawAnimatedBack
+//
+//==============================================================================
 procedure WI_DrawAnimatedBack;
 var
   i: integer;
@@ -669,13 +713,15 @@ begin
   end;
 end;
 
+//==============================================================================
+// WI_DrawNum
 //
 // Draws a number.
 // If digits > 0, then use that many digits minimum,
 //  otherwise only use as many as necessary.
 // Returns new x position.
 //
-
+//==============================================================================
 function WI_DrawNum(x, y: integer; n: integer; digits: integer): integer;
 var
   fontwidth: integer;
@@ -733,6 +779,11 @@ begin
   result := x;
 end;
 
+//==============================================================================
+//
+// WI_DrawPercent
+//
+//==============================================================================
 procedure WI_DrawPercent(x, y: integer; p: integer);
 begin
   if p < 0 then
@@ -742,10 +793,13 @@ begin
   WI_DrawNum(x, y, p, -1);
 end;
 
+//==============================================================================
+// WI_DrawTime
 //
 // Display level completion time and par,
 //  or "sucks" message if overflow.
 //
+//==============================================================================
 procedure WI_DrawTime(x, y: integer; t: integer);
 var
   _div: integer;
@@ -773,13 +827,28 @@ begin
     V_DrawPatch(x - sucks.width, y, SCN_TMP, sucks, false);
 end;
 
+//==============================================================================
+//
+// WI_UnloadData
+//
+//==============================================================================
 procedure WI_UnloadData; forward;
 
+//==============================================================================
+//
+// WI_End
+//
+//==============================================================================
 procedure WI_End;
 begin
   WI_UnloadData;
 end;
 
+//==============================================================================
+//
+// WI_InitNoState
+//
+//==============================================================================
 procedure WI_InitNoState;
 begin
   state := NoState;
@@ -787,6 +856,11 @@ begin
   cnt := 10;
 end;
 
+//==============================================================================
+//
+// WI_UpdateNoState
+//
+//==============================================================================
 procedure WI_UpdateNoState;
 begin
   WI_UpdateAnimatedBack;
@@ -802,8 +876,18 @@ end;
 var
   snl_pointeron: boolean = false;
 
+//==============================================================================
+//
+// WI_LoadData
+//
+//==============================================================================
 procedure WI_LoadData; forward;
 
+//==============================================================================
+//
+// WI_InitShowNextLoc
+//
+//==============================================================================
 procedure WI_InitShowNextLoc;
 begin
   if gamemapinfo <> nil then
@@ -831,6 +915,11 @@ begin
   WI_InitAnimatedBack;
 end;
 
+//==============================================================================
+//
+// WI_UpdateShowNextLoc
+//
+//==============================================================================
 procedure WI_UpdateShowNextLoc;
 begin
   WI_UpdateAnimatedBack;
@@ -842,7 +931,11 @@ begin
     snl_pointeron := (cnt and 31) < 20;
 end;
 
-
+//==============================================================================
+//
+// WI_DrawShowNextLoc
+//
+//==============================================================================
 procedure WI_DrawShowNextLoc;
 var
   i: integer;
@@ -897,12 +990,22 @@ begin
     WI_DrawEL;
 end;
 
+//==============================================================================
+//
+// WI_DrawNoState
+//
+//==============================================================================
 procedure WI_DrawNoState;
 begin
   snl_pointeron := true;
   WI_DrawShowNextLoc;
 end;
 
+//==============================================================================
+//
+// WI_FragSum
+//
+//==============================================================================
 function WI_FragSum(playernum: integer): integer;
 var
   i: integer;
@@ -926,6 +1029,11 @@ var
   dm_frags: array[0..MAXPLAYERS - 1, 0..MAXPLAYERS - 1] of integer;
   dm_totals: array[0..MAXPLAYERS - 1] of integer;
 
+//==============================================================================
+//
+// WI_InitDeathmatchStats
+//
+//==============================================================================
 procedure WI_InitDeathmatchStats;
 var
   i: integer;
@@ -952,6 +1060,11 @@ begin
   WI_InitAnimatedBack;
 end;
 
+//==============================================================================
+//
+// WI_UpdateDeathmatchStats
+//
+//==============================================================================
 procedure WI_UpdateDeathmatchStats;
 var
   i: integer;
@@ -1044,6 +1157,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// WI_DrawDeathmatchStats
+//
+//==============================================================================
 procedure WI_DrawDeathmatchStats;
 var
   i: integer;
@@ -1116,11 +1234,21 @@ var
   dofrags: integer = 0;
   ng_state: integer = 0;
 
+//==============================================================================
+//
+// NG_STATSX
+//
+//==============================================================================
 function NG_STATSX: integer;
 begin
   result := 64 + star.width div 2 + 32 * (not intval(dofrags <> 0)); // JVAL ???
 end;
 
+//==============================================================================
+//
+// WI_InitNetgameStats
+//
+//==============================================================================
 procedure WI_InitNetgameStats;
 var
   i: integer;
@@ -1149,6 +1277,11 @@ begin
   WI_InitAnimatedBack;
 end;
 
+//==============================================================================
+//
+// WI_UpdateNetgameStats
+//
+//==============================================================================
 procedure WI_UpdateNetgameStats;
 var
   i: integer;
@@ -1300,6 +1433,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// WI_DrawNetgameStats
+//
+//==============================================================================
 procedure WI_DrawNetgameStats;
 var
   i: integer;
@@ -1353,6 +1491,11 @@ end;
 var
   sp_state: integer = 0;
 
+//==============================================================================
+//
+// WI_InitStats
+//
+//==============================================================================
 procedure WI_InitStats;
 begin
   state := StatCount;
@@ -1368,6 +1511,11 @@ begin
   WI_InitAnimatedBack;
 end;
 
+//==============================================================================
+//
+// WI_UpdateStats
+//
+//==============================================================================
 procedure WI_UpdateStats;
 begin
   WI_UpdateAnimatedBack;
@@ -1472,6 +1620,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// WI_DrawStats
+//
+//==============================================================================
 procedure WI_DrawStats;
 var
   // line height
@@ -1500,6 +1653,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// WI_checkForAccelerate
+//
+//==============================================================================
 procedure WI_checkForAccelerate;
 var
   i: integer;
@@ -1534,7 +1692,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// WI_Ticker
+//
 // Updates stuff each tick
+//
+//==============================================================================
 procedure WI_Ticker;
 begin
   // counter for general background animation
@@ -1577,6 +1740,11 @@ end;
 var
   wi_loaded: boolean = false;
 
+//==============================================================================
+//
+// WI_LoadData
+//
+//==============================================================================
 procedure WI_LoadData;
 var
   i: integer;
@@ -1741,6 +1909,11 @@ begin
   wi_loaded := true;
 end;
 
+//==============================================================================
+//
+// WI_UnloadData
+//
+//==============================================================================
 procedure WI_UnloadData;
 var
   i: integer;
@@ -1807,6 +1980,11 @@ begin
   wi_loaded := false;
 end;
 
+//==============================================================================
+//
+// WI_Drawer
+//
+//==============================================================================
 procedure WI_Drawer;
 begin
   if not wi_loaded then
@@ -1844,6 +2022,11 @@ begin
   V_FullScreenStretch;
 end;
 
+//==============================================================================
+//
+// WI_InitVariables
+//
+//==============================================================================
 procedure WI_InitVariables(wbstartstruct: Pwbstartstruct_t);
 begin
   wbs := wbstartstruct;
@@ -1869,6 +2052,11 @@ begin
       wbs.epsd := wbs.epsd - 3;
 end;
 
+//==============================================================================
+//
+// WI_Start
+//
+//==============================================================================
 procedure WI_Start(wbstartstruct: Pwbstartstruct_t);
 begin
   WI_InitVariables(wbstartstruct);

@@ -73,6 +73,12 @@ uses
 { Perform dequantization and inverse DCT on one block of coefficients. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_idct_float
+//
+//==============================================================================
 procedure jpeg_idct_float(cinfo: j_decompress_ptr; compptr: jpeg_component_info_ptr;
   coef_block: JCOEFPTR; output_buf: JSAMPARRAY; output_col: JDIMENSION);
 
@@ -84,10 +90,14 @@ implementation
   Sorry, this code only copes with 8x8 DCTs. { deliberate syntax err }
 {$endif}
 
-
 { Dequantize a coefficient by multiplying it by the multiplier-table
   entry; produce a float result. }
 
+//==============================================================================
+//
+// DEQUANTIZE
+//
+//==============================================================================
 function DEQUANTIZE(coef: int; quantval: FAST_FLOAT): FAST_FLOAT;
 begin
   Dequantize := ( (coef) * quantval);
@@ -97,6 +107,11 @@ end;
   We assume RIGHT_SHIFT rounds towards minus infinity, so adding
   the fudge factor is correct for either sign of X. }
 
+//==============================================================================
+//
+// DESCALE
+//
+//==============================================================================
 function DESCALE(x: INT32; n: int): INT32;
 var
   shift_temp: INT32;
@@ -112,10 +127,15 @@ begin
 {$endif}
 end;
 
-
 { Perform dequantization and inverse DCT on one block of coefficients. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_idct_float
+//
+//==============================================================================
 procedure jpeg_idct_float(cinfo: j_decompress_ptr; compptr: jpeg_component_info_ptr;
   coef_block: JCOEFPTR; output_buf: JSAMPARRAY; output_col: JDIMENSION);
 type

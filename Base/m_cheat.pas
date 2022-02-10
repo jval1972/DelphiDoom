@@ -46,14 +46,39 @@ type
 
   cheatstatus_t = (cht_unknown, cht_pending, cht_acquired);
 
+//==============================================================================
+//
+// cht_CheckCheat
+//
+//==============================================================================
 function cht_CheckCheat(cht: Pcheatseq_t; key: char): cheatstatus_t;
 
+//==============================================================================
+//
+// cht_GetParam
+//
+//==============================================================================
 procedure cht_GetParam(cht: Pcheatseq_t; var buffer: string);
 
+//==============================================================================
+//
+// get_cheatseq_string
+//
+//==============================================================================
 function get_cheatseq_string(const A: array of char): string; overload; // JVAL
 
+//==============================================================================
+//
+// get_cheatseq_string
+//
+//==============================================================================
 function get_cheatseq_string(const A: string): string; overload; // JVAL
 
+//==============================================================================
+//
+// get_cheatseq_string
+//
+//==============================================================================
 function get_cheatseq_string(const x: integer): string; overload; // JVAL
 
 implementation
@@ -62,6 +87,11 @@ uses
   d_delphi,
   i_system;
 
+//==============================================================================
+//
+// get_cheatseq_string
+//
+//==============================================================================
 function get_cheatseq_string(const A: array of char): string; // JVAL
 var
   i: integer;
@@ -74,6 +104,11 @@ begin
   until A[i] = Chr($FF);
 end;
 
+//==============================================================================
+//
+// get_cheatseq_string
+//
+//==============================================================================
 function get_cheatseq_string(const A: string): string;  // JVAL
 var
   i: integer;
@@ -86,6 +121,11 @@ begin
   until A[i] = Chr($FF);
 end;
 
+//==============================================================================
+//
+// get_cheatseq_string
+//
+//==============================================================================
 function get_cheatseq_string(const x: integer): string; // JVAL
 begin
   result := '';
@@ -93,6 +133,11 @@ begin
     I_Error('get_cheatseq_string(): invalid parameter: %d', [x]);
 end;
 
+//==============================================================================
+//
+// SCRAMBLE
+//
+//==============================================================================
 function SCRAMBLE(a: integer): integer;
 begin
   result := _SHL(a and 1, 7) +
@@ -109,10 +154,13 @@ var
   firsttime: boolean = true;
   cheat_xlate_table: array[0..255] of char;
 
+//==============================================================================
+// cht_CheckCheat
 //
 // Called in st_stuff module, which handles the input.
 // Returns true if the cheat was successful, false if failed.
 //
+//==============================================================================
 function cht_CheckCheat(cht: Pcheatseq_t; key: char): cheatstatus_t;
 var
   i: integer;
@@ -158,6 +206,11 @@ begin
     result := cht_acquired;
 end;
 
+//==============================================================================
+//
+// cht_GetParam
+//
+//==============================================================================
 procedure cht_GetParam(cht: Pcheatseq_t; var buffer: string);
 begin
   buffer := cht.p;

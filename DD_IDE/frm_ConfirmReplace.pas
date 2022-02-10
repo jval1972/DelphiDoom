@@ -33,16 +33,31 @@ resourcestring
 
 { TConfirmReplaceDialog }
 
+//==============================================================================
+//
+// TConfirmReplaceDialog.FormCreate
+//
+//==============================================================================
 procedure TConfirmReplaceDialog.FormCreate(Sender: TObject);
 begin
   Image1.Picture.Icon.Handle := LoadIcon(0, IDI_QUESTION);
 end;
 
+//==============================================================================
+//
+// TConfirmReplaceDialog.FormDestroy
+//
+//==============================================================================
 procedure TConfirmReplaceDialog.FormDestroy(Sender: TObject);
 begin
   ConfirmReplaceDialog := nil;
 end;
 
+//==============================================================================
+//
+// TConfirmReplaceDialog.PrepareShow
+//
+//==============================================================================
 procedure TConfirmReplaceDialog.PrepareShow(AEditorRect: TRect;
   X, Y1, Y2: integer; AReplaceText: string);
 var

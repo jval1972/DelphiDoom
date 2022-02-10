@@ -170,6 +170,11 @@ const
 
 { TPSLineInfoList }
 
+//==============================================================================
+//
+// CharPos
+//
+//==============================================================================
 function CharPos(const ch: Char; const s: string): integer;
 var
   i: integer;
@@ -183,12 +188,22 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+//
+// TPSLineInfoList.Add
+//
+//==============================================================================
 function TPSLineInfoList.Add: TPSLineInfo;
 begin
   Result := TPSLineInfo.Create;
   FItems.Add(Result);
 end;
 
+//==============================================================================
+//
+// TPSLineInfoList.Clear
+//
+//==============================================================================
 procedure TPSLineInfoList.Clear;
 var
   i: Longint;
@@ -211,16 +226,31 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSLineInfoList.GetCount
+//
+//==============================================================================
 function TPSLineInfoList.GetCount: Longint;
 begin
   Result := FItems.Count;
 end;
 
+//==============================================================================
+//
+// TPSLineInfoList.GetItem
+//
+//==============================================================================
 function TPSLineInfoList.GetItem(I: Integer): TPSLineInfo;
 begin
   Result := TPSLineInfo(FItems[i]);
 end;
 
+//==============================================================================
+//
+// TPSLineInfoList.GetLineInfo
+//
+//==============================================================================
 function TPSLineInfoList.GetLineInfo(const ModuleName: TbtString; Pos: Cardinal; var Res: TPSLineInfoResults): Boolean;
 var
   i,j: Longint;
@@ -276,12 +306,21 @@ begin
   inherited Destroy;
 end;
 
-
+//==============================================================================
+//
+// TPSLineInfo.GetLineOffset
+//
+//==============================================================================
 function TPSLineInfo.GetLineOffset(I: Integer): Cardinal;
 begin
   Result := Longint(FLineOffsets[I]);
 end;
 
+//==============================================================================
+//
+// TPSLineInfo.GetLineOffsetCount
+//
+//==============================================================================
 function TPSLineInfo.GetLineOffsetCount: Longint;
 begin
   Result := FLineOffsets.Count;
@@ -289,6 +328,11 @@ end;
 
 { TPSPascalPreProcessorParser }
 
+//==============================================================================
+//
+// TPSPascalPreProcessorParser.Next
+//
+//==============================================================================
 procedure TPSPascalPreProcessorParser.Next;
 var
   ci: Cardinal;
@@ -454,6 +498,11 @@ begin
   FToken := Copy(FData, FPos + 1, FLen);
 end;
 
+//==============================================================================
+//
+// TPSPascalPreProcessorParser.SetText
+//
+//==============================================================================
 procedure TPSPascalPreProcessorParser.SetText(const dta: TbtString);
 begin
   FData := dta;
@@ -470,6 +519,11 @@ end;
 
 { TPSPreProcessor }
 
+//==============================================================================
+//
+// TPSPreProcessor.AdjustMessage
+//
+//==============================================================================
 procedure TPSPreProcessor.AdjustMessage(Msg: TPSPascalCompilerMessage);
 var
   Res: TPSLineInfoResults;
@@ -481,6 +535,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPreProcessor.AdjustMessages
+//
+//==============================================================================
 procedure TPSPreProcessor.AdjustMessages(Comp: TPSPascalCompiler);
 var
   i: Longint;
@@ -489,6 +548,11 @@ begin
     AdjustMessage (Comp.Msg[i]);
 end;
 
+//==============================================================================
+//
+// TPSPreProcessor.Clear
+//
+//==============================================================================
 procedure TPSPreProcessor.Clear;
 begin
   FDefineState.Clear;
@@ -521,6 +585,11 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSPreProcessor.doAddStdPredefines
+//
+//==============================================================================
 procedure TPSPreProcessor.doAddStdPredefines;
 begin
   //--- 20050708_jgv
@@ -537,6 +606,11 @@ begin
   {$ENDIF }
 end;
 
+//==============================================================================
+//
+// TPSPreProcessor.IntPreProcess
+//
+//==============================================================================
 procedure TPSPreProcessor.IntPreProcess(Level: Integer; const OrgFileName: TbtString; FileName: TbtString; Dest: TStream);
 var
   Parser: TPSPascalPreProcessorParser;
@@ -697,6 +771,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPreProcessor.ParserNewLine
+//
+//==============================================================================
 procedure TPSPreProcessor.ParserNewLine(Sender: TPSPascalPreProcessorParser; Row, Col, Pos: Cardinal);
 begin
   if FCurrentLineInfo.Current >= FCurrentLineInfo.Count then
@@ -708,6 +787,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPreProcessor.PreProcess
+//
+//==============================================================================
 procedure TPSPreProcessor.PreProcess(const Filename: TbtString; var Output: TbtString);
 var
   Stream: TMemoryStream;
@@ -733,12 +817,22 @@ end;
 
 { TPSDefineStates }
 
+//==============================================================================
+//
+// TPSDefineStates.Add
+//
+//==============================================================================
 function TPSDefineStates.Add: TPSDefineState;
 begin
   Result := TPSDefineState.Create;
   FItems.Add(Result);
 end;
 
+//==============================================================================
+//
+// TPSDefineStates.Clear
+//
+//==============================================================================
 procedure TPSDefineStates.Clear;
 var
   i: Longint;
@@ -754,6 +848,11 @@ begin
   FItems := TIfList.Create;
 end;
 
+//==============================================================================
+//
+// TPSDefineStates.Delete
+//
+//==============================================================================
 procedure TPSDefineStates.Delete(I: Integer);
 begin
   TPSDefineState(FItems[i]).Free;
@@ -770,16 +869,31 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSDefineStates.GetCount
+//
+//==============================================================================
 function TPSDefineStates.GetCount: Longint;
 begin
   Result := FItems.Count;
 end;
 
+//==============================================================================
+//
+// TPSDefineStates.GetItem
+//
+//==============================================================================
 function TPSDefineStates.GetItem(I: Integer): TPSDefineState;
 begin
   Result := FItems[i];
 end;
 
+//==============================================================================
+//
+// TPSDefineStates.GetWrite
+//
+//==============================================================================
 function TPSDefineStates.GetWrite: Boolean;
 begin
   if FItems.Count = 0 then
@@ -788,7 +902,12 @@ begin
     Result := TPSDefineState(FItems[FItems.Count - 1]).DoWrite;
 end;
 
+//==============================================================================
+// TPSDefineStates.GetPrevWrite
+//
 //JeromeWelsh - nesting fix
+//
+//==============================================================================
 function TPSDefineStates.GetPrevWrite: Boolean;
 begin
   if FItems.Count < 2 then

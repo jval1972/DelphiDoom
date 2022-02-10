@@ -54,10 +54,25 @@ uses
   s_sound,
   d_player;
 
+//==============================================================================
+//
+// P_GivePower
+//
+//==============================================================================
 function P_GivePower(player: Pplayer_t; power: integer): boolean;
 
+//==============================================================================
+//
+// P_TouchSpecialThing
+//
+//==============================================================================
 procedure P_TouchSpecialThing(special: Pmobj_t; toucher: Pmobj_t);
 
+//==============================================================================
+//
+// P_DamageMobj
+//
+//==============================================================================
 procedure P_DamageMobj(target, inflictor, source: Pmobj_t; damage: integer);
 
 const
@@ -66,6 +81,11 @@ const
   maxammo: array[0..Ord(NUMAMMO) - 1] of integer = (250, 50, 25, 400, 100, 30, 16);
   clipammo: array[0..Ord(NUMAMMO) - 1] of integer = (10, 4, 2, 20, 4, 6, 4);
 
+//==============================================================================
+//
+// P_CmdSuicide
+//
+//==============================================================================
 procedure P_CmdSuicide;
 
 var
@@ -79,16 +99,46 @@ var
   p_greenarmorclass: integer = 1;
   p_bluearmorclass: integer = 2;
 
+//==============================================================================
+//
+// P_GiveCard
+//
+//==============================================================================
 function P_GiveCard(player: Pplayer_t; card: card_t): boolean;
 
+//==============================================================================
+//
+// P_GiveArmor
+//
+//==============================================================================
 function P_GiveArmor(player: Pplayer_t; armortype: integer): boolean;
 
+//==============================================================================
+//
+// P_GiveAmmo
+//
+//==============================================================================
 function P_GiveAmmo(player: Pplayer_t; ammo: ammotype_t; num: integer): boolean;
 
+//==============================================================================
+//
+// P_GiveWeapon
+//
+//==============================================================================
 function P_GiveWeapon(player: Pplayer_t; weapon: weapontype_t; dropped: boolean): boolean;
 
+//==============================================================================
+//
+// P_GiveBody
+//
+//==============================================================================
 function P_GiveBody(player: Pplayer_t; num: integer): boolean;
 
+//==============================================================================
+//
+// P_KillMobj
+//
+//==============================================================================
 procedure P_KillMobj(source: Pmobj_t; target: Pmobj_t);
 
 implementation
@@ -126,16 +176,16 @@ uses
 const
   BONUSADD = 6;
 
+//==============================================================================
 //
 // GET STUFF
-//
-
 //
 // P_GiveAmmo
 // Num is the number of clip loads,
 // not the individual count (0= 1/2 clip).
 // Returns false if the ammo can't be picked up at all
 //
+//==============================================================================
 function P_GiveAmmo(player: Pplayer_t; ammo: ammotype_t; num: integer): boolean;
 var
   oldammo: integer;
@@ -166,7 +216,6 @@ begin
     // you'll need in nightmare
     num := num * 2
   end;
-
 
   oldammo := player.ammo[Ord(ammo)];
   player.ammo[Ord(ammo)] := player.ammo[Ord(ammo)] + num;
@@ -224,12 +273,14 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // P_GiveWeapon
 // The weapon name may have a MF_DROPPED flag ored in.
 //
 // villsa [STRIFE] some stuff has been changed/moved around
 //
+//==============================================================================
 function P_GiveWeapon(player: Pplayer_t; weapon: weapontype_t; dropped: boolean): boolean;
 var
   gaveammo: boolean;
@@ -302,12 +353,14 @@ begin
   result := gaveweapon or gaveammo;
 end;
 
+//==============================================================================
 //
 // P_GiveBody
 // Returns false if the body isn't needed at all
 //
 // villsa [STRIFE] a lot of changes have been added for stamina
 //
+//==============================================================================
 function P_GiveBody(player: Pplayer_t; num: integer): boolean;
 var
   maxhealth: integer;
@@ -378,6 +431,7 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // P_GiveArmor
 // Returns false if the armor is worse
@@ -385,6 +439,7 @@ end;
 //
 // [STRIFE] Modified for Strife armor items
 //
+//==============================================================================
 function P_GiveArmor(player: Pplayer_t; armortype: integer): boolean;
 var
   hits: integer;
@@ -414,11 +469,13 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // P_GiveCard
 //
 // [STRIFE] Modified to use larger bonuscount
 //
+//==============================================================================
 function P_GiveCard(player: Pplayer_t; card: card_t): boolean;
 begin
   if player.cards[Ord(card)] then
@@ -433,11 +490,13 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // P_GivePower
 //
 // [STRIFE] Modifications for new powerups
 //
+//==============================================================================
 function P_GivePower(player: Pplayer_t; power: integer): boolean;
 begin
   // haleyjd 09/14/10: [STRIFE] moved to top, exception for Shadow Armor
@@ -523,9 +582,11 @@ begin
   player.powers[power] := 1;
 end;
 
+//==============================================================================
 //
 // P_TouchSpecialThing
 //
+//==============================================================================
 procedure P_TouchSpecialThing(special: Pmobj_t; toucher: Pmobj_t);
 var
   player: Pplayer_t;
@@ -852,9 +913,12 @@ begin
     S_StartSound(nil, sound);
 end;
 
+//==============================================================================
+// P_KillMobj
 //
 // KillMobj
 //
+//==============================================================================
 procedure P_KillMobj(source: Pmobj_t; target: Pmobj_t);
 var
   item: integer;
@@ -1188,6 +1252,7 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_DamageMobj
 // Damages both enemies and players
@@ -1199,11 +1264,11 @@ end;
 // Source can be NULL for slime, barrel explosions
 // and other environmental stuff.
 //
-//
 // P_IsMobjBoss
 //
 // villsa [STRIFE] new function
 //
+//==============================================================================
 function P_IsMobjBoss(typ: integer): boolean;
 begin
   case typ of
@@ -1221,6 +1286,7 @@ begin
   result := mobjinfo[typ].flags_ex and MF_EX_BOSS <> 0;
 end;
 
+//==============================================================================
 //
 // P_DamageMobj
 // Damages both enemies and players
@@ -1235,6 +1301,7 @@ end;
 // [STRIFE] Extensive changes for spectrals, fire damage, disintegration, and
 //  a plethora of mobjtype-specific hacks.
 //
+//==============================================================================
 procedure P_DamageMobj(target, inflictor, source: Pmobj_t; damage: integer);
 var
   ang: angle_t;
@@ -1285,7 +1352,6 @@ begin
   player := target.player;
   if (player <> nil) and (gameskill = sk_baby) then
     damage := damage div 2; // take half damage in trainer mode
-
 
   if (inflictor <> nil) and (target.flags_ex and MF_EX_FIRERESIST <> 0) then
   begin
@@ -1483,6 +1549,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// P_CmdSuicide
+//
+//==============================================================================
 procedure P_CmdSuicide;
 begin
   if demoplayback then

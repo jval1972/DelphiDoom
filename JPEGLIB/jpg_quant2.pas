@@ -28,7 +28,6 @@
 
 unit jpg_Quant2;
 
-
 { This file contains 2-pass color quantization (color mapping) routines.
   These routines provide selection of a custom color map for an image,
   followed by mapping of the image to that color map, with optional
@@ -54,15 +53,19 @@ uses
 
 { Module initialization routine for 2-pass color quantization. }
 
-
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_2pass_quantizer 
+//
+//==============================================================================
 procedure jinit_2pass_quantizer (cinfo: j_decompress_ptr);
 
 implementation
 
 uses
   jpg_defErr;
-
 
 { This module implements the well-known Heckbert paradigm for color
   quantization.  Most of the ideas used here can be traced back to
@@ -131,7 +134,6 @@ const
   C2_SCALE = R_SCALE;
 {$endif}
 
-
 { First we have the histogram data structure and routines for creating it.
 
   The number of bits of precision can be adjusted by changing these symbols.
@@ -156,7 +158,6 @@ const
   on 80x86 machines, the pointer row is in near memory but the actual
   arrays are in far memory (same arrangement as we use for image arrays). }
 
-
 const
   MAXNUMCOLORS = (MAXJSAMPLE+1);        { maximum size of colormap }
 
@@ -180,7 +181,6 @@ const
   C1_SHIFT = (BITS_IN_JSAMPLE-HIST_C1_BITS);
   C2_SHIFT = (BITS_IN_JSAMPLE-HIST_C2_BITS);
 
-
 type                            { Nomssi }
   RGBptr = ^RGBtype;
   RGBtype = packed record
@@ -200,7 +200,6 @@ type
   hist2d = ^hist1d_field;
   hist2d_field = array[0..HIST_C0_ELEMS-1] of hist2d;
   hist3d = ^hist2d_field;    { type for top-level pointer }
-
 
 { Declarations for Floyd-Steinberg dithering.
 
@@ -224,7 +223,6 @@ type
 
   Note: on a wide image, we might not have enough room in a PC's near data
   segment to hold the error array; so it is allocated with alloc_large. }
-
 
 {$ifdef BITS_IN_JSAMPLE_IS_8}
 type
@@ -277,8 +275,6 @@ type
     error_limiter: error_limit_ptr; { table for clamping the applied error }
   end;
 
-
-
 { Prescan some rows of pixels.
   In this module the prescan simply updates the histogram, which has been
   initialized to zeroes by start_pass.
@@ -287,6 +283,12 @@ type
   nil pointer). }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// prescan_quantize
+//
+//==============================================================================
 procedure prescan_quantize(cinfo: j_decompress_ptr; input_buf: JSAMPARRAY;
   output_buf: JSAMPARRAY; num_rows: int); far;
 var
@@ -344,6 +346,12 @@ type
   boxptr = ^box;
 
 {LOCAL}
+
+//==============================================================================
+//
+// find_biggest_color_pop 
+//
+//==============================================================================
 function find_biggest_color_pop (boxlist: boxlistptr; numboxes: int): boxptr;
 { Find the splittable box with the largest color population }
 { Returns nil if no splittable boxes remain }
@@ -368,8 +376,13 @@ begin
   find_biggest_color_pop := which;
 end;
 
-
 {LOCAL}
+
+//==============================================================================
+//
+// find_biggest_volume 
+//
+//==============================================================================
 function find_biggest_volume (boxlist: boxlistptr; numboxes: int): boxptr;
 { Find the splittable box with the largest (scaled) volume }
 { Returns NULL if no splittable boxes remain }
@@ -394,8 +407,13 @@ begin
   find_biggest_volume := which;
 end;
 
-
 {LOCAL}
+
+//==============================================================================
+//
+// update_box 
+//
+//==============================================================================
 procedure update_box (cinfo: j_decompress_ptr; var boxp: box);
 label
   have_c0min, have_c0max,
@@ -551,8 +569,13 @@ begin
   boxp.colorcount := ccount;
 end;
 
-
 {LOCAL}
+
+//==============================================================================
+//
+// median_cut
+//
+//==============================================================================
 function median_cut(cinfo: j_decompress_ptr; boxlist: boxlistptr; numboxes: int;
   desired_colors: int): int;
 { Repeatedly select and split the largest box until we have enough boxes }
@@ -638,8 +661,13 @@ begin
   median_cut := numboxes;
 end;
 
-
 {LOCAL}
+
+//==============================================================================
+//
+// compute_color
+//
+//==============================================================================
 procedure compute_color(cinfo: j_decompress_ptr; const boxp: box; icolor: int);
 { Compute representative color for a box, put it in colormap[icolor] }
 var
@@ -690,8 +718,13 @@ begin
   cinfo^.colormap^[2]^[icolor] := JSAMPLE ((c2total + (total shr 1)) div total);
 end;
 
-
 {LOCAL}
+
+//==============================================================================
+//
+// select_colors 
+//
+//==============================================================================
 procedure select_colors (cinfo: j_decompress_ptr; desired_colors: int);
 { Master routine for color selection }
 var
@@ -722,7 +755,6 @@ begin
   TRACEMS1(j_common_ptr(cinfo), 1, JTRC_QUANT_SELECTED, numboxes);
   {$ENDIF}
 end;
-
 
 { These routines are concerned with the time-critical task of mapping input
   colors to the nearest color in the selected colormap.
@@ -775,8 +807,6 @@ end;
   refined method might be faster than the present code --- but then again,
   it might not be any faster, and it's certainly more complicated. }
 
-
-
 { log2(histogram cells in update box) for each axis; this can be adjusted }
 const
   BOX_C0_LOG = HIST_C0_BITS - 3;
@@ -791,7 +821,6 @@ const
   BOX_C1_SHIFT = (C1_SHIFT + BOX_C1_LOG);
   BOX_C2_SHIFT = (C2_SHIFT + BOX_C2_LOG);
 
-
 { The next three routines implement inverse colormap filling.  They could
   all be folded into one big routine, but splitting them up this way saves
   some stack space (the mindist[] and bestdist[] arrays need not coexist)
@@ -799,6 +828,12 @@ const
   inner-loop variables. }
 
 {LOCAL}
+
+//==============================================================================
+//
+// find_nearby_colors
+//
+//==============================================================================
 function find_nearby_colors(cinfo: j_decompress_ptr; minc0: int;
   minc1: int; minc2: int; var colorlist: array of JSAMPLE): int;
 { Locate the colormap entries close enough to an update box to be candidates
@@ -961,8 +996,13 @@ begin
   find_nearby_colors := ncolors;
 end;
 
-
 {LOCAL}
+
+//==============================================================================
+//
+// find_best_colors 
+//
+//==============================================================================
 procedure find_best_colors (cinfo: j_decompress_ptr;
                             minc0: int; minc1: int; minc2: int;
                             numcolors: int;
@@ -998,8 +1038,6 @@ begin
   { For each color selected by find_nearby_colors,
     compute its distance to the center of each cell in the box.
     If that's less than best-so-far, update best distance and color number. }
-
-
 
   for i := 0 to pred(numcolors) do
   begin
@@ -1048,8 +1086,13 @@ begin
   end;
 end;
 
-
 {LOCAL}
+
+//==============================================================================
+//
+// fill_inverse_cmap 
+//
+//==============================================================================
 procedure fill_inverse_cmap (cinfo: j_decompress_ptr;
                              c0: int; c1: int; c2: int);
 { Fill the inverse-colormap entries in the update box that contains }
@@ -1111,10 +1154,15 @@ begin
     end;
 end;
 
-
 { Map some rows of pixels to the output colormapped representation. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// pass2_no_dither 
+//
+//==============================================================================
 procedure pass2_no_dither (cinfo: j_decompress_ptr;
                input_buf: JSAMPARRAY;
                            output_buf: JSAMPARRAY;
@@ -1158,8 +1206,13 @@ begin
   end;
 end;
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// pass2_fs_dither 
+//
+//==============================================================================
 procedure pass2_fs_dither (cinfo: j_decompress_ptr;
                input_buf: JSAMPARRAY;
                            output_buf: JSAMPARRAY;
@@ -1329,7 +1382,6 @@ begin
   end;
 end;
 
-
 { Initialize the error-limiting transfer function (lookup table).
   The raw F-S error computation can potentially compute error values of up to
   +- MAXJSAMPLE.  But we want the maximum correction applied to a pixel to be
@@ -1346,6 +1398,12 @@ end;
   to Aaron Giles for this idea. }
 
 {LOCAL}
+
+//==============================================================================
+//
+// init_error_limit 
+//
+//==============================================================================
 procedure init_error_limit (cinfo: j_decompress_ptr);
 const
   STEPSIZE = ((MAXJSAMPLE+1) div 16);
@@ -1392,6 +1450,12 @@ end;
 { Finish up at the end of each pass. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// finish_pass1 
+//
+//==============================================================================
 procedure finish_pass1 (cinfo: j_decompress_ptr); far;
 var
   cquantize: my_cquantize_ptr;
@@ -1405,17 +1469,27 @@ begin
   cquantize^.needs_zeroed := TRUE;
 end;
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// finish_pass2 
+//
+//==============================================================================
 procedure finish_pass2 (cinfo: j_decompress_ptr); far;
 begin
   { no work }
 end;
 
-
 { Initialize for each processing pass. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// start_pass_2_quant 
+//
+//==============================================================================
 procedure start_pass_2_quant (cinfo: j_decompress_ptr;
                               is_pre_scan: boolean); far;
 var
@@ -1484,10 +1558,15 @@ begin
   end;
 end;
 
-
 { Switch to a new external colormap between output passes. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// new_color_map_2_quant 
+//
+//==============================================================================
 procedure new_color_map_2_quant (cinfo: j_decompress_ptr); far;
 var
   cquantize: my_cquantize_ptr;
@@ -1498,11 +1577,15 @@ begin
   cquantize^.needs_zeroed := TRUE;
 end;
 
-
 { Module initialization routine for 2-pass color quantization. }
 
-
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_2pass_quantizer 
+//
+//==============================================================================
 procedure jinit_2pass_quantizer (cinfo: j_decompress_ptr);
 var
   cquantize: my_cquantize_ptr;

@@ -36,6 +36,11 @@ unit i_xmimusic;
 
 interface
 
+//==============================================================================
+//
+// IsXMIMusicFile
+//
+//==============================================================================
 function IsXMIMusicFile(const buf: pointer; const size: integer): boolean;
 
 implementation
@@ -44,6 +49,11 @@ uses
   xmi_lib,
   xmi_core;
 
+//==============================================================================
+//
+// IsXMIMusicFile
+//
+//==============================================================================
 function IsXMIMusicFile(const buf: pointer; const size: integer): boolean;
 begin
   Result :=

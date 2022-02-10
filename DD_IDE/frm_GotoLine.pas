@@ -39,38 +39,73 @@ implementation
 
 { TfrmGotoLine }
 
+//==============================================================================
+//
+// TfrmGotoLine.GetCaret
+//
+//==============================================================================
 function TfrmGotoLine.GetCaret: TBufferCoord;
 begin
   Result.Char := StrToInt(edtCharNumber.Text);
   Result.Line := StrToInt(edtLineNumber.Text);
 end;
 
+//==============================================================================
+//
+// TfrmGotoLine.GetChar
+//
+//==============================================================================
 function TfrmGotoLine.GetChar: Integer;
 begin
   Result := StrToInt(edtCharNumber.Text)
 end;
 
+//==============================================================================
+//
+// TfrmGotoLine.GetLine
+//
+//==============================================================================
 function TfrmGotoLine.GetLine: Integer;
 begin
   Result := StrToInt(edtLineNumber.Text)
 end;
 
+//==============================================================================
+//
+// TfrmGotoLine.SetCaret
+//
+//==============================================================================
 procedure TfrmGotoLine.SetCaret(const Value: TBufferCoord);
 begin
   edtCharNumber.Text := IntToStr(Value.Char);
   edtLineNumber.Text := IntToStr(Value.Line);
 end;
 
+//==============================================================================
+//
+// TfrmGotoLine.SetChar
+//
+//==============================================================================
 procedure TfrmGotoLine.SetChar(const Value: Integer);
 begin
   edtCharNumber.Text := IntToStr(Value);
 end;
 
+//==============================================================================
+//
+// TfrmGotoLine.SetLine
+//
+//==============================================================================
 procedure TfrmGotoLine.SetLine(const Value: Integer);
 begin
   edtLineNumber.Text := IntToStr(Value);
 end;
 
+//==============================================================================
+//
+// TfrmGotoLine.FormShow
+//
+//==============================================================================
 procedure TfrmGotoLine.FormShow(Sender: TObject);
 begin
   edtLineNumber.SetFocus;

@@ -34,6 +34,11 @@ unit sc_utils;
 
 interface
 
+//==============================================================================
+//
+// SC_Preprocess
+//
+//==============================================================================
 function SC_Preprocess(const inp_text: string; const addcomment: boolean): string;
 
 implementation
@@ -51,6 +56,11 @@ uses
   w_pak,
   w_wad;
 
+//==============================================================================
+//
+// SC_Preprocess
+//
+//==============================================================================
 function SC_Preprocess(const inp_text: string; const addcomment: boolean): string;
 const
   MAXINCLUDEDEPTH = 32;

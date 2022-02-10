@@ -712,7 +712,6 @@ type
 
   TPSOnFunction = procedure(name: TbtString; Pos, Row, Col: Integer) of object;
 
-
   TPSPascalCompiler = class
   private
     fkeywords: PRTabArray;
@@ -1279,11 +1278,26 @@ type
     function CompareClass(OtherTypeNo: TPSType; var ProcNo: Cardinal): Boolean; virtual;
   end;
 
+//==============================================================================
+//
+// ExportCheck
+//
+//==============================================================================
 function ExportCheck(Sender: TPSPascalCompiler; Proc: TPSInternalProcedure;
   Types: array of TPSBaseType; Modes: array of TPSParameterMode): Boolean;
 
+//==============================================================================
+//
+// SetVarExportName
+//
+//==============================================================================
 procedure SetVarExportName(P: TPSVar; const ExpName: TbtString);
 
+//==============================================================================
+//
+// AddImportedClassVariable
+//
+//==============================================================================
 function AddImportedClassVariable(Sender: TPSPascalCompiler; const VarName, VarType: TbtString): Boolean;
 
 const
@@ -1297,20 +1311,50 @@ type
 
   TPMFuncType = (mftProc, mftConstructor, mtfEvent, mtfTask);
 
+//==============================================================================
+//
+// PS_mi2s
+//
+//==============================================================================
 function PS_mi2s(i: Cardinal): TbtString;
 
+//==============================================================================
+//
+// ParseMethod
+//
+//==============================================================================
 function ParseMethod(Owner: TPSPascalCompiler; const FClassName: TbtString;
   Decl: TbtString; var OrgName: TbtString; DestDecl: TPSParametersDecl;
   var Func: TPMFuncType): Boolean;
 
+//==============================================================================
+//
+// ParseMethodEx
+//
+//==============================================================================
 function ParseMethodEx(Owner: TPSPascalCompiler; const FClassName: TbtString;
   Decl: TbtString; var OrgName: TbtString; DestDecl: TPSParametersDecl;
   var Func: TPMFuncType; CustomParser: TPSPascalParser): Boolean;
 
+//==============================================================================
+//
+// DeclToBits
+//
+//==============================================================================
 function DeclToBits(const Decl: TPSParametersDecl): TbtString;
 
+//==============================================================================
+//
+// NewVariant
+//
+//==============================================================================
 function NewVariant(FType: TPSType): PIfRVariant;
 
+//==============================================================================
+//
+// DisposeVariant
+//
+//==============================================================================
 procedure DisposeVariant(p: PIfRVariant);
 
 const
@@ -1413,6 +1457,11 @@ const
   RPS_NotProperty = 'Not a property : ''%s''';
   RPS_UnknownProperty = 'Unknown Property : ''%s''';
 
+//==============================================================================
+//
+// DeclToBits
+//
+//==============================================================================
 function DeclToBits(const Decl: TPSParametersDecl): TbtString;
 var
   i: longint;
@@ -1433,22 +1482,42 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// BlockWriteByte
+//
+//==============================================================================
 procedure BlockWriteByte(BlockInfo: TPSBlockInfo; b: Byte);
 begin
   BlockInfo.Proc.Data := BlockInfo.Proc.Data + TbtChar(b);
 end;
 
+//==============================================================================
+//
+// BlockWriteData
+//
+//==============================================================================
 procedure BlockWriteData(BlockInfo: TPSBlockInfo; const Data; Len: Longint);
 begin
   SetLength(BlockInfo.Proc.FData, Length(BlockInfo.Proc.FData) + Len);
   Move(Data, BlockInfo.Proc.FData[Length(BlockInfo.Proc.FData) - Len + 1], Len);
 end;
 
+//==============================================================================
+//
+// BlockWriteLong
+//
+//==============================================================================
 procedure BlockWriteLong(BlockInfo: TPSBlockInfo; l: Cardinal);
 begin
   BlockWriteData(BlockInfo, l, 4);
 end;
 
+//==============================================================================
+//
+// BlockWriteVariant
+//
+//==============================================================================
 procedure BlockWriteVariant(BlockInfo: TPSBlockInfo; p: PIfRVariant);
 var
   du8: TbtU8;
@@ -1528,6 +1597,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// ExportCheck
+//
+//==============================================================================
 function ExportCheck(Sender: TPSPascalCompiler; Proc: TPSInternalProcedure; Types: array of TPSBaseType; Modes: array of TPSParameterMode): Boolean;
 var
   i: Longint;
@@ -1577,12 +1651,22 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// SetVarExportName
+//
+//==============================================================================
 procedure SetVarExportName(P: TPSVar; const ExpName: TbtString);
 begin
   if p <> nil then
     p.exportname := ExpName;
 end;
 
+//==============================================================================
+//
+// FindAndAddType
+//
+//==============================================================================
 function FindAndAddType(Owner: TPSPascalCompiler; const Name, Decl: TbtString): TPSType;
 var
   tt: TPSType;
@@ -1595,11 +1679,21 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// ParseMethod
+//
+//==============================================================================
 function ParseMethod(Owner: TPSPascalCompiler; const FClassName: TbtString; Decl: TbtString; var OrgName: TbtString; DestDecl: TPSParametersDecl; var Func: TPMFuncType): Boolean;
 begin
   Result := ParseMethodEx(Owner, FClassName, Decl, OrgName, DestDecl, Func, nil);
 end;
 
+//==============================================================================
+//
+// ParseMethodEx
+//
+//==============================================================================
 function ParseMethodEx(Owner: TPSPascalCompiler; const FClassName: TbtString; Decl: TbtString; var OrgName: TbtString; DestDecl: TPSParametersDecl; var Func: TPMFuncType; CustomParser: TPSPascalParser): Boolean;
 var
   Parser: TPSPascalParser;
@@ -1913,6 +2007,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.FindProc
+//
+//==============================================================================
 function TPSPascalCompiler.FindProc(const aName: TbtString): Cardinal;
 var
   l, h: Longint;
@@ -1965,6 +2064,11 @@ begin
   Result := InvalidVal;
 end; {findfunc}
 
+//==============================================================================
+//
+// TPSPascalCompiler.UseExternalProc
+//
+//==============================================================================
 function TPSPascalCompiler.UseExternalProc(const Name: TbtString): TPSParametersDecl;
 var
   ProcNo: cardinal;
@@ -1985,6 +2089,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.FindBaseType
+//
+//==============================================================================
 function TPSPascalCompiler.FindBaseType(BaseType: TPSBaseType): TPSType;
 var
   l: Longint;
@@ -2012,6 +2121,11 @@ begin
   Result := at2ut(x);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.MakeDecl
+//
+//==============================================================================
 function TPSPascalCompiler.MakeDecl(decl: TPSParametersDecl): TbtString;
 var
   i: Longint;
@@ -2035,12 +2149,22 @@ end;
 type
   TFuncType = (ftProc, ftFunc);
 
+//==============================================================================
+//
+// PS_mi2s
+//
+//==============================================================================
 function PS_mi2s(i: Cardinal): TbtString;
 begin
   SetLength(Result, 4);
   Cardinal((@Result[1])^) := i;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddType
+//
+//==============================================================================
 function TPSPascalCompiler.AddType(const Name: TbtString; const BaseType: TPSBaseType): TPSType;
 begin
   if FProcs = nil then
@@ -2090,6 +2214,11 @@ begin
   FTypes.Add(Result);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddFunction
+//
+//==============================================================================
 function TPSPascalCompiler.AddFunction(const Header: TbtString): TPSRegProc;
 var
   Parser: TPSPascalParser;
@@ -2245,6 +2374,11 @@ begin
   Result := x;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.MakeHint
+//
+//==============================================================================
 function TPSPascalCompiler.MakeHint(const Module: TbtString; E: TPSPascalCompilerHintType; const Param: TbtString): TPSPascalCompilerMessage;
 var
   n: TPSPascalCompilerHint;
@@ -2258,7 +2392,12 @@ begin
   Result := n;
 end;
 
+//==============================================================================
+// TPSPascalCompiler.MakeErrorEx
+//
 // JVAL: Added MakeErrorEx
+//
+//==============================================================================
 function TPSPascalCompiler.MakeErrorEx(const Module: TbtString; E: TPSPascalCompilerErrorType; const
   Param: TbtString; const apos, arow, acol: Cardinal): TPSPascalCompilerMessage;
 var
@@ -2282,6 +2421,11 @@ begin
   Result := n;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.MakeError
+//
+//==============================================================================
 function TPSPascalCompiler.MakeError(const Module: TbtString; E:
   TPSPascalCompilerErrorType; const Param: TbtString): TPSPascalCompilerMessage;
 var
@@ -2303,6 +2447,11 @@ begin
   Result := n;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.MakeWarning
+//
+//==============================================================================
 function TPSPascalCompiler.MakeWarning(const Module: TbtString; E:
   TPSPascalCompilerWarningType; const Param: TbtString): TPSPascalCompilerMessage;
 var
@@ -2317,6 +2466,11 @@ begin
   Result := n;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.Clear
+//
+//==============================================================================
 procedure TPSPascalCompiler.Clear;
 var
   l: Longint;
@@ -2333,6 +2487,11 @@ begin
   FAutoFreeList.Clear;
 end;
 
+//==============================================================================
+//
+// CopyVariantContents
+//
+//==============================================================================
 procedure CopyVariantContents(Src, Dest: PIfRVariant);
 begin
   case src.FType.BaseType of
@@ -2374,6 +2533,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// DuplicateVariant
+//
+//==============================================================================
 function DuplicateVariant(Src: PIfRVariant): PIfRVariant;
 begin
   New(Result);
@@ -2381,6 +2545,11 @@ begin
   CopyVariantContents(Src, Result);
 end;
 
+//==============================================================================
+//
+// InitializeVariant
+//
+//==============================================================================
 procedure InitializeVariant(Vari: PIfRVariant; FType: TPSType);
 begin
   FillChar(vari^, SizeOf(TIfRVariant), 0);
@@ -2392,29 +2561,55 @@ begin
   vari^.FType := FType;
 end;
 
+//==============================================================================
+//
+// NewVariant
+//
+//==============================================================================
 function NewVariant(FType: TPSType): PIfRVariant;
 begin
   New(Result);
   InitializeVariant(Result, FType);
 end;
 
+//==============================================================================
+//
+// FinalizeA
+//
+//==============================================================================
 procedure FinalizeA(var s: TbtString); overload;
 begin
   s := '';
 end;
 
 {$IFNDEF PS_NOWIDESTRING}
+
+//==============================================================================
+//
+// FinalizeW
+//
+//==============================================================================
 procedure FinalizeW(var s: TbtWideString); overload;
 begin
   s := '';
 end;
 
+//==============================================================================
+//
+// FinalizeU
+//
+//==============================================================================
 procedure FinalizeU(var s: TbtUnicodeString); overload;
 begin
   s := '';
 end;
 {$ENDIF}
 
+//==============================================================================
+//
+// FinalizeVariant
+//
+//==============================================================================
 procedure FinalizeVariant(var p: TIfRVariant);
 begin
   if (p.FType.BaseType = btString) or (p.FType.basetype = btSet) then
@@ -2427,6 +2622,11 @@ begin
   {$ENDIF}
 end;
 
+//==============================================================================
+//
+// DisposeVariant
+//
+//==============================================================================
 procedure DisposeVariant(p: PIfRVariant);
 begin
   if p <> nil then
@@ -2436,6 +2636,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetTypeCopyLink
+//
+//==============================================================================
 function TPSPascalCompiler.GetTypeCopyLink(p: TPSType): TPSType;
 begin
   if p = nil then
@@ -2449,6 +2654,11 @@ begin
     Result := p;
 end;
 
+//==============================================================================
+//
+// IsIntType
+//
+//==============================================================================
 function IsIntType(b: TPSBaseType): Boolean;
 begin
   case b of
@@ -2467,6 +2677,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// IsRealType
+//
+//==============================================================================
 function IsRealType(b: TPSBaseType): Boolean;
 begin
   case b of
@@ -2480,6 +2695,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// IsIntRealType
+//
+//==============================================================================
 function IsIntRealType(b: TPSBaseType): Boolean;
 begin
   case b of
@@ -2502,6 +2722,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// DiffRec
+//
+//==============================================================================
 function DiffRec(p1, p2: TPSSubItem): Boolean;
 begin
   if p1.ClassType = p2.ClassType then
@@ -2517,6 +2742,11 @@ begin
     Result := True;
 end;
 
+//==============================================================================
+//
+// SameReg
+//
+//==============================================================================
 function SameReg(x1, x2: TPSValue): Boolean;
 var
   I: Longint;
@@ -2551,6 +2781,11 @@ begin
     Result := False;
 end;
 
+//==============================================================================
+//
+// GetUInt
+//
+//==============================================================================
 function GetUInt(Src: PIfRVariant; var s: Boolean): Cardinal;
 begin
   case Src.FType.BaseType of
@@ -2586,6 +2821,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// GetInt
+//
+//==============================================================================
 function GetInt(Src: PIfRVariant; var s: Boolean): Longint;
 begin
   case Src.FType.BaseType of
@@ -2622,6 +2862,12 @@ begin
 end;
 
 {$IFNDEF PS_NOINT64}
+
+//==============================================================================
+//
+// GetInt64
+//
+//==============================================================================
 function GetInt64(Src: PIfRVariant; var s: Boolean): Int64;
 begin
   case Src.FType.BaseType of
@@ -2656,6 +2902,11 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
+//
+// GetReal
+//
+//==============================================================================
 function GetReal(Src: PIfRVariant; var s: Boolean): Extended;
 begin
   case Src.FType.BaseType of
@@ -2697,6 +2948,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// GetString
+//
+//==============================================================================
 function GetString(Src: PIfRVariant; var s: Boolean): TbtString;
 begin
   case Src.FType.BaseType of
@@ -2721,6 +2977,12 @@ begin
 end;
 
 {$IFNDEF PS_NOWIDESTRING}
+
+//==============================================================================
+//
+// TPSPascalCompiler.GetWideString
+//
+//==============================================================================
 function TPSPascalCompiler.GetWideString(Src: PIfRVariant; var s: Boolean): TbtWideString;
 begin
   case Src.FType.BaseType of
@@ -2742,6 +3004,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetUnicodeString
+//
+//==============================================================================
 function TPSPascalCompiler.GetUnicodeString(Src: PIfRVariant; var s: Boolean): TbtUnicodeString;
 begin
   case Src.FType.BaseType of
@@ -2764,11 +3031,21 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
+//
+// ab
+//
+//==============================================================================
 function ab(b: Longint): Longint;
 begin
   ab := Longint(b = 0);
 end;
 
+//==============================================================================
+//
+// Set_Union
+//
+//==============================================================================
 procedure Set_Union(Dest, Src: PByteArray; ByteSize: Integer);
 var
   i: Longint;
@@ -2777,6 +3054,11 @@ begin
     Dest^[i] := Dest^[i] or Src^[i];
 end;
 
+//==============================================================================
+//
+// Set_Diff
+//
+//==============================================================================
 procedure Set_Diff(Dest, Src: PByteArray; ByteSize: Integer);
 var
   i: Longint;
@@ -2785,6 +3067,11 @@ begin
     Dest^[i] := Dest^[i] and not Src^[i];
 end;
 
+//==============================================================================
+//
+// Set_Intersect
+//
+//==============================================================================
 procedure Set_Intersect(Dest, Src: PByteArray; ByteSize: Integer);
 var
   i: Longint;
@@ -2793,6 +3080,11 @@ begin
     Dest^[i] := Dest^[i] and Src^[i];
 end;
 
+//==============================================================================
+//
+// Set_Subset
+//
+//==============================================================================
 procedure Set_Subset(Dest, Src: PByteArray; ByteSize: Integer; var Val: Boolean);
 var
   i: Integer;
@@ -2808,6 +3100,11 @@ begin
   Val := True;
 end;
 
+//==============================================================================
+//
+// Set_Equal
+//
+//==============================================================================
 procedure Set_Equal(Dest, Src: PByteArray; ByteSize: Integer; var Val: Boolean);
 var
   i: Longint;
@@ -2823,16 +3120,31 @@ begin
   val := True;
 end;
 
+//==============================================================================
+//
+// Set_membership
+//
+//==============================================================================
 procedure Set_membership(Item: Longint; Src: PByteArray; var Val: Boolean);
 begin
   Val := (Src^[Item shr 3] and (1 shl (Item and 7))) <> 0;
 end;
 
+//==============================================================================
+//
+// Set_MakeMember
+//
+//==============================================================================
 procedure Set_MakeMember(Item: Longint; Src: PByteArray);
 begin
   Src^[Item shr 3] := Src^[Item shr 3] or (1 shl (Item and 7));
 end;
 
+//==============================================================================
+//
+// ConvertToBoolean
+//
+//==============================================================================
 procedure ConvertToBoolean(SE: TPSPascalCompiler; FUseUsedTypes: Boolean; var1: PIFRVariant; b: Boolean);
 begin
   FinalizeVariant(var1^);
@@ -2843,6 +3155,11 @@ begin
   var1^.tu32 := Ord(b);
 end;
 
+//==============================================================================
+//
+// ConvertToString
+//
+//==============================================================================
 procedure ConvertToString(SE: TPSPascalCompiler; FUseUsedTypes: Boolean; var1: PIFRVariant; const s: TbtString);
 var
   atype: TPSType;
@@ -2857,6 +3174,12 @@ begin
 end;
 
 {$IFNDEF PS_NOWIDESTRING}
+
+//==============================================================================
+//
+// ConvertToUnicodeString
+//
+//==============================================================================
 procedure ConvertToUnicodeString(SE: TPSPascalCompiler; FUseUsedTypes: Boolean; var1: PIFRVariant; const s: TbtUnicodeString);
 var
   atype: TPSType;
@@ -2871,6 +3194,11 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
+//
+// ConvertToFloat
+//
+//==============================================================================
 procedure ConvertToFloat(SE: TPSPascalCompiler; FUseUsedTypes: Boolean; var1: PIfRVariant; NewType: TPSType);
 var
   vartemp: PIfRVariant;
@@ -2917,6 +3245,11 @@ begin
   DisposeVariant(vartemp);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.IsCompatibleType
+//
+//==============================================================================
 function TPSPascalCompiler.IsCompatibleType(p1, p2: TPSType; Cast: Boolean): Boolean;
 begin
   if ((p1.BaseType = btProcPtr) and (p2 = p1)) or
@@ -2971,6 +3304,11 @@ begin
     Result := False;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.PreCalc
+//
+//==============================================================================
 function TPSPascalCompiler.PreCalc(FUseUsedTypes: Boolean; Var1Mod: Byte; var1: PIFRVariant; Var2Mod: Byte; Var2: PIfRVariant; Cmd: TPSBinOperatorType; Pos, Row, Col: Cardinal): Boolean;
   { var1=Dest, var2=src }
 var
@@ -3643,6 +3981,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.IsDuplicate
+//
+//==============================================================================
 function TPSPascalCompiler.IsDuplicate(const s: TbtString; const check: TPSDuplicCheck): Boolean;
 var
   h, l: Longint;
@@ -3713,6 +4056,11 @@ begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// ClearRecSubVals
+//
+//==============================================================================
 procedure ClearRecSubVals(RecSubVals: TPSList);
 var
   I: Longint;
@@ -3722,6 +4070,11 @@ begin
   RecSubVals.Free;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.ReadTypeAddProcedure
+//
+//==============================================================================
 function TPSPascalCompiler.ReadTypeAddProcedure(const Name: TbtString; FParser: TPSPascalParser): TPSType;
 var
   IsFunction: Boolean;
@@ -3909,7 +4262,11 @@ begin
   end;
 end; {ReadTypeAddProcedure}
 
-
+//==============================================================================
+//
+// TPSPascalCompiler.ReadType
+//
+//==============================================================================
 function TPSPascalCompiler.ReadType(const Name: TbtString; FParser: TPSPascalParser): TPSType; // InvalidVal = Invalid
 var
   TypeNo: TPSType;
@@ -4429,6 +4786,11 @@ begin
   Exit;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.VarIsDuplicate
+//
+//==============================================================================
 function TPSPascalCompiler.VarIsDuplicate(Proc: TPSInternalProcedure; const Varnames, s: TbtString): Boolean;
 var
   h, l: Longint;
@@ -4516,6 +4878,11 @@ begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.DoVarBlock
+//
+//==============================================================================
 function TPSPascalCompiler.DoVarBlock(proc: TPSInternalProcedure): Boolean;
 var
   VarName, s: TbtString;
@@ -4629,6 +4996,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.NewProc
+//
+//==============================================================================
 function TPSPascalCompiler.NewProc(const OriginalName, Name: TbtString): TPSInternalProcedure;
 begin
   Result := TPSInternalProcedure.Create;
@@ -4643,6 +5015,11 @@ begin
   FProcs.Add(Result);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.IsProcDuplicLabel
+//
+//==============================================================================
 function TPSPascalCompiler.IsProcDuplicLabel(Proc: TPSInternalProcedure; const s: TbtString): Boolean;
 var
   i: Longint;
@@ -4692,7 +5069,11 @@ begin
   end;
 end;
 
-
+//==============================================================================
+//
+// TPSPascalCompiler.ProcessLabel
+//
+//==============================================================================
 function TPSPascalCompiler.ProcessLabel(Proc: TPSInternalProcedure): Boolean;
 var
   CurrLabel: TbtString;
@@ -4731,6 +5112,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.Debug_SavePosition
+//
+//==============================================================================
 procedure TPSPascalCompiler.Debug_SavePosition(ProcNo: Cardinal; Proc: TPSInternalProcedure);
 var
   Row,
@@ -4760,6 +5146,11 @@ begin
   {$ENDIF}
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.Debug_WriteParams
+//
+//==============================================================================
 procedure TPSPascalCompiler.Debug_WriteParams(ProcNo: Cardinal; Proc: TPSInternalProcedure);
 var
   I: Longint;
@@ -4781,6 +5172,11 @@ begin
   WriteDebugData(s);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.CheckForUnusedVars
+//
+//==============================================================================
 procedure TPSPascalCompiler.CheckForUnusedVars(Func: TPSInternalProcedure);
 var
   i: Integer;
@@ -4810,6 +5206,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.ProcIsDuplic
+//
+//==============================================================================
 function TPSPascalCompiler.ProcIsDuplic(Decl: TPSParametersDecl; const FunctionName, FunctionParamNames: TbtString; const s: TbtString; Func: TPSInternalProcedure): Boolean;
 var
   i: Longint;
@@ -4866,6 +5267,12 @@ begin
     Result := False;
   end;
 end;
+
+//==============================================================================
+//
+// WriteProcVars
+//
+//==============================================================================
 procedure WriteProcVars(Func:TPSInternalProcedure; t: TPSList);
 var
   l: Longint;
@@ -4878,7 +5285,11 @@ begin
   end;
 end;
 
-
+//==============================================================================
+//
+// TPSPascalCompiler.ApplyAttribsToFunction
+//
+//==============================================================================
 function TPSPascalCompiler.ApplyAttribsToFunction(func: TPSProcedure): Boolean;
 var
   i: Longint;
@@ -4897,6 +5308,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.ProcessFunction
+//
+//==============================================================================
 function TPSPascalCompiler.ProcessFunction(AlwaysForward: Boolean; Att: TPSAttributes): Boolean;
 var
   FunctionType: TFuncType;
@@ -5278,6 +5694,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// GetParamType
+//
+//==============================================================================
 function GetParamType(BlockInfo: TPSBlockInfo; I: Longint): TPSType;
 begin
   if BlockInfo.Proc.Decl.Result <> nil then
@@ -5290,6 +5711,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetTypeNo
+//
+//==============================================================================
 function TPSPascalCompiler.GetTypeNo(BlockInfo: TPSBlockInfo; p: TPSValue): TPSType;
 begin
   if p.ClassType = TPSUnValueOp then
@@ -5316,6 +5742,11 @@ begin
     Result := nil;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.IsVarInCompatible
+//
+//==============================================================================
 function TPSPascalCompiler.IsVarInCompatible(ft1, ft2: TPSType): Boolean;
 begin
   ft1 := GetTypeCopyLink(ft1);
@@ -5323,6 +5754,11 @@ begin
   Result := (ft1 <> ft2) and (ft2 <> nil);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.ValidateParameters
+//
+//==============================================================================
 function TPSPascalCompiler.ValidateParameters(BlockInfo: TPSBlockInfo;
   Params: TPSParameters; ParamTypes: TPSParametersDecl): Boolean;
 var
@@ -5408,6 +5844,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.DoTypeBlock
+//
+//==============================================================================
 function TPSPascalCompiler.DoTypeBlock(FParser: TPSPascalParser): Boolean;
 var
   VOrg,VName: TbtString;
@@ -5479,6 +5920,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.Debug_WriteLine
+//
+//==============================================================================
 procedure TPSPascalCompiler.Debug_WriteLine(BlockInfo: TPSBlockInfo);
 var
   b: Boolean;
@@ -5497,6 +5943,11 @@ begin
     Debug_SavePosition(BlockInfo.ProcNo, BlockInfo.Proc);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.ReadReal
+//
+//==============================================================================
 function TPSPascalCompiler.ReadReal(const s: TbtString): PIfRVariant;
 var
   C: Integer;
@@ -5509,6 +5960,11 @@ begin
   Val(string(s), Result^.textended, C);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.ReadString
+//
+//==============================================================================
 function TPSPascalCompiler.ReadString: PIfRVariant;
 {$IFNDEF PS_NOWIDESTRING}var wchar: Boolean;{$ENDIF}
 
@@ -5633,7 +6089,11 @@ begin
   {$ENDIF}
 end;
 
-
+//==============================================================================
+//
+// TPSPascalCompiler.ReadInteger
+//
+//==============================================================================
 function TPSPascalCompiler.ReadInteger(const s: TbtString): PIfRVariant;
 var
   R: {$IFNDEF PS_NOINT64}Int64;{$ELSE}Longint;{$ENDIF}
@@ -5663,6 +6123,11 @@ begin
   {$ENDIF}
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.ProcessSub
+//
+//==============================================================================
 function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
 
   function AllocStackReg2(MType: TPSType): TPSValue;
@@ -11668,6 +12133,11 @@ begin
   ProcessSub := True;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.UseProc
+//
+//==============================================================================
 procedure TPSPascalCompiler.UseProc(procdecl: TPSParametersDecl);
 var
   i: Longint;
@@ -11680,6 +12150,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.at2ut
+//
+//==============================================================================
 function TPSPascalCompiler.at2ut(p: TPSType): TPSType;
 var
   i: Longint;
@@ -11717,6 +12192,11 @@ begin
   Result := p;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.ProcessLabelForwards
+//
+//==============================================================================
 function TPSPascalCompiler.ProcessLabelForwards(Proc: TPSInternalProcedure): Boolean;
 var
   i: Longint;
@@ -11745,6 +12225,11 @@ end;
 type
   TCompilerState = (csStart, csProgram, csUnit, csUses, csInterface, csInterfaceUses, csImplementation);
 
+//==============================================================================
+//
+// TPSPascalCompiler.Compile
+//
+//==============================================================================
 function TPSPascalCompiler.Compile(const s: TbtString): Boolean;
 var
   Position: TCompilerState;
@@ -12936,6 +13421,11 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetOutput
+//
+//==============================================================================
 function TPSPascalCompiler.GetOutput(var s: TbtString): Boolean;
 begin
   if Length(FOutput) <> 0 then
@@ -12947,16 +13437,31 @@ begin
     Result := False;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetMsg
+//
+//==============================================================================
 function TPSPascalCompiler.GetMsg(l: Longint): TPSPascalCompilerMessage;
 begin
   Result := FMessages[l];
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetMsgCount
+//
+//==============================================================================
 function TPSPascalCompiler.GetMsgCount: Longint;
 begin
   Result := FMessages.Count;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.DefineStandardTypes
+//
+//==============================================================================
 procedure TPSPascalCompiler.DefineStandardTypes;
 var
   i: Longint;
@@ -13041,6 +13546,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.FindType
+//
+//==============================================================================
 function TPSPascalCompiler.FindType(const Name: TbtString): TPSType;
 var
   i, n: Longint;
@@ -13065,6 +13575,11 @@ begin
   Result := nil;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddConstant
+//
+//==============================================================================
 function TPSPascalCompiler.AddConstant(const Name: TbtString; FType: TPSType): TPSConstant;
 var
   pc: TPSConstant;
@@ -13094,6 +13609,11 @@ begin
   Result := pc;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.ReadAttributes
+//
+//==============================================================================
 function TPSPascalCompiler.ReadAttributes(Dest: TPSAttributes): Boolean;
 var
   Att: TPSAttributeType;
@@ -13242,7 +13762,11 @@ type
     destructor Destroy; override;
   end;
 
-
+//==============================================================================
+//
+// TPSPascalCompiler.IsBoolean
+//
+//==============================================================================
 function TPSPascalCompiler.IsBoolean(aType: TPSType): Boolean;
 begin
   Result := (AType = FDefaultBoolType)
@@ -13251,6 +13775,11 @@ begin
     or (AType.Name = 'BYTEBOOL');
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.ReadConstant
+//
+//==============================================================================
 function TPSPascalCompiler.ReadConstant(FParser: TPSPascalParser; StopOn: TPSPasToken): PIfRVariant;
 
   function ReadExpression: TConstOperation; forward;
@@ -13661,11 +14190,21 @@ begin
   Val.Free;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.WriteDebugData
+//
+//==============================================================================
 procedure TPSPascalCompiler.WriteDebugData(const s: TbtString);
 begin
   FDebugOutput := FDebugOutput + s;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetDebugOutput
+//
+//==============================================================================
 function TPSPascalCompiler.GetDebugOutput(var s: TbtString): Boolean;
 begin
   if Length(FDebugOutput) <> 0 then
@@ -13677,6 +14216,11 @@ begin
     Result := False;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddUsedFunction
+//
+//==============================================================================
 function TPSPascalCompiler.AddUsedFunction(var Proc: TPSInternalProcedure): Cardinal;
 begin
   if FProcs = nil then
@@ -13692,6 +14236,11 @@ const
   IDispatch_Guid: TGuid = (D1: $20400; D2: $0; D3: $0; D4:($C0, $0, $0, $0, $0, $0, $0, $46));
 {$ENDIF}
 
+//==============================================================================
+//
+// TPSPascalCompiler.DefineStandardProcedures
+//
+//==============================================================================
 procedure TPSPascalCompiler.DefineStandardProcedures;
 var
   p: TPSRegProc;
@@ -13912,6 +14461,11 @@ begin
   {$ENDIF}
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetTypeCount
+//
+//==============================================================================
 function TPSPascalCompiler.GetTypeCount: Longint;
 begin
   if FProcs = nil then
@@ -13919,6 +14473,11 @@ begin
   Result := FTypes.Count;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetType
+//
+//==============================================================================
 function TPSPascalCompiler.GetType(I: Longint): TPSType;
 begin
   if FProcs = nil then
@@ -13926,6 +14485,11 @@ begin
   Result := FTypes[I];
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetVarCount
+//
+//==============================================================================
 function TPSPascalCompiler.GetVarCount: Longint;
 begin
   if FProcs = nil then
@@ -13933,6 +14497,11 @@ begin
   Result := FVars.Count;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetVar
+//
+//==============================================================================
 function TPSPascalCompiler.GetVar(I: Longint): TPSVar;
 begin
   if FProcs = nil then
@@ -13940,6 +14509,11 @@ begin
   Result := FVars[i];
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetProcCount
+//
+//==============================================================================
 function TPSPascalCompiler.GetProcCount: Longint;
 begin
   if FProcs = nil then
@@ -13947,6 +14521,11 @@ begin
   Result := FProcs.Count;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetProc
+//
+//==============================================================================
 function TPSPascalCompiler.GetProc(I: Longint): TPSProcedure;
 begin
   if FProcs = nil then
@@ -13954,6 +14533,11 @@ begin
   Result := FProcs[i];
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddUsedFunction2
+//
+//==============================================================================
 function TPSPascalCompiler.AddUsedFunction2(var Proc: TPSExternalProcedure): Cardinal;
 begin
   if FProcs = nil then
@@ -13963,6 +14547,11 @@ begin
   Result := FProcs.Count - 1;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddVariable
+//
+//==============================================================================
 function TPSPascalCompiler.AddVariable(const Name: TbtString; FType: TPSType): TPSVar;
 var
   P: TPSVar;
@@ -13985,6 +14574,11 @@ begin
   Result := P;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddAttributeType
+//
+//==============================================================================
 function TPSPascalCompiler.AddAttributeType: TPSAttributeType;
 begin
   if FAttributeTypes = nil then
@@ -13993,6 +14587,11 @@ begin
   FAttributeTypes.Add(Result);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.FindAttributeType
+//
+//==============================================================================
 function TPSPascalCompiler.FindAttributeType(const Name: TbtString): TPSAttributeType;
 var
   h, i: Integer;
@@ -14011,6 +14610,11 @@ begin
   Result := nil;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetConstCount
+//
+//==============================================================================
 function TPSPascalCompiler.GetConstCount: Longint;
 begin
   if FProcs = nil then
@@ -14018,6 +14622,11 @@ begin
   Result := FConstants.Count;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetConst
+//
+//==============================================================================
 function TPSPascalCompiler.GetConst(I: Longint): TPSConstant;
 begin
   if FProcs = nil then
@@ -14025,6 +14634,11 @@ begin
   Result := TPSConstant(FConstants[i]);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetRegProcCount
+//
+//==============================================================================
 function TPSPascalCompiler.GetRegProcCount: Longint;
 begin
   if FProcs = nil then
@@ -14032,6 +14646,11 @@ begin
   Result := FRegProcs.Count;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetRegProc
+//
+//==============================================================================
 function TPSPascalCompiler.GetRegProc(I: Longint): TPSRegProc;
 begin
   if FProcs = nil then
@@ -14039,6 +14658,11 @@ begin
   Result := TPSRegProc(FRegProcs[i]);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddToFreeList
+//
+//==============================================================================
 procedure TPSPascalCompiler.AddToFreeList(Obj: TObject);
 begin
   FAutoFreeList.Add(Obj);
@@ -14050,6 +14674,11 @@ begin
   Result := AddConstant(Name, FindType(FType));
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddTypeCopy
+//
+//==============================================================================
 function TPSPascalCompiler.AddTypeCopy(const Name: TbtString;
   TypeNo: TPSType): TPSType;
 begin
@@ -14068,6 +14697,11 @@ begin
   Result := AddTypeCopy(Name, FindType(FType));
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddUsedVariable
+//
+//==============================================================================
 function TPSPascalCompiler.AddUsedVariable(const Name: TbtString;
   FType: TPSType): TPSVar;
 begin
@@ -14090,6 +14724,11 @@ begin
   Result := AddVariable(Name, FindType(FType));
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddUsedPtrVariable
+//
+//==============================================================================
 function TPSPascalCompiler.AddUsedPtrVariable(const Name: TbtString; FType: TPSType): TPSVar;
 begin
   Result := AddVariable(Name, FType);
@@ -14100,6 +14739,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddUsedPtrVariableN
+//
+//==============================================================================
 function TPSPascalCompiler.AddUsedPtrVariableN(const Name, FType: TbtString): TPSVar;
 begin
   Result := AddVariable(Name, FindType(FType));
@@ -14110,6 +14754,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddTypeS
+//
+//==============================================================================
 function TPSPascalCompiler.AddTypeS(const Name, Decl: TbtString): TPSType;
 var
   Parser: TPSPascalParser;
@@ -14138,6 +14787,11 @@ begin
     raise EPSCompilerException.CreateFmt(RPS_UnableToRegisterType, [name]);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.CheckCompatProc
+//
+//==============================================================================
 function TPSPascalCompiler.CheckCompatProc(P: TPSType; ProcNo: Cardinal): Boolean;
 var
   i: Longint;
@@ -14171,6 +14825,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.MakeExportDecl
+//
+//==============================================================================
 function TPSPascalCompiler.MakeExportDecl(decl: TPSParametersDecl): TbtString;
 var
   i: Longint;
@@ -14190,6 +14849,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.IsIntBoolType
+//
+//==============================================================================
 function TPSPascalCompiler.IsIntBoolType(aType: TPSType): Boolean;
 begin
   if Isboolean(aType) then
@@ -14214,6 +14878,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.ParserError
+//
+//==============================================================================
 procedure TPSPascalCompiler.ParserError(Parser: TObject;
   Kind: TPSParserErrorKind);
 begin
@@ -14230,6 +14899,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddDelphiFunction
+//
+//==============================================================================
 function TPSPascalCompiler.AddDelphiFunction(const Decl: TbtString): TPSRegProc;
 var
   p: TPSRegProc;
@@ -14276,6 +14950,11 @@ begin
   Result := p;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddDelphiFunctionWithRTLObjectResult
+//
+//==============================================================================
 function TPSPascalCompiler.AddDelphiFunctionWithRTLObjectResult(const Decl: TbtString; const fresult: TbtString): TPSRegProc;
 var
   p: TPSRegProc;
@@ -14328,6 +15007,12 @@ begin
 end;
 
 {$IFNDEF PS_NOINTERFACES}
+
+//==============================================================================
+//
+// TPSPascalCompiler.AddInterface
+//
+//==============================================================================
 function TPSPascalCompiler.AddInterface(InheritedFrom: TPSInterface; Guid: TGuid; const Name: TbtString): TPSInterface;
 var
   f: TPSType;
@@ -14351,6 +15036,11 @@ begin
   TPSInterfaceType(f).Intf := Result;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.FindInterface
+//
+//==============================================================================
 function TPSPascalCompiler.FindInterface(const Name: TbtString): TPSInterface;
 var
   n: TbtString;
@@ -14370,6 +15060,11 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddClass
+//
+//==============================================================================
 function TPSPascalCompiler.AddClass(InheritsFrom: TPSCompileTimeClass; aClass: TClass): TPSCompileTimeClass;
 var
   f: TPSType;
@@ -14393,6 +15088,11 @@ begin
   f.ExportName := True;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.AddClassN
+//
+//==============================================================================
 function TPSPascalCompiler.AddClassN(InheritsFrom: TPSCompileTimeClass; const aClass: TbtString): TPSCompileTimeClass;
 var
   f: TPSType;
@@ -14417,6 +15117,11 @@ begin
   f.ExportName := True;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.FindClass
+//
+//==============================================================================
 function TPSPascalCompiler.FindClass(const aClass: TbtString): TPSCompileTimeClass;
 var
   i: Longint;
@@ -14438,60 +15143,110 @@ begin
   Result := nil;
 end;
 
+//==============================================================================
+//
+// TransDoubleToStr
+//
+//==============================================================================
 function TransDoubleToStr(D: Double): TbtString;
 begin
   SetLength(Result, SizeOf(Double));
   Double((@Result[1])^) := D;
 end;
 
+//==============================================================================
+//
+// TransSingleToStr
+//
+//==============================================================================
 function TransSingleToStr(D: Single): TbtString;
 begin
   SetLength(Result, SizeOf(Single));
   Single((@Result[1])^) := D;
 end;
 
+//==============================================================================
+//
+// TransExtendedToStr
+//
+//==============================================================================
 function TransExtendedToStr(D: Extended): TbtString;
 begin
   SetLength(Result, SizeOf(Extended));
   Extended((@Result[1])^) := D;
 end;
 
+//==============================================================================
+//
+// TransLongintToStr
+//
+//==============================================================================
 function TransLongintToStr(D: Longint): TbtString;
 begin
   SetLength(Result, SizeOf(Longint));
   Longint((@Result[1])^) := D;
 end;
 
+//==============================================================================
+//
+// TransCardinalToStr
+//
+//==============================================================================
 function TransCardinalToStr(D: Cardinal): TbtString;
 begin
   SetLength(Result, SizeOf(Cardinal));
   Cardinal((@Result[1])^) := D;
 end;
 
+//==============================================================================
+//
+// TransWordToStr
+//
+//==============================================================================
 function TransWordToStr(D: Word): TbtString;
 begin
   SetLength(Result, SizeOf(Word));
   Word((@Result[1])^) := D;
 end;
 
+//==============================================================================
+//
+// TransSmallIntToStr
+//
+//==============================================================================
 function TransSmallIntToStr(D: SmallInt): TbtString;
 begin
   SetLength(Result, SizeOf(SmallInt));
   SmallInt((@Result[1])^) := D;
 end;
 
+//==============================================================================
+//
+// TransByteToStr
+//
+//==============================================================================
 function TransByteToStr(D: Byte): TbtString;
 begin
   SetLength(Result, SizeOf(Byte));
   Byte((@Result[1])^) := D;
 end;
 
+//==============================================================================
+//
+// TransShortIntToStr
+//
+//==============================================================================
 function TransShortIntToStr(D: ShortInt): TbtString;
 begin
   SetLength(Result, SizeOf(ShortInt));
   ShortInt((@Result[1])^) := D;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.GetConstant
+//
+//==============================================================================
 function TPSPascalCompiler.GetConstant(const Name: TbtString): TPSConstant;
 var
   h, i: Longint;
@@ -14509,6 +15264,12 @@ begin
 end;
 
 {$IFDEF PS_USESSUPPORT}
+
+//==============================================================================
+//
+// TPSPascalCompiler.IsInLocalUnitList
+//
+//==============================================================================
 function TPSPascalCompiler.IsInLocalUnitList(s: TbtString): Boolean;
 begin
   s := FastUpperCase(s);
@@ -14535,18 +15296,34 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSType.SetName
+//
+//==============================================================================
 procedure TPSType.SetName(const Value: TbtString);
 begin
   FName := Value;
   FNameHash := MakeHash(Value);
 end;
 
+//==============================================================================
+//
+// TPSType.Use
+//
+//==============================================================================
 procedure TPSType.Use;
 begin
   FUsed := True;
 end;
 
 { TPSRecordType }
+
+//==============================================================================
+//
+// TPSRecordType.AddRecVal
+//
+//==============================================================================
 function TPSRecordType.AddRecVal: PIFPSRecordFieldTypeDef;
 begin
   Result := TPSRecordFieldTypeDef.Create;
@@ -14569,11 +15346,21 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSRecordType.RecVal
+//
+//==============================================================================
 function TPSRecordType.RecVal(I: Longint): PIFPSRecordFieldTypeDef;
 begin
   Result := FRecordSubVals[I]
 end;
 
+//==============================================================================
+//
+// TPSRecordType.RecValCount
+//
+//==============================================================================
 function TPSRecordType.RecValCount: Longint;
 begin
   Result := FRecordSubVals.Count;
@@ -14594,6 +15381,11 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSRegProc.SetName
+//
+//==============================================================================
 procedure TPSRegProc.SetName(const Value: TbtString);
 begin
   FName := Value;
@@ -14601,6 +15393,12 @@ begin
 end;
 
 { TPSRecordFieldTypeDef }
+
+//==============================================================================
+//
+// TPSRecordFieldTypeDef.SetFieldOrgName
+//
+//==============================================================================
 procedure TPSRecordFieldTypeDef.SetFieldOrgName(const Value: TbtString);
 begin
   FFieldOrgName := Value;
@@ -14609,12 +15407,23 @@ begin
 end;
 
 { TPSProcVar }
+
+//==============================================================================
+//
+// TPSProcVar.SetName
+//
+//==============================================================================
 procedure TPSProcVar.SetName(const Value: TbtString);
 begin
   FName := Value;
   FNameHash := MakeHash(FName);
 end;
 
+//==============================================================================
+//
+// TPSProcVar.Use
+//
+//==============================================================================
 procedure TPSProcVar.Use;
 begin
   FUsed := True;
@@ -14643,17 +15452,32 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSInternalProcedure.ResultUse
+//
+//==============================================================================
 procedure TPSInternalProcedure.ResultUse;
 begin
   FResultUsed := True;
 end;
 
+//==============================================================================
+//
+// TPSInternalProcedure.SetName
+//
+//==============================================================================
 procedure TPSInternalProcedure.SetName(const Value: TbtString);
 begin
   FName := Value;
   FNameHash := MakeHash(FName);
 end;
 
+//==============================================================================
+//
+// TPSInternalProcedure.Use
+//
+//==============================================================================
 procedure TPSInternalProcedure.Use;
 begin
   FUsed := True;
@@ -14673,12 +15497,23 @@ begin
 end;
 
 { TPSVar }
+
+//==============================================================================
+//
+// TPSVar.SetName
+//
+//==============================================================================
 procedure TPSVar.SetName(const Value: TbtString);
 begin
   FName := Value;
   FNameHash := MakeHash(Value);
 end;
 
+//==============================================================================
+//
+// TPSVar.Use
+//
+//==============================================================================
 procedure TPSVar.Use;
 begin
   FUsed := True;
@@ -14691,6 +15526,11 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSConstant.SetChar
+//
+//==============================================================================
 procedure TPSConstant.SetChar(c: TbtChar);
 begin
   if (FValue <> nil) then
@@ -14714,6 +15554,11 @@ begin
     raise EPSCompilerException.Create(RPS_ConstantValueNotAssigned)
 end;
 
+//==============================================================================
+//
+// TPSConstant.SetExtended
+//
+//==============================================================================
 procedure TPSConstant.SetExtended(const Val: Extended);
 begin
   if (FValue <> nil) then
@@ -14735,6 +15580,11 @@ begin
     raise EPSCompilerException.Create(RPS_ConstantValueNotAssigned)
 end;
 
+//==============================================================================
+//
+// TPSConstant.SetInt
+//
+//==============================================================================
 procedure TPSConstant.SetInt(const Val: Longint);
 begin
   if (FValue <> nil) then
@@ -14772,6 +15622,12 @@ begin
 end;
 
 {$IFNDEF PS_NOINT64}
+
+//==============================================================================
+//
+// TPSConstant.SetInt64
+//
+//==============================================================================
 procedure TPSConstant.SetInt64(const Val: Int64);
 begin
   if (FValue <> nil) then
@@ -14807,12 +15663,22 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
+//
+// TPSConstant.SetName
+//
+//==============================================================================
 procedure TPSConstant.SetName(const Value: TbtString);
 begin
   FName := Value;
   FNameHash := MakeHash(Value);
 end;
 
+//==============================================================================
+//
+// TPSConstant.SetSet
+//
+//==============================================================================
 procedure TPSConstant.SetSet(const val);
 begin
   if (FValue <> nil) then
@@ -14832,6 +15698,11 @@ begin
     raise EPSCompilerException.Create(RPS_ConstantValueNotAssigned)
 end;
 
+//==============================================================================
+//
+// TPSConstant.SetString
+//
+//==============================================================================
 procedure TPSConstant.SetString(const Val: TbtString);
 begin
   if (FValue <> nil) then
@@ -14857,6 +15728,11 @@ begin
     raise EPSCompilerException.Create(RPS_ConstantValueNotAssigned)
 end;
 
+//==============================================================================
+//
+// TPSConstant.SetUInt
+//
+//==============================================================================
 procedure TPSConstant.SetUInt(const Val: Cardinal);
 begin
   if (FValue <> nil) then
@@ -14894,6 +15770,12 @@ begin
 end;
 
 {$IFNDEF PS_NOWIDESTRING}
+
+//==============================================================================
+//
+// TPSConstant.SetWideChar
+//
+//==============================================================================
 procedure TPSConstant.SetWideChar(const val: WideChar);
 begin
   if (FValue <> nil) then
@@ -14915,6 +15797,11 @@ begin
     raise EPSCompilerException.Create(RPS_ConstantValueNotAssigned)
 end;
 
+//==============================================================================
+//
+// TPSConstant.SetWideString
+//
+//==============================================================================
 procedure TPSConstant.SetWideString(const val: TbtWideString);
 begin
   if (FValue <> nil) then
@@ -14934,6 +15821,11 @@ begin
     raise EPSCompilerException.Create(RPS_ConstantValueNotAssigned)
 end;
 
+//==============================================================================
+//
+// TPSConstant.SetUnicodeString
+//
+//==============================================================================
 procedure TPSConstant.SetUnicodeString(const val: TbtUnicodeString);
 begin
   if (FValue <> nil) then
@@ -14955,11 +15847,22 @@ end;
 {$ENDIF}
 
 { TPSPascalCompilerError }
+
+//==============================================================================
+//
+// TPSPascalCompilerError.ErrorType
+//
+//==============================================================================
 function TPSPascalCompilerError.ErrorType: TbtString;
 begin
   Result := TbtString(RPS_Error);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompilerError.ShortMessageToString
+//
+//==============================================================================
 function TPSPascalCompilerError.ShortMessageToString: TbtString;
 begin
   case Error of
@@ -15067,11 +15970,22 @@ begin
 end;
 
 { TPSPascalCompilerHint }
+
+//==============================================================================
+//
+// TPSPascalCompilerHint.ErrorType
+//
+//==============================================================================
 function TPSPascalCompilerHint.ErrorType: TbtString;
 begin
   Result := TbtString(RPS_Hint);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompilerHint.ShortMessageToString
+//
+//==============================================================================
 function TPSPascalCompilerHint.ShortMessageToString: TbtString;
 begin
   case Hint of
@@ -15087,11 +16001,22 @@ begin
 end;
 
 { TPSPascalCompilerWarning }
+
+//==============================================================================
+//
+// TPSPascalCompilerWarning.ErrorType
+//
+//==============================================================================
 function TPSPascalCompilerWarning.ErrorType: TbtString;
 begin
   Result := TbtString(RPS_Warning);
 end;
 
+//==============================================================================
+//
+// TPSPascalCompilerWarning.ShortMessageToString
+//
+//==============================================================================
 function TPSPascalCompilerWarning.ShortMessageToString: TbtString;
 begin
   case Warning of
@@ -15109,12 +16034,23 @@ begin
 end;
 
 { TPSPascalCompilerMessage }
+
+//==============================================================================
+//
+// TPSPascalCompilerMessage.MessageToString
+//
+//==============================================================================
 function TPSPascalCompilerMessage.MessageToString: TbtString;
 begin
   Result := '[' + ErrorType + '] ' + FModuleName + '(' + IntToStr(FRow) +
              ':' + IntToStr(FCol) + '): ' + ShortMessageToString;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompilerMessage.SetParserPos
+//
+//==============================================================================
 procedure TPSPascalCompilerMessage.SetParserPos(Parser: TPSPascalParser);
 begin
   FPosition := Parser.CurrTokenPos;
@@ -15122,6 +16058,11 @@ begin
   FCol := Parser.Col;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompilerMessage.SetCustomPos
+//
+//==============================================================================
 procedure TPSPascalCompilerMessage.SetCustomPos(Pos, Row, Col: Cardinal);
 begin
   FPosition := Pos;
@@ -15152,6 +16093,12 @@ begin
 end;
 
 { TConstOperation }
+
+//==============================================================================
+//
+// TConstOperation.SetPos
+//
+//==============================================================================
 procedure TConstOperation.SetPos(Parser: TPSPascalParser);
 begin
   FDeclPosition := Parser.CurrTokenPos;
@@ -15160,6 +16107,12 @@ begin
 end;
 
 { TPSValue }
+
+//==============================================================================
+//
+// TPSValue.SetParserPos
+//
+//==============================================================================
 procedure TPSValue.SetParserPos(P: TPSPascalParser);
 begin
   FPos := P.CurrTokenPos;
@@ -15231,21 +16184,41 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSValueVar.GetRecCount
+//
+//==============================================================================
 function TPSValueVar.GetRecCount: Cardinal;
 begin
   Result := FRecItems.Count;
 end;
 
+//==============================================================================
+//
+// TPSValueVar.GetRecItem
+//
+//==============================================================================
 function TPSValueVar.GetRecItem(I: Cardinal): TPSSubItem;
 begin
   Result := FRecItems[I];
 end;
 
+//==============================================================================
+//
+// TPSValueVar.RecAdd
+//
+//==============================================================================
 function TPSValueVar.RecAdd(Val: TPSSubItem): Cardinal;
 begin
   Result := FRecItems.Add(Val);
 end;
 
+//==============================================================================
+//
+// TPSValueVar.RecDelete
+//
+//==============================================================================
 procedure TPSValueVar.RecDelete(I: Cardinal);
 var
   rr :TPSSubItem;
@@ -15271,6 +16244,12 @@ begin
 end;
 
 { TPSParameters }
+
+//==============================================================================
+//
+// TPSParameters.Add
+//
+//==============================================================================
 function TPSParameters.Add: TPSParameter;
 begin
   Result := TPSParameter.Create;
@@ -15283,6 +16262,11 @@ begin
   FItems := TPSList.Create;
 end;
 
+//==============================================================================
+//
+// TPSParameters.Delete
+//
+//==============================================================================
 procedure TPSParameters.Delete(I: Cardinal);
 var
   p: TPSParameter;
@@ -15304,17 +16288,33 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSParameters.GetCount
+//
+//==============================================================================
 function TPSParameters.GetCount: Cardinal;
 begin
   Result := FItems.Count;
 end;
 
+//==============================================================================
+//
+// TPSParameters.GetItem
+//
+//==============================================================================
 function TPSParameters.GetItem(I: Longint): TPSParameter;
 begin
   Result := FItems[I];
 end;
 
 { TPSValueArray }
+
+//==============================================================================
+//
+// TPSValueArray.Add
+//
+//==============================================================================
 function TPSValueArray.Add(Item: TPSValue): Cardinal;
 begin
   Result := FItems.Add(Item);
@@ -15326,6 +16326,11 @@ begin
   FItems := TPSList.Create;
 end;
 
+//==============================================================================
+//
+// TPSValueArray.Delete
+//
+//==============================================================================
 procedure TPSValueArray.Delete(I: Cardinal);
 begin
   FItems.Delete(i);
@@ -15342,11 +16347,21 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSValueArray.GetCount
+//
+//==============================================================================
 function TPSValueArray.GetCount: Cardinal;
 begin
   Result := FItems.Count;
 end;
 
+//==============================================================================
+//
+// TPSValueArray.GetItem
+//
+//==============================================================================
 function TPSValueArray.GetItem(I: Cardinal): TPSValue;
 begin
   Result := FItems[I];
@@ -15374,6 +16389,11 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// AddImportedClassVariable
+//
+//==============================================================================
 function AddImportedClassVariable(Sender: TPSPascalCompiler; const VarName, VarType: TbtString): Boolean;
 var
   V: TPSVar;
@@ -15389,7 +16409,6 @@ begin
   Result := True;
 end;
 
-
 {'class:'+CLASSNAME+'|'+FUNCNAME+'|'+chr(CallingConv)+chr(hasresult)+params
 
 For property write functions there is an '@' after the funcname.
@@ -15399,6 +16418,12 @@ const
   ProcHDR = 'procedure a;';
 
 { TPSCompileTimeClass }
+
+//==============================================================================
+//
+// TPSCompileTimeClass.CastToType
+//
+//==============================================================================
 function TPSCompileTimeClass.CastToType(IntoType: TPSType;
   var ProcNo: Cardinal): Boolean;
 var
@@ -15435,6 +16460,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.ClassFunc_Call
+//
+//==============================================================================
 function TPSCompileTimeClass.ClassFunc_Call(Index: IPointer;
   var ProcNo: Cardinal): Boolean;
 var
@@ -15474,6 +16504,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.ClassFunc_Find
+//
+//==============================================================================
 function TPSCompileTimeClass.ClassFunc_Find(const Name: TbtString;
   var Index: IPointer): Boolean;
 var
@@ -15531,6 +16566,11 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.Func_Call
+//
+//==============================================================================
 function TPSCompileTimeClass.Func_Call(Index: TPSDelphiClassItem;
   var ProcNo: Cardinal): Boolean;
 var
@@ -15568,6 +16608,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.Func_Find
+//
+//==============================================================================
 function TPSCompileTimeClass.Func_Find(const Name: TbtString;
   var Index: TPSDelphiClassItem): Boolean;
 var
@@ -15595,16 +16640,31 @@ begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.GetCount
+//
+//==============================================================================
 function TPSCompileTimeClass.GetCount: Longint;
 begin
   Result := FClassItems.Count;
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.GetItem
+//
+//==============================================================================
 function TPSCompileTimeClass.GetItem(i: Longint): TPSDelphiClassItem;
 begin
   Result := FClassItems[i];
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.IsCompatibleWith
+//
+//==============================================================================
 function TPSCompileTimeClass.IsCompatibleWith(aType: TPSType): Boolean;
 var
   Temp: TPSCompileTimeClass;
@@ -15627,6 +16687,11 @@ begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.Property_Find
+//
+//==============================================================================
 function TPSCompileTimeClass.Property_Find(const Name: TbtString;
   var Index: TPSDelphiClassItem): Boolean;
 var
@@ -15670,6 +16735,11 @@ begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.Property_Get
+//
+//==============================================================================
 function TPSCompileTimeClass.Property_Get(Index: TPSDelphiClassItem;
   var ProcNo: Cardinal): Boolean;
 var
@@ -15701,6 +16771,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.Property_GetHeader
+//
+//==============================================================================
 function TPSCompileTimeClass.Property_GetHeader(Index: TPSDelphiClassItem;
   Dest: TPSParametersDecl): Boolean;
 var
@@ -15712,6 +16787,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.Property_Set
+//
+//==============================================================================
 function TPSCompileTimeClass.Property_Set(Index: TPSDelphiClassItem;
   var ProcNo: Cardinal): Boolean;
 var
@@ -15742,6 +16822,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.RegisterMethod
+//
+//==============================================================================
 function TPSCompileTimeClass.RegisterMethod(const Decl: TbtString): Boolean;
 var
   DOrgName: TbtString;
@@ -15816,6 +16901,11 @@ begin
   FClassItems.Add(p);
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.RegisterPublishedProperties
+//
+//==============================================================================
 procedure TPSCompileTimeClass.RegisterPublishedProperties;
 var
   p: PPropList;
@@ -15850,6 +16940,11 @@ begin
   FreeMem(p);
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.RegisterPublishedProperty
+//
+//==============================================================================
 function TPSCompileTimeClass.RegisterPublishedProperty(const Name: TbtString): Boolean;
 var
   p: PPropInfo;
@@ -15886,6 +16981,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.SetDefaultPropery
+//
+//==============================================================================
 procedure TPSCompileTimeClass.SetDefaultPropery(const Name: TbtString);
 var
   i, h: Longint;
@@ -15913,6 +17013,11 @@ begin
   raise EPSCompilerException.CreateFmt(RPS_UnknownProperty, [Name]);
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.SetNil
+//
+//==============================================================================
 function TPSCompileTimeClass.SetNil(var ProcNo: Cardinal): Boolean;
 var
   P: TPSExternalProcedure;
@@ -15937,6 +17042,12 @@ begin
 end;
 
 { TPSSetType }
+
+//==============================================================================
+//
+// TPSSetType.GetBitSize
+//
+//==============================================================================
 function TPSSetType.GetBitSize: Longint;
 begin
   case SetType.BaseType of
@@ -15950,6 +17061,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSSetType.GetByteSize
+//
+//==============================================================================
 function TPSSetType.GetByteSize: Longint;
 var
   r: Longint;
@@ -15961,6 +17077,12 @@ begin
 end;
 
 { TPSBlockInfo }
+
+//==============================================================================
+//
+// TPSBlockInfo.Clear
+//
+//==============================================================================
 procedure TPSBlockInfo.Clear;
 var
   i: Longint;
@@ -15992,6 +17114,12 @@ begin
 end;
 
 { TPSAttributeTypeField }
+
+//==============================================================================
+//
+// TPSAttributeTypeField.SetFieldOrgName
+//
+//==============================================================================
 procedure TPSAttributeTypeField.SetFieldOrgName(const Value: TbtString);
 begin
   FFieldOrgName := Value;
@@ -16006,16 +17134,32 @@ begin
 end;
 
 { TPSAttributeType }
+
+//==============================================================================
+//
+// TPSAttributeType.GetField
+//
+//==============================================================================
 function TPSAttributeType.GetField(I: Longint): TPSAttributeTypeField;
 begin
   Result := TPSAttributeTypeField(FFields[i]);
 end;
 
+//==============================================================================
+//
+// TPSAttributeType.GetFieldCount
+//
+//==============================================================================
 function TPSAttributeType.GetFieldCount: Longint;
 begin
   Result := FFields.Count;
 end;
 
+//==============================================================================
+//
+// TPSAttributeType.SetName
+//
+//==============================================================================
 procedure TPSAttributeType.SetName(const s: TbtString);
 begin
   FOrgname := s;
@@ -16041,12 +17185,22 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSAttributeType.AddField
+//
+//==============================================================================
 function TPSAttributeType.AddField: TPSAttributeTypeField;
 begin
   Result := TPSAttributeTypeField.Create(Self);
   FFields.Add(Result);
 end;
 
+//==============================================================================
+//
+// TPSAttributeType.DeleteField
+//
+//==============================================================================
 procedure TPSAttributeType.DeleteField(I: Longint);
 var
   Fld: TPSAttributeTypeField;
@@ -16057,11 +17211,22 @@ begin
 end;
 
 { TPSAttribute }
+
+//==============================================================================
+//
+// TPSAttribute.GetValueCount
+//
+//==============================================================================
 function TPSAttribute.GetValueCount: Longint;
 begin
   Result := FValues.Count;
 end;
 
+//==============================================================================
+//
+// TPSAttribute.GetValue
+//
+//==============================================================================
 function TPSAttribute.GetValue(I: Longint): PIfRVariant;
 begin
   Result := FValues[i];
@@ -16074,6 +17239,11 @@ begin
   FAttribType := AttribType;
 end;
 
+//==============================================================================
+//
+// TPSAttribute.DeleteValue
+//
+//==============================================================================
 procedure TPSAttribute.DeleteValue(i: Longint);
 var
   Val: PIfRVariant;
@@ -16083,6 +17253,11 @@ begin
   DisposeVariant(Val);
 end;
 
+//==============================================================================
+//
+// TPSAttribute.AddValue
+//
+//==============================================================================
 function TPSAttribute.AddValue(v: PIFRVariant): Longint;
 begin
   Result := FValues.Add(v);
@@ -16100,6 +17275,11 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSAttribute.Assign
+//
+//==============================================================================
 procedure TPSAttribute.Assign(Item: TPSAttribute);
 var
   i: Longint;
@@ -16119,16 +17299,32 @@ begin
 end;
 
 { TPSAttributes }
+
+//==============================================================================
+//
+// TPSAttributes.GetCount
+//
+//==============================================================================
 function TPSAttributes.GetCount: Longint;
 begin
   Result := FItems.Count;
 end;
 
+//==============================================================================
+//
+// TPSAttributes.GetItem
+//
+//==============================================================================
 function TPSAttributes.GetItem(I: Longint): TPSAttribute;
 begin
   Result := TPSAttribute(FItems[i]);
 end;
 
+//==============================================================================
+//
+// TPSAttributes.Delete
+//
+//==============================================================================
 procedure TPSAttributes.Delete(i: Longint);
 var
   item: TPSAttribute;
@@ -16138,6 +17334,11 @@ begin
   Item.Free;
 end;
 
+//==============================================================================
+//
+// TPSAttributes.Add
+//
+//==============================================================================
 function TPSAttributes.Add(AttribType: TPSAttributeType): TPSAttribute;
 begin
   Result := TPSAttribute.Create(AttribType);
@@ -16162,6 +17363,11 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSAttributes.Assign
+//
+//==============================================================================
 procedure TPSAttributes.Assign(attr: TPSAttributes; Move: Boolean);
 var
   newitem, item: TPSAttribute;
@@ -16184,6 +17390,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSAttributes.FindAttribute
+//
+//==============================================================================
 function TPSAttributes.FindAttribute(const Name: TbtString): TPSAttribute;
 var
   h, i: Longint;
@@ -16199,6 +17410,12 @@ begin
 end;
 
 { TPSParameterDecl }
+
+//==============================================================================
+//
+// TPSParameterDecl.SetName
+//
+//==============================================================================
 procedure TPSParameterDecl.SetName(const s: TbtString);
 begin
   FOrgName := s;
@@ -16206,6 +17423,12 @@ begin
 end;
 
 { TPSParametersDecl }
+
+//==============================================================================
+//
+// TPSParametersDecl.Assign
+//
+//==============================================================================
 procedure TPSParametersDecl.Assign(Params: TPSParametersDecl);
 var
   i: Longint;
@@ -16231,22 +17454,42 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSParametersDecl.GetParam
+//
+//==============================================================================
 function TPSParametersDecl.GetParam(I: Longint): TPSParameterDecl;
 begin
   Result := FParams[i];
 end;
 
+//==============================================================================
+//
+// TPSParametersDecl.GetParamCount
+//
+//==============================================================================
 function TPSParametersDecl.GetParamCount: Longint;
 begin
   Result := FParams.Count;
 end;
 
+//==============================================================================
+//
+// TPSParametersDecl.AddParam
+//
+//==============================================================================
 function TPSParametersDecl.AddParam: TPSParameterDecl;
 begin
   Result := TPSParameterDecl.Create;
   FParams.Add(Result);
 end;
 
+//==============================================================================
+//
+// TPSParametersDecl.DeleteParam
+//
+//==============================================================================
 procedure TPSParametersDecl.DeleteParam(I: Longint);
 var
   param: TPSParameterDecl;
@@ -16274,6 +17517,11 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSParametersDecl.Same
+//
+//==============================================================================
 function TPSParametersDecl.Same(d: TPSParametersDecl): Boolean;
 var
   i: Longint;
@@ -16308,6 +17556,12 @@ begin
 end;
 
 { TPSDelphiClassItem }
+
+//==============================================================================
+//
+// TPSDelphiClassItem.SetName
+//
+//==============================================================================
 procedure TPSDelphiClassItem.SetName(const s: TbtString);
 begin
   FOrgName := s;
@@ -16331,6 +17585,12 @@ end;
 
 {$IFNDEF PS_NOINTERFACES}
 { TPSInterface }
+
+//==============================================================================
+//
+// TPSInterface.CastToType
+//
+//==============================================================================
 function TPSInterface.CastToType(IntoType: TPSType;
   var ProcNo: Cardinal): Boolean;
 var
@@ -16384,6 +17644,11 @@ begin
   FNameHash := MakeHash(Name);
 end;
 
+//==============================================================================
+//
+// TPSInterface.SetInheritedFrom
+//
+//==============================================================================
 procedure TPSInterface.SetInheritedFrom(p: TPSInterface);
 begin
   FInheritedFrom := p;
@@ -16401,6 +17666,11 @@ begin
   inherited Destroy;
 end;
 
+//==============================================================================
+//
+// TPSInterface.Func_Call
+//
+//==============================================================================
 function TPSInterface.Func_Call(Index: TPSInterfaceMethod;
   var ProcNo: Cardinal): Boolean;
 var
@@ -16438,6 +17708,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSInterface.Func_Find
+//
+//==============================================================================
 function TPSInterface.Func_Find(const Name: TbtString;
   var Index: TPSInterfaceMethod): Boolean;
 var
@@ -16465,6 +17740,11 @@ begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TPSInterface.IsCompatibleWith
+//
+//==============================================================================
 function TPSInterface.IsCompatibleWith(aType: TPSType): Boolean;
 var
   Temp: TPSInterface;
@@ -16492,17 +17772,32 @@ begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TPSInterface.RegisterDummyMethod
+//
+//==============================================================================
 procedure TPSInterface.RegisterDummyMethod;
 begin
   FItems.Add(TPSInterfaceMethod.Create(Self));
 end;
 
+//==============================================================================
+//
+// TPSInterface.RegisterMethod
+//
+//==============================================================================
 function TPSInterface.RegisterMethod(const Declaration: TbtString;
   const cc: TPSCallingConvention): Boolean;
 begin
   Result := RegisterMethodEx(Declaration, cc, nil);
 end;
 
+//==============================================================================
+//
+// TPSInterface.RegisterMethodEx
+//
+//==============================================================================
 function TPSInterface.RegisterMethodEx(const Declaration: TbtString;
   const cc: TPSCallingConvention; const CustomParser: TPSPascalParser): Boolean;
 var
@@ -16535,6 +17830,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSInterface.SetNil
+//
+//==============================================================================
 function TPSInterface.SetNil(var ProcNo: Cardinal): Boolean;
 var
   P: TPSExternalProcedure;
@@ -16568,6 +17868,11 @@ begin
   FOffsetCache := InvalidVal;
 end;
 
+//==============================================================================
+//
+// TPSInterfaceMethod.GetAbsoluteProcOffset
+//
+//==============================================================================
 function TPSInterfaceMethod.GetAbsoluteProcOffset: Cardinal;
 var
   ps: TPSInterface;
@@ -16593,11 +17898,22 @@ end;
 {$ENDIF}
 
 { TPSVariantType }
+
+//==============================================================================
+//
+// TPSVariantType.GetDynInvokeParamType
+//
+//==============================================================================
 function TPSVariantType.GetDynInvokeParamType(Owner: TPSPascalCompiler): TPSType;
 begin
   Result := Owner.at2ut(FindAndAddType(owner, '!OPENARRAYOFVARIANT', 'array of variant'));
 end;
 
+//==============================================================================
+//
+// TPSVariantType.GetDynInvokeProcNo
+//
+//==============================================================================
 function TPSVariantType.GetDynInvokeProcNo(Owner: TPSPascalCompiler; const Name: TbtString;
   Params: TPSParameters): Cardinal;
 begin
@@ -16610,12 +17926,23 @@ begin
   Result := Owner.FindType('VARIANT');
 end;
 
+//==============================================================================
+//
+// TPSVariantType.GetDynIvokeSelfType
+//
+//==============================================================================
 function TPSVariantType.GetDynIvokeSelfType(Owner: TPSPascalCompiler): TPSType;
 begin
   Result := Owner.at2ut(Owner.FindType('IDISPATCH'));
 end;
 
 { TPSExternalClass }
+
+//==============================================================================
+//
+// TPSExternalClass.SetNil
+//
+//==============================================================================
 function TPSExternalClass.SetNil(var ProcNo: Cardinal): Boolean;
 begin
   Result := False;
@@ -16628,12 +17955,22 @@ begin
   Self.FTypeNo := TypeNo;
 end;
 
+//==============================================================================
+//
+// TPSExternalClass.Func_Call
+//
+//==============================================================================
 function TPSExternalClass.Func_Call(Index: Cardinal;
   var ProcNo: Cardinal): Boolean;
 begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TPSExternalClass.Func_Find
+//
+//==============================================================================
 function TPSExternalClass.Func_Find(const Name: TbtString;
   var Index: Cardinal): Boolean;
 begin
@@ -16646,28 +17983,53 @@ begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TPSExternalClass.SelfType
+//
+//==============================================================================
 function TPSExternalClass.SelfType: TPSType;
 begin
   Result := nil;
 end;
 
+//==============================================================================
+//
+// TPSExternalClass.CastToType
+//
+//==============================================================================
 function TPSExternalClass.CastToType(IntoType: TPSType;
   var ProcNo: Cardinal): Boolean;
 begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TPSExternalClass.CompareClass
+//
+//==============================================================================
 function TPSExternalClass.CompareClass(OtherTypeNo: TPSType;
   var ProcNo: Cardinal): Boolean;
 begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TPSExternalClass.ClassFunc_Find
+//
+//==============================================================================
 function TPSExternalClass.ClassFunc_Find(const Name: TbtString; var Index: Cardinal): Boolean;
 begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TPSExternalClass.ClassFunc_Call
+//
+//==============================================================================
 function TPSExternalClass.ClassFunc_Call(Index: Cardinal; var ProcNo: Cardinal): Boolean;
 begin
   Result := False;

@@ -41,11 +41,19 @@ uses
   p_mobj_h,
   r_defs;
 
+//==============================================================================
+// EV_Teleport
 //
 // TELEPORTATION
 //
+//==============================================================================
 function EV_Teleport(line: Pline_t; side: integer; thing: Pmobj_t): boolean;
 
+//==============================================================================
+//
+// P_Teleport
+//
+//==============================================================================
 function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; destfogdz: fixed_t = 0): boolean;
 
 const
@@ -68,6 +76,11 @@ uses
   s_sound,
   sounddata;
 
+//==============================================================================
+//
+// EV_Teleport
+//
+//==============================================================================
 function EV_Teleport(line: Pline_t; side: integer; thing: Pmobj_t): boolean;
 var
   i: integer;
@@ -156,7 +169,8 @@ end;
 // FUNC P_Teleport
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; destfogdz: fixed_t = 0): boolean;
 var
   oldx: fixed_t;

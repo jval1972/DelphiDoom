@@ -101,7 +101,6 @@ type
   inventory_a = array [0..NUMINVENTORY - 1] of inventory_t;
   Pinventory_a = ^inventory_a;
 
-
 type
 //
 // Extended player object info: player_t

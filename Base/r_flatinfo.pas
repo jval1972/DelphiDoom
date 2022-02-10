@@ -33,8 +33,18 @@ unit r_flatinfo;
 
 interface
 
+//==============================================================================
+//
+// R_ParseFlatInfoLumps
+//
+//==============================================================================
 procedure R_ParseFlatInfoLumps;
 
+//==============================================================================
+//
+// R_FlatSizeFromSize
+//
+//==============================================================================
 function R_FlatSizeFromSize(const size: integer): integer;
 
 type
@@ -87,6 +97,11 @@ type
   flat4096x4096_t = packed array[0..4096 - 1, 0..4096 - 1] of byte;
   Pflat4096x4096_t = ^flat4096x4096_t;
 
+//==============================================================================
+//
+// R_ShrinkFlatTo64x64
+//
+//==============================================================================
 function R_ShrinkFlatTo64x64(const fin: Pointer; const sz: Integer; const fout: Pointer): Boolean;
 
 implementation
@@ -100,6 +115,11 @@ uses
   w_pak,
   w_wad;
 
+//==============================================================================
+//
+// R_ParseFlatInfoText
+//
+//==============================================================================
 procedure R_ParseFlatInfoText(const in_text: string);
 var
   sc: TScriptEngine;
@@ -162,6 +182,11 @@ const
 var
   fl_text: string;
 
+//==============================================================================
+//
+// R_RetrieveFlatInfo
+//
+//==============================================================================
 procedure R_RetrieveFlatInfo(const in_text: string);
 begin
   if fl_text = '' then
@@ -170,6 +195,11 @@ begin
     fl_text := fl_text + #13#10 + in_text;
 end;
 
+//==============================================================================
+//
+// R_ParseFlatInfoLumps
+//
+//==============================================================================
 procedure R_ParseFlatInfoLumps;
 var
   i: integer;
@@ -186,6 +216,11 @@ begin
   fl_text := '';
 end;
 
+//==============================================================================
+//
+// R_FlatSizeFromSize
+//
+//==============================================================================
 function R_FlatSizeFromSize(const size: integer): integer;
 begin
   if size = 128 then
@@ -204,6 +239,11 @@ begin
     Result := FS64x64;
 end;
 
+//==============================================================================
+//
+// R_ShrinkFlatTo64x64
+//
+//==============================================================================
 function R_ShrinkFlatTo64x64(const fin: Pointer; const sz: Integer; const fout: Pointer): Boolean;
 var
   f64x64: Pflat128x128_t;

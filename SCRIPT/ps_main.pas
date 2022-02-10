@@ -41,59 +41,184 @@ uses
 type
   psscripttype_t = (pst_normal, pst_global, pst_none);
 
+//==============================================================================
+//
+// PS_Init
+//
+//==============================================================================
 procedure PS_Init;
 
+//==============================================================================
+//
+// PS_ShutDown
+//
+//==============================================================================
 procedure PS_ShutDown;
 
+//==============================================================================
+//
+// PS_AddSourceScript
+//
+//==============================================================================
 procedure PS_AddSourceScript(const sname: string; const sc: string;
   const typ: psscripttype_t);
 
+//==============================================================================
+//
+// PS_AddCompiledScript
+//
+//==============================================================================
 procedure PS_AddCompiledScript(const sname: string; const sc: string);
 
+//==============================================================================
+//
+// PS_CompileAllScripts
+//
+//==============================================================================
 procedure PS_CompileAllScripts;
 
+//==============================================================================
+//
+// PS_NewWorld
+//
+//==============================================================================
 procedure PS_NewWorld;
 
+//==============================================================================
+//
+// PS_NewMap
+//
+//==============================================================================
 procedure PS_NewMap;
 
+//==============================================================================
+//
+// PS_LinkScriptEvents
+//
+//==============================================================================
 procedure PS_LinkScriptEvents(const mapname: string);
 
+//==============================================================================
+// PS_EventActorDied
+//
 // Events
 // Must be in sync with ScriptOnExportCheck and TScriptEvents class
+//
+//==============================================================================
 procedure PS_EventActorDied(actor: Pmobj_t; killer: Pmobj_t);
 
+//==============================================================================
+//
+// PS_EventPlayerDied
+//
+//==============================================================================
 procedure PS_EventPlayerDied(playerNO: Integer; killer: Pmobj_t);
 
+//==============================================================================
+//
+// PS_EventPlayerEnter
+//
+//==============================================================================
 procedure PS_EventPlayerEnter(playerNO: Integer);
 
+//==============================================================================
+//
+// PS_EventCrossLine
+//
+//==============================================================================
 procedure PS_EventCrossLine(actor: Pmobj_t; line: Integer; oldside: Integer);
 
+//==============================================================================
+//
+// PS_EventShootLine
+//
+//==============================================================================
 procedure PS_EventShootLine(actor: Pmobj_t; line: Integer; side: Integer);
 
+//==============================================================================
+//
+// PS_EventUseLine
+//
+//==============================================================================
 procedure PS_EventUseLine(actor: Pmobj_t; line: Integer; side: Integer);
 
+//==============================================================================
+//
+// PS_EventTick
+//
+//==============================================================================
 procedure PS_EventTick(tick: integer);
 
+//==============================================================================
+//
+// PS_EventTimerEverySecond
+//
+//==============================================================================
 procedure PS_EventTimerEverySecond(second: integer);
 
+//==============================================================================
+//
+// PS_EventTimerEveryMinute
+//
+//==============================================================================
 procedure PS_EventTimerEveryMinute(minute: integer);
 
+//==============================================================================
+//
+// PS_EventMapStart
+//
+//==============================================================================
 procedure PS_EventMapStart;
 
+//==============================================================================
+// PS_MapScriptSaveToFile
+//
 //-------------------- Map Script Serialization --------------------------------
+//
+//==============================================================================
 function PS_MapScriptSaveToFile(const fname: string): boolean;
 
+//==============================================================================
+//
+// PS_MapScriptSaveSize
+//
+//==============================================================================
 function PS_MapScriptSaveSize: integer;
 
+//==============================================================================
+//
+// PS_MapScriptAppendToFile
+//
+//==============================================================================
 function PS_MapScriptAppendToFile(const fname: string): boolean;
 
+//==============================================================================
+//
+// PS_MapScriptLoadFromFile
+//
+//==============================================================================
 function PS_MapScriptLoadFromFile(const fname: string): boolean;
 
+//==============================================================================
+//
+// PS_MapScriptLoadFromFilePos
+//
+//==============================================================================
 function PS_MapScriptLoadFromFilePos(const fname: string; var position: integer): boolean;
-//------------------------------------------------------------------------------
 
+//==============================================================================
+// A_RunScript
+//
+//------------------------------------------------------------------------------
+//
+//==============================================================================
 procedure A_RunScript(actor: Pmobj_t);
 
+//==============================================================================
+//
+// ScriptOnExportCheck
+//
+//==============================================================================
 function ScriptOnExportCheck(Sender: TPSPascalCompiler; Proc: TPSInternalProcedure; const ProcDecl: AnsiString): Boolean;
 
 implementation
@@ -163,6 +288,11 @@ type
     property EventsExec: TDoomExec read feventsexec;
   end;
 
+//==============================================================================
+//
+// ScriptOnExportCheck
+//
+//==============================================================================
 function ScriptOnExportCheck(Sender: TPSPascalCompiler; Proc: TPSInternalProcedure; const ProcDecl: AnsiString): Boolean;
 var
   I: Integer;
@@ -220,6 +350,11 @@ begin
   fevents.Free;
 end;
 
+//==============================================================================
+//
+// TPSExecManager.AddNormalSourceFile
+//
+//==============================================================================
 function TPSExecManager.AddNormalSourceFile(const id: string; const value: string): integer;
 var
   uid: string;
@@ -244,6 +379,11 @@ begin
   inc(fNumItems);
 end;
 
+//==============================================================================
+//
+// TPSExecManager.AddGlobalSourceFile
+//
+//==============================================================================
 function TPSExecManager.AddGlobalSourceFile(const id: string; const value: string): integer;
 var
   slist: TDStringList;
@@ -299,6 +439,11 @@ begin
   Result := IndexOf('GLOBAL');
 end;
 
+//==============================================================================
+//
+// TPSExecManager.AddSourceFile
+//
+//==============================================================================
 function TPSExecManager.AddSourceFile(const id: string; const value: string;
       const typ: psscripttype_t): integer;
 begin
@@ -313,6 +458,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSExecManager.AddCompiledFile
+//
+//==============================================================================
 function TPSExecManager.AddCompiledFile(const id: string; const value: string): integer;
 var
   uid: string;
@@ -337,6 +487,11 @@ begin
   inc(fNumItems);
 end;
 
+//==============================================================================
+//
+// TPSExecManager.CompileScript
+//
+//==============================================================================
 procedure TPSExecManager.CompileScript(const id: Integer);
 var
   clist: TDStringList;
@@ -407,6 +562,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSExecManager.CompileAllScripts
+//
+//==============================================================================
 procedure TPSExecManager.CompileAllScripts;
 var
   i: integer;
@@ -447,6 +607,11 @@ begin
   globalexec := fList[globalindex].exec;
 end;
 
+//==============================================================================
+//
+// TPSExecManager.RunScript
+//
+//==============================================================================
 function TPSExecManager.RunScript(actor: Pmobj_t; const scid: integer): boolean;
 var
   DE: TDoomExec;
@@ -471,6 +636,11 @@ begin
   result := false;
 end;
 
+//==============================================================================
+//
+// TPSExecManager.LinkScriptEvents
+//
+//==============================================================================
 procedure TPSExecManager.LinkScriptEvents(const mapname: string);
 var
   idx: Integer;
@@ -577,7 +747,11 @@ begin
   fevents.LinkEvents;
 end;
 
-
+//==============================================================================
+//
+// TPSExecManager.IndexOf
+//
+//==============================================================================
 function TPSExecManager.IndexOf(const id: string): integer;
 var
   check: string;
@@ -596,6 +770,11 @@ end;
 var
   psmanager: TPSExecManager = nil;
 
+//==============================================================================
+//
+// CmdCompileScript
+//
+//==============================================================================
 procedure CmdCompileScript(const src, dest: string);
 var
   data: string;
@@ -661,6 +840,11 @@ begin
   clist.Free;
 end;
 
+//==============================================================================
+//
+// PS_Init
+//
+//==============================================================================
 procedure PS_Init;
 begin
   PS_InitDLLLoader;
@@ -671,6 +855,11 @@ begin
   C_AddCmd('compile, compilescript, pscomp', @CmdCompileScript);
 end;
 
+//==============================================================================
+//
+// PS_ShutDown
+//
+//==============================================================================
 procedure PS_ShutDown;
 begin
   psmanager.Free;
@@ -682,6 +871,11 @@ begin
   PS_ShutDownDLLLoader;
 end;
 
+//==============================================================================
+//
+// PS_AddSourceScript
+//
+//==============================================================================
 procedure PS_AddSourceScript(const sname: string; const sc: string;
   const typ: psscripttype_t);
 begin
@@ -689,6 +883,11 @@ begin
   psmanager.AddSourceFile(sname, sc, typ);
 end;
 
+//==============================================================================
+//
+// PS_AddCompiledScript
+//
+//==============================================================================
 procedure PS_AddCompiledScript(const sname: string; const sc: string);
 var
   strm: TPakStream;
@@ -714,22 +913,42 @@ begin
   psmanager.AddCompiledFile(sname, data);
 end;
 
+//==============================================================================
+//
+// PS_CompileAllScripts
+//
+//==============================================================================
 procedure PS_CompileAllScripts;
 begin
   PS_InitOverlay;
   psmanager.CompileAllScripts;
 end;
 
+//==============================================================================
+//
+// PS_DoRunScript
+//
+//==============================================================================
 procedure PS_DoRunScript(actor: Pmobj_t; const scid: integer);
 begin
   psmanager.RunScript(actor, scid);
 end;
 
+//==============================================================================
+//
+// PS_GetScriptIDFromName
+//
+//==============================================================================
 function PS_GetScriptIDFromName(const scname: string): integer;
 begin
   result := psmanager.IndexOf(scname);
 end;
 
+//==============================================================================
+//
+// PS_NewWorld
+//
+//==============================================================================
 procedure PS_NewWorld;
 begin
   worldvars.Clear;
@@ -738,6 +957,11 @@ begin
   psmanager.Events.Clear;
 end;
 
+//==============================================================================
+//
+// PS_NewMap
+//
+//==============================================================================
 procedure PS_NewMap;
 begin
   mapvars.Clear;
@@ -745,12 +969,22 @@ begin
   psmanager.Events.Clear;
 end;
 
+//==============================================================================
+//
+// PS_LinkScriptEvents
+//
+//==============================================================================
 procedure PS_LinkScriptEvents(const mapname: string);
 begin
   psmanager.LinkScriptEvents(mapname);
 end;
 
+//==============================================================================
+// PS_EventActorDied
+//
 // Events
+//
+//==============================================================================
 procedure PS_EventActorDied(actor: Pmobj_t; killer: Pmobj_t);
 begin
   ps_currentactor := actor;
@@ -758,6 +992,11 @@ begin
   ps_currentactor := nil;
 end;
 
+//==============================================================================
+//
+// PS_EventPlayerEnter
+//
+//==============================================================================
 procedure PS_EventPlayerEnter(playerNO: Integer);
 begin
   ps_currentactor := players[playerNO].mo;
@@ -765,6 +1004,11 @@ begin
   ps_currentactor := nil;
 end;
 
+//==============================================================================
+//
+// PS_EventPlayerDied
+//
+//==============================================================================
 procedure PS_EventPlayerDied(playerNO: Integer; killer: Pmobj_t);
 begin
   ps_currentactor := players[playerNO].mo;
@@ -772,6 +1016,11 @@ begin
   ps_currentactor := nil;
 end;
 
+//==============================================================================
+//
+// PS_EventCrossLine
+//
+//==============================================================================
 procedure PS_EventCrossLine(actor: Pmobj_t; line: Integer; oldside: Integer);
 begin
   ps_currentactor := actor;
@@ -779,6 +1028,11 @@ begin
   ps_currentactor := nil;
 end;
 
+//==============================================================================
+//
+// PS_EventShootLine
+//
+//==============================================================================
 procedure PS_EventShootLine(actor: Pmobj_t; line: Integer; side: Integer);
 begin
   ps_currentactor := actor;
@@ -786,6 +1040,11 @@ begin
   ps_currentactor := nil;
 end;
 
+//==============================================================================
+//
+// PS_EventUseLine
+//
+//==============================================================================
 procedure PS_EventUseLine(actor: Pmobj_t; line: Integer; side: Integer);
 begin
   ps_currentactor := actor;
@@ -793,27 +1052,52 @@ begin
   ps_currentactor := nil;
 end;
 
+//==============================================================================
+//
+// PS_EventTick
+//
+//==============================================================================
 procedure PS_EventTick(tick: integer);
 begin
   psmanager.Events.ProcTick(tick);
 end;
 
+//==============================================================================
+//
+// PS_EventTimerEverySecond
+//
+//==============================================================================
 procedure PS_EventTimerEverySecond(second: integer);
 begin
   psmanager.Events.ProcTimerEverySecond(second);
 end;
 
+//==============================================================================
+//
+// PS_EventTimerEveryMinute
+//
+//==============================================================================
 procedure PS_EventTimerEveryMinute(minute: integer);
 begin
   psmanager.Events.ProcTimerEveryMinute(minute);
 end;
 
+//==============================================================================
+//
+// PS_EventMapStart
+//
+//==============================================================================
 procedure PS_EventMapStart;
 begin
   psmanager.Events.ProcMapStart;
 end;
 
+//==============================================================================
+// PS_MapScriptSaveToFile
+//
 //-------------------- Map Script Serialization --------------------------------
+//
+//==============================================================================
 function PS_MapScriptSaveToFile(const fname: string): boolean;
 var
   psser: TScriptSerializer;
@@ -826,6 +1110,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// PS_MapScriptSaveSize
+//
+//==============================================================================
 function PS_MapScriptSaveSize: integer;
 var
   psser: TScriptSerializer;
@@ -838,6 +1127,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// PS_MapScriptAppendToFile
+//
+//==============================================================================
 function PS_MapScriptAppendToFile(const fname: string): boolean;
 var
   psser: TScriptSerializer;
@@ -850,6 +1144,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// PS_MapScriptLoadFromFile
+//
+//==============================================================================
 function PS_MapScriptLoadFromFile(const fname: string): boolean;
 var
   psser: TScriptSerializer;
@@ -862,6 +1161,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// PS_MapScriptLoadFromFilePos
+//
+//==============================================================================
 function PS_MapScriptLoadFromFilePos(const fname: string; var position: integer): boolean;
 var
   psser: TScriptSerializer;
@@ -873,8 +1177,13 @@ begin
     psser.Free;
   end;
 end;
-//------------------------------------------------------------------------------
 
+//==============================================================================
+// A_RunScript
+//
+//------------------------------------------------------------------------------
+//
+//==============================================================================
 procedure A_RunScript(actor: Pmobj_t);
 var
   scid: integer;

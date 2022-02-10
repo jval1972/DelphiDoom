@@ -63,6 +63,11 @@ implementation
 uses
   ddc_base, ide_utils;
 
+//==============================================================================
+//
+// TClassExampleSynEdit.GetSaveFileName
+//
+//==============================================================================
 function TClassExampleSynEdit.GetSaveFileName(const fn: string): string;
 var
   base: string;
@@ -74,6 +79,11 @@ begin
   Result := base + fn + '.ddscript';
 end;
 
+//==============================================================================
+//
+// TClassExampleSynEdit.SetClsName
+//
+//==============================================================================
 procedure TClassExampleSynEdit.SetClsName(const fn: string);
 var
   lst: TStringList;
@@ -99,6 +109,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TClassExampleSynEdit.DoSave
+//
+//==============================================================================
 procedure TClassExampleSynEdit.DoSave;
 var
   lst: TStringList;
@@ -138,6 +153,11 @@ begin
   clss := nil;
 end;
 
+//==============================================================================
+//
+// TFrame_Classes.CreateParams
+//
+//==============================================================================
 procedure TFrame_Classes.CreateParams(var Params: TCreateParams);
 begin
   sortcolumn := 0;
@@ -150,12 +170,22 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_Classes.OnExampleChange
+//
+//==============================================================================
 procedure TFrame_Classes.OnExampleChange(Sender: TObject);
 begin
   if SynEdit1.Modified then
     SynEdit1.DoSave;
 end;
 
+//==============================================================================
+//
+// TFrame_Classes.ClearClss
+//
+//==============================================================================
 procedure TFrame_Classes.ClearClss;
 var
   i: integer;
@@ -169,6 +199,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Classes.FocusAndSelectFirstItem
+//
+//==============================================================================
 procedure TFrame_Classes.FocusAndSelectFirstItem;
 var
   i: integer;
@@ -182,6 +217,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Classes.UpdateGameControls
+//
+//==============================================================================
 procedure TFrame_Classes.UpdateGameControls(const game: string);
 begin
   if fgame = LowerCase(game) then
@@ -198,6 +238,11 @@ begin
   FillTreeView;
 end;
 
+//==============================================================================
+//
+// _ClassItemsCompare
+//
+//==============================================================================
 function _ClassItemsCompare(List: TStringList; Index1, Index2: Integer): Integer;
 var
   s1, s2: string;
@@ -243,6 +288,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Classes.FillTreeView
+//
+//==============================================================================
 procedure TFrame_Classes.FillTreeView;
 
   procedure AddTreeItem(const id: integer);
@@ -294,6 +344,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Classes.SearchEditChange
+//
+//==============================================================================
 procedure TFrame_Classes.SearchEditChange(Sender: TObject);
 begin
   FillTreeView;
@@ -306,17 +361,32 @@ begin
   SearchEdit.Clear;
 end;
 
+//==============================================================================
+//
+// TFrame_Classes.DeclPanelResize
+//
+//==============================================================================
 procedure TFrame_Classes.DeclPanelResize(Sender: TObject);
 begin
   DeclEdit.Width := DeclPanel.Width - 16;
 end;
 
+//==============================================================================
+//
+// TFrame_Classes.TreeView1Editing
+//
+//==============================================================================
 procedure TFrame_Classes.TreeView1Editing(Sender: TObject; Node: TTreeNode;
   var AllowEdit: Boolean);
 begin
   AllowEdit := False;
 end;
 
+//==============================================================================
+//
+// TFrame_Classes.TreeView1Change
+//
+//==============================================================================
 procedure TFrame_Classes.TreeView1Change(Sender: TObject; Node: TTreeNode);
 var
   it: TTreeNode;

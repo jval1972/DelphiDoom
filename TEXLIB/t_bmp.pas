@@ -120,6 +120,11 @@ begin
   SetFileExt('.BMP');
 end;
 
+//==============================================================================
+//
+// TBMPTextureManager.LoadHeader
+//
+//==============================================================================
 function TBMPTextureManager.LoadHeader(stream: TDStream): boolean;
 begin
   stream.seek(0, sFromBeginning);
@@ -144,6 +149,11 @@ begin
   LoadHeader := true;
 end;
 
+//==============================================================================
+//
+// TBMPTextureManager.LoadRLE8
+//
+//==============================================================================
 procedure TBMPTextureManager.LoadRLE8(Stream: TDStream);
 var
   x, y: integer;
@@ -195,6 +205,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TBMPTextureManager.LoadImage
+//
+//==============================================================================
 function TBMPTextureManager.LoadImage(stream: TDStream): boolean;
 var
   y: integer;

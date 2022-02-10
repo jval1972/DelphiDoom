@@ -47,7 +47,6 @@ const
     (LIBMIKMOD_VERSION_MINOR shl 8) or
     (LIBMIKMOD_REVISION);
 
-
 var
   MikMod_GetVersion: function : longint; cdecl;
 
@@ -299,8 +298,18 @@ var
   MikWin_GetModule: function: PMODULE; cdecl;
   MikWin_GetErrorText: function: PChar; cdecl;
 
+//==============================================================================
+//
+// MikWin_LoadLibrary
+//
+//==============================================================================
 function MikWin_LoadLibrary: boolean;
 
+//==============================================================================
+//
+// MikWin_FreeLibrary
+//
+//==============================================================================
 procedure MikWin_FreeLibrary;
 
 implementation
@@ -16426,6 +16435,11 @@ const
 var
   mw_MemoryModule: PBTMemoryModule;
 
+//==============================================================================
+//
+// MikWin_LoadLibrary
+//
+//==============================================================================
 function MikWin_LoadLibrary: boolean;
 begin
   mw_MemoryModule := BTMemoryLoadLibary(@MikWin_DLL, SizeOf(MikWin_DLL));
@@ -16502,6 +16516,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// MikWin_FreeLibrary
+//
+//==============================================================================
 procedure MikWin_FreeLibrary;
 begin
   if mw_MemoryModule <> nil then

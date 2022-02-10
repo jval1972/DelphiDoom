@@ -34,8 +34,25 @@ uses
   m_fixed,
   tables;
 
+//==============================================================================
+//
+// R_ScaleFromGlobalAngle
+//
+//==============================================================================
 function R_ScaleFromGlobalAngle(const visangle: angle_t; out overflow: boolean): fixed_t;
+
+//==============================================================================
+//
+// R_ScaleFromGlobalAngle_Fixed
+//
+//==============================================================================
 function R_ScaleFromGlobalAngle_Fixed(const visangle: angle_t): fixed_t;
+
+//==============================================================================
+//
+// R_ScaleFromGlobalAngle_DBL
+//
+//==============================================================================
 function R_ScaleFromGlobalAngle_DBL(const visangle: angle_t): double;
 
 var
@@ -51,6 +68,7 @@ uses
   r_segs,
   r_main;
 
+//==============================================================================
 //
 // R_ScaleFromGlobalAngle
 // Returns the texture mapping scale
@@ -59,6 +77,8 @@ uses
 // rw_distance must be calculated first.
 //
 // JVAL: SOS -> Here lays a problem with rendering accuracy
+//
+//==============================================================================
 function R_ScaleFromGlobalAngle(const visangle: angle_t; out overflow: boolean): fixed_t;
 var
   anglea: angle_t;
@@ -100,6 +120,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_ScaleFromGlobalAngle_Fixed
+//
+//==============================================================================
 function R_ScaleFromGlobalAngle_Fixed(const visangle: angle_t): fixed_t;
 var
   anglea: angle_t;
@@ -135,10 +160,14 @@ begin
   end;
 end;
 
+//==============================================================================
+// R_ScaleFromGlobalAngle_DBL
+//
 //const
 //  MINSCALE = 16;
 //  MAXSCALE = 2048 * FRACUNIT;
-
+//
+//==============================================================================
 function R_ScaleFromGlobalAngle_DBL(const visangle: angle_t): double;
 var
   anglea: angle_t;

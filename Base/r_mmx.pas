@@ -33,8 +33,18 @@ interface
 uses
   d_delphi;
 
+//==============================================================================
+//
+// R_BatchColorAdd32_MMX
+//
+//==============================================================================
 function R_BatchColorAdd32_MMX(const dest0: PLongWord; const color: LongWord; const numpixels: integer): boolean;
 
+//==============================================================================
+//
+// R_BatchColorShade_AMD
+//
+//==============================================================================
 function R_BatchColorShade_AMD(const dest0: PByte; const numbytes: integer): boolean;
 
 implementation
@@ -44,6 +54,11 @@ type
     dwords: array[0..1] of LongWord;
   end;
 
+//==============================================================================
+//
+// R_BatchColorAdd32_MMX
+//
+//==============================================================================
 function R_BatchColorAdd32_MMX(const dest0: PLongWord; const color: LongWord; const numpixels: integer): boolean;
 var
   data: rec_2lw;
@@ -164,7 +179,11 @@ begin
 
 end;
 
-
+//==============================================================================
+//
+// R_BatchColorShade_AMD
+//
+//==============================================================================
 function R_BatchColorShade_AMD(const dest0: PByte; const numbytes: integer): boolean;
 var
   data: rec_2lw;
@@ -282,6 +301,5 @@ begin
   end;
 
 end;
-
 
 end.

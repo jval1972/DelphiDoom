@@ -219,7 +219,6 @@ const
   // villsa [STRIFE] change from 26 to 28
   MF_TRANSSHIFT       = 28;
 
-
 const
   // Sprite is transparent
   MF_EX_TRANSPARENT = 1;

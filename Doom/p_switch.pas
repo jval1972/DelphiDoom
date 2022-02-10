@@ -38,10 +38,25 @@ uses
   p_mobj_h,
   p_spec;
 
+//==============================================================================
+//
+// P_InitSwitchList
+//
+//==============================================================================
 procedure P_InitSwitchList;
 
+//==============================================================================
+//
+// P_ChangeSwitchTexture
+//
+//==============================================================================
 procedure P_ChangeSwitchTexture(line: Pline_t; useAgain: boolean);
 
+//==============================================================================
+//
+// P_UseSpecialLine
+//
+//==============================================================================
 function P_UseSpecialLine(thing: Pmobj_t; line: Pline_t; side: integer; const bossaction: boolean = false): boolean;
 
 var
@@ -155,10 +170,12 @@ var
   switchlist: PIntegerArray;
   numswitches: integer;
 
+//==============================================================================
 //
 // P_InitSwitchList
 // Only called at game initialization.
 //
+//==============================================================================
 procedure P_InitSwitchList;
 var
   i: integer;
@@ -233,9 +250,12 @@ begin
   switchlist := Z_ReAlloc(switchlist, (index + 1) * SizeOf(integer), PU_STATIC, nil);
 end;
 
+//==============================================================================
+// P_StartButton
 //
 // Start a button counting down till it turns off.
 //
+//==============================================================================
 procedure P_StartButton(line: Pline_t; w: bwhere_e; texture: integer; time: integer);
 var
   i: integer;
@@ -261,10 +281,13 @@ begin
   I_Error('P_StartButton(): no button slots left!');
 end;
 
+//==============================================================================
+// P_ChangeSwitchTexture
 //
 // Function that changes wall texture.
 // Tell it if switch is ok to use again (1=yes, it's a button).
 //
+//==============================================================================
 procedure P_ChangeSwitchTexture(line: Pline_t; useAgain: boolean);
 var
   texTop: integer;
@@ -329,11 +352,13 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_UseSpecialLine
 // Called when a thing uses a special line.
 // Only the front sides of lines are usable.
 //
+//==============================================================================
 function P_UseSpecialLine(thing: Pmobj_t; line: Pline_t; side: integer; const bossaction: boolean = false): boolean;
 var
   linefunc: linefunc_t;
@@ -1180,7 +1205,6 @@ begin
                 P_ChangeSwitchTexture(line, false);
             end;
 
-
           // jff 1/29/98 end of added S1 linedef types
 
           //jff 1/29/98 added linedef types to fill all functions out so that
@@ -1448,6 +1472,5 @@ begin
 
   result := true;
 end;
-
 
 end.

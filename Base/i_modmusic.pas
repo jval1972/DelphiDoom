@@ -35,22 +35,67 @@ unit i_modmusic;
 
 interface
 
+//==============================================================================
+//
+// I_PlayMod
+//
+//==============================================================================
 procedure I_PlayMod(const data: pointer; const size: integer);
 
+//==============================================================================
+//
+// I_PauseMod
+//
+//==============================================================================
 procedure I_PauseMod;
 
+//==============================================================================
+//
+// I_ResumeMod
+//
+//==============================================================================
 procedure I_ResumeMod;
 
+//==============================================================================
+//
+// I_StopMod
+//
+//==============================================================================
 procedure I_StopMod;
 
+//==============================================================================
+//
+// I_InitMod
+//
+//==============================================================================
 procedure I_InitMod;
 
+//==============================================================================
+//
+// I_ShutDownMod
+//
+//==============================================================================
 procedure I_ShutDownMod;
 
+//==============================================================================
+//
+// I_SetMusicVolumeMod
+//
+//==============================================================================
 procedure I_SetMusicVolumeMod(volume: integer);
 
+//==============================================================================
+//
+// I_ProcessMod
+//
+//==============================================================================
 procedure I_ProcessMod;
 
+//==============================================================================
+//
+// IsModMusicFile
+//
+//==============================================================================
 function IsModMusicFile(const buf: pointer; const size: integer): boolean;
 
 const
@@ -63,9 +108,21 @@ const
   MICROMOD_ERROR_SAMPLING_RATE_NOT_SUPPORTED: longint = -2;
 
 { Calculate the length in bytes of the MOD file from the 1084 byte header. }
+
+//==============================================================================
+//
+// MicromodCalculateFileLength
+//
+//==============================================================================
 function MicromodCalculateFileLength(const Header1084Bytes: array of shortint): longint;
 
 { Initialise the replay to play the specified module. }
+
+//==============================================================================
+//
+// MicromodInit
+//
+//==============================================================================
 function MicromodInit(const Module: array of shortint; SamplingRate: longint;
   Interpolation: boolean): longint;
 
@@ -73,45 +130,117 @@ function MicromodInit(const Module: array of shortint; SamplingRate: longint;
   Returns True if the value is in range.
   Use with MicromodSetC2Rate() to adjust the playback tempo.
   For example, to play at half-speed multiply both the SamplingRate and C2Rate by 2. }
+
+//==============================================================================
+//
+// MicromodSetSamplingRate
+//
+//==============================================================================
 function MicromodSetSamplingRate(SamplingRate: longint): boolean;
 
 { Enable or disable the linear interpolation filter. }
+
+//==============================================================================
+//
+// MicromodSetInterpolation
+//
+//==============================================================================
 procedure MicromodSetInterpolation(Interpolation: boolean);
 
 { Returns the song name. }
+
+//==============================================================================
+//
+// MicromodGetSongName
+//
+//==============================================================================
 function MicromodGetSongName: string;
 
 { Returns the specified instrument name. }
+
+//==============================================================================
+//
+// MicromodGetInstrumentName
+//
+//==============================================================================
 function MicromodGetInstrumentName(InstrumentIndex: longint): string;
 
 { Returns the duration of the song in samples. }
+
+//==============================================================================
+//
+// MicromodCalculateSongDuration
+//
+//==============================================================================
 function MicromodCalculateSongDuration: longint;
 
 { Get a tick of audio.
   Returns the number of stereo sample pairs produced.
   OutputBuffer should be at least SamplingRate * 2 / 5 in length. }
+
+//==============================================================================
+//
+// MicromodGetAudio
+//
+//==============================================================================
 function MicromodGetAudio(var OutputBuffer: array of smallint): longint;
 
 { Quickly seek to approximately SamplePos.
   Returns the actual sample position reached. }
+
+//==============================================================================
+//
+// MicromodSeek
+//
+//==============================================================================
 function MicromodSeek(SamplePos: longint): longint;
 
 { Get the current row int the pattern being played. }
+
+//==============================================================================
+//
+// MicromodGetRow
+//
+//==============================================================================
 function MicromodGetRow: longint;
 
 { Get the current pattern in the sequence. }
+
+//==============================================================================
+//
+// MicromodGetSequencePos
+//
+//==============================================================================
 function MicromodGetSequencePos: longint;
 
 { Set the replay to play the specified pattern in the sequence.}
+
+//==============================================================================
+//
+// MicromodSetSequencePos
+//
+//==============================================================================
 procedure MicromodSetSequencePos(SequencePos: longint);
 
 { Get the current value of the C2Rate. }
+
+//==============================================================================
+//
+// MicromodGetC2Rate
+//
+//==============================================================================
 function MicromodGetC2Rate(): longint;
 
 { Set the value of the C2Rate.
   Returns True if the value is in range.
   This affects the frequency at which notes are played.
   The default is 8287hz for PAL/Amiga modules, or 8363hz for NTSC/PC modules. }
+
+//==============================================================================
+//
+// MicromodSetC2Rate
+//
+//==============================================================================
 function MicromodSetC2Rate(Rate: longint): boolean;
 
 implementation
@@ -204,6 +333,11 @@ var
 var
   Speed, Tempo, PLCount, PLChannel: longint;
 
+//==============================================================================
+//
+// CalculateNumChannels
+//
+//==============================================================================
 function CalculateNumChannels(const Header: array of shortint): longint;
 var
   NumChan, FormatID: longint;
@@ -226,11 +360,21 @@ begin
   CalculateNumChannels := NumChan;
 end;
 
+//==============================================================================
+//
+// UBEWord
+//
+//==============================================================================
 function UBEWord(const Data: array of shortint; Index: longint): longint;
 begin
   UBEWord := ((Data[Index] and $FF) shl 8) + (Data[Index + 1] and $FF);
 end;
 
+//==============================================================================
+//
+// MicromodInit
+//
+//==============================================================================
 function MicromodInit(const Module: array of shortint; SamplingRate: longint;
   Interpolation: boolean): longint;
 var
@@ -332,6 +476,11 @@ begin
   MicromodInit := 0;
 end;
 
+//==============================================================================
+//
+// MicromodSetSamplingRate
+//
+//==============================================================================
 function MicromodSetSamplingRate(SamplingRate: longint): boolean;
 begin
   MicromodSetSamplingRate := False;
@@ -342,11 +491,21 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// MicromodSetInterpolation
+//
+//==============================================================================
 procedure MicromodSetInterpolation(Interpolation: boolean);
 begin
   Interpolate := Interpolation;
 end;
 
+//==============================================================================
+//
+// MicromodGetSongName
+//
+//==============================================================================
 function MicromodGetSongName: string;
 begin
   MicromodGetSongName := '';
@@ -355,6 +514,11 @@ begin
   MicromodGetSongName := SongName;
 end;
 
+//==============================================================================
+//
+// MicromodGetInstrumentName
+//
+//==============================================================================
 function MicromodGetInstrumentName(InstrumentIndex: longint): string;
 begin
   MicromodGetInstrumentName := '';
@@ -364,11 +528,21 @@ begin
     MicromodGetInstrumentName := Instruments[InstrumentIndex].Name;
 end;
 
+//==============================================================================
+//
+// CalculateTickLength
+//
+//==============================================================================
 function CalculateTickLength(Tempo, SamplingRate: longint): longint;
 begin
   CalculateTickLength := (SamplingRate * 5) div (Tempo * 2);
 end;
 
+//==============================================================================
+//
+// Resample
+//
+//==============================================================================
 procedure Resample(const Channel: TChannel; var OutputBuffer: array of smallint;
   Length: longint);
 var
@@ -442,6 +616,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// UpdateSampleIndex
+//
+//==============================================================================
 procedure UpdateSampleIndex(var Channel: TChannel; Length: longint);
 var
   SampleFrac, SampleIndex, LoopStart, LoopLength, LoopOffset: longint;
@@ -461,6 +640,11 @@ begin
   Channel.SampleFrac := SampleFrac and FP_MASK;
 end;
 
+//==============================================================================
+//
+// VolumeRamp
+//
+//==============================================================================
 procedure VolumeRamp(var Buffer: array of smallint; TickLength: longint);
 var
   Offset, RampRate, A1, A2: longint;
@@ -481,6 +665,12 @@ begin
 end;
 
 { 2:1 downsampling with simple but effective anti-aliasing. Buffer must contain count * 2 + 1 stereo samples. }
+
+//==============================================================================
+//
+// Downsample
+//
+//==============================================================================
 procedure Downsample(var Buffer: array of smallint; Count: longint);
 var
   InIdx, OutIdx, OutLen: longint;
@@ -499,6 +689,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// Trigger
+//
+//==============================================================================
 procedure Trigger(var Channel: TChannel);
 var
   Period, Ins: longint;
@@ -536,6 +731,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// Vibrato
+//
+//==============================================================================
 procedure Vibrato(var Channel: TChannel);
 var
   Phase, Out: longint;
@@ -547,6 +747,11 @@ begin
   Channel.VibratoAdd := Out;
 end;
 
+//==============================================================================
+//
+// Tremolo
+//
+//==============================================================================
 procedure Tremolo(var Channel: TChannel);
 var
   Phase, Out: longint;
@@ -558,6 +763,11 @@ begin
   Channel.TremoloAdd := Out;
 end;
 
+//==============================================================================
+//
+// VolumeSlide
+//
+//==============================================================================
 procedure VolumeSlide(var Channel: TChannel; Param: longint);
 var
   Volume: longint;
@@ -570,6 +780,11 @@ begin
   Channel.Volume := Volume;
 end;
 
+//==============================================================================
+//
+// UpdateFrequency
+//
+//==============================================================================
 procedure UpdateFrequency(var Channel: TChannel);
 var
   Period, Freq, Volume: longint;
@@ -588,6 +803,11 @@ begin
   Channel.Ampl := Volume * Gain;
 end;
 
+//==============================================================================
+//
+// ChannelRow
+//
+//==============================================================================
 procedure ChannelRow(var Channel: TChannel);
 var
   Effect, Param, Volume, Period: longint;
@@ -744,6 +964,11 @@ begin
   UpdateFrequency(Channel);
 end;
 
+//==============================================================================
+//
+// SequenceRow
+//
+//==============================================================================
 function SequenceRow: boolean;
 var
   SongEnd: boolean;
@@ -800,6 +1025,11 @@ begin
   SequenceRow := SongEnd;
 end;
 
+//==============================================================================
+//
+// TonePortamento
+//
+//==============================================================================
 procedure TonePortamento(var Channel: TChannel);
 var
   Source, Destin: longint;
@@ -821,6 +1051,11 @@ begin
   Channel.Period := Source;
 end;
 
+//==============================================================================
+//
+// ChannelTick
+//
+//==============================================================================
 procedure ChannelTick(var Channel: TChannel);
 var
   Effect, Param, Period: longint;
@@ -905,6 +1140,11 @@ begin
     UpdateFrequency(Channel);
 end;
 
+//==============================================================================
+//
+// SequenceTick
+//
+//==============================================================================
 function SequenceTick: boolean;
 var
   SongEnd: boolean;
@@ -925,6 +1165,11 @@ begin
   SequenceTick := SongEnd;
 end;
 
+//==============================================================================
+//
+// MicromodGetAudio
+//
+//==============================================================================
 function MicromodGetAudio(var OutputBuffer: array of smallint): longint;
 var
   TickLength, Chan: longint;
@@ -946,6 +1191,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// MicromodSeek
+//
+//==============================================================================
 function MicromodSeek(SamplePos: longint): longint;
 var
   CurrentPos, TickLength, Chan: longint;
@@ -967,6 +1217,11 @@ begin
   MicromodSeek := CurrentPos;
 end;
 
+//==============================================================================
+//
+// MicromodCalculateSongDuration
+//
+//==============================================================================
 function MicromodCalculateSongDuration: longint;
 var
   SongEnd: boolean;
@@ -987,16 +1242,31 @@ begin
   MicromodCalculateSongDuration := Duration;
 end;
 
+//==============================================================================
+//
+// MicromodGetRow
+//
+//==============================================================================
 function MicromodGetRow: longint;
 begin
   MicromodGetRow := Row;
 end;
 
+//==============================================================================
+//
+// MicromodGetSequencePos
+//
+//==============================================================================
 function MicromodGetSequencePos: longint;
 begin
   MicromodGetSequencePos := Pattern;
 end;
 
+//==============================================================================
+//
+// MicromodSetSequencePos
+//
+//==============================================================================
 procedure MicromodSetSequencePos(SequencePos: longint);
 var
   Chan: longint;
@@ -1027,11 +1297,21 @@ begin
   SequenceTick();
 end;
 
+//==============================================================================
+//
+// MicromodGetC2Rate
+//
+//==============================================================================
 function MicromodGetC2Rate(): longint;
 begin
   MicromodGetC2Rate := C2Rate;
 end;
 
+//==============================================================================
+//
+// MicromodSetC2Rate
+//
+//==============================================================================
 function MicromodSetC2Rate(Rate: longint): boolean;
 begin
   MicromodSetC2Rate := False;
@@ -1042,6 +1322,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// MicromodCalculateFileLength
+//
+//==============================================================================
 function MicromodCalculateFileLength(const Header1084Bytes: array of shortint): longint;
 var
   NumChan, NumPatterns, PatIndex, SeqEntry, Length, InstIndex: longint;
@@ -1073,7 +1358,11 @@ const
   NUM_BUFFERS: longint = 8;     { 8 buffers. }
   EXIT_FAILURE: integer = 1;
 
-
+//==============================================================================
+//
+// CheckMMError
+//
+//==============================================================================
 procedure CheckMMError(ReturnCode: MMRESULT);
 var
   ErrorText: array[0..63] of char;
@@ -1084,7 +1373,6 @@ begin
     I_Error('CheckMMError(): ' + string(ErrorText));
   end;
 end;
-
 
 const
   MOD_MSG_NONE = 0;
@@ -1109,7 +1397,11 @@ var
   MixBuffer: array Of SmallInt;
   MixIndex, MixLength: LongInt;
 
-
+//==============================================================================
+//
+// WaveOutProc
+//
+//==============================================================================
 procedure WaveOutProc(hWaveOut: HWAVEOUT; uMsg: UINT;
   dwInstance, dwParam1, dwParam2: DWORD) stdcall;
 begin
@@ -1117,6 +1409,11 @@ begin
     ReleaseSemaphore(Semaphore, 1, nil);
 end;
 
+//==============================================================================
+//
+// LoadModule
+//
+//==============================================================================
 procedure LoadModule;
 var
   ModuleData: array of shortint;
@@ -1163,6 +1460,11 @@ end;
 var
   modvolume: integer = $FFFF;
 
+//==============================================================================
+//
+// GetAudio
+//
+//==============================================================================
 procedure GetAudio(var OutputBuffer: array of smallint; Length: longint);
 var
   OutOffset, OutRemain, Count: longint;
@@ -1191,6 +1493,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// PlayModule
+//
+//==============================================================================
 procedure PlayModule;
 var
   WaveFormat: TWaveFormatEx;
@@ -1285,6 +1592,11 @@ begin
   mod_msg := MOD_MSG_NONE;
 end;
 
+//==============================================================================
+//
+// I_PlayMod
+//
+//==============================================================================
 procedure I_PlayMod(const data: pointer; const size: integer);
 begin
   if mod_status = MOD_STATUS_PLAYING then
@@ -1303,12 +1615,22 @@ begin
   mod_thread.Activate(nil);
 end;
 
+//==============================================================================
+//
+// I_PauseMod
+//
+//==============================================================================
 procedure I_PauseMod;
 begin
   if mod_status = MOD_STATUS_PLAYING then
     mod_msg := MOD_MSG_PAUSE;
 end;
 
+//==============================================================================
+//
+// I_ResumeMod
+//
+//==============================================================================
 procedure I_ResumeMod;
 begin
   if mod_status = MOD_STATUS_PLAYING then
@@ -1316,11 +1638,21 @@ begin
       mod_msg := MOD_MSG_RESUME;
 end;
 
+//==============================================================================
+//
+// I_StopMod
+//
+//==============================================================================
 procedure I_StopMod;
 begin
   mod_msg := MOD_MSG_STOP;
 end;
 
+//==============================================================================
+//
+// threadproc
+//
+//==============================================================================
 function threadproc(p: pointer): integer; stdcall;
 begin
   mod_status := MOD_STATUS_PLAYING;
@@ -1330,6 +1662,11 @@ begin
   mod_status := MOD_STATUS_IDLE;
 end;
 
+//==============================================================================
+//
+// I_InitMod
+//
+//==============================================================================
 procedure I_InitMod;
 begin
   mod_msg := MOD_MSG_NONE;
@@ -1337,6 +1674,11 @@ begin
   mod_thread := TDThread.Create(@threadproc);
 end;
 
+//==============================================================================
+//
+// I_ShutDownMod
+//
+//==============================================================================
 procedure I_ShutDownMod;
 begin
   if mod_status = MOD_STATUS_PLAYING then
@@ -1357,6 +1699,11 @@ const
     52428,    56797,    61166,    65535
   );
 
+//==============================================================================
+//
+// I_SetMusicVolumeMod
+//
+//==============================================================================
 procedure I_SetMusicVolumeMod(volume: integer);
 var
   vol: integer;
@@ -1365,10 +1712,20 @@ begin
   modvolume := MOD_VOLUME_CONTROL[vol];
 end;
 
+//==============================================================================
+//
+// I_ProcessMod
+//
+//==============================================================================
 procedure I_ProcessMod;
 begin
 end;
 
+//==============================================================================
+//
+// IsModMusicFile
+//
+//==============================================================================
 function IsModMusicFile(const buf: pointer; const size: integer): boolean;
 var
   ModuleData: array of shortint;

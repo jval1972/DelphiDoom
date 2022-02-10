@@ -5,12 +5,20 @@ interface
 uses
   SysUtils, ps_runtime;
 
-
-
+//==============================================================================
+//
+// RegisterDateTimeLibrary_R
+//
+//==============================================================================
 procedure RegisterDateTimeLibrary_R(S: TPSExec);
 
 implementation
 
+//==============================================================================
+//
+// TryEncodeDate
+//
+//==============================================================================
 function TryEncodeDate(Year, Month, Day: Word; var Date: TDateTime): Boolean;
 begin
   try
@@ -21,6 +29,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TryEncodeTime
+//
+//==============================================================================
 function TryEncodeTime(Hour, Min, Sec, MSec: Word; var Time: TDateTime): Boolean;
 begin
   try
@@ -31,16 +44,31 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// DateTimeToUnix
+//
+//==============================================================================
 function DateTimeToUnix(D: TDateTime): Int64;
 begin
   Result := Round((D - 25569) * 86400);
 end;
 
+//==============================================================================
+//
+// UnixToDateTime
+//
+//==============================================================================
 function UnixToDateTime(U: Int64): TDateTime;
 begin
   Result := U / 86400 + 25569;
 end;
 
+//==============================================================================
+//
+// RegisterDateTimeLibrary_R
+//
+//==============================================================================
 procedure RegisterDateTimeLibrary_R(S: TPSExec);
 begin
   S.RegisterDelphiFunction(@EncodeDate, 'EncodeDate', cdRegister);

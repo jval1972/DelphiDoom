@@ -76,6 +76,11 @@ type
 {$ENDIF}
   end;
 
+//==============================================================================
+//
+// TOBuffer_Wave_Failure
+//
+//==============================================================================
 procedure TOBuffer_Wave_Failure;
 
 implementation
@@ -83,6 +88,11 @@ implementation
 uses
   i_system;
 
+//==============================================================================
+//
+// TOBuffer_Wave_Failure
+//
+//==============================================================================
 procedure TOBuffer_Wave_Failure;
 begin
   I_Error('TOBuffer_Wave(): Output device failure');

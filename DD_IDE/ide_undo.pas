@@ -92,8 +92,18 @@ type
     property StreamType: TStreamType read GetStreamType write SetStreamType default sstMemory;
   end;
 
+//==============================================================================
+//
+// ClearMemoryStream
+//
+//==============================================================================
 procedure ClearMemoryStream(m: TMemoryStream);
 
+//==============================================================================
+//
+// ClearFileStream
+//
+//==============================================================================
 procedure ClearFileStream(f: TFileStream; const Path: string);
 
 implementation
@@ -102,6 +112,11 @@ resourceString
   rsUndo = 'UNDO';
   rsInternalError = 'Multiple Undo-Redo Manager: Internal Error!';
 
+//==============================================================================
+//
+// ClearMemoryStream
+//
+//==============================================================================
 procedure ClearMemoryStream(m: TMemoryStream);
 begin
   if m <> nil then
@@ -111,6 +126,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// ClearFileStream
+//
+//==============================================================================
 procedure ClearFileStream(f: TFileStream; const Path: string);
 begin
   if f <> nil then
@@ -120,6 +140,11 @@ begin
       DeleteFile(Path);
 end;
 
+//==============================================================================
+//
+// ClearStreamStackNode
+//
+//==============================================================================
 procedure ClearStreamStackNode(node: PStreamStackNode);
 begin
   if node <> nil then
@@ -145,11 +170,21 @@ begin
   fStreamType := sstMemory;
 end;
 
+//==============================================================================
+//
+// TBaseStack.Empty
+//
+//==============================================================================
 function TBaseStack.Empty;
 begin
   Empty := (top=nil)
 end;
 
+//==============================================================================
+//
+// TBaseStack.GetNewTmpPath
+//
+//==============================================================================
 function TBaseStack.GetNewTmpPath: string;
 var
   FPath,
@@ -163,6 +198,11 @@ begin
       result := s;
 end;
 
+//==============================================================================
+//
+// TBaseStack.Push
+//
+//==============================================================================
 procedure TBaseStack.Push(s: TMemoryStream);
 var
   temp: PStreamStackNode;
@@ -198,6 +238,11 @@ begin
   top := temp;
 end;
 
+//==============================================================================
+//
+// TBaseStack.Pop
+//
+//==============================================================================
 procedure TBaseStack.Pop(var s: TMemoryStream);
 var
   temp: PStreamStackNode;
@@ -227,12 +272,22 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TBaseStack.Pop
+//
+//==============================================================================
 function TBaseStack.Pop: TMemoryStream;
 begin
   result := TMemoryStream.Create;
   Pop(result);
 end;
 
+//==============================================================================
+//
+// TBaseStack.Clear
+//
+//==============================================================================
 procedure TBaseStack.Clear;
 var
   temp: PStreamStackNode;
@@ -254,11 +309,21 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TBaseStack.GetCompressionLevel
+//
+//==============================================================================
 function TBaseStack.GetCompressionLevel: TCompressionLevel;
 begin
   result := Compressor.CompressionLevel;
 end;
 
+//==============================================================================
+//
+// TBaseStack.SetCompressionLevel
+//
+//==============================================================================
 procedure TBaseStack.SetCompressionLevel(Value: TCompressionLevel);
 begin
   Compressor.CompressionLevel := Value;
@@ -274,11 +339,21 @@ begin
   fUndoLimit := 100;
 end;
 
+//==============================================================================
+//
+// TLimitedSizeStack.GetUndoLimit
+//
+//==============================================================================
 function TLimitedSizeStack.GetUndoLimit: word;
 begin
   result := fUndoLimit;
 end;
 
+//==============================================================================
+//
+// TLimitedSizeStack.SetUndoLimit
+//
+//==============================================================================
 procedure TLimitedSizeStack.SetUndoLimit(Value: word);
 begin
   if Value <> fUndoLimit then
@@ -287,6 +362,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TLimitedSizeStack.Push
+//
+//==============================================================================
 procedure TLimitedSizeStack.Push(s: TMemoryStream);
 var
   wasEmpty: boolean;
@@ -309,6 +389,11 @@ begin
   if wasEmpty then bottom := top;
 end;
 
+//==============================================================================
+//
+// TLimitedSizeStack.Pop
+//
+//==============================================================================
 procedure TLimitedSizeStack.Pop(var s: TMemoryStream);
 begin
   if not Empty then
@@ -318,6 +403,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TLimitedSizeStack.Clear
+//
+//==============================================================================
 procedure TLimitedSizeStack.Clear;
 begin
   Inherited;
@@ -343,6 +433,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TUndoRedoManager.GetUndoLimit
+//
+//==============================================================================
 function TUndoRedoManager.GetUndoLimit: word;
 begin
   if Assigned(UndoStack) then
@@ -351,29 +446,54 @@ begin
     result := 0;
 end;
 
+//==============================================================================
+//
+// TUndoRedoManager.SetUndoLimit
+//
+//==============================================================================
 procedure TUndoRedoManager.SetUndoLimit(Value: word);
 begin
   if Assigned(UndoStack) then
     UndoStack.UndoLimit := Value
 end;
 
+//==============================================================================
+//
+// TUndoRedoManager.GetCompressionLevel
+//
+//==============================================================================
 function TUndoRedoManager.GetCompressionLevel: TCompressionLevel;
 begin
   result := UndoStack.CompressionLevel;
 end;
 
+//==============================================================================
+//
+// TUndoRedoManager.SetCompressionLevel
+//
+//==============================================================================
 procedure TUndoRedoManager.SetCompressionLevel(Value: TCompressionLevel);
 begin
   UndoStack.CompressionLevel := Value;
   RedoStack.CompressionLevel := Value;
 end;
 
+//==============================================================================
+//
+// TUndoRedoManager.Clear
+//
+//==============================================================================
 procedure TUndoRedoManager.Clear;
 begin
   UndoStack.Clear;
   RedoStack.Clear;
 end;
 
+//==============================================================================
+//
+// TUndoRedoManager.Undo
+//
+//==============================================================================
 procedure TUndoRedoManager.Undo;
 var
   mRedo, mUndo: TMemoryStream;
@@ -394,6 +514,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TUndoRedoManager.Redo
+//
+//==============================================================================
 procedure TUndoRedoManager.Redo;
 var
   mRedo, mUndo: TMemoryStream;
@@ -414,27 +539,52 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TUndoRedoManager.GetStreamType
+//
+//==============================================================================
 function TUndoRedoManager.GetStreamType: TStreamType;
 begin
   result := UndoStack.StreamType;
 end;
 
+//==============================================================================
+//
+// TUndoRedoManager.SetStreamType
+//
+//==============================================================================
 procedure TUndoRedoManager.SetStreamType(Value: TStreamType);
 begin
   UndoStack.StreamType := Value;
   RedoStack.StreamType := Value;
 end;
 
+//==============================================================================
+//
+// TUndoRedoManager.CanUndo
+//
+//==============================================================================
 function TUndoRedoManager.CanUndo: boolean;
 begin
   result := not UndoStack.Empty
 end;
 
+//==============================================================================
+//
+// TUndoRedoManager.CanRedo
+//
+//==============================================================================
 function TUndoRedoManager.CanRedo: boolean;
 begin
   result := not RedoStack.Empty
 end;
 
+//==============================================================================
+//
+// TUndoRedoManager.SaveUndo
+//
+//==============================================================================
 procedure TUndoRedoManager.SaveUndo;
 var
   m: TMemoryStream;
@@ -449,11 +599,21 @@ begin
   RedoStack.Clear;
 end;
 
+//==============================================================================
+//
+// TUndoRedoManager.SaveDataToStream
+//
+//==============================================================================
 procedure TUndoRedoManager.SaveDataToStream(s: TStream);
 begin
   if Assigned(FOnSaveToStream) then FOnSaveToStream(s);
 end;
 
+//==============================================================================
+//
+// TUndoRedoManager.LoadDataFromStream
+//
+//==============================================================================
 procedure TUndoRedoManager.LoadDataFromStream(s: TStream);
 begin
   if Assigned(FOnLoadFromStream) then FOnLoadFromStream(s);

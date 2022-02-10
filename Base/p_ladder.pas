@@ -42,6 +42,11 @@ const
   MINLADDERMOVE = FRACUNIT * 3 div 2;
   LADDERCOUNTDOWN = 5;
 
+//==============================================================================
+//
+// P_LadderMove
+//
+//==============================================================================
 function P_LadderMove(mo: Pmobj_t): boolean;
 
 implementation
@@ -52,6 +57,11 @@ uses
   p_maputl,
   d_player;
 
+//==============================================================================
+//
+// P_LadderMove
+//
+//==============================================================================
 function P_LadderMove(mo: Pmobj_t): boolean;
 var
   player: Pplayer_t;

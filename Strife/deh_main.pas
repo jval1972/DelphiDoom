@@ -46,12 +46,32 @@ uses
   d_think,
   info_h;
 
+//==============================================================================
+//
+// DEH_Parse
+//
+//==============================================================================
 procedure DEH_Parse(const s: TDStringList);
 
+//==============================================================================
+//
+// DEH_CurrentSettings
+//
+//==============================================================================
 function DEH_CurrentSettings: TDStringList;
 
+//==============================================================================
+//
+// DEH_Init
+//
+//==============================================================================
 procedure DEH_Init;
 
+//==============================================================================
+//
+// DEH_ShutDown
+//
+//==============================================================================
 procedure DEH_ShutDown;
 
 const
@@ -121,8 +141,18 @@ var
 var
   ismbf21: boolean = false; // MBF21
 
+//==============================================================================
+//
+// Deh_ActionName
+//
+//==============================================================================
 function Deh_ActionName(action: actionf_t): string;
 
+//==============================================================================
+//
+// DEH_GetString
+//
+//==============================================================================
 function DEH_GetString(const s: string): string;
 
 implementation
@@ -176,10 +206,14 @@ var
   mobj_flags6_ex_hash: TDEHStringsHashTable;
   mobj_flags_mbf21_hash: TDEHStringsHashTable;
 
-
 var
   stringhash: array[0..255] of TDNumberList;
 
+//==============================================================================
+//
+// loselose
+//
+//==============================================================================
 function loselose(const s: string): byte;
 var
   i: integer;
@@ -189,6 +223,11 @@ begin
     result := result + Ord(s[i]);
 end;
 
+//==============================================================================
+//
+// DEH_AddString
+//
+//==============================================================================
 procedure DEH_AddString(deh_strings: Pdeh_strings_t; pstr: PString; const name: string);
 begin
   if deh_strings.numstrings = deh_strings.realnumstrings then
@@ -210,6 +249,11 @@ end;
 var
   deh_initialized: boolean = false;
 
+//==============================================================================
+//
+// DEH_Parse
+//
+//==============================================================================
 procedure DEH_Parse(const s: TDStringList);
 var
   i, j: integer;
@@ -727,8 +771,6 @@ begin
       P_ResolveMBF21Flags(@mobjinfo[mobj_no]);
     end
 
-
-
     ////////////////////////////////////////////////////////////////////////////
     else if (token1 = 'FRAME') or (token1 = 'STATE') then
     begin
@@ -968,9 +1010,6 @@ begin
         ismbf21 := true;
     end
 
-
-
-
     ////////////////////////////////////////////////////////////////////////////
     else if token1 = 'TEXT' then
     begin
@@ -1070,9 +1109,6 @@ begin
 
     end
 
-
-
-
     ////////////////////////////////////////////////////////////////////////////
     else if token1 = 'POINTER' then
     begin
@@ -1122,9 +1158,6 @@ begin
       else
         I_Warning('DEH_Parse(): Invalid state number "%s" while parsing CODEP FRAME'#13#10, [token2]);
     end
-
-
-
 
     ////////////////////////////////////////////////////////////////////////////
     else if token1 = 'SOUND' then
@@ -1183,9 +1216,6 @@ begin
       end;
     end
 
-
-
-
     ////////////////////////////////////////////////////////////////////////////
     else if token1 = 'AMMO' then
     begin
@@ -1233,9 +1263,6 @@ begin
 
       end;
     end
-
-
-
 
     ////////////////////////////////////////////////////////////////////////////
     else if token1 = 'WEAPON' then
@@ -1361,9 +1388,6 @@ begin
 
     end
 
-
-
-
     ////////////////////////////////////////////////////////////////////////////
     else if (token1 = '[SPRITES]') or (token1 = 'SPRITES') then
     begin
@@ -1447,9 +1471,6 @@ begin
       end;
     end
 
-
-
-
     ////////////////////////////////////////////////////////////////////////////
     else if token1 = 'CHEAT' then
     begin
@@ -1457,9 +1478,6 @@ begin
     // Parse cheat /////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
     end
-
-
-
 
     ////////////////////////////////////////////////////////////////////////////
     else if token1 = 'MISC' then
@@ -1513,9 +1531,6 @@ begin
 
     end
 
-
-
-
     ////////////////////////////////////////////////////////////////////////////
     else if (token1 = '[STRINGS]') or (token1 = 'STRINGS') then // BEX
     begin
@@ -1550,9 +1565,6 @@ begin
           end;
       end;
     end
-
-
-
 
     ////////////////////////////////////////////////////////////////////////////
     else if (token1 = '[CODEPTR]') or (token1 = 'CODEPTR') then // BEX
@@ -1612,9 +1624,6 @@ begin
       end;
     end
 
-
-
-
     ////////////////////////////////////////////////////////////////////////////
     else if (token1 = '[MUSIC]') or (token1 = 'MUSIC') then // BEX
     begin
@@ -1662,9 +1671,6 @@ begin
       end;
     end
 
-
-
-
     ////////////////////////////////////////////////////////////////////////////
     else if (token1 = '[SOUND]') or (token1 = '[SOUNDS]') then // BEX
     begin
@@ -1707,9 +1713,6 @@ begin
       end;
     end
 
-
-
-
     ////////////////////////////////////////////////////////////////////////////
     else if (token1 = 'SUBMITNEWSTATES') or (token1 = 'SUBMITNEWFRAMES') then // DelphiDoom specific
     begin
@@ -1731,6 +1734,11 @@ begin
   memfree(pointer(code_ptrs), numstates * SizeOf(actionf_t));
 end;
 
+//==============================================================================
+//
+// DEH_CurrentSettings
+//
+//==============================================================================
 function DEH_CurrentSettings: TDStringList;
 var
   i, j: integer;
@@ -1958,7 +1966,6 @@ begin
     result.Add('');
   end;
 
-
   result.Add('');
   result.Add('# States');
   result.Add('');
@@ -2030,7 +2037,6 @@ begin
 
     result.Add('');
   end;
-
 
   //////////////////////////////////////////////////////////////////////////////
   // Add Weapons
@@ -2108,7 +2114,6 @@ begin
   result.Add('%s = %d', [capitalizedstring(misc_tokens[8]), p_bluearmorclass]);
   result.Add('');
 
-
   //////////////////////////////////////////////////////////////////////////////
   // Add strings
   //////////////////////////////////////////////////////////////////////////////
@@ -2147,18 +2152,19 @@ begin
     result.Add('%d = %s', [i, S_sfx[i].name]);
   result.Add('');
 
-
   result.Add(StringOfChar('#', 80));
   result.Add('# End of file');
   result.Add(StringOfChar('#', 80));
 end;
 
+//==============================================================================
 //
 // DEH_Init
 //
 // JVAL
 // Initializing DEH tokens
 //
+//==============================================================================
 procedure DEH_Init;
 var
   i: integer;
@@ -2258,7 +2264,6 @@ begin
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);
 
-
   mobj_flags := TDTextList.Create;
   mobj_flags.Add('MF_SPECIAL');
   mobj_flags.Add('MF_SOLID');
@@ -2296,7 +2301,6 @@ begin
   mobj_flags_hash := TDEHStringsHashTable.Create;
   mobj_flags_hash.AssignList(mobj_flags);
 
-
   mobj_flags_ex := TDTextList.Create;
   mobj_flags_ex.Add('MF_EX_TRANSPARENT');
   mobj_flags_ex.Add('MF_EX_WHITELIGHT');
@@ -2333,7 +2337,6 @@ begin
   mobj_flags_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags_ex_hash.AssignList(mobj_flags_ex);
 
-
   mobj_flags2_ex := TDTextList.Create;
   mobj_flags2_ex.Add('MF2_EX_MEDIUMGRAVITY');
   mobj_flags2_ex.Add('MF2_EX_NOHITFLOOR');
@@ -2369,7 +2372,6 @@ begin
 
   mobj_flags2_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags2_ex_hash.AssignList(mobj_flags2_ex);
-
 
   mobj_flags3_ex := TDTextList.Create;
   mobj_flags3_ex.Add('MF3_EX_FLOORBOUNCE');
@@ -2408,7 +2410,6 @@ begin
   mobj_flags3_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags3_ex_hash.AssignList(mobj_flags3_ex);
 
-
   mobj_flags4_ex := TDTextList.Create;
   mobj_flags4_ex.Add('MF4_EX_FLAMEDAMAGERESIST');
   mobj_flags4_ex.Add('MF4_EX_THRUMONSTERS');
@@ -2436,7 +2437,6 @@ begin
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);
-
 
   mobj_flags5_ex := TDTextList.Create;
 
@@ -3178,12 +3178,10 @@ begin
   DEH_AddString(@deh_strings, @GGSAVED, 'GGSAVED');
   DEH_AddString(@deh_strings, @SAVEGAMENAME, 'SAVEGAMENAME');
 
-
   ammo_tokens := TDTextList.Create;
 
   ammo_tokens.Add('MAX AMMO');
   ammo_tokens.Add('PER AMMO');
-
 
   weapon_tokens := TDTextList.Create;
 
@@ -3212,14 +3210,12 @@ begin
   sound_tokens.Add('VALUE');
   sound_tokens.Add('NAME'); // DelphiDoom specific
 
-
   renderstyle_tokens := TDTextList.Create;
 
   renderstyle_tokens.Add('NORMAL');
   renderstyle_tokens.Add('TRANSLUCENT');
   renderstyle_tokens.Add('ADD');
   renderstyle_tokens.Add('SUBTRACT');
-
 
   misc_tokens := TDTextList.Create;
 
@@ -3233,7 +3229,6 @@ begin
   misc_tokens.Add('GREEN ARMOR CLASS');   // p_greenarmorclass
   misc_tokens.Add('BLUE ARMOR CLASS');    // p_bluearmorclass
 
-
   C_AddCmd('DEH_ParseFile, BEX_ParseFile', @DEH_ParseFile);
   C_AddCmd('DEH_ParseLump, BEX_ParseLump', @DEH_ParseLumpName);
   C_AddCmd('DEH_PrintCurrentSettings, DEH_PrintSettings, BEX_PrintCurrentSettings, BEX_PrintSettings', @DEH_PrintCurrentSettings);
@@ -3244,6 +3239,11 @@ begin
   C_AddCmd('DEH_PrintActions, DEH_ShowActions, BEX_PrintActions, BEX_ShowActions', @DEH_PrintActions);
 end;
 
+//==============================================================================
+//
+// DEH_ShutDown
+//
+//==============================================================================
 procedure DEH_ShutDown;
 var
   i: integer;
@@ -3276,7 +3276,6 @@ begin
   FreeAndNil(projectile_groups);
   FreeAndNil(splash_groups);
 
-
   FreeAndNil(mobj_tokens_hash);
   FreeAndNil(mobj_flags_hash);
   FreeAndNil(mobj_flags_ex_hash);
@@ -3295,6 +3294,11 @@ begin
     stringhash[i].Free;
 end;
 
+//==============================================================================
+//
+// Deh_ActionName
+//
+//==============================================================================
 function Deh_ActionName(action: actionf_t): string;
 var
   i: integer;
@@ -3310,7 +3314,12 @@ begin
   result := '';
 end;
 
+//==============================================================================
+// DEH_GetString
+//
 // JVAL: 20190919 working
+//
+//==============================================================================
 function DEH_GetString(const s: string): string;
 var
   i: integer;

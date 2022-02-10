@@ -36,6 +36,11 @@ interface
 uses
   d_player;
 
+//==============================================================================
+//
+// R_AdjustGlobalEarthQuake
+//
+//==============================================================================
 procedure R_AdjustGlobalEarthQuake(const player: Pplayer_t);
 
 implementation
@@ -45,6 +50,11 @@ uses
   m_rnd,
   r_main;
 
+//==============================================================================
+//
+// R_AdjustGlobalEarthQuake
+//
+//==============================================================================
 procedure R_AdjustGlobalEarthQuake(const player: Pplayer_t);
 var
   seed1, seed2: integer;

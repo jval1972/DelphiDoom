@@ -60,6 +60,11 @@ begin
   sprinfo := nil;
 end;
 
+//==============================================================================
+//
+// TFrame_Sprites.CreateParams
+//
+//==============================================================================
 procedure TFrame_Sprites.CreateParams(var Params: TCreateParams);
 begin
   sortcolumn := 0;
@@ -72,6 +77,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_Sprites.ClearSPRinfo
+//
+//==============================================================================
 procedure TFrame_Sprites.ClearSPRinfo;
 var
   i: integer;
@@ -95,6 +105,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Sprites.FocusAndSelectFirstItem
+//
+//==============================================================================
 procedure TFrame_Sprites.FocusAndSelectFirstItem;
 var
   i: integer;
@@ -108,6 +123,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Sprites.FocusAndSelectFirstListItem
+//
+//==============================================================================
 procedure TFrame_Sprites.FocusAndSelectFirstListItem;
 begin
   if ListView1.Items.Count > 0 then
@@ -117,6 +137,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Sprites.UpdateGameControls
+//
+//==============================================================================
 procedure TFrame_Sprites.UpdateGameControls(const game: string);
 var
   lst, tmp: TStringList;
@@ -245,6 +270,11 @@ begin
   FillListView;
 end;
 
+//==============================================================================
+//
+// TFrame_Sprites.FillTreeView
+//
+//==============================================================================
 procedure TFrame_Sprites.FillTreeView;
 
   procedure AddTreeItem(const id: integer);
@@ -298,6 +328,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Sprites.FillListView
+//
+//==============================================================================
 procedure TFrame_Sprites.FillListView;
 var
   it, dad: TTreeNode;
@@ -379,6 +414,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Sprites.SearchEditChange
+//
+//==============================================================================
 procedure TFrame_Sprites.SearchEditChange(Sender: TObject);
 begin
   FillTreeView;
@@ -391,17 +431,32 @@ begin
   SearchEdit.Clear;
 end;
 
+//==============================================================================
+//
+// TFrame_Sprites.HintPanelResize
+//
+//==============================================================================
 procedure TFrame_Sprites.HintPanelResize(Sender: TObject);
 begin
   HintEdit.Width := HintPanel.Width - 16;
 end;
 
+//==============================================================================
+//
+// TFrame_Sprites.TreeView1Editing
+//
+//==============================================================================
 procedure TFrame_Sprites.TreeView1Editing(Sender: TObject; Node: TTreeNode;
   var AllowEdit: Boolean);
 begin
   AllowEdit := False;
 end;
 
+//==============================================================================
+//
+// TFrame_Sprites.TreeView1Change
+//
+//==============================================================================
 procedure TFrame_Sprites.TreeView1Change(Sender: TObject; Node: TTreeNode);
 var
   it: TTreeNode;

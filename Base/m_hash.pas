@@ -34,8 +34,18 @@ unit m_hash;
 
 interface
 
+//==============================================================================
+//
+// M_HashIndex
+//
+//==============================================================================
 function M_HashIndex(const s: string): integer;
 
+//==============================================================================
+//
+// M_HashUpdate
+//
+//==============================================================================
 procedure M_HashUpdate(const s: string; const idx: integer);
 
 implementation
@@ -66,6 +76,11 @@ begin
   ZeroMemory(@htable, SizeOf(htable));
 end;
 
+//==============================================================================
+//
+// TSDBMHash.Hash
+//
+//==============================================================================
 function TSDBMHash.Hash(const s: string): LongWord;
 var
   i: integer;
@@ -76,16 +91,31 @@ begin
   Result := Result and (SDBMHASHSIZE - 1);
 end;
 
+//==============================================================================
+//
+// TSDBMHash.GetHashIndex
+//
+//==============================================================================
 function TSDBMHash.GetHashIndex(const h: integer): integer;
 begin
   result := htable[h];
 end;
 
+//==============================================================================
+//
+// TSDBMHash.SetHashIndex
+//
+//==============================================================================
 procedure TSDBMHash.SetHashIndex(const h: integer; const idx: integer);
 begin
   htable[h] := idx;
 end;
 
+//==============================================================================
+//
+// M_HashIndex
+//
+//==============================================================================
 function M_HashIndex(const s: string): integer;
 var
   h: integer;
@@ -94,6 +124,11 @@ begin
   Result := globalhashmanager.htable[h];
 end;
 
+//==============================================================================
+//
+// M_HashUpdate
+//
+//==============================================================================
 procedure M_HashUpdate(const s: string; const idx: integer);
 var
   h: integer;

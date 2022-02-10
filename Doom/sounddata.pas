@@ -186,7 +186,6 @@ type
     DO_NUMMUSIC
   );
 
-
 //
 // Identifiers for all sfx in game.
 //

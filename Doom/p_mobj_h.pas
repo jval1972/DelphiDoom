@@ -1435,7 +1435,6 @@ type
 
   end;
 
-
   Pmobj_t205 = ^mobj_t205;
   mobj_t205 = record
     // List: thinker links.

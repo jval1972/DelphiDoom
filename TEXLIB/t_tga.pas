@@ -95,6 +95,11 @@ type
 
 implementation
 
+//==============================================================================
+//
+// TTGATextureManager.LoadPalette
+//
+//==============================================================================
 function TTGATextureManager.LoadPalette(stream: TDStream): boolean;
 var
   palet: pointer;
@@ -124,6 +129,11 @@ begin
   LoadPalette := true;
 end;
 
+//==============================================================================
+//
+// TTGATextureManager.Load8bitpaltga
+//
+//==============================================================================
 function TTGATextureManager.Load8bitpaltga(stream: TDStream): boolean;
 var
   pixel, rle: byte;
@@ -194,11 +204,21 @@ begin
   memfree(buffer, hdr.width);
 end;
 
+//==============================================================================
+//
+// TTGATextureManager.load8bitgraytga
+//
+//==============================================================================
 function TTGATextureManager.load8bitgraytga(stream: TDStream): boolean;
 begin
   load8bitgraytga := false;
 end;
 
+//==============================================================================
+//
+// TTGATextureManager.load16bittga
+//
+//==============================================================================
 function TTGATextureManager.load16bittga(stream: TDStream): boolean;
 var
   rle: byte;
@@ -265,6 +285,11 @@ begin
   memfree(buffer, hdr.width * 2);
 end;
 
+//==============================================================================
+//
+// TTGATextureManager.load24bittga
+//
+//==============================================================================
 function TTGATextureManager.load24bittga(stream: TDStream):boolean;
 var
   rle: byte;
@@ -331,6 +356,11 @@ begin
   memfree(buffer, hdr.width * 3);
 end;
 
+//==============================================================================
+//
+// TTGATextureManager.Load32bittga
+//
+//==============================================================================
 function TTGATextureManager.Load32bittga(stream: TDStream):boolean;
 var
   rle: byte;
@@ -404,6 +434,11 @@ begin
   FFrameCount := 10;
 end;
 
+//==============================================================================
+//
+// TTGATextureManager.LoadHeader
+//
+//==============================================================================
 function TTGATextureManager.LoadHeader(stream: TDStream):boolean;
 begin
   if id <> nil then
@@ -433,6 +468,11 @@ begin
   LoadHeader := true;
 end;
 
+//==============================================================================
+//
+// TTGATextureManager.LoadImage
+//
+//==============================================================================
 function TTGATextureManager.LoadImage(stream: TDStream):boolean;
 begin
   LoadImage := true;

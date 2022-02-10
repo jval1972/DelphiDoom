@@ -125,20 +125,32 @@ type
   end;
   Pst_binicon_t = ^st_binicon_t;
 
+//==============================================================================
+// STlib_init
 //
 // Widget creation, access, and update routines
 //
-
 // Initializes widget library.
 // More precisely, initialize STMINUS,
 //  everything else is done somewhere else.
 //
+//==============================================================================
 procedure STlib_init;
 
+//==============================================================================
+// STlib_initNum
+//
 // Number widget routines
+//
+//==============================================================================
 procedure STlib_initNum(n: Pst_number_t; x, y: integer; pl: Ppatch_tPArray;
   num: PInteger; width: integer);
 
+//==============================================================================
+//
+// STlib_drawNumPositive
+//
+//==============================================================================
 procedure STlib_drawNumPositive(n: Pst_number_t; screen: integer; transparent: boolean);
 
 var
@@ -162,12 +174,22 @@ uses
 var
   sttminus: Ppatch_t;
 
+//==============================================================================
+//
+// STlib_init
+//
+//==============================================================================
 procedure STlib_init;
 begin
   sttminus := W_CacheLumpName('STCFN045', PU_STATIC);
 end;
 
+//==============================================================================
+// STlib_initNum
+//
 // ?
+//
+//==============================================================================
 procedure STlib_initNum(n: Pst_number_t; x, y: integer; pl: Ppatch_tPArray;
   num: PInteger; width: integer);
 begin
@@ -179,11 +201,14 @@ begin
   n.p := pl;
 end;
 
+//==============================================================================
+// STlib_drawNum
 //
 // A fairly efficient way to draw a number
 //  based on differences from the old number.
 // Note: worth the trouble?
 //
+//==============================================================================
 procedure STlib_drawNum(n: Pst_number_t; screen: integer; transparent: boolean);
 var
   numdigits: integer;
@@ -235,6 +260,11 @@ begin
     V_DrawPatch(x - 8, n.y, screen, sttminus, screen = SCN_FG);
 end;
 
+//==============================================================================
+//
+// STlib_drawNumPositive
+//
+//==============================================================================
 procedure STlib_drawNumPositive(n: Pst_number_t; screen: integer; transparent: boolean);
 var
   zero: st_number_t;

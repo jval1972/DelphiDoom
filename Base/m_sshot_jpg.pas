@@ -52,6 +52,11 @@ type
     procedure LoadFromStream(Stream: TStream); override;
   end;
 
+//==============================================================================
+//
+// TGAtoJPG
+//
+//==============================================================================
 function TGAtoJPG(const TGApic, JPGpic: string; const Quality: integer = 100): boolean;
 
 const
@@ -83,26 +88,51 @@ type
     ImageInfo : Byte;
   end;
 
+//==============================================================================
+//
+// TTGABitmap.WriteData
+//
+//==============================================================================
 procedure TTGABitmap.WriteData(Stream: TStream);
 begin
   WriteTGAStreamData(Stream);
 end;
 
+//==============================================================================
+//
+// TTGABitmap.SaveToStream
+//
+//==============================================================================
 procedure TTGABitmap.SaveToStream(Stream: TStream);
 begin
   WriteTGAStreamData(Stream);
 end;
 
+//==============================================================================
+//
+// TTGABitmap.LoadFromStream
+//
+//==============================================================================
 procedure TTGABitmap.LoadFromStream(Stream: TStream);
 begin
   ReadTGAStreamData(Stream);
 end;
 
+//==============================================================================
+//
+// TTGABitmap.ReadData
+//
+//==============================================================================
 procedure TTGABitmap.ReadData(Stream: TStream);
 begin
   ReadTGAStreamData(Stream);
 end;
 
+//==============================================================================
+//
+// TTGABitmap.ReadTGAStreamData
+//
+//==============================================================================
 procedure TTGABitmap.ReadTGAStreamData(Stream: TStream);
 var
   aBitmap: TBitmap;
@@ -177,6 +207,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TTGABitmap.WriteTGAStreamData
+//
+//==============================================================================
 procedure TTGABitmap.WriteTGAStreamData(Stream: TStream);
 var
   aBitmap: TBitmap;
@@ -216,6 +251,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TGAtoJPG
+//
+//==============================================================================
 function TGAtoJPG(const TGApic, JPGpic: string; const Quality: integer = 100): boolean;
 var
   Bitmap: TTGABitmap;

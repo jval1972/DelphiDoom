@@ -35,16 +35,46 @@ uses
   d_delphi,
   p_mobj_h;
 
+//==============================================================================
+//
+// S_InitSequenceScript
+//
+//==============================================================================
 procedure S_InitSequenceScript;
 
+//==============================================================================
+//
+// S_StartSequence
+//
+//==============================================================================
 procedure S_StartSequence(mobj: Pmobj_t; sequence: integer);
 
+//==============================================================================
+//
+// S_StartSequenceName
+//
+//==============================================================================
 procedure S_StartSequenceName(mobj: Pmobj_t; name: string);
 
+//==============================================================================
+//
+// S_StopSequence
+//
+//==============================================================================
 procedure S_StopSequence(mobj: Pmobj_t);
 
+//==============================================================================
+//
+// S_StopAllSequences
+//
+//==============================================================================
 procedure S_StopAllSequences;
 
+//==============================================================================
+//
+// S_UpdateActiveSequences
+//
+//==============================================================================
 procedure S_UpdateActiveSequences;
 
 type
@@ -104,8 +134,18 @@ var
   ActiveSequences: integer;
   SequenceListHead: Pseqnode_t;
 
+//==============================================================================
+//
+// S_GetSequenceOffset
+//
+//==============================================================================
 function S_GetSequenceOffset(sequence: integer; sequencePtr: PInteger): integer;
 
+//==============================================================================
+//
+// S_ChangeNodeData
+//
+//==============================================================================
 procedure S_ChangeNodeData(nodeNum: integer; seqOffset: integer; delayTics: integer;
   volume: integer; currentSoundID: integer);
 
@@ -194,22 +234,25 @@ var
 
 // CODE --------------------------------------------------------------------
 
+//==============================================================================
 //
 // VerifySequencePtr
 //
 //   Verifies the integrity of the temporary ptr, and ensures that the ptr
 //     isn't exceeding the size of the temporary buffer
-
+//
+//==============================================================================
 procedure VerifySequencePtr(base: PIntegerArray; ptr: PInteger);
 begin
   if integer(ptr) - integer(base) > SS_TEMPBUFFER_SIZE * SizeOf(integer) then
     I_Error('VerifySequencePtr:  tempPtr >= %d', [SS_TEMPBUFFER_SIZE]);
 end;
 
+//==============================================================================
 //
 // GetSoundOffset
 //
-
+//==============================================================================
 function GetSoundOffset(const name: string): integer;
 var
   check: string;
@@ -228,10 +271,11 @@ begin
   result := 0;
 end;
 
+//==============================================================================
 //
 // S_InitSequenceScript
 //
-
+//==============================================================================
 procedure S_InitSequenceScript;
 var
   i, j: integer;
@@ -391,10 +435,11 @@ begin
   sc.Free;
 end;
 
+//==============================================================================
 //
 //  S_StartSequence
 //
-
+//==============================================================================
 procedure S_StartSequence(mobj: Pmobj_t; sequence: integer);
 var
   node: Pseqnode_t;
@@ -424,10 +469,11 @@ begin
   inc(ActiveSequences);
 end;
 
+//==============================================================================
 //
 //  S_StartSequenceName
 //
-
+//==============================================================================
 procedure S_StartSequenceName(mobj: Pmobj_t; name: string);
 var
   i: integer;
@@ -443,10 +489,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 //  S_StopSequence
 //
-
+//==============================================================================
 procedure S_StopSequence(mobj: Pmobj_t);
 var
   node: Pseqnode_t;
@@ -476,10 +523,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 //  S_UpdateActiveSequences
 //
-
+//==============================================================================
 procedure S_UpdateActiveSequences;
 var
   node: Pseqnode_t;
@@ -564,10 +612,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 //  S_StopAllSequences
 //
-
+//==============================================================================
 procedure S_StopAllSequences;
 var
   node: Pseqnode_t;
@@ -581,20 +630,23 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 //  S_GetSequenceOffset
 //
-
+//==============================================================================
 function S_GetSequenceOffset(sequence: integer; sequencePtr: PInteger): integer;
 begin
   result := (integer(sequencePtr) - integer(SequenceData[SequenceTranslate[sequence].scriptNum])) div SizeOf(integer);
 end;
 
+//==============================================================================
 //
 //  S_ChangeNodeData
 //
 //   nodeNum zero is the first node
-
+//
+//==============================================================================
 procedure S_ChangeNodeData(nodeNum: integer; seqOffset: integer; delayTics: integer;
   volume: integer; currentSoundID: integer);
 var

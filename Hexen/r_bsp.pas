@@ -38,11 +38,26 @@ interface
 uses
   r_defs;
 
+//==============================================================================
+// R_ClearClipSegs
+//
 // BSP?
+//
+//==============================================================================
 procedure R_ClearClipSegs;
+
+//==============================================================================
+//
+// R_ClearDrawSegs
+//
+//==============================================================================
 procedure R_ClearDrawSegs;
 
-
+//==============================================================================
+//
+// R_RenderBSPNode
+//
+//==============================================================================
 procedure R_RenderBSPNode(const bspnum: integer);
 
 type
@@ -93,9 +108,11 @@ uses
   gl_defs,
   z_zone{$ENDIF}; // JVAL OPENGL
 
+//==============================================================================
 //
 // R_ClearDrawSegs
 //
+//==============================================================================
 procedure R_ClearDrawSegs;
 begin
   ds_p := 0;
@@ -143,6 +160,12 @@ var
 //  that entirely block the view.
 //
 {$IFNDEF OPENGL}
+
+//==============================================================================
+//
+// R_ClipSolidWallSegment
+//
+//==============================================================================
 procedure R_ClipSolidWallSegment(first, last: integer);
 var
   next: Pcliprange_t;
@@ -234,6 +257,7 @@ begin
   crunch;
 end;
 
+//==============================================================================
 //
 // R_ClipPassWallSegment
 // Clips the given range of columns,
@@ -241,6 +265,7 @@ end;
 // Does handle windows,
 //  e.g. LineDefs with upper and lower texture.
 //
+//==============================================================================
 procedure R_ClipPassWallSegment(first, last: integer);
 var
   start: Pcliprange_t;
@@ -286,9 +311,11 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
 //
 // R_ClearClipSegs
 //
+//==============================================================================
 procedure R_ClearClipSegs;
 begin
   newend := @solidsegs[0];
@@ -301,6 +328,12 @@ begin
 end;
 
 {$IFDEF OPENGL}
+
+//==============================================================================
+//
+// R_CheckClip
+//
+//==============================================================================
 function R_CheckClip(seg: Pseg_t): boolean;
 var
   frontsector, backsector: Psector_t;
@@ -369,12 +402,17 @@ begin
   result := false;
 end;
 {$ELSE}
+
+//==============================================================================
+// R_DoorClosed
+//
 // killough 1/18/98 -- This function is used to fix the automap bug which
 // showed lines behind closed doors simply because the door had a dropoff.
 //
 // It assumes that Doom has already ruled out a door being closed because
 // of front-back closure (e.g. front floor is taller than back ceiling).
-
+//
+//==============================================================================
 function R_DoorClosed: boolean;
 begin
   result :=
@@ -395,11 +433,13 @@ begin
 end;
 {$ENDIF}
 
+//==============================================================================
 //
 // R_AddLine
 // Clips the given segment
 // and adds any visible pieces to the line list.
 //
+//==============================================================================
 procedure R_AddLine(line: Pseg_t);
 var
 {$IFNDEF OPENGL}
@@ -585,6 +625,11 @@ const
     (0, 0, 0, 0)
   );
 
+//==============================================================================
+//
+// R_CheckBBox
+//
+//==============================================================================
 function R_CheckBBox(bspcoordA: Pfixed_tArray; const side: integer): boolean;
 var
   bspcoord: Pfixed_tArray;
@@ -691,7 +736,6 @@ begin
     angle2 := -clipangle;
   end;
 
-
   // Find the first clippost
   //  that touches the source post
   //  (adjacent pixels are touching).
@@ -728,12 +772,14 @@ begin
 {$ENDIF}
 end;
 
+//==============================================================================
 //
 // R_Subsector
 // Determine floor/ceiling planes.
 // Add sprites of things in sector.
 // Draw one or more line segments.
 //
+//==============================================================================
 procedure R_Subsector(const num: integer);
 var
   count: integer;
@@ -982,11 +1028,15 @@ begin
 {$ENDIF}
 end;
 
+//==============================================================================
+// R_RenderBSPNode
 //
 // RenderBSPNode
 // Renders all subsectors below a given node,
 //  traversing subtree recursively.
 // Just call with BSP root.
+//
+//==============================================================================
 procedure R_RenderBSPNode(const bspnum: integer);
 var
   bsp: Pnode_t;

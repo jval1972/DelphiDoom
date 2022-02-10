@@ -40,10 +40,20 @@ type
     function AllTokens: TDStringList;
   end;
 
+//==============================================================================
+//
+// SC_EvalueateIntToken
+//
+//==============================================================================
 function SC_EvalueateIntToken(const token: string; const A: array of string): integer;
 
 implementation
 
+//==============================================================================
+//
+// TTokenList.IndexOfToken
+//
+//==============================================================================
 function TTokenList.IndexOfToken(const S: string): Integer;
 var
   i, j: integer;
@@ -82,6 +92,11 @@ begin
   list.Free;
 end;
 
+//==============================================================================
+//
+// TTokenList.AllTokens
+//
+//==============================================================================
 function TTokenList.AllTokens: TDStringList;
 var
   i, j: integer;
@@ -111,6 +126,11 @@ begin
   list.Free;
 end;
 
+//==============================================================================
+//
+// SC_EvalueateIntToken
+//
+//==============================================================================
 function SC_EvalueateIntToken(const token: string; const A: array of string): integer;
 var
   i: integer;

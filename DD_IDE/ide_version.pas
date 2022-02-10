@@ -5,6 +5,11 @@ interface
 const
   IDEVERSION = '1.0';
 
+//==============================================================================
+//
+// I_VersionBuilt
+//
+//==============================================================================
 function I_VersionBuilt(fname: string = ''): string;
 
 implementation
@@ -13,6 +18,11 @@ uses
   Windows,
   SysUtils;
 
+//==============================================================================
+//
+// I_VersionBuilt
+//
+//==============================================================================
 function I_VersionBuilt(fname: string = ''): string;
 var
   vsize: LongWord;

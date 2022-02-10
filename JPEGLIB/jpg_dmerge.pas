@@ -72,10 +72,15 @@ uses
   of this module; no safety checks are made here. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_merged_upsampler 
+//
+//==============================================================================
 procedure jinit_merged_upsampler (cinfo: j_decompress_ptr);
 
 implementation
-
 
 { Private subobject }
 
@@ -114,16 +119,20 @@ type
     rows_to_go: JDIMENSION;  { counts rows remaining in image }
   end; {my_upsampler;}
 
-
 const
   SCALEBITS = 16;  { speediest right-shift on some machines }
   ONE_HALF  = (INT32(1) shl (SCALEBITS-1));
-
 
 { Initialize tables for YCC->RGB colorspace conversion.
   This is taken directly from jdcolor.c; see that file for more info. }
 
 {LOCAL}
+
+//==============================================================================
+//
+// build_ycc_rgb_table 
+//
+//==============================================================================
 procedure build_ycc_rgb_table (cinfo: j_decompress_ptr);
 const
   FIX_1_40200 = INT32( Round(1.40200 * (INT32(1) shl SCALEBITS)) );
@@ -167,7 +176,6 @@ begin
     else
       upsample^.Cr_r_tab^[i] := int(shift_temp shr SCALEBITS);
 
-
     { Cb=>B value is nearest int to 1.77200 * x }
     {upsample^.Cb_b_tab^[i] := int(
         RIGHT_SHIFT(FIX_1_77200 * x + ONE_HALF, SCALEBITS) );}
@@ -187,10 +195,15 @@ begin
   end;
 end;
 
-
 { Initialize for an upsampling pass. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// start_pass_merged_upsample 
+//
+//==============================================================================
 procedure start_pass_merged_upsample (cinfo: j_decompress_ptr); far;
 var
   upsample: my_upsample_ptr;
@@ -203,12 +216,17 @@ begin
   upsample^.rows_to_go := cinfo^.output_height;
 end;
 
-
 { Control routine to do upsampling (and color conversion).
 
   The control routine just handles the row buffering considerations. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// merged_2v_upsample 
+//
+//==============================================================================
 procedure merged_2v_upsample (cinfo: j_decompress_ptr;
                   input_buf: JSAMPIMAGE;
                               var in_row_group_ctr: JDIMENSION;
@@ -269,8 +287,13 @@ begin
     inc(in_row_group_ctr);
 end;
 
-
 {METHODDEF}
+
+//==============================================================================
+//
+// merged_1v_upsample 
+//
+//==============================================================================
 procedure merged_1v_upsample (cinfo: j_decompress_ptr;
                  input_buf: JSAMPIMAGE;
                              var in_row_group_ctr: JDIMENSION;
@@ -292,7 +315,6 @@ begin
   inc(in_row_group_ctr);
 end;
 
-
 { These are the routines invoked by the control routines to do
   the actual upsampling/conversion.  One row group is processed per call.
 
@@ -300,10 +322,15 @@ end;
   we have to be honest about the output width; we can't assume the buffer
   has been rounded up to an even width. }
 
-
 { Upsample and color convert for the case of 2:1 horizontal and 1:1 vertical. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// h2v1_merged_upsample 
+//
+//==============================================================================
 procedure h2v1_merged_upsample (cinfo: j_decompress_ptr;
                     input_buf: JSAMPIMAGE;
                                 in_row_group_ctr: JDIMENSION;
@@ -389,10 +416,15 @@ begin
   end;
 end;
 
-
 { Upsample and color convert for the case of 2:1 horizontal and 2:1 vertical. }
 
 {METHODDEF}
+
+//==============================================================================
+//
+// h2v2_merged_upsample 
+//
+//==============================================================================
 procedure h2v2_merged_upsample (cinfo: j_decompress_ptr;
                     input_buf: JSAMPIMAGE;
                                 in_row_group_ctr: JDIMENSION;
@@ -496,15 +528,19 @@ begin
   end;
 end;
 
-
 { Module initialization routine for merged upsampling/color conversion.
 
   NB: this is called under the conditions determined by use_merged_upsample()
   in jdmaster.c.  That routine MUST correspond to the actual capabilities
   of this module; no safety checks are made here. }
 
-
 {GLOBAL}
+
+//==============================================================================
+//
+// jinit_merged_upsampler 
+//
+//==============================================================================
 procedure jinit_merged_upsampler (cinfo: j_decompress_ptr);
 var
   upsample: my_upsample_ptr;

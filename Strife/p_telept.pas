@@ -45,13 +45,26 @@ uses
   p_mobj_h,
   r_defs;
 
+//==============================================================================
+// EV_Teleport
 //
 // TELEPORTATION
 //
+//==============================================================================
 function EV_Teleport(line: Pline_t; side: integer; thing: Pmobj_t; flags: integer): integer;
 
+//==============================================================================
+//
+// EV_SilentTeleport
+//
+//==============================================================================
 function EV_SilentTeleport(line: Pline_t; side: integer; thing: Pmobj_t): integer;
 
+//==============================================================================
+//
+// EV_SilentLineTeleport
+//
+//==============================================================================
 function EV_SilentLineTeleport(line: Pline_t; side: integer; thing: Pmobj_t; reverse: boolean): integer;
 
 const
@@ -79,6 +92,8 @@ uses
   sounddata,
   tables;
 
+//==============================================================================
+// EV_Teleport
 //
 // TELEPORTATION
 //
@@ -86,6 +101,7 @@ uses
 // silent teleportation. Rogue also removed the check for missiles, and the
 // z-set was replaced with one in P_TeleportMove.
 //
+//==============================================================================
 function EV_Teleport(line: Pline_t; side: integer; thing: Pmobj_t; flags: integer): integer;
 var
   i: integer;
@@ -107,7 +123,6 @@ begin
     result := 0;
     exit;
   end;
-
 
   // Don't teleport if hit back of line,
   //  so you can get out of teleporter.
@@ -224,11 +239,13 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+// EV_SilentTeleport
 //
 // Silent TELEPORTATION, by Lee Killough
 // Primarily for rooms-over-rooms etc.
 //
-
+//==============================================================================
 function EV_SilentTeleport(line: Pline_t; side: integer; thing: Pmobj_t): integer;
 var
   i: integer;
@@ -339,6 +356,11 @@ end;
 const
   FUDGEFACTOR = 10;
 
+//==============================================================================
+//
+// EV_SilentLineTeleport
+//
+//==============================================================================
 function EV_SilentLineTeleport(line: Pline_t; side: integer; thing: Pmobj_t; reverse: boolean): integer;
 var
   i: integer;
@@ -360,7 +382,6 @@ begin
     result := 0;
     exit;
   end;
-
 
   i := -1;
   while P_FindLineFromLineTag2(line, i) >= 0 do

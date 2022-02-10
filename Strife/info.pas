@@ -69,6 +69,11 @@ var
   nummobjtypes: integer = Ord(DO_NUMMOBJTYPES);
   numrealmobjtypes: integer = Ord(DO_NUMMOBJTYPES);
 
+//==============================================================================
+//
+// Info_Init
+//
+//==============================================================================
 procedure Info_Init(const usethinkers: boolean);
 
 const
@@ -15788,8 +15793,6 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
    )                         // S_TNT1
-
-
 
   );
 
@@ -44254,6 +44257,11 @@ const // Strife Original mobjinfo
 
   );
 
+//==============================================================================
+//
+// Info_Init
+//
+//==============================================================================
 procedure Info_Init(const usethinkers: boolean);
 var
   i: integer;

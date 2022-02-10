@@ -37,10 +37,25 @@ uses
   d_player,
   p_mobj_h;
 
+//==============================================================================
+//
+// P_HandleFriendsNearMe
+//
+//==============================================================================
 procedure P_HandleFriendsNearMe(const p: Pplayer_t);
 
+//==============================================================================
+//
+// P_BothFriends
+//
+//==============================================================================
 function P_BothFriends(mo1, mo2: Pmobj_t): boolean;
 
+//==============================================================================
+//
+// P_LookForMonsters
+//
+//==============================================================================
 function P_LookForMonsters(actor: Pmobj_t): boolean;
 
 implementation
@@ -70,6 +85,11 @@ const
 var
   dplayermo: Pmobj_t;
 
+//==============================================================================
+//
+// RIT_HandleFriendsNearMe
+//
+//==============================================================================
 function RIT_HandleFriendsNearMe(mo: Pmobj_t): boolean;
 var
   dist1: fixed_t;
@@ -122,6 +142,11 @@ begin
   mo.momy := FixedMul(speed, finesine[realangle shr ANGLETOFINESHIFT]);
 end;
 
+//==============================================================================
+//
+// P_HandleFriendsNearMe
+//
+//==============================================================================
 procedure P_HandleFriendsNearMe(const p: Pplayer_t);
 var
   x: integer;
@@ -155,11 +180,13 @@ begin
       P_BlockThingsIterator(x, y, RIT_HandleFriendsNearMe);
 end;
 
+//==============================================================================
 //
 // P_BothFriends
 //
 // JVAL: New function
 //
+//==============================================================================
 function P_BothFriends(mo1, mo2: Pmobj_t): boolean;
 var
   f1, f2: boolean;
@@ -199,6 +226,11 @@ const
   MONS_LOOK_RANGE = 20 * 64 * FRACUNIT;
   MONS_LOOK_LIMIT = 64;
 
+//==============================================================================
+//
+// P_LookForMonsters
+//
+//==============================================================================
 function P_LookForMonsters(actor: Pmobj_t): boolean;
 var
   i: integer;

@@ -50,8 +50,18 @@ type
     destructor Destroy; virtual;
   end;
 
+//==============================================================================
+//
+// T_IsValidPatchImage
+//
+//==============================================================================
 function T_IsValidPatchImage(var f: file; const start, size: integer): boolean; overload;
 
+//==============================================================================
+//
+// T_IsValidPatchImage
+//
+//==============================================================================
 function T_IsValidPatchImage(patch: Ppatch_t; const size: integer): boolean; overload;
 
 implementation
@@ -68,6 +78,11 @@ begin
   patchsize := 0;
 end;
 
+//==============================================================================
+//
+// TPatchTextureManager.LoadHeader
+//
+//==============================================================================
 function TPatchTextureManager.LoadHeader(stream: TDStream): boolean;
 var
   w, h: integer;
@@ -94,6 +109,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPatchTextureManager.LoadImage
+//
+//==============================================================================
 function TPatchTextureManager.LoadImage(stream: TDStream): boolean;
 var
   count: integer;
@@ -171,6 +191,11 @@ begin
   Inherited destroy;
 end;
 
+//==============================================================================
+//
+// T_IsValidPatchImage
+//
+//==============================================================================
 function T_IsValidPatchImage(var f: file; const start, size: integer): boolean;
 var
   N, pos: integer;
@@ -198,6 +223,11 @@ begin
   seek(f, pos);
 end;
 
+//==============================================================================
+//
+// T_IsValidPatchImage
+//
+//==============================================================================
 function T_IsValidPatchImage(patch: Ppatch_t; const size: integer): boolean;
 var
   col: integer;

@@ -54,26 +54,47 @@ var
 // lump number for PLAYPAL
   lu_palette: integer;
 
+//==============================================================================
+// ST_Responder
 //
 // STATUS BAR
 //
-
 // Called by main loop.
+//
+//==============================================================================
 function ST_Responder(ev: Pevent_t): boolean;
 
+//==============================================================================
+// ST_Ticker
+//
 // Called by main loop.
+//
+//==============================================================================
 procedure ST_Ticker;
 
+//==============================================================================
+// ST_Drawer
+//
 // Called by main loop.
+//
+//==============================================================================
 procedure ST_Drawer(dopt: stdrawoptions_t; refresh: boolean);
 
+//==============================================================================
+// ST_Start
+//
 // Called when the console player is spawned on each level.
+//
+//==============================================================================
 procedure ST_Start;
 
+//==============================================================================
+// ST_Init
+//
 // Called by startup code.
+//
+//==============================================================================
 procedure ST_Init;
-
-
 
 // States for status bar code.
 type
@@ -199,7 +220,6 @@ const
   ST_RAMPAGEDELAY = 2 * TICRATE;
 
   ST_MUCHPAIN = 20;
-
 
 // Location and size of statistics,
 //  justified according to widget type.
@@ -331,7 +351,6 @@ const
  // Height, in lines.
   ST_OUTHEIGHT = 1;
 
-
   ST_MAPTITLEY = 0;
   ST_MAPHEIGHT = 1;
 
@@ -439,7 +458,6 @@ var
 // arms background
   w_armsbg: st_binicon_t;
 
-
 // weapon ownership widgets
   w_arms: array[0..5] of st_multicon_t;
 
@@ -458,8 +476,6 @@ var
 
 // max ammo widgets
   w_maxammo: array[0..3] of st_number_t;
-
-
 
 // number of frags so far in deathmatch
   st_fragscount: integer;
@@ -481,7 +497,6 @@ var
 
 // a random number per tick
   st_randomnumber: integer;
-
 
 const
 // Massive bunches of cheat shit
@@ -525,8 +540,6 @@ const
     Chr($2a), Chr($ff)  // idclip
   );
 
-
-
   cheat_powerup_seq0: array[0..9] of char = (
     Chr($b2), Chr($26), Chr($62), Chr($a6), Chr($32),
     Chr($f6), Chr($36), Chr($26), Chr($6e), Chr($ff)  // beholdv
@@ -562,7 +575,6 @@ const
     Chr($f6), Chr($36), Chr($26), Chr($ff)  // behold
   );
 
-
   cheat_clev_seq: array[0..9] of char = (
     Chr($b2), Chr($26), Chr($e2), Chr($36), Chr($a6),
     Chr($6e), Chr($1),  Chr($0),  Chr($0),  Chr($ff)  // idclev
@@ -580,7 +592,6 @@ const
     Chr($ea), Chr($ff) // idkeys
   );
 
-
 var
 // Now what?
   cheat_mus: cheatseq_t;
@@ -597,9 +608,12 @@ var
   cheat_clev: cheatseq_t;
   cheat_mypos: cheatseq_t;
 
+//==============================================================================
+// ST_CmdCheckPlayerStatus
 //
 // Commands
 //
+//==============================================================================
 function ST_CmdCheckPlayerStatus: boolean;
 begin
   if (plyr = nil) or (plyr.mo = nil) or (gamestate <> GS_LEVEL) or demoplayback or netgame then
@@ -611,6 +625,11 @@ begin
     result := true;
 end;
 
+//==============================================================================
+//
+// ST_CmdGod
+//
+//==============================================================================
 procedure ST_CmdGod;
 begin
   if not ST_CmdCheckPlayerStatus then
@@ -637,6 +656,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// ST_CmdMassacre
+//
+//==============================================================================
 procedure ST_CmdMassacre;
 begin
   if not ST_CmdCheckPlayerStatus then
@@ -649,6 +673,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// ST_CmdLowGravity
+//
+//==============================================================================
 procedure ST_CmdLowGravity;
 begin
   if not ST_CmdCheckPlayerStatus then
@@ -661,6 +690,11 @@ begin
     plyr._message := STSTR_LGOFF;
 end;
 
+//==============================================================================
+//
+// ST_CmdIDFA
+//
+//==============================================================================
 procedure ST_CmdIDFA;
 var
   i: integer;
@@ -692,6 +726,11 @@ begin
   plyr._message := STSTR_FAADDED;
 end;
 
+//==============================================================================
+//
+// ST_CmdIDKFA
+//
+//==============================================================================
 procedure ST_CmdIDKFA;
 var
   i: integer;
@@ -726,6 +765,11 @@ begin
   plyr._message := STSTR_KFAADDED;
 end;
 
+//==============================================================================
+//
+// ST_CmdIDKEYS
+//
+//==============================================================================
 procedure ST_CmdIDKEYS;
 var
   i: integer;
@@ -739,6 +783,11 @@ begin
   plyr._message := STSTR_KEYSADDED;
 end;
 
+//==============================================================================
+//
+// ST_CmdIDDT
+//
+//==============================================================================
 procedure ST_CmdIDDT;
 begin
   if not ST_CmdCheckPlayerStatus then
@@ -747,6 +796,11 @@ begin
   am_cheating := (am_cheating + 1) mod 3;
 end;
 
+//==============================================================================
+//
+// ST_CmdIDNoClip
+//
+//==============================================================================
 procedure ST_CmdIDNoClip;
 begin
   if not ST_CmdCheckPlayerStatus then
@@ -760,6 +814,11 @@ begin
     plyr._message := STSTR_NCOFF;
 end;
 
+//==============================================================================
+//
+// ST_CmdIDMyPos
+//
+//==============================================================================
 procedure ST_CmdIDMyPos;
 var
   buf: string;
@@ -775,21 +834,34 @@ begin
   plyr._message := buf;
 end;
 
+//==============================================================================
+// ST_TALLNUMWIDTH
+//
 // Should be set to patch width
 //  for tall numbers later on
+//
+//==============================================================================
 function ST_TALLNUMWIDTH: integer;
 begin
   result := tallnum[0].width;
 end;
 
+//==============================================================================
+//
+// ST_MAPWIDTH
+//
+//==============================================================================
 function ST_MAPWIDTH: integer;
 begin
   result := Length(mapnames[(gameepisode - 1) * 9 + (gamemap - 1)]);
 end;
 
+//==============================================================================
+// ST_RefreshBackground
 //
 // STATUS BAR CODE
 //
+//==============================================================================
 procedure ST_RefreshBackground;
 begin
   if st_statusbaron then
@@ -802,13 +874,23 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// ST_FinishRefresh
+//
+//==============================================================================
 procedure ST_FinishRefresh;
 begin
   V_CopyRect(ST_X, 0, SCN_ST, ST_WIDTH, ST_HEIGHT, ST_X, ST_Y, SCN_FG, true);
 end;
 
+//==============================================================================
+// ST_Responder
+//
 // Respond to keyboard input events,
 //  intercept cheats.
+//
+//==============================================================================
 function ST_Responder(ev: Pevent_t): boolean;
 var
   i: integer;
@@ -986,7 +1068,6 @@ begin
       if map < 1 then
         exit;
 
-
       // First check if we have a mapinfo entry for the requested level.
       // If this is present the remaining checks should be skipped.
       entry := G_LookupMapinfo(epsd, map);
@@ -1039,6 +1120,11 @@ var
   lastcalc: integer;
   oldhealth: integer;
 
+//==============================================================================
+//
+// ST_calcPainOffset
+//
+//==============================================================================
 function ST_calcPainOffset: integer;
 var
   health: integer;
@@ -1066,6 +1152,11 @@ var
   lastattackdown: integer;
   priority: integer;
 
+//==============================================================================
+//
+// ST_UpdateFaceWidget
+//
+//==============================================================================
 procedure ST_UpdateFaceWidget;
 var
   i: integer;
@@ -1144,7 +1235,6 @@ begin
           diffang := plyr.mo.angle - badguyangle;
           to_right := diffang <= ANG180;
         end; // confusing, aint it?
-
 
         st_facecount := ST_TURNCOUNT;
         st_faceindex := ST_calcPainOffset;
@@ -1235,6 +1325,11 @@ begin
   dec(st_facecount);
 end;
 
+//==============================================================================
+//
+// ST_UpdateWidgets
+//
+//==============================================================================
 procedure ST_UpdateWidgets;
 var
   i: integer;
@@ -1289,6 +1384,11 @@ begin
     st_chat := st_oldchat;
 end;
 
+//==============================================================================
+//
+// ST_Ticker
+//
+//==============================================================================
 procedure ST_Ticker;
 begin
   inc(st_clock);
@@ -1298,6 +1398,11 @@ begin
     st_oldhealth := plyr.health;
 end;
 
+//==============================================================================
+//
+// ST_DoPaletteStuff
+//
+//==============================================================================
 procedure ST_DoPaletteStuff;
 var
   palette: integer;
@@ -1368,6 +1473,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// ST_DrawWidgets
+//
+//==============================================================================
 procedure ST_DrawWidgets(refresh: boolean);
 var
   i: integer;
@@ -1402,6 +1512,11 @@ begin
   STlib_updateNum(@w_frags, refresh);
 end;
 
+//==============================================================================
+//
+// ST_Refresh
+//
+//==============================================================================
 procedure ST_Refresh(refresh: boolean);
 begin
   // draw status bar background to off-screen buff
@@ -1412,11 +1527,21 @@ begin
     ST_FinishRefresh;
 end;
 
+//==============================================================================
+//
+// ST_RefreshBackgroundSmall
+//
+//==============================================================================
 procedure ST_RefreshBackgroundSmall;
 begin
   R_VideoBlanc(SCN_ST, 0, ST_WIDTH * ST_HEIGHT);
 end;
 
+//==============================================================================
+//
+// ST_DrawWidgetsSmall
+//
+//==============================================================================
 procedure ST_DrawWidgetsSmall;
 var
   ammo: integer;
@@ -1432,11 +1557,21 @@ begin
   V_DrawPatch(ST_MX, ST_MY, SCN_ST, smedikit, false);
 end;
 
+//==============================================================================
+//
+// ST_FinishRefreshSmall
+//
+//==============================================================================
 procedure ST_FinishRefreshSmall;
 begin
   V_CopyRectTransparent(0, 0, SCN_ST, ST_WIDTH, ST_HEIGHT, 0, ST_Y, SCN_FG, true);
 end;
 
+//==============================================================================
+//
+// ST_RefreshSmall
+//
+//==============================================================================
 procedure ST_RefreshSmall;
 begin
   // draw status bar background to off-screen buff
@@ -1446,12 +1581,22 @@ begin
   ST_FinishRefreshSmall;
 end;
 
+//==============================================================================
+//
+// ST_DoRefresh
+//
+//==============================================================================
 procedure ST_DoRefresh;
 begin
   st_firsttime := false;
   ST_Refresh(true);
 end;
 
+//==============================================================================
+//
+// ST_DiffDraw
+//
+//==============================================================================
 procedure ST_DiffDraw;
 begin
   // update all widgets
@@ -1460,6 +1605,11 @@ begin
   ST_FinishRefresh;
 end;
 
+//==============================================================================
+//
+// ST_Drawer
+//
+//==============================================================================
 procedure ST_Drawer(dopt: stdrawoptions_t; refresh: boolean);
 begin
   st_statusbaron := (dopt <> stdo_no) or (amstate = am_only);
@@ -1491,6 +1641,11 @@ begin
     ST_RefreshSmall;
 end;
 
+//==============================================================================
+//
+// ST_LoadGraphics
+//
+//==============================================================================
 procedure ST_LoadGraphics;
 var
   i: integer;
@@ -1596,12 +1751,22 @@ begin
   faces[facenum] := W_CacheLumpName('STFDEAD0', PU_STATIC);
 end;
 
+//==============================================================================
+//
+// ST_LoadData
+//
+//==============================================================================
 procedure ST_LoadData;
 begin
   lu_palette := W_GetNumForName(PLAYPAL);
   ST_LoadGraphics;
 end;
 
+//==============================================================================
+//
+// ST_UnloadGraphics
+//
+//==============================================================================
 procedure ST_UnloadGraphics;
 var
   i: integer;
@@ -1638,6 +1803,11 @@ begin
   //   of stminus yet. Dude.
 end;
 
+//==============================================================================
+//
+// ST_InitData
+//
+//==============================================================================
 procedure ST_InitData;
 var
   i: integer;
@@ -1668,6 +1838,11 @@ begin
   STlib_init;
 end;
 
+//==============================================================================
+//
+// ST_CreateWidgets
+//
+//==============================================================================
 procedure ST_CreateWidgets;
 var
   i: integer;
@@ -1867,6 +2042,11 @@ end;
 var
   st_stopped: boolean;
 
+//==============================================================================
+//
+// ST_Stop
+//
+//==============================================================================
 procedure ST_Stop;
 var
   pal: PByteArray;
@@ -1886,6 +2066,11 @@ begin
   st_stopped := true;
 end;
 
+//==============================================================================
+//
+// ST_Start
+//
+//==============================================================================
 procedure ST_Start;
 begin
   if not st_stopped then
@@ -1896,6 +2081,11 @@ begin
   st_stopped := false;
 end;
 
+//==============================================================================
+//
+// ST_Init
+//
+//==============================================================================
 procedure ST_Init;
 begin
 ////////////////////////////////////////////////////////////////////////////////

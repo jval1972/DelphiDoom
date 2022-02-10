@@ -38,6 +38,11 @@ uses
   Classes,
   i_system;
 
+//==============================================================================
+//
+// MDL_ExecuteScript
+//
+//==============================================================================
 function MDL_ExecuteScript(const Script: string): boolean;
 
 implementation
@@ -50,6 +55,11 @@ uses
   ps_compiler,
   ps_runtime;
 
+//==============================================================================
+//
+// ScriptOnUses
+//
+//==============================================================================
 function ScriptOnUses(Sender: TPSPascalCompiler; const Name: string): Boolean;
 var
   uT_integer: TPSType;
@@ -113,6 +123,11 @@ begin
     Result := False;
 end;
 
+//==============================================================================
+//
+// MDL_ExecuteScript
+//
+//==============================================================================
 function MDL_ExecuteScript(const Script: string): boolean;
 var
   i: integer;

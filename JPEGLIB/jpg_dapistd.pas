@@ -63,15 +63,26 @@ uses
   an oversize buffer (max_lines > scanlines remaining) is not an error. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_read_scanlines 
+//
+//==============================================================================
 function jpeg_read_scanlines (cinfo: j_decompress_ptr;
                               scanlines: JSAMPARRAY;
                   max_lines: JDIMENSION): JDIMENSION;
-
 
 { Alternate entry point to read raw data.
   Processes exactly one iMCU row per call, unless suspended. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_read_raw_data 
+//
+//==============================================================================
 function jpeg_read_raw_data (cinfo: j_decompress_ptr;
                              data: JSAMPIMAGE;
                  max_lines: JDIMENSION): JDIMENSION;
@@ -81,6 +92,12 @@ function jpeg_read_raw_data (cinfo: j_decompress_ptr;
 { Initialize for an output pass in buffered-image mode. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_start_output 
+//
+//==============================================================================
 function jpeg_start_output (cinfo: j_decompress_ptr;
                             scan_number: int): boolean;
 
@@ -90,6 +107,12 @@ function jpeg_start_output (cinfo: j_decompress_ptr;
   a suspending data source is used. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_finish_output 
+//
+//==============================================================================
 function jpeg_finish_output (cinfo: j_decompress_ptr): boolean;
 
 {$endif} { D_MULTISCAN_FILES_SUPPORTED }
@@ -104,8 +127,13 @@ function jpeg_finish_output (cinfo: j_decompress_ptr): boolean;
   a suspending data source is used. }
 
 {GLOBAL}
-function jpeg_start_decompress (cinfo: j_decompress_ptr): boolean;
 
+//==============================================================================
+//
+// jpeg_start_decompress 
+//
+//==============================================================================
+function jpeg_start_decompress (cinfo: j_decompress_ptr): boolean;
 
 implementation
 
@@ -114,6 +142,12 @@ uses
 
 { Forward declarations }
 {LOCAL}
+
+//==============================================================================
+//
+// output_pass_setup 
+//
+//==============================================================================
 function output_pass_setup (cinfo: j_decompress_ptr): boolean; forward;
 
 { Decompression initialization.
@@ -126,6 +160,12 @@ function output_pass_setup (cinfo: j_decompress_ptr): boolean; forward;
   a suspending data source is used. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_start_decompress 
+//
+//==============================================================================
 function jpeg_start_decompress (cinfo: j_decompress_ptr): boolean;
 var
   retcode: int;
@@ -189,7 +229,6 @@ begin
   jpeg_start_decompress := output_pass_setup(cinfo);
 end;
 
-
 { Set up for an output pass, and perform any dummy pass(es) needed.
   Common subroutine for jpeg_start_decompress and jpeg_start_output.
   Entry: global_state := DSTATE_PRESCAN only if previously suspended.
@@ -197,6 +236,12 @@ end;
         If suspended, returns FALSE and sets global_state := DSTATE_PRESCAN. }
 
 {LOCAL}
+
+//==============================================================================
+//
+// output_pass_setup 
+//
+//==============================================================================
 function output_pass_setup (cinfo: j_decompress_ptr): boolean;
 var
   last_scanline: JDIMENSION;
@@ -250,7 +295,6 @@ begin
   output_pass_setup := TRUE;
 end;
 
-
 { Read some scanlines of data from the JPEG decompressor.
 
   The return value will be the number of lines actually read.
@@ -263,6 +307,12 @@ end;
   an oversize buffer (max_lines > scanlines remaining) is not an error. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_read_scanlines 
+//
+//==============================================================================
 function jpeg_read_scanlines (cinfo: j_decompress_ptr;
                               scanlines: JSAMPARRAY;
                   max_lines: JDIMENSION): JDIMENSION;
@@ -293,11 +343,16 @@ begin
   jpeg_read_scanlines := row_ctr;
 end;
 
-
 { Alternate entry point to read raw data.
   Processes exactly one iMCU row per call, unless suspended. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_read_raw_data 
+//
+//==============================================================================
 function jpeg_read_raw_data (cinfo: j_decompress_ptr;
                              data: JSAMPIMAGE;
                  max_lines: JDIMENSION): JDIMENSION;
@@ -338,7 +393,6 @@ begin
   jpeg_read_raw_data := lines_per_iMCU_row;
 end;
 
-
 { Additional entry points for buffered-image mode. }
 
 {$ifdef D_MULTISCAN_FILES_SUPPORTED}
@@ -346,6 +400,12 @@ end;
 { Initialize for an output pass in buffered-image mode. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_start_output 
+//
+//==============================================================================
 function jpeg_start_output (cinfo: j_decompress_ptr;
                             scan_number: int): boolean;
 begin
@@ -363,13 +423,18 @@ begin
   jpeg_start_output := output_pass_setup(cinfo);
 end;
 
-
 { Finish up after an output pass in buffered-image mode.
 
   Returns FALSE if suspended.  The return value need be inspected only if
   a suspending data source is used. }
 
 {GLOBAL}
+
+//==============================================================================
+//
+// jpeg_finish_output 
+//
+//==============================================================================
 function jpeg_finish_output (cinfo: j_decompress_ptr): boolean;
 begin
   if ((cinfo^.global_state = DSTATE_SCANNING) or

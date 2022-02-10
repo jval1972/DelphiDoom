@@ -37,30 +37,95 @@ interface
 uses
   m_fixed;
 
+//==============================================================================
+//
+// P_InitMapInfo
+//
+//==============================================================================
 procedure P_InitMapInfo;
 
+//==============================================================================
+//
+// P_GetMapSky1Texture
+//
+//==============================================================================
 function P_GetMapSky1Texture(map: integer): integer;
 
+//==============================================================================
+//
+// P_GetMapSky2Texture
+//
+//==============================================================================
 function P_GetMapSky2Texture(map: integer): integer;
 
+//==============================================================================
+//
+// P_GetMapSky1ScrollDelta
+//
+//==============================================================================
 function P_GetMapSky1ScrollDelta(map: integer): fixed_t;
 
+//==============================================================================
+//
+// P_GetMapSky2ScrollDelta
+//
+//==============================================================================
 function P_GetMapSky2ScrollDelta(map: integer): fixed_t;
 
+//==============================================================================
+//
+// P_GetMapDoubleSky
+//
+//==============================================================================
 function P_GetMapDoubleSky(map: integer): boolean;
 
+//==============================================================================
+//
+// P_GetMapLightning
+//
+//==============================================================================
 function P_GetMapLightning(map: integer): boolean;
 
+//==============================================================================
+//
+// P_TranslateMap
+//
+//==============================================================================
 function P_TranslateMap(map: integer): integer;
 
+//==============================================================================
+//
+// P_GetMapNextMap
+//
+//==============================================================================
 function P_GetMapNextMap(map: integer): integer;
 
+//==============================================================================
+//
+// P_GetMapDescName
+//
+//==============================================================================
 function P_GetMapDescName(const map: integer): string;
 
+//==============================================================================
+//
+// P_GetMapSongLump
+//
+//==============================================================================
 function P_GetMapSongLump(map: integer): string;
 
+//==============================================================================
+//
+// P_GetMapCluster
+//
+//==============================================================================
 function P_GetMapCluster(map: integer): integer;
 
+//==============================================================================
+//
+// P_GetMapFadeTable
+//
+//==============================================================================
 function P_GetMapFadeTable(map: integer): integer;
 
 implementation
@@ -143,17 +208,21 @@ var
 var
   MapInfo: array[0..99] of mapinfo_t;
 
-
+//==============================================================================
+//
+// P_GetMapDescName
+//
+//==============================================================================
 function P_GetMapDescName(const map: integer): string;
 begin
   result := MapInfo[map].name;
 end;
 
-
+//==============================================================================
 //
 // P_InitMapInfo
 //
-
+//==============================================================================
 procedure P_InitMapInfo;
 var
   map: integer;
@@ -300,10 +369,11 @@ begin
   MapCount := mapMax;
 end;
 
+//==============================================================================
 //
 // P_QualifyMap
 //
-
+//==============================================================================
 function P_QualifyMap(map: integer): integer;
 begin
   if (map < 1) or (map > MapCount) then
@@ -312,49 +382,53 @@ begin
     result := map;
 end;
 
-
+//==============================================================================
 //
 // P_GetMapCluster
 //
-
+//==============================================================================
 function P_GetMapCluster(map: integer): integer;
 begin
   result := MapInfo[P_QualifyMap(map)].cluster;
 end;
 
+//==============================================================================
 //
 // P_GetMapCDTrack
 //
-
+//==============================================================================
 function P_GetMapCDTrack(map: integer): integer;
 begin
   result := MapInfo[P_QualifyMap(map)].cdTrack;
 end;
 
+//==============================================================================
 //
 // P_GetMapWarpTrans
 //
-
+//==============================================================================
 function P_GetMapWarpTrans(map: integer): integer;
 begin
   result := MapInfo[P_QualifyMap(map)].warpTrans;
 end;
 
+//==============================================================================
 //
 // P_GetMapNextMap
 //
-
+//==============================================================================
 function P_GetMapNextMap(map: integer): integer;
 begin
   result := MapInfo[P_QualifyMap(map)].nextMap;
 end;
 
+//==============================================================================
 //
 // P_TranslateMap
 //
 // Returns the actual map number given a warp map number.
 //
-
+//==============================================================================
 function P_TranslateMap(map: integer): integer;
 var
   i: integer;
@@ -371,73 +445,81 @@ begin
   result := -1;
 end;
 
+//==============================================================================
 //
 // P_GetMapSky1Texture
 //
-
+//==============================================================================
 function P_GetMapSky1Texture(map: integer): integer;
 begin
   result := MapInfo[P_QualifyMap(map)].sky1Texture;
 end;
 
+//==============================================================================
 //
 // P_GetMapSky2Texture
 //
-
+//==============================================================================
 function P_GetMapSky2Texture(map: integer): integer;
 begin
   result := MapInfo[P_QualifyMap(map)].sky2Texture;
 end;
 
+//==============================================================================
 //
 // P_GetMapSky1ScrollDelta
 //
-
+//==============================================================================
 function P_GetMapSky1ScrollDelta(map: integer): fixed_t;
 begin
   result := MapInfo[P_QualifyMap(map)].sky1ScrollDelta;
 end;
 
+//==============================================================================
 //
 // P_GetMapSky2ScrollDelta
 //
-
+//==============================================================================
 function P_GetMapSky2ScrollDelta(map: integer): fixed_t;
 begin
   result := MapInfo[P_QualifyMap(map)].sky2ScrollDelta;
 end;
 
+//==============================================================================
 //
 // P_GetMapDoubleSky
 //
-
+//==============================================================================
 function P_GetMapDoubleSky(map: integer): boolean;
 begin
   result := MapInfo[P_QualifyMap(map)].doubleSky;
 end;
 
+//==============================================================================
 //
 // P_GetMapLightning
 //
-
+//==============================================================================
 function P_GetMapLightning(map: integer): boolean;
 begin
   result := MapInfo[P_QualifyMap(map)].lightning;
 end;
 
+//==============================================================================
 //
 // P_GetMapFadeTable
 //
-
+//==============================================================================
 function P_GetMapFadeTable(map: integer): integer;
 begin
   result := MapInfo[P_QualifyMap(map)].fadetable;
 end;
 
+//==============================================================================
 //
 // P_GetMapSongLump
 //
-
+//==============================================================================
 function P_GetMapSongLump(map: integer): string;
 begin
   if strupper(MapInfo[P_QualifyMap(map)].songLump) = strupper(DEFAULT_SONG_LUMP) then
@@ -446,10 +528,11 @@ begin
     result := MapInfo[P_QualifyMap(map)].songLump;
 end;
 
+//==============================================================================
 //
 // P_PutMapSongLump
 //
-
+//==============================================================================
 procedure P_PutMapSongLump(map: integer; const lumpName: string);
 begin
   if (map < 1) or (map > MapCount) then
@@ -458,55 +541,61 @@ begin
   MapInfo[map].songLump := lumpName;
 end;
 
+//==============================================================================
 //
 // P_GetCDStartTrack
 //
-
+//==============================================================================
 function P_GetCDStartTrack: integer;
 begin
   result := cd_NonLevelTracks[MCMD_CD_STARTTRACK - MCMD_CD_STARTTRACK];
 end;
 
+//==============================================================================
 //
 // P_GetCDEnd1Track
 //
-
+//==============================================================================
 function P_GetCDEnd1Track: integer;
 begin
   result := cd_NonLevelTracks[MCMD_CD_END1TRACK - MCMD_CD_STARTTRACK];
 end;
 
+//==============================================================================
 //
 // P_GetCDEnd2Track
 //
-
+//==============================================================================
 function P_GetCDEnd2Track: integer;
 begin
   result := cd_NonLevelTracks[MCMD_CD_END2TRACK - MCMD_CD_STARTTRACK];
 end;
 
+//==============================================================================
 //
 // P_GetCDEnd3Track
 //
-
+//==============================================================================
 function P_GetCDEnd3Track: integer;
 begin
   result := cd_NonLevelTracks[MCMD_CD_END3TRACK - MCMD_CD_STARTTRACK];
 end;
 
+//==============================================================================
 //
 // P_GetCDIntermissionTrack
 //
-
+//==============================================================================
 function P_GetCDIntermissionTrack: integer;
 begin
   result := cd_NonLevelTracks[MCMD_CD_INTERTRACK - MCMD_CD_STARTTRACK];
 end;
 
+//==============================================================================
 //
 // P_GetCDTitleTrack
 //
-
+//==============================================================================
 function P_GetCDTitleTrack: integer;
 begin
   result := cd_NonLevelTracks[MCMD_CD_TITLETRACK - MCMD_CD_STARTTRACK];

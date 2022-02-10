@@ -30,13 +30,41 @@ unit r_col_av;
 
 interface
 
+//==============================================================================
+// R_DrawColumnAverageLowest
+//
 // Average column drawers (transparency effects)
+//
+//==============================================================================
 procedure R_DrawColumnAverageLowest;
-procedure R_DrawColumnAverageLow;
-procedure R_DrawColumnAverageMedium;
-procedure R_DrawColumnAverageHi;
-procedure R_DrawColumnAverageUltra;
 
+//==============================================================================
+//
+// R_DrawColumnAverageLow
+//
+//==============================================================================
+procedure R_DrawColumnAverageLow;
+
+//==============================================================================
+//
+// R_DrawColumnAverageMedium
+//
+//==============================================================================
+procedure R_DrawColumnAverageMedium;
+
+//==============================================================================
+//
+// R_DrawColumnAverageHi
+//
+//==============================================================================
+procedure R_DrawColumnAverageHi;
+
+//==============================================================================
+//
+// R_DrawColumnAverageUltra
+//
+//==============================================================================
+procedure R_DrawColumnAverageUltra;
 
 implementation
 
@@ -51,6 +79,11 @@ uses
   r_trans8,
   v_video;
 
+//==============================================================================
+//
+// R_DrawColumnAverageLowest
+//
+//==============================================================================
 procedure R_DrawColumnAverageLowest;
 var
   count: integer;
@@ -104,6 +137,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnAverageLow
+//
+//==============================================================================
 procedure R_DrawColumnAverageLow;
 var
   count: integer;
@@ -151,6 +189,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnAverageMedium
+//
+//==============================================================================
 procedure R_DrawColumnAverageMedium;
 var
   count: integer;
@@ -192,7 +235,11 @@ begin
   end;
 end;
 
-
+//==============================================================================
+//
+// R_DrawColumnAverageHi
+//
+//==============================================================================
 procedure R_DrawColumnAverageHi;
 var
   count: integer;
@@ -236,6 +283,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnAverageUltra
+//
+//==============================================================================
 procedure R_DrawColumnAverageUltra;
 var
   count: integer;

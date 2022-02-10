@@ -13,16 +13,46 @@ type
     constructor Create(const astring: AnsiString);
   end;
 
+//==============================================================================
+//
+// splitstring
+//
+//==============================================================================
 procedure splitstring(const inp: AnsiString; out out1, out2: AnsiString; const splitter: AnsiString); overload;
 
+//==============================================================================
+//
+// splitstring
+//
+//==============================================================================
 procedure splitstring(const inp: AnsiString; out out1, out2, out3: AnsiString; const splitter: AnsiString); overload;
 
+//==============================================================================
+//
+// firstword
+//
+//==============================================================================
 function firstword(const inp: AnsiString; const splitter: AnsiString): string;
 
+//==============================================================================
+//
+// secondword
+//
+//==============================================================================
 function secondword(const inp: AnsiString; const splitter: AnsiString): string;
 
+//==============================================================================
+//
+// LogOutput
+//
+//==============================================================================
 function LogOutput(const c: TColor; const s: string): string; overload;
 
+//==============================================================================
+//
+// LogOutput
+//
+//==============================================================================
 function LogOutput(const c: TColor; const Fmt: string; const Args: array of const): string; overload;
 
 const
@@ -34,6 +64,11 @@ const
 var
   outproc: outproc_t;
 
+//==============================================================================
+//
+// FreeStringList
+//
+//==============================================================================
 procedure FreeStringList(var l: TStringList);
 
 type
@@ -42,8 +77,18 @@ type
     constructor Create(const s: string);
   end;
 
+//==============================================================================
+//
+// CheckParm
+//
+//==============================================================================
 function CheckParm(const parm: string): integer;
 
+//==============================================================================
+//
+// BackupFile
+//
+//==============================================================================
 procedure BackupFile(const fname: string);
 
 implementation
@@ -53,6 +98,11 @@ begin
   str := astring;
 end;
 
+//==============================================================================
+//
+// splitstring
+//
+//==============================================================================
 procedure splitstring(const inp: AnsiString; out out1, out2: AnsiString; const splitter: AnsiString); overload;
 var
   p: integer;
@@ -70,6 +120,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// splitstring
+//
+//==============================================================================
 procedure splitstring(const inp: AnsiString; out out1, out2, out3: AnsiString; const splitter: AnsiString); overload;
 var
   tmp: AnsiString;
@@ -78,6 +133,11 @@ begin
   splitstring(tmp, out2, out3, splitter);
 end;
 
+//==============================================================================
+//
+// firstword
+//
+//==============================================================================
 function firstword(const inp: AnsiString; const splitter: AnsiString): string;
 var
   tmp: string;
@@ -85,6 +145,11 @@ begin
   splitstring(inp, Result, tmp, splitter);
 end;
 
+//==============================================================================
+//
+// secondword
+//
+//==============================================================================
 function secondword(const inp: AnsiString; const splitter: AnsiString): string;
 var
   tmp: string;
@@ -92,6 +157,11 @@ begin
   splitstring(inp, tmp, Result, splitter);
 end;
 
+//==============================================================================
+//
+// LogOutput
+//
+//==============================================================================
 function LogOutput(const c: TColor; const s: string): string;
 begin
   if Assigned(outproc) then
@@ -103,11 +173,21 @@ begin
     Result := '';
 end;
 
+//==============================================================================
+//
+// LogOutput
+//
+//==============================================================================
 function LogOutput(const c: TColor; const Fmt: string; const Args: array of const): string;
 begin
   Result := LogOutput(c, Format(Fmt, Args));
 end;
 
+//==============================================================================
+//
+// FreeStringList
+//
+//==============================================================================
 procedure FreeStringList(var l: TStringList);
 var
   i: integer;
@@ -127,6 +207,11 @@ begin
   str := s;
 end;
 
+//==============================================================================
+//
+// CheckParm
+//
+//==============================================================================
 function CheckParm(const parm: string): integer;
 var
   i: integer;
@@ -142,6 +227,11 @@ begin
   Result := -1;
 end;
 
+//==============================================================================
+//
+// CopyFile
+//
+//==============================================================================
 procedure CopyFile(const sname, dname: string);
 var
   FromF, ToF: file;
@@ -169,6 +259,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// BackupFile
+//
+//==============================================================================
 procedure BackupFile(const fname: string);
 var
   fbck: string;

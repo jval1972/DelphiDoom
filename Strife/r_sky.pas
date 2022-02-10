@@ -53,6 +53,11 @@ var
   skytexture: integer;
   skytexturemid: integer;
 
+//==============================================================================
+//
+// R_InitSkyMap
+//
+//==============================================================================
 procedure R_InitSkyMap;
 
 implementation
@@ -60,10 +65,12 @@ implementation
 uses
   m_fixed; // Needed for FRACUNIT.
 
+//==============================================================================
 //
 // R_InitSkyMap
 // Called whenever the view size changes.
 //
+//==============================================================================
 procedure R_InitSkyMap;
 begin
   skytexturemid := 199 * FRACUNIT;

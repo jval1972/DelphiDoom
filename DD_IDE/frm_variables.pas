@@ -77,6 +77,11 @@ implementation
 uses
   ddc_base, ide_utils;
 
+//==============================================================================
+//
+// TVarExampleSynEdit.GetSaveFileName
+//
+//==============================================================================
 function TVarExampleSynEdit.GetSaveFileName(const fn: string): string;
 var
   base: string;
@@ -88,6 +93,11 @@ begin
   Result := base + fn + '.ddscript';
 end;
 
+//==============================================================================
+//
+// TVarExampleSynEdit.SetFuncName
+//
+//==============================================================================
 procedure TVarExampleSynEdit.SetFuncName(const fn: string);
 var
   lst: TStringList;
@@ -113,6 +123,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TVarExampleSynEdit.DoSave
+//
+//==============================================================================
 procedure TVarExampleSynEdit.DoSave;
 var
   lst: TStringList;
@@ -150,6 +165,11 @@ begin
   SynEdit1.ReadOnly := CheckParm('-devparm') <= 0;
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.CreateParams
+//
+//==============================================================================
 procedure TFrame_Variables.CreateParams(var Params: TCreateParams);
 begin
   sortcolumn := 0;
@@ -162,24 +182,44 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.OnExampleChange
+//
+//==============================================================================
 procedure TFrame_Variables.OnExampleChange(Sender: TObject);
 begin
   if SynEdit1.Modified then
     SynEdit1.DoSave;
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.ClearVars
+//
+//==============================================================================
 procedure TFrame_Variables.ClearVars;
 begin
   FreeMem(vars);
   numvars := 0;
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.ResizeVars
+//
+//==============================================================================
 procedure TFrame_Variables.ResizeVars(const sz: Integer);
 begin
   ReallocMem(vars, sz * SizeOf(varinfo_t));
   numvars := sz;
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.FocusAndSelectFirstItem
+//
+//==============================================================================
 procedure TFrame_Variables.FocusAndSelectFirstItem;
 begin
   if ListView1.Items.Count > 0 then
@@ -189,6 +229,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.UpdateGameControls
+//
+//==============================================================================
 procedure TFrame_Variables.UpdateGameControls(const game: string);
 var
   i: integer;
@@ -219,6 +264,11 @@ begin
   FillListView;
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.FillListView
+//
+//==============================================================================
 procedure TFrame_Variables.FillListView;
 
   procedure AddListItem(Info: varinfo_p);
@@ -256,12 +306,22 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.ListView1Data
+//
+//==============================================================================
 procedure TFrame_Variables.ListView1Data(Sender: TObject;
   Item: TListItem);
 begin
   //
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.ListView1Compare
+//
+//==============================================================================
 procedure TFrame_Variables.ListView1Compare(Sender: TObject; Item1,
   Item2: TListItem; Data: Integer; var Compare: Integer);
 var
@@ -281,6 +341,11 @@ begin
   Compare := AnsiCompareText(value1, value2);
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.ListView1ColumnClick
+//
+//==============================================================================
 procedure TFrame_Variables.ListView1ColumnClick(Sender: TObject;
   Column: TListColumn);
 begin
@@ -288,6 +353,11 @@ begin
   FillListView;
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.SearchEditChange
+//
+//==============================================================================
 procedure TFrame_Variables.SearchEditChange(Sender: TObject);
 begin
   FillListView;
@@ -300,6 +370,11 @@ begin
   SearchEdit.Clear;
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.ListView1Change
+//
+//==============================================================================
 procedure TFrame_Variables.ListView1Change(Sender: TObject;
   Item: TListItem; Change: TItemChange);
 var
@@ -315,6 +390,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.DeclPanelResize
+//
+//==============================================================================
 procedure TFrame_Variables.DeclPanelResize(Sender: TObject);
 begin
   DeclEdit.Width := DeclPanel.Width - 16;

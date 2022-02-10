@@ -9,7 +9,18 @@ uses
 type
   projectitemtype_t = (pi_script, pi_compiledscript, pi_actor, pi_project, pi_none);
 
+//==============================================================================
+//
+// projectitemtype2string
+//
+//==============================================================================
 function projectitemtype2string(const x: projectitemtype_t): AnsiString;
+
+//==============================================================================
+//
+// string2projectitemtype
+//
+//==============================================================================
 function string2projectitemtype(const s: AnsiString): projectitemtype_t;
 
 type
@@ -70,6 +81,11 @@ type
     property Items[const x: Integer]: TIDEProjectItem read GetItem;
   end;
 
+//==============================================================================
+//
+// DefItemName
+//
+//==============================================================================
 function DefItemName(const s: string): string;
 
 implementation
@@ -77,6 +93,11 @@ implementation
 uses
   ide_utils, ide_version, ide_zipfile;
 
+//==============================================================================
+//
+// projectitemtype2string
+//
+//==============================================================================
 function projectitemtype2string(const x: projectitemtype_t): AnsiString;
 begin
   case x of
@@ -93,6 +114,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// string2projectitemtype
+//
+//==============================================================================
 function string2projectitemtype(const s: AnsiString): projectitemtype_t;
 begin
   if s = 'script' then
@@ -116,16 +142,31 @@ begin
   fitemtype := atype;
 end;
 
+//==============================================================================
+//
+// TIDEProjectItem.GetRelativePath
+//
+//==============================================================================
 function TIDEProjectItem.GetRelativePath: AnsiString;
 begin
   Result := ExtractRelativepath(fparent.FileName, FileName);
 end;
 
+//==============================================================================
+//
+// TIDEProjectItem.DataToFields
+//
+//==============================================================================
 procedure TIDEProjectItem.DataToFields(const adata: AnsiString);
 begin
   Inherited DataToFields(adata);
 end;
 
+//==============================================================================
+//
+// TIDEProjectItem.FieldsToData
+//
+//==============================================================================
 procedure TIDEProjectItem.FieldsToData(var adata: AnsiString);
 begin
   Inherited FieldsToData(adata);
@@ -151,11 +192,21 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TIDEProject.GetCount
+//
+//==============================================================================
 function TIDEProject.GetCount: integer;
 begin
   Result := fList.Count;
 end;
 
+//==============================================================================
+//
+// TIDEProject.DoAdd
+//
+//==============================================================================
 procedure TIDEProject.DoAdd(const fname: AnsiString; const typ: projectitemtype_t);
 var
   pi: TIDEProjectItem;
@@ -164,6 +215,11 @@ begin
   fList.AddObject(pi.GetRelativePath, pi);
 end;
 
+//==============================================================================
+//
+// TIDEProject.Add
+//
+//==============================================================================
 procedure TIDEProject.Add(const fname: AnsiString; const typ: projectitemtype_t);
 begin
   if Find(fname) = nil then
@@ -174,6 +230,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TIDEProject.Clear
+//
+//==============================================================================
 procedure TIDEProject.Clear;
 var
   i: integer;
@@ -183,6 +244,11 @@ begin
   fList.Clear;
 end;
 
+//==============================================================================
+//
+// TIDEProject.Delete
+//
+//==============================================================================
 procedure TIDEProject.Delete(const idx: integer);
 begin
   if idx < 0 then
@@ -194,6 +260,11 @@ begin
   fList.Delete(idx);
 end;
 
+//==============================================================================
+//
+// TIDEProject.Delete
+//
+//==============================================================================
 procedure TIDEProject.Delete(const s: string);
 var
   idx: integer;
@@ -207,6 +278,11 @@ begin
   Delete(idx);
 end;
 
+//==============================================================================
+//
+// TIDEProject.Delete
+//
+//==============================================================================
 procedure TIDEProject.Delete(const it: TIDEProjectItem);
 var
   idx: integer;
@@ -218,6 +294,11 @@ begin
   Delete(idx);
 end;
 
+//==============================================================================
+//
+// TIDEProject.Find
+//
+//==============================================================================
 function TIDEProject.Find(const s: string): TIDEProjectItem;
 var
   i: integer;
@@ -268,6 +349,11 @@ begin
   Result := nil;
 end;
 
+//==============================================================================
+//
+// TIDEProject.DataToFields
+//
+//==============================================================================
 procedure TIDEProject.DataToFields(const adata: AnsiString);
 var
   s: TStringList;
@@ -301,6 +387,11 @@ begin
   Inherited DataToFields(adata);
 end;
 
+//==============================================================================
+//
+// TIDEProject.FieldsToData
+//
+//==============================================================================
 procedure TIDEProject.FieldsToData(var adata: AnsiString);
 var
   s: TStringList;
@@ -323,6 +414,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TIDEProject.ChangePath
+//
+//==============================================================================
 procedure TIDEProject.ChangePath(const path: string);
 begin
   if path <> '' then
@@ -337,12 +433,22 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TIDEProject.LoadFromFile
+//
+//==============================================================================
 function TIDEProject.LoadFromFile(const aname: AnsiString): Boolean;
 begin
   ChangePath(ExtractFilePath(aname));
   Result := inherited LoadFromFile(aname);
 end;
 
+//==============================================================================
+//
+// TIDEProject.GetItem
+//
+//==============================================================================
 function TIDEProject.GetItem(const x: Integer): TIDEProjectItem;
 begin
   if (x < 0) or (x >= fList.Count) then
@@ -354,6 +460,11 @@ begin
   Result := fList.Objects[x] as TIDEProjectItem;
 end;
 
+//==============================================================================
+//
+// TIDEProject.GetModified
+//
+//==============================================================================
 function TIDEProject.GetModified: boolean;
 var
   i: integer;
@@ -375,6 +486,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TIDEProject.SaveToFile
+//
+//==============================================================================
 function TIDEProject.SaveToFile(const aname: AnsiString): Boolean;
 var
   i: integer;
@@ -395,6 +511,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TIDEProject.GeneratePK3
+//
+//==============================================================================
 function TIDEProject.GeneratePK3(const aname: AnsiString): Boolean;
 var
   i: integer;
@@ -443,6 +564,11 @@ begin
       'Created PK3 file "%s"'#13#10, [aname]);
 end;
 
+//==============================================================================
+//
+// TIDEProject.CanRename
+//
+//==============================================================================
 function TIDEProject.CanRename(const oldname: string): Boolean;
 begin
   Result := Find(oldname) <> nil;
@@ -452,6 +578,11 @@ begin
     pendingrename := '';
 end;
 
+//==============================================================================
+//
+// TIDEProject.ExecRename
+//
+//==============================================================================
 function TIDEProject.ExecRename(const newname: string): Boolean;
 var
   item: TIDEProjectItem;
@@ -518,6 +649,11 @@ begin
   DoAdjustLayout;
 end;
 
+//==============================================================================
+//
+// TIDEProject.Rename
+//
+//==============================================================================
 function TIDEProject.Rename(const oldname, newname: string): Boolean;
 begin
   Result := CanRename(oldname);
@@ -525,6 +661,11 @@ begin
     Result := ExecRename(newname);
 end;
 
+//==============================================================================
+//
+// TIDEProject.CanCloseItemQuery
+//
+//==============================================================================
 function TIDEProject.CanCloseItemQuery(const item: TIDEProjectItem): Boolean;
 begin
   Result := True;
@@ -533,6 +674,11 @@ begin
       Result := projectquerymodifieditem(item);
 end;
 
+//==============================================================================
+//
+// TIDEProject.SetGame
+//
+//==============================================================================
 procedure TIDEProject.SetGame(const g: string);
 var
   gU: string;
@@ -546,6 +692,11 @@ begin
     projectonchangegame(gU);
 end;
 
+//==============================================================================
+//
+// DefItemName
+//
+//==============================================================================
 function DefItemName(const s: string): string;
 begin
   if s = '' then

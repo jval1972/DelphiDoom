@@ -189,7 +189,6 @@ const
   TXT_ARTIPUZZGEAR: string = 'CLOCK GEAR';
   TXT_USEPUZZLEFAILED: string = 'YOU CANNOT USE THIS HERE';
 
-
 // Items
 
   TXT_ITEMHEALTH: string = 'CRYSTAL VIAL';
@@ -353,7 +352,6 @@ var
         '===========================================================================' + #13#10 +
         '                       Undetermined version! (Ouch)' + #13#10 +
         '===========================================================================' + #13#10;
-
 
 var
   startmsg: array[0..NUM_STARTUPMESSAGES - 1] of string;

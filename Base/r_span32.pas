@@ -43,6 +43,11 @@ var
 // start of a WxW tile image
   ds_source32: PLongWordArray;
 
+//==============================================================================
+//
+// R_DrawSpanNormal
+//
+//==============================================================================
 procedure R_DrawSpanNormal;
 
 implementation
@@ -56,9 +61,12 @@ uses
   r_grow,
   v_video;
 
+//==============================================================================
+// R_DrawSpanNormal
 //
 // Draws the actual span (Normal resolution).
 //
+//==============================================================================
 procedure R_DrawSpanNormal;
 var
   xfrac: fixed_t;

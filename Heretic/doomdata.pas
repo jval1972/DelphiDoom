@@ -157,8 +157,6 @@ const
 // Block players
   ML_BLOCKPLAYERS = 4096;
 
-
-
 type
 // Sector definition, from editing.
   mapsector_t = record

@@ -66,14 +66,39 @@ var
 const
   PLAYERFOLLOWDISTANCE = 256 * FRACUNIT;
 
+//==============================================================================
+//
+// P_PlayerHistoryNotify
+//
+//==============================================================================
 procedure P_PlayerHistoryNotify(const p: Pplayer_t);
 
+//==============================================================================
+//
+// P_ClearPlayerHistory
+//
+//==============================================================================
 procedure P_ClearPlayerHistory(const p: Pplayer_t);
 
+//==============================================================================
+//
+// P_FollowPlayer
+//
+//==============================================================================
 function P_FollowPlayer(const mo: Pmobj_t; const p: Pplayer_t): boolean;
 
+//==============================================================================
+//
+// P_GetPlayerTraceAtPos
+//
+//==============================================================================
 function P_GetPlayerTraceAtPos(const p: Pplayer_t; const at: Integer): Pplayertrace_t;
 
+//==============================================================================
+//
+// P_GetPlayerTraceAtTime
+//
+//==============================================================================
 function P_GetPlayerTraceAtTime(const p: Pplayer_t; const tm: Integer): Pplayertrace_t;
 
 implementation
@@ -88,6 +113,11 @@ uses
   p_sight,
   r_main;
 
+//==============================================================================
+//
+// P_PlayerHistoryNotify
+//
+//==============================================================================
 procedure P_PlayerHistoryNotify(const p: Pplayer_t);
 var
   pid: integer;
@@ -131,6 +161,11 @@ begin
     inc(history.numitems);
 end;
 
+//==============================================================================
+//
+// P_ClearPlayerHistory
+//
+//==============================================================================
 procedure P_ClearPlayerHistory(const p: Pplayer_t);
 var
   pid: integer;
@@ -144,6 +179,11 @@ begin
   ZeroMemory(history, SizeOf(playertracehistory_t));
 end;
 
+//==============================================================================
+//
+// P_FollowPlayer
+//
+//==============================================================================
 function P_FollowPlayer(const mo: Pmobj_t; const p: Pplayer_t): boolean;
 var
   pid: integer;
@@ -299,6 +339,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// P_GetPlayerTraceAtPos
+//
+//==============================================================================
 function P_GetPlayerTraceAtPos(const p: Pplayer_t; const at: Integer): Pplayertrace_t;
 var
   pid: integer;
@@ -333,6 +378,11 @@ begin
   result := @history.data[rover];
 end;
 
+//==============================================================================
+//
+// P_GetPlayerTraceAtTime
+//
+//==============================================================================
 function P_GetPlayerTraceAtTime(const p: Pplayer_t; const tm: Integer): Pplayertrace_t;
 var
   pid: integer;

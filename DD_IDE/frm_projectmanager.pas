@@ -37,6 +37,11 @@ implementation
 
 {$R *.dfm}
 
+//==============================================================================
+//
+// TFrame_ProjectManager.AdjustLayout
+//
+//==============================================================================
 procedure TFrame_ProjectManager.AdjustLayout(const adata: AnsiString);
 var
   i: integer;
@@ -99,6 +104,11 @@ begin
   TreeView1.Items.EndUpdate;
 end;
 
+//==============================================================================
+//
+// TFrame_ProjectManager.CreateParams
+//
+//==============================================================================
 procedure TFrame_ProjectManager.CreateParams(var Params: TCreateParams);
 begin
   obj := nil;
@@ -115,6 +125,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_ProjectManager.GameTypeComboBoxDrawItem
+//
+//==============================================================================
 procedure TFrame_ProjectManager.GameTypeComboBoxDrawItem(Control: TWinControl;
   Index: Integer; Rect: TRect; State: TOwnerDrawState);
 var
@@ -151,6 +166,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_ProjectManager.GameTypeComboBoxChange
+//
+//==============================================================================
 procedure TFrame_ProjectManager.GameTypeComboBoxChange(Sender: TObject);
 begin
   if obj <> nil then

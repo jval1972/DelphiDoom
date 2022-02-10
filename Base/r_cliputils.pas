@@ -45,8 +45,18 @@ const
 const
   MAXZ = FRACUNIT * 16384;
 
+//==============================================================================
+//
+// R_MakeClipperPoint
+//
+//==============================================================================
 function R_MakeClipperPoint(v: Pvertex_t): TIntPoint; overload;
 
+//==============================================================================
+//
+// R_MakeClipperPoint
+//
+//==============================================================================
 function R_MakeClipperPoint(const x1, y1: fixed_t): TIntPoint; overload;
 
 const
@@ -57,17 +67,26 @@ implementation
 uses
   r_main;
 
+//==============================================================================
+//
+// R_MakeClipperPoint
+//
+//==============================================================================
 function R_MakeClipperPoint(v: Pvertex_t): TIntPoint; overload;
 begin
   result.X := (v.x - viewx) div POINTUNIT;
   result.Y := (v.y - viewy) div POINTUNIT;
 end;
 
+//==============================================================================
+//
+// R_MakeClipperPoint
+//
+//==============================================================================
 function R_MakeClipperPoint(const x1, y1: fixed_t): TIntPoint; overload;
 begin
   result.X := (x1  - viewx) div POINTUNIT;
   result.Y := (y1  - viewy) div POINTUNIT;
 end;
-
 
 end.

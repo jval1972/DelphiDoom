@@ -74,9 +74,25 @@ var
     $BDBDF21C, $CABAC28A, $53B39330, $24B4A3A6, $BAD03605, $CDD70693, $54DE5729, $23D967BF,
     $B3667A2E, $C4614AB8, $5D681B02, $2A6F2B94, $B40BBE37, $C30C8EA1, $5A05DF1B, $2D02EF8D);
 
+//==============================================================================
+//
+// GetCRC32
+//
+//==============================================================================
 function GetCRC32(const FileName: string): string;
 
+//==============================================================================
+//
+// GetLumpCRC32
+//
+//==============================================================================
 function GetLumpCRC32(const LumpName: string): string; overload;
+
+//==============================================================================
+//
+// GetLumpCRC32
+//
+//==============================================================================
 function GetLumpCRC32(const LumpNum: integer): string; overload;
 
 implementation
@@ -85,11 +101,21 @@ uses
   w_wad,
   z_zone;
 
+//==============================================================================
+//
+// RecountCRC
+//
+//==============================================================================
 function RecountCRC(b: byte; CrcOld: Longword): Longword;
 begin
   RecountCRC := FixedCRCTable[byte(CrcOld xor Longword(b))] xor ((CrcOld shr 8) and $00FFFFFF)
 end;
 
+//==============================================================================
+//
+// HextW
+//
+//==============================================================================
 function HextW(w: Word): string;
 const
   h: array[0..15] of Char = '0123456789abcdef';
@@ -97,12 +123,22 @@ begin
   result := h[Hi(w) shr 4] + h[Hi(w) and $F] + h[Lo(w) shr 4] + h[Lo(w) and $F];
 end;
 
+//==============================================================================
+//
+// HextL
+//
+//==============================================================================
 function HextL(l: Longint): string;
 begin
   with Long(l) do
     result := HextW(HiWord) + HextW(LoWord);
 end;
 
+//==============================================================================
+//
+// GetCRC32
+//
+//==============================================================================
 function GetCRC32(const FileName: string): string;
 var
   Buffer: PChar;
@@ -137,11 +173,21 @@ begin
   Result := HextL(CRC);
 end;
 
+//==============================================================================
+//
+// GetLumpCRC32
+//
+//==============================================================================
 function GetLumpCRC32(const LumpName: string): string;
 begin
   result := GetLumpCRC32(W_CheckNumForName(LumpName));
 end;
 
+//==============================================================================
+//
+// GetLumpCRC32
+//
+//==============================================================================
 function GetLumpCRC32(const LumpNum: integer): string; overload;
 var
   b: PByteArray;

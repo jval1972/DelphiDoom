@@ -28,11 +28,21 @@ implementation
 
 { TTextReplaceDialog }
 
+//==============================================================================
+//
+// TTextReplaceDialog.GetReplaceText
+//
+//==============================================================================
 function TTextReplaceDialog.GetReplaceText: string;
 begin
   Result := cbReplaceText.Text;
 end;
 
+//==============================================================================
+//
+// TTextReplaceDialog.GetReplaceTextHistory
+//
+//==============================================================================
 function TTextReplaceDialog.GetReplaceTextHistory: string;
 var
   i: integer;
@@ -47,16 +57,31 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TTextReplaceDialog.SetReplaceText
+//
+//==============================================================================
 procedure TTextReplaceDialog.SetReplaceText(Value: string);
 begin
   cbReplaceText.Text := Value;
 end;
 
+//==============================================================================
+//
+// TTextReplaceDialog.SetReplaceTextHistory
+//
+//==============================================================================
 procedure TTextReplaceDialog.SetReplaceTextHistory(Value: string);
 begin
   cbReplaceText.Items.Text := Value;
 end;
 
+//==============================================================================
+//
+// TTextReplaceDialog.FormCloseQuery
+//
+//==============================================================================
 procedure TTextReplaceDialog.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
 var
@@ -79,5 +104,4 @@ begin
 end;
 
 end.
-
 

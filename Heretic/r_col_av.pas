@@ -31,10 +31,20 @@ unit r_col_av;
 
 interface
 
+//==============================================================================
+// R_DrawColumnAverageHi
+//
 // Average column drawers (transparency effects)
+//
+//==============================================================================
 procedure R_DrawColumnAverageHi;
-procedure R_DrawColumnAverageUltra;
 
+//==============================================================================
+//
+// R_DrawColumnAverageUltra
+//
+//==============================================================================
+procedure R_DrawColumnAverageUltra;
 
 implementation
 
@@ -48,6 +58,11 @@ uses
   r_hires,
   v_video;
 
+//==============================================================================
+//
+// R_DrawColumnAverageHi
+//
+//==============================================================================
 procedure R_DrawColumnAverageHi;
 var
   count: integer;
@@ -91,6 +106,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_DrawColumnAverageUltra
+//
+//==============================================================================
 procedure R_DrawColumnAverageUltra;
 var
   count: integer;

@@ -58,18 +58,53 @@ type
   batchwallrenderinfo8_tArray = array[0..$FFF] of batchwallrenderinfo8_t;
   Pbatchwallrenderinfo8_tArray = ^batchwallrenderinfo8_tArray;
 
+//==============================================================================
+//
+// R_StoreWallColumn8
+//
+//==============================================================================
 procedure R_StoreWallColumn8(const idx: PInteger);
 
+//==============================================================================
+//
+// R_FlashWallColumns8
+//
+//==============================================================================
 procedure R_FlashWallColumns8(const idx: PInteger);
 
+//==============================================================================
+//
+// R_InitWallsCache8
+//
+//==============================================================================
 procedure R_InitWallsCache8;
 
+//==============================================================================
+//
+// R_ShutDownWallsCache8
+//
+//==============================================================================
 procedure R_ShutDownWallsCache8;
 
+//==============================================================================
+//
+// R_ClearWallsCache8
+//
+//==============================================================================
 procedure R_ClearWallsCache8;
 
+//==============================================================================
+//
+// R_RenderMultiThreadWalls8
+//
+//==============================================================================
 procedure R_RenderMultiThreadWalls8;
 
+//==============================================================================
+//
+// R_WaitWallsCache8
+//
+//==============================================================================
 procedure R_WaitWallsCache8;
 
 var
@@ -129,6 +164,11 @@ var
   wallcachesize: integer;
   wallcacherealsize: integer;
 
+//==============================================================================
+//
+// R_GrowWallsCache8
+//
+//==============================================================================
 procedure R_GrowWallsCache8;
 begin
   if wallcachesize >= wallcacherealsize then
@@ -138,6 +178,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_AddWallsToCache8
+//
+//==============================================================================
 procedure R_AddWallsToCache8(const idx: PInteger);
 begin
   R_GrowWallsCache8;
@@ -146,6 +191,11 @@ begin
   inc(wallcachesize);
 end;
 
+//==============================================================================
+//
+// R_FlashWallColumns8
+//
+//==============================================================================
 procedure R_FlashWallColumns8(const idx: PInteger);
 var
   walls: Pbatchwallrenderinfo8_t;
@@ -274,6 +324,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_StoreWallColumn8
+//
+//==============================================================================
 procedure R_StoreWallColumn8(const idx: PInteger);
 var
   w: Pwallrenderinfo8_t;
@@ -335,6 +390,11 @@ type
   end;
   Pwallthreadparms8_t = ^wallthreadparms8_t;
 
+//==============================================================================
+//
+// _wall_thread_worker8
+//
+//==============================================================================
 function _wall_thread_worker8(parms: Pwallthreadparms8_t): integer; stdcall;
 var
   i: integer;
@@ -535,6 +595,11 @@ end;
 var
   default_numwallrenderingthreads_8bit: integer = 0;
 
+//==============================================================================
+//
+// R_InitWallsCache8
+//
+//==============================================================================
 procedure R_InitWallsCache8;
 var
   i: integer;
@@ -573,6 +638,11 @@ begin
     wallthreads8[i] := TDThread.Create(@_wall_thread_worker8);
 end;
 
+//==============================================================================
+//
+// R_ShutDownWallsCache8
+//
+//==============================================================================
 procedure R_ShutDownWallsCache8;
 var
   i: integer;
@@ -583,6 +653,11 @@ begin
   memfree(Pointer(wallcache), wallcacherealsize * SizeOf(batchwallrenderinfo8_t));
 end;
 
+//==============================================================================
+//
+// R_ClearWallsCache8
+//
+//==============================================================================
 procedure R_ClearWallsCache8;
 begin
   midwalls8 := 0;
@@ -598,6 +673,11 @@ end;
 var
   parms: array[0..MAXWALLTHREADS8 - 1] of wallthreadparms8_t;
 
+//==============================================================================
+//
+// R_RenderMultiThreadWalls8
+//
+//==============================================================================
 procedure R_RenderMultiThreadWalls8;
 var
   i: integer;
@@ -648,6 +728,11 @@ begin
       wallthreads8[i].Activate(@parms[i]);
 end;
 
+//==============================================================================
+//
+// R_WaitWallsCache8
+//
+//==============================================================================
 procedure R_WaitWallsCache8;
 
   function _alldone: boolean;

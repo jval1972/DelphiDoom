@@ -213,51 +213,101 @@ uses
 resourcestring
   rsTitle = 'DelphiDOOM Script IDE';
 
+//==============================================================================
+//
+// TForm1.ActionNewProjectExecute
+//
+//==============================================================================
 procedure TForm1.ActionNewProjectExecute(Sender: TObject);
 begin
   NewProject;
 end;
 
+//==============================================================================
+//
+// TForm1.ActionAboutExecute
+//
+//==============================================================================
 procedure TForm1.ActionAboutExecute(Sender: TObject);
 begin
   About;
 end;
 
+//==============================================================================
+//
+// TForm1.ActionOpenProjectExecute
+//
+//==============================================================================
 procedure TForm1.ActionOpenProjectExecute(Sender: TObject);
 begin
   OpenProject;
 end;
 
+//==============================================================================
+//
+// TForm1.ActionQuitExecute
+//
+//==============================================================================
 procedure TForm1.ActionQuitExecute(Sender: TObject);
 begin
   Quit;
 end;
 
+//==============================================================================
+//
+// TForm1.ActionRedoExecute
+//
+//==============================================================================
 procedure TForm1.ActionRedoExecute(Sender: TObject);
 begin
   Redo;
 end;
 
+//==============================================================================
+//
+// TForm1.ActionSaveAsExecute
+//
+//==============================================================================
 procedure TForm1.ActionSaveAsExecute(Sender: TObject);
 begin
   SaveAs;
 end;
 
+//==============================================================================
+//
+// TForm1.ActionSaveExecute
+//
+//==============================================================================
 procedure TForm1.ActionSaveExecute(Sender: TObject);
 begin
   Save;
 end;
 
+//==============================================================================
+//
+// TForm1.ActionUndoExecute
+//
+//==============================================================================
 procedure TForm1.ActionUndoExecute(Sender: TObject);
 begin
   Undo;
 end;
 
+//==============================================================================
+//
+// TForm1.FormCloseQuery
+//
+//==============================================================================
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
   CanClose := CheckCanClose;
 end;
 
+//==============================================================================
+//
+// TForm1.FormCreate
+//
+//==============================================================================
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   Scaled := False;
@@ -273,6 +323,11 @@ begin
     DoNewProject;
 end;
 
+//==============================================================================
+//
+// TForm1.CreateProjectObject
+//
+//==============================================================================
 procedure TForm1.CreateProjectObject(const fname: string);
 begin
   if project <> nil then
@@ -285,6 +340,11 @@ begin
   project.Editor := ProjectEditorFrame;
 end;
 
+//==============================================================================
+//
+// TForm1.DoNewProject
+//
+//==============================================================================
 procedure TForm1.DoNewProject;
 var
   TabSheet: TTabSheet;
@@ -299,6 +359,11 @@ begin
   UpdateCaption;
 end;
 
+//==============================================================================
+//
+// TForm1.NewProject
+//
+//==============================================================================
 procedure TForm1.NewProject;
 begin
   if not CheckCanClose then
@@ -307,6 +372,11 @@ begin
   DoNewProject;
 end;
 
+//==============================================================================
+//
+// TForm1.DoOpenProject
+//
+//==============================================================================
 procedure TForm1.DoOpenProject(const fname: string);
 var
   TabSheet: TTabSheet;
@@ -321,6 +391,11 @@ begin
   UpdateCaption;
 end;
 
+//==============================================================================
+//
+// TForm1.OpenProject
+//
+//==============================================================================
 procedure TForm1.OpenProject;
 begin
   if not CheckCanClose then
@@ -330,6 +405,11 @@ begin
     DoOpenProject(OpenProjectDialog.FileName);
 end;
 
+//==============================================================================
+//
+// TForm1.DoSave
+//
+//==============================================================================
 procedure TForm1.DoSave(const fname: string);
 begin
   if project = nil then
@@ -344,6 +424,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TForm1.Save
+//
+//==============================================================================
 procedure TForm1.Save;
 begin
   if project = nil then
@@ -358,6 +443,11 @@ begin
   DoSave(project.FileName);
 end;
 
+//==============================================================================
+//
+// TForm1.SaveAs
+//
+//==============================================================================
 procedure TForm1.SaveAs;
 begin
   if project = nil then
@@ -367,6 +457,11 @@ begin
     DoSave(SaveProjectDialog.FileName);
 end;
 
+//==============================================================================
+//
+// TForm1.Undo
+//
+//==============================================================================
 procedure TForm1.Undo;
 begin
   if project = nil then
@@ -376,6 +471,11 @@ begin
     project.Undo;
 end;
 
+//==============================================================================
+//
+// TForm1.Redo
+//
+//==============================================================================
 procedure TForm1.Redo;
 begin
   if project = nil then
@@ -385,11 +485,21 @@ begin
     project.Redo;
 end;
 
+//==============================================================================
+//
+// TForm1.Quit
+//
+//==============================================================================
 procedure TForm1.Quit;
 begin
   Close;
 end;
 
+//==============================================================================
+//
+// TForm1.About
+//
+//==============================================================================
 procedure TForm1.About;
 begin
   IDEMessage(
@@ -399,6 +509,11 @@ begin
       [rsTitle]));
 end;
 
+//==============================================================================
+//
+// TForm1.CheckCanClose
+//
+//==============================================================================
 function TForm1.CheckCanClose: boolean;
 var
   ret: integer;
@@ -427,6 +542,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TForm1.CheckCanCloseProjectItem
+//
+//==============================================================================
 function TForm1.CheckCanCloseProjectItem(const x: TIDEProjectItem): boolean;
 var
   ret: integer;
@@ -456,6 +576,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TForm1.ActiveEditorFrame
+//
+//==============================================================================
 function TForm1.ActiveEditorFrame: TFrame;
 var
   i: integer;
@@ -478,12 +603,21 @@ begin
   Result := nil;
 end;
 
+//==============================================================================
+//
+// TForm1.ProjectEditorFrame
+//
+//==============================================================================
 function TForm1.ProjectEditorFrame: TFrame;
 begin
   Result := Frame_ProjectManager1;
 end;
 
-
+//==============================================================================
+//
+// TForm1.ActionGoToLineNumberExecute
+//
+//==============================================================================
 procedure TForm1.ActionGoToLineNumberExecute(Sender: TObject);
 var
   frm: TFrame;
@@ -496,6 +630,11 @@ begin
     (frm as TFrame_ScriptEditor).GoToLineNumber;
 end;
 
+//==============================================================================
+//
+// TForm1.UpdateCaption
+//
+//==============================================================================
 procedure TForm1.UpdateCaption;
 var
   TabSheet: TTabSheet;
@@ -512,6 +651,11 @@ begin
   Caption := rsTitle + ' - ' + TabSheet.Caption;
 end;
 
+//==============================================================================
+//
+// TForm1.ApplicationEvents1Hint
+//
+//==============================================================================
 procedure TForm1.ApplicationEvents1Hint(Sender: TObject);
 begin
   StatusBar1.Panels[0].Text := Application.Hint;
@@ -530,6 +674,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TForm1.CloseAllProjectEditors
+//
+//==============================================================================
 procedure TForm1.CloseAllProjectEditors;
 var
   i: integer;
@@ -538,6 +687,11 @@ begin
     PageControl1.Pages[i].Free;
 end;
 
+//==============================================================================
+//
+// TForm1.DoEditProjectItem
+//
+//==============================================================================
 procedure TForm1.DoEditProjectItem(const it: TIDEProjectItem);
 var
   frm: TFrame;
@@ -570,6 +724,11 @@ begin
   it.Edit(frm);
 end;
 
+//==============================================================================
+//
+// TForm1.DoDeleteProjectItem
+//
+//==============================================================================
 procedure TForm1.DoDeleteProjectItem(const it: TIDEProjectItem);
 var
   frm: TFrame;
@@ -583,6 +742,11 @@ begin
     project.Delete(it);
 end;
 
+//==============================================================================
+//
+// TForm1.FindItemEditor
+//
+//==============================================================================
 function TForm1.FindItemEditor(const pctrl: TPageControl; const obj: TIDEProjectItem): TFrame;
 var
   TabSheet: TTabSheet;
@@ -611,6 +775,11 @@ begin
   Result := nil;
 end;
 
+//==============================================================================
+//
+// TForm1.FindSelectedProjectItem
+//
+//==============================================================================
 function TForm1.FindSelectedProjectItem: TIDEProjectItem;
 var
   node: TTreeNode;
@@ -627,6 +796,11 @@ begin
   Result := project.Find(node.Text);
 end;
 
+//==============================================================================
+//
+// TForm1.Frame_ProjectManager1TreeView1DblClick
+//
+//==============================================================================
 procedure TForm1.Frame_ProjectManager1TreeView1DblClick(Sender: TObject);
 var
   it: TIDEProjectItem;
@@ -664,6 +838,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TForm1.ApplicationEvents1Idle
+//
+//==============================================================================
 procedure TForm1.ApplicationEvents1Idle(Sender: TObject;
   var Done: Boolean);
 var
@@ -675,6 +854,11 @@ begin
   Done := True;
 end;
 
+//==============================================================================
+//
+// TForm1.LogOutput
+//
+//==============================================================================
 procedure TForm1.LogOutput(const c: TColor; const s: string);
 var
   i: integer;
@@ -696,6 +880,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TForm1.ActionFindExecute
+//
+//==============================================================================
 procedure TForm1.ActionFindExecute(Sender: TObject);
 var
   frm: TFrame;
@@ -708,6 +897,11 @@ begin
     (frm as TFrame_ScriptEditor).ShowSearchDialog;
 end;
 
+//==============================================================================
+//
+// TForm1.ActionReplaceExecute
+//
+//==============================================================================
 procedure TForm1.ActionReplaceExecute(Sender: TObject);
 var
   frm: TFrame;
@@ -720,6 +914,11 @@ begin
     (frm as TFrame_ScriptEditor).ShowReplaceDialog;
 end;
 
+//==============================================================================
+//
+// TForm1.ActionSearchAgainExecute
+//
+//==============================================================================
 procedure TForm1.ActionSearchAgainExecute(Sender: TObject);
 var
   frm: TFrame;
@@ -732,6 +931,11 @@ begin
     (frm as TFrame_ScriptEditor).SearchAgain;
 end;
 
+//==============================================================================
+//
+// TForm1.Frame_ProjectManager1TreeView1Editing
+//
+//==============================================================================
 procedure TForm1.Frame_ProjectManager1TreeView1Editing(Sender: TObject;
   Node: TTreeNode; var AllowEdit: Boolean);
 begin
@@ -750,6 +954,11 @@ begin
   AllowEdit := project.CanRename(Node.Text);
 end;
 
+//==============================================================================
+//
+// TForm1.Frame_ProjectManager1TreeView1Edited
+//
+//==============================================================================
 procedure TForm1.Frame_ProjectManager1TreeView1Edited(Sender: TObject;
   Node: TTreeNode; var S: String);
 var
@@ -788,6 +997,11 @@ begin
     S := Node.Text;
 end;
 
+//==============================================================================
+//
+// TForm1.MessagesListBoxDrawItem
+//
+//==============================================================================
 procedure TForm1.MessagesListBoxDrawItem(Control: TWinControl;
   Index: Integer; Rect: TRect; State: TOwnerDrawState);
 var
@@ -807,6 +1021,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TForm1.MenuItem3Click
+//
+//==============================================================================
 procedure TForm1.MenuItem3Click(Sender: TObject);
 var
   b: Boolean;
@@ -818,6 +1037,11 @@ begin
   ActionSearchAgain.Enabled := b;
 end;
 
+//==============================================================================
+//
+// TForm1.ActionProjectDeleteItemExecute
+//
+//==============================================================================
 procedure TForm1.ActionProjectDeleteItemExecute(Sender: TObject);
 var
   it: TIDEProjectItem;
@@ -834,11 +1058,21 @@ begin
   project.AdjustLayout(project.data);
 end;
 
+//==============================================================================
+//
+// TForm1.MenuItem10Click
+//
+//==============================================================================
 procedure TForm1.MenuItem10Click(Sender: TObject);
 begin
   GeneratePK31.Enabled := (project <> nil) and (project.Count > 0);
 end;
 
+//==============================================================================
+//
+// TForm1.GeneratePK31Click
+//
+//==============================================================================
 procedure TForm1.GeneratePK31Click(Sender: TObject);
 begin
   if project = nil then
@@ -851,6 +1085,11 @@ begin
     project.GeneratePK3(GeneratePK3SaveDialog.FileName);
 end;
 
+//==============================================================================
+//
+// TForm1.Copy1Click
+//
+//==============================================================================
 procedure TForm1.Copy1Click(Sender: TObject);
 var
   idx: integer;
@@ -860,17 +1099,32 @@ begin
     Clipboard.AsText := MessagesListBox.Items[idx];
 end;
 
+//==============================================================================
+//
+// TForm1.Clearmessages1Click
+//
+//==============================================================================
 procedure TForm1.Clearmessages1Click(Sender: TObject);
 begin
   MessagesListBox.Items.Clear;
 end;
 
+//==============================================================================
+//
+// TForm1.SaveMessages1Click
+//
+//==============================================================================
 procedure TForm1.SaveMessages1Click(Sender: TObject);
 begin
   if SaveMessagesDialog.Execute then
     MessagesListBox.Items.SaveToFile(SaveMessagesDialog.FileName);
 end;
 
+//==============================================================================
+//
+// TForm1.ChangeGame
+//
+//==============================================================================
 procedure TForm1.ChangeGame(const newgame: string);
 begin
   Screen.Cursor := crHourGlass;
@@ -891,6 +1145,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TForm1.LibraryButton1Click
+//
+//==============================================================================
 procedure TForm1.LibraryButton1Click(Sender: TObject);
 var
   lWidth: integer;
@@ -914,11 +1173,21 @@ begin
     LibraryPanel.Width := 16;
 end;
 
+//==============================================================================
+//
+// TForm1.LibraryPanelResize
+//
+//==============================================================================
 procedure TForm1.LibraryPanelResize(Sender: TObject);
 begin
   LibraryButton1.Down := LibraryPanel.Width >= 128;
 end;
 
+//==============================================================================
+//
+// TForm1.FormDestroy
+//
+//==============================================================================
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
   CloseAllProjectEditors;
@@ -927,12 +1196,22 @@ begin
     project.Free;
 end;
 
+//==============================================================================
+//
+// TForm1.PageControl1MouseDown
+//
+//==============================================================================
 procedure TForm1.PageControl1MouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
    PageControl1.BeginDrag(False);
 end;
 
+//==============================================================================
+//
+// TForm1.PageControl1DragDrop
+//
+//==============================================================================
 procedure TForm1.PageControl1DragDrop(Sender, Source: TObject; X,
   Y: Integer);
 const
@@ -955,6 +1234,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TForm1.PageControl1DragOver
+//
+//==============================================================================
 procedure TForm1.PageControl1DragOver(Sender, Source: TObject; X,
   Y: Integer; State: TDragState; var Accept: Boolean);
 begin

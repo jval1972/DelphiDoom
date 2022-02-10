@@ -59,7 +59,6 @@ type
     procedure DrawSimple(const frm: integer); virtual; abstract;
   end;
 
-
 implementation
 
 constructor TBaseModel.Create(const name: string;

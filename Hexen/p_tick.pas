@@ -50,14 +50,39 @@ var
 // Both the head and tail of the thinker list.
   thinkercap: thinker_t;
 
+//==============================================================================
+//
+// P_InitThinkers
+//
+//==============================================================================
 procedure P_InitThinkers;
 
+//==============================================================================
+//
+// P_AddThinker
+//
+//==============================================================================
 procedure P_AddThinker(thinker: Pthinker_t);
 
+//==============================================================================
+//
+// P_RemoveThinker
+//
+//==============================================================================
 procedure P_RemoveThinker(thinker: Pthinker_t);
 
+//==============================================================================
+//
+// P_Ticker
+//
+//==============================================================================
 procedure P_Ticker;
 
+//==============================================================================
+//
+// P_ThinkerIsRemoved
+//
+//==============================================================================
 function P_ThinkerIsRemoved(thinker: Pthinker_t): boolean;
 
 var
@@ -85,6 +110,11 @@ uses
   ps_main,  // JVAL: Script Events
   z_zone;
 
+//==============================================================================
+//
+// P_InitThinkers
+//
+//==============================================================================
 procedure P_InitThinkers;
 begin
   mobjlist.Clear;
@@ -92,10 +122,12 @@ begin
   thinkercap.next := @thinkercap;
 end;
 
+//==============================================================================
 //
 // P_AddThinker
 // Adds a new thinker at the end of the list.
 //
+//==============================================================================
 procedure P_AddThinker(thinker: Pthinker_t);
 begin
   if @thinker._function.acp1 = @P_MobjThinker then
@@ -107,17 +139,24 @@ begin
   thinkercap.prev := thinker;
 end;
 
+//==============================================================================
 //
 // P_RemoveThinker
 // Deallocation is lazy -- it will not actually be freed
 // until its thinking turn comes up.
 //
+//==============================================================================
 procedure _removethinker;
 begin
 // JVAL 20191203 - Fixed non working plats & ceilings thanks to slayermbm
 //                 https://www.doomworld.com/forum/topic/98789-fpcdoom-1124117-updated-dec-2-2019/?do=findComment&comment=2050845
 end;
 
+//==============================================================================
+//
+// P_RemoveThinker
+//
+//==============================================================================
 procedure P_RemoveThinker(thinker: Pthinker_t);
 begin
   if @thinker._function.acp1 = @P_MobjThinker then
@@ -126,14 +165,21 @@ begin
   @thinker._function.acv := @_removethinker;
 end;
 
+//==============================================================================
+//
+// P_ThinkerIsRemoved
+//
+//==============================================================================
 function P_ThinkerIsRemoved(thinker: Pthinker_t): boolean;
 begin
   Result := (@thinker._function.acv = @_removethinker) or not Assigned(thinker._function.acv);
 end;
 
+//==============================================================================
 //
 // P_RunThinkers
 //
+//==============================================================================
 procedure P_RunThinkers;
 var
   currentthinker: Pthinker_t;
@@ -186,9 +232,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_Ticker
 //
+//==============================================================================
 procedure P_Ticker;
 var
   i: integer;

@@ -38,22 +38,67 @@ const
   MSG_VERBOSE = 1;
   MSG_DEBUG = 2;
 
+//==============================================================================
+//
+// ACS_LoadFile
+//
+//==============================================================================
 function ACS_LoadFile(const name: string; var buffer: pointer): integer;
 
+//==============================================================================
+//
+// ACS_LoadLump
+//
+//==============================================================================
 function ACS_LoadLump(const lump: integer; var buffer: pointer): integer;
 
+//==============================================================================
+//
+// ACS_SaveFile
+//
+//==============================================================================
 function ACS_SaveFile(const name: string; const buffer: pointer; const len: integer): boolean;
 
+//==============================================================================
+//
+// ACS_StripFileExt
+//
+//==============================================================================
 procedure ACS_StripFileExt(var name: string);
 
+//==============================================================================
+//
+// ACS_SuggestFileExt
+//
+//==============================================================================
 procedure ACS_SuggestFileExt(var base: string; const extension: string);
 
+//==============================================================================
+//
+// ACS_Message
+//
+//==============================================================================
 procedure ACS_Message(const typ: integer; const fmt: string; const args: array of const);
 
+//==============================================================================
+//
+// ACS_Alloc
+//
+//==============================================================================
 function ACS_Alloc(const size: integer; const error: integer): pointer;
 
+//==============================================================================
+//
+// ACS_Free
+//
+//==============================================================================
 procedure ACS_Free(var ptr: Pointer);
 
+//==============================================================================
+//
+// ACS_LittleULONG
+//
+//==============================================================================
 function ACS_LittleULONG(const v: U_LONG): U_LONG;
 
 implementation
@@ -71,6 +116,11 @@ const
   ASCII_BACKSLASH = 92;
   O_BINARY = 0;
 
+//==============================================================================
+//
+// ACS_Alloc
+//
+//==============================================================================
 function ACS_Alloc(const size: integer; const error: integer): pointer;
 begin
   result := Z_Malloc(size, PU_LEVEL, nil);
@@ -79,6 +129,11 @@ begin
   ZeroMemory(result, size);
 end;
 
+//==============================================================================
+//
+// ACS_Free
+//
+//==============================================================================
 procedure ACS_Free(var ptr: Pointer);
 begin
   Z_Free(ptr);
@@ -91,7 +146,8 @@ end;
 // Converts a host U_WORD (2 bytes) to little endian byte order.
 //
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
+//
+//==============================================================================
 function ACS_LittleUWORD(const v: U_WORD): U_WORD;
 begin
   if not acs_BigEndianHost then
@@ -109,7 +165,8 @@ end;
 // Converts a host U_LONG (4 bytes) to little endian byte order.
 //
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
+//
+//==============================================================================
 function ACS_LittleULONG(const v: U_LONG): U_LONG;
 begin
   if not acs_BigEndianHost then
@@ -121,12 +178,16 @@ begin
     (v shr 24) and 255;
 end;
 
+//==============================================================================
+// ACS_LoadFile
+//
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 //
 // MS_LoadFile
 //
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
+//
+//==============================================================================
 function ACS_LoadFile(const name: string; var buffer: pointer): integer;
 var
   size, cnt: integer;
@@ -154,6 +215,11 @@ begin
   result := size;
 end;
 
+//==============================================================================
+//
+// ACS_LoadLump
+//
+//==============================================================================
 function ACS_LoadLump(const lump: integer; var buffer: pointer): integer;
 var
   src: string;
@@ -177,7 +243,8 @@ end;
 // ACS_SaveFile
 //
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
+//
+//==============================================================================
 function ACS_SaveFile(const name: string; const buffer: pointer; const len: integer): boolean;
 var
   handle: file;
@@ -197,7 +264,8 @@ end;
 // ACS_SuggestFileExt
 //
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
+//
+//==============================================================================
 procedure ACS_SuggestFileExt(var base: string; const extension: string);
 var
   i, len: integer;
@@ -224,7 +292,8 @@ end;
 // ACS_StripFileExt
 //
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
+//
+//==============================================================================
 procedure ACS_StripFileExt(var name: string);
 var
   i: integer;
@@ -243,7 +312,8 @@ end;
 // ACS_Message
 //
 // = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
+//
+//==============================================================================
 procedure ACS_Message(const typ: integer; const fmt: string; const args: array of const);
 begin
   if typ = MSG_VERBOSE then

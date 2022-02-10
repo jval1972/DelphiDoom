@@ -44,28 +44,88 @@ uses
   p_mobj_h,
   tables;
 
+//==============================================================================
+//
+// P_PlayerThink
+//
+//==============================================================================
 procedure P_PlayerThink(player: Pplayer_t);
 
+//==============================================================================
+//
+// P_Thrust
+//
+//==============================================================================
 procedure P_Thrust(player: Pplayer_t; angle: angle_t; const move: fixed_t);
 
+//==============================================================================
+//
+// P_PlayerNextArtifact
+//
+//==============================================================================
 procedure P_PlayerNextArtifact(player: Pplayer_t);
 
+//==============================================================================
+//
+// P_PlayerUseArtifact
+//
+//==============================================================================
 procedure P_PlayerUseArtifact(player: Pplayer_t; arti: artitype_t);
 
+//==============================================================================
+//
+// P_GetPlayerNum
+//
+//==============================================================================
 function P_GetPlayerNum(player: Pplayer_t): integer;
 
+//==============================================================================
+//
+// P_IsInvisiblePlayer
+//
+//==============================================================================
 function P_IsInvisiblePlayer(player: Pplayer_t): boolean;
 
+//==============================================================================
+//
+// P_UndoPlayerMorph
+//
+//==============================================================================
 function P_UndoPlayerMorph(player: Pplayer_t): boolean;
 
+//==============================================================================
+//
+// P_UseArtifact
+//
+//==============================================================================
 function P_UseArtifact(player: Pplayer_t; arti: artitype_t): boolean;
 
+//==============================================================================
+//
+// P_PlayerRemoveArtifact
+//
+//==============================================================================
 procedure P_PlayerRemoveArtifact(player: Pplayer_t; slot: integer);
 
+//==============================================================================
+//
+// P_TeleportOther
+//
+//==============================================================================
 procedure P_TeleportOther(victim: Pmobj_t);
 
+//==============================================================================
+//
+// P_ResetBlasted
+//
+//==============================================================================
 procedure P_ResetBlasted(mo: Pmobj_t);
 
+//==============================================================================
+//
+// A_SpeedFade
+//
+//==============================================================================
 procedure A_SpeedFade(actor: Pmobj_t);
 
 const
@@ -159,10 +219,12 @@ var
   newtorch: integer; // used in the torch flicker effect.
   newtorchdelta: integer;
 
+//==============================================================================
 //
 // P_Thrust
 // Moves the given origin along a given angle.
 //
+//==============================================================================
 procedure P_Thrust(player: Pplayer_t; angle: angle_t; const move: fixed_t);
 var
   mv: fixed_t;
@@ -187,10 +249,12 @@ begin
   end
 end;
 
+//==============================================================================
 //
 // P_CalcHeight
 // Calculate the walking / running height adjustment
 //
+//==============================================================================
 procedure P_CalcHeight(player: Pplayer_t);
 var
   angle: integer;
@@ -299,6 +363,11 @@ begin
     player.viewz := player.mo.floorz + 4 * FRACUNIT;
 end;
 
+//==============================================================================
+//
+// P_CalcHeight205
+//
+//==============================================================================
 procedure P_CalcHeight205(player: Pplayer_t);
 var
   angle: integer;
@@ -380,7 +449,12 @@ begin
     player.viewz := player.mo.floorz + 4 * FRACUNIT;
 end;
 
+//==============================================================================
+// P_SlopesCalcHeight
+//
 // JVAL: Slopes
+//
+//==============================================================================
 procedure P_SlopesCalcHeight(player: Pplayer_t);
 var
   angle: integer;
@@ -507,9 +581,11 @@ begin
   player.oldviewz := oldviewz;
 end;
 
+//==============================================================================
 //
 // P_MovePlayer
 //
+//==============================================================================
 procedure P_MovePlayer(player: Pplayer_t);
 var
   cmd: Pticcmd_t;
@@ -764,11 +840,13 @@ begin
 
 end;
 
+//==============================================================================
 //
 // P_DeathThink
 // Fall on your face when dying.
 // Decrease POV height to floor height.
 //
+//==============================================================================
 procedure P_DeathThink(player: Pplayer_t);
 var
   angle: angle_t;
@@ -889,7 +967,8 @@ end;
 // PROC P_MorphPlayerThink
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure P_MorphPlayerThink(player: Pplayer_t);
 var
   pmo: Pmobj_t;
@@ -919,7 +998,8 @@ end;
 // FUNC P_GetPlayerNum
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 function P_GetPlayerNum(player: Pplayer_t): integer;
 var
   i: integer;
@@ -935,6 +1015,11 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+//
+// P_IsInvisiblePlayer
+//
+//==============================================================================
 function P_IsInvisiblePlayer(player: Pplayer_t): boolean;
 begin
   if player.mo = nil then
@@ -951,7 +1036,8 @@ end;
 // FUNC P_UndoPlayerMorph
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 function P_UndoPlayerMorph(player: Pplayer_t): boolean;
 var
   fog: Pmobj_t;
@@ -1054,13 +1140,13 @@ begin
   result := true;
 end;
 
-
 //----------------------------------------------------------------------------
 //
 // PROC P_PlayerThink
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure P_PlayerThink(player: Pplayer_t);
 var
   cmd: Pticcmd_t;
@@ -1446,7 +1532,8 @@ end;
 // PROC P_ArtiTele
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure P_ArtiTele(player: Pplayer_t);
 var
   i: integer;
@@ -1485,13 +1572,13 @@ begin
   end;
 end;
 
-
 //----------------------------------------------------------------------------
 //
 // PROC P_ArtiTeleportOther
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure P_ArtiTeleportOther(player: Pplayer_t);
 var
   mo: Pmobj_t;
@@ -1501,7 +1588,11 @@ begin
     mo.target := player.mo;
 end;
 
-
+//==============================================================================
+//
+// P_TeleportToPlayerStarts
+//
+//==============================================================================
 procedure P_TeleportToPlayerStarts(victim: Pmobj_t);
 var
   i, selections: integer;
@@ -1523,6 +1614,11 @@ begin
   P_Teleport(victim, destX, destY, destAngle, true, P_3dFloorFindMapthingFloorZ(@playerstarts[0][i]), P_3dFloorFindMapthingCeilingZ(@playerstarts[0][i]));
 end;
 
+//==============================================================================
+//
+// P_TeleportToDeathmatchStarts
+//
+//==============================================================================
 procedure P_TeleportToDeathmatchStarts(victim: Pmobj_t);
 var
   i, selections: integer;
@@ -1545,13 +1641,13 @@ begin
     P_TeleportToPlayerStarts(victim);
 end;
 
-
-
 //----------------------------------------------------------------------------
 //
 // PROC P_TeleportOther
 //
 //----------------------------------------------------------------------------
+//
+//==============================================================================
 procedure P_TeleportOther(victim: Pmobj_t);
 begin
   if victim.player <> nil then
@@ -1576,12 +1672,16 @@ begin
   end;
 end;
 
-
 const
   BLAST_RADIUS_DIST = 255 * FRACUNIT;
   BLAST_SPEED = 20 * FRACUNIT;
   BLAST_FULLSTRENGTH = 255;
 
+//==============================================================================
+//
+// P_ResetBlasted
+//
+//==============================================================================
 procedure P_ResetBlasted(mo: Pmobj_t);
 begin
   mo.flags2 := mo.flags2 and not MF2_BLASTED;
@@ -1589,6 +1689,11 @@ begin
     mo.flags2 := mo.flags2 and not MF2_SLIDE;
 end;
 
+//==============================================================================
+//
+// P_BlastMobj
+//
+//==============================================================================
 procedure P_BlastMobj(source: Pmobj_t; victim: Pmobj_t; strength: fixed_t);
 var
   angle, ang: angle_t;
@@ -1669,8 +1774,12 @@ begin
   end;
 end;
 
-
+//==============================================================================
+// P_BlastRadius
+//
 // Blast all mobj things away
+//
+//==============================================================================
 procedure P_BlastRadius(player: Pplayer_t);
 var
   mo: Pmobj_t;
@@ -1755,7 +1864,12 @@ end;
 const
   HEAL_RADIUS_DIST = 255 * FRACUNIT;
 
+//==============================================================================
+// P_HealRadius
+//
 // Do class specific effect for everyone in radius
+//
+//==============================================================================
 function P_HealRadius(player: Pplayer_t): boolean;
 var
   mo: Pmobj_t;
@@ -1838,13 +1952,13 @@ begin
 
 end;
 
-
 //----------------------------------------------------------------------------
 //
 // PROC P_PlayerNextArtifact
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure P_PlayerNextArtifact(player: Pplayer_t);
 begin
   if player = @players[consoleplayer] then
@@ -1869,13 +1983,13 @@ begin
   end;
 end;
 
-
 //----------------------------------------------------------------------------
 //
 // PROC P_PlayerRemoveArtifact
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure P_PlayerRemoveArtifact(player: Pplayer_t; slot: integer);
 var
   i: integer;
@@ -1918,7 +2032,8 @@ end;
 // PROC P_PlayerUseArtifact
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure P_PlayerUseArtifact(player: Pplayer_t; arti: artitype_t);
 var
   i: integer;
@@ -1949,12 +2064,13 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // P_UseArtifact
 //
 // Returns true if the artifact was used.
 //
-
+//==============================================================================
 function P_UseArtifact(player: Pplayer_t; arti: artitype_t): boolean;
 var
   mo: Pmobj_t;
@@ -2181,10 +2297,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // A_SpeedFade
 //
-
+//==============================================================================
 procedure A_SpeedFade(actor: Pmobj_t);
 begin
   actor.flags := actor.flags or MF_SHADOW;

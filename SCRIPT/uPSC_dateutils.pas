@@ -5,11 +5,20 @@ interface
 uses
   SysUtils, ps_compiler, ps_utils;
 
-
+//==============================================================================
+//
+// RegisterDateTimeLibrary_C
+//
+//==============================================================================
 procedure RegisterDateTimeLibrary_C(S: TPSPascalCompiler);
 
 implementation
 
+//==============================================================================
+//
+// RegisterDatetimeLibrary_C
+//
+//==============================================================================
 procedure RegisterDatetimeLibrary_C(S: TPSPascalCompiler);
 begin
   s.AddType('TDateTime', btDouble).ExportName := True;

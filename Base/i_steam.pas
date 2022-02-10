@@ -33,6 +33,11 @@ unit i_steam;
 
 interface
 
+//==============================================================================
+//
+// QuerySteamDirectory
+//
+//==============================================================================
 function QuerySteamDirectory(const appid: integer): string;
 
 implementation
@@ -46,6 +51,11 @@ const
   KEY_WOW64_64KEY = $100;
   KEY_WOW64_32KEY = $200;
 
+//==============================================================================
+//
+// QuerySteamDirectory1
+//
+//==============================================================================
 function QuerySteamDirectory1(const flags, appid: integer): string;
 var
   reg: TRegistry;
@@ -61,6 +71,11 @@ begin
   reg.free;
 end;
 
+//==============================================================================
+//
+// QuerySteamDirectory
+//
+//==============================================================================
 function QuerySteamDirectory(const appid: integer): string;
 begin
   result := QuerySteamDirectory1(KEY_READ, appid);

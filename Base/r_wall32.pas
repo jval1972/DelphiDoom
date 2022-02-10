@@ -60,20 +60,54 @@ type
   batchwallrenderinfo32_tArray = array[0..$FFF] of batchwallrenderinfo32_t;
   Pbatchwallrenderinfo32_tArray = ^batchwallrenderinfo32_tArray;
 
+//==============================================================================
+//
+// R_StoreWallColumn32
+//
+//==============================================================================
 procedure R_StoreWallColumn32(const idx: PInteger);
 
+//==============================================================================
+//
+// R_FlashWallColumns32
+//
+//==============================================================================
 procedure R_FlashWallColumns32(const idx: PInteger);
 
+//==============================================================================
+//
+// R_InitWallsCache32
+//
+//==============================================================================
 procedure R_InitWallsCache32;
 
+//==============================================================================
+//
+// R_ShutDownWallsCache32
+//
+//==============================================================================
 procedure R_ShutDownWallsCache32;
 
+//==============================================================================
+//
+// R_ClearWallsCache32
+//
+//==============================================================================
 procedure R_ClearWallsCache32;
 
+//==============================================================================
+//
+// R_RenderMultiThreadWalls32
+//
+//==============================================================================
 procedure R_RenderMultiThreadWalls32;
 
+//==============================================================================
+//
+// R_WaitWallsCache32
+//
+//==============================================================================
 procedure R_WaitWallsCache32;
-
 
 var
   midwalls32: integer;
@@ -135,6 +169,11 @@ var
   wallcachesize: integer;
   wallcacherealsize: integer;
 
+//==============================================================================
+//
+// R_GrowWallsCache32
+//
+//==============================================================================
 procedure R_GrowWallsCache32;
 begin
   if wallcachesize >= wallcacherealsize then
@@ -144,6 +183,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_AddWallsToCache32
+//
+//==============================================================================
 procedure R_AddWallsToCache32(const idx: PInteger);
 begin
   R_GrowWallsCache32;
@@ -152,6 +196,11 @@ begin
   inc(wallcachesize);
 end;
 
+//==============================================================================
+//
+// R_DrawSingleThreadWall32
+//
+//==============================================================================
 procedure R_DrawSingleThreadWall32(const w: Pwallrenderinfo32_t);
 begin
   dc_source32 := w.dc_source32;
@@ -166,6 +215,11 @@ begin
   wallcolfunc;
 end;
 
+//==============================================================================
+//
+// R_FlashWallColumns32
+//
+//==============================================================================
 procedure R_FlashWallColumns32(const idx: PInteger);
 var
   w: Pwallrenderinfo32_t;
@@ -306,6 +360,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_StoreWallColumn32
+//
+//==============================================================================
 procedure R_StoreWallColumn32(const idx: PInteger);
 var
   w: Pwallrenderinfo32_t;
@@ -363,13 +422,17 @@ var
   wallthreads32: array[0..MAXWALLTHREADS32 - 1] of TDThread;
   numwallthreads32: Integer = 0;
 
-
 type
   wallthreadparms32_t = record
     start, stop: integer;
   end;
   Pwallthreadparms32_t = ^wallthreadparms32_t;
 
+//==============================================================================
+//
+// _wall_thread_worker32
+//
+//==============================================================================
 function _wall_thread_worker32(parms: Pwallthreadparms32_t): integer; stdcall;
 var
   i: integer;
@@ -570,6 +633,11 @@ end;
 var
   default_numwallrenderingthreads_32bit: integer = 0;
 
+//==============================================================================
+//
+// R_InitWallsCache32
+//
+//==============================================================================
 procedure R_InitWallsCache32;
 var
   i: integer;
@@ -607,6 +675,11 @@ begin
     wallthreads32[i] := TDThread.Create(@_wall_thread_worker32);
 end;
 
+//==============================================================================
+//
+// R_ShutDownWallsCache32
+//
+//==============================================================================
 procedure R_ShutDownWallsCache32;
 var
   i: integer;
@@ -617,6 +690,11 @@ begin
   memfree(Pointer(wallcache), wallcacherealsize * SizeOf(batchwallrenderinfo32_t));
 end;
 
+//==============================================================================
+//
+// R_ClearWallsCache32
+//
+//==============================================================================
 procedure R_ClearWallsCache32;
 begin
   midwalls32 := 0;
@@ -632,6 +710,11 @@ end;
 var
   parms: array[0..MAXWALLTHREADS32 - 1] of wallthreadparms32_t;
 
+//==============================================================================
+//
+// R_RenderMultiThreadWalls32
+//
+//==============================================================================
 procedure R_RenderMultiThreadWalls32;
 var
   i: integer;
@@ -682,6 +765,11 @@ begin
       wallthreads32[i].Activate(@parms[i]);
 end;
 
+//==============================================================================
+//
+// R_WaitWallsCache32
+//
+//==============================================================================
 procedure R_WaitWallsCache32;
 
   function _alldone: boolean;

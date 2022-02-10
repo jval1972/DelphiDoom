@@ -166,7 +166,6 @@ type
     DO_NUMMUSIC
   );
 
-
 //
 // Identifiers for all sfx in game.
 //
@@ -2588,7 +2587,6 @@ const
     (name: ''),
     (name: '')
   );
-
 
 var
   numsfx: integer = Ord(DO_NUMSFX);

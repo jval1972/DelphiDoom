@@ -43,20 +43,60 @@ type
   translationtable_tArray = array[0..$FF] of translationtable_t;
   Ptranslationtable_tArray = ^translationtable_tArray;
 
+//==============================================================================
+//
+// R_InitTranslations
+//
+//==============================================================================
 procedure R_InitTranslations;
 
+//==============================================================================
+//
+// R_ShutDownTranslations
+//
+//==============================================================================
 procedure R_ShutDownTranslations;
 
+//==============================================================================
+//
+// R_GetTranslationTable
+//
+//==============================================================================
 function R_GetTranslationTable(const name: string): Ptranslationtable_t;
 
+//==============================================================================
+//
+// R_BloodTranslation
+//
+//==============================================================================
 function R_BloodTranslation(const bt: integer): Pointer;
 
+//==============================================================================
+//
+// R_GetBloodTranslationIdForName
+//
+//==============================================================================
 function R_GetBloodTranslationIdForName(const name: string): integer;
 
+//==============================================================================
+//
+// R_GetBloodName
+//
+//==============================================================================
 function R_GetBloodName(const id: integer): string;
 
+//==============================================================================
+//
+// R_InitMobjTranslation
+//
+//==============================================================================
 procedure R_InitMobjTranslation(const mo: Pmobj_t);
 
+//==============================================================================
+//
+// R_SetMobjBloodTranslation
+//
+//==============================================================================
 procedure R_SetMobjBloodTranslation(const mo: Pmobj_t; const blood: integer);
 
 implementation
@@ -73,6 +113,11 @@ uses
 var
   translations: TStringList;
 
+//==============================================================================
+//
+// R_InitTranslations
+//
+//==============================================================================
 procedure R_InitTranslations;
 begin
   translations := TStringList.Create;
@@ -104,11 +149,21 @@ begin
   translations.Sorted := True;
 end;
 
+//==============================================================================
+//
+// R_ShutDownTranslations
+//
+//==============================================================================
 procedure R_ShutDownTranslations;
 begin
   translations.Free;
 end;
 
+//==============================================================================
+//
+// R_GetTranslationTable
+//
+//==============================================================================
 function R_GetTranslationTable(const name: string): Ptranslationtable_t;
 type
   tryfunc_t = function (const aname: string): Boolean;
@@ -220,6 +275,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_BloodTranslation
+//
+//==============================================================================
 function R_BloodTranslation(const bt: integer): Pointer;
 begin
   case bt of
@@ -250,6 +310,11 @@ const
     'ORANGE'
   );
 
+//==============================================================================
+//
+// R_GetBloodTranslationIdForName
+//
+//==============================================================================
 function R_GetBloodTranslationIdForName(const name: string): integer;
 var
   num: integer;
@@ -277,6 +342,11 @@ begin
   Result := 0;
 end;
 
+//==============================================================================
+//
+// R_GetBloodName
+//
+//==============================================================================
 function R_GetBloodName(const id: integer): string;
 begin
   if not IsIntegerInRange(id, 1, NUMBLOODNAMES - 1) then
@@ -285,6 +355,11 @@ begin
     Result := BLOODNAMES[id];
 end;
 
+//==============================================================================
+//
+// R_InitMobjTranslation
+//
+//==============================================================================
 procedure R_InitMobjTranslation(const mo: Pmobj_t);
 begin
   if mo.translationname = '' then
@@ -293,6 +368,11 @@ begin
     mo.translationtable := R_GetTranslationTable(mo.translationname);
 end;
 
+//==============================================================================
+//
+// R_SetMobjBloodTranslation
+//
+//==============================================================================
 procedure R_SetMobjBloodTranslation(const mo: Pmobj_t; const blood: integer);
 begin
   mo.translationname := R_GetBloodName(blood);

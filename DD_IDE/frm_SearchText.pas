@@ -61,36 +61,71 @@ implementation
 
 { TTextSearchDialog }
 
+//==============================================================================
+//
+// TTextSearchDialog.GetSearchBackwards
+//
+//==============================================================================
 function TTextSearchDialog.GetSearchBackwards: boolean;
 begin
   Result := rgSearchDirection.ItemIndex = 1;
 end;
 
+//==============================================================================
+//
+// TTextSearchDialog.GetSearchCaseSensitive
+//
+//==============================================================================
 function TTextSearchDialog.GetSearchCaseSensitive: boolean;
 begin
   Result := cbSearchCaseSensitive.Checked;
 end;
 
+//==============================================================================
+//
+// TTextSearchDialog.GetSearchFromCursor
+//
+//==============================================================================
 function TTextSearchDialog.GetSearchFromCursor: boolean;
 begin
   Result := cbSearchFromCursor.Checked;
 end;
 
+//==============================================================================
+//
+// TTextSearchDialog.GetSearchInSelection
+//
+//==============================================================================
 function TTextSearchDialog.GetSearchInSelection: boolean;
 begin
   Result := cbSearchSelectedOnly.Checked;
 end;
 
+//==============================================================================
+//
+// TTextSearchDialog.GetSearchRegularExpression
+//
+//==============================================================================
 function TTextSearchDialog.GetSearchRegularExpression: boolean;
 begin
   Result := cbRegularExpression.Checked;
 end;
 
+//==============================================================================
+//
+// TTextSearchDialog.GetSearchText
+//
+//==============================================================================
 function TTextSearchDialog.GetSearchText: string;
 begin
   Result := cbSearchText.Text;
 end;
 
+//==============================================================================
+//
+// TTextSearchDialog.GetSearchTextHistory
+//
+//==============================================================================
 function TTextSearchDialog.GetSearchTextHistory: string;
 var
   i: integer;
@@ -105,41 +140,81 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TTextSearchDialog.GetSearchWholeWords
+//
+//==============================================================================
 function TTextSearchDialog.GetSearchWholeWords: boolean;
 begin
   Result := cbSearchWholeWords.Checked;
 end;
 
+//==============================================================================
+//
+// TTextSearchDialog.SetSearchBackwards
+//
+//==============================================================================
 procedure TTextSearchDialog.SetSearchBackwards(Value: boolean);
 begin
   rgSearchDirection.ItemIndex := Ord(Value);
 end;
 
+//==============================================================================
+//
+// TTextSearchDialog.SetSearchCaseSensitive
+//
+//==============================================================================
 procedure TTextSearchDialog.SetSearchCaseSensitive(Value: boolean);
 begin
   cbSearchCaseSensitive.Checked := Value;
 end;
 
+//==============================================================================
+//
+// TTextSearchDialog.SetSearchFromCursor
+//
+//==============================================================================
 procedure TTextSearchDialog.SetSearchFromCursor(Value: boolean);
 begin
   cbSearchFromCursor.Checked := Value;
 end;
 
+//==============================================================================
+//
+// TTextSearchDialog.SetSearchInSelection
+//
+//==============================================================================
 procedure TTextSearchDialog.SetSearchInSelection(Value: boolean);
 begin
   cbSearchSelectedOnly.Checked := Value;
 end;
 
+//==============================================================================
+//
+// TTextSearchDialog.SetSearchText
+//
+//==============================================================================
 procedure TTextSearchDialog.SetSearchText(Value: string);
 begin
   cbSearchText.Text := Value;
 end;
 
+//==============================================================================
+//
+// TTextSearchDialog.SetSearchTextHistory
+//
+//==============================================================================
 procedure TTextSearchDialog.SetSearchTextHistory(Value: string);
 begin
   cbSearchText.Items.Text := Value;
 end;
 
+//==============================================================================
+//
+// TTextSearchDialog.SetSearchWholeWords
+//
+//==============================================================================
 procedure TTextSearchDialog.SetSearchWholeWords(Value: boolean);
 begin
   cbSearchWholeWords.Checked := Value;
@@ -153,6 +228,11 @@ end;
 
 { event handlers }
 
+//==============================================================================
+//
+// TTextSearchDialog.FormCloseQuery
+//
+//==============================================================================
 procedure TTextSearchDialog.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
 var
@@ -174,5 +254,4 @@ begin
 end;
 
 end.
-
 

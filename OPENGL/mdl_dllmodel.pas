@@ -113,6 +113,11 @@ begin
       LoadFrom(additionalframes.Strings[i]);
 end;
 
+//==============================================================================
+//
+// TDLLModel.LoadFrom
+//
+//==============================================================================
 procedure TDLLModel.LoadFrom(const libname: string);
 var
   handle: LongWord;
@@ -154,6 +159,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TDLLModel.Draw
+//
+//==============================================================================
 procedure TDLLModel.Draw(const frm1, frm2: integer; const offset: float);
 var
   i: integer;
@@ -170,6 +180,11 @@ begin
   glPopMatrix;
 end;
 
+//==============================================================================
+//
+// TDLLModel.DrawSimple
+//
+//==============================================================================
 procedure TDLLModel.DrawSimple(const frm: integer);
 begin
   Draw(frm, frm, 0.0);

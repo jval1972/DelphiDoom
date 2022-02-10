@@ -12,35 +12,117 @@ uses
   scanf_c, SysUtils, Classes;
 
 { (Almost) compatible to C/C++ scanf}
+
+//==============================================================================
+//
+// sscanf
+//
+//==============================================================================
 function sscanf(Str : PChar; Format : PChar; Pointers : array of Pointer): Integer;
+
+//==============================================================================
+//
+// fscanf
+//
+//==============================================================================
 function fscanf(F : TStream; Format : PChar; Pointers : array of Pointer) : Integer;
 
 { Formatted scan  á la scanf, but using FormatBuf syntax.}
+
+//==============================================================================
+//
+// StrDeFmt
+//
+//==============================================================================
 function StrDeFmt(Buffer, Format : PChar; Args : array of const) : integer;
+
+//==============================================================================
+//
+// DeFormat
+//
+//==============================================================================
 function DeFormat(const Str : string; const Format: string; Args : array of const) : integer;
+
+//==============================================================================
+//
+// DeFormatBuf
+//
+//==============================================================================
 function DeFormatBuf(const Buffer; BufLen: Cardinal; const Format; FmtLen: Cardinal; const Args: array of const): integer;
 
 {Decimal, hex, and octal representations of an int64 (Comp) type}
+
+//==============================================================================
+//
+// int64ToStr
+//
+//==============================================================================
 function int64ToStr(c: int64) : string; // for compatibility with scanf 1.0
+
+//==============================================================================
+//
+// int64ToHex
+//
+//==============================================================================
 function int64ToHex(c: int64) : string; // for compatibility with scanf 1.0
+
+//==============================================================================
+//
+// int64ToOct
+//
+//==============================================================================
 function int64ToOct(c: int64) : string;
 
 {RTL extensions, accepting ThousandSeparator}
+
+//==============================================================================
+//
+// TextToFloatS
+//
+//==============================================================================
 function TextToFloatS(Buffer: PChar; var Value; ValueType: TFloatValue): Boolean;
+
+//==============================================================================
+//
+// StrToCurrS
+//
+//==============================================================================
 function StrToCurrS(const S: string): Currency;
+
+//==============================================================================
+//
+// StrToFloatS
+//
+//==============================================================================
 function StrToFloatS(const S: string): Extended;
 
 {RTL extension, accepting formatted currency string}
+
+//==============================================================================
+//
+// StrToCurrF
+//
+//==============================================================================
 function StrToCurrF(const S: string): Currency;
 
 implementation
 
+//==============================================================================
+//
+// StrDeFmt
+//
+//==============================================================================
 function StrDeFmt(Buffer, Format : PChar; Args : array of const) : integer;
 begin
   StrDeFmt := DeFormat_core(Buffer, Length(Buffer), Format, Length(Format), Args,
                           DecimalSeparator, ThousandSeparator);
 end;
 
+//==============================================================================
+//
+// DeFormat
+//
+//==============================================================================
 function DeFormat(const Str : string; const Format: string; Args : array of const) : integer;
 var
   Buf, Fmt : PChar;
@@ -51,6 +133,11 @@ begin
     DecimalSeparator, ThousandSeparator);
 end;
 
+//==============================================================================
+//
+// DeFormatBuf
+//
+//==============================================================================
 function DeFormatBuf(const Buffer; BufLen: Cardinal; const Format; FmtLen: Cardinal; const Args: array of const): integer;
 var
   Buf, Fmt : PChar;
@@ -60,17 +147,32 @@ begin
   DeFormatBuf := DeFormat_core(Buf, BufLen, Fmt, FmtLen, Args, DecimalSeparator, ThousandSeparator);
 end;
 
+//==============================================================================
+//
+// sscanf
+//
+//==============================================================================
 function sscanf;
 begin
   Sscanf := Scanf_core(Str, Format, Pointers);
   if (Result = 0) and (Str^=#0) then Result := scEOF; // C scanf would have done this...
 end;
 
+//==============================================================================
+//
+// fscanf
+//
+//==============================================================================
 function fscanf;
 begin
   fscanf := Scanf_stream(F, Format, Pointers);
 end;
 
+//==============================================================================
+//
+// TextToFloatS
+//
+//==============================================================================
 function TextToFloatS;
 var
   EsRes: integer;
@@ -112,18 +214,33 @@ begin
 {$ENDIF}
 end;
 
+//==============================================================================
+//
+// StrToCurrS
+//
+//==============================================================================
 function StrToCurrS;
 begin
   if not TextToFloatS(PChar(S), Result, fvCurrency) then
     raise EConvertError.CreateFmt(SInvalidFloat, [S]);
 end;
 
+//==============================================================================
+//
+// StrToFloatS
+//
+//==============================================================================
 function StrToFloatS;
 begin
   if not TextToFloatS(PChar(S), Result, fvExtended) then
     raise EConvertError.CreateFmt(SInvalidFloat, [S]);
 end;
 
+//==============================================================================
+//
+// StrToCurrF
+//
+//==============================================================================
 function StrToCurrF;
 var Buf : PChar;
 begin
@@ -138,16 +255,31 @@ type
     Lo, Hi: integer;
   end;
 
+//==============================================================================
+//
+// int64ToStr
+//
+//==============================================================================
 function int64ToStr;
 begin
   Result := IntToStr(C);
 end;
 
+//==============================================================================
+//
+// int64ToHex
+//
+//==============================================================================
 function int64ToHex;
 begin
   Result := IntToHex(C,1);
 end;
 
+//==============================================================================
+//
+// int64ToOct
+//
+//==============================================================================
 function int64ToOct;
 var
   Temp: String[23];

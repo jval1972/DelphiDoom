@@ -74,7 +74,6 @@ var
 const
   NUMCOLORMAPS = 32;
 
-
 type
 //
 // INTERNAL MAP TYPES
@@ -380,7 +379,6 @@ type
   polyobj_tArray = array[0..$FFFF] of polyobj_t;
   Ppolyobj_tArray = ^polyobj_tArray;
 
-
 type
   Ppolyblock_t = ^polyblock_t;
   polyblock_t = record
@@ -576,7 +574,6 @@ type
   Pspriteframe_t = ^spriteframe_t;
   spriteframe_tArray = packed array[0..$FFFF] of spriteframe_t;
   Pspriteframe_tArray = ^spriteframe_tArray;
-
 
 //
 // A sprite definition:

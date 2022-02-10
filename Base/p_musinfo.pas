@@ -36,6 +36,11 @@ interface
 uses
   p_mobj_h;
 
+//==============================================================================
+//
+// A_MusicChanger
+//
+//==============================================================================
 procedure A_MusicChanger(actor: Pmobj_t);
 
 const
@@ -47,8 +52,18 @@ const
   MUSICCHANGER_HI = 14164;
   MUSICCHANGER = 14165;
 
+//==============================================================================
+//
+// P_InitMusInfo
+//
+//==============================================================================
 procedure P_InitMusInfo;
 
+//==============================================================================
+//
+// P_FindMusinfoMusic
+//
+//==============================================================================
 function P_FindMusinfoMusic(const id: integer; const mapname: string): integer;
 
 implementation
@@ -75,6 +90,11 @@ const
 const
   MUSINFOTICS = 30;
 
+//==============================================================================
+//
+// A_MusicChanger
+//
+//==============================================================================
 procedure A_MusicChanger(actor: Pmobj_t);
 var
   countdown: integer;
@@ -164,6 +184,11 @@ var
   nummusinfo: integer = 0;
   musinfo: musinfo_tArray;
 
+//==============================================================================
+//
+// P_AddMusInfo
+//
+//==============================================================================
 procedure P_AddMusInfo(const mapname: string; const musid: integer; const musname: string);
 var
   i, idx: integer;
@@ -202,6 +227,11 @@ begin
   pm.musname := stringtochar8(strupper(musname));
 end;
 
+//==============================================================================
+//
+// P_InitMusInfo
+//
+//==============================================================================
 procedure P_InitMusInfo;
 var
   sc: TScriptEngine;
@@ -259,6 +289,11 @@ begin
   sc.Free;
 end;
 
+//==============================================================================
+//
+// P_FindMusinfoMusic
+//
+//==============================================================================
 function P_FindMusinfoMusic(const id: integer; const mapname: string): integer;
 var
   check: char8_t;

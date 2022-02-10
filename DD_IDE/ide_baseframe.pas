@@ -74,12 +74,22 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.GetData
+//
+//==============================================================================
 function TBaseEditorObject.GetData: string;
 begin
   FieldsToData(fdata);
   Result := fdata;
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.SetData
+//
+//==============================================================================
 procedure TBaseEditorObject.SetData(const adata: AnsiString);
 begin
   if fdata <> adata then
@@ -90,6 +100,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.LoadFromFile
+//
+//==============================================================================
 function TBaseEditorObject.LoadFromFile(const aname: AnsiString): Boolean;
 var
   f: TFileStream;
@@ -128,6 +143,11 @@ begin
       'Loading "%s"'#13#10, [ffilename]);
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.SaveToFile
+//
+//==============================================================================
 function TBaseEditorObject.SaveToFile(const aname: AnsiString): Boolean;
 var
   f: TFileStream;
@@ -153,6 +173,11 @@ begin
       'Saving "%s"'#13#10, [ffilename]);
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.DoLoadFromStream
+//
+//==============================================================================
 procedure TBaseEditorObject.DoLoadFromStream(s: TStream);
 var
   i, len: integer;
@@ -166,6 +191,11 @@ begin
   DoAdjustLayout;
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.DoSaveToStream
+//
+//==============================================================================
 procedure TBaseEditorObject.DoSaveToStream(s: TStream);
 var
   i, len: integer;
@@ -176,26 +206,51 @@ begin
     s.Write(fdata[i], 1);
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.CanUndo
+//
+//==============================================================================
 function TBaseEditorObject.CanUndo: boolean;
 begin
   Result := undoManager.CanUndo;
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.CanRedo
+//
+//==============================================================================
 function TBaseEditorObject.CanRedo: boolean;
 begin
   Result := undoManager.CanRedo;
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.Undo
+//
+//==============================================================================
 procedure TBaseEditorObject.Undo;
 begin
   undoManager.Undo;
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.Redo
+//
+//==============================================================================
 procedure TBaseEditorObject.Redo;
 begin
   undoManager.Redo;
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.DoAdjustLayout
+//
+//==============================================================================
 procedure TBaseEditorObject.DoAdjustLayout;
 begin
   if fEditor <> nil then
@@ -213,17 +268,32 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.AdjustLayout
+//
+//==============================================================================
 procedure TBaseEditorObject.AdjustLayout(const adata: AnsiString);
 begin
   SetData(adata);
   DoAdjustLayout;
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.SaveUndo
+//
+//==============================================================================
 procedure TBaseEditorObject.SaveUndo;
 begin
   undoManager.SaveUndo;
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.Edit
+//
+//==============================================================================
 procedure TBaseEditorObject.Edit(const aEditor: TFrame);
 begin
   fEditor := aEditor;
@@ -242,26 +312,51 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.DataToFields
+//
+//==============================================================================
 procedure TBaseEditorObject.DataToFields(const adata: AnsiString);
 begin
 
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.FieldsToData
+//
+//==============================================================================
 procedure TBaseEditorObject.FieldsToData(var adata: AnsiString);
 begin
 
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.ShortFileName
+//
+//==============================================================================
 function TBaseEditorObject.ShortFileName: string;
 begin
   Result := ExtractFileName(ffilename);
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.SetEditor
+//
+//==============================================================================
 procedure TBaseEditorObject.SetEditor(const ed: TFrame);
 begin
   Edit(ed);
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.GetModified
+//
+//==============================================================================
 function TBaseEditorObject.GetModified: boolean;
 begin
   Result := fmodified;

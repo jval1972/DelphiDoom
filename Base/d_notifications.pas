@@ -33,8 +33,18 @@ unit d_notifications;
 
 interface
 
+//==============================================================================
+//
+// D_NotifyVideoModeChange
+//
+//==============================================================================
 procedure D_NotifyVideoModeChange(const newwidth, newheight: integer);
 
+//==============================================================================
+//
+// D_RunNotifications
+//
+//==============================================================================
 procedure D_RunNotifications;
 
 implementation
@@ -52,6 +62,11 @@ var
   n_screenwidth: integer;
   n_screenheight: integer;
 
+//==============================================================================
+//
+// D_NotifyVideoModeChange
+//
+//==============================================================================
 procedure D_NotifyVideoModeChange(const newwidth, newheight: integer);
 begin
   n_changevideomode := true;
@@ -59,6 +74,11 @@ begin
   n_screenheight := newheight;
 end;
 
+//==============================================================================
+//
+// D_RunNotifications
+//
+//==============================================================================
 procedure D_RunNotifications;
 begin
   if n_changevideomode then

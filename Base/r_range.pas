@@ -46,6 +46,11 @@ type
   end;
   Pmidsiderange_t = ^midsiderange_t;
 
+//==============================================================================
+//
+// R_SubtractRange
+//
+//==============================================================================
 procedure R_SubtractRange(const floorheight1, ceilingheight1, lightlevel1: integer;
                           const floorheight2, ceilingheight2, lightlevel2: integer;
                           const r: Pmidsiderange_t; var totalclip: boolean);
@@ -56,8 +61,13 @@ uses
   d_delphi,
   r_column; // JVAL: Mars fog sectors
 
+//==============================================================================
+// R_SubtractRange
+//
 // Subtract range ceil2 - floor2 from range ceil1 - floor1
 // Note floor is greater from ceiling :)
+//
+//==============================================================================
 procedure R_SubtractRange(const floorheight1, ceilingheight1, lightlevel1: integer;
                           const floorheight2, ceilingheight2, lightlevel2: integer;
                           const r: Pmidsiderange_t; var totalclip: boolean);

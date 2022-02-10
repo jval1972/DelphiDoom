@@ -40,11 +40,19 @@ uses
   p_mobj_h,
   r_defs;
 
+//==============================================================================
+// P_Teleport
 //
 // TELEPORTATION
 //
+//==============================================================================
 function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; useFog: boolean; floorz, ceilingz: fixed_t): boolean;
 
+//==============================================================================
+//
+// EVH_Teleport
+//
+//==============================================================================
 function EVH_Teleport(tid: integer; thing: Pmobj_t; fog: boolean): boolean;
 
 const
@@ -64,6 +72,11 @@ uses
   sounddata,
   doomdef;
 
+//==============================================================================
+//
+// P_Teleport
+//
+//==============================================================================
 function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; useFog: boolean; floorz, ceilingz: fixed_t): boolean;
 var
   oldx: fixed_t;
@@ -165,10 +178,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // EVH_Teleport
 //
-
+//==============================================================================
 function EVH_Teleport(tid: integer; thing: Pmobj_t; fog: boolean): boolean;
 var
   i: integer;

@@ -43,12 +43,32 @@ uses
 var
   activeceilings: array[0..MAXCEILINGS - 1] of Pceiling_t;
 
+//==============================================================================
+//
+// TH_MoveCeiling
+//
+//==============================================================================
 procedure TH_MoveCeiling(ceiling: Pceiling_t);
 
+//==============================================================================
+//
+// EVH_DoCeiling
+//
+//==============================================================================
 function EVH_DoCeiling(line: Pline_t; args: PByteArray; _type: ceiling_e): boolean;
 
+//==============================================================================
+//
+// P_AddActiveCeiling
+//
+//==============================================================================
 procedure P_AddActiveCeiling(c: Pceiling_t);
 
+//==============================================================================
+//
+// EVH_CeilingCrushStop
+//
+//==============================================================================
 function EVH_CeilingCrushStop(line: Pline_t; args: PByteArray): boolean;
 
 implementation
@@ -64,9 +84,12 @@ uses
   p_floor,
   s_sndseq;
 
+//==============================================================================
+// P_AddActiveCeiling
 //
 // Add an active ceiling
 //
+//==============================================================================
 procedure P_AddActiveCeiling(c: Pceiling_t);
 var
   i: integer;
@@ -80,9 +103,12 @@ begin
   I_Warning('P_AddActiveCeiling(): Can not add ceiling, limit %d reached'#13#10, [MAXCEILINGS]);
 end;
 
+//==============================================================================
+// P_RemoveActiveCeiling
 //
 // Remove a ceiling's thinker
 //
+//==============================================================================
 procedure P_RemoveActiveCeiling(c: Pceiling_t);
 var
   i: integer;
@@ -98,10 +124,11 @@ begin
     end;
 end;
 
+//==============================================================================
 //
 // TH_MoveCeiling
 //
-
+//==============================================================================
 procedure TH_MoveCeiling(ceiling: Pceiling_t);
 var
   res: result_e;
@@ -157,10 +184,12 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EVH_DoCeiling
 // Move a ceiling up/down and all around!
 //
+//==============================================================================
 function EVH_DoCeiling(line: Pline_t; args: PByteArray; _type: ceiling_e): boolean;
 var
   initial: boolean;
@@ -268,10 +297,12 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // EVH_CeilingCrushStop
 // Stop a ceiling from crushing!
 //
+//==============================================================================
 function EVH_CeilingCrushStop(line: Pline_t; args: PByteArray): boolean;
 var
   i: integer;

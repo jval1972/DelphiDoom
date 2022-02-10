@@ -33,6 +33,11 @@ unit r_flat32_ripple;
 
 interface
 
+//==============================================================================
+//
+// R_DrawSpanNormal_RippleMT
+//
+//==============================================================================
 procedure R_DrawSpanNormal_RippleMT(const fi: pointer);
 
 implementation
@@ -49,6 +54,11 @@ uses
   r_span32,
   r_flat32;
 
+//==============================================================================
+//
+// R_DrawSpanNormal_RippleMT
+//
+//==============================================================================
 procedure R_DrawSpanNormal_RippleMT(const fi: pointer);
 var
   ds_source32: PLongWordArray;
@@ -112,7 +122,6 @@ begin
     {$I R_DrawSpanNormal.inc}
   end;
 end;
-
 
 end.
 

@@ -55,6 +55,11 @@ begin
   SetFileExt('.MATERIAL');
 end;
 
+//==============================================================================
+//
+// TMaterialTextureManager.LoadHeader
+//
+//==============================================================================
 function TMaterialTextureManager.LoadHeader(stream: TDStream): boolean;
 var
   s: TDStringList;
@@ -90,6 +95,11 @@ begin
   FBitmap^.SetHeight(tex1.GetHeight);
 end;
 
+//==============================================================================
+//
+// TMaterialTextureManager.LoadImage
+//
+//==============================================================================
 function TMaterialTextureManager.LoadImage(stream: TDStream): boolean;
 begin
   memcpy(FBitmap.GetImage, tex1.GetImage, tex1.GetWidth * tex1.GetHeight * 4);

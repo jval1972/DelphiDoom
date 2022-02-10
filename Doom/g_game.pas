@@ -39,64 +39,184 @@ uses
   d_ticcmd,
   p_umapinfo;
 
+//==============================================================================
+// G_DeathMatchSpawnPlayer
 //
 // GAME
 //
-
+//==============================================================================
 procedure G_DeathMatchSpawnPlayer(playernum: integer);
 
+//==============================================================================
+//
+// G_InitNew
+//
+//==============================================================================
 procedure G_InitNew(skill: skill_t; episode: integer; map: integer);
 
+//==============================================================================
+// G_DeferedInitNew
+//
 // Can be called by the startup code or M_Responder.
 // A normal game starts at map 1,
 // but a warp test can start elsewhere
+//
+//==============================================================================
 procedure G_DeferedInitNew(skill: skill_t; episode: integer; map: integer);
 
+//==============================================================================
+//
+// G_CmdNewGame
+//
+//==============================================================================
 procedure G_CmdNewGame(const parm1, parm2: string);
 
+//==============================================================================
+//
+// G_CmdTestMap
+//
+//==============================================================================
 procedure G_CmdTestMap;
 
+//==============================================================================
+//
+// G_DeferedPlayDemo
+//
+//==============================================================================
 function G_DeferedPlayDemo(const name: string): boolean;
 
+//==============================================================================
+//
+// G_CmdPlayDemo
+//
+//==============================================================================
 procedure G_CmdPlayDemo(const name: string);
 
 { Can be called by the startup code or M_Responder, }
 { calls P_SetupLevel or W_EnterWorld. }
+
+//==============================================================================
+//
+// G_LoadGame
+//
+//==============================================================================
 procedure G_LoadGame(const name: string);
 
+//==============================================================================
+//
+// G_DoLoadGame
+//
+//==============================================================================
 procedure G_DoLoadGame;
 
 { Called by M_Responder. }
+
+//==============================================================================
+//
+// G_SaveGame
+//
+//==============================================================================
 procedure G_SaveGame(slot: integer; const description: string);
 
+//==============================================================================
+//
+// G_CmdSaveGame
+//
+//==============================================================================
 procedure G_CmdSaveGame(const sname: string; const description: string);
 
 { Only called by startup code. }
+
+//==============================================================================
+//
+// G_RecordDemo
+//
+//==============================================================================
 procedure G_RecordDemo(const name: string);
 
+//==============================================================================
+//
+// G_BeginRecording
+//
+//==============================================================================
 procedure G_BeginRecording;
 
+//==============================================================================
+//
+// G_TimeDemo
+//
+//==============================================================================
 procedure G_TimeDemo(const name: string);
 
+//==============================================================================
+//
+// G_CheckDemoStatus
+//
+//==============================================================================
 function G_CheckDemoStatus: boolean;
 
+//==============================================================================
+//
+// G_ExitLevel
+//
+//==============================================================================
 procedure G_ExitLevel;
 
+//==============================================================================
+//
+// G_SecretExitLevel
+//
+//==============================================================================
 procedure G_SecretExitLevel;
 
+//==============================================================================
+//
+// G_WorldDone
+//
+//==============================================================================
 procedure G_WorldDone;
 
+//==============================================================================
+//
+// G_Ticker
+//
+//==============================================================================
 procedure G_Ticker;
 
+//==============================================================================
+//
+// G_Responder
+//
+//==============================================================================
 function G_Responder(ev: Pevent_t): boolean;
 
+//==============================================================================
+//
+// G_ScreenShot
+//
+//==============================================================================
 procedure G_ScreenShot;
 
+//==============================================================================
+//
+// G_IsOldDemoPlaying
+//
+//==============================================================================
 function G_IsOldDemoPlaying: boolean;
 
+//==============================================================================
+//
+// G_Quit
+//
+//==============================================================================
 procedure G_Quit;
 
+//==============================================================================
+// G_DemoProgress
+//
 // 19/9/2009 JVAL: For drawing demo progress
+//
+//==============================================================================
 function G_DemoProgress: fixed_t;
 
 var
@@ -203,10 +323,25 @@ var
 
   usergame: boolean; // ok to save / end game
 
+//==============================================================================
+//
+// G_SetKeyboardMode
+//
+//==============================================================================
 procedure G_SetKeyboardMode(const mode: integer);
 
+//==============================================================================
+//
+// G_PlayerReborn
+//
+//==============================================================================
 procedure G_PlayerReborn(player: integer);
 
+//==============================================================================
+//
+// G_BuildTiccmd
+//
+//==============================================================================
 procedure G_BuildTiccmd(cmd: Pticcmd_t);
 
 var
@@ -217,12 +352,32 @@ var
   sidemove: array[0..1] of shortint;
   angleturn: array[0..2] of smallint;
 
+//==============================================================================
+//
+// G_NeedsCompatibilityMode
+//
+//==============================================================================
 function G_NeedsCompatibilityMode: boolean;
 
+//==============================================================================
+//
+// G_PlayingEngineVersion
+//
+//==============================================================================
 function G_PlayingEngineVersion: integer;
 
+//==============================================================================
+//
+// G_LookupMapinfo
+//
+//==============================================================================
 function G_LookupMapinfo(const episode, map: integer): Pmapentry_t;
 
+//==============================================================================
+//
+// G_ValidateMapName
+//
+//==============================================================================
 function G_ValidateMapName(const amap: string; const pepi, pmapnum: PInteger): boolean;
 
 var
@@ -338,18 +493,74 @@ uses
   r_intrpl,
   tables;
 
+//==============================================================================
+//
+// G_ReadDemoTiccmd
+//
+//==============================================================================
 procedure G_ReadDemoTiccmd(cmd: Pticcmd_t); forward;
+
+//==============================================================================
+//
+// G_WriteDemoTiccmd
+//
+//==============================================================================
 procedure G_WriteDemoTiccmd(cmd: Pticcmd_t); forward;
 
+//==============================================================================
+//
+// G_DoReborn
+//
+//==============================================================================
 procedure G_DoReborn(playernum: integer); forward;
 
+//==============================================================================
+//
+// G_DoLoadLevel
+//
+//==============================================================================
 procedure G_DoLoadLevel; forward;
+
+//==============================================================================
+//
+// G_DoNewGame
+//
+//==============================================================================
 procedure G_DoNewGame; forward;
+
+//==============================================================================
+//
+// G_DoPlayDemo
+//
+//==============================================================================
 procedure G_DoPlayDemo; forward;
+
+//==============================================================================
+//
+// G_DoCompleted
+//
+//==============================================================================
 procedure G_DoCompleted; forward;
+
+//==============================================================================
+//
+// G_DoWorldDone
+//
+//==============================================================================
 procedure G_DoWorldDone; forward;
+
+//==============================================================================
+//
+// G_DoSaveGame
+//
+//==============================================================================
 procedure G_DoSaveGame; forward;
 
+//==============================================================================
+//
+// G_FinishedDemoPlayback
+//
+//==============================================================================
 procedure G_FinishedDemoPlayback;
 begin
   demoplayback := false;
@@ -378,6 +589,11 @@ var
 const
   TURBOTHRESHOLD = $32;
 
+//==============================================================================
+//
+// MAXPLMOVE
+//
+//==============================================================================
 function MAXPLMOVE: fixed_t;
 begin
   result := forwardmove[1];
@@ -419,6 +635,11 @@ const
 var
   bodyque: array[0..BODYQUESIZE - 1] of Pmobj_t;
 
+//==============================================================================
+//
+// G_CmdChecksum
+//
+//==============================================================================
 function G_CmdChecksum(cmd: Pticcmd_t): integer;
 var
   i: integer;
@@ -428,12 +649,14 @@ begin
     result := result + PIntegerArray(cmd)[i];
 end;
 
+//==============================================================================
 //
 // G_BuildTiccmd
 // Builds a ticcmd from all of the available inputs
 // or reads it from the demo buffer.
 // If recording a demo, write it out
 //
+//==============================================================================
 procedure G_BuildTiccmd(cmd: Pticcmd_t);
 var
   i: integer;
@@ -794,6 +1017,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// G_BuildTiccmd202
+//
+//==============================================================================
 procedure G_BuildTiccmd202(cmd: Pticcmd_t202);
 var
   i: integer;
@@ -1100,9 +1328,11 @@ begin
 
 end;
 
+//==============================================================================
 //
 // G_DoLoadLevel
 //
+//==============================================================================
 procedure G_DoLoadLevel;
 var
   i: integer;
@@ -1196,10 +1426,12 @@ begin
   ZeroMemory(joybuttons, SizeOf(joybuttons));
 end;
 
+//==============================================================================
 //
 // G_Responder
 // Get info needed to make ticcmd_ts for the players.
 //
+//==============================================================================
 function G_Responder(ev: Pevent_t): boolean;
 var
   bmask: integer;
@@ -1347,10 +1579,12 @@ begin
   result := false;
 end;
 
+//==============================================================================
 //
 // G_Ticker
 // Make ticcmd_ts for the players.
 //
+//==============================================================================
 procedure G_Ticker;
 var
   i: integer;
@@ -1494,15 +1728,15 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // PLAYER STRUCTURE FUNCTIONS
 // also see P_SpawnPlayer in P_Things
 //
-
-//
 // G_PlayerFinishLevel
 // Can when a player completes a level.
 //
+//==============================================================================
 procedure G_PlayerFinishLevel(p: Pplayer_t);
 begin
   ZeroMemory(@p.powers, SizeOf(p.powers));
@@ -1520,6 +1754,11 @@ begin
   p.bonuscount := 0;
 end;
 
+//==============================================================================
+//
+// G_SetKeyboardMode
+//
+//==============================================================================
 procedure G_SetKeyboardMode(const mode: integer);
 begin
   if mode = 0 then
@@ -1584,11 +1823,13 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 // G_PlayerReborn
 // Called after a player dies
 // almost everything is cleared and initialized
 //
+//==============================================================================
 procedure G_PlayerReborn(player: integer);
 var
   p: Pplayer_t;
@@ -1634,12 +1875,14 @@ begin
     p.maxammo[i] := maxammo[i];
 end;
 
+//==============================================================================
 //
 // G_CheckSpot
 // Returns false if the player cannot be respawned
 // at the given mapthing_t spot
 // because something is occupying it
 //
+//==============================================================================
 function G_CheckSpot(playernum: integer; mthing: Pmapthing_t): boolean;
 var
   x: fixed_t;
@@ -1709,11 +1952,13 @@ begin
   result := true;
 end;
 
+//==============================================================================
 //
 // G_DeathMatchSpawnPlayer
 // Spawns a player at one of the random death match spots
 // called at level load and each death
 //
+//==============================================================================
 procedure G_DeathMatchSpawnPlayer(playernum: integer);
 var
   i, j: integer;
@@ -1741,9 +1986,11 @@ begin
   P_SpawnPlayer(@playerstarts[playernum], @udeathmatchstarts[playernum]);
 end;
 
+//==============================================================================
 //
 // G_DoReborn
 //
+//==============================================================================
 procedure G_DoReborn(playernum: integer);
 var
   i: integer;
@@ -1787,21 +2034,34 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// G_ScreenShot
+//
+//==============================================================================
 procedure G_ScreenShot;
 begin
   gameaction := ga_screenshot;
 end;
 
+//==============================================================================
+// G_ExitLevel
 //
 // G_DoCompleted
 //
+//==============================================================================
 procedure G_ExitLevel;
 begin
   secretexit := false;
   gameaction := ga_completed;
 end;
 
+//==============================================================================
+// G_SecretExitLevel
+//
 // Here's for the german edition.
+//
+//==============================================================================
 procedure G_SecretExitLevel;
 begin
   // IF NO WOLF3D LEVELS, NO SECRET EXIT!
@@ -1812,6 +2072,11 @@ begin
   gameaction := ga_completed;
 end;
 
+//==============================================================================
+//
+// G_DoCompleted
+//
+//==============================================================================
 procedure G_DoCompleted;
 var
   i: integer;
@@ -1972,9 +2237,11 @@ frommapinfo:
   WI_Start(@wminfo);
 end;
 
+//==============================================================================
 //
 // G_WorldDone
 //
+//==============================================================================
 procedure G_WorldDone;
 begin
   gameaction := ga_worlddone;
@@ -2019,6 +2286,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// G_DoWorldDone
+//
+//==============================================================================
 procedure G_DoWorldDone;
 begin
   gamestate := GS_LEVEL;
@@ -2030,6 +2302,11 @@ begin
   viewactive := true;
 end;
 
+//==============================================================================
+//
+// G_GetSaveName
+//
+//==============================================================================
 function G_GetSaveName(name: string): string;
 var
   i: integer;
@@ -2057,12 +2334,22 @@ end;
 var
   savename: string;
 
+//==============================================================================
+//
+// G_LoadGame
+//
+//==============================================================================
 procedure G_LoadGame(const name: string);
 begin
   savename := name;
   gameaction := ga_loadgame;
 end;
 
+//==============================================================================
+//
+// G_DoLoadGame
+//
+//==============================================================================
 procedure G_DoLoadGame;
 var
   len: integer;
@@ -2206,11 +2493,13 @@ begin
 {$ENDIF}
 end;
 
+//==============================================================================
 //
 // G_SaveGame
 // Called by the menu task.
 // Description is a 24 byte text string
 //
+//==============================================================================
 procedure G_SaveGame(slot: integer; const description: string);
 begin
   savegameslot := slot;
@@ -2218,6 +2507,11 @@ begin
   sendsave := true;
 end;
 
+//==============================================================================
+//
+// G_DoSaveGameInFile
+//
+//==============================================================================
 procedure G_DoSaveGameInFile(name: string);
 var
   name2: string;
@@ -2338,6 +2632,11 @@ begin
 {$ENDIF}
 end;
 
+//==============================================================================
+//
+// G_DoSaveGame
+//
+//==============================================================================
 procedure G_DoSaveGame;
 var
   name: string;
@@ -2353,6 +2652,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// G_CmdSaveGame
+//
+//==============================================================================
 procedure G_CmdSaveGame(const sname: string; const description: string);
 begin
   if not usergame or (gamestate <> GS_LEVEL) then
@@ -2384,6 +2688,11 @@ var
   d_episode: integer;
   d_map: integer;
 
+//==============================================================================
+//
+// G_DeferedInitNew
+//
+//==============================================================================
 procedure G_DeferedInitNew(skill: skill_t; episode, map: integer);
 begin
   d_skill := skill;
@@ -2392,6 +2701,11 @@ begin
   gameaction := ga_newgame;
 end;
 
+//==============================================================================
+//
+// G_CmdNewGame
+//
+//==============================================================================
 procedure G_CmdNewGame(const parm1, parm2: string);
 var
   epsd, map: integer;
@@ -2439,6 +2753,11 @@ begin
     I_Warning('G_CmdNewGame(): Can not load map.'#13#10);
 end;
 
+//==============================================================================
+//
+// G_CmdTestMap
+//
+//==============================================================================
 procedure G_CmdTestMap;
 var
   epsd, map: integer;
@@ -2470,6 +2789,11 @@ begin
     I_Warning('G_CmdNewGame(): Can not load map.'#13#10);
 end;
 
+//==============================================================================
+//
+// G_DoNewGame
+//
+//==============================================================================
 procedure G_DoNewGame;
 var
   i: integer;
@@ -2488,6 +2812,11 @@ begin
   gameaction := ga_nothing;
 end;
 
+//==============================================================================
+//
+// G_InitNew
+//
+//==============================================================================
 procedure G_InitNew(skill: skill_t; episode, map: integer);
 var
   i: integer;
@@ -2589,7 +2918,6 @@ begin
         mobjinfo[i].speed := mobjinfo[i].normalspeed;
   end;
 
-
   // force players to be initialized upon first level load
   for i := 0 to MAXPLAYERS - 1 do
     players[i].playerstate := PST_REBORN;
@@ -2619,9 +2947,12 @@ const
 var
   compatibility_done: boolean;
 
+//==============================================================================
+// G_SafeCompatibilityDemo
 //
 // Old game versions compatibility
 //
+//==============================================================================
 procedure G_SafeCompatibilityDemo;
 var
   i: integer;
@@ -2648,6 +2979,11 @@ end;
 var
   demoversion: byte;
 
+//==============================================================================
+//
+// G_ReadDemoTiccmd
+//
+//==============================================================================
 procedure G_ReadDemoTiccmd(cmd: Pticcmd_t);
 begin
   if demo_p[0] = DEMOMARKER then
@@ -2708,10 +3044,14 @@ begin
   end;
 end;
 
+//==============================================================================
+// G_IncreaseDemoBuffer
 //
 // DEMO RECORDING
 //
 // Increase the size of the demo buffer to allow unlimited demos
+//
+//==============================================================================
 procedure G_IncreaseDemoBuffer;
 var
   current_length: integer;
@@ -2745,9 +3085,12 @@ begin
   demoend := @demobuffer[new_length];
 end;
 
+//==============================================================================
+// G_WriteDemoTiccmd
 //
 // DEMO RECORDING
 //
+//==============================================================================
 procedure G_WriteDemoTiccmd(cmd: Pticcmd_t);
 var
   demo_start: PByteArray;
@@ -2789,9 +3132,11 @@ begin
   G_ReadDemoTiccmd(cmd);  // make SURE it is exactly the same
 end;
 
+//==============================================================================
 //
 // G_RecordDemo
 //
+//==============================================================================
 procedure G_RecordDemo(const name: string);
 var
   i: integer;
@@ -2823,6 +3168,11 @@ end;
 const
   DEMOHDR: integer = $4F4D4544; // JVAL: DEMO in hex
 
+//==============================================================================
+//
+// G_BeginRecording
+//
+//==============================================================================
 procedure G_BeginRecording;
 var
   i: integer;
@@ -2891,6 +3241,11 @@ var
   defdemoname: string;
   externaldemo: boolean = false;
 
+//==============================================================================
+//
+// G_DoPlayExternalDemo
+//
+//==============================================================================
 function G_DoPlayExternalDemo(const name: string): boolean;
 var
   dmname: string;
@@ -2911,6 +3266,11 @@ begin
   result := false;
 end;
 
+//==============================================================================
+//
+// G_DeferedPlayDemo
+//
+//==============================================================================
 function G_DeferedPlayDemo(const name: string): boolean;
 var
   dmname: string;
@@ -2967,6 +3327,11 @@ begin
   result := false;
 end;
 
+//==============================================================================
+//
+// G_CmdPlayDemo
+//
+//==============================================================================
 procedure G_CmdPlayDemo(const name: string);
 begin
   if G_DeferedPlayDemo(name) then
@@ -2976,6 +3341,11 @@ end;
 var
   demotickstart: pointer = nil;
 
+//==============================================================================
+//
+// G_DoPlayDemo
+//
+//==============================================================================
 procedure G_DoPlayDemo;
 var
   skill: skill_t;
@@ -3132,7 +3502,12 @@ begin
   compatibility_done := false;
 end;
 
+//==============================================================================
+// G_DemoProgress
+//
 // 19/9/2009 JVAL: For drawing demo progress
+//
+//==============================================================================
 function G_DemoProgress: fixed_t;
 begin
   result := round((integer(demo_p) - integer(demotickstart)) / (integer(demoend) - integer(demotickstart)) * FRACUNIT);
@@ -3142,9 +3517,11 @@ begin
     result := 0;
 end;
 
+//==============================================================================
 //
 // G_TimeDemo
 //
+//==============================================================================
 procedure G_TimeDemo(const name: string);
 begin
   timingdemo := true;
@@ -3164,6 +3541,11 @@ end;
 ===================
 *)
 
+//==============================================================================
+//
+// G_CheckDemoStatus
+//
+//==============================================================================
 function G_CheckDemoStatus: boolean;
 var
   realtics: integer;
@@ -3215,16 +3597,31 @@ begin
   result := false;
 end;
 
+//==============================================================================
+//
+// G_IsOldDemoPlaying
+//
+//==============================================================================
 function G_IsOldDemoPlaying: boolean;
 begin
   result := (preparingdemoplayback or demoplayback) and olddemo;
 end;
 
+//==============================================================================
+//
+// G_NeedsCompatibilityMode
+//
+//==============================================================================
 function G_NeedsCompatibilityMode: boolean;
 begin
   result := compatibilitymode or ((preparingdemoplayback or demoplayback) and olddemo) or forcecompatibilitymode;
 end;
 
+//==============================================================================
+//
+// G_PlayingEngineVersion
+//
+//==============================================================================
 function G_PlayingEngineVersion: integer;
 begin
   if demoplayback or preparingdemoplayback then
@@ -3233,6 +3630,11 @@ begin
     result := VERSION;
 end;
 
+//==============================================================================
+//
+// G_Quit
+//
+//==============================================================================
 procedure G_Quit;
 begin
   if displayendscreen then
@@ -3246,6 +3648,11 @@ begin
     I_Quit;
 end;
 
+//==============================================================================
+//
+// G_LookupMapinfo
+//
+//==============================================================================
 function G_LookupMapinfo(const episode, map: integer): Pmapentry_t;
 var
   lumpname: string;
@@ -3273,6 +3680,11 @@ begin
   result := nil;
 end;
 
+//==============================================================================
+//
+// G_ValidateMapName
+//
+//==============================================================================
 function G_ValidateMapName(const amap: string; const pepi, pmapnum: PInteger): boolean;
 var
   epi, mapnum: integer;
@@ -3330,7 +3742,6 @@ initialization
   mousebuttons := PBooleanArray(@mousearray[0]);
   joybuttons := PBooleanArray(@joyarray[0]);
 
-
   ZeroMemory(@pars, SizeOf(pars));
 
   pars[1, 1] := 30;
@@ -3362,7 +3773,6 @@ initialization
   pars[3, 7] := 165;
   pars[3, 8] := 30;
   pars[3, 9] := 135;
-
 
   ZeroMemory(@cpars, SizeOf(cpars));
 

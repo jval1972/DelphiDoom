@@ -31,10 +31,20 @@ unit p_terrain;
 
 interface
 
+//==============================================================================
+//
+// P_TerrainTypeForName
+//
+//==============================================================================
 function P_TerrainTypeForName(flatname: string): integer;
 
 {function P_TerrainTypeForNum(flatnum: integer): integer;
 
+//==============================================================================
+//
+// P_InitTerrainTypes
+//
+//==============================================================================
 procedure P_InitTerrainTypes;}
 
 implementation
@@ -62,7 +72,11 @@ var
     (name: 'END'; lump: -1; _type: -1)
   );
 
-
+//==============================================================================
+//
+// P_TerrainTypeForName
+//
+//==============================================================================
 function P_TerrainTypeForName(flatname: string): integer;
 var
   i: integer;
@@ -81,6 +95,12 @@ begin
   result := 0;
 end;
 {
+
+//==============================================================================
+//
+// P_TerrainTypeForNum
+//
+//==============================================================================
 function P_TerrainTypeForNum(flatnum: integer): integer;
 var
   i: integer;
@@ -105,7 +125,8 @@ end;
 // PROC P_InitTerrainTypes
 //
 //----------------------------------------------------------------------------
-
+//
+//==============================================================================
 procedure P_InitTerrainTypes;
 var
   i: integer;

@@ -51,8 +51,6 @@ unit mp3_L3Tables;
 
 interface
 
-
-
 const
   slen: array[0..1, 0..15] of Integer = (
     (0, 0, 0, 0, 3, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4),

@@ -120,6 +120,11 @@ var
   gsReplaceText: string;
   gsReplaceTextHistory: string;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.AdjustLayout
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.AdjustLayout(const adata: AnsiString);
 var
   it: TIDEProjectItem;
@@ -267,6 +272,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.GoToLineNumber
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.GoToLineNumber;
 begin
   with TfrmGotoLine.Create(self) do
@@ -285,11 +295,21 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.Timer1Timer
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.Timer1Timer(Sender: TObject);
 begin
   UpdateControls;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.UpdateControls
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.UpdateControls;
 begin
   fEventsList.Text := '';
@@ -334,6 +354,11 @@ begin
     SynEdit1.Highlighter := nil;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.CloseButton1Click
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.CloseButton1Click(Sender: TObject);
 begin
   if Parent <> nil then
@@ -341,6 +366,11 @@ begin
       (Parent as TTabSheet).Enabled := False;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.OnEditorChange
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.OnEditorChange(Sender: TObject);
 var
   sw: WideString;
@@ -355,6 +385,11 @@ begin
         end;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.ShowSearchReplaceDialog
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.ShowSearchReplaceDialog(AReplace: boolean);
 var
   dlg: TTextSearchDialog;
@@ -416,6 +451,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.DoSearchReplaceText
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.DoSearchReplaceText(AReplace: boolean; ABackwards: boolean);
 var
   Options: TSynSearchOptions;
@@ -453,11 +493,21 @@ begin
     ConfirmReplaceDialog.Free;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.ShowSearchDialog
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.ShowSearchDialog;
 begin
   ShowSearchReplaceDialog(False);
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.SearchAgain
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.SearchAgain;
 var
   Options: TSynSearchOptions;
@@ -496,16 +546,31 @@ begin
     ConfirmReplaceDialog.Free;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.ShowReplaceDialog
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.ShowReplaceDialog;
 begin
   ShowSearchReplaceDialog(True);
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.CompileButton1Click
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.CompileButton1Click(Sender: TObject);
 begin
   CompileCmd(False);
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.CompileCmd
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.CompileCmd(const dosave: Boolean);
 var
   it: TIDEProjectItem;
@@ -581,6 +646,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.SavePCodeCmd
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.SavePCodeCmd(const pcode: string);
 var
   i: integer;
@@ -605,6 +675,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.SaveButton1Click
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.SaveButton1Click(Sender: TObject);
 var
   it: TIDEProjectItem;
@@ -623,6 +698,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.PrintButton1Click
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.PrintButton1Click(Sender: TObject);
 var
   it: TIDEProjectItem;
@@ -640,6 +720,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.PrintPreviewButton1Click
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.PrintPreviewButton1Click(Sender: TObject);
 var
   it: TIDEProjectItem;
@@ -656,6 +741,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.PageSetupButton1Click
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.PageSetupButton1Click(Sender: TObject);
 begin
   PageSetupDlg.SetValues(SynEditPrint);
@@ -663,6 +753,11 @@ begin
     PageSetupDlg.GetValues(SynEditPrint);
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.scpParamsExecute
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.scpParamsExecute(Kind: SynCompletionType; Sender: TObject;
   var AString: UnicodeString; var x, y: Integer; var CanExecute: Boolean);
 var
@@ -755,6 +850,11 @@ begin
     TSynCompletionProposal(Sender).ItemList.Clear;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.GenerateParameterHintList
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.GenerateParameterHintList(const gamestr: string);
 var
   i, j, k: integer;
@@ -865,11 +965,21 @@ begin
   FreeStringList(units);
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.CompileAndSaveButton1Click
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.CompileAndSaveButton1Click(Sender: TObject);
 begin
   CompileCmd(True);
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.EventsSpeedButtonClick
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.EventsSpeedButtonClick(Sender: TObject);
 var
   p: TPoint;
@@ -880,6 +990,11 @@ begin
   EventsSpeedButton.Down := False;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.UpdateEventsMenuItems
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.UpdateEventsMenuItems;
 var
   i: integer;
@@ -903,6 +1018,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.OnEventsPopupMenuClick
+//
+//==============================================================================
 procedure TFrame_ScriptEditor.OnEventsPopupMenuClick(Sender: TObject);
 var
   mitem: TMenuItem;

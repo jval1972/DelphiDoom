@@ -37,10 +37,25 @@ uses
   r_defs,
   r_visplanes;
 
+//==============================================================================
+//
+// R_StoreSlopeRange
+//
+//==============================================================================
 procedure R_StoreSlopeRange(const start: integer; const stop: integer);
 
+//==============================================================================
+//
+// R_VisSlopesFromSubsector
+//
+//==============================================================================
 procedure R_VisSlopesFromSubsector(const ssector: Psubsector_t);
 
+//==============================================================================
+//
+// R_DoDrawSlope
+//
+//==============================================================================
 procedure R_DoDrawSlope(const pl: Pvisplane_t);
 
 const
@@ -55,10 +70,25 @@ var
   floorslope: Pvisslope_t;
   ceilingslope: Pvisslope_t;
 
+//==============================================================================
+//
+// R_DrawSlopeMedium
+//
+//==============================================================================
 procedure R_DrawSlopeMedium;
 
+//==============================================================================
+//
+// R_DrawSlopeMedium_Ripple
+//
+//==============================================================================
 procedure R_DrawSlopeMedium_Ripple;
 
+//==============================================================================
+//
+// R_ClearVisSlopes
+//
+//==============================================================================
 procedure R_ClearVisSlopes;
 
 var
@@ -99,9 +129,12 @@ uses
   tables,
   z_zone;
 
+//==============================================================================
+// R_DrawSlopeMedium
 //
 // Draws the actual span (Medium resolution).
 //
+//==============================================================================
 procedure R_DrawSlopeMedium;
 var
   xfrac: fixed_t;
@@ -122,6 +155,11 @@ begin
   {$I R_DrawSlopeMedium.inc}
 end;
 
+//==============================================================================
+//
+// R_DrawSlopeMedium_Ripple
+//
+//==============================================================================
 procedure R_DrawSlopeMedium_Ripple;
 var
   xfrac: fixed_t;
@@ -145,6 +183,11 @@ begin
   {$I R_DrawSlopeMedium.inc}
 end;
 
+//==============================================================================
+//
+// R_NewVisSlope
+//
+//==============================================================================
 function R_NewVisSlope: Pvisslope_t;
 begin
   // JVAL: Do not overflow and crash - Unneeded (?) we'll have a visplane overflow before
@@ -182,6 +225,11 @@ begin
   inc(lastvisslope);
 end;
 
+//==============================================================================
+//
+// R_ClearVisSlopes
+//
+//==============================================================================
 procedure R_ClearVisSlopes;
 var
   i: integer;
@@ -196,6 +244,11 @@ begin
   maxvisslope := -1;
 end;
 
+//==============================================================================
+//
+// R_FindExistingVisSlope
+//
+//==============================================================================
 function R_FindExistingVisSlope(const sectorID: Integer; const virtualfloor: Boolean): Pvisslope_t;
 var
   sec: Psector_t;
@@ -223,6 +276,11 @@ begin
   Result := nil;
 end;
 
+//==============================================================================
+//
+// R_FindVisSlope
+//
+//==============================================================================
 function R_FindVisSlope(const sectorID: Integer; const virtualfloor: Boolean): Pvisslope_t;
 begin
   Result := R_FindExistingVisSlope(sectorID, virtualfloor);
@@ -244,11 +302,13 @@ end;
 var
   visslope: Pvisslope_t;
 
+//==============================================================================
 //
 //  R_MapSlopePerPixelLight
 //  Slow, but accurate light
 //  Light calculated in every pixel
 //
+//==============================================================================
 procedure R_MapSlopePerPixelLight(const y: integer; const x1, x2: integer);
 var
   angle: angle_t;
@@ -377,15 +437,16 @@ begin
 
 end;
 
-
 const
   SLOPESRECALCSTEP = 16;
 
+//==============================================================================
 //
 //  R_MapSlope
 //  Fast, but not accurate light
 //  Light calculated after SLOPESRECALCSTEP pixels and in start and stop pixels
 //
+//==============================================================================
 procedure R_MapSlope(const y: integer; const x1, x2: integer);
 var
   angle: angle_t;
@@ -554,6 +615,11 @@ end;
 const
   ANGLESLOPESRECALCSTEP = 8;
 
+//==============================================================================
+//
+// R_MapSlopeAngle
+//
+//==============================================================================
 procedure R_MapSlopeAngle(const y: integer; const x1, x2: integer);
 var
   angle: fixed_t;
@@ -732,6 +798,11 @@ begin
 
 end;
 
+//==============================================================================
+//
+// R_DoDrawSlope
+//
+//==============================================================================
 procedure R_DoDrawSlope(const pl: Pvisplane_t);
 var
   light: integer;
@@ -835,11 +906,13 @@ begin
     Z_ChangeTag(ds_source, PU_CACHE);
 end;
 
+//==============================================================================
 //
 // R_StoreSlopeRange
 // A wall segment will be drawn
 //  between start and stop pixels (inclusive).
 //
+//==============================================================================
 procedure R_StoreSlopeRange(const start: integer; const stop: integer);
 var
   lightnum: integer;
@@ -1199,7 +1272,6 @@ begin
     pds.sprtopclip := nil;
     pds.sprbottomclip := nil;
 
-
     if (sc11 > sc1) or (sc22 > sc2) then
     begin
       toptexture := texturetranslation[sidedef.toptexture];
@@ -1376,8 +1448,13 @@ type
 var
   sspoints: sspoint_tArray;
 
+//==============================================================================
+// R_SlopesCalcSSPoint
+//
 // input: wx, wy, wz -> World coordinates
 // output: x, y, z -> Screen coordinates
+//
+//==============================================================================
 procedure R_SlopesCalcSSPoint(const wx, wy, wz: fixed_t; var x, y, z: Double);
 var
   x1, y1: Double;
@@ -1416,6 +1493,11 @@ const
   SLOPESPLITFACTOR = 2;
   SLOPECOEFF = 256 * FRACUNIT;
 
+//==============================================================================
+//
+// R_VisSlopeFromSubsector
+//
+//==============================================================================
 function R_VisSlopeFromSubsector(const ssector: Psubsector_t;
   const virtualfloor: boolean): Pvisslope_t;
 var
@@ -1774,6 +1856,11 @@ begin
   result := plane;
 end;
 
+//==============================================================================
+//
+// R_VisSlopesFromSubsector
+//
+//==============================================================================
 procedure R_VisSlopesFromSubsector(const ssector: Psubsector_t);
 var
   sec: Psector_t;

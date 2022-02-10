@@ -31,6 +31,11 @@ unit r_span32_fog_ripple;
 
 interface
 
+//==============================================================================
+//
+// R_DrawSpanNormal_Fog_Ripple
+//
+//==============================================================================
 procedure R_DrawSpanNormal_Fog_Ripple;
 
 implementation
@@ -49,6 +54,11 @@ uses
   r_grow,
   v_video;
 
+//==============================================================================
+//
+// R_DrawSpanNormal_Fog_Ripple
+//
+//==============================================================================
 procedure R_DrawSpanNormal_Fog_Ripple;
 var
   xfrac: fixed_t;

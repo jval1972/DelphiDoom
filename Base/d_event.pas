@@ -30,8 +30,6 @@ unit d_event;
 
 interface
 
-
-
 //
 // Event handling.
 //
@@ -148,7 +146,6 @@ const
 const
   NUMJOYBUTTONS = 12;
 
-
 var
 //
 // EVENT HANDLING
@@ -161,7 +158,6 @@ var
   eventtail: integer;
 
 implementation
-
 
 end.
 

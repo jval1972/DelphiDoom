@@ -47,11 +47,25 @@ type
     LITE_STROBE
   );
 
-
+//==============================================================================
+//
+// EVH_SpawnLight
+//
+//==============================================================================
 function EVH_SpawnLight(line: Pline_t; arg: PByteArray; _type: lighttype_t): boolean;
 
+//==============================================================================
+//
+// P_SpawnPhasedLight
+//
+//==============================================================================
 procedure P_SpawnPhasedLight(sector: Psector_t; base: integer; index: integer);
 
+//==============================================================================
+//
+// P_SpawnLightSequence
+//
+//==============================================================================
 procedure P_SpawnLightSequence(sector: Psector_t; indexStep: integer);
 
 type
@@ -67,6 +81,11 @@ type
   end;
   Plight_t = ^light_t;
 
+//==============================================================================
+//
+// TH_Light
+//
+//==============================================================================
 procedure TH_Light(light: Plight_t);
 
 type
@@ -78,7 +97,11 @@ type
   end;
   Pphase_t = ^phase_t;
 
-
+//==============================================================================
+//
+// TH_Phase
+//
+//==============================================================================
 procedure TH_Phase(phase: Pphase_t);
 
 implementation
@@ -96,11 +119,11 @@ const
   LIGHT_SEQUENCE = 3;
   LIGHT_SEQUENCE_ALT = 4;
 
-
+//==============================================================================
 //
 //  TH_Light
 //
-
+//==============================================================================
 procedure TH_Light(light: Plight_t);
 begin
   if light.count > 0 then
@@ -175,10 +198,11 @@ begin
   end;
 end;
 
+//==============================================================================
 //
 //  EVH_SpawnLight
 //
-
+//==============================================================================
 function EVH_SpawnLight(line: Pline_t; arg: PByteArray; _type: lighttype_t): boolean;
 var
   light: Plight_t;
@@ -294,16 +318,22 @@ const
      32,  32,  48,  64,  80,  96, 112, 128
   );
 
+//==============================================================================
+//
+// TH_Phase
+//
+//==============================================================================
 procedure TH_Phase(phase: Pphase_t);
 begin
   phase.index := (phase.index + 1) and 63;
   phase.sector.lightlevel := phase.base + PhaseTable[phase.index];
 end;
 
+//==============================================================================
 //
 // P_SpawnPhasedLight
 //
-
+//==============================================================================
 procedure P_SpawnPhasedLight(sector: Psector_t; base: integer; index: integer);
 var
   phase: Pphase_t;
@@ -326,10 +356,11 @@ begin
   sector.special := 0;
 end;
 
+//==============================================================================
 //
 // P_SpawnLightSequence
 //
-
+//==============================================================================
 procedure P_SpawnLightSequence(sector: Psector_t; indexStep: integer);
 var
   sec: Psector_t;

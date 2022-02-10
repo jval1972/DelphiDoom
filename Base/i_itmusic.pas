@@ -33,6 +33,11 @@ unit i_itmusic;
 
 interface
 
+//==============================================================================
+//
+// IsITMusicFile
+//
+//==============================================================================
 function IsITMusicFile(const buf: pointer; const size: integer): boolean;
 
 implementation
@@ -40,6 +45,11 @@ implementation
 uses
   d_delphi;
 
+//==============================================================================
+//
+// IsITMusicFile
+//
+//==============================================================================
 function IsITMusicFile(const buf: pointer; const size: integer): boolean;
 var
   pb: PByteArray;

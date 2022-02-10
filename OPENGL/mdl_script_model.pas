@@ -105,21 +105,116 @@ type
     property Frames: TDHashNumberList read FFrames;
   end;
 
+//==============================================================================
+//
+// MDLS_glBegin
+//
+//==============================================================================
 procedure MDLS_glBegin(const mode: GLenum);
+
+//==============================================================================
+//
+// MDLS_glEnd
+//
+//==============================================================================
 procedure MDLS_glEnd;
+
+//==============================================================================
+//
+// MDLS_glTexCoord2f
+//
+//==============================================================================
 procedure MDLS_glTexCoord2f(const s, t: GLfloat);
+
+//==============================================================================
+//
+// MDLS_glVertex3f
+//
+//==============================================================================
 procedure MDLS_glVertex3f(const x, y, z: GLfloat);
+
+//==============================================================================
+//
+// MDLS_glColor3f
+//
+//==============================================================================
 procedure MDLS_glColor3f(const r, g, b: GLfloat);
+
+//==============================================================================
+//
+// MDLS_glColor4f
+//
+//==============================================================================
 procedure MDLS_glColor4f(const r, g, b, a: GLfloat);
+
+//==============================================================================
+//
+// MDLS_glNormal3f
+//
+//==============================================================================
 procedure MDLS_glNormal3f(const nx, ny, nz: GLfloat);
+
+//==============================================================================
+//
+// MDLS_glMatrixMode
+//
+//==============================================================================
 procedure MDLS_glMatrixMode(const mode: LongWord);
+
+//==============================================================================
+//
+// MDLS_glPushMatrix
+//
+//==============================================================================
 procedure MDLS_glPushMatrix;
+
+//==============================================================================
+//
+// MDLS_glPopMatrix
+//
+//==============================================================================
 procedure MDLS_glPopMatrix;
+
+//==============================================================================
+//
+// MDLS_glTranslatef
+//
+//==============================================================================
 procedure MDLS_glTranslatef(const x, y, z: GLfloat);
+
+//==============================================================================
+//
+// MDLS_glRotatef
+//
+//==============================================================================
 procedure MDLS_glRotatef(const a, x, y, z: GLfloat);
+
+//==============================================================================
+//
+// MDLS_glLoadIdentity
+//
+//==============================================================================
 procedure MDLS_glLoadIdentity;
+
+//==============================================================================
+//
+// MDLS_glScalef
+//
+//==============================================================================
 procedure MDLS_glScalef(const x, y, z: GLfloat);
+
+//==============================================================================
+//
+// MDLS_SetFrame
+//
+//==============================================================================
 procedure MDLS_SetFrame(const frm: integer);
+
+//==============================================================================
+//
+// MDLS_CallFrame
+//
+//==============================================================================
 procedure MDLS_CallFrame(const frm: integer);
 
 implementation
@@ -152,6 +247,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.Grow
+//
+//==============================================================================
 function TDDModelLoader.Grow: modelcmd_p;
 begin
   Inc(fNumCmds);
@@ -163,6 +263,11 @@ begin
   Result := @fCmds[fNumCmds - 1];
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.AddCmd
+//
+//==============================================================================
 procedure TDDModelLoader.AddCmd(const cmd: integer; const parm0: Single = 0.0;
   const parm1: Single = 0.0; const parm2: Single = 0.0; const parm3: Single = 0.0);
 var
@@ -177,6 +282,11 @@ begin
   pc.frame := fcurrentframe;
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.Clear
+//
+//==============================================================================
 procedure TDDModelLoader.Clear;
 begin
   ReallocMem(fCmds, 0);
@@ -187,12 +297,22 @@ begin
   FFrames.Clear;
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.LoadFromScript
+//
+//==============================================================================
 function TDDModelLoader.LoadFromScript(const aScript: string): boolean;
 begin
   Clear;
   Result := AppendFromScript(aScript);
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.AppendFromScript
+//
+//==============================================================================
 function TDDModelLoader.AppendFromScript(const aScript: string): boolean;
 begin
   currentmodelloader := Self;
@@ -200,12 +320,22 @@ begin
   IdentifyFrames;
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.LoadFromStream
+//
+//==============================================================================
 function TDDModelLoader.LoadFromStream(const aStream: TDStream): boolean;
 begin
   Clear;
   Result := AppendFromStream(aStream);
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.AppendFromStream
+//
+//==============================================================================
 function TDDModelLoader.AppendFromStream(const aStream: TDStream): boolean;
 var
   header: integer;
@@ -231,6 +361,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.LoadFromFile
+//
+//==============================================================================
 function TDDModelLoader.LoadFromFile(const aFileName: string): boolean;
 var
   fs: TFile;
@@ -243,6 +378,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.AppendFromFile
+//
+//==============================================================================
 function TDDModelLoader.AppendFromFile(const aFileName: string): boolean;
 var
   fs: TFile;
@@ -255,6 +395,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.SaveToStream
+//
+//==============================================================================
 procedure TDDModelLoader.SaveToStream(const aStream: TDStream);
 var
   header: integer;
@@ -267,6 +412,11 @@ begin
   aStream.Write(fCmds^, sz * SizeOf(modelcmd_t));
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.SaveToFile
+//
+//==============================================================================
 procedure TDDModelLoader.SaveToFile(const aFileName: string);
 var
   fs: TFile;
@@ -279,6 +429,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.RenderFrame
+//
+//==============================================================================
 procedure TDDModelLoader.RenderFrame(const frm: integer);
 begin
   frecursiondepth := 0;
@@ -286,6 +441,11 @@ begin
   DoRenderFrame(frm);
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.DoRenderFrame
+//
+//==============================================================================
 procedure TDDModelLoader.DoRenderFrame(const frm: integer);
 var
   i: integer;
@@ -346,6 +506,11 @@ begin
   Dec(frecursiondepth);
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.RenderTextureMask
+//
+//==============================================================================
 procedure TDDModelLoader.RenderTextureMask(const frm: integer; const W, H: integer);
 begin
   frecursiondepth := 0;
@@ -353,6 +518,11 @@ begin
   DoRenderTextureMask(frm, W, H);
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.DoRenderTextureMask
+//
+//==============================================================================
 procedure TDDModelLoader.DoRenderTextureMask(const frm: integer; const W, H: integer);
 var
   x, y: GLfloat;
@@ -399,6 +569,11 @@ begin
   Dec(frecursiondepth);
 end;
 
+//==============================================================================
+//
+// TDDModelLoader.IdentifyFrames
+//
+//==============================================================================
 procedure TDDModelLoader.IdentifyFrames;
 var
   i: integer;
@@ -421,8 +596,12 @@ begin
   FFrames.Sort;
 end;
 
+//==============================================================================
+// MDLS_glBegin
+//
 //-------------------------- PascalScript Functions ----------------------------
-
+//
+//==============================================================================
 procedure MDLS_glBegin(const mode: GLenum);
 begin
   if currentmodelloader = nil then
@@ -433,6 +612,11 @@ begin
   currentmodelloader.AddCmd(C_glBegin, mode);
 end;
 
+//==============================================================================
+//
+// MDLS_glEnd
+//
+//==============================================================================
 procedure MDLS_glEnd;
 begin
   if currentmodelloader = nil then
@@ -443,6 +627,11 @@ begin
   currentmodelloader.AddCmd(C_glEnd);
 end;
 
+//==============================================================================
+//
+// MDLS_glTexCoord2f
+//
+//==============================================================================
 procedure MDLS_glTexCoord2f(const s, t: GLfloat);
 begin
   if currentmodelloader = nil then
@@ -453,6 +642,11 @@ begin
   currentmodelloader.AddCmd(C_glTexCoord2f, s, t);
 end;
 
+//==============================================================================
+//
+// MDLS_glVertex3f
+//
+//==============================================================================
 procedure MDLS_glVertex3f(const x, y, z: GLfloat);
 begin
   if currentmodelloader = nil then
@@ -463,6 +657,11 @@ begin
   currentmodelloader.AddCmd(C_glVertex3f, x, y, z);
 end;
 
+//==============================================================================
+//
+// MDLS_glColor3f
+//
+//==============================================================================
 procedure MDLS_glColor3f(const r, g, b: GLfloat);
 begin
   if currentmodelloader = nil then
@@ -473,6 +672,11 @@ begin
   currentmodelloader.AddCmd(C_glColor3f, r, g, b);
 end;
 
+//==============================================================================
+//
+// MDLS_glColor4f
+//
+//==============================================================================
 procedure MDLS_glColor4f(const r, g, b, a: GLfloat);
 begin
   if currentmodelloader = nil then
@@ -483,6 +687,11 @@ begin
   currentmodelloader.AddCmd(C_glColor4f, r, g, b, a);
 end;
 
+//==============================================================================
+//
+// MDLS_glNormal3f
+//
+//==============================================================================
 procedure MDLS_glNormal3f(const nx, ny, nz: GLfloat);
 begin
   if currentmodelloader = nil then
@@ -493,6 +702,11 @@ begin
   currentmodelloader.AddCmd(C_glNormal3f, nx, ny, nz);
 end;
 
+//==============================================================================
+//
+// MDLS_glMatrixMode
+//
+//==============================================================================
 procedure MDLS_glMatrixMode(const mode: LongWord);
 begin
   if currentmodelloader = nil then
@@ -503,6 +717,11 @@ begin
   currentmodelloader.AddCmd(C_glMatrixMode, mode);
 end;
 
+//==============================================================================
+//
+// MDLS_glPushMatrix
+//
+//==============================================================================
 procedure MDLS_glPushMatrix;
 begin
   if currentmodelloader = nil then
@@ -513,6 +732,11 @@ begin
   currentmodelloader.AddCmd(C_glPushMatrix);
 end;
 
+//==============================================================================
+//
+// MDLS_glPopMatrix
+//
+//==============================================================================
 procedure MDLS_glPopMatrix;
 begin
   if currentmodelloader = nil then
@@ -523,6 +747,11 @@ begin
   currentmodelloader.AddCmd(C_glPopMatrix);
 end;
 
+//==============================================================================
+//
+// MDLS_glTranslatef
+//
+//==============================================================================
 procedure MDLS_glTranslatef(const x, y, z: GLfloat);
 begin
   if currentmodelloader = nil then
@@ -533,6 +762,11 @@ begin
   currentmodelloader.AddCmd(C_glTranslatef, x, y, z);
 end;
 
+//==============================================================================
+//
+// MDLS_glRotatef
+//
+//==============================================================================
 procedure MDLS_glRotatef(const a, x, y, z: GLfloat);
 begin
   if currentmodelloader = nil then
@@ -543,6 +777,11 @@ begin
   currentmodelloader.AddCmd(C_glRotatef, a, x, y, z);
 end;
 
+//==============================================================================
+//
+// MDLS_glLoadIdentity
+//
+//==============================================================================
 procedure MDLS_glLoadIdentity;
 begin
   if currentmodelloader = nil then
@@ -553,6 +792,11 @@ begin
   currentmodelloader.AddCmd(C_glLoadIdentity);
 end;
 
+//==============================================================================
+//
+// MDLS_glScalef
+//
+//==============================================================================
 procedure MDLS_glScalef(const x, y, z: GLfloat);
 begin
   if currentmodelloader = nil then
@@ -563,6 +807,11 @@ begin
   currentmodelloader.AddCmd(C_glScalef, x, y, z);
 end;
 
+//==============================================================================
+//
+// MDLS_SetFrame
+//
+//==============================================================================
 procedure MDLS_SetFrame(const frm: integer);
 begin
   if currentmodelloader = nil then
@@ -574,6 +823,11 @@ begin
   currentmodelloader.AddCmd(C_SetFrame, frm);
 end;
 
+//==============================================================================
+//
+// MDLS_CallFrame
+//
+//==============================================================================
 procedure MDLS_CallFrame(const frm: integer);
 begin
   if currentmodelloader = nil then

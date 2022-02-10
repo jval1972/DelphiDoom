@@ -36,6 +36,11 @@ interface
 uses
   d_delphi;
 
+//==============================================================================
+//
+// Info_FindStatesFromSprite
+//
+//==============================================================================
 function Info_FindStatesFromSprite(const sp: string): TDNumberList;
 
 implementation
@@ -44,6 +49,11 @@ uses
   info,
   p_pspr;
 
+//==============================================================================
+//
+// Info_FindStatesFromSprite
+//
+//==============================================================================
 function Info_FindStatesFromSprite(const sp: string): TDNumberList;
 var
   spr: string;
@@ -111,8 +121,6 @@ begin
     exit;
   end;
 
-
 end;
-
 
 end.
