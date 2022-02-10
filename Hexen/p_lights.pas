@@ -230,7 +230,7 @@ begin
         begin
           think := true;
           light.value1 := arg1; // destination lightlevel
-          light.value2 := FixedDiv((arg1-sec.lightlevel) * FRACUNIT, arg2 * FRACUNIT);  // delta lightlevel
+          light.value2 := FixedDiv((arg1 - sec.lightlevel) * FRACUNIT, arg2 * FRACUNIT);  // delta lightlevel
           if sec.lightlevel <= arg1 then
             light.tics2 := 1 // get brighter
           else
@@ -241,7 +241,7 @@ begin
           think := true;
           light.value1 := arg1; // upper lightlevel
           light.value2 := arg2; // lower lightlevel
-          light.tics1 := FixedDiv((arg1-sec.lightlevel) * FRACUNIT, arg3 * FRACUNIT);  // lightlevel delta
+          light.tics1 := FixedDiv((arg1 - sec.lightlevel) * FRACUNIT, arg3 * FRACUNIT);  // lightlevel delta
           if sec.lightlevel <= arg1 then
             light.tics2 := 1 // get brighter
           else
