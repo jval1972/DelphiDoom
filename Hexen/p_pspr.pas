@@ -33,7 +33,6 @@ interface
 
 uses
   doomdef,
-  doomdata,
 // Basic data types.
 // Needs fixed point, and BAM angles.
   m_fixed,
@@ -223,7 +222,6 @@ uses
   d_event,
   m_rnd,
   p_local,
-  p_plats,
   p_tick,
   p_mobj,
   p_enemy,
@@ -232,11 +230,7 @@ uses
   p_maputl,
   p_common,
   r_main,
-  r_draw,
-  r_defs,
   s_sound,
-// State.
-  doomstat,
 // Data.
   sounddata,
   v_data,

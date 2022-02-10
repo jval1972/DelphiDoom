@@ -39,15 +39,9 @@ uses
   z_zone,
   doomdef,
   m_fixed,
-  p_local,
   p_mobj_h,
   p_spec,
-  r_defs,
-  s_sound,
-// State.
-  doomstat,
-// Data.
-  sounds;
+  r_defs;
 
 procedure T_VerticalDoor(door: Pvldoor_t);
 
@@ -58,13 +52,11 @@ function EV_VerticalDoor(line: Pline_t; thing: Pmobj_t): boolean;
 implementation
 
 uses
-  d_player,
   p_tick,
   p_setup,
   p_floor,
   p_acs,
-  s_sndseq,
-  xn_strings;
+  s_sndseq;
 
 //
 // VERTICAL DOORS

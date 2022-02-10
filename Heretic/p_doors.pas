@@ -37,13 +37,12 @@ uses
   doomdef,
   z_zone,
   m_fixed,
-  p_local,
   p_mobj_h,
   p_spec,
   r_defs,
   s_sound,
 // State.
-  doomstat,
+  
 // Data.
   sounddata;
 
@@ -60,7 +59,6 @@ procedure P_SpawnDoorRaiseIn5Mins(sec: Psector_t; secnum: integer);
 implementation
 
 uses
-  d_delphi,
   d_player,
   h_strings,
   p_tick,

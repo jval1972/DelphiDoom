@@ -40,11 +40,7 @@ uses
   z_zone,
   p_spec,
   m_fixed,
-  p_local,
-  r_defs,
-  s_sound,
-  doomstat,
-  sounds;
+  r_defs;
 
 //
 // FLOORS
@@ -307,7 +303,6 @@ begin
 
   secnum := -1;
   result := false;
-  sec := nil;
 
   while _FindSectorFromTag >= 0 do
   begin

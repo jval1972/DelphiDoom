@@ -149,7 +149,6 @@ uses
   d_player,
   d_think,
   d_main,
-  m_vectors,
   g_game,
   g_demo,
   i_system,
@@ -190,8 +189,7 @@ uses
   sb_bar,
   info,
   info_rnd,
-  info_common,
-  doomstat;
+  info_common;
 
 // From Chocolate-Doom
 // Use a heuristic approach to detect infinite state cycles: Count the number

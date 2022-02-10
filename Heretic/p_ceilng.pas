@@ -36,13 +36,9 @@ interface
 
 uses
   z_zone,
-  doomdef,
-  p_local,
   p_spec,
   r_defs,
   s_sound,
-// State.
-  doomstat,
 // Data.
   sounddata;
 
@@ -60,7 +56,6 @@ function EV_CeilingCrushStop(line: Pline_t): integer;
 implementation
 
 uses
-  d_delphi,
   i_system,
   m_fixed,
   p_mobj_h,

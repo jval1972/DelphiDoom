@@ -343,7 +343,6 @@ uses
   p_maputl,
   p_playertrace,
   p_tick,
-  r_data,
   info_h,
 {$IFNDEF OPENGL}
   r_draw,

@@ -37,15 +37,8 @@ interface
 uses
   d_delphi,
   z_zone,
-  doomdef,
-  p_local,
   p_spec,
-  r_defs,
-  s_sound,
-// State.
-  doomstat,
-// Data.
-  sounds;
+  r_defs;
 
 //-----------------------------------------------------------------------------
 //

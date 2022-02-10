@@ -70,31 +70,22 @@ procedure A_BulletAttack(actor: Pmobj_t);
 procedure A_MediumGravity(actor: Pmobj_t);
 
 
-
 implementation
 
 uses
   d_delphi,
   doomdef,
-  d_player,
   g_game,
-  i_system,
   info_h,
   info,
   m_rnd,
-  m_vectors,
   p_enemy,
   p_mobj,
   p_inter,
   p_map,
-  p_maputl,
   p_local,
-  p_pspr,
   p_sounds,
   p_common,
-  r_main,
-  sounds,
-  s_sound,
   tables;
 
 //
