@@ -163,14 +163,14 @@ type
   Pbutton_t = ^button_t;
 
 const
- // max # of wall switches in a level
+  // max # of wall switches in a level
   MAXSWITCHES = 50;
 
- // 4 players, 4 buttons each at once, max.
-   MAXBUTTONS = 16;
+  // 4 players, 4 buttons each at once, max.
+  MAXBUTTONS = 16;
 
- // 1 second, in ticks.
-   BUTTONTIME = 35;
+  // 1 second, in ticks.
+  BUTTONTIME = 35;
 
 
 type
@@ -288,11 +288,11 @@ type
 // P_FLOOR
 //
   floor_e = (
-    FLEV_LOWERFLOOR,             // lower floor to highest surrounding floor
-    FLEV_LOWERFLOORTOLOWEST,     // lower floor to lowest surrounding floor
+    FLEV_LOWERFLOOR,            // lower floor to highest surrounding floor
+    FLEV_LOWERFLOORTOLOWEST,    // lower floor to lowest surrounding floor
     FLEV_LOWERFLOORBYVALUE,
-    FLEV_RAISEFLOOR,             // raise floor to lowest surrounding CEILING
-    FLEV_RAISEFLOORTONEAREST,    // raise floor to next highest surrounding floor
+    FLEV_RAISEFLOOR,            // raise floor to lowest surrounding CEILING
+    FLEV_RAISEFLOORTONEAREST,   // raise floor to next highest surrounding floor
     FLEV_RAISEFLOORBYVALUE,
     FLEV_RAISEFLOORCRUSH,
     FLEV_RAISEBUILDSTEP,        // One step of a staircase
