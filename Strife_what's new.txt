@@ -218,6 +218,19 @@ Small optimizations to the software voxel rendering.
 Corrected flat scale in OpenGL mode.
 Faster proccessing of include files.
 Added #CVARFORCE directive. It can be placed in any text content and forces the value of a console variable to the value specified.
+Added new PascalSccript functions to access the new SideDefs' fields:
+ -function PS_GetSideTopTextureOffset(const sd: Integer): Integer;
+ -procedure PS_SetSideTopTextureOffset(const sd: Integer; const offs: Integer);
+ -function PS_GetSideBottomTextureOffset(const sd: Integer): Integer;
+ -procedure PS_SetSideBottomTextureOffset(const sd: Integer; const offs: Integer);
+ -function PS_GetSideMidTextureOffset(const sd: Integer): Integer;
+ -procedure PS_SetSideMidTextureOffset(const sd: Integer; const offs: Integer);
+ -function PS_GetSideTopRowOffset(const sd: Integer): Integer;
+ -procedure PS_SetSideTopRowOffset(const sd: Integer; const offs: Integer);
+ -function PS_GetSideBottomRowOffset(const sd: Integer): Integer;
+ -procedure PS_SetSideBottomRowOffset(const sd: Integer; const offs: Integer);
+ -function PS_GetSideMidRowOffset(const sd: Integer): Integer;
+ -procedure PS_SetSideMidRowOffset(const sd: Integer; const offs: Integer);
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

@@ -978,6 +978,48 @@ procedure PS_SetSideTextureOffset(const sd: Integer; const offs: Integer);
 
 //==============================================================================
 //
+// PS_GetSideTopTextureOffset
+//
+//==============================================================================
+function PS_GetSideTopTextureOffset(const sd: Integer): Integer;
+
+//==============================================================================
+//
+// PS_SetSideTopTextureOffset
+//
+//==============================================================================
+procedure PS_SetSideTopTextureOffset(const sd: Integer; const offs: Integer);
+
+//==============================================================================
+//
+// PS_GetSideBottomTextureOffset
+//
+//==============================================================================
+function PS_GetSideBottomTextureOffset(const sd: Integer): Integer;
+
+//==============================================================================
+//
+// PS_SetSideBottomTextureOffset
+//
+//==============================================================================
+procedure PS_SetSideBottomTextureOffset(const sd: Integer; const offs: Integer);
+
+//==============================================================================
+//
+// PS_GetSideMidTextureOffset
+//
+//==============================================================================
+function PS_GetSideMidTextureOffset(const sd: Integer): Integer;
+
+//==============================================================================
+//
+// PS_SetSideMidTextureOffset
+//
+//==============================================================================
+procedure PS_SetSideMidTextureOffset(const sd: Integer; const offs: Integer);
+
+//==============================================================================
+//
 // PS_GetSideRowOffset
 //
 //==============================================================================
@@ -989,6 +1031,49 @@ function PS_GetSideRowOffset(const sd: Integer): Integer;
 //
 //==============================================================================
 procedure PS_SetSideRowOffset(const sd: Integer; const offs: Integer);
+
+
+//==============================================================================
+//
+// PS_GetSideTopRowOffset
+//
+//==============================================================================
+function PS_GetSideTopRowOffset(const sd: Integer): Integer;
+
+//==============================================================================
+//
+// PS_SetSideTopRowOffset
+//
+//==============================================================================
+procedure PS_SetSideTopRowOffset(const sd: Integer; const offs: Integer);
+
+//==============================================================================
+//
+// PS_GetSideBottomRowOffset
+//
+//==============================================================================
+function PS_GetSideBottomRowOffset(const sd: Integer): Integer;
+
+//==============================================================================
+//
+// PS_SetSideBottomRowOffset
+//
+//==============================================================================
+procedure PS_SetSideBottomRowOffset(const sd: Integer; const offs: Integer);
+
+//==============================================================================
+//
+// PS_GetSideMidRowOffset
+//
+//==============================================================================
+function PS_GetSideMidRowOffset(const sd: Integer): Integer;
+
+//==============================================================================
+//
+// PS_SetSideMidRowOffset
+//
+//==============================================================================
+procedure PS_SetSideMidRowOffset(const sd: Integer; const offs: Integer);
 
 //==============================================================================
 //
@@ -7236,6 +7321,78 @@ end;
 
 //==============================================================================
 //
+// PS_GetSideTopTextureOffset
+//
+//==============================================================================
+function PS_GetSideTopTextureOffset(const sd: Integer): Integer;
+begin
+  if (sd >= 0) and (sd < numsides) then
+    Result := sides[sd].toptextureoffset
+  else
+    Result := 0;
+end;
+
+//==============================================================================
+//
+// PS_SetSideTopTextureOffset
+//
+//==============================================================================
+procedure PS_SetSideTopTextureOffset(const sd: Integer; const offs: Integer);
+begin
+  if (sd >= 0) and (sd < numsides) then
+    sides[sd].toptextureoffset := offs;
+end;
+
+//==============================================================================
+//
+// PS_GetSideBottomTextureOffset
+//
+//==============================================================================
+function PS_GetSideBottomTextureOffset(const sd: Integer): Integer;
+begin
+  if (sd >= 0) and (sd < numsides) then
+    Result := sides[sd].bottomtextureoffset
+  else
+    Result := 0;
+end;
+
+//==============================================================================
+//
+// PS_SetSideBottomTextureOffset
+//
+//==============================================================================
+procedure PS_SetSideBottomTextureOffset(const sd: Integer; const offs: Integer);
+begin
+  if (sd >= 0) and (sd < numsides) then
+    sides[sd].bottomtextureoffset := offs;
+end;
+
+//==============================================================================
+//
+// PS_GetSideMidTextureOffset
+//
+//==============================================================================
+function PS_GetSideMidTextureOffset(const sd: Integer): Integer;
+begin
+  if (sd >= 0) and (sd < numsides) then
+    Result := sides[sd].midtextureoffset
+  else
+    Result := 0;
+end;
+
+//==============================================================================
+//
+// PS_SetSideMidTextureOffset
+//
+//==============================================================================
+procedure PS_SetSideMidTextureOffset(const sd: Integer; const offs: Integer);
+begin
+  if (sd >= 0) and (sd < numsides) then
+    sides[sd].midtextureoffset := offs;
+end;
+
+//==============================================================================
+//
 // PS_GetSideRowOffset
 //
 //==============================================================================
@@ -7256,6 +7413,78 @@ procedure PS_SetSideRowOffset(const sd: Integer; const offs: Integer);
 begin
   if (sd >= 0) and (sd < numsides) then
     sides[sd].rowoffset := offs;
+end;
+
+//==============================================================================
+//
+// PS_GetSideTopRowOffset
+//
+//==============================================================================
+function PS_GetSideTopRowOffset(const sd: Integer): Integer;
+begin
+  if (sd >= 0) and (sd < numsides) then
+    Result := sides[sd].toprowoffset
+  else
+    Result := 0;
+end;
+
+//==============================================================================
+//
+// PS_SetSideTopRowOffset
+//
+//==============================================================================
+procedure PS_SetSideTopRowOffset(const sd: Integer; const offs: Integer);
+begin
+  if (sd >= 0) and (sd < numsides) then
+    sides[sd].toprowoffset := offs;
+end;
+
+//==============================================================================
+//
+// PS_GetSideBottomRowOffset
+//
+//==============================================================================
+function PS_GetSideBottomRowOffset(const sd: Integer): Integer;
+begin
+  if (sd >= 0) and (sd < numsides) then
+    Result := sides[sd].bottomrowoffset
+  else
+    Result := 0;
+end;
+
+//==============================================================================
+//
+// PS_SetSideBottomRowOffset
+//
+//==============================================================================
+procedure PS_SetSideBottomRowOffset(const sd: Integer; const offs: Integer);
+begin
+  if (sd >= 0) and (sd < numsides) then
+    sides[sd].bottomrowoffset := offs;
+end;
+
+//==============================================================================
+//
+// PS_GetSideMidRowOffset
+//
+//==============================================================================
+function PS_GetSideMidRowOffset(const sd: Integer): Integer;
+begin
+  if (sd >= 0) and (sd < numsides) then
+    Result := sides[sd].bottomrowoffset
+  else
+    Result := 0;
+end;
+
+//==============================================================================
+//
+// PS_SetSideMidRowOffset
+//
+//==============================================================================
+procedure PS_SetSideMidRowOffset(const sd: Integer; const offs: Integer);
+begin
+  if (sd >= 0) and (sd < numsides) then
+    sides[sd].bottomrowoffset := offs;
 end;
 
 //==============================================================================
@@ -7451,6 +7680,66 @@ end;
 
 //==============================================================================
 //
+// TRTLSideTopTextureOffset_W
+//
+//==============================================================================
+procedure TRTLSideTopTextureOffset_W(Self: TRTLSide; const T: fixed_t);
+begin
+  PS_SetSideTopTextureOffset(Integer(Self) - 1, T);
+end;
+
+//==============================================================================
+//
+// TRTLSideTopTextureOffset_R
+//
+//==============================================================================
+procedure TRTLSideTopTextureOffset_R(Self: TRTLSide; var T: fixed_t);
+begin
+  T := PS_GetSideTopTextureOffset(Integer(Self) - 1);
+end;
+
+//==============================================================================
+//
+// TRTLSideBottomTextureOffset_W
+//
+//==============================================================================
+procedure TRTLSideBottomTextureOffset_W(Self: TRTLSide; const T: fixed_t);
+begin
+  PS_SetSideBottomTextureOffset(Integer(Self) - 1, T);
+end;
+
+//==============================================================================
+//
+// TRTLSideBottomTextureOffset_R
+//
+//==============================================================================
+procedure TRTLSideBottomTextureOffset_R(Self: TRTLSide; var T: fixed_t);
+begin
+  T := PS_GetSideBottomTextureOffset(Integer(Self) - 1);
+end;
+
+//==============================================================================
+//
+// TRTLSideMidTextureOffset_W
+//
+//==============================================================================
+procedure TRTLSideMidTextureOffset_W(Self: TRTLSide; const T: fixed_t);
+begin
+  PS_SetSideMidTextureOffset(Integer(Self) - 1, T);
+end;
+
+//==============================================================================
+//
+// TRTLSideMidTextureOffset_R
+//
+//==============================================================================
+procedure TRTLSideMidTextureOffset_R(Self: TRTLSide; var T: fixed_t);
+begin
+  T := PS_GetSideMidTextureOffset(Integer(Self) - 1);
+end;
+
+//==============================================================================
+//
 // TRTLSideRowOffset_W
 //
 //==============================================================================
@@ -7467,6 +7756,66 @@ end;
 procedure TRTLSideRowOffset_R(Self: TRTLSide; var T: fixed_t);
 begin
   T := PS_GetSideRowOffset(Integer(Self) - 1);
+end;
+
+//==============================================================================
+//
+// TRTLSideTopRowOffset_W
+//
+//==============================================================================
+procedure TRTLSideTopRowOffset_W(Self: TRTLSide; const T: fixed_t);
+begin
+  PS_SetSideTopRowOffset(Integer(Self) - 1, T);
+end;
+
+//==============================================================================
+//
+// TRTLSideTopRowOffset_R
+//
+//==============================================================================
+procedure TRTLSideTopRowOffset_R(Self: TRTLSide; var T: fixed_t);
+begin
+  T := PS_GetSideTopRowOffset(Integer(Self) - 1);
+end;
+
+//==============================================================================
+//
+// TRTLSideBottomRowOffset_W
+//
+//==============================================================================
+procedure TRTLSideBottomRowOffset_W(Self: TRTLSide; const T: fixed_t);
+begin
+  PS_SetSideBottomRowOffset(Integer(Self) - 1, T);
+end;
+
+//==============================================================================
+//
+// TRTLSideBottomRowOffset_R
+//
+//==============================================================================
+procedure TRTLSideBottomRowOffset_R(Self: TRTLSide; var T: fixed_t);
+begin
+  T := PS_GetSideBottomRowOffset(Integer(Self) - 1);
+end;
+
+//==============================================================================
+//
+// TRTLSideMidRowOffset_W
+//
+//==============================================================================
+procedure TRTLSideMidRowOffset_W(Self: TRTLSide; const T: fixed_t);
+begin
+  PS_SetSideMidRowOffset(Integer(Self) - 1, T);
+end;
+
+//==============================================================================
+//
+// TRTLSideMidRowOffset_R
+//
+//==============================================================================
+procedure TRTLSideMidRowOffset_R(Self: TRTLSide; var T: fixed_t);
+begin
+  T := PS_GetSideMidRowOffset(Integer(Self) - 1);
 end;
 
 //==============================================================================
@@ -13176,7 +13525,13 @@ begin
   cvertexes.RegisterProperty('Count', 'Integer', iptR);
 
   cside.RegisterProperty('TextureOffset', 'fixed_t', iptRW);
+  cside.RegisterProperty('TopTextureOffset', 'fixed_t', iptRW);
+  cside.RegisterProperty('BottomTextureOffset', 'fixed_t', iptRW);
+  cside.RegisterProperty('MidTextureOffset', 'fixed_t', iptRW);
   cside.RegisterProperty('RowOffset', 'fixed_t', iptRW);
+  cside.RegisterProperty('TopRowOffset', 'fixed_t', iptRW);
+  cside.RegisterProperty('BottomRowOffset', 'fixed_t', iptRW);
+  cside.RegisterProperty('MidRowOffset', 'fixed_t', iptRW);
   cside.RegisterProperty('TopTexture', 'string', iptRW);
   cside.RegisterProperty('BottomTexture', 'string', iptRW);
   cside.RegisterProperty('MiddleTexture', 'string', iptRW);
@@ -13454,7 +13809,13 @@ begin
   rvertexes.RegisterPropertyHelper(@TRTLVertexesCount_R, nil, 'Count');
 
   rside.RegisterPropertyHelper(@TRTLSideTextureOffset_R, @TRTLSideTextureOffset_W, 'TextureOffset');
+  rside.RegisterPropertyHelper(@TRTLSideTopTextureOffset_R, @TRTLSideTopTextureOffset_W, 'TopTextureOffset');
+  rside.RegisterPropertyHelper(@TRTLSideBottomTextureOffset_R, @TRTLSideBottomTextureOffset_W, 'BottomTextureOffset');
+  rside.RegisterPropertyHelper(@TRTLSideMidTextureOffset_R, @TRTLSideMidTextureOffset_W, 'MidTextureOffset');
   rside.RegisterPropertyHelper(@TRTLSideRowOffset_R, @TRTLSideRowOffset_W, 'RowOffset');
+  rside.RegisterPropertyHelper(@TRTLSideTopRowOffset_R, @TRTLSideTopRowOffset_W, 'TopRowOffset');
+  rside.RegisterPropertyHelper(@TRTLSideBottomRowOffset_R, @TRTLSideBottomRowOffset_W, 'BottomRowOffset');
+  rside.RegisterPropertyHelper(@TRTLSideMidRowOffset_R, @TRTLSideMidRowOffset_W, 'MidRowOffset');
   rside.RegisterPropertyHelper(@TRTLSideTopTexture_R, @TRTLSideTopTexture_W, 'TopTexture');
   rside.RegisterPropertyHelper(@TRTLSideBottomTexture_R, @TRTLSideBottomTexture_W, 'BottomTexture');
   rside.RegisterPropertyHelper(@TRTLSideMiddleTexture_R, @TRTLSideMiddleTexture_W, 'MiddleTexture');
