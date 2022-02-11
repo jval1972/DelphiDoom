@@ -263,6 +263,9 @@ type
 
     // Sector the SideDef is facing.
     sector: Psector_t;
+
+    // Flags
+    flags: integer;
   end;
   Pside_t = ^side_t;
   side_tArray = packed array[0..$FFFF] of side_t;
@@ -288,7 +291,7 @@ type
     dy: fixed_t;
 
     // Animation related.
-    flags: word; //smallint;
+    flags: word;
     special: smallint;
     tag: smallint;
 
@@ -336,6 +339,10 @@ const
   LRF_ISOLATED = 1;
   LRF_TRANSPARENT = 2;
   LRF_SLOPED = 4; // JVAL: Slopes
+
+const
+  // Sidedef flags
+  SDF_NOFAKECONTRAST = 1;
 
 const
   // Sector rendering flags
@@ -409,6 +416,7 @@ type
     map_length: integer;
     inv_length: double;
 {$ENDIF}
+    fakecontrastlight: integer;
     miniseg: boolean;
   end;
   Pseg_t = ^seg_t;

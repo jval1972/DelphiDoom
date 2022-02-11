@@ -1085,6 +1085,7 @@ begin
       StreamOutLong(si.toprowoffset);
       StreamOutLong(si.bottomrowoffset);
       StreamOutLong(si.midrowoffset);
+      StreamOutLong(si.flags);
 
       StreamOutChar8t(R_NameForSideTexture(si.toptexture));
       StreamOutChar8t(R_NameForSideTexture(si.bottomtexture));
@@ -1242,6 +1243,7 @@ begin
         si.toprowoffset := GET_LONG;
         si.bottomrowoffset := GET_LONG;
         si.midrowoffset := GET_LONG;
+        si.flags := GET_LONG;
       end
       else
       begin
@@ -1251,6 +1253,7 @@ begin
         si.toprowoffset := 0;
         si.bottomrowoffset := 0;
         si.midrowoffset := 0;
+        si.flags := 0;
       end;
 
       if LOADVERSION <= VERSION141 then

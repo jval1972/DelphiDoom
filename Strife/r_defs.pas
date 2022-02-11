@@ -266,6 +266,9 @@ type
 
     // Sector the SideDef is facing.
     sector: Psector_t;
+
+    // Flags
+    flags: integer;
   end;
   Pside_t = ^side_t;
   side_tArray = packed array[0..$FFFF] of side_t;
@@ -341,6 +344,10 @@ const
   LRF_SLOPED = 4; // JVAL: Slopes
 
 const
+  // Sidedef flags
+  SDF_NOFAKECONTRAST = 1;
+
+const
   // Sector rendering flags
   SRF_RIPPLE_FLOOR = 1;
   SRF_RIPPLE_CEILING = 2;
@@ -409,6 +416,7 @@ type
     map_length: integer;
     inv_length: double;
 {$ENDIF}
+    fakecontrastlight: integer;
     miniseg: boolean;
   end;
   Pseg_t = ^seg_t;

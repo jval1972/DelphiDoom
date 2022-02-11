@@ -603,6 +603,8 @@ begin
       put := @put[2];
       PInteger(put)^ := si.midrowoffset;
       put := @put[2];
+      PInteger(put)^ := si.flags;
+      put := @put[2];
 
       Pchar8_t(put)^ := R_NameForSideTexture(si.toptexture);
       put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
@@ -862,6 +864,7 @@ begin
         si.toprowoffset := 0;
         si.bottomrowoffset := 0;
         si.midrowoffset := 0;
+        si.flags := 0;
       end;
 
       if savegameversion <= VERSION121 then
@@ -898,6 +901,8 @@ begin
           si.bottomrowoffset := PInteger(get)^;
           get := @get[2];
           si.midrowoffset := PInteger(get)^;
+          get := @get[2];
+          si.flags := PInteger(get)^;
           get := @get[2];
         end;
         

@@ -186,6 +186,7 @@ type
     toprowoffset: fixed_t;
     bottomrowoffset: fixed_t;
     midrowoffset: fixed_t;
+    flags: integer;
   end;
   Pextraside_t = ^extraside_t;
   extraside_tArray = array[0..$FFFF] of extraside_t;
@@ -224,6 +225,13 @@ function UDMF_MakeLines: boolean;
 //
 //==============================================================================
 function UDMF_MakeSides: boolean;
+
+//==============================================================================
+//
+// UDMF_MakeSegs
+//
+//==============================================================================
+function UDMF_MakeSegs: boolean;
 
 implementation
 
@@ -999,6 +1007,12 @@ var
       begin
         sc.MustGetInteger;
         pmapsidedef.sector := sc._Integer;
+      end
+      else if token = 'NOFAKECONTRAST' then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pextraside.flags := pextraside.flags or SDF_NOFAKECONTRAST;
       end
       else if (token = 'COMMENT') then
       begin
@@ -1869,6 +1883,7 @@ begin
   side.toprowoffset := uside.toprowoffset;
   side.midrowoffset := uside.midrowoffset;
   side.bottomrowoffset := uside.bottomrowoffset;
+  side.flags := uside.flags;
 end;
 
 //==============================================================================
@@ -1894,6 +1909,51 @@ begin
 
   for i := 0 to numudmfsidedefs - 1 do
     UDMF_DoMakeSide(i);
+
+  result := true;
+end;
+
+//==============================================================================
+//
+// UDMF_DoMakeSeg
+//
+//==============================================================================
+procedure UDMF_DoMakeSeg(const segid: integer);
+var
+  seg: Pseg_t;
+begin
+  seg := @segs[segid];
+
+  if seg.miniseg then
+    Exit;
+
+  if seg.sidedef.flags and SDF_NOFAKECONTRAST <> 0 then
+    seg.fakecontrastlight := 0
+  else if seg.v1.y = seg.v2.y then
+    seg.fakecontrastlight := -1
+  else if seg.v1.x = seg.v2.x then
+    seg.fakecontrastlight := 1
+  else
+    seg.fakecontrastlight := 0;
+end;
+
+//==============================================================================
+//
+// UDMF_MakeSegs
+//
+//==============================================================================
+function UDMF_MakeSegs: boolean;
+var
+  i: integer;
+begin
+  if not hasudmfdata then
+  begin
+    result := false;
+    exit;
+  end;
+
+  for i := 0 to numsegs - 1 do
+    UDMF_DoMakeSeg(i);
 
   result := true;
 end;

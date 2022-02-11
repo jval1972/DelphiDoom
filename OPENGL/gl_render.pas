@@ -3331,7 +3331,7 @@ var
 begin
   wall.glseg := @gl_segs[seg.iSegID];
 
-  if gl_fakecontrast then
+  if gl_fakecontrast and (seg.sidedef.flags and SDF_NOFAKECONTRAST = 0) then
   begin
     if seg.linedef.dx = 0 then
       rellight := 16 // 8
@@ -3453,7 +3453,7 @@ begin
   {$ENDIF}
   wall.glseg := @gl_segs[seg.iSegID];
 
-  if gl_fakecontrast then
+  if gl_fakecontrast and (seg.sidedef.flags and SDF_NOFAKECONTRAST = 0) then
   begin
     if seg.linedef.dx = 0 then
       rellight := 16 // 8

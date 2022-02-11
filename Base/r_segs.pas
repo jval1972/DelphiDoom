@@ -371,12 +371,7 @@ begin
         LIGHTSEGSHIFT) + extralight;
 
   if r_fakecontrast then
-  begin
-    if curline.v1.y = curline.v2.y then
-      dec(lightnum)
-    else if curline.v1.x = curline.v2.x then
-      inc(lightnum);
-  end;
+    inc(lightnum, curline.fakecontrastlight);
 
   if lightnum < 0 then
     lightnum := 0
@@ -892,12 +887,7 @@ begin
       lightnum := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
 
       if r_fakecontrast then
-      begin
-        if curline.v1.y = curline.v2.y then
-          dec(lightnum)
-        else if curline.v1.x = curline.v2.x then
-          inc(lightnum);
-      end;
+        inc(lightnum, curline.fakecontrastlight);
 
       if lightnum < 0 then
         lightnum := 0
@@ -923,12 +913,7 @@ begin
         sec2 := @sectors[frontsector.midsec];
         lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
         if r_fakecontrast then
-        begin
-          if curline.v1.y = curline.v2.y then
-            dec(lightnum2)
-          else if curline.v1.x = curline.v2.x then
-            inc(lightnum2);
-        end;
+          inc(lightnum2, curline.fakecontrastlight);
 
         if lightnum2 < 0 then
           lightnum2 := 0
@@ -953,12 +938,7 @@ begin
         sec2 := pds.midsec;
         lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
         if r_fakecontrast then
-        begin
-          if curline.v1.y = curline.v2.y then
-            dec(lightnum2)
-          else if curline.v1.x = curline.v2.x then
-            inc(lightnum2);
-        end;
+          inc(lightnum2, curline.fakecontrastlight);
 
         if lightnum2 < 0 then
           lightnum2 := 0
@@ -999,12 +979,7 @@ begin
           lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
         end;
         if r_fakecontrast then
-        begin
-          if curline.v1.y = curline.v2.y then
-            dec(lightnum2)
-          else if curline.v1.x = curline.v2.x then
-            inc(lightnum2);
-        end;
+          inc(lightnum2, curline.fakecontrastlight);
 
         if lightnum2 < 0 then
           lightnum2 := 0
@@ -1534,12 +1509,7 @@ begin
       lightnum := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
 
       if r_fakecontrast then
-      begin
-        if curline.v1.y = curline.v2.y then
-          dec(lightnum)
-        else if curline.v1.x = curline.v2.x then
-          inc(lightnum);
-      end;
+        inc(lightnum, curline.fakecontrastlight);
 
       if lightnum < 0 then
         lightnum := 0
@@ -1565,12 +1535,7 @@ begin
         sec2 := @sectors[frontsector.midsec];
         lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
         if r_fakecontrast then
-        begin
-          if curline.v1.y = curline.v2.y then
-            dec(lightnum2)
-          else if curline.v1.x = curline.v2.x then
-            inc(lightnum2);
-        end;
+          inc(lightnum2, curline.fakecontrastlight);
 
         if lightnum2 < 0 then
           lightnum2 := 0
@@ -1598,12 +1563,7 @@ begin
         sec2 := pds.midsec;
         lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
         if r_fakecontrast then
-        begin
-          if curline.v1.y = curline.v2.y then
-            dec(lightnum2)
-          else if curline.v1.x = curline.v2.x then
-            inc(lightnum2);
-        end;
+          inc(lightnum2, curline.fakecontrastlight);
 
         if lightnum2 < 0 then
           lightnum2 := 0
@@ -1644,12 +1604,7 @@ begin
           lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
         end;
         if r_fakecontrast then
-        begin
-          if curline.v1.y = curline.v2.y then
-            dec(lightnum2)
-          else if curline.v1.x = curline.v2.x then
-            inc(lightnum2);
-        end;
+          inc(lightnum2, curline.fakecontrastlight);
 
         if lightnum2 < 0 then
           lightnum2 := 0
