@@ -10009,7 +10009,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
 
   function ReadParameters(IsProperty: Boolean; Dest: TPSParameters): Boolean;
   var
-    sr,cr: TPSPasToken;
+    sr, cr: TPSPasToken;
   begin
     if IsProperty then
     begin
@@ -10045,6 +10045,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
           Result := False;
           Exit;
         end;
+        Val.SetParserPos(FParser);
       end;
       if FParser.CurrTokenId = cr then
       begin
