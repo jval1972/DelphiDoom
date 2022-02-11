@@ -53,12 +53,14 @@ const
   ML_SECTORS2 = ML_UDMFSTART + 1;
   ML_VERTEX2 = ML_UDMFSTART + 2;
   ML_LINEDEF2 = ML_UDMFSTART + 3;
-  ML_NUMUDMFLUMPS = ML_UDMFSTART + 4;
+  ML_SIDEDEF2 = ML_UDMFSTART + 4;
+  ML_NUMUDMFLUMPS = ML_UDMFSTART + 5;
 
   MLN_THINGS2 = 'THINGS2';
   MLN_SECTORS2 = 'SECTORS2';
   MLN_VERTEX2 = 'VERTEX2';
   MLN_LINEDEF2 = 'LINEDEF2';
+  MLN_SIDEDEF2 = 'SIDEDEF2';
 
 const
   UDMF_TF_SKILL1 = 1;
@@ -174,6 +176,21 @@ type
   extraline_tArray = array[0..$FFFF] of extraline_t;
   Pextraline_tArray = ^extraline_tArray;
 
+type
+  extraside_t = record
+    textureoffset: fixed_t;
+    toptextureoffset: fixed_t;
+    bottomtextureoffset: fixed_t;
+    midtextureoffset: fixed_t;
+    rowoffset: fixed_t;
+    toprowoffset: fixed_t;
+    bottomrowoffset: fixed_t;
+    midrowoffset: fixed_t;
+  end;
+  Pextraside_t = ^extraside_t;
+  extraside_tArray = array[0..$FFFF] of extraside_t;
+  Pextraside_tArray = ^extraside_tArray;
+
 var
   udmfthings: Pextrathing_tArray;
   numudmfthings: integer;
@@ -183,6 +200,8 @@ var
   numudmfvertexes: integer;
   udmflinedefs: Pextraline_tArray;
   numudmflinedefs: integer;
+  udmfsidedefs: Pextraside_tArray;
+  numudmfsidedefs: integer;
   hasudmfdata: boolean;
 
 //==============================================================================
@@ -198,6 +217,13 @@ function UDMF_MakeSectors: boolean;
 //
 //==============================================================================
 function UDMF_MakeLines: boolean;
+
+//==============================================================================
+//
+// UDMF_MakeSides
+//
+//==============================================================================
+function UDMF_MakeSides: boolean;
 
 implementation
 
@@ -219,17 +245,23 @@ uses
 type
   TUDMFManager = class
   private
+    // Things
     fthings: Pmapthing_tArray;
     fextrathings: Pextrathing_tArray;
     fnumthings: integer;
+    // Lines
     fmaplinedefs: Pmaplinedef_tArray;
     fextralinedefs: Pextraline_tArray;
     fnummaplinedefs: integer;
+    // Sides
     fmapsidedefs: Pmapsidedef_tArray;
+    fextrasidedefs: Pextraside_tArray;
     fnummapsidedefs: integer;
+    // Vertexes
     fmapvertexes: Pmapvertex_tArray;
     fextravertexes: Pextravertex_tArray;
     fnummapvertexes: integer;
+    // Sectors
     fmapsectors: Pmapsector_tArray;
     fextrasectors: Pextrasector_tArray;
     fnummapsectors: integer;
@@ -252,6 +284,7 @@ begin
   fextralinedefs := nil;
   fnummaplinedefs := 0;
   fmapsidedefs := nil;
+  fextrasidedefs := nil;
   fnummapsidedefs := 0;
   fmapvertexes := nil;
   fextravertexes := nil;
@@ -332,9 +365,10 @@ var
   token: string;
   pthing: Pmapthing_t;
   pextrathing: Pextrathing_t;
-  pextraline: Pextraline_t;
   pmaplinedef: Pmaplinedef_t;
+  pextraline: Pextraline_t;
   pmapsidedef: Pmapsidedef_t;
+  pextraside: Pextraside_t;
   pmapvertex: Pmapvertex_t;
   pextravertex: Pextravertex_t;
   pmapsector: Pmapsector_t;
@@ -894,6 +928,9 @@ var
     pmapsidedef.toptexture[0] := '-';
     pmapsidedef.bottomtexture[0] := '-';
     pmapsidedef.midtexture[0] := '-';
+    realloc(Pointer(fextrasidedefs), fnummapsidedefs * SizeOf(extraside_t), (fnummapsidedefs + 1) * SizeOf(extraside_t));
+    pextraside := @fextrasidedefs[fnummapsidedefs];
+    ZeroMemory(pextraside, SizeOf(extraside_t));
     inc(fnummapsidedefs);
     GetToken; // _BEGINBLOCK
     if token <> '_BEGINBLOCK' then
@@ -905,11 +942,43 @@ var
       begin
         sc.MustGetFloat;
         pmapsidedef.textureoffset := Round(sc._Float);
+        pextraside.textureoffset := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'OFFSETX_BOTTOM') then
+      begin
+        sc.MustGetFloat;
+        pextraside.bottomtextureoffset := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'OFFSETX_TOP') then
+      begin
+        sc.MustGetFloat;
+        pextraside.toptextureoffset := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'OFFSETX_MID') then
+      begin
+        sc.MustGetFloat;
+        pextraside.midtextureoffset := Round(sc._Float * FRACUNIT);
       end
       else if (token = 'OFFSETY') then
       begin
         sc.MustGetFloat;
         pmapsidedef.rowoffset := Round(sc._Float);
+        pextraside.rowoffset := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'OFFSETY_BOTTOM') then
+      begin
+        sc.MustGetFloat;
+        pextraside.bottomrowoffset := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'OFFSETY_TOP') then
+      begin
+        sc.MustGetFloat;
+        pextraside.toprowoffset := Round(sc._Float * FRACUNIT);
+      end
+      else if (token = 'OFFSETY_MID') then
+      begin
+        sc.MustGetFloat;
+        pextraside.midrowoffset := Round(sc._Float * FRACUNIT);
       end
       else if (token = 'TEXTURETOP') then
       begin
@@ -1241,6 +1310,13 @@ begin
     udmflinedefs := Z_Malloc(fnummaplinedefs * SizeOf(extraline_t), PU_LEVEL, nil);
     memcpy(udmflinedefs, fextralinedefs, fnummaplinedefs * SizeOf(extraline_t));
   end;
+
+  numudmfsidedefs := fnummapsidedefs;
+  if numudmfsidedefs > 0 then
+  begin
+    udmfsidedefs := Z_Malloc(fnummapsidedefs * SizeOf(extraside_t), PU_LEVEL, nil);
+    memcpy(udmfsidedefs, fextrasidedefs, fnummapsidedefs * SizeOf(extraside_t));
+  end;
 end;
 
 //==============================================================================
@@ -1364,6 +1440,11 @@ begin
   infotable[ML_LINEDEF2].name := stringtochar8(MLN_LINEDEF2);
   f.Write(fextralinedefs^, fnummaplinedefs * SizeOf(extraline_t));
 
+  infotable[ML_SIDEDEF2].filepos := f.Position;
+  infotable[ML_SIDEDEF2].size := fnummapsidedefs * SizeOf(extraside_t);
+  infotable[ML_SIDEDEF2].name := stringtochar8(MLN_SIDEDEF2);
+  f.Write(fextrasidedefs^, fnummapsidedefs * SizeOf(extraside_t));
+
   header.infotableofs := f.Position;
   f.Write(infotable, SizeOf(infotable));
   f.Seek(0, sFromBeginning);
@@ -1383,6 +1464,7 @@ begin
   memfree(Pointer(fmaplinedefs), fnummaplinedefs * SizeOf(maplinedef_t));
   memfree(Pointer(fextralinedefs), fnummaplinedefs * SizeOf(extraline_t));
   memfree(Pointer(fmapsidedefs), fnummapsidedefs * SizeOf(mapsidedef_t));
+  memfree(Pointer(fextrasidedefs), fnummapsidedefs * SizeOf(extraside_t));
   memfree(Pointer(fmapvertexes), fnummapvertexes * SizeOf(mapvertex_t));
   memfree(Pointer(fextravertexes), fnummapvertexes * SizeOf(extravertex_t));
   memfree(Pointer(fmapsectors), fnummapsectors * SizeOf(mapsector_t));
@@ -1453,7 +1535,13 @@ begin
         udmflinedefs := W_CacheLumpNum(lumpnum + ML_LINEDEF2, PU_LEVEL);
         numudmflinedefs := W_LumpLength(lumpnum + ML_LINEDEF2) div SizeOf(extraline_t);
       end;
-    hasudmfdata := (numudmfthings <> 0) and (numudmfsectors <> 0) and (numudmfvertexes <> 0) and (numudmflinedefs <> 0);
+    if lumpnum + ML_SIDEDEF2 < W_NumLumps then
+      if strupper(stringtochar8(lumpinfo[lumpnum + ML_SIDEDEF2].name)) = MLN_SIDEDEF2 then
+      begin
+        udmfsidedefs := W_CacheLumpNum(lumpnum + ML_SIDEDEF2, PU_LEVEL);
+        numudmfsidedefs := W_LumpLength(lumpnum + ML_SIDEDEF2) div SizeOf(extraside_t);
+      end;
+    hasudmfdata := (numudmfthings <> 0) and (numudmfsectors <> 0) and (numudmfvertexes <> 0) and (numudmflinedefs <> 0) and (numudmfsidedefs <> 0);
     result := false;
     exit;
   end;
@@ -1756,6 +1844,56 @@ begin
 
   for i := 0 to numudmflinedefs - 1 do
     UDMF_DoMakeLine(i);
+
+  result := true;
+end;
+
+//==============================================================================
+//
+// UDMF_DoMakeSide
+//
+//==============================================================================
+procedure UDMF_DoMakeSide(const sideid: integer);
+var
+  side: Pside_t;
+  uside: Pextraside_t;
+begin
+  side := @sides[sideid];
+  uside := @udmfsidedefs[sideid];
+
+  side.textureoffset := uside.textureoffset;
+  side.toptextureoffset := uside.toptextureoffset;
+  side.midtextureoffset := uside.midtextureoffset;
+  side.bottomtextureoffset := uside.bottomtextureoffset;
+  side.rowoffset := uside.rowoffset;
+  side.toprowoffset := uside.toprowoffset;
+  side.midrowoffset := uside.midrowoffset;
+  side.bottomrowoffset := uside.bottomrowoffset;
+end;
+
+//==============================================================================
+//
+// UDMF_MakeSides
+//
+//==============================================================================
+function UDMF_MakeSides: boolean;
+var
+  i: integer;
+begin
+  if not hasudmfdata then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if numudmfsidedefs <> numlines then
+  begin
+    result := false;
+    exit;
+  end;
+
+  for i := 0 to numudmfsidedefs - 1 do
+    UDMF_DoMakeSide(i);
 
   result := true;
 end;

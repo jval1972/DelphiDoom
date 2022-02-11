@@ -247,9 +247,17 @@ type
   side_t = packed record
     // add this to the calculated texture column
     textureoffset: fixed_t;
+    // JVAL: 20220211 - UDMF support
+    toptextureoffset: fixed_t;
+    bottomtextureoffset: fixed_t;
+    midtextureoffset: fixed_t;
 
     // add this to the calculated texture top
     rowoffset: fixed_t;
+    // JVAL: 20220211 - UDMF support
+    toprowoffset: fixed_t;
+    bottomrowoffset: fixed_t;
+    midrowoffset: fixed_t;
 
     // Texture indices.
     // We do not maintain names here.

@@ -1077,6 +1077,15 @@ begin
       si := @sides[li.sidenum[j]];
       StreamOutLong(si.textureoffset);
       StreamOutLong(si.rowoffset);
+
+      // JVAL: 20220211 - UDMF support
+      StreamOutLong(si.toptextureoffset);
+      StreamOutLong(si.bottomtextureoffset);
+      StreamOutLong(si.midtextureoffset);
+      StreamOutLong(si.toprowoffset);
+      StreamOutLong(si.bottomrowoffset);
+      StreamOutLong(si.midrowoffset);
+
       StreamOutChar8t(R_NameForSideTexture(si.toptexture));
       StreamOutChar8t(R_NameForSideTexture(si.bottomtexture));
       StreamOutChar8t(R_NameForSideTexture(si.midtexture));
@@ -1218,12 +1227,32 @@ begin
     for j := 0 to 1 do
     begin
       if li.sidenum[j] = -1 then
-      begin
         continue;
-      end;
+
       si := @sides[li.sidenum[j]];
       si.textureoffset := GET_LONG;
       si.rowoffset := GET_LONG;
+
+      // JVAL: 20220211 - UDMF support
+      if LOADVERSION >= VERSION207 then
+      begin
+        si.toptextureoffset := GET_LONG;
+        si.bottomtextureoffset := GET_LONG;
+        si.midtextureoffset := GET_LONG;
+        si.toprowoffset := GET_LONG;
+        si.bottomrowoffset := GET_LONG;
+        si.midrowoffset := GET_LONG;
+      end
+      else
+      begin
+        si.toptextureoffset := 0;
+        si.bottomtextureoffset := 0;
+        si.midtextureoffset := 0;
+        si.toprowoffset := 0;
+        si.bottomrowoffset := 0;
+        si.midrowoffset := 0;
+      end;
+
       if LOADVERSION <= VERSION141 then
       begin
         si.toptexture := GET_WORD;

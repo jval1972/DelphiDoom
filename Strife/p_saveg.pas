@@ -590,6 +590,20 @@ begin
       PInteger(put)^ := si.rowoffset;
       put := @put[2];
 
+      // JVAL: 20220211 - UDMF support
+      PInteger(put)^ := si.toptextureoffset;
+      put := @put[2];
+      PInteger(put)^ := si.bottomtextureoffset;
+      put := @put[2];
+      PInteger(put)^ := si.midtextureoffset;
+      put := @put[2];
+      PInteger(put)^ := si.toprowoffset;
+      put := @put[2];
+      PInteger(put)^ := si.bottomrowoffset;
+      put := @put[2];
+      PInteger(put)^ := si.midrowoffset;
+      put := @put[2];
+
       Pchar8_t(put)^ := R_NameForSideTexture(si.toptexture);
       put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
       Pchar8_t(put)^ := R_NameForSideTexture(si.bottomtexture);
@@ -839,6 +853,17 @@ begin
         continue;
       si := @sides[li.sidenum[j]];
 
+      // JVAL: 20220211 - UDMF support
+      if savegameversion < VERSION207 then
+      begin
+        si.toptextureoffset := 0;
+        si.bottomtextureoffset := 0;
+        si.midtextureoffset := 0;
+        si.toprowoffset := 0;
+        si.bottomrowoffset := 0;
+        si.midrowoffset := 0;
+      end;
+
       if savegameversion <= VERSION121 then
       begin
         si.textureoffset := get[0] * FRACUNIT;
@@ -859,6 +884,23 @@ begin
         si.rowoffset := PInteger(get)^;
         get := @get[2];
 
+        // JVAL: 20220211 - UDMF support
+        if savegameversion >= VERSION207 then
+        begin
+          si.toptextureoffset := PInteger(get)^;
+          get := @get[2];
+          si.bottomtextureoffset := PInteger(get)^;
+          get := @get[2];
+          si.midtextureoffset := PInteger(get)^;
+          get := @get[2];
+          si.toprowoffset := PInteger(get)^;
+          get := @get[2];
+          si.bottomrowoffset := PInteger(get)^;
+          get := @get[2];
+          si.midrowoffset := PInteger(get)^;
+          get := @get[2];
+        end;
+        
         si.toptexture := R_SafeTextureNumForName(Pchar8_t(get)^);
         if si.toptexture = 0 then
           si.toptexture := -1 - R_CustomColorMapForName(Pchar8_t(get)^);
