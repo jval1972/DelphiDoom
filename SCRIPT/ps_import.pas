@@ -374,7 +374,6 @@ begin
   baseproclist.Add('function GetLineDY(const ld: Integer): fixed_t;', @PS_GetLineDY);
   baseproclist.Add('function GetLineSpecial(const ld: Integer): integer;', @PS_GetLineSpecial);
   baseproclist.Add('procedure SetLineSpecial(const ld: Integer; const spec: integer);', @PS_SetLineSpecial);
-  {$IFDEF HEXEN}
   baseproclist.Add('function GetLineArg1(const ld: Integer): byte;', @PS_GetLineArg1);
   baseproclist.Add('procedure SetLineArg1(const ld: Integer; const arg: byte);', @PS_SetLineArg1);
   baseproclist.Add('function GetLineArg2(const ld: Integer): byte;', @PS_GetLineArg2);
@@ -385,7 +384,7 @@ begin
   baseproclist.Add('procedure SetLineArg4(const ld: Integer; const arg: byte);', @PS_SetLineArg4);
   baseproclist.Add('function GetLineArg5(const ld: Integer): byte;', @PS_GetLineArg5);
   baseproclist.Add('procedure SetLineArg5(const ld: Integer; const arg: byte);', @PS_SetLineArg5);
-  {$ELSE}
+  {$IFNDEF HEXEN}
   baseproclist.Add('function GetLineTag(const ld: Integer): integer;', @PS_GetLineTag);
   baseproclist.Add('procedure SetLineTag(const ld: Integer; const tag: integer);', @PS_SetLineTag);
   baseproclist.Add('function GetLineTransparent(const ld: Integer): Boolean;', @PS_GetLineTransparent);

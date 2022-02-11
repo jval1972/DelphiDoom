@@ -1188,8 +1188,6 @@ function PS_GetLineSpecial(const ld: Integer): Integer;
 //==============================================================================
 procedure PS_SetLineSpecial(const ld: Integer; const spec: Integer);
 
-{$IFDEF HEXEN}
-
 //==============================================================================
 //
 // PS_GetLineArg1
@@ -1259,7 +1257,8 @@ function PS_GetLineArg5(const ld: Integer): byte;
 //
 //==============================================================================
 procedure PS_SetLineArg5(const ld: Integer; const arg: byte);
-{$ELSE}
+
+{$IFNDEF HEXEN}
 
 //==============================================================================
 //
@@ -8011,8 +8010,6 @@ begin
     lines[ld].special := spec;
 end;
 
-{$IFDEF HEXEN}
-
 //==============================================================================
 //
 // PS_GetLineArg1
@@ -8132,7 +8129,8 @@ begin
   if (ld >= 0) and (ld < numlines) then
     lines[ld].arg5 := arg;
 end;
-{$ELSE}
+
+{$IFNDEF HEXEN}
 
 //==============================================================================
 //
@@ -8485,7 +8483,7 @@ begin
   T := PS_GetLineTag(Integer(Self) - 1);
 end;
 
-{$ELSE}
+{$ENDIF}
 
 //==============================================================================
 //
@@ -8586,7 +8584,6 @@ procedure TRTLLineArg1_R(Self: TRTLLine; var T: byte);
 begin
   T := PS_GetLineArg1(Integer(Self) - 1);
 end;
-{$ENDIF}
 
 {$IFNDEF HEXEN}
 
@@ -13547,13 +13544,12 @@ begin
   cline.RegisterProperty('DX', 'fixed_t', iptR);
   cline.RegisterProperty('DY', 'fixed_t', iptR);
   cline.RegisterProperty('Special', 'Integer', iptRW);
-  {$IFDEF HEXEN}
   cline.RegisterProperty('Arg1', 'byte', iptRW);
   cline.RegisterProperty('Arg2', 'byte', iptRW);
   cline.RegisterProperty('Arg3', 'byte', iptRW);
   cline.RegisterProperty('Arg4', 'byte', iptRW);
   cline.RegisterProperty('Arg5', 'byte', iptRW);
-  {$ELSE}
+  {$IFNDEF HEXEN}
   cline.RegisterProperty('Tag', 'Integer', iptRW);
   cline.RegisterProperty('Transparent', 'Boolean', iptRW);
   {$ENDIF}
@@ -13830,13 +13826,12 @@ begin
   rline.RegisterPropertyHelper(@TRTLLineDX_R, nil, 'DX');
   rline.RegisterPropertyHelper(@TRTLLineDY_R, nil, 'DY');
   rline.RegisterPropertyHelper(@TRTLLineSpecial_R, @TRTLLineSpecial_W, 'Special');
-  {$IFDEF HEXEN}
   rline.RegisterPropertyHelper(@TRTLLineArg1_R, @TRTLLineArg1_W, 'Arg1');
   rline.RegisterPropertyHelper(@TRTLLineArg2_R, @TRTLLineArg2_W, 'Arg2');
   rline.RegisterPropertyHelper(@TRTLLineArg3_R, @TRTLLineArg3_W, 'Arg3');
   rline.RegisterPropertyHelper(@TRTLLineArg4_R, @TRTLLineArg4_W, 'Arg4');
   rline.RegisterPropertyHelper(@TRTLLineArg5_R, @TRTLLineArg5_W, 'Arg5');
-  {$ELSE}
+  {$IFNDEF HEXEN}
   rline.RegisterPropertyHelper(@TRTLLineTag_R, @TRTLLineTag_W, 'Tag');
   rline.RegisterPropertyHelper(@TRTLLineTransparent_R, @TRTLLineTransparent_W, 'Transparent');
   {$ENDIF}
