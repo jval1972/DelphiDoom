@@ -42,7 +42,6 @@ interface
 
 uses
   d_delphi,
-  doomdef,
   tables,
 {$IFNDEF OPENGL}
   t_main,

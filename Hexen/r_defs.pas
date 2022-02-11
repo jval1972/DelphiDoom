@@ -36,12 +36,10 @@ interface
 
 uses
   d_delphi,
-  doomdef,
   tables,
 {$IFNDEF OPENGL}
   t_main,
 {$ENDIF}
-  info_h,
 // Some more or less basic data types
 // we depend on.
   m_fixed,
