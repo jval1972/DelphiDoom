@@ -1033,6 +1033,7 @@ begin
   {$ENDIF}
   P_LoadSectors(lumpnum + Ord(ML_SECTORS));
   P_LoadSideDefs(lumpnum + Ord(ML_SIDEDEFS));
+  UDMF_MakeSides;
   P_LoadLineDefs(lumpnum + Ord(ML_LINEDEFS));
   P_LoadBlockMap(lumpnum + Ord(ML_BLOCKMAP));
   {$IFDEF OPENGL}
