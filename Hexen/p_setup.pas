@@ -964,7 +964,7 @@ begin
   gwaloaded := false;
 
 {$IFDEF OPENGL}
-  if useglnodesifavailable and not G_NeedsCompatibilityMode then
+  if useglnodesifavailable and not G_NeedsCompatibilityMode and not hasudmfdata then
   begin
     glmapnum := gld_GetGLMapLump(lumpnum);
     glnodesver := gld_GetGLNodesVersion(glmapnum);
