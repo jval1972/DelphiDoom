@@ -4271,7 +4271,7 @@ function TPSPascalCompiler.ReadType(const Name: TbtString; FParser: TPSPascalPar
 var
   TypeNo: TPSType;
   h, l: Longint;
-  FieldName,fieldorgname,s: TbtString;
+  FieldName, fieldorgname, s: TbtString;
   RecSubVals: TPSList;
   FArrayStart, FArrayLength: Longint;
   rvv: PIFPSRecordFieldTypeDef;
@@ -5851,7 +5851,7 @@ end;
 //==============================================================================
 function TPSPascalCompiler.DoTypeBlock(FParser: TPSPascalParser): Boolean;
 var
-  VOrg,VName: TbtString;
+  VOrg, VName: TbtString;
   Attr: TPSAttributes;
   FType: TPSType;
   i: Longint;
@@ -7479,7 +7479,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
               FParser.Next;
 
               tmp := AllocStackReg(u);
-              WriteCalculation(x,tmp);
+              WriteCalculation(x, tmp);
               TPSVar(BlockInfo.Proc.FProcVars[TPSValueAllocatedStackVar(tmp).LocalVarNo]).Use;
 
               rr := TPSSubNumber.Create;
@@ -7498,7 +7498,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
                 PreWriteAllocated := True;
               end;
 
-              if not WriteCalculation(tmp,TPSValueReplace(tmpn).NewValue) then
+              if not WriteCalculation(tmp, TPSValueReplace(tmpn).NewValue) then
               begin
                 {MakeError('',ecInternalError,'');}
                 x.Free;
@@ -10562,7 +10562,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
       begin
         Delete(s, 1, 4);
         s := BlockInfo.Proc.FLabels[Cardinal((@s[1])^)];
-        Delete(s,1,8);
+        Delete(s, 1, 8);
         OK := False;
         for J := 0 to FLabelsInBlock.Count - 1 do
         begin
@@ -10584,7 +10584,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
       begin
         Delete(s, 1, 4);
         s := BlockInfo.Proc.FLabels[Cardinal((@s[1])^)];
-        Delete(s,1,8);
+        Delete(s, 1, 8);
         OK := True;
         for J := 0 to FLabelsInBlock.Count - 1 do
         begin
@@ -11429,7 +11429,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
           p.aType := at2ut(FDefaultBoolType);
           p.Val2 := V2;
           p.Val1 := NewRec(TempRec);
-          P := TPSBinValueOp(Combine(Val,P, otAnd));
+          P := TPSBinValueOp(Combine(Val, P, otAnd));
         end
         else
         begin
@@ -11636,8 +11636,8 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
       //if aVar.InheritsFrom(TPSVar) then TPSVar(aVar).Use;
       tmp := AllocPointer(GetTypeNo(BlockInfo, aVar));
       TPSProcVar(BlockInfo.Proc.ProcVars[TPSValueAllocatedStackVar(tmp).LocalVarNo]).Use;
-      PreWriteOutRec(tmp,GetTypeNo(BlockInfo, tmp));
-      PreWriteOutRec(aVar,GetTypeNo(BlockInfo, aVar));
+      PreWriteOutRec(tmp, GetTypeNo(BlockInfo, tmp));
+      PreWriteOutRec(aVar, GetTypeNo(BlockInfo, aVar));
       BlockWriteByte(BlockInfo, CM_SP);
       WriteOutRec(tmp, False);
       WriteOutRec(aVar, False);
@@ -11664,7 +11664,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
 
     iStartOffset := Length(Block.Proc.Data);
 
-    if not (ProcessSub(Block) and (not HasInvalidJumps(iStartOffset,Length(BlockInfo.Proc.Data) + 1))) then
+    if not (ProcessSub(Block) and (not HasInvalidJumps(iStartOffset, Length(BlockInfo.Proc.Data) + 1))) then
     begin
       Dec(FWithCount);
       Block.Free;
@@ -11695,7 +11695,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
     Block := TPSBlockInfo.Create(BlockInfo);
     Block.SubType := tTry;
     Inc(FTryCount);
-    if ProcessSub(Block) and (not HasInvalidJumps(FStartOffset,Length(BlockInfo.Proc.Data) + 1)) then
+    if ProcessSub(Block) and (not HasInvalidJumps(FStartOffset, Length(BlockInfo.Proc.Data) + 1)) then
     begin
       Dec(FTryCount);
       Block.Free;
@@ -11709,7 +11709,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
         Block := TPSBlockInfo.Create(BlockInfo);
         Block.SubType := tTryEnd;
         Inc(FExceptFinallyCount);
-        if ProcessSub(Block) and (not HasInvalidJumps(iBlockStartOffset,Length(BlockInfo.Proc.Data) + 1)) then
+        if ProcessSub(Block) and (not HasInvalidJumps(iBlockStartOffset, Length(BlockInfo.Proc.Data) + 1)) then
         begin
           Dec(FExceptFinallyCount);
           Block.Free;
@@ -11723,7 +11723,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
             Block.SubType := tTryEnd;
             FParser.Next;
             Inc(FExceptFinallyCount);
-            if ProcessSub(Block) and (not HasInvalidJumps(iBlockStartOffset,Length(BlockInfo.Proc.Data) + 1)) then
+            if ProcessSub(Block) and (not HasInvalidJumps(iBlockStartOffset, Length(BlockInfo.Proc.Data) + 1)) then
             begin
               Dec(FExceptFinallyCount);
               Block.Free;
@@ -11771,7 +11771,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
         Block := TPSBlockInfo.Create(BlockInfo);
         Block.SubType := tTryEnd;
         Inc(FExceptFinallyCount);
-        if ProcessSub(Block)  and (not HasInvalidJumps(iBlockStartOffset,Length(BlockInfo.Proc.Data) + 1)) then
+        if ProcessSub(Block)  and (not HasInvalidJumps(iBlockStartOffset, Length(BlockInfo.Proc.Data) + 1)) then
         begin
           Dec(FExceptFinallyCount);
           Block.Free;
@@ -11785,7 +11785,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
             Block := TPSBlockInfo.Create(BlockInfo);
             Block.SubType := tTryEnd;
             Inc(FExceptFinallyCount);
-            if ProcessSub(Block) and (not HasInvalidJumps(iBlockStartOffset,Length(BlockInfo.Proc.Data) + 1)) then
+            if ProcessSub(Block) and (not HasInvalidJumps(iBlockStartOffset, Length(BlockInfo.Proc.Data) + 1)) then
             begin
               Dec(FExceptFinallyCount);
               Block.Free;
@@ -14233,7 +14233,7 @@ end;
 
 {$IFNDEF PS_NOINTERFACES}
 const
-  IUnknown_Guid: TGuid = (D1: 0; d2: 0; d3: 0; d4: ($c0,00,00,00,00,00,00,$46));
+  IUnknown_Guid: TGuid = (D1: 0; d2: 0; d3: 0; d4: ($C0, 00, 00, 00, 00, 00, 00, $46));
   IDispatch_Guid: TGuid = (D1: $20400; D2: $0; D3: $0; D4:($C0, $0, $0, $0, $0, $0, $0, $46));
 {$ENDIF}
 
@@ -14412,7 +14412,7 @@ begin
   AddTypeS('TIFException', '(erNoError, erCannotImport, erInvalidType, erInternalError, ' +
    'erInvalidHeader, erInvalidOpcode, erInvalidOpcodeParameter, erNoMainProc, erOutOfGlobalVarsRange, ' +
     'erOutOfProcRange, erOutOfRange, erOutOfStackRange, erTypeMismatch, erUnexpectedEof, ' +
-    'erVersionError, erDivideByZero, erMathError,erCouldNotCallProc, erOutofRecordRange, ' +
+    'erVersionError, erDivideByZero, erMathError, erCouldNotCallProc, erOutofRecordRange, ' +
     'erOutOfMemory, erException, erNullPointerException, erNullVariantError, erInterfaceNotSupported, erCustomError)');
   AddFunction('procedure RaiseLastException;');
   AddFunction('procedure RaiseException(Ex: TIFException; Param: String);');
