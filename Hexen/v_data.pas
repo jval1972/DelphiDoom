@@ -46,9 +46,10 @@ const
   SCN_320x200 = -1;
   SCN_FG = 0;
   SCN_BG = 1;
-  SCN_CON = 2;  // Console Screen Buffer
-  SCN_SB = 3;   // Status Bar Screen Buffer (320x32)
-  SCN_TMP = 4;  // Temporary Screen Buffer 320x200
+  SCN_CON = 2;    // Console Screen Buffer
+  SCN_SB = 3;     // Status Bar Screen Buffer (320x32)
+  SCN_TMP426 = 4; // Temporary Screen Buffer 426x200
+  SCN_TMP = 5;    // Temporary Screen Buffer 320x200
 
 var
 // Screen 0 is the screen updated by I_Update screen.
@@ -86,6 +87,7 @@ const
     (width:  -1; height:  -1; depth: 1),
     {$ENDIF}
     (width: 320; height: 200; depth: 1),
+    (width: 426; height: 200; depth: 1),
     (width: 320; height: 200; depth: 1)
   );
 
