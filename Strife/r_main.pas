@@ -1977,7 +1977,7 @@ begin
     if setblocks = 10 then
       scaledviewwidth := SCREENWIDTH
     else
-      scaledviewwidth := (setblocks * SCREENWIDTH div 10) and (not 7);
+      scaledviewwidth := (setblocks * SCREENWIDTH div 10) and not 7;
     if setblocks = 10 then
     {$IFDEF OPENGL}
       viewheight := trunc(ST_Y * SCREENHEIGHT / 200)
@@ -1986,9 +1986,9 @@ begin
     {$ENDIF}
     else
     {$IFDEF OPENGL}
-      viewheight := (setblocks * trunc(ST_Y * SCREENHEIGHT / 2000)) and (not 7);
+      viewheight := (setblocks * trunc(ST_Y * SCREENHEIGHT / 2000)) and not 7;
     {$ELSE}
-      viewheight := (setblocks * V_PreserveY(ST_Y) div 10) and (not 7);
+      viewheight := (setblocks * V_PreserveY(ST_Y) div 10) and not 7;
     {$ENDIF}
   end;
 
@@ -2444,7 +2444,10 @@ var
 procedure R_SetupFrame(player: Pplayer_t);
 var
   i: integer;
-  cy{$IFNDEF OPENGL}, dy, dy1{$ENDIF}: fixed_t;
+  cy: fixed_t;
+{$IFNDEF OPENGL}
+  dy, dy1: fixed_t;
+{$ENDIF}
   sblocks: integer;
   sec: Psector_t;
   cm: integer;
@@ -2762,7 +2765,7 @@ procedure R_DoRenderPlayerView32_MultiThread(player: Pplayer_t);
 begin
   R_Fake3DPrepare(player);
   R_SetupFrame(player);
-  R_CalcHiResTables_Multithread;
+  R_CalcHiResTables_MultiThread;
 
   // Clear buffers.
   R_ClearClipSegs;

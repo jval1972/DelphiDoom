@@ -1726,6 +1726,7 @@ begin
             rippleslopefunc := R_DrawSpanNormal_Ripple;
           end;
         end;
+
         if useclassicfuzzeffect then
           fuzzcolfunc := R_DrawFuzzColumn32
         else

@@ -2378,7 +2378,10 @@ end;
 procedure R_SetupFrame(player: Pplayer_t);
 var
   i: integer;
-  cy{$IFNDEF OPENGL}, dy, dy1{$ENDIF}: fixed_t;
+  cy: fixed_t;
+{$IFNDEF OPENGL}
+  dy, dy1: fixed_t;
+{$ENDIF}
   sblocks: integer;
   vangle: angle_t;
 begin
