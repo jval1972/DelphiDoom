@@ -411,7 +411,7 @@ var
 
   exitpic, enterpic: string; // UMAPINFO
 
-  is426screen: boolean = false;
+  wide_inter: integer = 320;
 
 //==============================================================================
 //
@@ -421,7 +421,7 @@ var
 //==============================================================================
 procedure WI_DrawPatch(const x, y: Integer; const p: Ppatch_t);
 begin
-  if is426screen then
+  if wide_inter = 426 then
     V_DrawPatch(x + (426 - 320) div 2, y, SCN_TMP426, p, false)
   else
     V_DrawPatch(x, y, SCN_TMP, p, false);
@@ -457,7 +457,7 @@ begin
   else
     name := wibackground;
 
-  if is426screen then
+  if wide_inter = 426 then
     V_DrawPatchFullScreenTMP426x200(name)
   else
     V_DrawPatchFullScreenTMP320x200(name);
@@ -1785,7 +1785,7 @@ begin
       wibackground := 'INTERPIC';
 
   ptc := W_CacheLumpName(wibackground, PU_STATIC);
-  is426screen := ptc.width = 426;
+  wide_inter := ptc.width;
   Z_ChangeTag(ptc, PU_CACHE);
 
   if gamemode = commercial then
@@ -2041,7 +2041,7 @@ begin
       end;
   end;
 
-  if is426screen then
+  if wide_inter = 426 then
     V_CopyRect(0, 0, SCN_TMP426, 426, 200, 0, 0, SCN_FG, true)
   else
   begin
