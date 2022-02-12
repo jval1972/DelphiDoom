@@ -44,6 +44,7 @@ uses
 const
   ST_HEIGHT = 32;
   ST_WIDTH = 320;
+  ST_WIDTH426 = 426;
   ST_Y = 200 - ST_HEIGHT;
 
 type
@@ -53,6 +54,8 @@ var
   st_palette: integer;
 // lump number for PLAYPAL
   lu_palette: integer;
+
+  st_drawoptions: stdrawoptions_t;
 
 //==============================================================================
 // ST_Responder
@@ -866,11 +869,16 @@ procedure ST_RefreshBackground;
 begin
   if st_statusbaron then
   begin
-    V_DrawPatch(ST_X, 0, SCN_ST, sbar, false);
-    if oldsharewareversion then
-      V_DrawPatch(ST_X2, 0, SCN_ST, sbar2, false);
+    if wide_stbar = 426 then
+      V_DrawPatch(ST_X, 0, SCN_ST426, sbar, false)
+    else
+    begin
+      V_DrawPatch(ST_X, 0, SCN_ST, sbar, false);
+      if oldsharewareversion then
+        V_DrawPatch(ST_X2, 0, SCN_ST, sbar2, false);
+    end;
     if netgame then
-      V_DrawPatch(ST_FX, 0, SCN_ST, faceback, false);
+      ST_DrawPatch(ST_FX, 0, faceback);
   end;
 end;
 
@@ -881,7 +889,10 @@ end;
 //==============================================================================
 procedure ST_FinishRefresh;
 begin
-  V_CopyRect(ST_X, 0, SCN_ST, ST_WIDTH, ST_HEIGHT, ST_X, ST_Y, SCN_FG, true);
+  if wide_stbar = 426 then
+    V_CopyRect(ST_X, 0, SCN_ST426, ST_WIDTH426, ST_HEIGHT, ST_X, ST_Y, SCN_FG, true)
+  else
+    V_CopyRect(ST_X, 0, SCN_ST, ST_WIDTH, ST_HEIGHT, ST_X, ST_Y, SCN_FG, true);
 end;
 
 //==============================================================================
@@ -1534,7 +1545,10 @@ end;
 //==============================================================================
 procedure ST_RefreshBackgroundSmall;
 begin
-  R_VideoBlanc(SCN_ST, 0, ST_WIDTH * ST_HEIGHT);
+  if wide_stbar = 426 then
+    R_VideoBlanc(SCN_ST426, 0, ST_WIDTH426 * ST_HEIGHT)
+  else
+    R_VideoBlanc(SCN_ST, 0, ST_WIDTH * ST_HEIGHT);
 end;
 
 //==============================================================================
@@ -1552,9 +1566,9 @@ begin
   begin
     STlib_updateNum(@w_ammo2[ammo], true);
     if sammo[ammo] >= 0 then
-      V_DrawPatch(ST_MWX, ST_MWY, SCN_ST, sammo[ammo], false);
+      ST_DrawPatch(ST_MWX, ST_MWY, sammo[ammo]);
   end;
-  V_DrawPatch(ST_MX, ST_MY, SCN_ST, smedikit, false);
+  ST_DrawPatch(ST_MX, ST_MY, smedikit);
 end;
 
 //==============================================================================
@@ -1564,7 +1578,10 @@ end;
 //==============================================================================
 procedure ST_FinishRefreshSmall;
 begin
-  V_CopyRectTransparent(0, 0, SCN_ST, ST_WIDTH, ST_HEIGHT, 0, ST_Y, SCN_FG, true);
+  if wide_stbar = 426 then
+    V_CopyRectTransparent(0, 0, SCN_ST426, ST_WIDTH426, ST_HEIGHT, 0, ST_Y, SCN_FG, true)
+  else
+    V_CopyRectTransparent(0, 0, SCN_ST, ST_WIDTH, ST_HEIGHT, 0, ST_Y, SCN_FG, true);
 end;
 
 //==============================================================================
@@ -1612,6 +1629,7 @@ end;
 //==============================================================================
 procedure ST_Drawer(dopt: stdrawoptions_t; refresh: boolean);
 begin
+  st_drawoptions := dopt;
   st_statusbaron := (dopt <> stdo_no) or (amstate = am_only);
   {$IFDEF OPENGL}
   if not st_statusbaron then
@@ -1703,9 +1721,14 @@ begin
     sbar := W_CacheLumpNum(lump, PU_STATIC);
     lump :=  W_CheckNumForName('STMBARR');
     sbar2 := W_CacheLumpNum(lump, PU_STATIC);
+    wide_stbar := 320;
   end
   else
+  begin
     sbar := W_CacheLumpNum(lump, PU_STATIC);
+    wide_stbar := sbar.width;
+  end;
+
 
 // JVAL
 // Statusbar medikit, use stimpack patch (STIMA0)
