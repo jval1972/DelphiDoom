@@ -87,7 +87,7 @@ type
   TPakEntry = record // A Directory Entry Memory Image
     Pak: string[255];
     Name: string[255];
-    ShortName: string[32];
+    ShortName: string[64];
     Offset, Size: Integer;
     Hash: Integer;
   {$IFNDEF FPC}
@@ -334,7 +334,7 @@ begin
   result := 0;
   for i := 1 to length(s) do
   begin
-    result := ((result shl 7) or (result shr 25)) + Ord(s[i]);
+    result := ((result shl 7) or (result shr 25)) + Ord(toupper(s[i]));
   end;
 end;
 
