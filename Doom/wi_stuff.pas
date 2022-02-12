@@ -413,6 +413,12 @@ var
 
   is426screen: boolean = false;
 
+//==============================================================================
+//
+// WI_DrawPatch
+//  Draws intermission patches, depending on 426x200 or 320x200 background
+//
+//==============================================================================
 procedure WI_DrawPatch(const x, y: Integer; const p: Ppatch_t);
 begin
   if is426screen then
