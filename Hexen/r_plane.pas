@@ -1223,10 +1223,10 @@ begin
   begin
     ds_anglex := pl.anglex;
     ds_angley := pl.angley;
-    ds_sine := sin(-ds_angle / ANGLE_MAX * 2 * pi);    // JVAL: 20200225 - Texture angle
-    ds_cosine := cos(ds_angle / ANGLE_MAX * 2 * pi);  // JVAL: 20200225 - Texture angle
-    ds_viewsine := sin((viewangle - ds_angle) / ANGLE_MAX * 2 * pi);    // JVAL: 20200225 - Texture angle
-    ds_viewcosine := cos((viewangle - ds_angle) / ANGLE_MAX * 2 * pi);  // JVAL: 20200225 - Texture angle
+    ds_sine := sin(-ds_angle * ANGLE_T_TO_RAD);   // JVAL: 20200225 - Texture angle
+    ds_cosine := cos(ds_angle * ANGLE_T_TO_RAD);  // JVAL: 20200225 - Texture angle
+    ds_viewsine := sin((viewangle - ds_angle) * ANGLE_T_TO_RAD);    // JVAL: 20200225 - Texture angle
+    ds_viewcosine := cos((viewangle - ds_angle) * ANGLE_T_TO_RAD);  // JVAL: 20200225 - Texture angle
     for x := pl.minx to stop do
     begin
       R_MakeSpans(x, pl.top[x - 1], pl.bottom[x - 1], pl.top[x], pl.bottom[x], @R_MapPlaneAngle);

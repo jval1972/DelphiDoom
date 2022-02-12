@@ -692,11 +692,6 @@ begin
   ds_x1 := x1;
   cnt := 0;
 
-{  tsin := sin(-ds_angle / ANGLE_MAX * 2 * pi);
-  tcos := cos(-ds_angle / ANGLE_MAX * 2 * pi);
-
-  tviewx := Round(viewx * tcos - viewy * tsin);
-  tviewy := Round(viewx * tsin + viewy * tcos);}
   tsin := ds_sine;
   tcos := ds_cosine;
 
@@ -875,10 +870,10 @@ begin
   begin
     ds_anglex := pl.anglex;
     ds_angley := pl.angley;
-    ds_sine := sin(-ds_angle / ANGLE_MAX * 2 * pi);    // JVAL: 20200225 - Texture angle
-    ds_cosine := cos(ds_angle / ANGLE_MAX * 2 * pi);  // JVAL: 20200225 - Texture angle
-    ds_viewsine := sin((viewangle - ds_angle) / ANGLE_MAX * 2 * pi);    // JVAL: 20200225 - Texture angle
-    ds_viewcosine := cos((viewangle - ds_angle) / ANGLE_MAX * 2 * pi);  // JVAL: 20200225 - Texture angle
+    ds_sine := sin(-ds_angle * ANGLE_T_TO_RAD);   // JVAL: 20200225 - Texture angle
+    ds_cosine := cos(ds_angle * ANGLE_T_TO_RAD);  // JVAL: 20200225 - Texture angle
+    ds_viewsine := sin((viewangle - ds_angle) * ANGLE_T_TO_RAD);    // JVAL: 20200225 - Texture angle
+    ds_viewcosine := cos((viewangle - ds_angle) * ANGLE_T_TO_RAD);  // JVAL: 20200225 - Texture angle
     // Slope with angle
     for x := pl.minx to stop do
     begin
