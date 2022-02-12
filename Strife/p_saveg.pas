@@ -563,17 +563,17 @@ begin
     put := @put[2];
 
     // JVAL: 20220209 - UDMF support
-    PInteger(@put)^ := li.arg1;
+    PInteger(put)^ := li.arg1;
     put := @put[2];
-    PInteger(@put)^ := li.arg2;
+    PInteger(put)^ := li.arg2;
     put := @put[2];
-    PInteger(@put)^ := li.arg3;
+    PInteger(put)^ := li.arg3;
     put := @put[2];
-    PInteger(@put)^ := li.arg4;
+    PInteger(put)^ := li.arg4;
     put := @put[2];
-    PInteger(@put)^ := li.arg5;
+    PInteger(put)^ := li.arg5;
     put := @put[2];
-    PInteger(@put)^ := li.activators;
+    PInteger(put)^ := li.activators;
     put := @put[2];
     Pmoreids_t(put)^ := li.moreids;
     put := @put[SizeOf(moreids_t)];
