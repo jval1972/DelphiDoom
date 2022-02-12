@@ -259,6 +259,27 @@ procedure V_DrawPatchFullScreenTMP320x200(const lump: integer); overload;
 
 //==============================================================================
 //
+// V_DrawPatchFullScreenTMP426x200
+//
+//==============================================================================
+procedure V_DrawPatchFullScreenTMP426x200(p: Ppatch_t); overload;
+
+//==============================================================================
+//
+// V_DrawPatchFullScreenTMP426x200
+//
+//==============================================================================
+procedure V_DrawPatchFullScreenTMP426x200(const pname: string); overload;
+
+//==============================================================================
+//
+// V_DrawPatchFullScreenTMP426x200
+//
+//==============================================================================
+procedure V_DrawPatchFullScreenTMP426x200(const lump: integer); overload;
+
+//==============================================================================
+//
 // V_PageDrawer
 //
 //==============================================================================
@@ -292,7 +313,14 @@ procedure V_GetBlock(x, y: integer; scrn: integer; width, height: integer; dest:
 // V_PreserveX
 //
 //==============================================================================
-function V_PreserveX(const x: integer): integer;
+function V_PreserveX(const x: integer): integer; overload;
+
+//==============================================================================
+//
+// V_PreserveX
+//
+//==============================================================================
+function V_PreserveX(const SCN: integer; const x: integer): integer; overload;
 
 //==============================================================================
 //
@@ -323,7 +351,14 @@ function V_PreserveGLY(const y: integer): integer;
 // V_PreserveW
 //
 //==============================================================================
-function V_PreserveW(const x: integer; const w: integer): integer;
+function V_PreserveW(const x: integer; const w: integer): integer; overload;
+
+//==============================================================================
+//
+// V_PreserveW
+//
+//==============================================================================
+function V_PreserveW(const SCN: integer; const x: integer; const w: integer): integer; overload;
 
 //==============================================================================
 //
@@ -520,6 +555,7 @@ uses
 // x and y translation tables for stretcing
 var
   preserveX: array[0..319] of integer;
+  preserveX426: array[0..425] of integer;
   preserveY: array[0..199] of integer;
   widthintmultiplier: Integer = 0;
   heightintmultiplier: Integer = 0;
@@ -563,6 +599,45 @@ begin
 {$ENDIF}
   else
     result := preserveX[x];
+end;
+
+//==============================================================================
+// V_PreserveX
+//
+// preserve x coordinates
+//
+//==============================================================================
+function V_PreserveX(const SCN: integer; const x: integer): integer;
+var
+  swidth: integer;
+begin
+  swidth := V_GetScreenWidth(SCN);
+  if swidth = 320 then
+  begin
+    if x <= 0 then
+      result := 0
+    else if x >= 320 then
+      result := {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF}
+  {$IFNDEF OPENGL}
+    else if SCREENWIDTH = 320 then
+      result := x
+  {$ENDIF}
+    else
+      result := preserveX[x];
+  end
+  else
+  begin
+    if x <= 0 then
+      result := 0
+    else if x >= swidth then
+      result := {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF}
+  {$IFNDEF OPENGL}
+    else if SCREENWIDTH = swidth then
+      result := x
+  {$ENDIF}
+    else
+      result := trunc(x * {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF} / swidth);
+  end
 end;
 
 //==============================================================================
@@ -617,6 +692,17 @@ end;
 function V_PreserveW(const x: integer; const w: integer): integer;
 begin
   result := V_PreserveX(x + w) - V_PreserveX(x);
+end;
+
+//==============================================================================
+// V_PreserveW
+//
+// preserve width coordinates
+//
+//==============================================================================
+function V_PreserveW(const SCN: integer; const x: integer; const w: integer): integer;
+begin
+  result := V_PreserveX(SCN, x + w) - V_PreserveX(SCN, x);
 end;
 
 //==============================================================================
@@ -770,13 +856,13 @@ begin
   dwidth := V_GetScreenWidth(destscrn);
   if V_NeedsPreserve(destscrn, srcscrn, preserve) then
   begin
-    destw := V_PreserveW(destx, width);
+    destw := V_PreserveW(srcscrn, destx, width);
 
     desth := V_PreserveH(desty, height);
 
     if (destw <> 0) and (desth <> 0) then
     begin
-      destx := V_PreserveX(destx);
+      destx := V_PreserveX(srcscrn, destx);
 
       desty := V_PreserveY(desty);
 
@@ -963,13 +1049,13 @@ begin
   dwidth := V_GetScreenWidth(destscrn);
   if V_NeedsPreserve(destscrn, srcscrn, preserve) then
   begin
-    destw := V_PreserveW(destx, width);
+    destw := V_PreserveW(srcscrn, destx, width);
 
     desth := V_PreserveH(desty, height);
 
     if (destw <> 0) and (desth <> 0) then
     begin
-      destx := V_PreserveX(destx);
+      destx := V_PreserveX(srcscrn, destx);
 
       desty := V_PreserveY(desty);
 
@@ -1175,7 +1261,7 @@ begin
   pv := V_NeedsPreserve(SCN_FG, srcscrn, preserve);
   if pv then
   begin
-    destw := V_PreserveW(destx, width);
+    destw := V_PreserveW(srcscrn, destx, width);
     desth := V_PreserveH(desty, height);
   end
   else
@@ -1188,7 +1274,7 @@ begin
   begin
     if pv then
     begin
-      destx := V_PreserveX(destx);
+      destx := V_PreserveX(srcscrn, destx);
       desty := V_PreserveY(desty);
       fracxstep := FRACUNIT * width div destw;
       fracystep := FRACUNIT * height div desth;
@@ -1201,7 +1287,7 @@ begin
 
     fracy := srcy * FRACUNIT;
 
-    if pv then
+    if pv and (swidth = 320) then
       case widthintmultiplier of
         2: // Width: 640
           begin
@@ -1407,7 +1493,7 @@ begin
   pv := V_NeedsPreserve(SCN_FG, srcscrn, preserve);
   if pv then
   begin
-    destw := V_PreserveW(destx, width);
+    destw := V_PreserveW(srcscrn, destx, width);
     desth := V_PreserveH(desty, height);
   end
   else
@@ -1420,7 +1506,7 @@ begin
   begin
     if pv then
     begin
-      destx := V_PreserveX(destx);
+      destx := V_PreserveX(srcscrn, destx);
       desty := V_PreserveY(desty);
       fracxstep := FRACUNIT * width div destw;
       fracystep := FRACUNIT * height div desth;
@@ -1433,7 +1519,7 @@ begin
 
     fracy := srcy * FRACUNIT;
 
-    if pv then
+    if pv and (swidth = 320) then
       case widthintmultiplier of
         2: // Width: 640
           begin
@@ -4166,6 +4252,67 @@ begin
   Z_ChangeTag(p, PU_CACHE);
 end;
 
+//==============================================================================
+//
+// V_DrawPatchFullScreenTMP426x200
+//
+//==============================================================================
+procedure V_DrawPatchFullScreenTMP426x200(p: Ppatch_t);
+var
+  oldscreen, newscreen: PByteArray;
+begin
+  if (p.width = 426) and (p.height = 200) then
+  begin
+    V_DrawPatch8(0, 0, SCN_TMP426, p, false);
+    exit;
+  end;
+
+  oldscreen := screens[SCN_TMP426];
+  screendimentions[SCN_TMP426].width := p.width;
+  screendimentions[SCN_TMP426].height := p.height;
+
+  newscreen := mallocz(p.width * p.height);
+  screens[SCN_TMP426] := newscreen;
+
+  V_DrawPatch(0, 0, SCN_TMP426, p, false);
+
+  V_ScaleBuffer8(pointer(screens[SCN_TMP426]), p.width, p.height, 426, 200);
+  memcpy(oldscreen, screens[SCN_TMP426], 426 * 200);
+
+  memfree(pointer(screens[SCN_TMP426]), p.width * p.height);
+  screens[SCN_TMP426] := oldscreen;
+  screendimentions[SCN_TMP426].width := 426;
+  screendimentions[SCN_TMP426].height := 200;
+end;
+
+//==============================================================================
+//
+// V_DrawPatchFullScreenTMP426x200
+//
+//==============================================================================
+procedure V_DrawPatchFullScreenTMP426x200(const pname: string); overload;
+var
+  p: Ppatch_t;
+begin
+  p := W_CacheLumpName(pname, PU_STATIC);
+  V_DrawPatchFullScreenTMP426x200(p);
+  Z_ChangeTag(p, PU_CACHE);
+end;
+
+//==============================================================================
+//
+// V_DrawPatchFullScreenTMP426x200
+//
+//==============================================================================
+procedure V_DrawPatchFullScreenTMP426x200(const lump: integer); overload;
+var
+  p: Ppatch_t;
+begin
+  p := W_CacheLumpNum(lump, PU_STATIC);
+  V_DrawPatchFullScreenTMP426x200(p);
+  Z_ChangeTag(p, PU_CACHE);
+end;
+
 {$IFDEF DOOM_OR_STRIFE}
 
 //==============================================================================
@@ -4391,6 +4538,9 @@ begin
   // initialize translation tables
   for i := 0 to 319 do
     preserveX[i] := trunc(i * {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF} / 320);
+
+  for i := 0 to 425 do
+    preserveX426[i] := trunc(i * {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF} / 426);
 
   for i := 0 to 199 do
     preserveY[i] := trunc(i * {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF} / 200);

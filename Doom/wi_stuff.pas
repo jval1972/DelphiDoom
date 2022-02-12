@@ -411,6 +411,16 @@ var
 
   exitpic, enterpic: string; // UMAPINFO
 
+  is426screen: boolean = false;
+
+procedure WI_DrawPatch(const x, y: Integer; const p: Ppatch_t);
+begin
+  if is426screen then
+    V_DrawPatch(x + (426 - 320) div 2, y, SCN_TMP426, p, false)
+  else
+    V_DrawPatch(x, y, SCN_TMP, p, false);
+end;
+
 //
 // CODE
 //
@@ -441,7 +451,10 @@ begin
   else
     name := wibackground;
 
-  V_DrawPatchFullScreenTMP320x200(name);
+  if is426screen then
+    V_DrawPatchFullScreenTMP426x200(name)
+  else
+    V_DrawPatchFullScreenTMP320x200(name);
 end;
 
 //==============================================================================
@@ -480,7 +493,7 @@ begin
   begin
     lpic := W_CacheLumpName(wbs.lastmapinfo.levelpic, PU_CACHE);
 
-    V_DrawPatch((320 - lpic.width) div 2, y, SCN_TMP, lpic, false);
+    WI_DrawPatch((320 - lpic.width) div 2, y, lpic);
 
     y := y + (5 * lpic.height) div 4;
   end
@@ -488,13 +501,13 @@ begin
   // draw <LevelName>
   if wbs.last < lnamessize then // JVAL: 20170826 Avoid crash when missing levelname patches
   begin
-    V_DrawPatch((320 - lnames[wbs.last].width) div 2, y, SCN_TMP, lnames[wbs.last], false);
+    WI_DrawPatch((320 - lnames[wbs.last].width) div 2, y, lnames[wbs.last]);
     y := y + (5 * lnames[wbs.last].height) div 4;
     if y + finished.height > 200 then
       y := 200 - finished.height;
   end;
 
-  V_DrawPatch((320 - finished.width) div 2, y, SCN_TMP, finished, false);
+  WI_DrawPatch((320 - finished.width) div 2, y, finished);
 end;
 
 //==============================================================================
@@ -511,7 +524,7 @@ begin
   y := WI_TITLEY;
 
   // draw "Entering"
-  V_DrawPatch((320 - entering.width) div 2, y, SCN_TMP, entering, false);
+  WI_DrawPatch((320 - entering.width) div 2, y, entering);
 
   // The level defines a new name but no texture for the name
   if (wbs.nextmapinfo <> nil) and (wbs.nextmapinfo.levelname <> '') and (wbs.nextmapinfo.levelpic = '') then
@@ -526,7 +539,7 @@ begin
 
     y := y + (5 * lpic.height) div 4;
 
-    V_DrawPatch((320 - lpic.width) div 2, y, SCN_TMP, lpic, false);
+    WI_DrawPatch((320 - lpic.width) div 2, y, lpic);
   end
   else
   // draw level
@@ -536,7 +549,7 @@ begin
     if y + lnames[wbs.next].height > 200 then
       y := 200 - lnames[wbs.next].height;
 
-    V_DrawPatch((320 - lnames[wbs.next].width) div 2, y, SCN_TMP, lnames[wbs.next], false);
+    WI_DrawPatch((320 - lnames[wbs.next].width) div 2, y, lnames[wbs.next]);
   end;
 end;
 
@@ -573,7 +586,7 @@ begin
   until not ((not fits) and (i <> 2));
 
   if fits and (i < 2) then
-    V_DrawPatch(lnodes[wbs.epsd][n].x, lnodes[wbs.epsd][n].y, SCN_TMP, c[i], false)
+    WI_DrawPatch(lnodes[wbs.epsd][n].x, lnodes[wbs.epsd][n].y, c[i])
   else
     // DEBUG
     I_Warning('WI_DrawOnLnode(): Could not place patch on level %d'#13#10, [n + 1]);
@@ -709,7 +722,7 @@ begin
     a := @anims[wbs.epsd, i];
 
     if a.ctr >= 0 then
-      V_DrawPatch(a.loc.x, a.loc.y, SCN_TMP, a.p[a.ctr], false);
+      WI_DrawPatch(a.loc.x, a.loc.y, a.p[a.ctr]);
   end;
 end;
 
@@ -764,7 +777,7 @@ begin
   while digits > 0 do
   begin
     x := x - fontwidth;
-    V_DrawPatch(x, y, SCN_TMP, num[n mod 10], false);
+    WI_DrawPatch(x, y, num[n mod 10]);
     n := n div 10;
     dec(digits);
   end;
@@ -773,7 +786,7 @@ begin
   if neg then
   begin
     x := x - 8;
-    V_DrawPatch(x, y, SCN_TMP, wiminus, false);
+    WI_DrawPatch(x, y, wiminus);
   end;
 
   result := x;
@@ -789,7 +802,7 @@ begin
   if p < 0 then
     exit;
 
-  V_DrawPatch(x, y, SCN_TMP, percent, false);
+  WI_DrawPatch(x, y, percent);
   WI_DrawNum(x, y, p, -1);
 end;
 
@@ -819,12 +832,12 @@ begin
 
       // draw
       if (_div = 60) or (t div _div <> 0) then
-        V_DrawPatch(x, y, SCN_TMP, colon, false);
+        WI_DrawPatch(x, y, colon);
     until t div _div = 0;
   end
   else
     // "sucks"
-    V_DrawPatch(x - sucks.width, y, SCN_TMP, sucks, false);
+    WI_DrawPatch(x - sucks.width, y, sucks);
 end;
 
 //==============================================================================
@@ -1174,10 +1187,10 @@ begin
   WI_DrawLF;
 
   // draw stat titles (top line)
-  V_DrawPatch(DM_TOTALSX - total.width div 2, DM_MATRIXY - WI_SPACINGY + 10, SCN_TMP, total, false);
+  WI_DrawPatch(DM_TOTALSX - total.width div 2, DM_MATRIXY - WI_SPACINGY + 10, total);
 
-  V_DrawPatch(DM_KILLERSX, DM_KILLERSY, SCN_TMP, killers, false);
-  V_DrawPatch(DM_VICTIMSX, DM_VICTIMSY, SCN_TMP, victims, false);
+  WI_DrawPatch(DM_KILLERSX, DM_KILLERSY, killers);
+  WI_DrawPatch(DM_VICTIMSX, DM_VICTIMSY, victims);
 
   // draw P?
   x := DM_MATRIXX + DM_SPACINGX;
@@ -1187,13 +1200,13 @@ begin
   begin
     if playeringame[i] then
     begin
-      V_DrawPatch(x - p[i].width div 2, DM_MATRIXY - WI_SPACINGY, SCN_TMP, p[i], false);
-      V_DrawPatch(DM_MATRIXX - p[i].width div 2, y, SCN_TMP, p[i], false);
+      WI_DrawPatch(x - p[i].width div 2, DM_MATRIXY - WI_SPACINGY, p[i]);
+      WI_DrawPatch(DM_MATRIXX - p[i].width div 2, y, p[i]);
 
       if i = me then
       begin
-        V_DrawPatch(x - p[i].width div 2, DM_MATRIXY - WI_SPACINGY, SCN_TMP, bstar, false);
-        V_DrawPatch(DM_MATRIXX - p[i].width div 2, y, SCN_TMP, star, false);
+        WI_DrawPatch(x - p[i].width div 2, DM_MATRIXY - WI_SPACINGY, bstar);
+        WI_DrawPatch(DM_MATRIXX - p[i].width div 2, y, star);
       end;
     end
     else
@@ -1450,14 +1463,14 @@ begin
   WI_DrawLF;
 
   // draw stat titles (top line)
-  V_DrawPatch(NG_STATSX + NG_SPACINGX - kills.width, NG_STATSY, SCN_TMP, kills, false);
+  WI_DrawPatch(NG_STATSX + NG_SPACINGX - kills.width, NG_STATSY, kills);
 
-  V_DrawPatch(NG_STATSX + 2 * NG_SPACINGX - items.width, NG_STATSY, SCN_TMP, items, false);
+  WI_DrawPatch(NG_STATSX + 2 * NG_SPACINGX - items.width, NG_STATSY, items);
 
-  V_DrawPatch(NG_STATSX + 3 * NG_SPACINGX - secret.width, NG_STATSY, SCN_TMP, secret, false);
+  WI_DrawPatch(NG_STATSX + 3 * NG_SPACINGX - secret.width, NG_STATSY, secret);
 
   if dofrags <> 0 then
-    V_DrawPatch(NG_STATSX + 4 * NG_SPACINGX - frags.width, NG_STATSY, SCN_TMP, frags, false);
+    WI_DrawPatch(NG_STATSX + 4 * NG_SPACINGX - frags.width, NG_STATSY, frags);
 
   // draw stats
   y := NG_STATSY + kills.height;
@@ -1468,10 +1481,10 @@ begin
       continue;
 
     x := NG_STATSX;
-    V_DrawPatch(x - p[i].width, y, SCN_TMP, p[i], false);
+    WI_DrawPatch(x - p[i].width, y, p[i]);
 
     if i = me then
-      V_DrawPatch(x - p[i].width, y, SCN_TMP, star, false);
+      WI_DrawPatch(x - p[i].width, y, star);
 
     x := x + NG_SPACINGX;
     WI_DrawPercent(x - pwidth, y + 10, cnt_kills[i]);
@@ -1634,21 +1647,21 @@ begin
 
   WI_DrawLF;
 
-  V_DrawPatch(SP_STATSX, SP_STATSY, SCN_TMP, kills, false);
+  WI_DrawPatch(SP_STATSX, SP_STATSY, kills);
   WI_DrawPercent(320 - SP_STATSX, SP_STATSY, cnt_kills[0]);
 
-  V_DrawPatch(SP_STATSX, SP_STATSY + lh, SCN_TMP, items, false);
+  WI_DrawPatch(SP_STATSX, SP_STATSY + lh, items);
   WI_DrawPercent(320 - SP_STATSX, SP_STATSY + lh, cnt_items[0]);
 
-  V_DrawPatch(SP_STATSX, SP_STATSY + 2 * lh, SCN_TMP, sp_secret, false);
+  WI_DrawPatch(SP_STATSX, SP_STATSY + 2 * lh, sp_secret);
   WI_DrawPercent(320 - SP_STATSX, SP_STATSY + 2 * lh, cnt_secret[0]);
 
-  V_DrawPatch(SP_TIMEX, SP_TIMEY, SCN_TMP, time, false);
+  WI_DrawPatch(SP_TIMEX, SP_TIMEY, time);
   WI_DrawTime(160 - SP_TIMEX, SP_TIMEY, cnt_time);
 
   if wbs.epsd < 3 then
   begin
-    V_DrawPatch(160 + SP_TIMEX, SP_TIMEY, SCN_TMP, par, false);
+    WI_DrawPatch(160 + SP_TIMEX, SP_TIMEY, par);
     WI_DrawTime(320 - SP_TIMEX, SP_TIMEY, cnt_par);
   end;
 end;
@@ -1751,6 +1764,7 @@ var
   j: integer;
   a: Pwianim_t;
   name: string;
+  ptc: Ppatch_t;
 begin
   if wi_loaded then
     exit;
@@ -1763,6 +1777,10 @@ begin
   if gamemode = retail then
     if wbs.epsd = 3 then
       wibackground := 'INTERPIC';
+
+  ptc := W_CacheLumpName(wibackground, PU_STATIC);
+  is426screen := ptc.width = 426;
+  Z_ChangeTag(ptc, PU_CACHE);
 
   if gamemode = commercial then
   begin
@@ -2017,9 +2035,13 @@ begin
       end;
   end;
 
-  V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
-
-  V_FullScreenStretch;
+  if is426screen then
+    V_CopyRect(0, 0, SCN_TMP426, 426, 200, 0, 0, SCN_FG, true)
+  else
+  begin
+    V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+    V_FullScreenStretch;
+  end;
 end;
 
 //==============================================================================
