@@ -43,55 +43,55 @@ uses
 // MENUS
 //
 
-{ Called by main loop, }
-{ saves config file and calls I_Quit when user exits. }
-{ Even when the menu is not displayed, }
-{ this can resize the view and change game parameters. }
-{ Does all the real work of the menu interaction. }
-
 //==============================================================================
 //
 // M_Responder
 //
+// Called by main loop,
+// saves config file and calls I_Quit when user exits.
+// Even when the menu is not displayed,
+// this can resize the view and change game parameters.
+// Does all the real work of the menu interaction.
+//
 //==============================================================================
 function M_Responder(ev: Pevent_t): boolean;
-
-{ Called by main loop, }
-{ only used for menu (skull cursor) animation. }
 
 //==============================================================================
 //
 // M_Ticker
 //
+// Called by main loop,
+// only used for menu (skull cursor) animation.
+//
 //==============================================================================
 procedure M_Ticker;
-
-{ Called by main loop, }
-{ draws the menus directly into the screen buffer. }
 
 //==============================================================================
 //
 // M_Drawer
 //
+// Called by main loop,
+// draws the menus directly into the screen buffer.
+//
 //==============================================================================
 procedure M_Drawer;
-
-{ Called by D_DoomMain, }
-{ loads the config file. }
 
 //==============================================================================
 //
 // M_Init
 //
+// Called by D_DoomMain,
+// loads the config file.
+//
 //==============================================================================
 procedure M_Init;
-
-{ Called by intro code to force menu up upon a keypress, }
-{ does nothing if menu is already up. }
 
 //==============================================================================
 //
 // M_StartControlPanel
+//
+// Called by intro code to force menu up upon a keypress,
+// does nothing if menu is already up.
 //
 //==============================================================================
 procedure M_StartControlPanel;
