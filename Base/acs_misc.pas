@@ -123,7 +123,7 @@ const
 //==============================================================================
 function ACS_Alloc(const size: integer; const error: integer): pointer;
 begin
-  result := Z_Malloc(size, PU_LEVEL, nil);
+  result := Z_Malloc(size, PU_STATIC, nil);
   if result = nil then
     ERR_Exit(error, false, '', []);
   ZeroMemory(result, size);
