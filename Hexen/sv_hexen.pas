@@ -218,7 +218,7 @@ begin
   MobjSerializer.AddTypedItem(@mo.target, st_integer, 0); // Hexen save system needs untranslated
   MobjSerializer.AddTypedItem(@mo.reactiontime, st_integer, 0);
   MobjSerializer.AddTypedItem(@mo.threshold, st_integer, 0);
-  MobjSerializer.AddTypedItem(@mo.player, st_player, 0);
+  MobjSerializer.AddTypedItem(@mo.player, st_integer, 0);
   MobjSerializer.AddTypedItem(@mo.lastlook, st_integer, 0);
   MobjSerializer.AddTypedItem(@mo.spawnpoint.x, st_smallint, 0);
   MobjSerializer.AddTypedItem(@mo.spawnpoint.y, st_smallint, 0);
