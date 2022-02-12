@@ -842,22 +842,22 @@ begin
   p2 := W_CacheLumpName('PFUB1', PU_LEVEL);
 
   scrolled := 320 - (finalecount - 230) div 2;
-  if scrolled > 320 then
-    scrolled := 320
+  if scrolled > p1.width then
+    scrolled := p1.width
   else if scrolled < 0 then
     scrolled := 0;
 
   for x := 0 to 320 - 1 do
   begin
-    if x + scrolled < 320 then
+    if x + scrolled < p1.width then
       F_DrawPatchCol(x, p1, x + scrolled)
     else
-      F_DrawPatchCol(x, p2, x + scrolled - 320);
+      F_DrawPatchCol(x, p2, x + scrolled - p1.width);
   end;
 
-  if finalecount >= 1130 then
+  if finalecount >= 1130 + p1.width - 320 then
   begin
-    if finalecount < 1180 then
+    if finalecount < 1180 + p1.width - 320 then
     begin
       V_DrawPatch((320 - 13 * 8) div 2,
                   (200 - 8 * 8) div 2,
@@ -866,7 +866,7 @@ begin
     end
     else
     begin
-      stage := (finalecount - 1180) div 5;
+      stage := (finalecount - (1180 + p1.width - 320)) div 5;
       if stage > 6 then
         stage := 6;
       if stage > laststage then
