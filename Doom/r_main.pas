@@ -443,15 +443,12 @@ uses
   doomdata,
   c_cmds,
   d_net,
-  i_io,
   mt_utils,
   mn_screenshot,
   m_bbox,
   m_misc,
   p_setup,
-  p_sight,
-  p_map,
-  p_3dfloors,  // JVAL: 3d floors
+   // JVAL: 3d floors
   {$IFNDEF OPENGL}
   i_video,
   i_system,

@@ -437,10 +437,8 @@ uses
   f_finale,
   info_h,
   info,
-  info_rnd,
   m_rnd,
   i_system,
-  i_io,
 {$IFNDEF OPENGL}
   r_draw,
 {$ENDIF}

@@ -348,7 +348,6 @@ uses
   r_camera,
   r_draw,
   t_main,
-  vx_voxelsprite,
   v_data,
   v_video,
   hu_stuff,

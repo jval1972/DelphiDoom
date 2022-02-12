@@ -361,7 +361,6 @@ implementation
 uses
   c_cmds,
   z_zone,
-  doomstat,
   doomdata,
   am_map,
   d_net,
@@ -371,8 +370,6 @@ uses
   info_h,
   info,
   i_system,
-  i_io,
-  m_argv,
   m_misc,
   m_menu,
   m_rnd,

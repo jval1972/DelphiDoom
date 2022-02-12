@@ -213,16 +213,12 @@ procedure R_ChangeColormap(const lumpname: string);
 implementation
 
 uses
-  doomdef,
-  doomstat,
 {$IFDEF FPC}
   d_fpc,
 {$ENDIF}
   d_think,
   m_hash,
-  g_game,
   i_system,
-  p_local,
   p_setup,
   p_tick,
   p_mobj_h,
@@ -240,7 +236,6 @@ uses
   r_cache_walls,
   r_cache_flats,
   r_col_fz,
-  r_voxels,
   r_3dfloors, // JVAL: 3d Floors
   r_slopes, // JVAL: Slopes
   r_patch,

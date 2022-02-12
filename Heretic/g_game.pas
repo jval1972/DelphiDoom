@@ -422,11 +422,9 @@ uses
   d_net_h,
   d_main,
   f_finale,
-  info_rnd,
   info_h,
   info,
   i_system,
-  i_io,
   e_endoom,
   m_argv,
   m_misc,
@@ -445,8 +443,6 @@ uses
   in_stuff,
   hu_stuff,
   sb_bar,
-// Needs access to LFB.
-  v_video,
   w_wad,
   s_sound,
 // Data.

@@ -454,18 +454,16 @@ uses
   doomdata,
   c_cmds,
   d_net,
-  i_io,
   mt_utils,
   mn_screenshot,
   g_game,
   m_bbox,
-  m_menu,
   m_misc,
   m_rnd,
   a_action,
   p_setup,
   p_user,
-  p_3dfloors,  // JVAL: 3d floors
+   // JVAL: 3d floors
   {$IFNDEF OPENGL}
   i_video,
   i_system,
