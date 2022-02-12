@@ -625,6 +625,19 @@ begin
     else
       result := preserveX[x];
   end
+  else if swidth = 426 then
+  begin
+    if x <= 0 then
+      result := 0
+    else if x >= 426 then
+      result := {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF}
+  {$IFNDEF OPENGL}
+    else if SCREENWIDTH = 426 then
+      result := x
+  {$ENDIF}
+    else
+      result := preserveX426[x];
+  end
   else
   begin
     if x <= 0 then
