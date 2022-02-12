@@ -2582,6 +2582,7 @@ end;
 
 var
   task_clearplanes: integer = -1;
+  task_8bitlights: integer = -1;
 
 //==============================================================================
 //
@@ -2592,7 +2593,8 @@ procedure R_DoRenderPlayerView8_MultiThread(player: Pplayer_t);
 begin
   R_Fake3DPrepare(player);
   R_SetupFrame(player);
-  R_Calc8bitTables;
+  task_8bitlights := MT_ScheduleTask(@R_Calc8bitTables);
+  MT_ExecutePendingTask(task_8bitlights);
 
   // Clear buffers.
   R_ClearClipSegs;
@@ -2628,6 +2630,7 @@ begin
 
   R_RenderMultiThreadFFloors8;
 
+  MT_WaitTask(task_8bitlights);
   R_DrawMasked_MultiThread;
 
   // Check for new console commands.
@@ -2652,8 +2655,8 @@ end;
 procedure R_DoRenderPlayerView32_MultiThread(player: Pplayer_t);
 begin
   R_Fake3DPrepare(player);
-  R_CalcHiResTables_MultiThread;
   R_SetupFrame(player);
+  R_CalcHiResTables_MultiThread;
 
   // Clear buffers.
   R_ClearClipSegs;
@@ -2715,11 +2718,13 @@ procedure R_DoRenderPlayerView_SingleThread(player: Pplayer_t);
 begin
 {$IFNDEF OPENGL}
   R_Fake3DPrepare(player);
+{$ENDIF}
+  R_SetupFrame(player);
+
+{$IFNDEF OPENGL}
   R_Calc8bitTables;
   R_CalcHiResTables_SingleThread;
 {$ENDIF}
-
-  R_SetupFrame(player);
 
   // Clear buffers.
 {$IFNDEF OPENGL}

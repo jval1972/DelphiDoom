@@ -239,6 +239,7 @@ Added new PascalSccript functions to access the new SideDefs' fields:
  -function PS_GetSideMidRowOffset(const sd: Integer): Integer;
  -procedure PS_SetSideMidRowOffset(const sd: Integer; const offs: Integer);
 Use 64 characters long string for short names in PK3.
+Calculates 8 bit light tables in separate thread.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
