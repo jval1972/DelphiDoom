@@ -1097,6 +1097,7 @@ function _atof(const str: PChar): Double; cdecl;
 var
   pos_sep: integer;
   s: string;
+  i, len: integer;
 begin
   s := str;
   s := Trim(s);
@@ -1106,9 +1107,15 @@ begin
     Exit;
   end;
 
-  pos_sep := Pos('.', s);
-  if pos_sep = 0 then
-     pos_sep := Pos(',', s);
+  len := Length(s);
+
+  pos_sep := 0;
+  for i := 1 to len do
+    if (s[i] = '.') or (s[i] = ',') then
+    begin
+      pos_sep := i;
+      Break;
+    end;
 
   if pos_sep > 0 then
     s[pos_sep] := DecimalSeparator;
