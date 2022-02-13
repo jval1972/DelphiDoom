@@ -363,6 +363,14 @@ const
 const
   TELEFOGHEIGHT = 32 * FRACUNIT;
 
+
+const
+  TextKeyMessages: array[0..Ord(NUMKEYCARDS) - 1] of string = (
+    'YELLOW KEY',
+    'GREEN KEY',
+    'BLUE KEY'
+  );
+
 implementation
 
 end.

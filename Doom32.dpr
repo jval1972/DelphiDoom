@@ -417,7 +417,12 @@ uses
   acs_pcode in 'Base\acs_pcode.pas',
   acs_strlist in 'Base\acs_strlist.pas',
   acs_symbol in 'Base\acs_symbol.pas',
-  acs_token in 'Base\acs_token.pas';
+  acs_token in 'Base\acs_token.pas',
+  p_acs in 'Base\p_acs.pas',
+  po_man in 'Base\po_man.pas',
+  udmf_things in 'Base\udmf_things.pas',
+  udmf_mobj in 'Base\udmf_mobj.pas',
+  udmf_spec in 'Base\udmf_spec.pas';
 
 var
   Saved8087CW: Word;

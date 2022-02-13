@@ -202,15 +202,18 @@ uses
   p_things,
   {$ELSE}
   udmf_things,
+  udmf_spec,
   {$ENDIF}
   po_man,
   r_data,
   s_sound,
   sounddata,
   sounds,
+  {$IFDEF HEXEN}
   s_sndseq,
-  doomdef,
   xn_strings,
+  {$ENDIF}
+  doomdef,
   w_wad,
   z_zone;
 
@@ -544,7 +547,11 @@ begin
   begin // Script not found
     //I_Error("P_StartACS: Unknown script number %d", number);
     sprintf(ErrorMsg, 'P_STARTACS ERROR: UNKNOWN SCRIPT %d', [number]);
+    {$IFDEF HEXEN}
     P_SetMessage(@players[consoleplayer], ErrorMsg, true);
+    {$ELSE}
+    players[consoleplayer]._message := ErrorMsg;
+    {$ENDIF}
   end;
 
   statePtr := @ACSInfo[infoIndex].state;
@@ -628,11 +635,41 @@ begin
   lock := args[4];
   if lock <> 0 then
   begin
+    {$IFDEF DOOM_OR_STRIFE}
+    if not IsIntegerInRange(lock, 1, Ord(NUMCARDS)) or not Pplayer_t(mo.player).cards[lock - 1] then
+    {$ENDIF}
+    {$IFDEF HERETIC}
+    if not IsIntegerInRange(lock, 1, Ord(NUMKEYCARDS)) or not Pplayer_t(mo.player).keys[lock - 1] then
+    {$ENDIF}
+    {$IFDEF HEXEN}
     if Pplayer_t(mo.player).keys and _SHL(1, lock - 1) = 0 then
+    {$ENDIF}
     begin
+      {$IFDEF DOOM_OR_STRIFE}
+      if not IsIntegerInRange(lock, 1, Ord(NUMCARDS)) then
+        LockedBuffer := 'YOU NEED A KEY'
+      else
+      {$ENDIF}
+      {$IFDEF HERETIC}
+      if not IsIntegerInRange(lock, 1, Ord(NUMKEYCARDS)) then
+        LockedBuffer := 'YOU NEED A KEY'
+      else
+      {$ENDIF}
       sprintf(LockedBuffer, 'YOU NEED THE %s', [TextKeyMessages[lock - 1]]);
+      {$IFDEF HEXEN}
       P_SetMessage(mo.player, LockedBuffer, true);
+      {$ELSE}
+      Pplayer_t(mo.player)._message := LockedBuffer;
+      {$ENDIF}
+      {$IFDEF DOOM_OR_STRIFE}
+      S_StartSound(mo, Ord(sfx_oof));
+      {$ENDIF}
+      {$IFDEF HERETIC}
+      S_StartSound(mo, Ord(sfx_plroof));
+      {$ENDIF}
+      {$IFDEF HEXEN}
       S_StartSound(mo, Ord(SFX_DOOR_LOCKED));
+      {$ENDIF}
       result := false;
       exit;
     end;
@@ -2062,7 +2099,11 @@ begin
   begin
     player := @players[consoleplayer];
   end;
+  {$IFDEF HEXEN}
   P_SetMessage(player, PrintBuffer, true);
+  {$ELSE}
+  player._message := LockedBuffer;
+  {$ENDIF}
   result := SCRIPT_CONTINUE;
 end;
 
@@ -2079,7 +2120,11 @@ begin
   begin
     if playeringame[i] then
     begin
+      {$IFDEF HEXEN}
       P_SetMessage(@players[i], PrintBuffer, true); // P_SetYellowMessage
+      {$ELSE}
+      players[i]._message := LockedBuffer;
+      {$ENDIF}
     end;
   end;
   result := SCRIPT_CONTINUE;

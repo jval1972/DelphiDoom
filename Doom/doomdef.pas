@@ -321,6 +321,16 @@ const
   DEN_PLAYER7 = 4003;
   DEN_PLAYER8 = 4004;
 
+const
+  TextKeyMessages: array[0..Ord(NUMCARDS) - 1] of string = (
+    'BLUE KEY',
+    'YELLOW KEY',
+    'RED KEY',
+    'BLUE SKULL KEY',
+    'YELLOW SKULL KEY',
+    'RED SKULL KEY'
+  );
+
 implementation
 
 end.

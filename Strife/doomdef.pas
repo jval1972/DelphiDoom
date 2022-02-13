@@ -393,6 +393,37 @@ const
 
   KEY_LALT = KEY_RALT;
 
+const
+  TextKeyMessages: array[0..Ord(NUMCARDS) - 1] of string = (
+    'BASE KEY',
+    'GOVERNOR''S KEY',
+    'PASS CARD',
+    'ID CARD',
+    'PRISON KEY',
+    'SEVERED HAND',
+    'POWER KEY #1',
+    'POWER KEY #2',
+    'POWER KEY #3',
+    'GOLD KEY',
+    'ID BADGE',
+    'SILVER KEY',
+    'ORACLE KEY',
+    'MILITARY ID',
+    'ORDER KEY',
+    'WAREHOUSE KEY',
+    'BRASS KEY',
+    'RED CRYSTAL KEY',
+    'BLUE CRYSTAL KEY',
+    'CHAPEL KEY',
+    'CATACOMB KEY',
+    'SECURITY KEY',
+    'CORE KEY',
+    'MAULER KEY',
+    'FACTORY KEY',
+    'MINE KEY',
+    'NEW KEY 5'
+  );
+
 implementation
 
 end.

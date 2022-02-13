@@ -172,7 +172,12 @@ uses
   p_inter,
   p_maputl,
   r_main,
+  {$IFDEF HEXEN}
   s_sndseq,
+  {$ELSE}
+  s_sound,
+  sounddata,
+  {$ENDIF}
   w_wad,
   z_zone;
 
@@ -266,7 +271,11 @@ begin
       begin
         poly.specialdata := nil;
       end;
+      {$IFDEF HEXEN}
       S_StopSequence(Pmobj_t(@poly.startSpot));
+      {$ELSE}
+      S_StopSound(@poly.startSpot);
+      {$ENDIF}
       P_PolyobjFinished(poly.tag);
       P_RemoveThinker(@pe.thinker);
     end;
@@ -321,7 +330,11 @@ begin
     pe.dist := -2;
   pe.speed := _SHR(args[1] * direction * (ANG90 div 64), 3);
   poly.specialdata := pe;
+  {$IFDEF HEXEN}
   S_StartSequence(Pmobj_t(@poly.startSpot), Ord(SEQ_DOOR_STONE) + poly.seqType);
+  {$ELSE}
+  S_StartSound(@poly.startSpot, poly.seqType);
+  {$ENDIF}
 
   while GetPolyobjMirror(polyNum, @mirror) <> 0 do
   begin
@@ -362,7 +375,11 @@ begin
     direction := -direction;
     pe.speed := _SHR(args[1] * direction * (ANG90 div 64), 3);
     polyNum := mirror;
+    {$IFDEF HEXEN}
     S_StartSequence(Pmobj_t(@poly.startSpot), Ord(SEQ_DOOR_STONE) + poly.seqType);
+    {$ELSE}
+    S_StartSound(@poly.startSpot, poly.seqType);
+    {$ENDIF}
   end;
   result := true;
 end;
@@ -388,7 +405,11 @@ begin
       begin
         poly.specialdata := nil;
       end;
+      {$IFDEF HEXEN}
       S_StopSequence(Pmobj_t(@poly.startSpot));
+      {$ELSE}
+      S_StopSound(@poly.startSpot);
+      {$ENDIF}
       P_PolyobjFinished(poly.tag);
       P_RemoveThinker(@pe.thinker);
     end;
@@ -446,7 +467,11 @@ begin
   pe.angle := an shr ANGLETOFINESHIFT;
   pe.xSpeed := FixedMul(pe.speed, finecosine[pe.angle]);
   pe.ySpeed := FixedMul(pe.speed, finesine[pe.angle]);
+  {$IFDEF HEXEN}
   S_StartSequence(Pmobj_t(@poly.startSpot), Ord(SEQ_DOOR_STONE) + poly.seqType);
+  {$ELSE}
+  S_StartSound(@poly.startSpot, poly.seqType);
+  {$ENDIF}
 
   while GetPolyobjMirror(polyNum, @mirror) <> 0 do
   begin
@@ -470,7 +495,11 @@ begin
     pe.xSpeed := FixedMul(pe.speed, finecosine[pe.angle]);
     pe.ySpeed := FixedMul(pe.speed, finesine[pe.angle]);
     polyNum := mirror;
+    {$IFDEF HEXEN}
     S_StartSequence(Pmobj_t(@poly.startSpot), Ord(SEQ_DOOR_STONE) + poly.seqType);
+    {$ELSE}
+    S_StartSound(@poly.startSpot, poly.seqType);
+    {$ENDIF}
   end;
   result := true;
 end;
@@ -491,7 +520,11 @@ begin
     if pd.tics = 0 then
     begin
       poly := GetPolyobj(pd.polyobj);
+      {$IFDEF HEXEN}
       S_StartSequence(Pmobj_t(@poly.startSpot), Ord(SEQ_DOOR_STONE) + poly.seqType);
+      {$ELSE}
+      S_StartSound(@poly.startSpot, poly.seqType);
+      {$ENDIF}
     end;
     exit;
   end;
@@ -506,7 +539,11 @@ begin
           if pd.dist <= 0 then
           begin
             poly := GetPolyobj(pd.polyobj);
+            {$IFDEF HEXEN}
             S_StopSequence(Pmobj_t(@poly.startSpot));
+            {$ELSE}
+            S_StopSound(@poly.startSpot);
+            {$ENDIF}
             if not pd.close then
             begin
               pd.dist := pd.totalDist;
@@ -539,7 +576,11 @@ begin
             pd.xSpeed := -pd.xSpeed;
             pd.ySpeed := -pd.ySpeed;
             pd.close := false;
+            {$IFDEF HEXEN}
             S_StartSequence(Pmobj_t(@poly.startSpot), Ord(SEQ_DOOR_STONE) + poly.seqType);
+            {$ELSE}
+            S_StartSound(@poly.startSpot, poly.seqType);
+            {$ENDIF}
           end;
         end;
       end;
@@ -556,7 +597,11 @@ begin
           if pd.dist <= 0 then
           begin
             poly := GetPolyobj(pd.polyobj);
+            {$IFDEF HEXEN}
             S_StopSequence(Pmobj_t(@poly.startSpot));
+            {$ELSE}
+            S_StopSound(@poly.startSpot);
+            {$ENDIF}
             if not pd.close then
             begin
               pd.dist := pd.totalDist;
@@ -585,7 +630,11 @@ begin
             pd.dist := pd.totalDist-pd.dist;
             pd.speed := -pd.speed;
             pd.close := false;
+            {$IFDEF HEXEN}
             S_StartSequence(Pmobj_t(@poly.startSpot), Ord(SEQ_DOOR_STONE) + poly.seqType);
+            {$ELSE}
+            S_StartSound(@poly.startSpot, poly.seqType);
+            {$ENDIF}
           end;
         end;
       end;
@@ -635,7 +684,11 @@ begin
     pd.direction := an shr ANGLETOFINESHIFT;
     pd.xSpeed := FixedMul(pd.speed, finecosine[pd.direction]);
     pd.ySpeed := FixedMul(pd.speed, finesine[pd.direction]);
+    {$IFDEF HEXEN}
     S_StartSequence(Pmobj_t(@poly.startSpot), Ord(SEQ_DOOR_STONE) + poly.seqType);
+    {$ELSE}
+    S_StartSound(@poly.startSpot, poly.seqType);
+    {$ENDIF}
   end
   else if _type = PODOOR_SWING then
   begin
@@ -644,7 +697,11 @@ begin
     pd.speed := _SHR3(args[1] * pd.direction * (ANG90 div 64));
     pd.totalDist := args[2] * (ANG90 div 64);
     pd.dist := pd.totalDist;
+    {$IFDEF HEXEN}
     S_StartSequence(Pmobj_t(@poly.startSpot), Ord(SEQ_DOOR_STONE) + poly.seqType);
+    {$ELSE}
+    S_StartSound(@poly.startSpot, poly.seqType);
+    {$ENDIF}
   end;
 
   poly.specialdata := pd;
@@ -673,7 +730,11 @@ begin
       pd.direction := an shr ANGLETOFINESHIFT;
       pd.xSpeed := FixedMul(pd.speed, finecosine[pd.direction]);
       pd.ySpeed := FixedMul(pd.speed, finesine[pd.direction]);
+      {$IFDEF HEXEN}
       S_StartSequence(Pmobj_t(@poly.startSpot), Ord(SEQ_DOOR_STONE) + poly.seqType);
+      {$ELSE}
+      S_StartSound(@poly.startSpot, poly.seqType);
+      {$ENDIF}
     end
     else if _type = PODOOR_SWING then
     begin
@@ -682,7 +743,11 @@ begin
       pd.speed := _SHR(args[1] * pd.direction * (ANG90 div 64), 3);
       pd.totalDist := args[2] * (ANG90 div 64);
       pd.dist := pd.totalDist;
+      {$IFDEF HEXEN}
       S_StartSequence(Pmobj_t(@poly.startSpot), Ord(SEQ_DOOR_STONE) + poly.seqType);
+      {$ELSE}
+      S_StartSound(@poly.startSpot, poly.seqType);
+      {$ENDIF}
     end;
     polyNum := mirror;
   end;
@@ -1378,7 +1443,7 @@ begin
         polyobjs[index].tag := tag;
         polyobjs[index].seqType := segs[i].linedef.arg3;
         if (polyobjs[index].seqType < 0) or
-           (polyobjs[index].seqType >= Ord(SEQTYPE_NUMSEQ)) then
+           (polyobjs[index].seqType >= {$IFDEF HEXEN}Ord(SEQTYPE_NUMSEQ){$ELSE}numsfx{$ENDIF}) then
           polyobjs[index].seqType := 0;
         break;
       end;

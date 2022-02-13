@@ -221,6 +221,7 @@ type
     ceilingvisslope: integer;
 {$ENDIF}
     moreids: moreids_t;
+    specialdata: Pointer;
   end;
   sector_tArray = packed array[0..$FFFF] of sector_t;
   Psector_tArray = ^sector_tArray;
@@ -383,6 +384,7 @@ type
     sector: Psector_t;
     numlines: LongWord; // JVAL glbsp (was word)
     firstline: LongWord;// JVAL glbsp (was word)
+    poly: pointer;
     x, y: fixed_t; // JVAL 3d Floors (Subsector Centroid)
     flags: LongWord;
   end;
@@ -420,8 +422,42 @@ type
     miniseg: boolean;
   end;
   Pseg_t = ^seg_t;
+  PPseg_t = ^Pseg_t;
   seg_tArray = packed array[0..$FFFF] of seg_t;
   Pseg_tArray = ^seg_tArray;
+  seg_tPArray = packed array[0..$FFFF] of Pseg_t;
+  Pseg_tPArray = ^seg_tPArray;
+
+// ===== Polyobj data =====
+type
+  polyobj_t = record
+    numsegs: integer;
+    segs: PPseg_t;
+    startSpot: degenmobj_t;
+    originalPts: Pvertex_tArray;  // used as the base for the rotations
+    prevPts: Pvertex_tArray;      // use to restore the old point values
+    angle: angle_t;
+    tag: integer;                 // reference tag assigned in HereticEd
+    bbox: packed array[0..3] of fixed_t;
+    validcount: integer;
+    crush: boolean;               // should the polyobj attempt to crush mobjs?
+    seqType: integer;
+    size: fixed_t;                // polyobj size (area of POLY_AREAUNIT == size of FRACUNIT)
+    specialdata: pointer;         // pointer a thinker, if the poly is moving
+  end;
+  Ppolyobj_t = ^polyobj_t;
+  polyobj_tArray = array[0..$FFFF] of polyobj_t;
+  Ppolyobj_tArray = ^polyobj_tArray;
+
+type
+  Ppolyblock_t = ^polyblock_t;
+  polyblock_t = record
+    polyobj: Ppolyobj_t;
+    prev, next: Ppolyblock_t;
+  end;
+  polyblock_tPArray = array[0..$FFFF] of Ppolyblock_t;
+  Ppolyblock_tPArray = ^polyblock_tPArray;
+  PPpolyblock_t = ^Ppolyblock_t;
 
 //
 // BSP node.

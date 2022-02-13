@@ -260,6 +260,7 @@ begin
   MobjSerializer.AddTypedItem(@mo.strafecount, st_integer, 0);
   MobjSerializer.AddTypedItem(@mo.bloodcolor, st_integer, 0);
   MobjSerializer.AddStringItem(@mo.translationname, '');
+  MobjSerializer.AddTypedItem(@mo.tid, st_integer, 0);
 
   SectorSerializer := TSerializer.Create;
   LinesSerializer := TSerializer.Create;
