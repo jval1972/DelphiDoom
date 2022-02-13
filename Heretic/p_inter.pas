@@ -38,7 +38,6 @@ uses
   doomdef,
   h_strings,
   sounddata,
-  doomstat,
   m_rnd,
   i_system,
   am_map,

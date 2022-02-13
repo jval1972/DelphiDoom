@@ -138,7 +138,7 @@ var
   amount: integer;
 begin
   flick.count := flick.count - 1;
-  if flick.count > 0  then
+  if flick.count > 0 then
     exit;
 
   amount := (P_Random and 3) * 16;

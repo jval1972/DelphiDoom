@@ -1448,7 +1448,7 @@ begin
   levelstarttic := gametic;        // for time calculation
 
   if wipegamestate = Ord(GS_LEVEL) then
-    wipegamestate := -1;             // force a wipe
+    wipegamestate := -1;  // force a wipe
 
   gamestate := GS_LEVEL;
 
@@ -3129,6 +3129,7 @@ begin
     G_CheckDemoStatus;
 
   demo_start := demo_p;
+
   demo_p[0] := Ord(cmd.forwardmove);
   demo_p := @demo_p[1];
 
@@ -3155,7 +3156,6 @@ begin
 
   // JVAL Smooth Look Up/Down
   PWord(demo_p)^ := cmd.lookupdown16;
-//  demo_p := @demo_p[2];
 
   demo_p := demo_start;
 
@@ -3196,7 +3196,6 @@ begin
 
   demorecording := true;
   Info_Init(true); // JVAL: Start thinkers
-
 end;
 
 const
@@ -3611,12 +3610,14 @@ begin
       result := @u_mapinfo.maps[i];
       exit;
     end;
+
   for i := 0 to default_mapinfo.mapcount - 1 do
     if lumpname = default_mapinfo.maps[i].mapname then
     begin
       result := @default_mapinfo.maps[i];
       exit;
     end;
+
   result := nil;
 end;
 

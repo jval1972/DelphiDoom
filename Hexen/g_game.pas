@@ -39,13 +39,6 @@ uses
   d_player,
   d_ticcmd;
 
-//-----------------------------------------------------------------------------
-//
-// DESCRIPTION:
-//   Duh.
-//
-//-----------------------------------------------------------------------------
-
 //==============================================================================
 // G_DeathMatchSpawnPlayer
 //
@@ -1433,7 +1426,7 @@ begin
   levelstarttic := gametic;        // for time calculation
 
   if wipegamestate = Ord(GS_LEVEL) then
-    wipegamestate := -1;             // force a wipe
+    wipegamestate := -1;  // force a wipe
 
   gamestate := GS_LEVEL;
 

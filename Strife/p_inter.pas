@@ -144,9 +144,9 @@ procedure P_KillMobj(source: Pmobj_t; target: Pmobj_t);
 implementation
 
 uses
+  c_cmds,
   d_delphi,
   d_check,
-  c_cmds,
   deh_main,
   info_h,
   info,

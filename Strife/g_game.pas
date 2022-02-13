@@ -1048,7 +1048,7 @@ begin
     end;
   end;
 
-  // For smooth mouse movement
+  // JVAL: For smooth mouse movement
   mousex := mousex div 4;
   mousey := mousey div 4;
 
@@ -1158,7 +1158,7 @@ begin
     skytexture := R_TextureNumForName('skymnt02');
 
   if wipegamestate = Ord(GS_LEVEL) then
-    wipegamestate := -1;             // force a wipe
+    wipegamestate := -1;  // force a wipe
 
   gamestate := GS_LEVEL;
 
@@ -2809,7 +2809,6 @@ begin
 
   // JVAL Smooth Look Up/Down
   PWord(demo_p)^ := cmd.lookupdown16;
-//  demo_p := @demo_p[2];
 
   demo_p := demo_start;
 

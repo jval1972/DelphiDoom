@@ -926,7 +926,7 @@ begin
     end;
   end;
 
-  // For smooth mouse movement
+  // JVAL: For smooth mouse movement
   mousex := mousex div 4;
   mousey := mousey div 4;
 
@@ -3084,6 +3084,7 @@ begin
 end;
 
 //==============================================================================
+//
 // G_WriteDemoTiccmd
 //
 // DEMO RECORDING
