@@ -2849,7 +2849,6 @@ begin
 
   demorecording := true;
   Info_Init(true); // JVAL: Start thinkers
-
 end;
 
 const
