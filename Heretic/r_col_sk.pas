@@ -243,6 +243,7 @@ begin
   and_mask := 128 * factor - 1;
 
   swidth := SCREENWIDTH32PITCH;
+
   {$I R_DrawSkyColumnUltra.inc}
 end;
 
