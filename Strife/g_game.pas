@@ -2357,6 +2357,7 @@ begin
   if len > maxsize then
     I_Error('G_DoSaveGame(): Savegame buffer overrun');
   M_AppendFile(savegame_file, savebuffer, len);
+
   Z_Free(savebuffer);
   gameaction := ga_nothing;
   savedescription := '';
