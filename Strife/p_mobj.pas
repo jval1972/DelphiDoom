@@ -1493,6 +1493,7 @@ begin
         p.mo.health := p.health;
       end
     end;
+    p.mo.tid := uthing.id;
   end;
 
   // setup gun psprite
@@ -1777,6 +1778,7 @@ begin
       else
         result.health := Round(result.health * uthing.health);
     end;
+    result.tid := uthing.id;
   end;
 end;
 

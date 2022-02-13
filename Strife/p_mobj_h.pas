@@ -634,6 +634,7 @@ type
     bloodcolor: integer;
     translationname: string[8];
     translationtable: Pointer;
+    tid: integer;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;
