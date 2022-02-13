@@ -198,7 +198,11 @@ uses
   p_spec,
   p_setup,
   p_mobj,
+  {$IFDEF HEXEN}
   p_things,
+  {$ELSE}
+  udmf_things,
+  {$ENDIF}
   po_man,
   r_data,
   s_sound,
