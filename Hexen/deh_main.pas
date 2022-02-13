@@ -568,7 +568,8 @@ begin
                 end;
               end;
           35: mobjinfo[mobj_no].alpha := mobj_val;
-          36: mobjinfo[mobj_no].dropitem := Info_GetMobjNumForName(token2);
+          36,
+          77: mobjinfo[mobj_no].dropitem := Info_GetMobjNumForName(token2);
           37: mobjinfo[mobj_no].missiletype := Info_GetMobjNumForName(token2);
           38: mobjinfo[mobj_no].healstate := mobj_val;
           39: begin
@@ -2251,6 +2252,7 @@ begin
   mobj_tokens.Add('RADIUS');             // .radius                   // 74 - Alias for 16
   mobj_tokens.Add('BLOOD COLOR');        // .bloodcolor               // 75
   mobj_tokens.Add('TRANSLATION');        // .translationname          // 76
+  mobj_tokens.Add('DROPPED ITEM');       // .dropitem                 // 77 - Alias for 36
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);
