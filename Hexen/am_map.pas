@@ -120,25 +120,25 @@ const
   FRACTOMAPBITS = FRACBITS - MAPBITS;
   FRACTOMAPUNIT = 1 shl FRACTOMAPBITS;
 
-{ how much zoom-in per tic }
-
 //==============================================================================
 //
 // M_ZOOMIN
 //
+// How much zoom-in per tic
+//
 //==============================================================================
 function M_ZOOMIN: integer;
-
-{ how much zoom-out per tic }
 
 //==============================================================================
 //
 // M_ZOOMOUT
 //
+// How much zoom-out per tic
+//
 //==============================================================================
 function M_ZOOMOUT: integer;
 
-{ translates between frame-buffer and map distances }
+// Translates between frame-buffer and map distances
 
 //==============================================================================
 //
@@ -154,7 +154,7 @@ function FTOM(x: integer): integer;
 //==============================================================================
 function MTOF(x: integer): integer;
 
-{ translates between frame-buffer and map coordinates }
+// Translates between frame-buffer and map coordinates
 
 //==============================================================================
 //

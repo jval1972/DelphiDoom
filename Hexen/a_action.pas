@@ -712,7 +712,7 @@ const
 //
 //  Child
 //    target    pointer to center mobj
-//    args[0]    angle of ball
+//    args[0]   angle of ball
 //
 //==============================================================================
 procedure A_BridgeOrbit(actor: Pmobj_t);
@@ -926,11 +926,11 @@ end;
 //
 //    args[0]    Speed (0..10) of fog
 //    args[1]    Angle of spread (0..128)
-//     args[2]    Frequency of spawn (1..10)
+//    args[2]    Frequency of spawn (1..10)
 //    args[3]    Lifetime countdown
 //    args[4]    Boolean: fog moving?
-//    special1    Internal:  Counter for spawn frequency
-//    special2    Internal:  Index into floatbob table
+//    special1   Internal:  Counter for spawn frequency
+//    special2   Internal:  Index into floatbob table
 //
 //==============================================================================
 procedure A_FogSpawn(actor: Pmobj_t);
@@ -1087,6 +1087,10 @@ begin
     P_SetMobjState(actor, statenum_t(actor.info.deathstate));
 end;
 
+//==============================================================================
+//
+// A_LocalQuake
+//
 // Quake variables
 //
 //    args[0]    Intensity on richter scale (2..9)
@@ -1094,11 +1098,6 @@ end;
 //    args[2]    Radius for damage
 //    args[3]    Radius for tremor
 //    args[4]    TID of map thing for focus of quake
-//
-
-//==============================================================================
-//
-// A_LocalQuake
 //
 //==============================================================================
 function A_LocalQuake(args: PByteArray; actor: Pmobj_t): boolean;
@@ -1482,7 +1481,7 @@ end;
 //
 // Bat Variables
 //  special2  lifetime counter
-//  args[4]    turn amount per move (in degrees)
+//  args[4]   turn amount per move (in degrees)
 //
 //==============================================================================
 procedure A_BatSpawnInit(actor: Pmobj_t);
