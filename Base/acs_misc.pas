@@ -189,6 +189,7 @@ begin
   begin
     strm.Free;
     ERR_Exit(ERR_CANT_OPEN_FILE, false, 'File: ''%s''.', [name]);
+    result := 0;
     exit;
   end;
 
