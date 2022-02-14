@@ -192,7 +192,7 @@ uses
   p_spec,
   p_map,
   p_maputl,
-  p_telept,
+  udmf_telept,
   p_inter,
   p_enemy,
   r_main,
@@ -1565,7 +1565,7 @@ begin
     else
       destAngle := ANG45 * (playerstarts[0][0].angle div 45);
   end;
-  P_Teleport(player.mo, destX, destY, destAngle, true, P_3dFloorFindMapthingFloorZ(mt), P_3dFloorFindMapthingCeilingZ(mt));
+  PH_Teleport(player.mo, destX, destY, destAngle, true, P_3dFloorFindMapthingFloorZ(mt), P_3dFloorFindMapthingCeilingZ(mt));
   if player.morphTics <> 0 then
   begin // Teleporting away will undo any morph effects (pig)
     P_UndoPlayerMorph(player);
@@ -1611,7 +1611,7 @@ begin
     destAngle := ANG1 * playerstarts[0][i].angle
   else
     destAngle := ANG45 * (playerstarts[0][i].angle div 45);
-  P_Teleport(victim, destX, destY, destAngle, true, P_3dFloorFindMapthingFloorZ(@playerstarts[0][i]), P_3dFloorFindMapthingCeilingZ(@playerstarts[0][i]));
+  PH_Teleport(victim, destX, destY, destAngle, true, P_3dFloorFindMapthingFloorZ(@playerstarts[0][i]), P_3dFloorFindMapthingCeilingZ(@playerstarts[0][i]));
 end;
 
 //==============================================================================
@@ -1635,7 +1635,7 @@ begin
       destAngle := ANG1 * deathmatchstarts[i].angle
     else
       destAngle := ANG45 * (deathmatchstarts[i].angle div 45);
-    P_Teleport(victim, destX, destY, destAngle, true, P_3dFloorFindMapthingFloorZ(@deathmatchstarts[i]), P_3dFloorFindMapthingCeilingZ(@deathmatchstarts[i]));
+    PH_Teleport(victim, destX, destY, destAngle, true, P_3dFloorFindMapthingFloorZ(@deathmatchstarts[i]), P_3dFloorFindMapthingCeilingZ(@deathmatchstarts[i]));
   end
   else
     P_TeleportToPlayerStarts(victim);

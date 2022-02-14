@@ -397,6 +397,7 @@ uses
   r_intrpl,
   s_sndseq,
   sv_save,
+  udmf_telept,
   tables;
 
 //

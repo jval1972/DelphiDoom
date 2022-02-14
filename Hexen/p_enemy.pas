@@ -1227,7 +1227,7 @@ uses
   a_action,
   p_common,
   p_extra,
-  p_floor,
+  udmf_floor,
   p_friends,
   p_tick,
   p_map,
@@ -1241,7 +1241,7 @@ uses
   p_pspr,
   p_pspr_h,
   p_sounds,
-  p_telept,
+  udmf_telept,
   p_acs,
   ps_main,
   r_defs,
@@ -6236,7 +6236,7 @@ begin
     lastfound := 0;
     spot := P_FindMobjFromTID(KORAX_FIRST_TELEPORT_TID, @lastfound);
     if spot <> nil then
-      P_Teleport(actor, spot.x, spot.y, spot.angle, true, spot.floorz, spot.ceilingz);
+      PH_Teleport(actor, spot.x, spot.y, spot.angle, true, spot.floorz, spot.ceilingz);
 
     P_StartACS(249, 0, @args, actor, nil, 0);
     actor.special2 := 1;  // Don't run again
@@ -6267,7 +6267,7 @@ begin
       spot := P_FindMobjFromTID(KORAX_TELEPORT_TID, @lastfound);
       actor.special1 := lastfound;
       if spot <> nil then
-        P_Teleport(actor, spot.x, spot.y, spot.angle, true, spot.floorz, spot.ceilingz);
+        PH_Teleport(actor, spot.x, spot.y, spot.angle, true, spot.floorz, spot.ceilingz);
     end;
   end;
 end;

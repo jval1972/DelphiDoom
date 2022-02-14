@@ -222,6 +222,7 @@ type
 {$ENDIF}
     moreids: moreids_t;
     specialdata: Pointer;
+    seqType: integer;
   end;
   sector_tArray = packed array[0..$FFFF] of sector_t;
   Psector_tArray = ^sector_tArray;
@@ -237,10 +238,10 @@ type
     m_snext: Pmsecnode_t; // next msecnode_t for this sector
     visited: boolean;     // killough 4/4/98, 4/7/98: used in search algorithms
   end;
+
 //
 // The SideDef.
 //
-
   side_t = packed record
     // add this to the calculated texture column
     textureoffset: fixed_t;

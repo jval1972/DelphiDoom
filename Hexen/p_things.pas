@@ -204,6 +204,7 @@ uses
   p_inter,
   tables,
   sounddata,
+  udmf_telept,
   s_sound,
   doomdef;
 

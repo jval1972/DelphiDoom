@@ -1,9 +1,8 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiHexen is a source port of the game Hexen and it is
-//  based on original Linux Doom as published by "id Software", on
-//  Hexen source as published by "Raven" software and DelphiDoom
-//  as published by Jim Valavanis.
+//  DelphiDoom is a source port of the game Doom and it is
+//  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -18,7 +17,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -27,7 +26,7 @@
 
 {$I Doom32.inc}
 
-unit p_plats;
+unit udmf_plats;
 
 interface
 
@@ -80,12 +79,17 @@ uses
   i_system,
   m_fixed,
   m_rnd,
-  p_floor,
+  udmf_floor,
   p_mobj_h,
   p_setup,
   p_tick,
   p_acs,
+  {$IFDEF HEXEN}
   s_sndseq,
+  {$ELSE}
+  s_sound,
+  udmf_spec,
+  {$ENDIF}
   z_zone;
 
 //==============================================================================
@@ -106,13 +110,21 @@ begin
         begin
           plat.count := plat.wait;
           plat.status := PLAT_DOWN;
+          {$IFDEF HEXEN}
           S_StartSequence(Pmobj_t(@plat.sector.soundorg), Ord(SEQ_PLATFORM) + Ord(plat.sector.seqType));
+          {$ELSE}
+          S_StartSound(@plat.sector.soundorg, plat.sector.seqType);
+          {$ENDIF}
         end
         else if res = RES_PASTDEST then
         begin
           plat.count := plat.wait;
           plat.status := PLAT_WAITING;
+          {$IFDEF HEXEN}
           S_StopSequence(Pmobj_t(@plat.sector.soundorg));
+          {$ELSE}
+          S_StopSound(@plat.sector.soundorg);
+          {$ENDIF}
           if (plat._type = PLAT_DOWNWAITUPSTAY) or (plat._type = PLAT_DOWNBYVALUEWAITUPSTAY) then
             P_RemoveActivePlat(plat);
         end;
@@ -126,7 +138,11 @@ begin
           plat.status := PLAT_WAITING;
           if (plat._type = PLAT_UPWAITDOWNSTAY) or (plat._type = PLAT_UPBYVALUEWAITDOWNSTAY) then
             P_RemoveActivePlat(plat);
+          {$IFDEF HEXEN}
           S_StopSequence(Pmobj_t(@plat.sector.soundorg));
+          {$ELSE}
+          S_StopSound(@plat.sector.soundorg);
+          {$ENDIF}
         end;
       end;
     PLAT_WAITING:
@@ -138,7 +154,11 @@ begin
             plat.status := PLAT_UP
           else
             plat.status := PLAT_DOWN;
+          {$IFDEF HEXEN}
           S_StartSequence(Pmobj_t(@plat.sector.soundorg), Ord(SEQ_PLATFORM) + Ord(plat.sector.seqType));
+          {$ELSE}
+          S_StartSound(@plat.sector.soundorg, plat.sector.seqType);
+          {$ENDIF}
         end;
       end;
   end;
@@ -226,11 +246,15 @@ begin
           if plat.high < sec.floorheight then
             plat.high := sec.floorheight;
           plat.wait := args[2];
-          plat.status := plat_e(P_Random and 1);
+          plat.status := plat_e((P_Random and 1) + Ord(PLAT_UP));
         end;
     end;
     P_AddActivePlat(plat);
+    {$IFDEF HEXEN}
     S_StartSequence(Pmobj_t(@sec.soundorg), Ord(SEQ_PLATFORM) + Ord(sec.seqType));
+    {$ELSE}
+    S_StartSound(@sec.soundorg, sec.seqType);
+    {$ENDIF}
   end;
 end;
 

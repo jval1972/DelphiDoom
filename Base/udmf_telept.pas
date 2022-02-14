@@ -1,9 +1,8 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiHexen is a source port of the game Hexen and it is
-//  based on original Linux Doom as published by "id Software", on
-//  Hexen source as published by "Raven" software and DelphiDoom
-//  as published by Jim Valavanis.
+//  DelphiDoom is a source port of the game Doom and it is
+//  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -22,7 +21,7 @@
 //  02111-1307, USA.
 //
 // DESCRIPTION:
-//  Teleportation.
+//  Teleportation. (UDMF & Hexen)
 //
 //------------------------------------------------------------------------------
 //  Site  : https://sourceforge.net/projects/delphidoom/
@@ -30,7 +29,7 @@
 
 {$I Doom32.inc}
 
-unit p_telept;
+unit udmf_telept;
 
 interface
 
@@ -41,12 +40,13 @@ uses
   r_defs;
 
 //==============================================================================
-// P_Teleport
+//
+// PH_Teleport
 //
 // TELEPORTATION
 //
 //==============================================================================
-function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; useFog: boolean; floorz, ceilingz: fixed_t): boolean;
+function PH_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; useFog: boolean; floorz, ceilingz: fixed_t): boolean;
 
 //==============================================================================
 //
@@ -58,6 +58,9 @@ function EVH_Teleport(tid: integer; thing: Pmobj_t; fog: boolean): boolean;
 const
   TELEPORTZOOM = 15 * FRACUNIT;
 
+const
+  TELEFOGHEIGHT = 32 * FRACUNIT;
+
 implementation
 
 uses
@@ -68,16 +71,24 @@ uses
   p_map,
   p_mobj,
   p_local,
+  {$IFDEF DOOM_OR_STRIFE}
+  p_terrain,
+  {$ENDIF}
   s_sound,
   sounddata,
+  {$IFNDEF HEXEN}
+  d_think,
+  p_tick,
+  udmf_mobj,
+  {$ENDIF}
   doomdef;
 
 //==============================================================================
 //
-// P_Teleport
+// PH_Teleport
 //
 //==============================================================================
-function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; useFog: boolean; floorz, ceilingz: fixed_t): boolean;
+function PH_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; useFog: boolean; floorz, ceilingz: fixed_t): boolean;
 var
   oldx: fixed_t;
   oldy: fixed_t;
@@ -104,6 +115,7 @@ begin
   if thing.player <> nil then
   begin
     player := thing.player;
+    {$IFDEF HERETIC_OR_HEXEN}
     if (player.powers[Ord(pw_flight)] <> 0) and (aboveFloor <> 0) then
     begin
       thing.z := thing.floorz + aboveFloor;
@@ -112,6 +124,7 @@ begin
       player.viewz := thing.z + player.viewheight;
     end
     else
+    {$ENDIF}
     begin
       thing.z := thing.floorz;
       player.viewz := thing.z + player.viewheight;
@@ -139,14 +152,22 @@ begin
     else
       fogDelta := TELEFOGHEIGHT;
     fog := P_SpawnMobj(oldx, oldy, oldz + fogDelta, Ord(MT_TFOG));
+    {$IFDEF HEXEN}
     S_StartSound(fog, Ord(SFX_TELEPORT));
+    {$ELSE}
+    S_StartSound(fog, Ord(sfx_telept));
+    {$ENDIF}
     an := angle shr ANGLETOFINESHIFT;
     fog := P_SpawnMobj(x + 20 * finecosine[an],
                        y + 20 * finesine[an],
                        thing.z + fogDelta,
                        Ord(MT_TFOG));
+    {$IFDEF HEXEN}
     S_StartSound(fog, Ord(SFX_TELEPORT));
-    if (thing.player <> nil) and (Pplayer_t(thing.player).powers[Ord(pw_speed)] = 0) then
+    {$ELSE}
+    S_StartSound(fog, Ord(sfx_telept));
+    {$ENDIF}
+    if (thing.player <> nil) {$IFDEF HEXEN}and (Pplayer_t(thing.player).powers[Ord(pw_speed)] = 0){$ENDIF} then
     begin // Freeze player for about .5 sec
       thing.reactiontime := 18;
     end;
@@ -154,6 +175,24 @@ begin
       Pplayer_t(thing.player).teleporttics := TELEPORTZOOM;
     thing.angle := angle;
   end;
+
+  {$IFDEF DOOM}
+  if thing.flags2_ex and  MF2_EX_FLOORCLIP <> 0 then
+  begin
+    if (thing.z = thing.floorz) and
+       (P_GetThingFloorType(thing) > FLOOR_SOLID) then
+      thing.floorclip := FOOTCLIPSIZE
+    else
+      thing.floorclip := 0;
+  end;
+  {$ENDIF}
+  {$IFDEF HERETIC}
+  if (thing.flags2 and MF2_FOOTCLIP <> 0) and (P_GetThingFloorType(thing) <> FLOOR_SOLID) then
+    thing.flags2 := thing.flags2 or MF2_FEETARECLIPPED
+  else if thing.flags2 and MF2_FEETARECLIPPED <> 0 then
+    thing.flags2 := thing.flags2 and not MF2_FEETARECLIPPED;
+  {$ENDIF}
+  {$IFDEF HEXEN}
   if thing.flags2 and MF2_FLOORCLIP <> 0 then
   begin
     if (thing.z = thing.floorz) and
@@ -162,6 +201,17 @@ begin
     else
       thing.floorclip := 0;
   end;
+  {$ENDIF}
+  {$IFDEF STRIFE}
+  if thing.flags and  MF_FEETCLIPPED <> 0 then
+  begin
+    if (thing.z = thing.floorz) and
+       (P_GetThingFloorType(thing) > FLOOR_SOLID) then
+      thing.floorclip := FOOTCLIPSIZE
+    else
+      thing.floorclip := 0;
+  end;
+  {$ENDIF}
 
   if thing.flags and MF_MISSILE <> 0 then
   begin
@@ -188,7 +238,7 @@ var
   i: integer;
   count: integer;
   mo: Pmobj_t;
-  searcher: integer;
+  searcher: {$IFDEF HEXEN}integer{$ELSE}Pthinker_t{$ENDIF};
 begin
   if thing = nil then
   begin // Teleport function called with an invalid mobj
@@ -196,15 +246,19 @@ begin
     exit;
   end;
 
+  {$IFDEF DOOM_OR_STRIFE}
+  if thing.flags2_ex and MF2_EX_NOTELEPORT <> 0 then
+  {$ELSE}
   if thing.flags2 and MF2_NOTELEPORT <> 0 then
+  {$ENDIF}
   begin
     result := false;
     exit;
   end;
 
   count := 0;
-  searcher := -1;
-  while P_FindMobjFromTID(tid, @searcher) <> nil do
+  searcher := {$IFDEF HEXEN}-1{$ELSE}@thinkercap{$ENDIF};
+  while P_FindMobjFromTID(tid, {$IFDEF HEXEN}@searcher{$ELSE}Pointer(searcher){$ENDIF}) <> nil do
     inc(count);
 
   if count = 0 then
@@ -214,16 +268,16 @@ begin
   end;
 
   count := 1 + (P_Random mod count);
-  searcher := -1;
+  searcher := {$IFDEF HEXEN}-1{$ELSE}@thinkercap{$ENDIF};
   mo := nil;
   for i := 0 to count - 1 do
   begin
-    mo := P_FindMobjFromTID(tid, @searcher);
+    mo := P_FindMobjFromTID(tid, {$IFDEF HEXEN}@searcher{$ELSE}Pointer(searcher){$ENDIF});
   end;
   if mo = nil then
     I_Error('EV_Teleport(): Can''t find teleport mapspot');
 
-  result := P_Teleport(thing, mo.x, mo.y, mo.angle, fog, mo.floorz, mo.ceilingz);
+  result := PH_Teleport(thing, mo.x, mo.y, mo.angle, fog, mo.floorz, mo.ceilingz);
 end;
 
 end.

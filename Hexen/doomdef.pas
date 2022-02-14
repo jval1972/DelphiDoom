@@ -417,9 +417,6 @@ const
   ps_flash = 1;
 
 const
-  TELEFOGHEIGHT = 32 * FRACUNIT;
-
-const
   MAX_INTRMSN_MESSAGE_SIZE = 1024;
 
 implementation

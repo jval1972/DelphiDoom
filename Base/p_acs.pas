@@ -1638,14 +1638,18 @@ end;
 procedure ThingCount(_type: integer; tid: integer);
 var
   count: integer;
+  {$IFDEF HEXEN}
   searcher: integer;
+  {$ELSE}
+  searcher: Pthinker_t;
+  {$ENDIF}
   mobj: Pmobj_t;
   moType: mobjtype_t;
   think: Pthinker_t;
 
   function _FindMobjFromTID: Pmobj_t;
   begin
-    result := P_FindMobjFromTID(tid, @searcher);
+    result := P_FindMobjFromTID(tid, {$IFDEF HEXEN}@searcher{$ELSE}searcher{$ENDIF});
     mobj := result;
   end;
 
@@ -1657,7 +1661,11 @@ begin
 
   moType := TranslateThingType[_type];
   count := 0;
+  {$IFDEF HEXEN}
   searcher := -1;
+  {$ELSE}
+  searcher := @thinkercap;
+  {$ENDIF}
   if tid <> 0 then
   begin // Count TID things
     while _FindMobjFromTID <> nil do
@@ -2253,11 +2261,15 @@ var
   sound: integer;
   volume: integer;
   mobj: Pmobj_t;
+  {$IFDEF HEXEN}
   searcher: integer;
+  {$ELSE}
+  searcher: Pthinker_t;
+  {$ENDIF}
 
   function _FindMobjFromTID: Pmobj_t;
   begin
-    result := P_FindMobjFromTID(tid, @searcher);
+    result := P_FindMobjFromTID(tid, {$IFDEF HEXEN}@searcher{$ELSE}searcher{$ENDIF});
     mobj := result;
   end;
 
@@ -2265,7 +2277,11 @@ begin
   volume := ACS_Pop;
   sound := S_GetSoundNumForName(ACStrings.Strings[ACS_Pop]);
   tid := ACS_Pop;
+  {$IFDEF HEXEN}
   searcher := -1;
+  {$ELSE}
+  searcher := @thinkercap;
+  {$ENDIF}
 
   while _FindMobjFromTID <> nil do
     S_StartSoundAtVolume(mobj, sound, volume);

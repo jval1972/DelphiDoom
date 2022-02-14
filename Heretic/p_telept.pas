@@ -56,9 +56,6 @@ function EV_Teleport(line: Pline_t; side: integer; thing: Pmobj_t): boolean;
 //==============================================================================
 function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; destfogdz: fixed_t = 0): boolean;
 
-const
-  TELEPORTZOOM = 15 * FRACUNIT;
-
 implementation
 
 uses
@@ -74,7 +71,8 @@ uses
   p_mobj,
   p_map,
   s_sound,
-  sounddata;
+  sounddata,
+  udmf_telept;
 
 //==============================================================================
 //

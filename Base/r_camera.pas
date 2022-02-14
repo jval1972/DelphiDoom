@@ -71,7 +71,7 @@ uses
   p_3dfloors,
   p_sight,
   p_map,
-  p_telept,
+  udmf_telept,
   r_defs,
   r_main,
   r_data,

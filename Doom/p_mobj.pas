@@ -217,6 +217,13 @@ procedure MObj_Init;
 //==============================================================================
 procedure MObj_ShutDown;
 
+//==============================================================================
+//
+// P_ThrustMobj
+//
+//==============================================================================
+procedure P_ThrustMobj(mo: Pmobj_t; angle: angle_t; const move: fixed_t);
+
 var
   iquehead: integer; // Initialized at p_setup
   iquetail: integer; // Initialized at p_setup
@@ -2360,6 +2367,19 @@ begin
         exit;
       end;
   end;
+end;
+
+//==============================================================================
+//
+// P_ThrustMobj
+//
+//==============================================================================
+procedure P_ThrustMobj(mo: Pmobj_t; angle: angle_t; const move: fixed_t);
+begin
+  angle := angle shr ANGLETOFINESHIFT;
+
+  mo.momx := mo.momx + FixedMul(move, finecosine[angle]);
+  mo.momy := mo.momy + FixedMul(move, finesine[angle]);
 end;
 
 //==============================================================================

@@ -3370,24 +3370,6 @@ end;
 
 //==============================================================================
 //
-// P_ThrustMobj
-//
-// villsa [STRIFE] new function
-// Thrusts an thing in a specified force/direction
-// Beware! This is inlined everywhere in the asm
-//
-//==============================================================================
-procedure P_ThrustMobj(actor: Pmobj_t; angle: angle_t; force: fixed_t);
-var
-  an: angle_t;
-begin
-  an := angle div ANGLETOFINEUNIT;
-  actor.momx := actor.momx + FixedMul(finecosine[an], force);
-  actor.momy := actor.momy + FixedMul(finesine[an], force);
-end;
-
-//==============================================================================
-//
 // A_ProgrammerDie
 //
 // villsa [STRIFE] new codepointer

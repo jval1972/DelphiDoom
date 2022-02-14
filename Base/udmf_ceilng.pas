@@ -1,9 +1,8 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiHexen is a source port of the game Hexen and it is
-//  based on original Linux Doom as published by "id Software", on
-//  Hexen source as published by "Raven" software and DelphiDoom
-//  as published by Jim Valavanis.
+//  DelphiDoom is a source port of the game Doom and it is
+//  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -22,7 +21,7 @@
 //  02111-1307, USA.
 //
 // DESCRIPTION:
-//  Ceiling aninmation (lowering, crushing, raising)
+//  Ceiling aninmation (lowering, crushing, raising) (UDMF & Hexen)
 //
 //------------------------------------------------------------------------------
 //  Site  : https://sourceforge.net/projects/delphidoom/
@@ -30,7 +29,7 @@
 
 {$I Doom32.inc}
 
-unit p_ceilng;
+unit udmf_ceilng;
 
 interface
 
@@ -81,8 +80,13 @@ uses
   p_tick,
   p_setup,
   p_slopes,
-  p_floor,
-  s_sndseq;
+  {$IFDEF HEXEN}
+  s_sndseq,
+  {$ELSE}
+  s_sound,
+  udmf_spec,
+  {$ENDIF}
+  udmf_floor;
 
 //==============================================================================
 // P_AddActiveCeiling
@@ -148,7 +152,11 @@ begin
 
         if res = RES_PASTDEST then
         begin
+          {$IFDEF HEXEN}
           S_StopSequence(Pmobj_t(@ceiling.sector.soundorg));
+          {$ELSE}
+          S_StopSound(@ceiling.sector.soundorg);
+          {$ENDIF}
           if ceiling._type = CLEV_CRUSHANDRAISE then
           begin
             ceiling.direction := -1;
@@ -168,7 +176,11 @@ begin
 
         if res = RES_PASTDEST then
         begin
+          {$IFDEF HEXEN}
           S_StopSequence(Pmobj_t(@ceiling.sector.soundorg));
+          {$ELSE}
+          S_StopSound(@ceiling.sector.soundorg);
+          {$ENDIF}
           case ceiling._type of
             CLEV_CRUSHANDRAISE,
             CLEV_CRUSHRAISEANDSTAY:

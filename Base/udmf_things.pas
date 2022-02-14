@@ -666,6 +666,7 @@ uses
   sounddata,
   s_sound,
   udmf_mobj,
+  udmf_telept,
   doomdef;
 
 //==============================================================================
@@ -757,7 +758,7 @@ begin
       newMobj.angle := angle;
       if fog then
       begin
-        fogMobj := P_SpawnMobj(mobj.x, mobj.y, mobj.z, Ord(MT_TFOG));
+        fogMobj := P_SpawnMobj(mobj.x, mobj.y, mobj.z + TELEFOGHEIGHT, Ord(MT_TFOG));
         S_StartSound(fogMobj, Ord(sfx_telept));
       end;
       newMobj.flags := newMobj.flags or MF_DROPPED; // Don't respawn

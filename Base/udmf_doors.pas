@@ -1,9 +1,8 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiHexen is a source port of the game Hexen and it is
-//  based on original Linux Doom as published by "id Software", on
-//  Hexen source as published by "Raven" software and DelphiDoom
-//  as published by Jim Valavanis.
+//  DelphiDoom is a source port of the game Doom and it is
+//  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -18,11 +17,11 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
-//  Door animation code (opening/closing)
+//  Door animation code (opening/closing) (UDMF & Hexen)
 //
 //------------------------------------------------------------------------------
 //  Site  : https://sourceforge.net/projects/delphidoom/
@@ -68,10 +67,14 @@ implementation
 
 uses
   p_tick,
-  p_setup,
-  p_floor,
+  udmf_floor,
   p_acs,
-  s_sndseq;
+  {$IFDEF HEXEN}
+  s_sndseq,
+  {$ELSE}
+  s_sound,
+  {$ENDIF}
+  p_setup;
 
 //==============================================================================
 //
@@ -95,7 +98,11 @@ begin
             DREV_NORMAL:
               begin
                 door.direction := -1; // time to go back down
+                {$IFDEF HEXEN}
                 S_StartSequence(Pmobj_t(@door.sector.soundorg), Ord(SEQ_DOOR_STONE) + Ord(door.sector.seqType));
+                {$ELSE}
+                S_StartSound(@door.sector.soundorg, door.sector.seqType);
+                {$ENDIF}
               end;
             DREV_CLOSE30THENOPEN:
               begin

@@ -36,7 +36,15 @@ interface
 uses
   d_delphi,
   p_mobj_h,
-  r_defs;
+  r_defs,
+  udmf_doors;
+
+//==============================================================================
+//
+// P_FindSectorFromTag
+//
+//==============================================================================
+function P_FindSectorFromTag(tag: integer; var start: integer): integer;
 
 //==============================================================================
 //
@@ -53,12 +61,101 @@ function P_FindSectorFromTag2(tag: integer; var start: integer): integer;
 function P_ExecuteLineSpecial(special: integer; args: PByteArray; line: Pline_t;
   side: integer; mo: Pmobj_t): boolean;
 
+//==============================================================================
+//
+// P_ActivateLine
+//
+//==============================================================================
+function P_ActivateLine(line: Pline_t; mo: Pmobj_t; side: integer; activationType: integer): boolean;
+
+//==============================================================================
+//
+// P_LineToArgs
+//
+//==============================================================================
+procedure P_LineToArgs(line: Pline_t; const args: PByteArray);
+
+//==============================================================================
+//
+// P_ArgsToLine
+//
+//==============================================================================
+procedure P_ArgsToLine(line: Pline_t; const args: PByteArray);
+
 implementation
 
 uses
+  doomdef,
+  d_player,
+  m_fixed,
+  tables,
   p_acs,
+  p_inter,
+  p_mobj,
   p_setup,
-  po_man;
+  p_spec,
+  p_udmf,
+  po_man,
+  sounddata,
+  s_sound,
+  udmf_ceilng,
+  udmf_floor,
+  udmf_plats,
+  udmf_telept;
+
+function CheckedLockedDoor(mo: Pmobj_t; lock: byte): boolean;
+var
+  LockedBuffer: string;
+begin
+  if mo.player = nil then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if lock <> 0 then
+  begin
+    {$IFDEF DOOM_OR_STRIFE}
+    if not IsIntegerInRange(lock, 1, Ord(NUMCARDS)) or not Pplayer_t(mo.player).cards[lock - 1] then
+    {$ENDIF}
+    {$IFDEF HERETIC}
+    if not IsIntegerInRange(lock, 1, Ord(NUMKEYCARDS)) or not Pplayer_t(mo.player).keys[lock - 1] then
+    {$ENDIF}
+    begin
+      {$IFDEF DOOM_OR_STRIFE}
+      if not IsIntegerInRange(lock, 1, Ord(NUMCARDS)) then
+        LockedBuffer := 'YOU NEED A KEY'
+      else
+      {$ENDIF}
+      {$IFDEF HERETIC}
+      if not IsIntegerInRange(lock, 1, Ord(NUMKEYCARDS)) then
+        LockedBuffer := 'YOU NEED A KEY'
+      else
+      {$ENDIF}
+      sprintf(LockedBuffer, 'YOU NEED THE %s', [TextKeyMessages[lock - 1]]);
+      Pplayer_t(mo.player)._message := LockedBuffer;
+      {$IFDEF DOOM_OR_STRIFE}
+      S_StartSound(mo, Ord(sfx_oof));
+      {$ENDIF}
+      {$IFDEF HERETIC}
+      S_StartSound(mo, Ord(sfx_plroof));
+      {$ENDIF}
+      result := false;
+      exit;
+    end;
+  end;
+  result := true;
+end;
+
+//==============================================================================
+//
+// P_FindSectorFromTag
+//
+//==============================================================================
+function P_FindSectorFromTag(tag: integer; var start: integer): integer;
+begin
+  result := P_FindSectorFromTag2(tag, start);
+end;
 
 //==============================================================================
 //
@@ -584,6 +681,85 @@ begin
 
     // Inert Line specials
   end;
+end;
+
+//==============================================================================
+//
+// P_ActivateLine
+//
+//==============================================================================
+function P_ActivateLine(line: Pline_t; mo: Pmobj_t; side: integer; activationType: integer): boolean;
+var
+  lineActivation: integer;
+  dorepeat: boolean;
+  buttonSuccess: boolean;
+  args: array[0..4] of Byte;
+begin
+  if line.activators and activationType <> 0 then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if (mo.player = nil) and (mo.flags and MF_MISSILE = 0) then
+  begin
+
+    if lineActivation <> ULAC_MCROSS then
+    begin // currently, monsters can only activate the MCROSS activation type
+       result := false;
+       exit;
+    end;
+
+    if line.flags and ML_SECRET <> 0 then
+    begin
+      result := false;  // never open secret doors
+      exit;
+    end;
+
+  end;
+
+  dorepeat := line.activators and ULAC_REPEAT <> 0;
+  P_LineToArgs(line, @args);
+  buttonSuccess := P_ExecuteLineSpecial(line.special, @args, line, side, mo);
+  P_ArgsToLine(line, @args);
+
+  if not dorepeat and buttonSuccess then
+  begin // clear the special on non-retriggerable lines
+    line.special := 0;
+  end;
+
+  if ((lineActivation = ULAC_USE) or (lineActivation = ULAC_IMPACT)) and buttonSuccess then
+    P_ChangeSwitchTexture(line, dorepeat);
+
+  result := true;
+end;
+
+//==============================================================================
+//
+// P_LineToArgs
+//
+//==============================================================================
+procedure P_LineToArgs(line: Pline_t; const args: PByteArray);
+begin
+  args[0] := line.arg1;
+  args[1] := line.arg2;
+  args[2] := line.arg3;
+  args[3] := line.arg4;
+  args[4] := line.arg5;
+end;
+
+//==============================================================================
+//
+// P_ArgsToLine
+//
+//==============================================================================
+procedure P_ArgsToLine(line: Pline_t; const args: PByteArray);
+begin
+  line.arg1 := args[0];
+  line.arg2 := args[1];
+  line.arg3 := args[2];
+  line.arg4 := args[3];
+  line.arg5 := args[4];
 end;
 
 end.

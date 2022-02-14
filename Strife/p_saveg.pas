@@ -545,6 +545,10 @@ begin
     Pmoreids_t(put)^ := sec.moreids;
     put := @put[SizeOf(moreids_t)];
 
+    // JVAL: 20200214 - Store seqType
+    PInteger(put)^ := sec.seqType;
+    put := @put[2];
+
     inc(i);
   end;
 
@@ -783,17 +787,20 @@ begin
       end;
     end;
 
-    // JVAL: 20200209 - Read moreids
+    // JVAL: 20200209 - Read UDMF data
     if savegameversion >= VERSION207 then
     begin
       sec.moreids := Pmoreids_t(get)^;
       get := @get[SizeOf(moreids_t)];
+      sec.seqType := PInteger(get)^;
+      get := @get[2];
     end
     else
     begin
       sec.moreids := [];
       if IsIntegerInRange(sec.tag, 0, 255) then
         Include(sec.moreids, sec.tag);
+      sec.seqType := 0;
     end;
 
     sec.touching_thinglist := nil;

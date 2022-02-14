@@ -398,7 +398,12 @@ uses
   po_man in 'Base\po_man.pas',
   udmf_things in 'Base\udmf_things.pas',
   udmf_mobj in 'Base\udmf_mobj.pas',
-  udmf_spec in 'Base\udmf_spec.pas';
+  udmf_spec in 'Base\udmf_spec.pas',
+  udmf_doors in 'Base\udmf_doors.pas',
+  udmf_floor in 'Base\udmf_floor.pas',
+  udmf_ceilng in 'Base\udmf_ceilng.pas',
+  udmf_plats in 'Base\udmf_plats.pas',
+  udmf_telept in 'Base\udmf_telept.pas';
 
 var
   Saved8087CW: Word;

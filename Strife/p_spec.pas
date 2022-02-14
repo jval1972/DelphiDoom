@@ -305,7 +305,12 @@ type
     up,
     down,
     waiting,
-    in_stasis
+    in_stasis,
+
+    // JVAL: 20220214 - Added UDMF plat status
+    PLAT_UP,
+    PLAT_DOWN,
+    PLAT_WAITING
   );
 
   plattype_e = (
@@ -318,7 +323,14 @@ type
     upWaitDownStay,     // villsa [STRIFE]
     genLift,      //jff added to support generalized Plat types
     genPerpetual,
-    toggleUpDn    //jff 3/14/98 added to support instant toggle type
+    toggleUpDn,   //jff 3/14/98 added to support instant toggle type
+
+    // JVAL: 20220214 - Added UDMF plat types
+    PLAT_PERPETUALRAISE,
+    PLAT_DOWNWAITUPSTAY,
+    PLAT_DOWNBYVALUEWAITUPSTAY,
+    PLAT_UPWAITDOWNSTAY,
+    PLAT_UPBYVALUEWAITDOWNSTAY
   );
 
   plat_t = record
@@ -367,7 +379,14 @@ type
     vld_genClose,
     vld_genBlazeClose,
     vld_genCdO,
-    vld_genBlazeCdO
+    vld_genBlazeCdO,
+
+    // JVAL: 20220214 - Added UDMF door types
+    DREV_NORMAL,
+    DREV_CLOSE30THENOPEN,
+    DREV_CLOSE,
+    DREV_OPEN,
+    DREV_RAISEIN5MINS
   );
 
   vldoor_t = record
@@ -421,7 +440,17 @@ type
 
     //jff 02/05/98 add types for generalized ceiling mover
     genCrusher,
-    genSilentCrusher
+    genSilentCrusher,
+
+    // JVAL: 20220214 - Added UDMF ceiling types
+    CLEV_LOWERTOFLOOR,
+    CLEV_RAISETOHIGHEST,
+    CLEV_LOWERANDCRUSH,
+    CLEV_CRUSHANDRAISE,
+    CLEV_LOWERBYVALUE,
+    CLEV_RAISEBYVALUE,
+    CLEV_CRUSHRAISEANDSTAY,
+    CLEV_MOVETOVALUETIMES8
   );
 
   ceiling_t = record
@@ -572,7 +601,23 @@ type
 
     //new types for stair builders
     buildStair,
-    genBuildStair
+    genBuildStair,
+
+    // JVAL: 20220214 - Added UDMF floor types
+    FLEV_LOWERFLOOR,            // lower floor to highest surrounding floor
+    FLEV_LOWERFLOORTOLOWEST,    // lower floor to lowest surrounding floor
+    FLEV_LOWERFLOORBYVALUE,
+    FLEV_RAISEFLOOR,            // raise floor to lowest surrounding CEILING
+    FLEV_RAISEFLOORTONEAREST,   // raise floor to next highest surrounding floor
+    FLEV_RAISEFLOORBYVALUE,
+    FLEV_RAISEFLOORCRUSH,
+    FLEV_RAISEBUILDSTEP,        // One step of a staircase
+    FLEV_RAISEBYVALUETIMES8,
+    FLEV_LOWERBYVALUETIMES8,
+    FLEV_LOWERTIMES8INSTANT,
+    FLEV_RAISETIMES8INSTANT,
+    FLEV_MOVETOVALUETIMES8,
+    FLEV_RAISETOTEXTURE
   );
 
   stair_e = (
@@ -644,6 +689,32 @@ type
   end;
   Ppusher_t = ^pusher_t;
 
+  pillar_t = record
+    thinker: thinker_t;
+    sector: Psector_t;
+    ceilingSpeed: integer;
+    floorSpeed: integer;
+    floordest: integer;
+    ceilingdest: integer;
+    direction: integer;
+    crush: boolean;
+  end;
+  Ppillar_t = ^pillar_t;
+
+  floorWaggle_t = record
+    thinker: thinker_t;
+    sector: Psector_t;
+    originalHeight: fixed_t;
+    accumulator: fixed_t;
+    accDelta: fixed_t;
+    targetScale: fixed_t;
+    scale: fixed_t;
+    scaleDelta: fixed_t;
+    ticker: integer;
+    state: integer;
+  end;
+  PfloorWaggle_t = ^floorWaggle_t;
+
 const
   ELEVATORSPEED = 4 * FRACUNIT;
   FLOORSPEED = FRACUNIT;
@@ -652,9 +723,20 @@ type
   result_e = (
     ok,
     crushed,
-    pastdest
+    pastdest,
+
+    // JVAL: 20220214 - Added UDMF Result types
+    RES_OK,
+    RES_CRUSHED,
+    RES_PASTDEST
   );
 
+  stairs_e = (
+    STAIRS_NORMAL,
+    STAIRS_SYNC,
+    STAIRS_PHASED
+  );
+  
 // JVAL: BOOM compatibility
   special_e = (
     floor_special,

@@ -67,9 +67,6 @@ function EV_SilentTeleport(line: Pline_t; side: integer; thing: Pmobj_t): intege
 //==============================================================================
 function EV_SilentLineTeleport(line: Pline_t; side: integer; thing: Pmobj_t; reverse: boolean): integer;
 
-const
-  TELEPORTZOOM = 15 * FRACUNIT;
-
 implementation
 
 uses
@@ -90,6 +87,7 @@ uses
   r_main,
   s_sound,
   sounddata,
+  udmf_telept,
   tables;
 
 //==============================================================================
