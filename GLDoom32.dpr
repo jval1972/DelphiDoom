@@ -403,7 +403,8 @@ uses
   udmf_floor in 'Base\udmf_floor.pas',
   udmf_ceilng in 'Base\udmf_ceilng.pas',
   udmf_plats in 'Base\udmf_plats.pas',
-  udmf_telept in 'Base\udmf_telept.pas';
+  udmf_telept in 'Base\udmf_telept.pas',
+  udmf_lights in 'Base\udmf_lights.pas';
 
 var
   Saved8087CW: Word;

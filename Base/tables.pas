@@ -95,6 +95,7 @@ const
 const
   ANG1 = ANG90 div 90;
   ANGLE_MAX = $FFFFFFFF;
+  ANGLEMAX_DIV_256 = ANGLE_MAX div 256;
 
 var
 // Effective size is 10240.

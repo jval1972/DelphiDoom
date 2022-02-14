@@ -87,6 +87,7 @@ implementation
 uses
   doomdef,
   d_player,
+  g_game,
   m_fixed,
   tables,
   p_acs,
@@ -100,8 +101,10 @@ uses
   s_sound,
   udmf_ceilng,
   udmf_floor,
+  udmf_lights,
   udmf_plats,
-  udmf_telept;
+  udmf_telept,
+  udmf_things;
 
 function CheckedLockedDoor(mo: Pmobj_t; lock: byte): boolean;
 var
@@ -477,25 +480,19 @@ begin
         result := true;
       end;
 
+    {$IFDEF STRIFE}
     74: // Teleport_NewMap
       begin
         if side = 0 then
         begin // Only teleport when crossing the front side of a line
           if not ((mo <> nil) and (mo.player <> nil) and (Pplayer_t(mo.player).playerstate = PST_DEAD)) then // Players must be alive to teleport
           begin
-            if P_GetMapCluster(args[0]) = 0 then
-            begin
-              P_SetMessage(mo.player, GACCESSDENIEDDEMO);
-              result := false;
-            end
-            else
-            begin
-              G_Completed(args[0], args[1]);
-              result := true;
-            end;
+            result := true;
+            G_RiftExitLevel(args[0], args[1], args[2] * ANGLEMAX_DIV_256);
           end;
         end;
       end;
+    {$ENDIF}
 
     75: // Teleport_EndGame
       begin
@@ -504,14 +501,7 @@ begin
           if not ((mo <> nil) and (mo.player <> nil) and (Pplayer_t(mo.player).playerstate = PST_DEAD)) then // Players must be alive to teleport
           begin
             result := true;
-            if deathmatch <> 0 then
-            begin // Winning in deathmatch just goes back to map 1
-              G_Completed(1, 0);
-            end
-            else
-            begin // Passing -1, -1 to G_Completed starts the Finale
-              G_Completed(-1, -1);
-            end;
+            G_ExitLevel{$IFDEF STRIFE}(args[0]){$ENDIF};
           end;
         end;
       end;
