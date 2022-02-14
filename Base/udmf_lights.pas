@@ -1,9 +1,8 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiHexen is a source port of the game Hexen and it is
-//  based on original Linux Doom as published by "id Software", on
-//  Hexen source as published by "Raven" software and DelphiDoom
-//  as published by Jim Valavanis.
+//  DelphiDoom is a source port of the game Doom and it is
+//  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2022 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -18,7 +17,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -27,7 +26,7 @@
 
 {$I Doom32.inc}
 
-unit p_lights;
+unit udmf_lights;
 
 interface
 
@@ -111,13 +110,28 @@ uses
   m_rnd,
   p_tick,
   p_spec,
+  {$IFNDEF HEXEN}
+  udmf_spec,
+  {$ENDIF}
   p_setup,
   z_zone;
 
 const
+  {$IFDEF DOOM_OR_STRIFE}
+  LIGHT_SEQUENCE_START = 19;
+  LIGHT_SEQUENCE = 20;
+  LIGHT_SEQUENCE_ALT = 21;
+  {$ENDIF}
+  {$IFDEF HERETIC}
+  LIGHT_SEQUENCE_START = 17;
+  LIGHT_SEQUENCE = 18;
+  LIGHT_SEQUENCE_ALT = 19;
+  {$ENDIF}
+  {$IFDEF HEXEN}
   LIGHT_SEQUENCE_START = 2;
   LIGHT_SEQUENCE = 3;
   LIGHT_SEQUENCE_ALT = 4;
+  {$ENDIF}
 
 //==============================================================================
 //

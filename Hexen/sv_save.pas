@@ -161,7 +161,7 @@ uses
   p_spec,
   udmf_plats,
   udmf_ceilng,
-  p_lights,
+  udmf_lights,
   udmf_doors,
   p_pspr_h,
   p_inter,

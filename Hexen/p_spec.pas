@@ -501,7 +501,7 @@ uses
   p_switch,
   udmf_ceilng,
   udmf_plats,
-  p_lights,
+  udmf_lights,
   udmf_doors,
   p_mobj,
   p_user,

@@ -184,7 +184,7 @@ uses
   p_extra in 'Hexen\p_extra.pas',
   udmf_floor in 'Base\udmf_floor.pas',
   p_inter in 'Hexen\p_inter.pas',
-  p_lights in 'Hexen\p_lights.pas',
+  udmf_lights in 'Base\udmf_lights.pas',
   p_local in 'Hexen\p_local.pas',
   p_map in 'Hexen\p_map.pas',
   p_maputl in 'Hexen\p_maputl.pas',
