@@ -162,7 +162,7 @@ uses
   p_plats,
   p_ceilng,
   p_lights,
-  p_doors,
+  udmf_doors,
   p_pspr_h,
   p_inter,
   p_tick,

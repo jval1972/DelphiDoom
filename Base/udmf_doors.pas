@@ -30,7 +30,7 @@
 
 {$I Doom32.inc}
 
-unit p_doors;
+unit udmf_doors;
 
 interface
 

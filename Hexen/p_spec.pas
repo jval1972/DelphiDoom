@@ -502,7 +502,7 @@ uses
   p_ceilng,
   p_plats,
   p_lights,
-  p_doors,
+  udmf_doors,
   p_mobj,
   p_user,
   p_floor,

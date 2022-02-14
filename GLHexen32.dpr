@@ -180,7 +180,7 @@ uses
   p_acs in 'Base\p_acs.pas',
   p_anim in 'Hexen\p_anim.pas',
   p_ceilng in 'Hexen\p_ceilng.pas',
-  p_doors in 'Hexen\p_doors.pas',
+  udmf_doors in 'Base\udmf_doors.pas',
   p_enemy in 'Hexen\p_enemy.pas',
   p_extra in 'Hexen\p_extra.pas',
   p_floor in 'Hexen\p_floor.pas',
