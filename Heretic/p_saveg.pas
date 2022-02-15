@@ -1536,7 +1536,7 @@ begin
           begin
             floor206 := Pfloormove_t206(save_p);
             incp(pointer(save_p), SizeOf(floormove_t206));
-            ZeroMemory(floor, SizeOf(floormove_t);
+            ZeroMemory(floor, SizeOf(floormove_t));
             floor.thinker := floor206.thinker;
             floor._type := floor206._type;
             floor.crush := floor206.crush;

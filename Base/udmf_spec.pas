@@ -55,6 +55,13 @@ function P_FindSectorFromTag2(tag: integer; var start: integer): integer;
 
 //==============================================================================
 //
+// P_FindLine
+//
+//==============================================================================
+function P_FindLine(lineTag: integer; searchPosition: PInteger): Pline_t;
+
+//==============================================================================
+//
 // P_ExecuteLineSpecial
 //
 //==============================================================================
@@ -167,6 +174,26 @@ begin
 
   result := -1;
   start := -1;
+end;
+
+//==============================================================================
+//
+// P_FindLine
+//
+//==============================================================================
+function P_FindLine(lineTag: integer; searchPosition: PInteger): Pline_t;
+var
+  i: integer;
+begin
+  for i := searchPosition^ + 1 to numlines - 1 do
+    if lines[i].tag = lineTag then
+    begin
+      result := @lines[i];
+      searchPosition^ := i;
+      exit;
+    end;
+  searchPosition^ := -1;
+  result := nil;
 end;
 
 //==============================================================================

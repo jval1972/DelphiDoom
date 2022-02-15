@@ -201,8 +201,9 @@ uses
   {$IFDEF HEXEN}
   p_things,
   {$ELSE}
-  udmf_things,
+  udmf_mobj,
   udmf_spec,
+  udmf_things,
   {$ENDIF}
   po_man,
   r_data,
@@ -1641,7 +1642,7 @@ var
   {$IFDEF HEXEN}
   searcher: integer;
   {$ELSE}
-  searcher: Pthinker_t;
+  searcher: Pointer;
   {$ENDIF}
   mobj: Pmobj_t;
   moType: mobjtype_t;
@@ -2110,7 +2111,7 @@ begin
   {$IFDEF HEXEN}
   P_SetMessage(player, PrintBuffer, true);
   {$ELSE}
-  player._message := LockedBuffer;
+  player._message := PrintBuffer;
   {$ENDIF}
   result := SCRIPT_CONTINUE;
 end;
@@ -2131,7 +2132,7 @@ begin
       {$IFDEF HEXEN}
       P_SetMessage(@players[i], PrintBuffer, true); // P_SetYellowMessage
       {$ELSE}
-      players[i]._message := LockedBuffer;
+      players[i]._message := PrintBuffer;
       {$ENDIF}
     end;
   end;
@@ -2264,7 +2265,7 @@ var
   {$IFDEF HEXEN}
   searcher: integer;
   {$ELSE}
-  searcher: Pthinker_t;
+  searcher: Pointer;
   {$ENDIF}
 
   function _FindMobjFromTID: Pmobj_t;
@@ -2315,7 +2316,11 @@ begin
   mobj := nil;
   if ACScript.line <> nil then
     mobj := Pmobj_t(@ACScript.line.frontsector.soundorg);
+  {$IFDEF HEXEN}
   S_StartSequenceName(mobj, ACStrings.Strings[ACS_Pop]);
+  {$ELSE}
+  S_StartSound(mobj, ACStrings.Strings[ACS_Pop]);
+  {$ENDIF}
   result := SCRIPT_CONTINUE;
 end;
 

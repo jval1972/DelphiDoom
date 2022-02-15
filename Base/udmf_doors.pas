@@ -73,6 +73,7 @@ uses
   s_sndseq,
   {$ELSE}
   s_sound,
+  udmf_spec,
   {$ENDIF}
   p_setup;
 
@@ -134,7 +135,11 @@ begin
                   false, 1, door.direction);
         if res = RES_PASTDEST then
         begin
-           S_StopSequence(Pmobj_t(@door.sector.soundorg));
+          {$IFDEF HEXEN}
+          S_StopSequence(Pmobj_t(@door.sector.soundorg));
+          {$ELSE}
+          S_StopSound(@door.sector.soundorg);
+          {$ENDIF}
           case door._type of
             DREV_NORMAL,
             DREV_CLOSE:
@@ -170,7 +175,11 @@ begin
                   false, 1, door.direction);
         if res = RES_PASTDEST then
         begin
+          {$IFDEF HEXEN}
           S_StopSequence(Pmobj_t(@door.sector.soundorg));
+          {$ELSE}
+          S_StopSound(@door.sector.soundorg);
+          {$ENDIF}
           case door._type of
             DREV_NORMAL:
               begin
@@ -256,7 +265,11 @@ begin
     door._type := _type;
     door.speed := speed;
     door.topwait := args[2];
+    {$IFDEF HEXEN}
     S_StartSequence(Pmobj_t(@door.sector.soundorg), Ord(SEQ_DOOR_STONE) + Ord(door.sector.seqType));
+    {$ELSE}
+    S_StartSound(@door.sector.soundorg, door.sector.seqType);
+    {$ENDIF}
   end;
 end;
 
@@ -313,7 +326,11 @@ begin
   //
   door.topheight := P_FindLowestCeilingSurrounding(sec);
   door.topheight := door.topheight - 4 * FRACUNIT;
+  {$IFDEF HEXEN}
   S_StartSequence(Pmobj_t(@door.sector.soundorg), Ord(SEQ_DOOR_STONE) + Ord(door.sector.seqType));
+  {$ELSE}
+  S_StartSound(@door.sector.soundorg, door.sector.seqType);
+  {$ENDIF}
   result := true;
 end;
 

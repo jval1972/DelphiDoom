@@ -303,8 +303,11 @@ begin
     ceiling._type := _type;
     P_AddActiveCeiling(ceiling);
     if result then
-      S_StartSequence(Pmobj_t(@ceiling.sector.soundorg),
-        Ord(SEQ_PLATFORM) + Ord(ceiling.sector.seqType));
+      {$IFDEF HEXEN}
+      S_StartSequence(Pmobj_t(@ceiling.sector.soundorg), Ord(SEQ_PLATFORM) + Ord(ceiling.sector.seqType));
+      {$ELSE}
+      S_StartSound(@ceiling.sector.soundorg, ceiling.sector.seqType);
+      {$ENDIF}
     P_DynamicSlope(sec);  // JVAL: Slopes
   end;
 end;
@@ -324,7 +327,11 @@ begin
     if (activeceilings[i] <> nil) and
        (activeceilings[i].tag = args[0])  then
     begin
+      {$IFDEF HEXEN}
       S_StopSequence(Pmobj_t(@activeceilings[i].sector.soundorg));
+      {$ELSE}
+      S_StopSound(@activeceilings[i].sector.soundorg);
+      {$ENDIF}
       activeceilings[i].sector.specialdata := nil;
       P_RemoveThinker(@activeceilings[i].thinker);
       P_TagFinished(activeceilings[i].sector.tag);

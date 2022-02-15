@@ -134,11 +134,16 @@ uses
   p_setup,
   p_slopes,
   udmf_ceilng,
+  {$IFDEF HEXEN}
+  s_sndseq,
+  {$ELSE}
+  s_sound,
+  udmf_spec,
+  {$ENDIF}
   p_acs,
   p_common,
   r_data,
-  r_main,
-  s_sndseq;
+  r_main;
 
 //==============================================================================
 // TH_MovePlane
@@ -320,7 +325,11 @@ begin
 
   if res = RES_PASTDEST then
   begin
+    {$IFDEF HEXEN}
     S_StopSequence(Pmobj_t(@floor.sector.soundorg));
+    {$ELSE}
+    S_StopSound(@floor.sector.soundorg);
+    {$ENDIF}
     if floor.delayTotal <> 0 then
       floor.delayTotal := 0;
     if floor.resetDelay <> 0 then
@@ -491,7 +500,11 @@ begin
 
   if result then
   begin
+    {$IFDEF HEXEN}
     S_StartSequence(Pmobj_t(@floor.sector.soundorg), Ord(SEQ_PLATFORM) + Ord(floor.sector.seqType));  // JVAL SOS
+    {$ELSE}
+    S_StartSound(@floor.sector.soundorg, floor.sector.seqType);
+    {$ENDIF}
   end;
 end;
 
@@ -650,7 +663,11 @@ begin
         floor.resetHeight := sec.floorheight;
       end;
   end;
+  {$IFDEF HEXEN}
   S_StartSequence(Pmobj_t(@sec.soundorg), Ord(SEQ_PLATFORM) + Ord(sec.seqType));
+  {$ELSE}
+  S_StartSound(@sec.soundorg, sec.seqType);
+  {$ENDIF}
 
   //
   // Find next sector to doraise
@@ -769,7 +786,11 @@ begin
   if (res1 = RES_PASTDEST) and (res2 = RES_PASTDEST) then
   begin
     pillar.sector.specialdata := nil;
+    {$IFDEF HEXEN}
     S_StopSequence(Pmobj_t(@pillar.sector.soundorg));
+    {$ELSE}
+    S_StopSound(@pillar.sector.soundorg);
+    {$ENDIF}
     P_TagFinished(pillar.sector.tag);
     P_RemoveThinker(@pillar.thinker);
   end;
@@ -837,7 +858,11 @@ begin
     pillar.ceilingdest := newHeight;
     pillar.direction := 1;
     pillar.crush := crush and (args[3] <> 0); // JVAL SOS
+    {$IFDEF HEXEN}
     S_StartSequence(Pmobj_t(@pillar.sector.soundorg), Ord(SEQ_PLATFORM) + Ord(pillar.sector.seqType));
+    {$ELSE}
+    S_StartSound(@pillar.sector.soundorg, pillar.sector.seqType);
+    {$ENDIF}
   end;
 end;
 
@@ -902,7 +927,11 @@ begin
           FixedDiv(pillar.ceilingSpeed, sec.ceilingheight - pillar.ceilingdest));
     end;
     pillar.direction := -1; // open the pillar
+    {$IFDEF HEXEN}
     S_StartSequence(Pmobj_t(@pillar.sector.soundorg), Ord(SEQ_PLATFORM) + Ord(pillar.sector.seqType));
+    {$ELSE}
+    S_StartSound(@pillar.sector.soundorg, pillar.sector.seqType);
+    {$ENDIF}
   end;
 end;
 
@@ -935,7 +964,11 @@ begin
     end;
 
     // Completely remove the crushing floor
+    {$IFDEF HEXEN}
     S_StopSequence(Pmobj_t(@floor.sector.soundorg));
+    {$ELSE}
+    S_StopSound(@floor.sector.soundorg);
+    {$ENDIF}
     floor.sector.specialdata := nil;
     P_TagFinished(floor.sector.tag);
     P_RemoveThinker(@floor.thinker);
