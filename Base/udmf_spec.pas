@@ -86,15 +86,23 @@ implementation
 
 uses
   doomdef,
+  doomdata,
+  d_think,
   d_player,
   g_game,
   m_fixed,
+  m_rnd,
   tables,
   p_acs,
+  p_common,
   p_inter,
+  p_maputl,
   p_mobj,
   p_setup,
+  p_sounds,
   p_spec,
+  p_switch,
+  p_tick,
   p_udmf,
   po_man,
   sounddata,
@@ -102,53 +110,10 @@ uses
   udmf_ceilng,
   udmf_floor,
   udmf_lights,
+  udmf_mobj,
   udmf_plats,
   udmf_telept,
   udmf_things;
-
-function CheckedLockedDoor(mo: Pmobj_t; lock: byte): boolean;
-var
-  LockedBuffer: string;
-begin
-  if mo.player = nil then
-  begin
-    result := false;
-    exit;
-  end;
-
-  if lock <> 0 then
-  begin
-    {$IFDEF DOOM_OR_STRIFE}
-    if not IsIntegerInRange(lock, 1, Ord(NUMCARDS)) or not Pplayer_t(mo.player).cards[lock - 1] then
-    {$ENDIF}
-    {$IFDEF HERETIC}
-    if not IsIntegerInRange(lock, 1, Ord(NUMKEYCARDS)) or not Pplayer_t(mo.player).keys[lock - 1] then
-    {$ENDIF}
-    begin
-      {$IFDEF DOOM_OR_STRIFE}
-      if not IsIntegerInRange(lock, 1, Ord(NUMCARDS)) then
-        LockedBuffer := 'YOU NEED A KEY'
-      else
-      {$ENDIF}
-      {$IFDEF HERETIC}
-      if not IsIntegerInRange(lock, 1, Ord(NUMKEYCARDS)) then
-        LockedBuffer := 'YOU NEED A KEY'
-      else
-      {$ENDIF}
-      sprintf(LockedBuffer, 'YOU NEED THE %s', [TextKeyMessages[lock - 1]]);
-      Pplayer_t(mo.player)._message := LockedBuffer;
-      {$IFDEF DOOM_OR_STRIFE}
-      S_StartSound(mo, Ord(sfx_oof));
-      {$ENDIF}
-      {$IFDEF HERETIC}
-      S_StartSound(mo, Ord(sfx_plroof));
-      {$ENDIF}
-      result := false;
-      exit;
-    end;
-  end;
-  result := true;
-end;
 
 //==============================================================================
 //
@@ -202,6 +167,170 @@ begin
 
   result := -1;
   start := -1;
+end;
+
+//==============================================================================
+//
+// EVH_SectorSoundChange
+//
+//==============================================================================
+function EVH_SectorSoundChange(args: PByteArray): boolean;
+var
+  secNum: integer;
+begin
+
+  if args[0] = 0 then
+  begin
+    result := false;
+    exit;
+  end;
+
+  result := false;
+  secNum := -1;
+  while P_FindSectorFromTag2(args[0], secNum) >= 0 do
+  begin
+    sectors[secNum].seqType := args[1];
+    result := true;
+  end;
+end;
+
+//==============================================================================
+//
+// CheckedLockedDoor
+//
+//==============================================================================
+function CheckedLockedDoor(mo: Pmobj_t; lock: byte): boolean;
+var
+  LockedBuffer: string;
+begin
+  if mo.player = nil then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if lock <> 0 then
+  begin
+    {$IFDEF DOOM_OR_STRIFE}
+    if not IsIntegerInRange(lock, 1, Ord(NUMCARDS)) or not Pplayer_t(mo.player).cards[lock - 1] then
+    {$ENDIF}
+    {$IFDEF HERETIC}
+    if not IsIntegerInRange(lock, 1, Ord(NUMKEYCARDS)) or not Pplayer_t(mo.player).keys[lock - 1] then
+    {$ENDIF}
+    begin
+      {$IFDEF DOOM_OR_STRIFE}
+      if not IsIntegerInRange(lock, 1, Ord(NUMCARDS)) then
+        LockedBuffer := 'YOU NEED A KEY'
+      else
+      {$ENDIF}
+      {$IFDEF HERETIC}
+      if not IsIntegerInRange(lock, 1, Ord(NUMKEYCARDS)) then
+        LockedBuffer := 'YOU NEED A KEY'
+      else
+      {$ENDIF}
+      sprintf(LockedBuffer, 'YOU NEED THE %s', [TextKeyMessages[lock - 1]]);
+      Pplayer_t(mo.player)._message := LockedBuffer;
+      {$IFDEF DOOM_OR_STRIFE}
+      S_StartSound(mo, Ord(sfx_oof));
+      {$ENDIF}
+      {$IFDEF HERETIC}
+      S_StartSound(mo, Ord(sfx_plroof));
+      {$ENDIF}
+      result := false;
+      exit;
+    end;
+  end;
+  result := true;
+end;
+
+//==============================================================================
+//
+// P_LocalEarthQuakeEx
+//
+//==============================================================================
+procedure P_LocalEarthQuakeEx(const actor: Pmobj_t; const tics: integer; const intensity: fixed_t; const maxtdist, maxddist: fixed_t);
+var
+  i: integer;
+  dist: fixed_t;
+  frac: fixed_t;
+  testintensity: fixed_t;
+  pmo: Pmobj_t;
+  rnd: integer;
+  an: angle_t;
+begin
+  // JVAL: Actor's active sound is the quake sound
+  if actor.info.activesound <> 0 then
+    A_ActiveSound(actor, actor);
+
+  for i := 0 to MAXPLAYERS - 1 do
+    if playeringame[i] then
+    begin
+      pmo := players[i].mo;
+      dist := P_AproxDistance(actor.x - pmo.x, actor.y - players[i].mo.y);
+      dist := P_AproxDistance(actor.z - pmo.z, dist); // 3d distance
+      if dist <= maxtdist then
+      begin
+        if players[i].quaketics < tics then
+          players[i].quaketics := tics;
+        frac := FixedDiv(dist, maxtdist) * (FINEANGLES div 4);
+        testintensity := FixedMul(finecosine[frac shr ANGLETOFINESHIFT], intensity); // JVAL: 20200508 - Curved
+        if players[i].quakeintensity < testintensity then
+          players[i].quakeintensity := testintensity;
+      end;
+      if (dist < maxddist) and (pmo.z <= pmo.floorz) then
+      begin
+        if P_Random < 50 then
+          P_DamageMobj(players[i].mo, nil, nil, (1 + (P_Random and 7)));
+        // Thrust player around
+        rnd := P_Random;
+        an := pmo.angle + ANG1 * rnd;
+        P_ThrustMobj(pmo, an, intensity div 2);
+      end;
+    end;
+end;
+
+//==============================================================================
+//
+// U_LocalQuake
+//
+// Quake variables
+//
+//    args[0]    Intensity on richter scale (2..9)
+//    args[1]    Duration in tics
+//    args[2]    Radius for damage
+//    args[3]    Radius for tremor
+//    args[4]    TID of map thing for focus of quake
+//
+//==============================================================================
+function U_LocalQuake(args: PByteArray; actor: Pmobj_t): boolean;
+const
+  QUAKEINTENSITIES: array[2..9] of fixed_t = (
+    FRACUNIT div 4,
+    FRACUNIT div 2,
+    (FRACUNIT * 3) div 4,
+    FRACUNIT,
+    FRACUNIT + FRACUNIT div 4,
+    FRACUNIT + FRACUNIT div 2,
+    FRACUNIT + (FRACUNIT * 3) div 4,
+    2 * FRACUNIT
+  );
+var
+  focus: Pmobj_t;
+  lastfound: Pthinker_t;
+begin
+  result := false;
+  lastfound := @thinkercap;
+  repeat
+    focus := P_FindMobjFromTID(args[4], Pointer(lastfound));
+    if focus <> nil then
+      P_LocalEarthQuakeEx(
+        focus,
+        args[1],
+        QUAKEINTENSITIES[GetIntegerInRange(args[0], 2, 9)],
+        args[3] * FRACUNIT,
+        args[2] * FRACUNIT
+      );
+  until focus = nil;
 end;
 
 //==============================================================================
@@ -561,11 +690,12 @@ begin
         result := EVH_DoFloorAndCeiling(line, args, true);
       end;
 
+{
     109: // Force Lightning
       begin
         result := true;
         P_ForceLightning;
-      end;
+      end;}
 
     110: // Light Raise by Value
       begin
@@ -604,13 +734,13 @@ begin
 
     120: // Quake Tremor
       begin
-        result := A_LocalQuake(args, mo);
+        result := U_LocalQuake(args, mo);
       end;
 
-    129: // UsePuzzleItem
+{    129: // UsePuzzleItem
       begin
         result := EVH_LineSearchForPuzzleItem(line, args, mo);
-      end;
+      end;}
 
     130: // Thing_Activate
       begin
