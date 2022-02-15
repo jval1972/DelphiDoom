@@ -72,13 +72,6 @@ procedure P_ExplodeMissile(mo: Pmobj_t);
 
 //==============================================================================
 //
-// P_ThrustMobj
-//
-//==============================================================================
-procedure P_ThrustMobj(mo: Pmobj_t; angle: angle_t; const move: fixed_t);
-
-//==============================================================================
-//
 // P_SeekerMissile
 //
 //==============================================================================
@@ -498,18 +491,6 @@ begin
   else
     A_DeathSound(mo, mo);
   end;
-end;
-
-//==============================================================================
-//
-// PROC P_ThrustMobj
-//
-//==============================================================================
-procedure P_ThrustMobj(mo: Pmobj_t; angle: angle_t; const move: fixed_t);
-begin
-  angle := angle shr ANGLETOFINESHIFT;
-  mo.momx := mo.momx + FixedMul(move, finecosine[angle]);
-  mo.momy := mo.momy + FixedMul(move, finesine[angle]);
 end;
 
 //==============================================================================

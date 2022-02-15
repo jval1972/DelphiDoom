@@ -180,6 +180,7 @@ uses
 {$ENDIF}
   m_rnd,
   g_game,
+  p_common,
   p_mobj,
   p_tick,
   p_pspr,
