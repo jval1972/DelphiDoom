@@ -1540,6 +1540,7 @@ var
   door: Pvldoor_t;
   sdoor: Pslidedoor_t;
   floor: Pfloormove_t;
+  floor206: Pfloormove_t206;
   plat: Pplat_t;
   flash: Plightflash_t;
   strobe: Pstrobe_t;
@@ -1617,8 +1618,27 @@ begin
         begin
           PADSAVEP;
           floor := Z_Malloc(SizeOf(floormove_t), PU_LEVEL, nil);
-          memcpy(floor, save_p, SizeOf(floormove_t));
-          incp(pointer(save_p), SizeOf(floormove_t));
+          if savegameversion <= VERSION206 then // JVAL: tc_elevator = old value of tc_endspecials
+          begin
+            floor206 := Pfloormove_t206(save_p);
+            incp(pointer(save_p), SizeOf(floormove_t206));
+            ZeroMemory(floor, SizeOf(floormove_t));
+            floor.thinker := floor206.thinker;
+            floor._type := floor206._type;
+            floor.crush := floor206.crush;
+            floor.sector := floor206.sector;
+            floor.direction := floor206.direction;
+            floor.newspecial := floor206.newspecial;
+            floor.oldspecial := floor206.oldspecial;
+            floor.texture := floor206.texture;
+            floor.floordestheight := floor206.floordestheight;
+            floor.speed := floor206.speed;
+          end
+          else
+          begin
+            memcpy(floor, save_p, SizeOf(floormove_t));
+            incp(pointer(save_p), SizeOf(floormove_t));
+          end;
           floor.sector := @sectors[integer(floor.sector)];
           floor.sector.floordata := floor;
           @floor.thinker._function.acp1 := @T_MoveFloor;

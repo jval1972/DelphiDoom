@@ -1975,6 +1975,7 @@ var
   door115: Pvldoor_t115;
   floor: Pfloormove_t;
   floor115: Pfloormove_t115;
+  floor206: Pfloormove_t206;
   plat: Pplat_t;
   flash: Plightflash_t;
   strobe: Pstrobe_t;
@@ -2079,6 +2080,7 @@ begin
             floor115 := malloc(SizeOf(floormove_t115));
             memcpy(floor115, save_p, SizeOf(floormove_t115));
             incp(pointer(save_p), SizeOf(floormove_t115));
+            ZeroMemory(floor, SizeOf(floormove_t));
             floor.thinker := floor115.thinker;
             floor._type := floor115._type;
             floor.crush := floor115.crush;
@@ -2090,6 +2092,24 @@ begin
             floor.floordestheight := floor115.floordestheight;
             floor.speed := floor115.speed;
             memfree(pointer(floor115), SizeOf(floormove_t115));
+          end
+          else if savegameversion <= VERSION206 then
+          begin
+            floor206 := malloc(SizeOf(floormove_t206));
+            memcpy(floor206, save_p, SizeOf(floormove_t206));
+            incp(pointer(save_p), SizeOf(floormove_t206));
+            ZeroMemory(floor, SizeOf(floormove_t));
+            floor.thinker := floor206.thinker;
+            floor._type := floor206._type;
+            floor.crush := floor206.crush;
+            floor.sector := floor206.sector;
+            floor.direction := floor206.direction;
+            floor.newspecial := floor206.newspecial;
+            floor.oldspecial := floor206.oldspecial;
+            floor.texture := floor206.texture;
+            floor.floordestheight := floor206.floordestheight;
+            floor.speed := floor206.speed;
+            memfree(pointer(floor206), SizeOf(floormove_t206));
           end
           else
           begin

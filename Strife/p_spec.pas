@@ -626,6 +626,20 @@ type
     buildDown16 // haleyjd 09/24/10: [STRIFE] new stair type
   );
 
+  floormove_t206 = record
+    thinker: thinker_t;
+    _type: floor_e;
+    crush: boolean;
+    sector: Psector_t;
+    direction: integer;
+    newspecial: integer;
+    oldspecial: smallint;
+    texture: smallint;
+    floordestheight: fixed_t;
+    speed: fixed_t;
+  end;
+  Pfloormove_t206 = ^floormove_t206;
+
   floormove_t = record
     thinker: thinker_t;
     _type: floor_e;
@@ -637,6 +651,14 @@ type
     texture: smallint;
     floordestheight: fixed_t;
     speed: fixed_t;
+    delayCount: integer;
+    delayTotal: integer;
+    stairsDelayHeight: fixed_t;
+    stairsDelayHeightDelta: fixed_t;
+    resetHeight: fixed_t;
+    resetDelay: smallint;
+    resetDelayCount: smallint;
+    textureChange: byte;
   end;
   Pfloormove_t = ^floormove_t;
 
