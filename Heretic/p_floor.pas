@@ -391,7 +391,7 @@ begin
           floor.speed := FLOORSPEED;
           for i := 0 to sec.linecount - 1 do
           begin
-            if twoSided(secnum, i) <> 0 then
+            if twoSided(secnum, i) then
             begin
               side := getSide(secnum, i, 0);
               if side.bottomtexture >= 0 then
@@ -414,7 +414,7 @@ begin
           floor.texture := sec.floorpic;
           for i := 0 to sec.linecount - 1 do
           begin
-            if twoSided(secnum, i) <> 0 then
+            if twoSided(secnum, i) then
             begin
               side := getSide(secnum, i, 0);
               if pDiff(side.sector, @sectors[0], SizeOf(side.sector^)) = secnum then

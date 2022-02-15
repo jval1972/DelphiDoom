@@ -120,7 +120,7 @@ procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; co
 // twoSided
 //
 //==============================================================================
-function twoSided(sector: integer; line: integer): integer;
+function twoSided(sector: integer; line: integer): boolean;
 
 //==============================================================================
 //
@@ -707,9 +707,9 @@ end;
 //  it will tell you whether the line is two-sided or not.
 //
 //==============================================================================
-function twoSided(sector: integer; line: integer): integer;
+function twoSided(sector: integer; line: integer): boolean;
 begin
-  result := (sectors[sector].lines[line]).flags and ML_TWOSIDED;
+  result := (sectors[sector].lines[line]).flags and ML_TWOSIDED <> 0;
 end;
 
 //==============================================================================
@@ -932,7 +932,7 @@ begin
   result := 32000 * FRACUNIT; //jff 3/13/98 prevent overflow in height calcs
 
   for i := 0 to sec.linecount - 1 do
-    if twoSided(secnum, i) <> 0 then
+    if twoSided(secnum, i) then
     begin
       side := getSide(secnum, i, 0);
       if side.bottomtexture > 0 then  //jff 8/14/98 texture 0 is a placeholder
