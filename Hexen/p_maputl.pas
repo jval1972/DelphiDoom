@@ -976,8 +976,8 @@ begin
       link := @blocklinks[thing.bpos];
       if link.size >= link.realsize then
       begin
-        link.links := Z_ReAlloc(link.links, SizeOf(Pmobj_t) * (link.size + 16), PU_LEVEL, nil);
-        link.realsize := link.size + 16;
+        link.links := Z_ReAlloc(link.links, SizeOf(Pmobj_t) * (link.size + 8), PU_LEVEL, nil);
+        link.realsize := link.size + 8;
       end;
       link.links[link.size] := thing;
       thing.bidx := link.size;
@@ -1026,32 +1026,35 @@ begin
     exit;
   end;
 
-  polyLink := PolyBlockMap[y * bmapwidth + x];
-  while polyLink <> nil do
+  if PolyBlockMap <> nil then
   begin
-    if polyLink.polyobj <> nil then
+    polyLink := PolyBlockMap[y * bmapwidth + x];
+    while polyLink <> nil do
     begin
-      if polyLink.polyobj.validcount <> validcount then
+      if polyLink.polyobj <> nil then
       begin
-        polyLink.polyobj.validcount := validcount;
-        tempSeg := polyLink.polyobj.segs;
-        for i := 0 to polyLink.polyobj.numsegs - 1 do
+        if polyLink.polyobj.validcount <> validcount then
         begin
-          if not tempSeg^.miniseg then
-          if tempSeg^.linedef.validcount <> validcount then
+          polyLink.polyobj.validcount := validcount;
+          tempSeg := polyLink.polyobj.segs;
+          for i := 0 to polyLink.polyobj.numsegs - 1 do
           begin
-            tempSeg^.linedef.validcount := validcount;
-            if not func(tempSeg^.linedef) then
+            if not tempSeg^.miniseg then
+            if tempSeg^.linedef.validcount <> validcount then
             begin
-              result := false;
-              exit;
+              tempSeg^.linedef.validcount := validcount;
+              if not func(tempSeg^.linedef) then
+              begin
+                result := false;
+                exit;
+              end;
             end;
+            inc(tempSeg);
           end;
-          inc(tempSeg);
         end;
       end;
+      polyLink := polyLink.next;
     end;
-    polyLink := polyLink.next;
   end;
 
   offset := @blockmaplump[blockmap[y * bmapwidth + x]];

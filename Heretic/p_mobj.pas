@@ -284,6 +284,7 @@ uses
   p_enemy,
   p_3dfloors, // JVAL: 3d floors
   p_slopes, // JVAL: Slopes
+  po_man,
   p_params,
   p_ladder,
   p_musinfo,
@@ -1661,6 +1662,17 @@ begin
     exit;
   end;
 
+  if mthing._type = PO_ANCHOR_TYPE then
+  begin // Polyobj Anchor Pt.
+    exit;
+  end
+  else if (mthing._type = PO_SPAWN_TYPE) or
+          (mthing._type = PO_SPAWNCRUSH_TYPE) then
+  begin // Polyobj Anchor Pt.
+    inc(po_NumPolyobjs);
+    exit;
+  end;
+
   // check for players specially
   if mthing._type <= 4 then
   begin
@@ -1858,8 +1870,8 @@ begin
       else
         result.health := Round(result.health * uthing.health);
     end;
+    result.tid := uthing.id;
   end;
-  result.tid := uthing.id;
 end;
 
 //==============================================================================

@@ -251,6 +251,7 @@ uses
   p_setup,
   p_mobj_h,
   p_mobj,
+  p_acs,
   p_umapinfo,
   ps_main,
   psi_overlay,
@@ -2219,6 +2220,11 @@ begin
 
   SUC_Progress(51);
 
+  printf('P_ACSInit: Initializing ACS script.'#13#10);
+  P_ACSInit;
+
+  SUC_Progress(52);
+
   printf('T_Init: Initializing texture manager.'#13#10);
   T_Init;
 
@@ -2523,6 +2529,8 @@ begin
   R_ShutDown;
   printf('Info_ShutDownRandom: Shut down randomizers.'#13#10);
   Info_ShutDownRandom;
+  printf('P_ACSShutDown: Shut down ACS script.'#13#10);
+  P_ACSShutDown;
   printf('T_ShutDown: Shut down texture manager.'#13#10);
   T_ShutDown;
   printf('SC_ShutDown: Shut down script engine.'#13#10);

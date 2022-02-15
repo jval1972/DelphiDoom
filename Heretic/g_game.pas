@@ -438,6 +438,7 @@ uses
   p_mobj,
   p_inter,
   p_map,
+  p_acs,
   p_levelinfo,
   ps_main,
   in_stuff,
@@ -2975,6 +2976,7 @@ begin
 
   M_ClearRandom;
   PS_NewWorld;
+  P_ACSInitNewGame;
 
   if (skill = sk_nightmare) or respawnparm then
     respawnmonsters := true

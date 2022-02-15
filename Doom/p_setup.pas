@@ -220,6 +220,7 @@ uses
   p_maputl,
   p_adjust,
   p_bridge,
+  p_acs,
   p_animdefs,
   p_3dfloors, // JVAL: 3d Floors
   p_slopes,   // JVAL: Slopes
@@ -227,6 +228,7 @@ uses
   p_easyangle, // JVAL: 20201229 - Easy floor and ceiling texture angle
   p_affectees,
   p_musinfo,
+  po_man,
   ps_main,    // JVAL: Script Events
   r_data,
   r_things,
@@ -1408,6 +1410,7 @@ begin
   R_PrecalcPointInSubSector;
 
   bodyqueslot := 0;
+  po_NumPolyobjs := 0;
   deathmatch_p := 0;
 
   if devparm then
@@ -1416,6 +1419,9 @@ begin
 
   // JVAL: 20201229 - Easy floor and ceiling texture angle
   P_AdjustEasyAngle;
+
+  PO_Init(lumpnum + Ord(ML_THINGS));            // Initialize the polyobjs
+  P_LoadACScripts(lumpnum + Ord(ML_BEHAVIOR));  // ACS object code
 
   // if deathmatch, randomly spawn the active players
   if deathmatch <> 0 then

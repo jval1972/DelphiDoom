@@ -236,6 +236,15 @@ function UDMF_MakeSides: boolean;
 //==============================================================================
 function UDMF_MakeSegs: boolean;
 
+const
+{$IFNDEF HEXEN}
+  UDMF_SPECIAL_START = 700;
+  UDMF_NORMAL_ADD = 300;
+{$ELSE}
+  UDMF_SPECIAL_START = 0;
+  UDMF_NORMAL_ADD = 0;
+{$ENDIF}
+
 implementation
 
 uses
@@ -1845,6 +1854,10 @@ begin
   line.arg4 := uline.arg4;
   line.arg5 := uline.arg5;
   line.activators := uline.activators;
+  if IsIntegerInRange(line.special, 1, UDMF_NORMAL_ADD) then
+    line.special := line.special + UDMF_SPECIAL_START
+  else if IsIntegerInRange(line.special, UDMF_NORMAL_ADD, UDMF_SPECIAL_START + UDMF_NORMAL_ADD) then
+    line.special := line.special - UDMF_NORMAL_ADD;
   {$ENDIF}
   line.moreids := uline.moreids;
 end;

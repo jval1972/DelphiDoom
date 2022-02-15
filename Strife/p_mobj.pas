@@ -279,6 +279,7 @@ uses
   p_sounds,
   p_3dfloors, // JVAL: 3d floors
   p_slopes, // JVAL: Slopes
+  po_man,
   p_spec,
   p_inter,
   p_params,
@@ -1588,6 +1589,19 @@ begin
   begin
     // Thing type 0 is actually "player -1 start".
     // For some reason, Vanilla Doom accepts/ignores this.
+    result := nil;
+    exit;
+  end;
+
+  if mthing._type = PO_ANCHOR_TYPE then
+  begin // Polyobj Anchor Pt.
+    result := nil;
+    exit;
+  end
+  else if (mthing._type = PO_SPAWN_TYPE) or
+          (mthing._type = PO_SPAWNCRUSH_TYPE) then
+  begin // Polyobj Anchor Pt.
+    inc(po_NumPolyobjs);
     result := nil;
     exit;
   end;

@@ -567,6 +567,7 @@ uses
   p_telept,
   p_common,
   p_tick,
+  p_udmf,
   tables,
   s_sound,
 // Data.
@@ -1683,6 +1684,18 @@ begin
      146: dec(sides[line.sidenum[0]].textureoffset, 2 * FRACUNIT);
      147: inc(sides[line.sidenum[0]].rowoffset, 2 * FRACUNIT);
      148: dec(sides[line.sidenum[0]].rowoffset, 2 * FRACUNIT);
+
+     UDMF_SPECIAL_START + 100: // Scroll_Texture_Left
+        sides[line.sidenum[0]].textureoffset := sides[line.sidenum[0]].textureoffset + _SHL(line.arg1, 10);
+
+     UDMF_SPECIAL_START + 101: // Scroll_Texture_Right
+        sides[line.sidenum[0]].textureoffset := sides[line.sidenum[0]].textureoffset - _SHL(line.arg1, 10);
+
+     UDMF_SPECIAL_START + 102: // Scroll_Texture_Up
+        sides[line.sidenum[0]].rowoffset := sides[line.sidenum[0]].rowoffset + _SHL(line.arg1, 10);
+
+     UDMF_SPECIAL_START + 103: // Scroll_Texture_Down
+        sides[line.sidenum[0]].rowoffset := sides[line.sidenum[0]].rowoffset - _SHL(line.arg1, 10);
     end;
   end;
 
@@ -1925,7 +1938,11 @@ begin
   for i := 0 to numlines - 1 do
   begin
     case lines[i].special of
-      48, 99, 142, 143, 144, 145, 146, 147, 148:
+      48, 99, 142, 143, 144, 145, 146, 147, 148,
+      UDMF_SPECIAL_START + 100,
+      UDMF_SPECIAL_START + 101,
+      UDMF_SPECIAL_START + 102,
+      UDMF_SPECIAL_START + 103: // JVAL: Scrolling specials
         begin
           // EFFECT FIRSTCOL SCROLL+
           if numlinespecials < MAXLINEANIMS then

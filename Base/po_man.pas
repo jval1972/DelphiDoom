@@ -177,6 +177,7 @@ uses
   p_map,
   p_inter,
   p_maputl,
+  p_udmf,
   r_main,
   {$IFDEF HEXEN}
   s_sndseq,
@@ -1427,7 +1428,7 @@ begin
   for i := 0 to numsegs - 1 do
   begin
     if not segs[i].miniseg then
-      if (segs[i].linedef.special = PO_LINE_START) and
+      if (segs[i].linedef.special = UDMF_SPECIAL_START + PO_LINE_START) and
          (segs[i].linedef.arg1 = tag) then
       begin
         if polyobjs[index].segs <> nil then
@@ -1463,7 +1464,7 @@ begin
       psIndexOld := psIndex;
       for i := 0 to numsegs - 1 do
       begin
-        if (segs[i].linedef.special = PO_LINE_EXPLICIT) and
+        if (segs[i].linedef.special = UDMF_SPECIAL_START + PO_LINE_EXPLICIT) and
            (segs[i].linedef.arg1 = tag) then
         begin
           if segs[i].linedef.arg2 = 0 then
@@ -1484,7 +1485,7 @@ begin
       //    linedef.
       for i := 0 to numsegs - 1 do
       begin
-        if (segs[i].linedef.special = PO_LINE_EXPLICIT) and
+        if (segs[i].linedef.special = UDMF_SPECIAL_START + PO_LINE_EXPLICIT) and
            (segs[i].linedef.arg1 = tag) and
            (segs[i].linedef.arg2 = j) then
         begin
@@ -1498,7 +1499,7 @@ begin
         // lines with the current tag value
         for i := 0 to numsegs - 1 do
         begin
-          if (segs[i].linedef.special = PO_LINE_EXPLICIT) and
+          if (segs[i].linedef.special = UDMF_SPECIAL_START + PO_LINE_EXPLICIT) and
              (segs[i].linedef.arg1 = tag) then
             I_Error('SpawnPolyobj(): Missing explicit line %d for poly %d',
               [j, tag]);
@@ -1652,7 +1653,7 @@ begin
       TranslateToStartSpot(mt.angle, mt.x * FRACUNIT, mt.y * FRACUNIT);
     inc(mt);
   end;
-  Z_Free (data);
+  Z_Free(data);
   // check for a startspot without an anchor point
   for i := 0 to po_NumPolyobjs - 1 do
   begin

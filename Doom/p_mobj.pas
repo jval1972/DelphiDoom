@@ -256,12 +256,13 @@ uses
   p_tick,
   p_pspr,
   p_setup,
-  p_spec,
   p_common,
   p_terrain,
   p_sounds,
   p_3dfloors, // JVAL: 3d floors
   p_slopes, // JVAL: Slopes
+  po_man,
+  p_spec,
   p_params,
   p_ladder,
   p_musinfo,
@@ -1522,6 +1523,19 @@ begin
      (mthing._type = DEN_PLAYER7) or
      (mthing._type = DEN_PLAYER8) then
   begin
+    result := nil;
+    exit;
+  end;
+
+  if mthing._type = PO_ANCHOR_TYPE then
+  begin // Polyobj Anchor Pt.
+    result := nil;
+    exit;
+  end
+  else if (mthing._type = PO_SPAWN_TYPE) or
+          (mthing._type = PO_SPAWNCRUSH_TYPE) then
+  begin // Polyobj Anchor Pt.
+    inc(po_NumPolyobjs);
     result := nil;
     exit;
   end;

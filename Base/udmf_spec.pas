@@ -893,6 +893,7 @@ begin
   args[2] := line.arg3;
   args[3] := line.arg4;
   args[4] := line.arg5;
+  line.special := line.special - UDMF_SPECIAL_START;
 end;
 
 //==============================================================================
@@ -907,6 +908,7 @@ begin
   line.arg3 := args[2];
   line.arg4 := args[3];
   line.arg5 := args[4];
+  line.special := line.special + UDMF_SPECIAL_START;
 end;
 
 end.

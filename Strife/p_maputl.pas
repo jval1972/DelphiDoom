@@ -166,6 +166,7 @@ uses
   p_3dfloors,
   p_slopes,
   p_map,
+  po_man,
   r_main,
   z_zone;
 
@@ -1022,11 +1023,45 @@ function P_BlockLinesIterator(x, y: integer; func: ltraverser_t): boolean;
 var
   offset: PInteger;
   ld: Pline_t;
+  polyLink: Ppolyblock_t;
+  tempSeg: PPseg_t;
+  i: integer;
 begin
   if (x < 0) or (y < 0) or (x >= bmapwidth) or (y >= bmapheight) then
   begin
     result := true;
     exit;
+  end;
+
+  if PolyBlockMap <> nil then
+  begin
+    polyLink := PolyBlockMap[y * bmapwidth + x];
+    while polyLink <> nil do
+    begin
+      if polyLink.polyobj <> nil then
+      begin
+        if polyLink.polyobj.validcount <> validcount then
+        begin
+          polyLink.polyobj.validcount := validcount;
+          tempSeg := polyLink.polyobj.segs;
+          for i := 0 to polyLink.polyobj.numsegs - 1 do
+          begin
+            if not tempSeg^.miniseg then
+            if tempSeg^.linedef.validcount <> validcount then
+            begin
+              tempSeg^.linedef.validcount := validcount;
+              if not func(tempSeg^.linedef) then
+              begin
+                result := false;
+                exit;
+              end;
+            end;
+            inc(tempSeg);
+          end;
+        end;
+      end;
+      polyLink := polyLink.next;
+    end;
   end;
 
   offset := @blockmaplump[blockmap[y * bmapwidth + x]];
