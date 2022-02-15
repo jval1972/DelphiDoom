@@ -131,7 +131,7 @@ type
     floorplane_c: float;      // The plane equation will only be used if all 4 values are given.
     floorplane_d: float;
     moreids: moreids_t;
-    sound: string[8];
+    sound: integer;
   end;
   Pextrasector_t = ^extrasector_t;
   extrasector_tArray = array[0..$FFFF] of extrasector_t;
@@ -1258,7 +1258,7 @@ var
       else if (token = 'SOUND') then
       begin
         GetToken;
-        pextrasector.sound := token;
+        pextrasector.sound := S_GetSoundNumForName(token);
       end
       else if (token = 'COMMENT') then
       begin
@@ -1786,8 +1786,7 @@ begin
   if usec.extraflags and UDMF_SF_FOG <> 0 then
     sec.renderflags := sec.renderflags or SRF_FOG;
   sec.moreids := usec.moreids;
-  if usec.sound <> '' then
-    sec.seqType := S_GetSoundNumForName(usec.sound);
+  sec.seqType := usec.sound;
 end;
 
 //==============================================================================
