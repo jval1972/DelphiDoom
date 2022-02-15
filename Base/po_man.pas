@@ -101,9 +101,15 @@ var
   po_NumPolyobjs: integer;
 
 const
+  {$IFDEF HEXEN}
   PO_ANCHOR_TYPE = 3000;
   PO_SPAWN_TYPE = 3001;
   PO_SPAWNCRUSH_TYPE = 3002;
+  {$ELSE}
+  PO_ANCHOR_TYPE = 9300;
+  PO_SPAWN_TYPE = 9301;
+  PO_SPAWNCRUSH_TYPE = 9302;
+  {$ENDIF}
 
 type
   polyevent_t = record
