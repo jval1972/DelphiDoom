@@ -53,7 +53,6 @@ uses
   tables,
   d_player,
   r_defs,
-// State.
 // Data.
   sounddata;
 
@@ -761,7 +760,7 @@ var
   damage: integer;
   pushfactor: fixed_t;
 begin
-  if (thing.flags and (MF_SOLID or MF_SPECIAL or MF_SHOOTABLE)) = 0 then
+  if thing.flags and (MF_SOLID or MF_SPECIAL or MF_SHOOTABLE) = 0 then
   begin
     result := true;
     exit;
@@ -3275,14 +3274,13 @@ begin
 
 end;
 
-//----------------------------------------------------------------------------
+//==============================================================================
 //
 // FUNC P_TestMobjLocation
 //
 // Returns true if the mobj is not blocked by anything at its current
 // location, otherwise returns false.
 //
-//----------------------------------------------------------------------------
 //
 //==============================================================================
 function P_TestMobjLocation(mobj: Pmobj_t): boolean;

@@ -968,6 +968,7 @@ begin
       result := true; // overhead
       exit;
     end;
+
     if tmthing.z + tmthing.height < thing.z then
     begin
       result := true; // underneath
@@ -1128,9 +1129,11 @@ begin
     result := thing.flags and MF_SOLID = 0;
 end;
 
-//==============================================================================
 //
 // MOVEMENT CLIPPING
+//
+
+//==============================================================================
 //
 // P_CheckPosition
 // This is purely informative, nothing is modified

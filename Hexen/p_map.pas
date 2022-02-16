@@ -935,7 +935,7 @@ var
   lmo: Pmobj_t;
   pushfactor: fixed_t;
 begin
-  if (thing.flags and (MF_SOLID or MF_SPECIAL or MF_SHOOTABLE)) = 0 then
+  if thing.flags and (MF_SOLID or MF_SPECIAL or MF_SHOOTABLE) = 0 then
   begin
     result := true;
     exit;
@@ -1165,6 +1165,7 @@ begin
       result := true;
       exit;
     end;
+
     // Check if it went over / under
     if tmthing.z > thing.z + thing.height then
     begin // Over thing
@@ -1550,7 +1551,7 @@ begin
         exit;
       end;
 
-// check lines
+  // check lines
   if tmflags and MF_NOCLIP <> 0 then
   begin
     result := true;
@@ -1882,6 +1883,7 @@ begin
     end;
 
     floatok := true;
+
     if (thing.flags and MF_TELEPORT = 0) and
        (tmceilingz - thing.z < thing.height) and
        (thing._type <> Ord(MT_LIGHTNING_CEILING)) and
@@ -2411,6 +2413,8 @@ var
 // JVAL: 3d floors : Moved from P_Sight
 //  bottomslope: fixed_t; // slopes to top and bottom of target
 //  topslope: fixed_t;
+
+//==============================================================================
 //
 // PTR_AimTraverse
 // Sets linetaget and aimslope when a target is aimed at.
