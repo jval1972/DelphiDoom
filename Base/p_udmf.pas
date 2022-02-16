@@ -162,6 +162,9 @@ const
   ULAC_IMPACT = 32;   // when projectile hits line
   ULAC_PUSH = 64;     // when player/monster pushes line
   ULAC_PCROSS = 128;  // when projectile crosses line
+  {$IFNDEF HEXEN}
+  ULAC_MPUSH = 256;   // when monster pushes line
+  {$ENDIF}
 
 type
   extraline_t = record
@@ -871,6 +874,16 @@ var
           pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_PCROSS, ML_SPAC_SHIFT);
           {$ELSE}
           pextraline.activators := pextraline.activators or ULAC_PCROSS;
+          {$ENDIF}
+      end
+      else if (token = 'MONSTERPUSH') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          {$IFDEF HEXEN}
+          pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_PUSH, ML_SPAC_SHIFT);
+          {$ELSE}
+          pextraline.activators := pextraline.activators or ULAC_MPUSH;
           {$ENDIF}
       end
       else if (token = 'ARG0') then
