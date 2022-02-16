@@ -811,6 +811,7 @@ var
   tryy: fixed_t;
   ld: Pline_t;
   try_ok: boolean;
+  ret1, ret2: boolean;
 begin
   if actor.movedir = Ord(DI_NODIR) then
   begin
@@ -862,8 +863,9 @@ begin
       // if the special is not a door
       // that can be opened,
       // return false
-      if P_UseSpecialLine(actor, ld, 0) then
-        result := true;
+      ret1 := P_ActivateLine(ld, actor, 0, ULAC_USE);
+      ret2 := P_UseSpecialLine(actor, ld, 0);
+      result := ret1 or ret2;
     end;
     exit;
   end
