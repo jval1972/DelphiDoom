@@ -886,6 +886,14 @@ var
           pextraline.activators := pextraline.activators or ULAC_MPUSH;
           {$ENDIF}
       end
+      {$IFNDEF HEXEN}
+      else if (token = 'OLDSTYLE') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pextraline.activators := pextraline.activators or ULAC_DEFAULT;
+      end
+      {$ENDIF}
       else if (token = 'ARG0') then
       begin
         sc.MustGetInteger;
