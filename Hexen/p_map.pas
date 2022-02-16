@@ -3817,14 +3817,13 @@ begin
   result := 0;
 end;
 
-//----------------------------------------------------------------------------
+//==============================================================================
 //
 // FUNC P_TestMobjLocation
 //
 // Returns true if the mobj is not blocked by anything at its current
 // location, otherwise returns false.
 //
-//----------------------------------------------------------------------------
 //
 //==============================================================================
 function P_TestMobjLocation(mobj: Pmobj_t): boolean;
