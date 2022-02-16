@@ -1876,10 +1876,10 @@ begin
   line.arg4 := uline.arg4;
   line.arg5 := uline.arg5;
   line.activators := uline.activators;
-  if IsIntegerInRange(line.special, 1, UDMF_NORMAL_ADD) then
-    line.special := line.special + UDMF_SPECIAL_START
-  else if IsIntegerInRange(line.special, UDMF_NORMAL_ADD, UDMF_SPECIAL_START + UDMF_NORMAL_ADD) then
-    line.special := line.special - UDMF_NORMAL_ADD;
+  if IsIntegerInRange(line.special and 1023, 1, UDMF_NORMAL_ADD) then
+    line.special := (line.special and 1023 + UDMF_SPECIAL_START) or (line.special and not 1023)
+  else if IsIntegerInRange(line.special and 1023, UDMF_NORMAL_ADD, UDMF_SPECIAL_START + UDMF_NORMAL_ADD) then
+    line.special := (line.special and 1023 - UDMF_NORMAL_ADD) or (line.special and not 1023);
   {$ENDIF}
   line.moreids := uline.moreids;
 end;
