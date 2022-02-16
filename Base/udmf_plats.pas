@@ -36,7 +36,7 @@ uses
   r_defs;
 
 var
-  activeplats: array[0..MAXPLATS - 1] of Pplat_t;
+  hactiveplats: array[0..MAXPLATS - 1] of Pplat_t;
 
 //==============================================================================
 //
@@ -61,17 +61,17 @@ procedure EVH_StopPlat(line: Pline_t; args: PByteArray);
 
 //==============================================================================
 //
-// P_AddActivePlat
+// PH_AddActivePlat
 //
 //==============================================================================
-procedure P_AddActivePlat(plat: Pplat_t);
+procedure PH_AddActivePlat(plat: Pplat_t);
 
 //==============================================================================
 //
-// P_RemoveActivePlat
+// PH_RemoveActivePlat
 //
 //==============================================================================
-procedure P_RemoveActivePlat(plat: Pplat_t);
+procedure PH_RemoveActivePlat(plat: Pplat_t);
 
 implementation
 
@@ -126,7 +126,7 @@ begin
           S_StopSound(@plat.sector.soundorg);
           {$ENDIF}
           if (plat._type = PLAT_DOWNWAITUPSTAY) or (plat._type = PLAT_DOWNBYVALUEWAITUPSTAY) then
-            P_RemoveActivePlat(plat);
+            PH_RemoveActivePlat(plat);
         end;
       end;
     PLAT_DOWN:
@@ -137,7 +137,7 @@ begin
           plat.count := plat.wait;
           plat.status := PLAT_WAITING;
           if (plat._type = PLAT_UPWAITDOWNSTAY) or (plat._type = PLAT_UPBYVALUEWAITDOWNSTAY) then
-            P_RemoveActivePlat(plat);
+            PH_RemoveActivePlat(plat);
           {$IFDEF HEXEN}
           S_StopSequence(Pmobj_t(@plat.sector.soundorg));
           {$ELSE}
@@ -249,7 +249,7 @@ begin
           plat.status := plat_e((P_Random and 1) + Ord(PLAT_UP));
         end;
     end;
-    P_AddActivePlat(plat);
+    PH_AddActivePlat(plat);
     {$IFDEF HEXEN}
     S_StartSequence(Pmobj_t(@sec.soundorg), Ord(SEQ_PLATFORM) + Ord(sec.seqType));
     {$ELSE}
@@ -269,13 +269,13 @@ var
 begin
   for i := 0 to MAXPLATS - 1 do
   begin
-    activeplats[i].tag := args[0]; // JVAL SOS
+    hactiveplats[i].tag := args[0]; // JVAL SOS
     if args[0] <> 0 then
     begin
-      activeplats[i].sector.specialdata := nil;
-      P_TagFinished(activeplats[i].sector.tag);
-      P_RemoveThinker(@activeplats[i].thinker);
-      activeplats[i] := nil;
+      hactiveplats[i].sector.specialdata := nil;
+      P_TagFinished(hactiveplats[i].sector.tag);
+      P_RemoveThinker(@hactiveplats[i].thinker);
+      hactiveplats[i] := nil;
 
       exit;
     end;
@@ -285,41 +285,41 @@ end;
 
 //==============================================================================
 //
-// P_AddActivePlat
+// PH_AddActivePlat
 //
 //==============================================================================
-procedure P_AddActivePlat(plat: Pplat_t);
+procedure PH_AddActivePlat(plat: Pplat_t);
 var
   i: integer;
 begin
   for i := 0 to MAXPLATS - 1 do
-    if activeplats[i] = nil then
+    if hactiveplats[i] = nil then
     begin
-      activeplats[i] := plat;
+      hactiveplats[i] := plat;
       exit;
     end;
-  I_Error('P_AddActivePlat(): no more plats!');
+  I_Error('PH_AddActivePlat(): no more plats!');
 end;
 
 //==============================================================================
 //
-// P_RemoveActivePlat
+// PH_RemoveActivePlat
 //
 //==============================================================================
-procedure P_RemoveActivePlat(plat: Pplat_t);
+procedure PH_RemoveActivePlat(plat: Pplat_t);
 var
   i: integer;
 begin
   for i := 0 to MAXPLATS - 1 do
-    if plat = activeplats[i] then
+    if plat = hactiveplats[i] then
     begin
-      activeplats[i].sector.specialdata := nil;
+      hactiveplats[i].sector.specialdata := nil;
       P_TagFinished(plat.sector.tag);
-      P_RemoveThinker(@activeplats[i].thinker);
-      activeplats[i] := nil;
+      P_RemoveThinker(@hactiveplats[i].thinker);
+      hactiveplats[i] := nil;
       exit;
     end;
-  I_Error('P_RemoveActivePlat(): can''t find plat!');
+  I_Error('PH_RemoveActivePlat(): can''t find plat!');
 end;
 
 end.

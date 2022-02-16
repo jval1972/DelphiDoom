@@ -904,6 +904,7 @@ uses
   p_ceilng,
   udmf_ceilng,
   p_plats,
+  udmf_plats,
   p_lights,
   p_sight,
   p_doors,
@@ -3874,7 +3875,10 @@ begin
   end;
 
   for i := 0 to MAXPLATS - 1 do
+  begin
     activeplats[i] := nil;
+    hactiveplats[i] := nil;
+  end;
 
   for i := 0 to MAXBUTTONS - 1 do
     ZeroMemory(@buttonlist[i], SizeOf(button_t));

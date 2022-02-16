@@ -1701,7 +1701,7 @@ begin
     hactiveceilings[i] := nil;
 
   for i := 0 to MAXPLATS - 1 do
-    activeplats[i] := nil;
+    hactiveplats[i] := nil;
 
   for i := 0 to MAXBUTTONS - 1 do
     memset(@buttonlist[i], 0, SizeOf(button_t));

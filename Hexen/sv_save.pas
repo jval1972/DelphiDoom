@@ -706,7 +706,7 @@ procedure RestorePlatRaise(plat: Pplat_t);
 begin
   plat.sector := @sectors[integer(plat.sector)];
   plat.sector.specialdata := @TH_PlatRaise;
-  P_AddActivePlat(plat);
+  PH_AddActivePlat(plat);
 end;
 
 //==============================================================================
