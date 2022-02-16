@@ -868,6 +868,7 @@ uses
   p_plats,
   udmf_plats,
   p_lights,
+  udmf_lights,
   p_sight,
   p_doors,
   p_floor,
@@ -3676,6 +3677,12 @@ begin
       begin
         // fire flickering
         P_SpawnFireFlicker(sector);
+      end;
+
+    LIGHT_SEQUENCE_START:
+      begin
+        // Phased light sequence start
+        P_SpawnLightSequence(sector, 1);
       end;
     end;
   end;

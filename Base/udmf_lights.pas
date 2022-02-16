@@ -103,6 +103,23 @@ type
 //==============================================================================
 procedure TH_Phase(phase: Pphase_t);
 
+const
+  {$IFDEF DOOM_OR_STRIFE}
+  LIGHT_SEQUENCE_START = 19;
+  LIGHT_SEQUENCE = 20;
+  LIGHT_SEQUENCE_ALT = 21;
+  {$ENDIF}
+  {$IFDEF HERETIC}
+  LIGHT_SEQUENCE_START = 52;
+  LIGHT_SEQUENCE = 53;
+  LIGHT_SEQUENCE_ALT = 54;
+  {$ENDIF}
+  {$IFDEF HEXEN}
+  LIGHT_SEQUENCE_START = 2;
+  LIGHT_SEQUENCE = 3;
+  LIGHT_SEQUENCE_ALT = 4;
+  {$ENDIF}
+
 implementation
 
 uses
@@ -115,23 +132,6 @@ uses
   {$ENDIF}
   p_setup,
   z_zone;
-
-const
-  {$IFDEF DOOM_OR_STRIFE}
-  LIGHT_SEQUENCE_START = 19;
-  LIGHT_SEQUENCE = 20;
-  LIGHT_SEQUENCE_ALT = 21;
-  {$ENDIF}
-  {$IFDEF HERETIC}
-  LIGHT_SEQUENCE_START = 17;
-  LIGHT_SEQUENCE = 18;
-  LIGHT_SEQUENCE_ALT = 19;
-  {$ENDIF}
-  {$IFDEF HEXEN}
-  LIGHT_SEQUENCE_START = 2;
-  LIGHT_SEQUENCE = 3;
-  LIGHT_SEQUENCE_ALT = 4;
-  {$ENDIF}
 
 //==============================================================================
 //
@@ -343,6 +343,13 @@ begin
   phase.sector.lightlevel := phase.base + PhaseTable[phase.index];
 end;
 
+const
+  {$IFDEF DOOM_OR_STRIFE}
+  PHASE_MASK = 31;
+  {$ELSE}
+  PHASE_MASK = $FFFF;
+  {$ENDIF}
+
 //==============================================================================
 //
 // P_SpawnPhasedLight
@@ -367,7 +374,7 @@ begin
   sector.lightlevel := phase.base + PhaseTable[phase.index];
   phase.thinker._function.acp1 := @TH_Phase;
 
-  sector.special := 0;
+  sector.special := sector.special and not PHASE_MASK;
 end;
 
 //==============================================================================
@@ -392,14 +399,14 @@ begin
   count := 1;
   repeat
     nextSec := nil;
-    sec.special := LIGHT_SEQUENCE_START; // make sure that the search doesn't back up.
+    sec.special := LIGHT_SEQUENCE_START or (sec.special and not PHASE_MASK); // make sure that the search doesn't back up.
     for i := 0 to sec.linecount - 1 do
     begin
       tempSec := getNextSector(sec.lines[i], sec);
       if tempSec = nil then
         continue;
 
-      if tempSec.special = seqSpecial then
+      if tempSec.special and PHASE_MASK = seqSpecial then
       begin
         if seqSpecial = LIGHT_SEQUENCE then
         begin
@@ -435,7 +442,7 @@ begin
       if tempSec = nil then
         continue;
 
-      if tempSec.special = LIGHT_SEQUENCE_START then
+      if tempSec.special and PHASE_MASK = LIGHT_SEQUENCE_START then
       begin
         nextSec := tempSec;
       end;
