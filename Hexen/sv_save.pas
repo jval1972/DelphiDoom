@@ -718,7 +718,7 @@ procedure RestoreMoveCeiling(ceiling: Pceiling_t);
 begin
   ceiling.sector := @sectors[integer(ceiling.sector)];
   ceiling.sector.specialdata := @TH_MoveCeiling;
-  P_AddActiveCeiling(ceiling);
+  PH_AddActiveCeiling(ceiling);
 end;
 
 const

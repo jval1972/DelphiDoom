@@ -1698,7 +1698,7 @@ begin
   //      Init other misc stuff
   //
   for i := 0 to MAXCEILINGS - 1 do
-    activeceilings[i] := nil;
+    hactiveceilings[i] := nil;
 
   for i := 0 to MAXPLATS - 1 do
     activeplats[i] := nil;

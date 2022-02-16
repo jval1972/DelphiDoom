@@ -40,7 +40,7 @@ uses
   r_defs;
 
 var
-  activeceilings: array[0..MAXCEILINGS - 1] of Pceiling_t;
+  hactiveceilings: array[0..MAXCEILINGS - 1] of Pceiling_t;
 
 //==============================================================================
 //
@@ -58,10 +58,10 @@ function EVH_DoCeiling(line: Pline_t; args: PByteArray; _type: ceiling_e): boole
 
 //==============================================================================
 //
-// P_AddActiveCeiling
+// PH_AddActiveCeiling
 //
 //==============================================================================
-procedure P_AddActiveCeiling(c: Pceiling_t);
+procedure PH_AddActiveCeiling(c: Pceiling_t);
 
 //==============================================================================
 //
@@ -89,22 +89,22 @@ uses
   udmf_floor;
 
 //==============================================================================
-// P_AddActiveCeiling
+// PH_AddActiveCeiling
 //
 // Add an active ceiling
 //
 //==============================================================================
-procedure P_AddActiveCeiling(c: Pceiling_t);
+procedure PH_AddActiveCeiling(c: Pceiling_t);
 var
   i: integer;
 begin
   for i := 0 to MAXCEILINGS - 1 do
-    if activeceilings[i] = nil then
+    if hactiveceilings[i] = nil then
     begin
-      activeceilings[i] := c;
+      hactiveceilings[i] := c;
       exit;
     end;
-  I_Warning('P_AddActiveCeiling(): Can not add ceiling, limit %d reached'#13#10, [MAXCEILINGS]);
+  I_Warning('PH_AddActiveCeiling(): Can not add ceiling, limit %d reached'#13#10, [MAXCEILINGS]);
 end;
 
 //==============================================================================
@@ -113,17 +113,17 @@ end;
 // Remove a ceiling's thinker
 //
 //==============================================================================
-procedure P_RemoveActiveCeiling(c: Pceiling_t);
+procedure PH_RemoveActiveCeiling(c: Pceiling_t);
 var
   i: integer;
 begin
   for i := 0 to MAXCEILINGS - 1 do
-    if activeceilings[i] = c then
+    if hactiveceilings[i] = c then
     begin
-      activeceilings[i].sector.specialdata := nil;
-      P_RemoveThinker(@activeceilings[i].thinker);
-      P_TagFinished(activeceilings[i].sector.tag);
-      activeceilings[i] := nil;
+      hactiveceilings[i].sector.specialdata := nil;
+      P_RemoveThinker(@hactiveceilings[i].thinker);
+      P_TagFinished(hactiveceilings[i].sector.tag);
+      hactiveceilings[i] := nil;
       exit;
     end;
 end;
@@ -163,7 +163,7 @@ begin
             ceiling.speed := ceiling.speed * 2;
           end
           else
-            P_RemoveActiveCeiling(ceiling);
+            PH_RemoveActiveCeiling(ceiling);
         end;
       end;
    -1:
@@ -189,7 +189,7 @@ begin
                 ceiling.speed := ceiling.speed div 2;
               end;
           else
-            P_RemoveActiveCeiling(ceiling);
+            PH_RemoveActiveCeiling(ceiling);
           end;
         end;
       end;
@@ -301,7 +301,7 @@ begin
 
     ceiling.tag := sec.tag;
     ceiling._type := _type;
-    P_AddActiveCeiling(ceiling);
+    PH_AddActiveCeiling(ceiling);
     if result then
       {$IFDEF HEXEN}
       S_StartSequence(Pmobj_t(@ceiling.sector.soundorg), Ord(SEQ_PLATFORM) + Ord(ceiling.sector.seqType));
@@ -324,18 +324,18 @@ var
 begin
   result := false;
   for i := 0 to MAXCEILINGS - 1 do
-    if (activeceilings[i] <> nil) and
-       (activeceilings[i].tag = args[0])  then
+    if (hactiveceilings[i] <> nil) and
+       (hactiveceilings[i].tag = args[0])  then
     begin
       {$IFDEF HEXEN}
-      S_StopSequence(Pmobj_t(@activeceilings[i].sector.soundorg));
+      S_StopSequence(Pmobj_t(@hactiveceilings[i].sector.soundorg));
       {$ELSE}
-      S_StopSound(@activeceilings[i].sector.soundorg);
+      S_StopSound(@hactiveceilings[i].sector.soundorg);
       {$ENDIF}
-      activeceilings[i].sector.specialdata := nil;
-      P_RemoveThinker(@activeceilings[i].thinker);
-      P_TagFinished(activeceilings[i].sector.tag);
-      activeceilings[i] := nil;
+      hactiveceilings[i].sector.specialdata := nil;
+      P_RemoveThinker(@hactiveceilings[i].thinker);
+      P_TagFinished(hactiveceilings[i].sector.tag);
+      hactiveceilings[i] := nil;
       result := true;
       exit;
     end;

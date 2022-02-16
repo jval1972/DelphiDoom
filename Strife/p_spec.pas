@@ -902,6 +902,7 @@ uses
   p_inter,
   p_switch,
   p_ceilng,
+  udmf_ceilng,
   p_plats,
   p_lights,
   p_sight,
@@ -3867,7 +3868,10 @@ begin
 
   //  Init other misc stuff
   for i := 0 to MAXCEILINGS - 1 do
+  begin
     activeceilings[i] := nil;
+    hactiveceilings[i] := nil;
+  end;
 
   for i := 0 to MAXPLATS - 1 do
     activeplats[i] := nil;
