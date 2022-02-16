@@ -837,12 +837,11 @@ end;
 //==============================================================================
 function P_ActivateLine(line: Pline_t; mo: Pmobj_t; side: integer; activationType: integer): boolean;
 var
-  lineActivation: integer;
   dorepeat: boolean;
   buttonSuccess: boolean;
   args: array[0..4] of Byte;
 begin
-  if line.activators and activationType <> 0 then
+  if line.activators and activationType = 0 then
   begin
     result := false;
     exit;
@@ -851,8 +850,8 @@ begin
   if (mo.player = nil) and (mo.flags and MF_MISSILE = 0) then
   begin
 
-    if lineActivation <> ULAC_MCROSS then
-    begin // currently, monsters can only activate the MCROSS activation type
+    if line.activators and (ULAC_MCROSS or ULAC_MPUSH) = 0 then
+    begin // currently, monsters can only activate the MCROSS & MPUSH activation types
        result := false;
        exit;
     end;
@@ -875,7 +874,7 @@ begin
     line.special := line.special and not 1023;
   end;
 
-  if ((lineActivation = ULAC_USE) or (lineActivation = ULAC_IMPACT)) and buttonSuccess then
+  if ((line.activators and ULAC_USE <> 0) or (line.activators and ULAC_IMPACT <> 0)) and buttonSuccess then
     P_ChangeSwitchTexture(line, dorepeat);
 
   result := true;
