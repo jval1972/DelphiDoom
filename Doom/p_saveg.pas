@@ -709,6 +709,7 @@ begin
   while i < numsectors do
   begin
     sec := Psector_t(@sectors[i]);
+
     if savegameversion <= VERSION121 then
     begin
       sec.floorheight := get[0] * FRACUNIT;
@@ -731,16 +732,13 @@ begin
       sec.ceilingpic := R_FlatNumForName(Pchar8_t(get)^);
       get := @get[SizeOf(char8_t) div SizeOf(SmallInt)];
     end;
+
     sec.lightlevel := get[0];
     get := @get[1];
     sec.special := get[0]; // needed?
     get := @get[1];
     sec.tag := get[0]; // needed?
     get := @get[1];
-    sec.floordata := nil;
-    sec.ceilingdata := nil;
-    sec.lightingdata := nil;
-    sec.soundtarget := nil;
 
     if savegameversion > VERSION115 then
     begin
@@ -874,6 +872,11 @@ begin
     end;
 
     sec.touching_thinglist := nil;
+    sec.floordata := nil;
+    sec.ceilingdata := nil;
+    sec.lightingdata := nil;
+    sec.specialdata := nil;
+    sec.soundtarget := nil;
     sec.iSectorID := i; // JVAL: 3d Floors
     inc(i);
   end;
@@ -1829,6 +1832,9 @@ begin
   begin
     th := th1;
     th1 := th1.next;
+    if @th._function.acp1 = @P_MobjThinker then
+      continue;
+
     if not Assigned(th._function.acv) then
     begin
       i := 0;

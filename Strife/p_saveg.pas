@@ -702,10 +702,6 @@ begin
     get := @get[1];
     sec.tag := get[0]; // needed?
     get := @get[1];
-    sec.floordata := nil;
-    sec.ceilingdata := nil;
-    sec.lightingdata := nil;
-    sec.soundtarget := nil;
 
     if savegameversion <= VERSION121 then
     begin
@@ -822,7 +818,12 @@ begin
     end;
 
     sec.touching_thinglist := nil;
-    sec.iSectorID := i;
+    sec.floordata := nil;
+    sec.ceilingdata := nil;
+    sec.lightingdata := nil;
+    sec.specialdata := nil;
+    sec.soundtarget := nil;
+    sec.iSectorID := i; // JVAL: 3d Floors
     inc(i);
   end;
 
@@ -1014,7 +1015,6 @@ begin
         incp(pointer(save_p), SizeOf(mobjcustomparam_t));
         parm := parm.next;
       end;
-
     end;
     th := th.next;
   end;
@@ -1190,17 +1190,19 @@ begin
   end;
 end;
 
+//==============================================================================
+//
 // P_UnArchiveThinkers
 //
 //==============================================================================
 procedure P_UnArchiveThinkers;
 var
+  i: integer;
   tclass: byte;
   currentthinker: Pthinker_t;
   next: Pthinker_t;
   mobj: Pmobj_t;
   parm: mobjcustomparam_t;
-  i: integer;
 begin
   // remove all the current thinkers
   currentthinker := thinkercap.next;
