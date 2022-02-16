@@ -841,6 +841,12 @@ var
   buttonSuccess: boolean;
   args: array[0..4] of Byte;
 begin
+  if not IsIntegerInRange(line.special and 1023, UDMF_SPECIAL_START, UDMF_SPECIAL_FINISH) then
+  begin
+    result := false;
+    exit;
+  end;
+
   if line.activators and activationType = 0 then
   begin
     result := false;
