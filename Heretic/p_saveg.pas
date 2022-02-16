@@ -188,6 +188,7 @@ uses
   p_params,
   p_levelinfo,
   p_udmf,
+  po_man,
   ps_main,
   psi_globals,
   psi_overlay,
@@ -603,6 +604,21 @@ begin
     inc(i);
   end;
 
+  // JVAL: 20220216 - Polyobjs
+  put[0] := po_NumPolyobjs;
+  put := @put[1];
+  for i := 0 to po_NumPolyobjs - 1 do
+  begin
+    PInteger(put)^ := polyobjs[i].tag;
+    put := @put[2];
+    PLongWord(put)^ := polyobjs[i].angle;
+    put := @put[2];
+    PInteger(put)^ := polyobjs[i].startSpot.x;
+    put := @put[2];
+    PInteger(put)^ := polyobjs[i].startSpot.y;
+    put := @put[2];
+  end;
+
   save_p := PByteArray(put);
 end;
 
@@ -620,6 +636,8 @@ var
   si: Pside_t;
   get: PSmallIntArray;
   levelinf: Plevelinfo_t;
+  deltaX: fixed_t;
+  deltaY: fixed_t;
 begin
   get := PSmallIntArray(save_p);
 
@@ -886,6 +904,30 @@ begin
     end;
     Inc(i);
   end;
+
+  // JVAL: 20220216 - Polyobjs
+  if savegameversion >= VERSION207 then
+  begin
+    if get[0] <> po_NumPolyobjs then
+      I_Error('P_UnArchiveWorld(): Invalid number if polyobjs (%d should be %d)', [get[0], po_NumPolyobjs]);
+    get := @get[1];
+    for i := 0 to po_NumPolyobjs - 1 do
+    begin
+      if PInteger(@get[0])^ <> polyobjs[i].tag then
+      begin
+        I_Error('P_UnArchiveWorld(): Invalid polyobj tag');
+      end;
+      get := @get[2];
+      PO_RotatePolyobj(polyobjs[i].tag, PLongWord(@get[0])^);
+      get := @get[2];
+      deltaX := PInteger(@get[0])^ - polyobjs[i].startSpot.x;
+      get := @get[2];
+      deltaY := PInteger(@get[0])^ - polyobjs[i].startSpot.y;
+      get := @get[2];
+      PO_MovePolyobj(polyobjs[i].tag, deltaX, deltaY);
+    end;
+  end;
+
   save_p := PByteArray(get);
 end;
 
