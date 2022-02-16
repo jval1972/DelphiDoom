@@ -201,6 +201,7 @@ uses
   {$IFDEF HEXEN}
   p_things,
   {$ELSE}
+  p_udmf,
   udmf_mobj,
   udmf_spec,
   udmf_things,
@@ -2430,6 +2431,12 @@ begin
   while _FindLine <> nil do
   begin
     line.special := special;
+    {$IFNDEF HEXEN}
+    if IsIntegerInRange(line.special and 1023, 1, UDMF_NORMAL_ADD) then
+      line.special := (line.special and 1023 + UDMF_SPECIAL_START) or (line.special and not 1023)
+    else if IsIntegerInRange(line.special and 1023, UDMF_NORMAL_ADD, UDMF_SPECIAL_START + UDMF_NORMAL_ADD) then
+      line.special := (line.special and 1023 - UDMF_NORMAL_ADD) or (line.special and not 1023);
+    {$ENDIF}
     line.arg1 := arg1;
     line.arg2 := arg2;
     line.arg3 := arg3;
