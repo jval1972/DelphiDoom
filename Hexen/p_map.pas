@@ -579,12 +579,14 @@ procedure PIT_ThrustSpike(actor: Pmobj_t);
 var
   xl, xh, yl, yh, bx, by: integer;
   x0, x2, y0, y2: integer;
+  r: integer;
 begin
   tsthing := actor;
-  x0 := actor.x - actor.info.radius;
-  x2 := actor.x + actor.info.radius;
-  y0 := actor.y - actor.info.radius;
-  y2 := actor.y + actor.info.radius;
+  r := actor.info.radius;
+  x0 := actor.x - r;
+  x2 := actor.x + r;
+  y0 := actor.y - r;
+  y2 := actor.y + r;
 
   if internalblockmapformat then
   begin
