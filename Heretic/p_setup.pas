@@ -973,6 +973,9 @@ begin
 
   Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 
+  po_NumPolyobjs := 0;
+  PolyBlockMap := nil;
+
   R_SetupLevel;
 
   P_InitThinkers;
