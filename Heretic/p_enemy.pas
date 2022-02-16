@@ -724,6 +724,8 @@ uses
   p_spec,
   p_inter,
   p_sounds,
+  p_udmf,
+  udmf_spec,
   ps_main,
   r_defs,
   r_main;

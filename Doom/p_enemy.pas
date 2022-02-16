@@ -537,6 +537,8 @@ uses
   p_inter,
   p_pspr,
   p_sounds,
+  p_udmf,
+  udmf_spec,
   ps_main,
   psi_globals,
   r_defs,

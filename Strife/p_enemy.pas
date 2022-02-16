@@ -820,6 +820,8 @@ uses
   p_sounds,
   p_dialog,
   p_terrain,
+  p_udmf,
+  udmf_spec,
   ps_main,
   r_defs,
   r_main,
