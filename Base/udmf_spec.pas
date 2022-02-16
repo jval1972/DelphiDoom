@@ -871,8 +871,8 @@ begin
   P_ArgsToLine(line, @args);
 
   if not dorepeat and buttonSuccess then
-  begin // clear the special on non-retriggerable lines
-    line.special := 0;
+  begin // clear the special on non-retriggerable lines - keep generalized specials
+    line.special := line.special and not 1023;
   end;
 
   if ((lineActivation = ULAC_USE) or (lineActivation = ULAC_IMPACT)) and buttonSuccess then
