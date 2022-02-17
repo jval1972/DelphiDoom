@@ -2798,11 +2798,13 @@ end;
 procedure A_Scream(actor: Pmobj_t);
 var
   sound: integer;
+  p: Pplayer_t;
 begin
   S_StopSound(actor);
-  if actor.player <> nil then
+  p := actor.player;
+  if p <> nil then
   begin
-    if Pplayer_t(actor.player).morphTics <> 0 then
+    if p.morphTics <> 0 then
     begin
       A_DeathSound1(actor);
     end
@@ -2815,7 +2817,7 @@ begin
       end
       else if actor.health > -50 then
       begin // Normal death sound
-        case Pplayer_t(actor.player)._class of
+        case p._class of
           PCLASS_FIGHTER:
             sound := Ord(SFX_PLAYER_FIGHTER_NORMAL_DEATH);
           PCLASS_CLERIC:
@@ -2828,7 +2830,7 @@ begin
       end
       else if actor.health > -100 then
       begin // Crazy death sound
-        case Pplayer_t(actor.player)._class of
+        case p._class of
           PCLASS_FIGHTER:
             sound := Ord(SFX_PLAYER_FIGHTER_CRAZY_DEATH);
           PCLASS_CLERIC:
@@ -2841,7 +2843,7 @@ begin
       end
       else
       begin // Extreme death sound
-        case Pplayer_t(actor.player)._class of
+        case p._class of
           PCLASS_FIGHTER:
             sound := Ord(SFX_PLAYER_FIGHTER_EXTREME1_DEATH);
           PCLASS_CLERIC:
@@ -5922,6 +5924,8 @@ end;
 //
 //==============================================================================
 procedure A_FreezeDeath(actor: Pmobj_t);
+var
+  p: Pplayer_t;
 begin
   actor.tics := 75 + P_Random + P_Random;
   actor.flags := actor.flags or MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;
@@ -5929,12 +5933,13 @@ begin
   actor.height := actor.height * 4;
   S_StartSound(actor, Ord(SFX_FREEZE_DEATH));
 
-  if actor.player <> nil then
+  p := actor.player;
+  if p <> nil then
   begin
-    Pplayer_t(actor.player).damagecount := 0;
-    Pplayer_t(actor.player).poisoncount := 0;
-    Pplayer_t(actor.player).bonuscount := 0;
-    if actor.player = @players[consoleplayer] then
+    p.damagecount := 0;
+    p.poisoncount := 0;
+    p.bonuscount := 0;
+    if p = @players[consoleplayer] then
       SB_PaletteFlash(false);
   end
   else if (actor.flags and MF_COUNTKILL <> 0) and (actor.special <> 0) then
