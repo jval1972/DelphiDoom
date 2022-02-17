@@ -938,7 +938,7 @@ begin
   bargs[2] := args[2];
   bargs[3] := args[3];
   bargs[4] := args[4];
-  P_ExecuteLineSpecial(special - UDMF_SPECIAL_START, @bargs, nil, 0, mo);
+  result := P_ExecuteLineSpecial(special - UDMF_SPECIAL_START, @bargs, nil, 0, mo);
   args[0] := bargs[0];
   args[1] := bargs[1];
   args[2] := bargs[2];
