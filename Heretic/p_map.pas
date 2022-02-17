@@ -285,9 +285,8 @@ begin
     exit;
   end;
 
-  // monsters don't stomp things except on boss level
-  if (tmthing.player = nil) and (gamemap <> 30) then
-  begin
+  if tmthing.flags2 and MF2_TELESTOMP = 0 then
+  begin // Not allowed to stomp things
     result := false;
     exit;
   end;
