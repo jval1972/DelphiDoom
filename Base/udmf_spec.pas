@@ -96,6 +96,16 @@ procedure P_ArgsToLine(line: Pline_t; const args: PByteArray);
 //==============================================================================
 function P_ExecuteActorSpecial(special: integer; args: PIntegerArray; mo: Pmobj_t): boolean;
 
+const
+  {$IFDEF DOOM_OR_STRIFE}
+  LIGHTNING_SPECIAL = 23;
+  LIGHTNING_SPECIAL2 = 22;
+  {$ENDIF}
+  {$IFDEF HERETIC}
+  LIGHTNING_SPECIAL = 56;
+  LIGHTNING_SPECIAL2 = 55;
+  {$ENDIF}
+
 implementation
 
 uses
