@@ -1445,6 +1445,12 @@ begin
         skytexture := R_TextureNumForName(skyLumpNames[0]);
     end;
   end;
+  skytexture1 := skytexture;
+  skytexture2 := -1;
+  if (gamemapinfo <> nil) and (gamemapinfo.skytexture2 <> '') then
+    skytexture2 := R_TextureNumForName(gamemapinfo.skytexture2);
+  if skytexture2 < 0 then
+    skytexture2 := skytexture;
 
   levelstarttic := gametic;        // for time calculation
 

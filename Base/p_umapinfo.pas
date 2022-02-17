@@ -63,6 +63,7 @@ type
     music: ulumpname_t;
     musicnum: integer;
     skytexture: ulumpname_t;
+    skytexture2: ulumpname_t;
     endpic: ulumpname_t;
     exitpic: ulumpname_t;
     enterpic: ulumpname_t;
@@ -211,6 +212,8 @@ begin
   end;
   if newe.skytexture <> '' then
     mape.skytexture := newe.skytexture;
+  if newe.skytexture2 <> '' then
+    mape.skytexture2 := newe.skytexture2;
   if newe.endpic <> '' then
     mape.endpic := newe.endpic;
   if newe.exitpic <> '' then
@@ -457,6 +460,10 @@ begin
   else if pname = 'SKYTEXTURE' then
   begin
     result := ParseLumpName(sc, mape.skytexture);
+  end
+  else if pname = 'SKYTEXTURE2' then
+  begin
+    result := ParseLumpName(sc, mape.skytexture2);
   end
   else if pname = 'MUSIC' then
   begin

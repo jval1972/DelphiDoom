@@ -1376,6 +1376,12 @@ begin
         skytexture := R_TextureNumForName('SKY1');
     end;
   end;
+  skytexture1 := skytexture;
+  skytexture2 := -1;
+  if (gamemapinfo <> nil) and (gamemapinfo.skytexture2 <> '') then
+    skytexture2 := R_TextureNumForName(gamemapinfo.skytexture2);
+  if skytexture2 < 0 then
+    skytexture2 := skytexture;
 
   if wipegamestate = Ord(GS_LEVEL) then
     wipegamestate := -1;  // force a wipe
