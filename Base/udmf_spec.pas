@@ -89,6 +89,13 @@ procedure P_LineToArgs(line: Pline_t; const args: PByteArray);
 //==============================================================================
 procedure P_ArgsToLine(line: Pline_t; const args: PByteArray);
 
+//==============================================================================
+//
+// P_ExecuteActorSpecial
+//
+//==============================================================================
+function P_ExecuteActorSpecial(special: integer; args: PIntegerArray; mo: Pmobj_t): boolean;
+
 implementation
 
 uses
@@ -914,6 +921,29 @@ begin
   line.arg4 := args[3];
   line.arg5 := args[4];
   line.special := line.special + UDMF_SPECIAL_START;
+end;
+
+//==============================================================================
+//
+// P_ExecuteActorSpecial
+// Note: args are Integers
+//
+//==============================================================================
+function P_ExecuteActorSpecial(special: integer; args: PIntegerArray; mo: Pmobj_t): boolean;
+var
+  bargs: packed array[0..4] of Byte;
+begin
+  bargs[0] := args[0];
+  bargs[1] := args[1];
+  bargs[2] := args[2];
+  bargs[3] := args[3];
+  bargs[4] := args[4];
+  P_ExecuteLineSpecial(special - UDMF_SPECIAL_START, @bargs, nil, 0, mo);
+  args[0] := bargs[0];
+  args[1] := bargs[1];
+  args[2] := bargs[2];
+  args[3] := bargs[3];
+  args[4] := bargs[4];
 end;
 
 end.
