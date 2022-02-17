@@ -1739,7 +1739,7 @@ end;
 //==============================================================================
 procedure P_KillMobj(source: Pmobj_t; target: Pmobj_t);
 var
-  dummy: integer;
+  dummy: int64;
   master: Pmobj_t;
   pl: Pplayer_t;
   item: integer;
