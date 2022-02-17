@@ -244,6 +244,7 @@ Added "DROPPED ITEM" alias for "DROPITEM" DEHACKED field.
 Added MF5_EX_PUSHWALL, MF5_EX_MCROSS, MF5_EX_IMPACT & MF5_EX_PCROSS mobj flags.
 Take into accound the MF2_TELESTOMP flag in PIT_StompThing().
 UMAPINFO custom field SKYTEXTURE2.
+UMAPINFO custom field LIGHTNING.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
