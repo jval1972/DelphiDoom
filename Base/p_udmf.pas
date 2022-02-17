@@ -80,6 +80,14 @@ type
     id: Integer;
     gravity: float;
     health: float;
+    {$IFNDEF HEXEN}
+    special: integer;
+    arg1: integer;
+    arg2: integer;
+    arg3: integer;
+    arg4: integer;
+    arg5: integer;
+    {$ENDIF}
   end;
   Pextrathing_t = ^extrathing_t;
   extrathing_tArray = array[0..$FFFF] of extrathing_t;
@@ -608,6 +616,40 @@ var
         GetToken;
         if token = 'TRUE' then
           pthing.options := pthing.options or 64;
+      end
+      else if (token = 'SPECIAL') then
+      begin
+        sc.MustGetInteger;
+        pextrathing.special := sc._Integer;
+        if IsIntegerInRange(pextrathing.special and 1023, 1, UDMF_NORMAL_ADD) then
+          pextrathing.special := (pextrathing.special and 1023 + UDMF_SPECIAL_START) or (pextrathing.special and not 1023)
+        else if IsIntegerInRange(pextrathing.special and 1023, UDMF_NORMAL_ADD, UDMF_SPECIAL_START + UDMF_NORMAL_ADD) then
+          pextrathing.special := (pextrathing.special and 1023 - UDMF_NORMAL_ADD) or (pextrathing.special and not 1023);
+      end
+      else if (token = 'ARG0') then
+      begin
+        sc.MustGetInteger;
+        pextrathing.arg1 := sc._Integer;
+      end
+      else if (token = 'ARG1') then
+      begin
+        sc.MustGetInteger;
+        pextrathing.arg2 := sc._Integer;
+      end
+      else if (token = 'ARG2') then
+      begin
+        sc.MustGetInteger;
+        pextrathing.arg3 := sc._Integer;
+      end
+      else if (token = 'ARG3') then
+      begin
+        sc.MustGetInteger;
+        pextrathing.arg4 := sc._Integer;
+      end
+      else if (token = 'ARG4') then
+      begin
+        sc.MustGetInteger;
+        pextrathing.arg5 := sc._Integer;
       end
       {$ENDIF}
       {$IFDEF STRIFE}

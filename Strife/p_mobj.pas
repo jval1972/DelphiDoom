@@ -1792,6 +1792,12 @@ begin
       else
         result.health := Round(result.health * uthing.health);
     end;
+    result.special := uthing.special;
+    result.args[0] := uthing.arg1;
+    result.args[1] := uthing.arg2;
+    result.args[2] := uthing.arg3;
+    result.args[3] := uthing.arg4;
+    result.args[4] := uthing.arg5;
     result.tid := uthing.id;
   end;
 end;
