@@ -257,6 +257,18 @@ begin
   AddAlias('FRIENDLY', 'FRIEND');
   AddAlias('+FRIENDLY', 'FRIEND');
   AddAlias('-FRIENDLY', '-FRIEND');
+  AddAlias('ACTIVATEIMPACT', 'IMPACT');
+  AddAlias('+ACTIVATEIMPACT', '+IMPACT');
+  AddAlias('-ACTIVATEIMPACT', '-IMPACT');
+  AddAlias('CANPUSHWALLS', 'PUSHWALL');
+  AddAlias('+CANPUSHWALLS', '+PUSHWALL');
+  AddAlias('-CANPUSHWALLS', '-PUSHWALL');
+  AddAlias('ACTIVATEPCROSS', 'PCROSS');
+  AddAlias('+ACTIVATEPCROSS', '+PCROSS');
+  AddAlias('-ACTIVATEPCROSS', '-PCROSS');
+  AddAlias('ACTIVATEMCROSS', 'MCROSS');
+  AddAlias('+ACTIVATEMCROSS', '+MCROSS');
+  AddAlias('-ACTIVATEMCROSS', '-MCROSS');
 end;
 
 //==============================================================================
@@ -2903,11 +2915,21 @@ begin
         else if sc.MatchString('monster') or sc.MatchString('+monster') then
         begin
            mobj.flags := mobj.flags + 'MF_SOLID MF_SHOOTABLE MF_COUNTKILL ';
+           {$IFDEF HEXEN}
+           mobj.flags2 := mobj.flags2 + 'MF2_PUSHWALL MF2_MCROSS ';
+           {$ELSE}
+           mobj.flags5_ex := mobj.flags5_ex + 'MF5_EX_PUSHWALL MF5_EX_MCROSS ';
+           {$ENDIF}
            sc.GetString;
         end
         else if sc.MatchString('projectile') or sc.MatchString('+projectile') then
         begin
            mobj.flags := mobj.flags + 'MF_NOGRAVITY MF_DROPOFF MF_MISSILE ';
+           {$IFDEF HEXEN}
+           mobj.flags2 := mobj.flags2 + 'MF2_IMPACT MF2_PCROSS ';
+           {$ELSE}
+           mobj.flags5_ex := mobj.flags5_ex + 'MF5_EX_IMPACT MF5_EX_PCROSS ';
+           {$ENDIF}
            sc.GetString;
         end
 

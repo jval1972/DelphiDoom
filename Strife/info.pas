@@ -15947,7 +15947,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL;                                                 // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -16346,7 +16346,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -16425,7 +16425,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -16504,7 +16504,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -16583,7 +16583,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -16662,7 +16662,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -16741,7 +16741,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -16820,7 +16820,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -16899,7 +16899,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -16978,7 +16978,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -17057,7 +17057,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -17136,7 +17136,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -17215,7 +17215,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -17294,7 +17294,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -17373,7 +17373,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -17452,7 +17452,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -17531,7 +17531,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -17610,7 +17610,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -17689,7 +17689,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -17768,7 +17768,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -17847,7 +17847,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -17926,7 +17926,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -18005,7 +18005,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -18085,7 +18085,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -18165,7 +18165,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -18804,7 +18804,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -18884,7 +18884,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -18964,7 +18964,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -19044,7 +19044,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -19124,7 +19124,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -19204,7 +19204,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -19284,7 +19284,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -19364,7 +19364,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -19444,7 +19444,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -19524,7 +19524,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -19604,7 +19604,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -19684,7 +19684,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -19764,7 +19764,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -19844,7 +19844,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -20004,7 +20004,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -20084,7 +20084,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -20164,7 +20164,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -20244,7 +20244,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -20324,7 +20324,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -20404,7 +20404,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -20484,7 +20484,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -20564,7 +20564,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -20644,7 +20644,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -20724,7 +20724,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -20804,7 +20804,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -20884,7 +20884,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -20964,7 +20964,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -21044,7 +21044,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -21124,7 +21124,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -21204,7 +21204,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -21444,7 +21444,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -21524,7 +21524,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -21604,7 +21604,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -21684,7 +21684,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -21764,7 +21764,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -21844,7 +21844,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -22084,7 +22084,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -22164,7 +22164,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -22244,7 +22244,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -22324,7 +22324,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -22404,7 +22404,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -22564,7 +22564,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -22644,7 +22644,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -22724,7 +22724,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -22804,7 +22804,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -22964,7 +22964,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -23044,7 +23044,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -23124,7 +23124,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -23204,7 +23204,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -23284,7 +23284,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -23444,7 +23444,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -23604,7 +23604,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -23764,7 +23764,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -23844,7 +23844,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -23924,7 +23924,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -24004,7 +24004,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -24084,7 +24084,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -24164,7 +24164,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -24244,7 +24244,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -24324,7 +24324,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -24404,7 +24404,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -24484,7 +24484,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -24644,7 +24644,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -24724,7 +24724,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -24804,7 +24804,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -24884,7 +24884,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -25604,7 +25604,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -32004,7 +32004,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_PUSHWALL or MF5_EX_MCROSS;                                // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -43364,7 +43364,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -43684,7 +43684,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group
@@ -43844,7 +43844,7 @@ const // Strife Original mobjinfo
     WeaveIndexZ: 0;                                                             // WeaveIndexZ
     spriteDX: 0;                                                                // spriteDX
     spriteDY: 0;                                                                // spriteDY
-    flags5_ex: 0;                                                               // flags5_ex
+    flags5_ex: MF5_EX_IMPACT or MF5_EX_PCROSS;                                  // flags5_ex
     flags6_ex: 0;                                                               // flags6_ex
     infighting_group: IG_DEFAULT;                                               // infighting_group
     projectile_group: PG_DEFAULT;                                               // projectile_group

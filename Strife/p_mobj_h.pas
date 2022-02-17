@@ -466,6 +466,16 @@ const
   // Backing in melee attack
   MF4_EX_BACKINGMELEE = $400000;
 
+const
+  // Monster can push walls
+  MF5_EX_PUSHWALL = $1;
+  // Monster can activate cross lines
+  MF5_EX_MCROSS = $2;
+  // Projectile can activate cross line
+  MF5_EX_PCROSS = $4;
+  // Projectile activate impact walls
+  MF5_EX_IMPACT = $8;
+
 type
 // Map Object definition.
 //
