@@ -171,6 +171,7 @@ uses
   ps_main, // JVAL: Script Events
   r_defs,
   r_main,
+  udmf_spec,
   tables;
 
 const
@@ -939,6 +940,8 @@ begin
 
   target.flags := target.flags or (MF_CORPSE or MF_DROPOFF);
   target.height := FRACUNIT;  // villsa [STRIFE] set to fracunit instead of >>= 2
+
+  P_ExecuteActorSpecial(target.special, @target.args, target);
 
   if (source <> nil) and (source.player <> nil) then
   begin

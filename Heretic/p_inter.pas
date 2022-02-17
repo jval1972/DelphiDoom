@@ -199,6 +199,7 @@ uses
   r_defs,
   r_main,
   sb_bar,
+  udmf_spec,
   tables;
 
 const
@@ -1290,6 +1291,8 @@ begin
   target.flags := target.flags or (MF_CORPSE or MF_DROPOFF);
   target.flags2 := target.flags2 and not MF2_PASSMOBJ;
   target.height := _SHR(target.height, 2);
+
+  P_ExecuteActorSpecial(target.special, @target.args, target);
 
   if (source <> nil) and (source.player <> nil) then
   begin

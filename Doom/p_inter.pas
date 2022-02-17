@@ -112,6 +112,7 @@ uses
   ps_main, // JVAL: Script Events
   r_defs,
   r_main,
+  udmf_spec,
   tables;
 
 const
@@ -873,6 +874,8 @@ begin
   target.flags := target.flags or (MF_CORPSE or MF_DROPOFF);
   target.flags2_ex := target.flags2_ex and not MF2_EX_PASSMOBJ;
   target.height := target.height div 4;
+
+  P_ExecuteActorSpecial(target.special, @target.args, target);
 
   if (source <> nil) and (source.player <> nil) then
   begin
