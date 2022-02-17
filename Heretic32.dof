@@ -100,7 +100,7 @@ Conditionals=HERETIC;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=umaptest_heretic.wad
+RunParams=-noactordef -internalgamedef
 HostApplication=
 Launcher=
 UseLauncher=0

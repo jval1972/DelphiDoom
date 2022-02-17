@@ -46,7 +46,6 @@ uses
   tables,
   d_player,
   r_defs,
-// State.
 // Data.
   sounddata;
 
@@ -233,6 +232,8 @@ uses
   p_tick,
   p_terrain,
   p_sounds,
+  p_udmf,
+  udmf_spec,
   ps_main,  // JVAL: Script Events
   r_main,
   r_sky,
@@ -242,6 +243,23 @@ uses
 
 var
   tmflags: integer;
+
+//==============================================================================
+// P_CheckForPushSpecial
+//
+// CheckForPushSpecial
+//
+//==============================================================================
+procedure P_CheckForPushSpecial(line: Pline_t; side: integer; mobj: Pmobj_t);
+begin
+  if line.special <> 0 then
+  begin
+    if mobj.flags5_ex and MF5_EX_PUSHWALL <> 0 then
+      P_ActivateLine(line, mobj, side, ULAC_PUSH)
+    else if mobj.flags5_ex and MF5_EX_IMPACT <> 0 then
+      P_ActivateLine(line, mobj, side, ULAC_IMPACT);
+  end;
+end;
 
 //==============================================================================
 //
@@ -454,6 +472,7 @@ begin
 
   if ld.backsector = nil then
   begin
+    P_CheckForPushSpecial(ld, 0, tmthing);
     result := false;  // one sided line
     tmbounceline := ld;
     exit;
@@ -467,6 +486,7 @@ begin
       begin
         if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
         begin
+          P_CheckForPushSpecial(ld, 0, tmthing);
           result := false;  // explicitly blocking everything
           tmbounceline := ld;
           exit;
@@ -485,6 +505,7 @@ begin
     begin
       if ld.flags and ML_BLOCKING <> 0 then
       begin
+        P_CheckForPushSpecial(ld, 0, tmthing);
         result := false;  // explicitly blocking everything
         tmbounceline := ld;
         exit;
@@ -598,6 +619,7 @@ begin
 
   if ld.backsector = nil then
   begin
+    P_CheckForPushSpecial(ld, 0, tmthing);
     result := false;  // one sided line
     tmbounceline := ld;
     exit;
@@ -611,6 +633,7 @@ begin
       begin
         if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
         begin
+          P_CheckForPushSpecial(ld, 0, tmthing);
           result := false;  // explicitly blocking everything
           tmbounceline := ld;
           exit;
@@ -1516,6 +1539,25 @@ var
   oldonfloorz: boolean;
   dropoffmargin: fixed_t;
   jumpupmargin: fixed_t;
+
+  procedure pushline;
+  var
+    numSpecHitTemp: integer;
+  begin
+    if thing.flags and (MF_TELEPORT or MF_NOCLIP) = 0 then
+    begin
+      numSpecHitTemp := numspechit;
+      while numSpecHitTemp > 0 do
+      begin
+        dec(numSpecHitTemp);
+        // see if the line was crossed
+        ld := spechit[numSpecHitTemp];
+        side := P_PointOnLineSide(thing.x, thing.y, ld);
+        P_CheckForPushSpecial(ld, side, thing);
+      end;
+    end;
+  end;
+
 begin
   floatok := false;
   if not P_CheckPosition(thing, x, y) then
@@ -1528,6 +1570,7 @@ begin
   begin
     if tmceilingz - tmfloorz < thing.height then
     begin
+      pushline;
       result := false;  // doesn't fit
       exit;
     end;
@@ -1537,6 +1580,7 @@ begin
     if (thing.flags and MF_TELEPORT = 0) and
        (tmceilingz - thing.z < thing.height) then
     begin
+      pushline;
       result := false;  // mobj must lower itself to fit
       exit;
     end;
@@ -1574,6 +1618,7 @@ begin
     if (thing.flags and MF_TELEPORT = 0) and
        (tmfloorz - thing.z > jumpupmargin) then
     begin
+      pushline;
       result := false;  // too big a step up
       exit;
     end;
@@ -1681,7 +1726,21 @@ begin
             PS_EventCrossLine(thing, pDiff(ld, lines, SizeOf(line_t)), oldside);
 
         if ld.special <> 0 then
+        begin
           P_CrossSpecialLine(pDiff(ld, lines, SizeOf(line_t)), oldside, thing);
+          if thing.player <> nil then
+          begin
+            P_ActivateLine(ld, thing, oldside, ULAC_CROSS);
+          end
+          else if thing.flags5_ex and MF5_EX_MCROSS <> 0 then
+          begin
+            P_ActivateLine(ld, thing, oldside, ULAC_MCROSS);
+          end
+          else if thing.flags5_ex and MF5_EX_PCROSS <> 0 then
+          begin
+            P_ActivateLine(ld, thing, oldside, ULAC_PCROSS);
+          end;
+        end;
       end;
     end;
   end;
@@ -2268,7 +2327,10 @@ begin
         PS_EventShootLine(shootthing, pDiff(li, lines, SizeOf(line_t)), P_PointOnLineSide(shootthing.x, shootthing.y, li));
 
     if li.special <> 0 then
+    begin
       P_ShootSpecialLine(shootthing, li);
+      P_ActivateLine(li, shootthing, 0, ULAC_IMPACT);
+    end;
 
     if li.flags and ML_TWOSIDED = 0 then
     begin
@@ -2493,6 +2555,7 @@ begin
   end;
 
   P_UseSpecialLine(usething, li, side);
+  P_ActivateLine(intr.d.line, usething, 0, ULAC_USE);
 
   // can't use for than one special line in a row
   //WAS can't use for than one special line in a row

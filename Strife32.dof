@@ -100,7 +100,7 @@ Conditionals=STRIFE;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=
+RunParams=-noactordef -internalgamedef
 HostApplication=
 Launcher=
 UseLauncher=0

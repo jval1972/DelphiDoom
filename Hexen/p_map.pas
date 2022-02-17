@@ -52,20 +52,6 @@ uses
 
 //==============================================================================
 //
-// P_CheckForPushSpecial
-//
-//==============================================================================
-procedure P_CheckForPushSpecial(line: Pline_t; side: integer; mobj: Pmobj_t);
-
-//==============================================================================
-//
-// PIT_StompThing
-//
-//==============================================================================
-function PIT_StompThing(thing: Pmobj_t): boolean;
-
-//==============================================================================
-//
 // P_TeleportMove
 //
 //==============================================================================
@@ -332,7 +318,7 @@ uses
   p_tick,
   p_acs,
   p_sounds,
-  ps_main,
+  ps_main,  // JVAL: Script Events
   r_main,
   r_sky,
   r_intrpl,
@@ -644,11 +630,11 @@ begin
   // could be crossed in either order.
 
   if ld.backsector = nil then
-  begin // One sided line
+  begin
     if tmthing.flags2 and MF2_BLASTED <> 0 then
       P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
     P_CheckForPushSpecial(ld, 0, tmthing);
-    result := false;
+    result := false;  // one sided line
     tmbounceline := ld;
     exit;
   end;
@@ -783,11 +769,11 @@ begin
   // could be crossed in either order.
 
   if ld.backsector = nil then
-  begin // One sided line
+  begin
     if tmthing.flags2 and MF2_BLASTED <> 0 then
       P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
     P_CheckForPushSpecial(ld, 0, tmthing);
-    result := false;
+    result := false;  // one sided line
     tmbounceline := ld;
     exit;
   end;
@@ -1876,9 +1862,9 @@ begin
   if thing.flags and MF_NOCLIP = 0 then
   begin
     if tmceilingz - tmfloorz < thing.height then
-    begin // Doesn't fit
+    begin
       pushline;
-      result := false;
+      result := false;  // doesn't fit
       exit;
     end;
 
@@ -2774,6 +2760,7 @@ begin
   z := shootz + FixedMul(aimslope, FixedMul(frac, attackrange));
 
   P_SpawnPuff(x, y, z);
+
   if la_damage <> 0 then
   begin
     if (intr.d.thing.flags and MF_NOBLOOD = 0) and
@@ -3445,7 +3432,7 @@ begin
     exit;
   end;
 
-  // JVAL: 20200329 - New flag, can not be crashed by sector
+  // JVAL: 20200329 - New flag, can not be crushed by sector
   if thing.flags3_ex and MF3_EX_NOCRUSH <> 0 then
   begin
     result := true;
