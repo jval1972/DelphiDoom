@@ -531,8 +531,15 @@ begin
         if not player.cards[Ord(it_bluecard)] then
           player._message := GOTBLUECARD;
         P_GiveCard(player, it_bluecard);
-      if netgame then
-        exit;
+        if netgame then
+        begin
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
+          exit;
+        end;
       end;
 
     Ord(SPR_YKEY):
@@ -541,7 +548,14 @@ begin
           player._message := GOTYELWCARD;
         P_GiveCard(player, it_yellowcard);
         if netgame then
+        begin
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           exit;
+        end;
       end;
 
     Ord(SPR_RKEY):
@@ -550,7 +564,14 @@ begin
           player._message := GOTREDCARD;
         P_GiveCard(player, it_redcard);
         if netgame then
+        begin
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           exit;
+        end;
       end;
 
     Ord(SPR_BSKU):
@@ -559,7 +580,14 @@ begin
           player._message := GOTBLUESKUL;
         P_GiveCard(player, it_blueskull);
         if netgame then
+        begin
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           exit;
+        end;
       end;
 
     Ord(SPR_YSKU):
@@ -568,7 +596,14 @@ begin
           player._message := GOTYELWSKUL;
         P_GiveCard(player, it_yellowskull);
         if netgame then
+        begin
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           exit;
+        end;
       end;
 
     Ord(SPR_RSKU):
@@ -577,7 +612,14 @@ begin
           player._message := GOTREDSKULL;
         P_GiveCard(player, it_redskull);
         if netgame then
+        begin
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           exit;
+        end;
       end;
 
   // medikits, heals
@@ -825,6 +867,13 @@ begin
 
   if special.flags and MF_COUNTITEM <> 0 then
     player.itemcount := player.itemcount + 1;
+
+  if special.special <> 0 then
+  begin
+    P_ExecuteActorSpecial(special.special, @special.args, toucher);
+    special.special := 0;
+  end;
+
   P_RemoveMobj(special);
   player.bonuscount := player.bonuscount + BONUSADD;
   if player = @players[consoleplayer] then

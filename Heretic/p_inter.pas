@@ -951,7 +951,14 @@ begin
           P_SetMessage(player, TXT_GOTBLUEKEY);
         P_GiveKey(player, key_blue);
         if netgame then
+        begin
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           exit;
+        end;
         sound := Ord(sfx_keyup);
       end;
 
@@ -959,20 +966,34 @@ begin
       begin
         if not player.keys[Ord(key_yellow)] then
           P_SetMessage(player, TXT_GOTYELLOWKEY);
-        sound := Ord(sfx_keyup);
         P_GiveKey(player, key_yellow);
         if netgame then
+        begin
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           exit;
+        end;
+        sound := Ord(sfx_keyup);
       end;
 
     Ord(SPR_AKYY): // Key_Green
       begin
       if not player.keys[Ord(key_green)] then
         P_SetMessage(player, TXT_GOTGREENKEY);
-        sound := Ord(sfx_keyup);
         P_GiveKey(player, key_green);
         if netgame then
+        begin
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           exit;
+        end;
+        sound := Ord(sfx_keyup);
       end;
 
     // Artifacts
@@ -981,6 +1002,11 @@ begin
         if P_GiveArtifact(player, arti_health, special) then
         begin
           P_SetMessage(player, TXT_ARTIHEALTH);
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           P_SetDormantArtifact(special);
         end;
         exit;
@@ -991,6 +1017,11 @@ begin
         if P_GiveArtifact(player, arti_fly, special) then
         begin
           P_SetMessage(player, TXT_ARTIFLY);
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           P_SetDormantArtifact(special);
         end;
         exit;
@@ -1001,6 +1032,11 @@ begin
         if P_GiveArtifact(player, arti_invulnerability, special) then
         begin
           P_SetMessage(player, TXT_ARTIINVULNERABILITY);
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           P_SetDormantArtifact(special);
         end;
         exit;
@@ -1011,6 +1047,11 @@ begin
         if P_GiveArtifact(player, arti_tomeofpower, special) then
         begin
           P_SetMessage(player, TXT_ARTITOMEOFPOWER);
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           P_SetDormantArtifact(special);
         end;
         exit;
@@ -1021,6 +1062,11 @@ begin
         if P_GiveArtifact(player, arti_invisibility, special) then
         begin
           P_SetMessage(player, TXT_ARTIINVISIBILITY, false);
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           P_SetDormantArtifact(special);
         end;
         exit;
@@ -1031,6 +1077,11 @@ begin
         if P_GiveArtifact(player, arti_egg, special) then
         begin
           P_SetMessage(player, TXT_ARTIEGG, false);
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           P_SetDormantArtifact(special);
         end;
         exit;
@@ -1041,6 +1092,11 @@ begin
         if P_GiveArtifact(player, arti_superhealth, special) then
         begin
           P_SetMessage(player, TXT_ARTISUPERHEALTH, false);
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           P_SetDormantArtifact(special);
         end;
         exit;
@@ -1051,6 +1107,11 @@ begin
         if P_GiveArtifact(player, arti_torch, special) then
         begin
           P_SetMessage(player, TXT_ARTITORCH);
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           P_SetDormantArtifact(special);
         end;
         exit;
@@ -1061,6 +1122,11 @@ begin
         if P_GiveArtifact(player, arti_firebomb, special) then
         begin
           P_SetMessage(player, TXT_ARTIFIREBOMB);
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           P_SetDormantArtifact(special);
         end;
         exit;
@@ -1071,6 +1137,11 @@ begin
         if P_GiveArtifact(player, arti_teleport, special) then
         begin
           P_SetMessage(player, TXT_ARTITELEPORT);
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           P_SetDormantArtifact(special);
         end;
         exit;
@@ -1234,6 +1305,12 @@ begin
   if special.flags and MF_COUNTITEM <> 0 then
     inc(player.itemcount);
 
+  if special.special <> 0 then
+  begin
+    P_ExecuteActorSpecial(special.special, @special.args, toucher);
+    special.special := 0;
+  end;
+
   if (deathmatch <> 0) and respawn and (special.flags and MF_DROPPED = 0) then
     P_HideSpecialThing(special)
   else
@@ -1244,7 +1321,7 @@ begin
   if player = @players[consoleplayer] then
   begin
     S_StartSound(nil, sound);
-//    SB_PaletteFlash; // JVAL Check
+    //SB_PaletteFlash; // JVAL Check
   end;
 end;
 

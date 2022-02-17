@@ -756,6 +756,11 @@ begin
         if not P_GiveWeapon(player, wp_sigil, special.flags and MF_DROPPED <> 0) then
         begin
           player.sigiltype := special.frame;
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           exit;
         end;
 
@@ -765,7 +770,14 @@ begin
         player.pendingweapon := wp_sigil;
         player.st_update := true;
         if deathmatch <> 0 then
+        begin
+          if special.special <> 0 then
+          begin
+            P_ExecuteActorSpecial(special.special, @special.args, toucher);
+            special.special := 0;
+          end;
           exit;
+        end;
         sound := Ord(sfx_wpnup);
       end;
 
@@ -776,7 +788,6 @@ begin
         begin
           for i := 0 to Ord(NUMAMMO) - 1 do
             player.maxammo[i] := player.maxammo[i] * 2;
-
           player.backpack := true;
         end;
         for i := 0 to Ord(NUMAMMO) - 1 do
@@ -905,6 +916,12 @@ begin
     // strict portability beyond the x86, we need to AND the operand by 31.
     if (special.info.speed <> 8) or (player.questflags and QF_QUEST6 = 0) then
       player.questflags := player.questflags or _SHLW(1, (special.info.speed - 1) and 31);
+  end;
+
+  if special.special <> 0 then
+  begin
+    P_ExecuteActorSpecial(special.special, @special.args, toucher);
+    special.special := 0;
   end;
 
   P_RemoveMobj(special);
