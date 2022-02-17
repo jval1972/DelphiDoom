@@ -283,6 +283,8 @@ end;
 //
 //==============================================================================
 procedure P_LocalEarthQuakeEx(const actor: Pmobj_t; const tics: integer; const intensity: fixed_t; const maxtdist, maxddist: fixed_t);
+const
+  SND_QUAKE = 'QUAKE2';
 var
   i: integer;
   dist: fixed_t;
@@ -294,7 +296,9 @@ var
 begin
   // JVAL: Actor's active sound is the quake sound
   if actor.info.activesound <> 0 then
-    A_ActiveSound(actor, actor);
+    A_ActiveSound(actor, actor)
+  else
+    S_StartSound(actor, SND_QUAKE);
 
   for i := 0 to MAXPLAYERS - 1 do
     if playeringame[i] then
