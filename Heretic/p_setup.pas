@@ -429,6 +429,7 @@ begin
     if ms.lightlevel = 256 then
       ms.lightlevel := $FF;
     ss.lightlevel := ms.lightlevel and $FF; // JVAL: Mars fog sectors
+    ss.lightninglightlevel := 255; // JVAL: 20220218 - Lightning
     ss.special := ms.special;
     ss.tag := ms.tag;
     ss.thinglist := nil;

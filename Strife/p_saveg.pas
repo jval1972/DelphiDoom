@@ -550,6 +550,10 @@ begin
     PInteger(put)^ := sec.seqType;
     put := @put[2];
 
+    // JVAL: 20220218 - Store lightninglightlevel
+    PInteger(put)^ := sec.lightninglightlevel;
+    put := @put[2];
+
     inc(i);
   end;
 
@@ -808,6 +812,8 @@ begin
       get := @get[SizeOf(moreids_t)];
       sec.seqType := PInteger(get)^;
       get := @get[2];
+      sec.lightninglightlevel := PInteger(get)^;
+      get := @get[2];
     end
     else
     begin
@@ -815,6 +821,7 @@ begin
       if IsIntegerInRange(sec.tag, 0, 255) then
         Include(sec.moreids, sec.tag);
       sec.seqType := 0;
+      sec.lightninglightlevel := 255;
     end;
 
     sec.touching_thinglist := nil;
