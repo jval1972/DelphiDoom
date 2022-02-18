@@ -1172,7 +1172,7 @@ end;
 //==============================================================================
 function twoSided(sector: integer; line: integer): boolean;
 begin
-  result := sectors[sector].lines[line].sidenum[1] <> 0;
+  result := sectors[sector].lines[line].sidenum[1] <> -1;
 end;
 
 //==============================================================================
@@ -1182,7 +1182,7 @@ end;
 //==============================================================================
 function twoSidedS(sector: Psector_t; line: integer): boolean;
 begin
-  result := sector.lines[line].sidenum[1] <> 0;
+  result := sector.lines[line].sidenum[1] <> -1;
 end;
 
 //==============================================================================
