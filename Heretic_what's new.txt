@@ -246,6 +246,7 @@ Take into accound the MF2_TELESTOMP flag in PIT_StompThing().
 UMAPINFO custom field SKYTEXTURE2.
 UMAPINFO custom field LIGHTNING.
 Prevent overflow in P_FindLowestCeilingSurrounding().
+Lightning special effect.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

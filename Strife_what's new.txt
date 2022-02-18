@@ -235,6 +235,7 @@ Use 64 characters long string for short names in PK3.
 Added "DROPPED ITEM" alias for "DROPITEM" DEHACKED field.
 Added MF5_EX_PUSHWALL, MF5_EX_MCROSS, MF5_EX_IMPACT & MF5_EX_PCROSS mobj flags.
 Fixed 2-sided line logic check.
+Lightning special effect.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

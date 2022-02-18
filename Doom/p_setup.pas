@@ -245,6 +245,7 @@ uses
 {$ENDIF}
   r_subsectors,
   nd_main,
+  udmf_spec,
   s_sound,
   doomstat;
 
@@ -1473,6 +1474,9 @@ begin
 {$ENDIF}
 
   R_SetInterpolateSkipTicks(2);
+
+  // Check if the level is a lightning level
+  P_InitLightning;
 end;
 
 //==============================================================================

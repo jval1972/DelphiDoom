@@ -758,7 +758,8 @@ type
     STAIRS_SYNC,
     STAIRS_PHASED
   );
-  
+
+
 // JVAL: BOOM compatibility
   special_e = (
     floor_special,
@@ -902,11 +903,8 @@ uses
   p_inter,
   p_switch,
   p_ceilng,
-  udmf_ceilng,
   p_plats,
-  udmf_plats,
   p_lights,
-  udmf_lights,
   p_sight,
   p_doors,
   p_floor,
@@ -922,6 +920,10 @@ uses
   p_common,
   p_tick,
   p_udmf,
+  udmf_ceilng,
+  udmf_plats,
+  udmf_lights,
+  udmf_spec,
   s_sound,
 // Data.
   sounddata;
@@ -3338,7 +3340,7 @@ begin
 
       linefunc := @EV_DoGenFloor;
     end
-    else if word(line.special) >= CGENCEILINGBASE  then
+    else if word(line.special) >= CGENCEILINGBASE then
     begin
       if thing.player = nil then
         if (line.special and CeilingChange <> 0) or (line.special and CeilingModel = 0) then
@@ -3693,6 +3695,15 @@ begin
     end;
   end;
 
+  // HANDLE LIGHTNING
+  if LevelHasLightning then
+  begin
+    if (NextLightningFlash = 0) or (LightningFlash <> 0) then
+      P_LightningFlash
+    else
+      dec(NextLightningFlash);
+  end;
+
   // DO BUTTONS
   button := @buttonlist[0];
   for i := 0 to MAXBUTTONS - 1 do
@@ -3955,6 +3966,7 @@ begin
           while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
             sectors[s].flags := sectors[s].flags or SF_SLIPSLOPEDESCENT;
         end;
+      // JVAL: 20200517 - Rotate sector floor
       284:
         begin
           ang := R_PointToAngle2(lines[i].v1.x, lines[i].v1.y, lines[i].v2.x, lines[i].v2.y);
@@ -4220,7 +4232,7 @@ const
 // tmpusher belongs to the point source (MT_PUSH/MT_PULL).
 //
 var
-  tmpusher: Ppusher_t; // pusher structure for blockmap searches
+  tmpusher: Ppusher_t = nil; // pusher structure for blockmap searches
 
 /////////////////////////////
 //
@@ -4446,7 +4458,7 @@ end;
 // Add a push thinker to the thinker list
 //
 //==============================================================================
-procedure Add_Pusher(_type: pushertype_e; x_mag, y_mag: integer; source: Pmobj_t; affectee :integer);
+procedure Add_Pusher(_type: pushertype_e; x_mag, y_mag: integer; source: Pmobj_t; affectee: integer);
 var
   p: Ppusher_t;
 begin

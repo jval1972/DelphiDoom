@@ -847,7 +847,6 @@ uses
   doomdata,
   d_englsh,
   i_system,
-  i_io,
   z_zone,
   m_argv,
   m_rnd,
@@ -864,11 +863,8 @@ uses
   p_inter,
   p_switch,
   p_ceilng,
-  udmf_ceilng,
   p_plats,
-  udmf_plats,
   p_lights,
-  udmf_lights,
   p_sight,
   p_doors,
   p_floor,
@@ -880,6 +876,10 @@ uses
   p_common,
   p_tick,
   p_udmf,
+  udmf_ceilng,
+  udmf_plats,
+  udmf_lights,
+  udmf_spec,
   s_sound,
 // Data.
   sounddata;
@@ -3522,6 +3522,15 @@ begin
      UDMF_SPECIAL_START + 103: // Scroll_Texture_Down
         sides[line.sidenum[0]].rowoffset := sides[line.sidenum[0]].rowoffset - _SHL(line.arg1, 10);
     end;
+  end;
+
+  // HANDLE LIGHTNING
+  if LevelHasLightning then
+  begin
+    if (NextLightningFlash = 0) or (LightningFlash <> 0) then
+      P_LightningFlash
+    else
+      dec(NextLightningFlash);
   end;
 
   // DO BUTTONS

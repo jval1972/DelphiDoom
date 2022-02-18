@@ -540,29 +540,23 @@ implementation
 
 uses
   d_delphi,
-  r_ripple,
-  h_strings,
-  doomstat,
   doomdata,
+  h_strings,
   i_system,
-  i_io,
   z_zone,
   m_argv,
-  m_rnd,
   w_wad,
   r_data,
   r_main,
+  r_ripple,
   info_h,
   g_game,
   p_setup,
   p_inter,
   p_switch,
   p_ceilng,
-  udmf_ceilng,
   p_plats,
-  udmf_plats,
   p_lights,
-  udmf_lights,
   p_doors,
   p_mobj,
   p_user,
@@ -571,6 +565,10 @@ uses
   p_common,
   p_tick,
   p_udmf,
+  udmf_ceilng,
+  udmf_plats,
+  udmf_lights,
+  udmf_spec,
   tables,
   s_sound,
 // Data.
@@ -588,6 +586,8 @@ type
     speed: integer;
   end;
   Panim_t = ^anim_t;
+  anim_tArray = array[0..$FFFF] of anim_t;
+  Panim_tArray = ^anim_tArray;
 
 //
 //      source animation definition
@@ -599,6 +599,8 @@ type
     speed: integer;
   end;
   Panimdef_t = ^animdef_t;
+  animdef_tArray = array[0..$FFFF] of animdef_t;
+  Panimdef_tArray = ^animdef_tArray;
 
 const
   MAXANIMS = 32;
@@ -1705,6 +1707,15 @@ begin
     end;
   end;
 
+  // HANDLE LIGHTNING
+  if LevelHasLightning then
+  begin
+    if (NextLightningFlash = 0) or (LightningFlash <> 0) then
+      P_LightningFlash
+    else
+      dec(NextLightningFlash);
+  end;
+
   // DO BUTTONS
   button := @buttonlist[0];
   for i := 0 to MAXBUTTONS - 1 do
@@ -1934,6 +1945,7 @@ begin
 
     17:
       begin
+        // fire flickering
         P_SpawnFireFlicker(sector);
       end;
 

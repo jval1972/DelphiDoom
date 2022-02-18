@@ -106,6 +106,25 @@ const
   LIGHTNING_SPECIAL2 = 55;
   {$ENDIF}
 
+var
+  LevelHasLightning: boolean;
+  NextLightningFlash: integer;
+  LightningFlash: integer;
+
+//==============================================================================
+//
+// P_InitLightning
+//
+//==============================================================================
+procedure P_InitLightning;
+
+//==============================================================================
+//
+// P_LightningFlash
+//
+//==============================================================================
+procedure P_LightningFlash;
+  
 implementation
 
 uses
@@ -129,6 +148,7 @@ uses
   p_tick,
   p_udmf,
   po_man,
+  r_sky,
   sounddata,
   s_sound,
   udmf_ceilng,
@@ -211,6 +231,162 @@ begin
     end;
   searchPosition^ := -1;
   result := nil;
+end;
+
+//==============================================================================
+//
+// P_LightningFlash
+//
+//==============================================================================
+procedure P_LightningFlash;
+const
+  SND_THUNDR = 'THUNDR';
+var
+  i: integer;
+  tempSec: Psector_t;
+  foundSec: boolean;
+  flashLight: integer;
+begin
+  if LightningFlash <> 0 then
+  begin
+    dec(LightningFlash);
+    if LightningFlash <> 0 then
+    begin
+      tempSec := @sectors[0];
+      for i := 0 to numsectors - 1 do
+      begin
+        if (tempSec.ceilingpic = skyflatnum) or
+           (tempSec.special = LIGHTNING_SPECIAL) or
+           (tempSec.special = LIGHTNING_SPECIAL2) then
+        begin
+          if tempSec.lightninglightlevel < tempSec.lightlevel - 4 then
+            tempSec.lightlevel := tempSec.lightlevel - 4;
+        end;
+        inc(tempSec);
+      end;
+    end
+    else
+    begin // remove the alternate lightning flash special
+      tempSec := @sectors[0];
+      for i := 0 to numsectors - 1 do
+      begin
+        if (tempSec.ceilingpic = skyflatnum) or
+           (tempSec.special = LIGHTNING_SPECIAL) or
+           (tempSec.special = LIGHTNING_SPECIAL2) then
+        begin
+          tempSec.lightlevel := tempSec.lightninglightlevel;
+        end;
+        inc(tempSec);
+      end;
+      {$IFNDEF STRIFE}
+      skytexture := skytexture1;
+      {$ENDIF}
+    end;
+    exit;
+  end;
+  LightningFlash := (P_Random and 7) + 8;
+  flashLight := 200 + (P_Random and 31);
+  tempSec := @sectors[0];
+  foundSec := false;
+  for i := 0 to numsectors - 1 do
+  begin
+    if (tempSec.ceilingpic = skyflatnum) or
+       (tempSec.special = LIGHTNING_SPECIAL) or
+       (tempSec.special = LIGHTNING_SPECIAL2) then
+    begin
+      tempSec.lightninglightlevel := tempSec.lightlevel;
+      if tempSec.special = LIGHTNING_SPECIAL then
+      begin
+        tempSec.lightlevel := tempSec.lightlevel + 64;
+        if tempSec.lightlevel > flashLight then
+          tempSec.lightlevel := flashLight;
+      end
+      else if tempSec.special = LIGHTNING_SPECIAL2 then
+      begin
+        tempSec.lightlevel := tempSec.lightlevel + 32;
+        if tempSec.lightlevel > flashLight then
+          tempSec.lightlevel := flashLight;
+      end
+      else
+        tempSec.lightlevel := flashLight;
+      if tempSec.lightlevel < tempSec.lightninglightlevel then
+      begin
+        tempSec.lightlevel := tempSec.lightninglightlevel;
+      end;
+      foundSec := true;
+    end;
+    inc(tempSec);
+  end;
+  if foundSec then
+  begin
+    {$IFNDEF STRIFE}
+    skytexture := skytexture2;
+    {$ENDIF}
+    S_StartSound(nil, SND_THUNDR);
+  end;
+  // Calculate the next lighting flash
+  if NextLightningFlash = 0 then
+  begin
+    if P_Random < 50 then
+    begin // Immediate Quick flash
+      NextLightningFlash := (P_Random and 15) + 16;
+    end
+    else
+    begin
+      if (P_Random < 128) and (leveltime and 32 = 0) then
+        NextLightningFlash := ((P_Random and 7) + 2) * TICRATE
+      else
+        NextLightningFlash := ((P_Random and 15) + 5) * TICRATE;
+    end;
+  end;
+end;
+
+//==============================================================================
+//
+// P_ForceLightning
+//
+//==============================================================================
+procedure P_ForceLightning;
+begin
+  NextLightningFlash := 0;
+end;
+
+//==============================================================================
+//
+// P_InitLightning
+//
+//==============================================================================
+procedure P_InitLightning;
+var
+  i: integer;
+  secCount: integer;
+begin
+  {$IFNDEF STRIFE}
+  if (gamemapinfo <> nil) and not gamemapinfo.lightning then
+  begin
+    LevelHasLightning := false;
+    LightningFlash := 0;
+    exit;
+  end;
+  {$ENDIF}
+
+  LightningFlash := 0;
+  secCount := 0;
+  for i := 0 to numsectors - 1 do
+    if (sectors[i].ceilingpic = skyflatnum) or
+       (sectors[i].special = LIGHTNING_SPECIAL) or
+       (sectors[i].special = LIGHTNING_SPECIAL2) then
+      inc(secCount);
+
+  if secCount > 0 then
+    LevelHasLightning := true
+  else
+  begin
+    LevelHasLightning := false;
+    exit;
+  end;
+
+  NextLightningFlash := ((P_Random and 15) + 5) * TICRATE; // don't flash at level start
 end;
 
 //==============================================================================
@@ -738,12 +914,12 @@ begin
         result := EVH_DoFloorAndCeiling(line, args, true);
       end;
 
-{
+
     109: // Force Lightning
       begin
         result := true;
         P_ForceLightning;
-      end;}
+      end;
 
     110: // Light Raise by Value
       begin
