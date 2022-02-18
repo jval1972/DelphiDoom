@@ -247,6 +247,7 @@ UMAPINFO custom field SKYTEXTURE2.
 UMAPINFO custom field LIGHTNING.
 Prevent overflow in P_FindLowestCeilingSurrounding().
 Lightning special effect.
+Added MT_MAPSPOT & MT_MAPSPOTGRAVITY actors.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

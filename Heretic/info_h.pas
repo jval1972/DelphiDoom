@@ -1280,6 +1280,7 @@ type
     S_AMB2_3,
     S_SND_WIND,
     S_SND_WATERFALL,
+    S_NONE,
     DO_NUMSTATES
   );
 
@@ -1495,6 +1496,7 @@ type
     MT_AMBLSRHEFTY,
     MT_SOUNDWIND,
     MT_SOUNDWATERFALL,
+    MT_NONE,
     DO_NUMMOBJTYPES
   );
 
@@ -1582,6 +1584,10 @@ type
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;
+
+var
+  MT_MAPSPOT: integer = -2;
+  MT_MAPSPOTGRAVITY: integer = -2;
 
 implementation
 

@@ -1898,6 +1898,7 @@ type
     S_BLUEBLOOD3,
 
     S_TNT1,
+    S_NONE,
 
     DO_NUMSTATES
   );
@@ -2314,6 +2315,8 @@ type
     MT_PUSH,
     MT_PULL,
 
+    MT_NONE,
+    
     DO_NUMMOBJTYPES
   );
 
@@ -2402,6 +2405,10 @@ type
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;
+
+var
+  MT_MAPSPOT: integer = -2;
+  MT_MAPSPOTGRAVITY: integer = -2;
 
 implementation
 

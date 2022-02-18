@@ -246,6 +246,7 @@ Added MF5_EX_PUSHWALL, MF5_EX_MCROSS, MF5_EX_IMPACT & MF5_EX_PCROSS mobj flags.
 UMAPINFO custom field SKYTEXTURE2.
 UMAPINFO custom field LIGHTNING.
 Lightning special effect.
+Added MT_MAPSPOT & MT_MAPSPOTGRAVITY actors.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

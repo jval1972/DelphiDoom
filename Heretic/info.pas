@@ -68,6 +68,13 @@ var
 //==============================================================================
 procedure Info_Init(const usethinkers: boolean);
 
+//==============================================================================
+//
+// Info_ResolveActordefActors
+//
+//==============================================================================
+procedure Info_ResolveActordefActors;
+
 const
   DEFPUSHFACTOR = FRACUNIT div 4;
 
@@ -14566,7 +14573,19 @@ const
     misc2: 0;                 // misc2
     flags_ex: 0;              // flags_ex
     mbf21bits: 0;             // mbf21bits
-   )                          // S_SND_WATERFALL
+   ),                         // S_SND_WATERFALL
+
+   (
+    sprite: Ord(SPR_TNT1);
+    frame: 0;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_NONE;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;              // flags_ex
+    mbf21bits: 0;             // mbf21bits
+   )                          // S_NONE
 
   );
 
@@ -27048,6 +27067,84 @@ const // Heretic Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+   ),
+
+  ////////////////////////////////////////////////////////////////////////////////
+   ( // MT_NONE
+    name: 'None';                                                               // name
+    inheritsfrom: -1;                                                           // inheritsfrom
+    doomednum: -1;                                                              // doomednum
+    spawnstate: Ord(S_NONE);                                                    // spawnstate
+    spawnhealth: 1000;                                                          // spawnhealth
+    seestate: Ord(S_NULL);                                                      // seestate
+    seesound: Ord(sfx_None);                                                    // seesound
+    reactiontime: 8;                                                            // reactiontime
+    attacksound: Ord(sfx_None);                                                 // attacksound
+    painstate: Ord(S_NULL);                                                     // painstate
+    painchance: 0;                                                              // painchance
+    painsound: Ord(sfx_None);                                                   // painsound
+    meleestate: Ord(S_NULL);                                                    // meleestate
+    missilestate: Ord(S_NULL);                                                  // missilestate
+    deathstate: Ord(S_NULL);                                                    // deathstate
+    xdeathstate: Ord(S_NULL);                                                   // xdeathstate
+    deathsound: Ord(sfx_None);                                                  // deathsound
+    speed: 0;                                                                   // speed
+    radius: 8 * FRACUNIT;                                                       // radius
+    height: 8 * FRACUNIT;                                                       // height
+    mass: 10;                                                                   // mass
+    damage: 0;                                                                  // damage
+    activesound: Ord(sfx_None);                                                 // activesound
+    flags: MF_NOBLOCKMAP;                                                       // flags
+    flags_ex: 0;                                                                // flags_ex
+    flags2_ex: MF2_EX_NOHITFLOOR;                                               // flags2_ex
+    raisestate: Ord(S_NULL);                                                    // raisestate
+    customsound1: Ord(sfx_None);                                                // customsound1
+    customsound2: Ord(sfx_None);                                                // customsound2
+    customsound3: Ord(sfx_None);                                                // customsound3
+    meleesound: Ord(sfx_None);                                                  // meleesound
+    dropitem: 0;                                                                // dropitem
+    missiletype: 0;                                                             // missiletype
+    explosiondamage: 0;                                                         // explosiondamage
+    explosionradius: 0;                                                         // explosionradius
+    meleedamage: 0;                                                             // meleedamage
+    renderstyle: mrs_normal;                                                    // renderstyle
+    alpha: 0;                                                                   // alpha
+    healstate: Ord(S_NULL);                                                     // healstate
+    crashstate: Ord(S_NULL);                                                    // crashstate
+    crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    vspeed: 0;                                                                  // vspeed
+    pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
+    friction: ORIG_FRICTION;                                                    // friction
+    scale: FRACUNIT;                                                            // scale
+    gravity: FRACUNIT;                                                          // gravity
+    flags3_ex: 0;                                                               // flags3_ex
+    flags4_ex: 0;                                                               // flags4_ex
+    minmissilechance: 0;                                                        // minmissilechance
+    floatspeed: 0;                                                              // floatspeed
+    normalspeed: 0;                                                             // normalspeed
+    fastspeed: 0;                                                               // fastspeed
+    obituary: '';                                                               // obituary
+    hitobituary: '';                                                            // hitobituary
+    gender: gender_Default;                                                     // gender
+    meleerange: 0;                                                              // meleerange
+    maxstepheight: 0;                                                           // maxstepheight
+    maxdropoffheight: 0;                                                        // maxdropoffheight
+    gibhealth: 0;                                                               // gibhealth
+    maxtargetrange: 0;                                                          // maxtargetrange
+    WeaveIndexXY: 0;                                                            // WeaveIndexXY
+    WeaveIndexZ: 0;                                                             // WeaveIndexZ
+    spriteDX: 0;                                                                // spriteDX
+    spriteDY: 0;                                                                // spriteDY
+    flags5_ex: 0;                                                               // flags5_ex
+    flags6_ex: 0;                                                               // flags6_ex
+    infighting_group: IG_DEFAULT;                                               // infighting_group
+    projectile_group: PG_DEFAULT;                                               // projectile_group
+    splash_group: SG_DEFAULT;                                                   // splash_group
+    mbf21bits: 0;                                                               // mbf21bits
+    ripsound: 0;                                                                // ripsound
+    bloodcolor: 0;                                                              // bloodcolor
+    translationname: '';                                                        // translationname
    )
 
   );
@@ -27507,6 +27604,20 @@ begin
   states[Ord(S_SND_WATERFALL)].action.acp1 := @A_ESound;
 
   Info_InitExportCommands;
+end;
+
+//==============================================================================
+// Info_ResolveActordefActors
+//
+// Must be called after parsing ACTORDEF lumps
+//
+//==============================================================================
+procedure Info_ResolveActordefActors;
+begin
+  if not Info_ResolveMobjType('MT_MAPSPOT', @MT_MAPSPOT) then
+    MT_MAPSPOT := Ord(MT_NONE);
+  if not Info_ResolveMobjType('MT_MAPSPOTGRAVITY', @MT_MAPSPOTGRAVITY) then
+    MT_MAPSPOTGRAVITY := Ord(MT_NONE);
 end;
 
 end.

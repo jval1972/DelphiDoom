@@ -13037,7 +13037,7 @@ const
     misc2: 0;
     flags_ex: 0;              // flags_ex
     mbf21bits: 0;             // mbf21bits
-   ),                          // S_MUSHROOM
+   ),                         // S_MUSHROOM
 
    (
     sprite: Ord(SPR_TNT1);
@@ -13049,7 +13049,7 @@ const
     misc2: 0;
     flags_ex: 0;              // flags_ex
     mbf21bits: 0;             // mbf21bits
-   )                           // S_NONE
+   )                          // S_NONE
 
   );
 
@@ -25150,6 +25150,10 @@ begin
     MT_GREENGIBS := Ord(MT_NONE);
   if not Info_ResolveMobjType('MT_BLUEGIBS', @MT_BLUEGIBS) then
     MT_BLUEGIBS := Ord(MT_NONE);
+  if not Info_ResolveMobjType('MT_MAPSPOT', @MT_MAPSPOT) then
+    MT_MAPSPOT := Ord(MT_NONE);
+  if not Info_ResolveMobjType('MT_MAPSPOTGRAVITY', @MT_MAPSPOTGRAVITY) then
+    MT_MAPSPOTGRAVITY := Ord(MT_NONE);
 end;
 
 end.

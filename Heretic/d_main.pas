@@ -2203,6 +2203,9 @@ begin
   D_AddDEHFiles('-deh');
   D_AddDEHFiles('-bex');
 
+  // JVAL: 20210108 - Must be called after parsing ACTORDEF lumps
+  Info_ResolveActordefActors;
+
   printf('Info_CheckStates: Check states tables'#13#10);
   Info_CheckStates;
 
@@ -2261,7 +2264,7 @@ begin
   // UMAPINFO must be parsed after intializing the menus
   printf('U_ParseMapInfo: Parsing UMAPINFO lumps.'#13#10);
   U_ParseMapInfo(False, 'UMAPINFO');
-      
+
   SUC_Progress(59);
 
   printf('D_IdentifyGameDirectories: Identify game directories.'#13#10);

@@ -627,6 +627,8 @@ var
   MT_BLUEBLOOD: integer = -2;
   MT_GREENGIBS: integer = -2;
   MT_BLUEGIBS: integer = -2;
+  MT_MAPSPOT: integer = -2;
+  MT_MAPSPOTGRAVITY: integer = -2;
 
 implementation
 
