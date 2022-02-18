@@ -170,6 +170,7 @@ uses
   i_system,
   i_tmp,
   p_3dfloors,
+  p_acs,
   p_local,
   p_playertrace,
   p_pspr_h,
@@ -196,6 +197,11 @@ uses
   r_data,
   r_translations,
   sv_heretic,
+  udmf_ceilng,
+  udmf_doors,
+  udmf_floor,
+  udmf_lights,
+  udmf_plats,
   w_wad,
   z_zone;
 
@@ -536,7 +542,7 @@ begin
     // JVAL: 20220218 - Store lightninglightlevel
     PInteger(put)^ := sec.lightninglightlevel;
     put := @put[2];
-    
+
     inc(i);
   end;
 
@@ -1362,6 +1368,19 @@ type
     tc_strobe,
     tc_glow,
     tc_fireflicker, // JVAL 20171211 correct T_FireFlicker savegame bug
+    tc_endspecials206,
+    tch_movefloor,
+    tch_platraise,
+    tch_moveceiling,
+    tch_light,
+    tch_verticaldoor,
+    tch_phase,
+    tch_interpretacs,
+    tch_rotatepoly,
+    tch_buildpillar,
+    tch_movepoly,
+    tch_polydoor,
+    tch_floorwaggle,
     tc_endspecials
   );
 
@@ -1391,7 +1410,23 @@ var
   strobe: Pstrobe_t;
   glow: Pglow_t;
   flicker: Pfireflicker_t;
+  light: Plight_t;
+  phase: Pphase_t;
+  acs: Pacs_t;
+  polyevent: Ppolyevent_t;
+  pillar: Ppillar_t;
+  polydoor: Ppolydoor_t;
+  floorwaggle: PfloorWaggle_t;
   i: integer;
+
+  function _savesector(const sec: Psector_t): Psector_t;
+  begin
+    if sec <> nil then
+      result := Psector_t(pDiff(door.sector, sectors, SizeOf(sector_t)))
+    else
+      result := Psector_t(-1);
+  end;
+
 begin
   // save off the current thinkers
   th1 := thinkercap.next;
@@ -1420,8 +1455,30 @@ begin
         ceiling := Pceiling_t(save_p);
         memcpy(ceiling, th, SizeOf(ceiling_t));
         incp(pointer(save_p), SizeOf(ceiling_t));
-        ceiling.sector := Psector_t(pDiff(ceiling.sector, @sectors[0], SizeOf(sector_t)));
+        ceiling.sector := Psector_t(pDiff(ceiling.sector, sectors, SizeOf(sector_t)));
+        continue;
       end;
+
+      // JVAL: 20220218 - Handle hactiveceilings
+      i := 0;
+      while i < MAXCEILINGS do
+      begin
+        if hactiveceilings[i] = Pceiling_t(th) then
+          break;
+        inc(i);
+      end;
+
+      if i < MAXCEILINGS then
+      begin
+        save_p[0] := Ord(tch_moveceiling);
+        save_p := @save_p[1];
+        PADSAVEP;
+        ceiling := Pceiling_t(save_p);
+        memcpy(ceiling, th, SizeOf(ceiling_t));
+        incp(pointer(save_p), SizeOf(ceiling_t));
+        ceiling.sector := _savesector(ceiling.sector);
+      end;
+
       continue;
     end;
 
@@ -1433,7 +1490,7 @@ begin
       ceiling := Pceiling_t(save_p);
       memcpy(ceiling, th, SizeOf(ceiling_t));
       incp(pointer(save_p), SizeOf(ceiling_t));
-      ceiling.sector := Psector_t(pDiff(ceiling.sector, @sectors[0], SizeOf(sector_t)));
+      ceiling.sector := Psector_t(pDiff(ceiling.sector, sectors, SizeOf(sector_t)));
       continue;
     end;
 
@@ -1445,7 +1502,7 @@ begin
       door := Pvldoor_t(save_p);
       memcpy(door, th, SizeOf(vldoor_t));
       incp(pointer(save_p), SizeOf(vldoor_t));
-      door.sector := Psector_t(pDiff(door.sector, @sectors[0], SizeOf(sector_t)));
+      door.sector := Psector_t(pDiff(door.sector, sectors, SizeOf(sector_t)));
       continue;
     end;
 
@@ -1457,7 +1514,7 @@ begin
       floor := Pfloormove_t(save_p);
       memcpy(floor, th, SizeOf(floormove_t));
       incp(pointer(save_p), SizeOf(floormove_t));
-      floor.sector := Psector_t(pDiff(floor.sector, @sectors[0], SizeOf(sector_t)));
+      floor.sector := Psector_t(pDiff(floor.sector, sectors, SizeOf(sector_t)));
       continue;
     end;
 
@@ -1469,7 +1526,7 @@ begin
       plat := Pplat_t(save_p);
       memcpy(plat, th, SizeOf(plat_t));
       incp(pointer(save_p), SizeOf(plat_t));
-      plat.sector := Psector_t(pDiff(plat.sector, @sectors[0], SizeOf(sector_t)));
+      plat.sector := Psector_t(pDiff(plat.sector, sectors, SizeOf(sector_t)));
       continue;
     end;
 
@@ -1481,7 +1538,7 @@ begin
       flash := Plightflash_t(save_p);
       memcpy(flash, th, SizeOf(lightflash_t));
       incp(pointer(save_p), SizeOf(lightflash_t));
-      flash.sector := Psector_t(pDiff(flash.sector, @sectors[0], SizeOf(sector_t)));
+      flash.sector := Psector_t(pDiff(flash.sector, sectors, SizeOf(sector_t)));
       continue;
     end;
 
@@ -1493,7 +1550,7 @@ begin
       strobe := Pstrobe_t(save_p);
       memcpy(strobe, th, SizeOf(strobe_t));
       incp(pointer(save_p), SizeOf(strobe_t));
-      strobe.sector := Psector_t(pDiff(strobe.sector, @sectors[0], SizeOf(sector_t)));
+      strobe.sector := Psector_t(pDiff(strobe.sector, sectors, SizeOf(sector_t)));
       continue;
     end;
 
@@ -1521,6 +1578,153 @@ begin
       continue;
     end;
 
+    // JVAL: 20220218 - Handle UDMF special effects
+    if @th._function.acp1 = @TH_MoveFloor then
+    begin
+      save_p[0] := Ord(tch_movefloor);
+      save_p := @save_p[1];
+      PADSAVEP;
+      floor := Pfloormove_t(save_p);
+      memcpy(floor, th, SizeOf(floormove_t));
+      incp(pointer(save_p), SizeOf(floormove_t));
+      floor.sector := _savesector(floor.sector);
+      continue;
+    end;
+
+    if @th._function.acp1 = @TH_PlatRaise then
+    begin
+      save_p[0] := Ord(tch_platraise);
+      save_p := @save_p[1];
+      PADSAVEP;
+      plat := Pplat_t(save_p);
+      memcpy(plat, th, SizeOf(plat_t));
+      incp(pointer(save_p), SizeOf(plat_t));
+      plat.sector := _savesector(plat.sector);
+      continue;
+    end;
+
+    if @th._function.acp1 = @TH_MoveCeiling then
+    begin
+      save_p[0] := Ord(tch_moveceiling);
+      save_p := @save_p[1];
+      PADSAVEP;
+      ceiling := Pceiling_t(save_p);
+      memcpy(ceiling, th, SizeOf(ceiling_t));
+      incp(pointer(save_p), SizeOf(ceiling_t));
+      ceiling.sector := _savesector(ceiling.sector);
+      continue;
+    end;
+
+    if @th._function.acp1 = @TH_Light then
+    begin
+      save_p[0] := Ord(tch_light);
+      save_p := @save_p[1];
+      PADSAVEP;
+      light := Plight_t(save_p);
+      memcpy(light, th, SizeOf(light_t));
+      incp(pointer(save_p), SizeOf(light_t));
+      light.sector := _savesector(light.sector);
+      continue;
+    end;
+
+    if @th._function.acp1 = @TH_VerticalDoor then
+    begin
+      save_p[0] := Ord(tch_verticaldoor);
+      save_p := @save_p[1];
+      PADSAVEP;
+      door := Pvldoor_t(save_p);
+      memcpy(door, th, SizeOf(vldoor_t));
+      incp(pointer(save_p), SizeOf(vldoor_t));
+      door.sector := _savesector(door.sector);
+      continue;
+    end;
+
+    if @th._function.acp1 = @TH_Phase then
+    begin
+      save_p[0] := Ord(tch_phase);
+      save_p := @save_p[1];
+      PADSAVEP;
+      phase := Pphase_t(save_p);
+      memcpy(phase, th, SizeOf(phase_t));
+      incp(pointer(save_p), SizeOf(phase_t));
+      phase.sector := _savesector(phase.sector);
+      continue;
+    end;
+
+    if @th._function.acp1 = @TH_InterpretACS then
+    begin
+      save_p[0] := Ord(tch_interpretacs);
+      save_p := @save_p[1];
+      PADSAVEP;
+      acs := Pacs_t(save_p);
+      memcpy(acs, th, SizeOf(acs_t));
+      incp(pointer(save_p), SizeOf(acs_t));
+      acs.ip := PInteger(LongWord(acs.ip) - LongWord(ActionCodeBase));
+      if acs.line <> nil then
+        acs.line := Pline_t(pDiff(acs.line, lines, SizeOf(line_t)))
+      else
+        acs.line := Pline_t(-1);
+      acs.activator := Pmobj_t(acs.activator.key);
+      continue;
+    end;
+
+    if @th._function.acp1 = @TH_RotatePoly then
+    begin
+      save_p[0] := Ord(tch_rotatepoly);
+      save_p := @save_p[1];
+      PADSAVEP;
+      polyevent := Ppolyevent_t(save_p);
+      memcpy(polyevent, th, SizeOf(polyevent_t));
+      incp(pointer(save_p), SizeOf(polyevent_t));
+      continue;
+    end;
+
+    if @th._function.acp1 = @TH_BuildPillar then
+    begin
+      save_p[0] := Ord(tch_buildpillar);
+      save_p := @save_p[1];
+      PADSAVEP;
+      pillar := Ppillar_t(save_p);
+      memcpy(pillar, th, SizeOf(pillar_t));
+      incp(pointer(save_p), SizeOf(pillar_t));
+      pillar.sector := _savesector(pillar.sector);
+      continue;
+    end;
+
+    if @th._function.acp1 = @TH_MovePoly then
+    begin
+      save_p[0] := Ord(tch_movepoly);
+      save_p := @save_p[1];
+      PADSAVEP;
+      polyevent := Ppolyevent_t(save_p);
+      memcpy(polyevent, th, SizeOf(polyevent_t));
+      incp(pointer(save_p), SizeOf(polyevent_t));
+      continue;
+    end;
+
+    if @th._function.acp1 = @TH_PolyDoor then
+    begin
+      save_p[0] := Ord(tch_polydoor);
+      save_p := @save_p[1];
+      PADSAVEP;
+      polydoor := Ppolydoor_t(save_p);
+      memcpy(polydoor, th, SizeOf(polydoor_t));
+      incp(pointer(save_p), SizeOf(polydoor_t));
+      continue;
+    end;
+
+    if @th._function.acp1 = @TH_FloorWaggle then
+    begin
+      save_p[0] := Ord(tch_floorwaggle);
+      save_p := @save_p[1];
+      PADSAVEP;
+      floorwaggle := PfloorWaggle_t(save_p);
+      memcpy(floorwaggle, th, SizeOf(floorWaggle_t));
+      incp(pointer(save_p), SizeOf(floorWaggle_t));
+      floorwaggle.sector := _savesector(floorwaggle.sector);
+      continue;
+    end;
+
   end;
   // add a terminating marker
   save_p[0] := Ord(tc_endspecials);
@@ -1544,6 +1748,22 @@ var
   strobe: Pstrobe_t;
   glow: Pglow_t;
   flicker: Pfireflicker_t;
+  light: Plight_t;
+  phase: Pphase_t;
+  acs: Pacs_t;
+  polyevent: Ppolyevent_t;
+  pillar: Ppillar_t;
+  polydoor: Ppolydoor_t;
+  floorwaggle: PfloorWaggle_t;
+
+  function _restoresector(const sec: Psector_t): Psector_t;
+  begin
+    if sec = Psector_t(-1) then
+      result := nil
+    else
+      result := @sectors[integer(sec)];
+  end;
+
 begin
   // read in saved thinkers
   while true do
@@ -1553,6 +1773,8 @@ begin
     case tclass of
       Ord(tc_endspecials):
         exit; // end of list
+      Ord(tc_endspecials206):
+        exit; // end of list (VERSION <= 206)
 
       Ord(tc_ceiling):
         begin
@@ -1670,9 +1892,199 @@ begin
           flicker := Z_Malloc(SizeOf(fireflicker_t), PU_LEVEL, nil);
           memcpy(flicker, save_p, SizeOf(fireflicker_t));
           incp(pointer(save_p), SizeOf(fireflicker_t));
+
           @flicker.thinker._function.acp1 := @T_FireFlicker;
           flicker.sector := @sectors[integer(flicker.sector)];
           P_AddThinker(@flicker.thinker);
+        end;
+
+      // JVAL: 20220218 - Handle UDMF special effects
+      Ord(tch_moveceiling):
+        begin
+          PADSAVEP;
+          ceiling := Z_Malloc(SizeOf(ceiling_t), PU_LEVEL, nil);
+          memcpy(ceiling, save_p, SizeOf(ceiling_t));
+          incp(pointer(save_p), SizeOf(ceiling_t));
+          ceiling.sector := _restoresector(ceiling.sector);
+          if ceiling.sector <> nil then
+            ceiling.sector.specialdata := ceiling;
+
+          if Assigned(ceiling.thinker._function.acp1) then
+            @ceiling.thinker._function.acp1 := @TH_MoveCeiling;
+
+          P_AddThinker(@ceiling.thinker);
+          PH_AddActiveCeiling(ceiling);
+        end;
+
+      Ord(tch_movefloor):
+        begin
+          PADSAVEP;
+          floor := Z_Malloc(SizeOf(floormove_t), PU_LEVEL, nil);
+          memcpy(floor, save_p, SizeOf(floormove_t));
+          incp(pointer(save_p), SizeOf(floormove_t));
+          floor.sector := _restoresector(floor.sector);
+          if floor.sector <> nil then
+            floor.sector.specialdata := floor;
+
+          if Assigned(floor.thinker._function.acp1) then
+            @floor.thinker._function.acp1 := @TH_MoveFloor;
+
+          P_AddThinker(@floor.thinker);
+        end;
+
+      Ord(tch_platraise):
+        begin
+          PADSAVEP;
+          plat := Z_Malloc(SizeOf(plat_t), PU_LEVEL, nil);
+          memcpy(plat, save_p, SizeOf(plat_t));
+          incp(pointer(save_p), SizeOf(plat_t));
+          plat.sector := _restoresector(plat.sector);
+          if plat.sector <> nil then
+            plat.sector.specialdata := plat;
+
+          if Assigned(plat.thinker._function.acp1) then
+            @plat.thinker._function.acp1 := @TH_PlatRaise;
+
+          P_AddThinker(@plat.thinker);
+          PH_AddActivePlat(plat);
+        end;
+
+      Ord(tch_light):
+        begin
+          PADSAVEP;
+          light := Z_Malloc(SizeOf(light_t), PU_LEVEL, nil);
+          memcpy(light, save_p, SizeOf(light_t));
+          incp(pointer(save_p), SizeOf(light_t));
+          light.sector := _restoresector(light.sector);
+          {if light.sector <> nil then
+            light.sector.specialdata := light;}
+
+          if Assigned(light.thinker._function.acp1) then
+            @light.thinker._function.acp1 := @TH_Light;
+
+          P_AddThinker(@light.thinker);
+        end;
+
+      Ord(tch_verticaldoor):
+        begin
+          PADSAVEP;
+          door := Z_Malloc(SizeOf(vldoor_t), PU_LEVEL, nil);
+          memcpy(door, save_p, SizeOf(vldoor_t));
+          incp(pointer(save_p), SizeOf(vldoor_t));
+          door.sector := _restoresector(door.sector);
+          if door.sector <> nil then
+            door.sector.specialdata := door;
+
+          if Assigned(door.thinker._function.acp1) then
+            @door.thinker._function.acp1 := @TH_VerticalDoor;
+
+          P_AddThinker(@door.thinker);
+        end;
+
+      Ord(tch_phase):
+        begin
+          PADSAVEP;
+          phase := Z_Malloc(SizeOf(phase_t), PU_LEVEL, nil);
+          memcpy(phase, save_p, SizeOf(phase_t));
+          incp(pointer(save_p), SizeOf(phase_t));
+          phase.sector := _restoresector(phase.sector);
+          {if phase.sector <> nil then
+            phase.sector.specialdata := phase;}
+
+          if Assigned(phase.thinker._function.acp1) then
+            @phase.thinker._function.acp1 := @TH_Phase;
+
+          P_AddThinker(@phase.thinker);
+        end;
+
+      Ord(tch_interpretacs):
+        begin
+          PADSAVEP;
+          acs := Z_Malloc(SizeOf(acs_t), PU_LEVEL, nil);
+          memcpy(acs, save_p, SizeOf(acs_t));
+          incp(pointer(save_p), SizeOf(acs_t));
+          acs.ip := @ActionCodeBase[integer(acs.ip)];
+          if integer(acs.line) = -1 then
+            acs.line := nil
+          else
+            acs.line := @lines[integer(acs.line)];
+          acs.activator := P_FindMobjFromKey(integer(acs.activator));
+
+          if Assigned(acs.thinker._function.acp1) then
+            @acs.thinker._function.acp1 := @TH_InterpretACS;
+
+          P_AddThinker(@acs.thinker);
+        end;
+
+      Ord(tch_rotatepoly):
+        begin
+          PADSAVEP;
+          polyevent := Z_Malloc(SizeOf(polyevent_t), PU_LEVEL, nil);
+          memcpy(polyevent, save_p, SizeOf(polyevent_t));
+          incp(pointer(save_p), SizeOf(polyevent_t));
+
+          if Assigned(polyevent.thinker._function.acp1) then
+            @polyevent.thinker._function.acp1 := @TH_RotatePoly;
+
+          P_AddThinker(@polyevent.thinker);
+        end;
+
+      Ord(tch_buildpillar):
+        begin
+          PADSAVEP;
+          pillar := Z_Malloc(SizeOf(pillar_t), PU_LEVEL, nil);
+          memcpy(pillar, save_p, SizeOf(pillar_t));
+          incp(pointer(save_p), SizeOf(pillar_t));
+          pillar.sector := _restoresector(pillar.sector);
+          if pillar.sector <> nil then
+            pillar.sector.specialdata := pillar;
+
+          if Assigned(pillar.thinker._function.acp1) then
+            @pillar.thinker._function.acp1 := @TH_BuildPillar;
+
+          P_AddThinker(@pillar.thinker);
+        end;
+
+      Ord(tch_movepoly):
+        begin
+          PADSAVEP;
+          polyevent := Z_Malloc(SizeOf(polyevent_t), PU_LEVEL, nil);
+          memcpy(polyevent, save_p, SizeOf(polyevent_t));
+          incp(pointer(save_p), SizeOf(polyevent_t));
+
+          if Assigned(polyevent.thinker._function.acp1) then
+            @polyevent.thinker._function.acp1 := @TH_MovePoly;
+
+          P_AddThinker(@polyevent.thinker);
+        end;
+
+      Ord(tch_polydoor):
+        begin
+          PADSAVEP;
+          polydoor := Z_Malloc(SizeOf(polydoor_t), PU_LEVEL, nil);
+          memcpy(polydoor, save_p, SizeOf(polydoor_t));
+          incp(pointer(save_p), SizeOf(polydoor_t));
+
+          if Assigned(polydoor.thinker._function.acp1) then
+            @polydoor.thinker._function.acp1 := @TH_PolyDoor;
+
+          P_AddThinker(@polydoor.thinker);
+        end;
+
+      Ord(tch_floorwaggle):
+        begin
+          PADSAVEP;
+          floorwaggle := Z_Malloc(SizeOf(floorWaggle_t), PU_LEVEL, nil);
+          memcpy(floorwaggle, save_p, SizeOf(floorWaggle_t));
+          incp(pointer(save_p), SizeOf(floorWaggle_t));
+          floorwaggle.sector := _restoresector(floorwaggle.sector);
+          if floorwaggle.sector <> nil then
+            floorwaggle.sector.specialdata := floorwaggle;
+
+          if Assigned(floorwaggle.thinker._function.acp1) then
+            @floorwaggle.thinker._function.acp1 := @TH_FloorWaggle;
+
+          P_AddThinker(@floorwaggle.thinker);
         end;
 
       else
