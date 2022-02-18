@@ -546,7 +546,7 @@ begin
     Pmoreids_t(put)^ := sec.moreids;
     put := @put[SizeOf(moreids_t)];
 
-    // JVAL: 20200214 - Store seqType
+    // JVAL: 20220214 - Store seqType
     PInteger(put)^ := sec.seqType;
     put := @put[2];
 
