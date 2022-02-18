@@ -890,7 +890,10 @@ var
   check: Pline_t;
   other: Psector_t;
 begin
-  result := MAXINT;
+  if G_PlayingEngineVersion > VERSION207 then
+    result := 32000 * FRACUNIT
+  else
+    result := MAXINT;
 
   for i := 0 to sec.linecount - 1 do
   begin
