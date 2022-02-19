@@ -502,45 +502,46 @@ begin
   sec := @sectors[0];
   for i := 0 to numsectors - 1 do
   begin
-    if sec.renderflags and SRF_NO_INTERPOLATE = 0 then
-    begin
-      // JVAL: 20220107 - Auto fix instant moving sectors
-      //  See also: https://www.doomworld.com/forum/topic/110185-eternity-uncapped-framerate-issue/?tab=comments#comment-2044505
-      R_AddInterpolationItem(@sec.floorheight, iinteger2);
-      R_AddInterpolationItem(@sec.ceilingheight, iinteger2);
-      R_AddInterpolationItem(@sec.lightlevel, ismallint);
-      {$IFDEF DOOM_OR_STRIFE}
-      // JVAL: 30/9/2009
-      // JVAL: 9/11/2015 Added strife offsets
-      R_AddInterpolationItem(@sec.floor_xoffs, iinteger2);
-      R_AddInterpolationItem(@sec.floor_yoffs, iinteger2);
-      R_AddInterpolationItem(@sec.ceiling_xoffs, iinteger2);
-      R_AddInterpolationItem(@sec.ceiling_yoffs, iinteger2);
-      {$ENDIF}
-      if sec.renderflags and SRF_INTERPOLATE_ROTATE <> 0 then
+    if sec.rendervalidcount = rendervalidcount then
+      if sec.renderflags and SRF_NO_INTERPOLATE = 0 then
       begin
-        R_AddInterpolationItem(@sec.floorangle, iangle);
-        R_AddInterpolationItem(@sec.flooranglex, iinteger);
-        R_AddInterpolationItem(@sec.floorangley, iinteger);
-        R_AddInterpolationItem(@sec.ceilingangle, iangle);
-        R_AddInterpolationItem(@sec.ceilinganglex, iinteger);
-        R_AddInterpolationItem(@sec.ceilingangley, iinteger);
+        // JVAL: 20220107 - Auto fix instant moving sectors
+        //  See also: https://www.doomworld.com/forum/topic/110185-eternity-uncapped-framerate-issue/?tab=comments#comment-2044505
+        R_AddInterpolationItem(@sec.floorheight, iinteger2);
+        R_AddInterpolationItem(@sec.ceilingheight, iinteger2);
+        R_AddInterpolationItem(@sec.lightlevel, ismallint);
+        {$IFDEF DOOM_OR_STRIFE}
+        // JVAL: 30/9/2009
+        // JVAL: 9/11/2015 Added strife offsets
+        R_AddInterpolationItem(@sec.floor_xoffs, iinteger2);
+        R_AddInterpolationItem(@sec.floor_yoffs, iinteger2);
+        R_AddInterpolationItem(@sec.ceiling_xoffs, iinteger2);
+        R_AddInterpolationItem(@sec.ceiling_yoffs, iinteger2);
+        {$ENDIF}
+        if sec.renderflags and SRF_INTERPOLATE_ROTATE <> 0 then
+        begin
+          R_AddInterpolationItem(@sec.floorangle, iangle);
+          R_AddInterpolationItem(@sec.flooranglex, iinteger);
+          R_AddInterpolationItem(@sec.floorangley, iinteger);
+          R_AddInterpolationItem(@sec.ceilingangle, iangle);
+          R_AddInterpolationItem(@sec.ceilinganglex, iinteger);
+          R_AddInterpolationItem(@sec.ceilingangley, iinteger);
+        end;
+        if sec.renderflags and SRF_INTERPOLATE_FLOORSLOPE <> 0 then
+        begin
+          R_AddInterpolationItem(@sec.fa, ifloat);
+          R_AddInterpolationItem(@sec.fb, ifloat);
+          R_AddInterpolationItem(@sec.fd, ifloat);
+          R_AddInterpolationItem(@sec.fic, ifloat);
+        end;
+        if sec.renderflags and SRF_INTERPOLATE_CEILINGSLOPE <> 0 then
+        begin
+          R_AddInterpolationItem(@sec.ca, ifloat);
+          R_AddInterpolationItem(@sec.cb, ifloat);
+          R_AddInterpolationItem(@sec.cd, ifloat);
+          R_AddInterpolationItem(@sec.cic, ifloat);
+        end;
       end;
-      if sec.renderflags and SRF_INTERPOLATE_FLOORSLOPE <> 0 then
-      begin
-        R_AddInterpolationItem(@sec.fa, ifloat);
-        R_AddInterpolationItem(@sec.fb, ifloat);
-        R_AddInterpolationItem(@sec.fd, ifloat);
-        R_AddInterpolationItem(@sec.fic, ifloat);
-      end;
-      if sec.renderflags and SRF_INTERPOLATE_CEILINGSLOPE <> 0 then
-      begin
-        R_AddInterpolationItem(@sec.ca, ifloat);
-        R_AddInterpolationItem(@sec.cb, ifloat);
-        R_AddInterpolationItem(@sec.cd, ifloat);
-        R_AddInterpolationItem(@sec.cic, ifloat);
-      end;
-    end;
     inc(sec);
   end;
 

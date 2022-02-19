@@ -249,6 +249,7 @@ Prevent overflow in P_FindLowestCeilingSurrounding().
 Lightning special effect.
 Added MT_MAPSPOT & MT_MAPSPOTGRAVITY actors.
 Fix wrong coordinates check in sight check.
+Interpolate only the sectors touched by the renderer in uncapped framerate.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
