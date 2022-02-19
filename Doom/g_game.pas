@@ -3709,7 +3709,7 @@ begin
 
   if (map[1] = 'E') and (map[3] = 'M') then
   begin
-    if len = 5 then
+    if len = 4 then
     begin
       if not isdigit(map[2]) then
         exit;
