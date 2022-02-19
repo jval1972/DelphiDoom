@@ -634,7 +634,7 @@ begin
           end
           else
           begin // open back up and rewait
-            pd.dist := pd.totalDist-pd.dist;
+            pd.dist := pd.totalDist - pd.dist;
             pd.speed := -pd.speed;
             pd.close := false;
             {$IFDEF HEXEN}
