@@ -460,7 +460,7 @@ begin
   begin
     result := ParseLumpName(sc, mape.levelpic);
   end
-  else if pname = 'SKYTEXTURE' then
+  else if (pname = 'SKYTEXTURE')  or (pname = 'SKYTEXTURE1') then
   begin
     result := ParseLumpName(sc, mape.skytexture);
   end
