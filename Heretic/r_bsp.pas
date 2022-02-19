@@ -785,6 +785,8 @@ var
   line: Pseg_t;
   i_line: integer;
   sub: Psubsector_t;
+  polyCount: integer;
+  polySeg: PPseg_t;
   floorlightlevel: smallint;  // JVAL: 3d Floors
   floorrenderflags: LongWord;
 {$IFDEF OPENGL}
@@ -958,6 +960,24 @@ begin
 {$ENDIF}
 
   R_AddSprites(frontsector);
+
+  if sub.poly <> nil then
+  begin // Render the polyobj in the subsector first
+    polyCount := Ppolyobj_t(sub.poly).numsegs;
+    polySeg := Ppolyobj_t(sub.poly).segs;
+    while polyCount > 0 do
+    begin
+      {$IFDEF OPENGL}
+      if not polySeg^.miniseg then
+        gld_AddWall(polySeg^, true, frontsector);
+      {$ELSE}
+      if not polySeg^.miniseg then
+        R_AddLine(polySeg^);
+      {$ENDIF}
+      inc(polySeg);
+      dec(polyCount);
+    end;
+  end;
 
 {$IFDEF OPENGL}
   if gl_add_all_lines then
