@@ -513,6 +513,8 @@ begin
   result := P_CrossBSPNode(bsp.children[side xor 1], los);
 end;
 
+//==============================================================================
+//
 // P_CrossVanillaSubsector
 // Returns true
 //  if strace crosses the given subsector successfully.
@@ -634,6 +636,8 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
 // P_CrossVanillaBSPNode
 // Returns true
 //  if strace crosses the given node successfully.
