@@ -205,8 +205,7 @@ uses
   tables,
   sounddata,
   udmf_telept,
-  s_sound,
-  doomdef;
+  s_sound;
 
 //==============================================================================
 //

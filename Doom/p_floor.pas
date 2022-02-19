@@ -108,7 +108,6 @@ uses
   g_game,
   p_map,
   p_tick,
-  p_mobj_h,
   p_setup,
   p_slopes,
   r_data;

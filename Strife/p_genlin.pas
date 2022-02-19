@@ -321,10 +321,8 @@ implementation
 uses
   d_delphi,
   doomdef,
-  g_game,
   m_fixed,
   m_rnd,
-  p_mobj_h,
   p_ceilng,
   p_doors,
   p_floor,

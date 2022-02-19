@@ -38,7 +38,6 @@ uses
   doomdef,
   xn_strings,
   sounddata,
-  doomstat,
   m_fixed,
   i_system,
   am_map,
@@ -298,7 +297,6 @@ uses
   p_pspr_h,
   p_tick,
   p_user,
-  p_enemy,
   p_spec,
   p_acs,
   ps_main, // JVAL: Script Events

@@ -130,11 +130,11 @@ uses
   i_system,
   p_map,
   p_tick,
-  p_mobj_h,
   p_setup,
   p_slopes,
   udmf_ceilng,
   {$IFDEF HEXEN}
+  p_mobj_h,
   s_sndseq,
   {$ELSE}
   s_sound,

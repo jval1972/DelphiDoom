@@ -96,7 +96,6 @@ uses
   doomdef,
   m_fixed,
   m_rnd,
-  p_mobj_h,
   p_tick,
   p_floor,
   p_setup,

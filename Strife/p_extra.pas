@@ -237,30 +237,22 @@ procedure A_UnSetFloorClip(actor: Pmobj_t);
 implementation
 
 uses
-  d_delphi,
   doomdef,
   d_player,
   g_game,
-  i_system,
   info_h,
   info,
   info_common,
   r_defs,
   m_rnd,
-  m_vectors,
   p_enemy,
   p_mobj,
   p_inter,
   p_user,
   p_map,
-  p_maputl,
   p_local,
-  p_pspr,
   p_sounds,
   p_terrain,
-  sounds,
-  s_sound,
-  sc_states,
   p_common,
   tables;
 
