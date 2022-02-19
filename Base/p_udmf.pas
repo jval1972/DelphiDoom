@@ -54,13 +54,15 @@ const
   ML_VERTEX2 = ML_UDMFSTART + 2;
   ML_LINEDEF2 = ML_UDMFSTART + 3;
   ML_SIDEDEF2 = ML_UDMFSTART + 4;
-  ML_NUMUDMFLUMPS = ML_UDMFSTART + 5;
+  ML_NSPACE = ML_UDMFSTART + 5;
+  ML_NUMUDMFLUMPS = ML_UDMFSTART + 6;
 
   MLN_THINGS2 = 'THINGS2';
   MLN_SECTORS2 = 'SECTORS2';
   MLN_VERTEX2 = 'VERTEX2';
   MLN_LINEDEF2 = 'LINEDEF2';
   MLN_SIDEDEF2 = 'SIDEDEF2';
+  MLN_NSPACE = 'NSPACE';
 
 const
   UDMF_TF_SKILL1 = 1;
@@ -218,6 +220,8 @@ var
   udmfsidedefs: Pextraside_tArray;
   numudmfsidedefs: integer;
   hasudmfdata: boolean;
+  udmfnamespace: string;
+  udmflinetranslate: boolean;
 
 //==============================================================================
 //
@@ -298,6 +302,9 @@ type
     fmapsectors: Pmapsector_tArray;
     fextrasectors: Pextrasector_tArray;
     fnummapsectors: integer;
+    // Namespace
+    fnamespace: string;
+    flinetranslate: boolean;
     function _udmfPreproccessor(atext: string): string;
   public
     constructor Create; virtual;
@@ -306,6 +313,7 @@ type
     procedure SaveUDMFToVanilla(const amapname: string; const afilename: string;const bl, sl: integer);
     procedure Clear;
     destructor Destroy; override;
+    property namespace: string read fnamespace;
   end;
 
 constructor TUDMFManager.Create;
@@ -325,6 +333,8 @@ begin
   fmapsectors := nil;
   fextrasectors := nil;
   fnummapsectors := 0;
+  fnamespace := '';
+  flinetranslate := false;
 end;
 
 //==============================================================================
@@ -621,10 +631,13 @@ var
       begin
         sc.MustGetInteger;
         pextrathing.special := sc._Integer;
-        if IsIntegerInRange(pextrathing.special and 1023, 1, UDMF_NORMAL_ADD) then
-          pextrathing.special := (pextrathing.special and 1023 + UDMF_SPECIAL_START) or (pextrathing.special and not 1023)
-        else if IsIntegerInRange(pextrathing.special and 1023, UDMF_NORMAL_ADD, UDMF_SPECIAL_START + UDMF_NORMAL_ADD) then
-          pextrathing.special := (pextrathing.special and 1023 - UDMF_NORMAL_ADD) or (pextrathing.special and not 1023);
+        if flinetranslate then
+        begin
+          if IsIntegerInRange(pextrathing.special and 1023, 1, UDMF_NORMAL_ADD) then
+            pextrathing.special := (pextrathing.special and 1023 + UDMF_SPECIAL_START) or (pextrathing.special and not 1023)
+          else if IsIntegerInRange(pextrathing.special and 1023, UDMF_NORMAL_ADD, UDMF_SPECIAL_START + UDMF_NORMAL_ADD) then
+            pextrathing.special := (pextrathing.special and 1023 - UDMF_NORMAL_ADD) or (pextrathing.special and not 1023);
+        end;
       end
       else if (token = 'ARG0') then
       begin
@@ -1346,12 +1359,15 @@ var
 
 begin
   Clear;
+  fnamespace := '';
   sc := TScriptEngine.Create(_udmfPreproccessor(atext));
   while GetToken do
   begin
     if token = 'NAMESPACE' then
     begin
       GetToken;
+      fnamespace := token;
+      flinetranslate := (fnamespace <> strupper(_GAME)) and (fnamespace <> 'ZDOOMTRANSLATED');
       if (token <> strupper(_GAME)) and (token <> 'DELPHI' + strupper(_GAME)) and (token <> 'ZDOOMTRANSLATED') then
       begin
         I_Warning('TUDMFManager.LoadFromString(): Unknown namespace "%s"'#13#10, [sc._String]);
@@ -1428,7 +1444,7 @@ var
   infotable: array[0..ML_NUMUDMFLUMPS - 1] of filelump_t;
   f: TFile;
   ldata: PByteArray;
-  llen: integer;
+  i, llen: integer;
 begin
   header.identification :=
     integer(Ord('P') or (Ord('W') shl 8) or (Ord('A') shl 16) or (Ord('D') shl 24));
@@ -1543,6 +1559,12 @@ begin
   infotable[ML_SIDEDEF2].name := stringtochar8(MLN_SIDEDEF2);
   f.Write(fextrasidedefs^, fnummapsidedefs * SizeOf(extraside_t));
 
+  infotable[ML_NSPACE].filepos := f.Position;
+  infotable[ML_NSPACE].size := Length(fnamespace);
+  infotable[ML_NSPACE].name := stringtochar8(MLN_NSPACE);
+  for i := 1 to Length(fnamespace) do
+    f.Write(fnamespace[i], SizeOf(Char));
+
   header.infotableofs := f.Position;
   f.Write(infotable, SizeOf(infotable));
   f.Seek(0, sFromBeginning);
@@ -1591,6 +1613,8 @@ var
   script_lump: integer;
 begin
   hasudmfdata := false;
+  udmfnamespace := '';
+  udmflinetranslate := false;
   udmfthings := nil;
   numudmfthings := 0;
   udmfsectors := nil;
@@ -1639,6 +1663,12 @@ begin
         udmfsidedefs := W_CacheLumpNum(lumpnum + ML_SIDEDEF2, PU_LEVEL);
         numudmfsidedefs := W_LumpLength(lumpnum + ML_SIDEDEF2) div SizeOf(extraside_t);
       end;
+    if lumpnum + ML_NSPACE < W_NumLumps then
+      if strupper(stringtochar8(lumpinfo[lumpnum + ML_NSPACE].name)) = MLN_NSPACE then
+      begin
+        udmfnamespace := W_TextLumpNum(lumpnum + ML_NSPACE);
+        udmflinetranslate := (udmfnamespace <> strupper(_GAME)) and (udmfnamespace <> 'ZDOOMTRANSLATED');
+      end;
     hasudmfdata := (numudmfthings <> 0) and (numudmfsectors <> 0) and (numudmfvertexes <> 0) and (numudmflinedefs <> 0) and (numudmfsidedefs <> 0);
     result := false;
     exit;
@@ -1668,6 +1698,8 @@ begin
   udmf.LoadFromString(W_TextLumpNum(lumpnum));
   udmf.UpdateUDMFGlobalStructs;
   udmf.SaveUDMFToVanilla(mapname, wadfilemap, behav_lump, script_lump);
+  udmfnamespace := udmf.namespace;
+  udmflinetranslate := (udmfnamespace <> strupper(_GAME)) and (udmfnamespace <> 'ZDOOMTRANSLATED');
   udmf.Free;
 
   W_RuntimeLoad(wadfilemap, F_ORIGIN_WAD);
@@ -1918,10 +1950,13 @@ begin
   line.arg4 := uline.arg4;
   line.arg5 := uline.arg5;
   line.activators := uline.activators;
-  if IsIntegerInRange(line.special and 1023, 1, UDMF_NORMAL_ADD) then
-    line.special := (line.special and 1023 + UDMF_SPECIAL_START) or (line.special and not 1023)
-  else if IsIntegerInRange(line.special and 1023, UDMF_NORMAL_ADD, UDMF_SPECIAL_START + UDMF_NORMAL_ADD) then
-    line.special := (line.special and 1023 - UDMF_NORMAL_ADD) or (line.special and not 1023);
+  if udmflinetranslate then
+  begin
+    if IsIntegerInRange(line.special and 1023, 1, UDMF_NORMAL_ADD) then
+      line.special := (line.special and 1023 + UDMF_SPECIAL_START) or (line.special and not 1023)
+    else if IsIntegerInRange(line.special and 1023, UDMF_NORMAL_ADD, UDMF_SPECIAL_START + UDMF_NORMAL_ADD) then
+      line.special := (line.special and 1023 - UDMF_NORMAL_ADD) or (line.special and not 1023);
+  end;
   {$ENDIF}
   line.moreids := uline.moreids;
 end;
