@@ -100,10 +100,12 @@ const
   {$IFDEF DOOM_OR_STRIFE}
   LIGHTNING_SPECIAL = 23;
   LIGHTNING_SPECIAL2 = 22;
+  LIGHTNING_SPECIAL_MASK = 31;
   {$ENDIF}
   {$IFDEF HERETIC}
   LIGHTNING_SPECIAL = 56;
   LIGHTNING_SPECIAL2 = 55;
+  LIGHTNING_SPECIAL_MASK = 255;
   {$ENDIF}
 
 var
@@ -256,8 +258,8 @@ begin
       for i := 0 to numsectors - 1 do
       begin
         if (tempSec.ceilingpic = skyflatnum) or
-           (tempSec.special = LIGHTNING_SPECIAL) or
-           (tempSec.special = LIGHTNING_SPECIAL2) then
+           (tempSec.special and LIGHTNING_SPECIAL_MASK = LIGHTNING_SPECIAL) or
+           (tempSec.special and LIGHTNING_SPECIAL_MASK = LIGHTNING_SPECIAL2) then
         begin
           if tempSec.lightninglightlevel < tempSec.lightlevel - 4 then
             tempSec.lightlevel := tempSec.lightlevel - 4;
@@ -271,16 +273,14 @@ begin
       for i := 0 to numsectors - 1 do
       begin
         if (tempSec.ceilingpic = skyflatnum) or
-           (tempSec.special = LIGHTNING_SPECIAL) or
-           (tempSec.special = LIGHTNING_SPECIAL2) then
+           (tempSec.special and LIGHTNING_SPECIAL_MASK = LIGHTNING_SPECIAL) or
+           (tempSec.special and LIGHTNING_SPECIAL_MASK = LIGHTNING_SPECIAL2) then
         begin
           tempSec.lightlevel := tempSec.lightninglightlevel;
         end;
         inc(tempSec);
       end;
-      {$IFNDEF STRIFE}
       skytexture := skytexture1;
-      {$ENDIF}
     end;
     exit;
   end;
@@ -291,17 +291,17 @@ begin
   for i := 0 to numsectors - 1 do
   begin
     if (tempSec.ceilingpic = skyflatnum) or
-       (tempSec.special = LIGHTNING_SPECIAL) or
-       (tempSec.special = LIGHTNING_SPECIAL2) then
+       (tempSec.special and LIGHTNING_SPECIAL_MASK = LIGHTNING_SPECIAL) or
+       (tempSec.special and LIGHTNING_SPECIAL_MASK = LIGHTNING_SPECIAL2) then
     begin
       tempSec.lightninglightlevel := tempSec.lightlevel;
-      if tempSec.special = LIGHTNING_SPECIAL then
+      if tempSec.special and LIGHTNING_SPECIAL_MASK = LIGHTNING_SPECIAL then
       begin
         tempSec.lightlevel := tempSec.lightlevel + 64;
         if tempSec.lightlevel > flashLight then
           tempSec.lightlevel := flashLight;
       end
-      else if tempSec.special = LIGHTNING_SPECIAL2 then
+      else if tempSec.special and LIGHTNING_SPECIAL_MASK = LIGHTNING_SPECIAL2 then
       begin
         tempSec.lightlevel := tempSec.lightlevel + 32;
         if tempSec.lightlevel > flashLight then
@@ -319,9 +319,7 @@ begin
   end;
   if foundSec then
   begin
-    {$IFNDEF STRIFE}
     skytexture := skytexture2;
-    {$ENDIF}
     S_StartSound(nil, SND_THUNDR);
   end;
   // Calculate the next lighting flash
@@ -346,9 +344,9 @@ end;
 // P_ForceLightning
 //
 //==============================================================================
-procedure P_ForceLightning;
+procedure P_ForceLightning(const tics: Integer = 0);
 begin
-  NextLightningFlash := 0;
+  NextLightningFlash := tics;
 end;
 
 //==============================================================================
@@ -361,21 +359,25 @@ var
   i: integer;
   secCount: integer;
 begin
-  {$IFNDEF STRIFE}
   if (gamemapinfo <> nil) and not gamemapinfo.lightning then
   begin
     LevelHasLightning := false;
     LightningFlash := 0;
     exit;
+  end
+  else if gamemapinfo = nil then
+  begin
+    LevelHasLightning := false;
+    LightningFlash := 0;
+    exit;
   end;
-  {$ENDIF}
 
   LightningFlash := 0;
   secCount := 0;
   for i := 0 to numsectors - 1 do
     if (sectors[i].ceilingpic = skyflatnum) or
-       (sectors[i].special = LIGHTNING_SPECIAL) or
-       (sectors[i].special = LIGHTNING_SPECIAL2) then
+       (sectors[i].special and LIGHTNING_SPECIAL_MASK = LIGHTNING_SPECIAL) or
+       (sectors[i].special and LIGHTNING_SPECIAL_MASK = LIGHTNING_SPECIAL2) then
       inc(secCount);
 
   if secCount > 0 then
@@ -918,7 +920,7 @@ begin
     109: // Force Lightning
       begin
         result := true;
-        P_ForceLightning;
+        P_ForceLightning(args[0]);
       end;
 
     110: // Light Raise by Value
