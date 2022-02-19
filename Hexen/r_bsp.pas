@@ -800,6 +800,8 @@ begin
   sub := @subsectors[num];
 
   frontsector := sub.sector;
+  frontsector.rendervalidcount := rendervalidcount;
+
   count := sub.numlines;
   i_line := sub.firstline;
   line := @segs[i_line];

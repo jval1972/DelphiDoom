@@ -187,6 +187,7 @@ type
     ceilingvisslope: integer;
 {$ENDIF}
     moreids: moreids_t;
+    rendervalidcount: integer;
   end;
   sector_tArray = packed array[0..$FFFF] of sector_t;
   Psector_tArray = ^sector_tArray;
