@@ -247,6 +247,7 @@ UMAPINFO custom field SKYTEXTURE2.
 UMAPINFO custom field LIGHTNING.
 Lightning special effect.
 Added MT_MAPSPOT & MT_MAPSPOTGRAVITY actors.
+Fix wrong coordinates check in sight check.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

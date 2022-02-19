@@ -119,7 +119,16 @@ begin
 
   if node.dy = 0 then
   begin
-    if x = node.y then
+    // JVAL: 20220219 - Fix wrong coordinates check
+    // From EE:
+    // haleyjd 11/11/02: applied cph's bug fix:
+    // !node->dy ? x == node->y ? 2 ...
+    //             ^          ^
+    // This bug compared the wrong coordinates to each other,
+    // and caused line-of-sight miscalculations. Turns out the
+    // P_CrossSubsector optimization demo sync problem was caused by
+    // masking this bug.
+    if decide(G_PlayingEngineVersion < VERSION207, x, y) = node.y then
     begin
       result := 2;
       exit;
