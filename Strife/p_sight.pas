@@ -216,6 +216,81 @@ type
 
 //==============================================================================
 //
+// P_CrossSubsecPolyObj
+//
+// haleyjd:
+// Checks a line of sight against lines belonging to the given polyobject.
+//
+//==============================================================================
+function P_CrossSubsecPolyObj(const po: Ppolyobj_t; const los: Plos_t): boolean;
+var
+  i: integer;
+  polySeg: PPseg_t;
+  line: Pline_t;
+  divl: divline_t;
+  v1, v2: Pvertex_t;
+begin
+  polySeg := po.segs;
+  for i := 0 to po.numsegs - 1 do
+  begin
+    if polySeg^.miniseg then // JVAL: skip minisegs
+    begin
+      inc(polySeg);
+      continue;
+    end;
+
+    line := polySeg^.linedef;
+    // already checked other side?
+    if line.validcount = validcount then
+    begin
+      inc(polySeg);
+      continue;
+    end;
+
+    line.validcount := validcount;
+
+    // OPTIMIZE: killough 4/20/98: Added quick bounding-box rejection test
+    if (line.bbox[BOXLEFT] > los.bbox[BOXRIGHT]) or
+       (line.bbox[BOXRIGHT] < los.bbox[BOXLEFT]) or
+       (line.bbox[BOXBOTTOM] > los.bbox[BOXTOP]) or
+       (line.bbox[BOXTOP] < los.bbox[BOXBOTTOM]) then
+    begin
+      inc(polySeg);
+      continue;
+    end;
+
+    v1 := line.v1;
+    v2 := line.v2;
+
+    // line isn't crossed?
+    if P_DivlineSide(v1.x, v1.y, @los.strace) = P_DivlineSide(v2.x, v2.y, @los.strace) then
+    begin
+      inc(polySeg);
+      continue;
+    end;
+
+    divl.x := v1.x;
+    divl.y := v1.y;
+    divl.dx := v2.x - v1.x;
+    divl.dy := v2.y - v1.y;
+
+    // line isn't crossed?
+    if P_DivlineSide(los.strace.x, los.strace.y, @divl) = P_DivlineSide(los.t2x, los.t2y, @divl) then
+    begin
+      inc(polySeg);
+      continue;
+    end;
+
+    // stop because it is not two sided
+    result := false;
+    exit;
+  end;
+
+  result := true;
+end;
+
+//==============================================================================
+//
 // P_CrossSubsector
 // Returns true
 //  if strace crosses the given subsector successfully.
@@ -247,6 +322,13 @@ var
   vmidy: fixed_t;
 begin
   sub := @subsectors[num];
+
+  if sub.poly <> nil then
+  begin
+    result := P_CrossSubsecPolyObj(sub.poly, los);
+    if not result then
+      exit;
+  end;
 
   // check lines
   seg := @segs[sub.firstline - 1];
