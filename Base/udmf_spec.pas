@@ -490,7 +490,7 @@ begin
     if playeringame[i] then
     begin
       pmo := players[i].mo;
-      dist := P_AproxDistance(actor.x - pmo.x, actor.y - players[i].mo.y);
+      dist := P_AproxDistance(actor.x - pmo.x, actor.y - pmo.y);
       dist := P_AproxDistance(actor.z - pmo.z, dist); // 3d distance
       if dist <= maxtdist then
       begin
@@ -549,10 +549,10 @@ begin
     if focus <> nil then
       P_LocalEarthQuakeEx(
         focus,
-        args[1],
+        args[1] * FRACUNIT,
         QUAKEINTENSITIES[GetIntegerInRange(args[0], 2, 9)],
-        args[3] * FRACUNIT,
-        args[2] * FRACUNIT
+        args[3] * FRACUNIT * 64,
+        args[2] * FRACUNIT * 64
       );
   until focus = nil;
 end;
