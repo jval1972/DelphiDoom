@@ -38,7 +38,7 @@ uses
   info_h;
 
 const
-  NUMACTORNAMES = 160;
+  NUMACTORNAMES = 161;
   ActorNames: array[0..NUMACTORNAMES - 1] of string[MOBJINFONAMESIZE] = (
     'CRYSTAL VIAL',
     'SILVER SHIELD',
@@ -199,7 +199,8 @@ const
     'GREATER RUNES',
     'FLAME ORB',
     'WIND',
-    'WATERFALL'
+    'WATERFALL',
+    'NONE'
   );
 
 implementation
