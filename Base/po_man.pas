@@ -1451,6 +1451,11 @@ begin
         polyobjs[index].seqType := segs[i].linedef.arg3;
         if (polyobjs[index].seqType < 0) or
            (polyobjs[index].seqType >= {$IFDEF HEXEN}Ord(SEQTYPE_NUMSEQ){$ELSE}numsfx{$ENDIF}) then
+        {$IFNDEF HEXEN}
+          if segs[i].linedef.frontsector.seqType > 0 then
+            polyobjs[index].seqType := segs[i].linedef.frontsector.seqType
+          else
+        {$ENDIF}
           polyobjs[index].seqType := 0;
         break;
       end;
@@ -1515,6 +1520,11 @@ begin
       for i := 0 to polyobjs[index].numsegs - 1 do
         Pseg_tPArray(polyobjs[index].segs)[i] := polySegList[i];
       polyobjs[index].seqType := polyobjs[index].segs^.linedef.arg4;
+      {$IFNDEF HEXEN}
+      if polyobjs[index].seqType <= 0 then
+        if polyobjs[index].segs^.linedef.frontsector.seqType > 0 then
+          polyobjs[index].seqType := polyobjs[index].segs^.linedef.frontsector.seqType;
+      {$ENDIF}
     end;
     // Next, change the polyobjs first line to point to a mirror
     //    if it exists
