@@ -346,9 +346,11 @@ end;
 function U_ParseStandardProperty(sc: TScriptEngine; mape: Pmapentry_t): boolean;
 var
   pname: string;
+  {$IFNDEF STRIFE}
   lumpname: ulumpname_t;
   alttext: string;
   key: char;
+  {$ENDIF}
   lname: string;
   aname: string;
   i, special, tag, typ: integer;
@@ -399,6 +401,7 @@ begin
         sc.ScriptError('UMAPINFO.U_ParseStandardProperty(): Either ''clear'' or string constant expected after ''label'' keyword');
     end
   end
+  {$IFNDEF STRIFE}
   else if pname = 'EPISODE' then
   begin
     if sc.MustGetString then
@@ -438,6 +441,7 @@ begin
       end;
     end;
   end
+  {$ENDIF}
   else if pname = 'NEXT' then
   begin
     result := ParseLumpName(sc, mape.nextmap);

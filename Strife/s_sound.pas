@@ -502,8 +502,10 @@ end;
 //==============================================================================
 function S_DefaultMusicForMap(const map: integer): integer;
 begin
+  if (gamemapinfo <> nil) and (gamemapinfo.musicnum > 0) then
+    result := gamemapinfo.musicnum
   // [STRIFE] Some interesting math here ;)
-  if map <= 31 then
+  else if map <= 31 then
     result := map + 1
   else
     result := map - 30;

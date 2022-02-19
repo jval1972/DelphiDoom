@@ -237,6 +237,7 @@ Added MF5_EX_PUSHWALL, MF5_EX_MCROSS, MF5_EX_IMPACT & MF5_EX_PCROSS mobj flags.
 Fixed 2-sided line logic check.
 Lightning special effect.
 Added MT_MAPSPOT & MT_MAPSPOTGRAVITY actors.
+Limited UMAPINFO support (music & skies)
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

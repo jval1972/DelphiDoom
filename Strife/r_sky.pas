@@ -51,6 +51,8 @@ const
 var
   skyflatnum: integer;
   skytexture: integer;
+  skytexture1: integer;
+  skytexture2: integer;
   skytexturemid: integer;
 
 //==============================================================================

@@ -44,7 +44,8 @@ uses
   tables,
   d_event,
   d_player,
-  d_ticcmd;
+  d_ticcmd,
+  p_umapinfo;
 
 //==============================================================================
 // G_DeathMatchSpawnPlayer
@@ -273,6 +274,7 @@ var
   preparingdemoplayback: boolean = false;
 
   gamemap: integer;
+  gamemapinfo: Pmapentry_t;
 
   deathmatch: integer; // only if started as net death
   netgame: boolean; // only true if packets are broadcast
@@ -336,6 +338,20 @@ function G_NeedsCompatibilityMode: boolean;
 //
 //==============================================================================
 function G_PlayingEngineVersion: byte;
+
+//==============================================================================
+//
+// G_LookupMapinfo
+//
+//==============================================================================
+function G_LookupMapinfo(const episode, map: integer): Pmapentry_t;
+
+//==============================================================================
+//
+// G_ValidateMapName
+//
+//==============================================================================
+function G_ValidateMapName(const amap: string; const pepi, pmapnum: PInteger): boolean;
 
 var
   compatibilitymode: boolean = false;
@@ -1153,10 +1169,23 @@ begin
   //  setting one.
   skyflatnum := R_FlatNumForName(SKYFLATNAME);
 
-  if (gamemap >= 9) and (gamemap < 32) then
-    skytexture := R_TextureNumForName('skymnt01')
-  else
-    skytexture := R_TextureNumForName('skymnt02');
+  skytexture := -1;
+  skytexture2 := -1;
+  if (gamemapinfo <> nil) and (gamemapinfo.skytexture <> '') then
+  begin
+    skytexture := R_TextureNumForName(gamemapinfo.skytexture);
+    skytexture2 := R_TextureNumForName(gamemapinfo.skytexture2);
+  end;
+  if skytexture < 0 then
+  begin
+    if (gamemap >= 9) and (gamemap < 32) then
+      skytexture := R_TextureNumForName('skymnt01')
+    else
+      skytexture := R_TextureNumForName('skymnt02');
+  end;
+  skytexture1 := skytexture;
+  if skytexture2 < 0 then
+    skytexture2 := skytexture;
 
   if wipegamestate = Ord(GS_LEVEL) then
     wipegamestate := -1;  // force a wipe
@@ -1945,6 +1974,7 @@ begin
 
   gamestate := GS_LEVEL;
   gamemap := destmap;
+  gamemapinfo := G_LookupMapinfo(0, gamemap);
 
   // [STRIFE] HUB LOAD
   G_LoadPath(destmap);
@@ -2139,6 +2169,8 @@ begin
 
   gamemap := save_p[0];
   save_p := PByteArray(integer(save_p) + 1);
+
+  gamemapinfo := G_LookupMapinfo(0, gamemap);
 
   for i := 0 to MAXPLAYERS - 1 do
   begin
@@ -2625,6 +2657,7 @@ begin
   viewactive := true;
   gamemap := map;
   gameskill := skill;
+  gamemapinfo := G_LookupMapinfo(0, gamemap);
   riftdest := 0; // haleyjd 08/24/10: [STRIFE] init riftdest to zero on new game
 
   viewactive := true;
@@ -3262,6 +3295,84 @@ begin
   end
   else
     I_Quit;
+end;
+
+//==============================================================================
+//
+// G_LookupMapinfo
+//
+//==============================================================================
+function G_LookupMapinfo(const episode, map: integer): Pmapentry_t;
+var
+  lumpname: string;
+  i: integer;
+begin
+  sprintf(lumpname, 'MAP%.2d', [map]);
+
+  for i := 0 to u_mapinfo.mapcount - 1 do
+    if lumpname = u_mapinfo.maps[i].mapname then
+    begin
+      result := @u_mapinfo.maps[i];
+      exit;
+    end;
+
+  for i := 0 to default_mapinfo.mapcount - 1 do
+    if lumpname = default_mapinfo.maps[i].mapname then
+    begin
+      result := @default_mapinfo.maps[i];
+      exit;
+    end;
+
+  result := nil;
+end;
+
+//==============================================================================
+//
+// G_ValidateMapName
+//
+//==============================================================================
+function G_ValidateMapName(const amap: string; const pepi, pmapnum: PInteger): boolean;
+var
+  epi, mapnum: integer;
+  len: integer;
+  map: string;
+begin
+  result := false;
+  len := Length(amap);
+  if len <> 5 then
+    exit;
+
+  epi := 0;
+  mapnum := 0;
+  map := strupper(amap);
+
+  if (map[1] = 'E') and (map[3] = 'M') then
+  begin
+    if len = 5 then
+    begin
+      if not isdigit(map[2]) then
+        exit;
+      epi := atoi(map[2]);
+      mapnum := atoi(map[4]);
+      result := IsIntegerInRange(epi, 1, 8) and IsIntegerInRange(mapnum, 1, 9);
+    end;
+  end
+  else if (map[1] = 'M') and (map[2] = 'A') and (map[3] = 'P') then
+  begin
+    if len = 5 then
+    begin
+      mapnum := atoi(map[4] + map[5]);
+      result := IsIntegerInRange(mapnum, 1, 99);
+    end;
+  end;
+
+  if result then
+  begin
+    if pepi <> nil then
+      pepi^ := epi;
+    if pmapnum <> nil then
+      pmapnum^ := mapnum;
+  end;
 end;
 
 initialization
