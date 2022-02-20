@@ -6,6 +6,11 @@ var
   mid: integer;
   texturecolumn: fixed_t;
   texturecolumnhi: smallint;
+{$IFDEF SPECIALOFFSETS}
+  tandist: fixed_t;
+  toptexturecolumn: fixed_t;
+  bottomtexturecolumn: fixed_t;
+{$ENDIF}
   top: integer;
   bottom: integer;
   pceilingclip: PSmallInt;
@@ -18,6 +23,9 @@ var
 begin
   texturecolumn := 0; // shut up compiler warning
   texturecolumnhi := 0;
+{$IFDEF SPECIALOFFSETS}
+  tandist := 0; // shut up compiler warning 
+{$ENDIF}
   rwx := rw_x;
   rwstopx := rw_stopx;
   pceilingclip := @ceilingclip[rwx];
@@ -117,7 +125,12 @@ begin
       {$ELSE}
       angle := (rw_centerangle + xtoviewangle[rwx]) shr ANGLETOFINESHIFT;
       {$ENDIF}
+      {$IFDEF SPECIALOFFSETS}
+      tandist := FixedMul(finetangent[angle], rw_distance);
+      texturecolumn := rw_offset_mid - tandist;
+      {$ELSE}
       texturecolumn := rw_offset - FixedMul(finetangent[angle], rw_distance);
+      {$ENDIF}
 
       texturecolumnhi := texturecolumn shr (FRACBITS - DC_HIRESBITS);
       texturecolumn := texturecolumn shr FRACBITS;
@@ -263,7 +276,13 @@ begin
         begin
           dc_texturemid := rw_toptexturemid;
           dc_height := rw_toptextureheight;
+          {$IFDEF SPECIALOFFSETS}
+          toptexturecolumn := rw_offset_top - tandist;
+          toptexturecolumn := toptexturecolumn shr FRACBITS;
+          dc_source := R_GetColumn(toptexture, toptexturecolumn);
+          {$ELSE}
           dc_source := R_GetColumn(toptexture, texturecolumn);
+          {$ENDIF}
 
     {$IFDEF FLOORS3DVIS}
           if pds.midvis <> nil then
@@ -398,7 +417,13 @@ begin
         begin
           dc_texturemid := rw_bottomtexturemid;
           dc_height := rw_bottomtextureheight;
+          {$IFDEF SPECIALOFFSETS}
+          bottomtexturecolumn := rw_offset_bot - tandist;
+          bottomtexturecolumn := bottomtexturecolumn shr FRACBITS;
+          dc_source := R_GetColumn(toptexture, bottomtexturecolumn);
+          {$ELSE}
           dc_source := R_GetColumn(bottomtexture, texturecolumn);
+          {$ENDIF}
 
     {$IFDEF FLOORS3DVIS}
           if pds.midvis <> nil then

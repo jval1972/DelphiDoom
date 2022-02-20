@@ -254,6 +254,7 @@ Added "DROPPED ITEM" alias for "DROPITEM" DEHACKED field.
 Interpolate only the sectors touched by the renderer in uncapped framerate.
 Added #CREATEPALETTE directive. It can be placed in any text content and forces the engine to recreate PLAYPAL & COLORMAPS. You can specify a base pal as parameter.
 Does not crash if an ACS script not found.
+Texture offsets can be set individually for top, bottom & middle textures of sidedefs.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

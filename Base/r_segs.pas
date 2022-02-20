@@ -85,6 +85,9 @@ var
   rw_stopx: integer;
   rw_centerangle: angle_t;
   rw_offset: fixed_t;
+  rw_offset_mid: fixed_t;
+  rw_offset_bot: fixed_t;
+  rw_offset_top: fixed_t;
   rw_scale: fixed_t;
   rw_scalestep: fixed_t;
   rw_midtexturemid: fixed_t;
@@ -423,7 +426,7 @@ begin
       dc_texturemid := backsector.ceilingheight;
     dc_texturemid := dc_texturemid - viewz;
   end;
-  dc_texturemid := dc_texturemid + curline.sidedef.rowoffset;
+  dc_texturemid := dc_texturemid + curline.sidedef.rowoffset + curline.sidedef.midrowoffset;
 
   if fixedcolormap <> nil then
     dc_colormap := fixedcolormap;
@@ -677,7 +680,7 @@ begin
       // top of texture at top
       rw_midtexturemid := worldtop;
     end;
-    rw_midtexturemid := rw_midtexturemid + FixedMod(sidedef.rowoffset, textureheight[midtexture]);
+    rw_midtexturemid := rw_midtexturemid + FixedMod(sidedef.rowoffset + sidedef.midtextureoffset, textureheight[midtexture]);
     rw_midtexturemid := FixedMod(rw_midtexturemid, texturecolumnheightfrac[midtexture]);
 
     pds.silhouette := SIL_BOTH;
@@ -845,9 +848,9 @@ begin
       else // top of texture at top
         rw_bottomtexturemid := worldlow;
     end;
-    rw_toptexturemid := rw_toptexturemid + FixedMod(sidedef.rowoffset, textureheight[toptexture]);
+    rw_toptexturemid := rw_toptexturemid + FixedMod(sidedef.rowoffset + sidedef.toprowoffset, textureheight[toptexture]);
     rw_toptexturemid := FixedMod(rw_toptexturemid, texturecolumnheightfrac[toptexture]);
-    rw_bottomtexturemid := rw_bottomtexturemid + FixedMod(sidedef.rowoffset, textureheight[bottomtexture]);
+    rw_bottomtexturemid := rw_bottomtexturemid + FixedMod(sidedef.rowoffset + sidedef.bottomrowoffset, textureheight[bottomtexture]);
     rw_bottomtexturemid := FixedMod(rw_bottomtexturemid, texturecolumnheightfrac[bottomtexture]);
 
     // JVAL: 3d Floors
@@ -875,6 +878,13 @@ begin
       rw_offset := -rw_offset;
 
     rw_offset := rw_offset + sidedef.textureoffset + curline.offset;
+    if curline.specialoffsets then
+    begin
+      rw_offset_mid := rw_offset + sidedef.midtextureoffset;
+      rw_offset_bot := rw_offset + sidedef.bottomtextureoffset;
+      rw_offset_top := rw_offset + sidedef.toptextureoffset;
+    end;
+
     rw_centerangle := ANG90 + viewangle - rw_normalangle;
 
     // calculate light table
@@ -1103,26 +1113,54 @@ begin
       markfloor := false;
   end;
 
-  if pds.midvis <> nil then
+  if curline.specialoffsets then
   begin
-    if pds.midsec <> nil then
+    if pds.midvis <> nil then
     begin
-      f_RenderSegLoop_dbl_3dFloors_Vis(pds);  // version 205
+      if pds.midsec <> nil then
+      begin
+        f_RenderSegLoop_dbl_3dFloors_Vis_SO(pds);  // version 205
+      end
+      else
+      begin
+        f_RenderSegLoop_dbl_Vis_SO(pds);  // version 205
+      end;
     end
     else
     begin
-      f_RenderSegLoop_dbl_Vis(pds);  // version 205
+      if pds.midsec <> nil then
+      begin
+        f_RenderSegLoop_dbl_3dFloors_SO(pds);  // version 205
+      end
+      else
+      begin
+        f_RenderSegLoop_dbl_SO;  // version 205
+      end;
     end;
   end
   else
   begin
-    if pds.midsec <> nil then
+    if pds.midvis <> nil then
     begin
-      f_RenderSegLoop_dbl_3dFloors(pds);  // version 205
+      if pds.midsec <> nil then
+      begin
+        f_RenderSegLoop_dbl_3dFloors_Vis(pds);  // version 205
+      end
+      else
+      begin
+        f_RenderSegLoop_dbl_Vis(pds);  // version 205
+      end;
     end
     else
     begin
-      f_RenderSegLoop_dbl;  // version 205
+      if pds.midsec <> nil then
+      begin
+        f_RenderSegLoop_dbl_3dFloors(pds);  // version 205
+      end
+      else
+      begin
+        f_RenderSegLoop_dbl;  // version 205
+      end;
     end;
   end;
 
@@ -1299,7 +1337,7 @@ begin
       // top of texture at top
       rw_midtexturemid := worldtop;
     end;
-    rw_midtexturemid := rw_midtexturemid + FixedMod(sidedef.rowoffset, textureheight[midtexture]);
+    rw_midtexturemid := rw_midtexturemid + FixedMod(sidedef.rowoffset + sidedef.midtextureoffset, textureheight[midtexture]);
     rw_midtexturemid := FixedMod(rw_midtexturemid, texturecolumnheightfrac[midtexture]);
 
     pds.silhouette := SIL_BOTH;
@@ -1467,9 +1505,9 @@ begin
       else // top of texture at top
         rw_bottomtexturemid := worldlow;
     end;
-    rw_toptexturemid := rw_toptexturemid + FixedMod(sidedef.rowoffset, textureheight[toptexture]);
+    rw_toptexturemid := rw_toptexturemid + FixedMod(sidedef.rowoffset + sidedef.toprowoffset, textureheight[toptexture]);
     rw_toptexturemid := FixedMod(rw_toptexturemid, texturecolumnheightfrac[toptexture]);
-    rw_bottomtexturemid := rw_bottomtexturemid + FixedMod(sidedef.rowoffset, textureheight[bottomtexture]);
+    rw_bottomtexturemid := rw_bottomtexturemid + FixedMod(sidedef.rowoffset + sidedef.bottomrowoffset, textureheight[bottomtexture]);
     rw_bottomtexturemid := FixedMod(rw_bottomtexturemid, texturecolumnheightfrac[bottomtexture]);
 
     // JVAL: 3d Floors
@@ -1497,6 +1535,13 @@ begin
       rw_offset := -rw_offset;
 
     rw_offset := rw_offset + sidedef.textureoffset + curline.offset;
+    if curline.specialoffsets then
+    begin
+      rw_offset_mid := rw_offset + sidedef.midtextureoffset;
+      rw_offset_bot := rw_offset + sidedef.bottomtextureoffset;
+      rw_offset_top := rw_offset + sidedef.toptextureoffset;
+    end;
+
     rw_centerangle := ANG90 + viewangle - rw_normalangle;
 
     // calculate light table
@@ -1717,26 +1762,54 @@ begin
       markfloor := false;
   end;
 
-  if pds.midvis <> nil then
+  if curline.specialoffsets then
   begin
-    if pds.midsec <> nil then
+    if pds.midvis <> nil then
     begin
-      f_RenderSegLoop_3dFloors_Vis(pds); // version 205
+      if pds.midsec <> nil then
+      begin
+        f_RenderSegLoop_3dFloors_Vis_SO(pds); // version 205
+      end
+      else
+      begin
+        f_RenderSegLoop_Vis_SO(pds); // version 205
+      end;
     end
     else
     begin
-      f_RenderSegLoop_Vis(pds); // version 205
+      if pds.midsec <> nil then
+      begin
+        f_RenderSegLoop_3dFloors_SO(pds); // version 205
+      end
+      else
+      begin
+        f_RenderSegLoop_SO; // version 205
+      end;
     end;
   end
   else
   begin
-    if pds.midsec <> nil then
+    if pds.midvis <> nil then
     begin
-      f_RenderSegLoop_3dFloors(pds); // version 205
+      if pds.midsec <> nil then
+      begin
+        f_RenderSegLoop_3dFloors_Vis(pds); // version 205
+      end
+      else
+      begin
+        f_RenderSegLoop_Vis(pds); // version 205
+      end;
     end
     else
     begin
-      f_RenderSegLoop; // version 205
+      if pds.midsec <> nil then
+      begin
+        f_RenderSegLoop_3dFloors(pds); // version 205
+      end
+      else
+      begin
+        f_RenderSegLoop; // version 205
+      end;
     end;
   end;
 

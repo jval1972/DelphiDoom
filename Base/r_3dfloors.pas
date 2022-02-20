@@ -328,7 +328,7 @@ begin
   texstep_dbl := dc_texturemid / FRACUNIT * ds.scalestep_dbl;
   texscale_dbl := texscale_dbl + (x1 - ds.x1) * texstep_dbl;
   // Thick side gets row offset from control line
-  dc_texturemid := dc_texturemid + midside.rowoffset;
+  dc_texturemid := dc_texturemid + midside.rowoffset + midside.midrowoffset;
   for i := x1 to x2 do
   begin
     dc_x := i;
@@ -523,8 +523,8 @@ begin
   texscale_dbl[0] := texscale_dbl[0] + (x1 - ds.x1) * texstep_dbl[0];
   texscale_dbl[1] := texscale_dbl[1] + (x1 - ds.x1) * texstep_dbl[1];
   // Thick side gets row offset from control line
-  texturemid[0] := texturemid[0] + midside.rowoffset;
-  texturemid[1] := texturemid[1] + midside.rowoffset;
+  texturemid[0] := texturemid[0] + midside.rowoffset + midside.midrowoffset;
+  texturemid[1] := texturemid[1] + midside.rowoffset + midside.midrowoffset;
   for i := x1 to x2 do
   begin
     dc_x := i;
@@ -747,7 +747,7 @@ begin
   texstep := FixedMul(dc_texturemid, ds.scalestep);
   texscale := texscale + (x1 - ds.x1) * texstep;
   // Thick side gets row offset from control line
-  dc_texturemid := dc_texturemid + midside.rowoffset;
+  dc_texturemid := dc_texturemid + midside.rowoffset + midside.midrowoffset;
   for i := x1 to x2 do
   begin
     dc_x := i;
@@ -926,8 +926,8 @@ begin
   texscale[0] := texscale[0] + (x1 - ds.x1) * texstep[0];
   texscale[1] := texscale[1] + (x1 - ds.x1) * texstep[1];
   // Thick side gets row offset from control line
-  texturemid[0] := texturemid[0] + midside.rowoffset;
-  texturemid[1] := texturemid[1] + midside.rowoffset;
+  texturemid[0] := texturemid[0] + midside.rowoffset + midside.midrowoffset;
+  texturemid[1] := texturemid[1] + midside.rowoffset + midside.midrowoffset;
   for i := x1 to x2 do
   begin
     dc_x := i;

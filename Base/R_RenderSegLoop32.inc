@@ -6,6 +6,11 @@ var
   mid: integer;
   texturecolumn: fixed_t;
   texturecolumnhi: smallint;
+{$IFDEF SPECIALOFFSETS}
+  tandist: fixed_t;
+  toptexturecolumn: fixed_t;
+  bottomtexturecolumn: fixed_t;
+{$ENDIF}
   top: integer;
   bottom: integer;
   pceilingclip: PSmallInt;
@@ -18,6 +23,9 @@ var
 begin
   texturecolumn := 0; // shut up compiler warning
   texturecolumnhi := 0;
+{$IFDEF SPECIALOFFSETS}
+  tandist := 0; // shut up compiler warning 
+{$ENDIF}
   rwx := rw_x;
   rwstopx := rw_stopx;
   pceilingclip := @ceilingclip[rwx];
@@ -54,7 +62,7 @@ begin
         {$ENDIF}
       end;
       // SoM: this should be set here
-      // jval: Also prevent problems in multithreading rendering
+      // JVAL: Also prevent problems in multithreading rendering
 {$IFDEF TALL_WALL}
   if bottom > viewheight then
     pceilingclip^ := viewheight
@@ -125,7 +133,12 @@ begin
       {$ELSE}
       angle := (rw_centerangle + xtoviewangle[rwx]) shr ANGLETOFINESHIFT;
       {$ENDIF}
+      {$IFDEF SPECIALOFFSETS}
+      tandist := FixedMul(finetangent[angle], rw_distance);
+      texturecolumn := rw_offset_mid - tandist;
+      {$ELSE}
       texturecolumn := rw_offset - FixedMul(finetangent[angle], rw_distance);
+      {$ENDIF}
 
       dc_texturemod := (LongWord(texturecolumn) and (FRACUNIT - 1)) shr (FRACBITS - DC_HIRESBITS); // JVAL for hi resolution
       if detailLevel = DL_ULTRARES then
@@ -292,13 +305,13 @@ begin
       if toptexture <> 0 then
       begin
         // top wall
-  {$IFDEF USEDOUBLE}
+        {$IFDEF USEDOUBLE}
         mid := Trunc(pixhigh_dbl / HEIGHTUNIT);
         pixhigh_dbl := pixhigh_dbl + pixhighstep_dbl;
-  {$ELSE}
+        {$ELSE}
         mid := pixhigh shr HEIGHTBITS;
         pixhigh := pixhigh + pixhighstep;
-  {$ENDIF}
+        {$ENDIF}
 
         if mid >= pfloorclip^ then
           mid := pfloorclip^ - 1;
@@ -307,7 +320,13 @@ begin
         begin
           dc_texturemid := rw_toptexturemid;
           dc_height := rw_toptextureheight;
+          {$IFDEF SPECIALOFFSETS}
+          toptexturecolumn := rw_offset_top - tandist;
+          toptexturecolumn := toptexturecolumn shr FRACBITS;
+          R_ReadDC32Cache(toptexture, toptexturecolumn);
+          {$ELSE}
           R_ReadDC32Cache(toptexture, texturecolumn);
+          {$ENDIF}
 
     {$IFDEF FLOORS3DVIS}
           if pds.midvis <> nil then
@@ -426,13 +445,13 @@ begin
       if bottomtexture <> 0 then
       begin
         // bottom wall
-  {$IFDEF USEDOUBLE}
+        {$IFDEF USEDOUBLE}
         mid := Trunc((pixlow_dbl + HEIGHTUNIT - 1) / HEIGHTUNIT);
         pixlow_dbl := pixlow_dbl + pixlowstep_dbl;
-  {$ELSE}
+        {$ELSE}
         mid := (pixlow + HEIGHTUNIT - 1) shr HEIGHTBITS;
         pixlow := pixlow + pixlowstep;
-  {$ENDIF}
+        {$ENDIF}
 
         // no space above wall?
         if mid <= pceilingclip^ then
@@ -442,7 +461,13 @@ begin
         begin
           dc_texturemid := rw_bottomtexturemid;
           dc_height := rw_bottomtextureheight;
+          {$IFDEF SPECIALOFFSETS}
+          bottomtexturecolumn := rw_offset_bot - tandist;
+          bottomtexturecolumn := bottomtexturecolumn shr FRACBITS;
+          R_ReadDC32Cache(bottomtexture, bottomtexturecolumn);
+          {$ELSE}
           R_ReadDC32Cache(bottomtexture, texturecolumn);
+          {$ENDIF}
 
     {$IFDEF FLOORS3DVIS}
           if pds.midvis <> nil then

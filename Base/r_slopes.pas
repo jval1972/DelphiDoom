@@ -1236,7 +1236,7 @@ begin
 
     rw_midtexturemid := frontsector.ceilingheight - textureheight[sidedef.midtexture] - viewz;
 
-    rw_midtexturemid := rw_midtexturemid + sidedef.rowoffset;
+    rw_midtexturemid := rw_midtexturemid + sidedef.rowoffset + sidedef.midrowoffset;
 
     pds.sprtopclip := @screenheightarray;
     pds.sprbottomclip := @negonearray;
@@ -1259,8 +1259,8 @@ begin
       rw_bottomtexturemid := frontsector.floorheight - viewz;
     end;
 
-    rw_toptexturemid := rw_toptexturemid + sidedef.rowoffset;
-    rw_bottomtexturemid := rw_bottomtexturemid + sidedef.rowoffset;
+    rw_toptexturemid := rw_toptexturemid + sidedef.rowoffset + sidedef.toprowoffset;
+    rw_bottomtexturemid := rw_bottomtexturemid + sidedef.rowoffset + sidedef.bottomrowoffset;
 
     // JVAL: 3d Floors
     R_StoreThickSideRange(pds, frontsector, backsector);
@@ -1283,7 +1283,15 @@ begin
   // calculate rw_offset (only needed for textured lines)
   segtextured := ((midtexture or toptexture or bottomtexture) <> 0) or maskedtexture;
   if segtextured then
+  begin
     rw_offset := rw_offset + sidedef.textureoffset + curline.offset;
+    if curline.specialoffsets then
+    begin
+      rw_offset_mid := rw_offset + sidedef.midtextureoffset;
+      rw_offset_bot := rw_offset + sidedef.bottomtextureoffset;
+      rw_offset_top := rw_offset + sidedef.toptextureoffset;
+    end;
+  end;
 
   // killough 3/7/98: add deep water check
   {$IFDEF DOOM_OR_STRIFE}
@@ -1337,53 +1345,109 @@ begin
       markfloor := false;
   end;
 
-  if pds.use_double then
+  if curline.specialoffsets then
   begin
-    if pds.midvis <> nil then
+    if pds.use_double then
     begin
-      if (pds.midsec <> nil) then
+      if pds.midvis <> nil then
       begin
-        f_RenderSegLoop_dbl_3dFloors_Vis(pds);
+        if (pds.midsec <> nil) then
+        begin
+          f_RenderSegLoop_dbl_3dFloors_Vis_SO(pds);
+        end
+        else
+        begin
+          f_RenderSegLoop_dbl_Vis_SO(pds);
+        end;
       end
       else
       begin
-        f_RenderSegLoop_dbl_Vis(pds);
+        if (pds.midsec <> nil) then
+        begin
+          f_RenderSegLoop_dbl_3dFloors_SO(pds);
+        end
+        else
+        begin
+          f_RenderSegLoop_dbl_SO;
+        end;
       end;
     end
     else
     begin
-      if (pds.midsec <> nil) then
+      if pds.midvis <> nil then
       begin
-        f_RenderSegLoop_dbl_3dFloors(pds);
+        if (pds.midsec <> nil) then
+        begin
+          f_RenderSegLoop_3dFloors_Vis_SO(pds);
+        end
+        else
+        begin
+          f_RenderSegLoop_Vis_SO(pds);
+        end;
       end
       else
       begin
-        f_RenderSegLoop_dbl;
+        if (pds.midsec <> nil) then
+        begin
+          f_RenderSegLoop_3dFloors_SO(pds);
+        end
+        else
+        begin
+          f_RenderSegLoop_SO;
+        end;
       end;
     end;
   end
   else
   begin
-    if pds.midvis <> nil then
+    if pds.use_double then
     begin
-      if (pds.midsec <> nil) then
+      if pds.midvis <> nil then
       begin
-        f_RenderSegLoop_3dFloors_Vis(pds);
+        if (pds.midsec <> nil) then
+        begin
+          f_RenderSegLoop_dbl_3dFloors_Vis(pds);
+        end
+        else
+        begin
+          f_RenderSegLoop_dbl_Vis(pds);
+        end;
       end
       else
       begin
-        f_RenderSegLoop_Vis(pds);
+        if (pds.midsec <> nil) then
+        begin
+          f_RenderSegLoop_dbl_3dFloors(pds);
+        end
+        else
+        begin
+          f_RenderSegLoop_dbl;
+        end;
       end;
     end
     else
     begin
-      if (pds.midsec <> nil) then
+      if pds.midvis <> nil then
       begin
-        f_RenderSegLoop_3dFloors(pds);
+        if (pds.midsec <> nil) then
+        begin
+          f_RenderSegLoop_3dFloors_Vis(pds);
+        end
+        else
+        begin
+          f_RenderSegLoop_Vis(pds);
+        end;
       end
       else
       begin
-        f_RenderSegLoop;
+        if (pds.midsec <> nil) then
+        begin
+          f_RenderSegLoop_3dFloors(pds);
+        end
+        else
+        begin
+          f_RenderSegLoop;
+        end;
       end;
     end;
   end;

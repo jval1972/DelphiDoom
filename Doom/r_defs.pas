@@ -420,6 +420,7 @@ type
 {$ELSE}
     map_length: integer;
     inv_length: double;
+    specialoffsets: boolean;
 {$ENDIF}
     fakecontrastlight: integer;
     miniseg: boolean;

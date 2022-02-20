@@ -447,11 +447,20 @@ var
   x2: integer;
   tspan: angle_t;
   clipangle2: angle_t;
+  sd: Pside_t;
 {$ENDIF}
   angle1: angle_t;
   angle2: angle_t;
   span: angle_t;
 begin
+{$IFNDEF OPENGL}
+  sd := line.sidedef;
+  line.specialoffsets :=
+    (sd.toptextureoffset <> 0) or
+    (sd.midtextureoffset <> 0) or
+    (sd.bottomtextureoffset <> 0);
+{$ENDIF}
+
   curline := line;
 
   // OPTIMIZE: quickly reject orthogonal back sides.

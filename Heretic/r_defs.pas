@@ -193,7 +193,6 @@ type
 //
 // The SideDef.
 //
-
   side_t = packed record
     // add this to the calculated texture column
     textureoffset: fixed_t;
@@ -367,6 +366,7 @@ type
 {$ELSE}
     map_length: integer;
     inv_length: double;
+    specialoffsets: boolean;
 {$ENDIF}
     fakecontrastlight: integer;
     miniseg: boolean;

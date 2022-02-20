@@ -100,7 +100,7 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-iwad doom2.wad
+RunParams=-iwad doom2.wad test_udmf_doom.wad
 HostApplication=
 Launcher=
 UseLauncher=0

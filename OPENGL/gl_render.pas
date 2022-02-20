@@ -2353,22 +2353,62 @@ end;
 
 //==============================================================================
 //
-// OU
+// OU_MID
 //
 //==============================================================================
-function OU(tex: PGLTexture; seg: Pseg_t): float;
+function OU_MID(tex: PGLTexture; seg: Pseg_t): float;
 begin
-  result := ((seg.sidedef.textureoffset + seg.offset) / FRACUNIT) / tex.buffer_width;
+  result := ((seg.sidedef.textureoffset + seg.sidedef.midtextureoffset + seg.offset) / FRACUNIT) / tex.buffer_width;
 end;
 
 //==============================================================================
 //
-// OV
+// OU_BOT
 //
 //==============================================================================
-function OV(tex: PGLTexture; seg: Pseg_t): float;
+function OU_BOT(tex: PGLTexture; seg: Pseg_t): float;
 begin
-  result := (seg.sidedef.rowoffset / FRACUNIT) / tex.buffer_height;
+  result := ((seg.sidedef.textureoffset + seg.sidedef.bottomtextureoffset + seg.offset) / FRACUNIT) / tex.buffer_width;
+end;
+
+//==============================================================================
+//
+// OU_TOP
+//
+//==============================================================================
+function OU_TOP(tex: PGLTexture; seg: Pseg_t): float;
+begin
+  result := ((seg.sidedef.textureoffset + seg.sidedef.toptextureoffset + seg.offset) / FRACUNIT) / tex.buffer_width;
+end;
+
+//==============================================================================
+//
+// OV_MID
+//
+//==============================================================================
+function OV_MID(tex: PGLTexture; seg: Pseg_t): float;
+begin
+  result := ((seg.sidedef.rowoffset + seg.sidedef.midrowoffset) / FRACUNIT) / tex.buffer_height;
+end;
+
+//==============================================================================
+//
+// OV_BOT
+//
+//==============================================================================
+function OV_BOT(tex: PGLTexture; seg: Pseg_t): float;
+begin
+  result := ((seg.sidedef.rowoffset + seg.sidedef.bottomrowoffset) / FRACUNIT) / tex.buffer_height;
+end;
+
+//==============================================================================
+//
+// OV_TOP
+//
+//==============================================================================
+function OV_TOP(tex: PGLTexture; seg: Pseg_t): float;
+begin
+  result := ((seg.sidedef.rowoffset + seg.sidedef.toprowoffset) / FRACUNIT) / tex.buffer_height;
 end;
 
 //==============================================================================
@@ -2378,7 +2418,7 @@ end;
 //==============================================================================
 function OV_PEG(tex: PGLTexture; seg: Pseg_t; v_offset: integer): float;
 begin
-  result := ((seg.sidedef.rowoffset - v_offset) / FRACUNIT) / tex.buffer_height;
+  result := ((seg.sidedef.rowoffset + seg.sidedef.bottomrowoffset - v_offset) / FRACUNIT) / tex.buffer_height;
 end;
 
 //==============================================================================
@@ -2392,16 +2432,16 @@ var
 begin
   w.flag := GLDWF_TOP;
   tex := w.gltexture;
-  w.ul := OU(tex, seg);
+  w.ul := OU_TOP(tex, seg);
   w.ur := w.ul + (linelength / tex.buffer_width);
   if peg then
   begin
-    w.vb := OV(tex, seg) + (tex.height / tex.tex_height);
+    w.vb := OV_TOP(tex, seg) + (tex.height / tex.tex_height);
     w.vt := w.vb - (lineheight / tex.buffer_height);
   end
   else
   begin
-    w.vt := OV(tex, seg);
+    w.vt := OV_TOP(tex, seg);
     w.vb := w.vt + (lineheight / tex.buffer_height);
   end;
 end;
@@ -2417,16 +2457,16 @@ var
 begin
   w.flag := GLDWF_M1S;
   tex := w.gltexture;
-  w.ul := OU(tex, seg);
+  w.ul := OU_MID(tex, seg);
   w.ur := w.ul + (linelength / tex.buffer_width);
   if peg then
   begin
-    w.vb := OV(tex, seg) + tex.heightscale;
+    w.vb := OV_MID(tex, seg) + tex.heightscale;
     w.vt := w.vb - (lineheight / tex.buffer_height);
   end
   else
   begin
-    w.vt := OV(tex, seg);
+    w.vt := OV_MID(tex, seg);
     w.vb := w.vt + (lineheight / tex.buffer_height);
   end;
 end;
@@ -2442,16 +2482,16 @@ var
 begin
   w.flag := GLDWF_MTS;
   tex := w.gltexture;
-  w.ul := OU(tex, seg);
+  w.ul := OU_MID(tex, seg);
   w.ur := w.ul + (linelength / tex.buffer_width);
   if peg then
   begin
-    w.vb := OV(tex, seg) + tex.heightscale;
+    w.vb := OV_MID(tex, seg) + tex.heightscale;
     w.vt := w.vb - (lineheight / tex.buffer_height);
   end
   else
   begin
-    w.vt := OV(tex, seg);
+    w.vt := OV_MID(tex, seg);
     w.vb := w.vt + (lineheight / tex.buffer_height);
   end;
 end;
@@ -2467,7 +2507,7 @@ var
 begin
   w.flag := GLDWF_M2S;
   tex := w.gltexture;
-  w.ul := OU(tex, seg);
+  w.ul := OU_MID(tex, seg);
   w.ur := w.ul + (linelength / tex.buffer_width);
   if peg then
   begin
@@ -2492,7 +2532,7 @@ var
 begin
   w.flag := GLDWF_BOT;
   tex := w.gltexture;
-  w.ul := OU(tex, seg);
+  w.ul := OU_BOT(tex, seg);
   w.ur := w.ul + (linelength / tex.realtexwidth);
   if peg then
   begin
@@ -2501,7 +2541,7 @@ begin
   end
   else
   begin
-    w.vt := OV(tex, seg);
+    w.vt := OV_BOT(tex, seg);
     w.vb := w.vt + lineheight / tex.buffer_height;
   end;
 end;
@@ -3699,7 +3739,7 @@ begin
       wall.ytop := gl_i_min(ceilingmin, ceiling_height) / MAP_SCALE;
       wall.ybottom := gl_i_max(floormax, floor_height) / MAP_SCALE;
       wall.flag := GLDWF_M2S;
-      wall.ul := OU(temptex, seg);
+      wall.ul := OU_MID(temptex, seg);
       wall.ur := wall.ul + (seg.length / temptex.buffer_width);
       if floormax <= floor_height then
         wall.vb := mip

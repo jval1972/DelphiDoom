@@ -2027,7 +2027,7 @@ begin
     exit;
   end;
 
-  if numudmfsidedefs <> numlines then
+  if numudmfsidedefs <> numsides then
   begin
     result := false;
     exit;
