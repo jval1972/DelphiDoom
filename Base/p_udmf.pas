@@ -113,6 +113,7 @@ const
   UDMF_SF_RIPPLECEILING = $100;
   UDMF_SF_RIPPLEFLOOR = $200;
   UDMF_SF_FOG = $400;
+  UDMF_SF_HIDDEN = $800;
 
 type
   extrasector_t = record
@@ -1343,6 +1344,12 @@ var
         if token = 'TRUE' then
           pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_FOG;
       end
+      else if (token = 'HIDDEN') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_HIDDEN;
+      end
       {$IFNDEF HEXEN}
       else if (token = 'SOUND') then
       begin
@@ -1894,6 +1901,8 @@ begin
     sec.renderflags := sec.renderflags or SRF_RIPPLE_FLOOR;
   if usec.extraflags and UDMF_SF_FOG <> 0 then
     sec.renderflags := sec.renderflags or SRF_FOG;
+  if usec.extraflags and UDMF_SF_HIDDEN <> 0 then
+    sec.renderflags := sec.renderflags or SRF_HIDDEN;
   sec.moreids := usec.moreids;
   {$IFNDEF HEXEN}
   sec.seqType := usec.sound;

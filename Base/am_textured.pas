@@ -658,6 +658,9 @@ begin
     if ssector.numlines < 3 then
       continue;
 
+    if ssector.sector.renderflags and SRF_HIDDEN <> 0 then
+      continue;
+
     if am_cheating <> 0 then
       drawit := true
     else
@@ -731,6 +734,9 @@ begin
       ssector := @subsectors[i];
 
       if ssector.numlines < 3 then
+        continue;
+
+      if ssector.sector.renderflags and SRF_HIDDEN <> 0 then
         continue;
 
       wasdrawned := false;

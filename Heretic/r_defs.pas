@@ -312,6 +312,7 @@ const
   SRF_INTERPOLATE_FLOORSLOPE = 1024;
   SRF_INTERPOLATE_CEILINGSLOPE = 2048;
   SRF_FOG = 4096;
+  SRF_HIDDEN = 8192;  // Hidden in textured automap
 
 const
   // Vissprite render flags
