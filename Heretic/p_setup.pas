@@ -429,7 +429,7 @@ begin
     //                   do not treat as fog sector
     if ms.lightlevel = 256 then
       ms.lightlevel := $FF;
-    ss.lightlevel := ms.lightlevel and $FF; // JVAL: Mars fog sectors
+    ss.lightlevel := ms.lightlevel;
     ss.lightninglightlevel := 255; // JVAL: 20220218 - Lightning
     ss.special := ms.special;
     ss.tag := ms.tag;
@@ -437,8 +437,11 @@ begin
     ss.midsec := -1;    // JVAL: 3d floors
     ss.midline := -1;
     ss.renderflags := 0;
-    if ms.lightlevel > $FF then // JVAL: Mars fog sectors
+    if ss.lightlevel >= 1000 then // JVAL: Fog sectors
+    begin
       ss.renderflags := ss.renderflags or SRF_FOG;
+      ss.lightlevel := ss.lightlevel - 1000;
+    end;
     ss.flags := 0;
     ss.gravity := GRAVITY;  // JVAL: sector gravity (VERSION 204)
     ss.floorangle := 0;     // JVAL: 20200221 - Texture angle
