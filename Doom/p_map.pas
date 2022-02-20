@@ -255,7 +255,7 @@ begin
   if line.special <> 0 then
   begin
     if mobj.flags5_ex and MF5_EX_PUSHWALL <> 0 then
-      P_ActivateLine(line, mobj, side, ULAC_PUSH)
+      P_ActivateLine(line, mobj, side, ULAC_PUSH or ULAC_MPUSH)
     else if mobj.flags5_ex and MF5_EX_IMPACT <> 0 then
       P_ActivateLine(line, mobj, side, ULAC_IMPACT);
   end;
