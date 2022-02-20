@@ -781,6 +781,11 @@ type
     destructor Destroy; override;
   end;
 
+//==============================================================================
+//
+// rtlinfo_t.Create
+//
+//==============================================================================
 constructor rtlinfo_t.Create(const aname: string);
 begin
   filename := aname;
@@ -789,6 +794,11 @@ begin
   stream := nil;
 end;
 
+//==============================================================================
+//
+// rtlinfo_t.Destroy
+//
+//==============================================================================
 destructor rtlinfo_t.Destroy;
 begin
   stream.Free;

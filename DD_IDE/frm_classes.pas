@@ -128,6 +128,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// TFrame_Classes.Create
+//
+//==============================================================================
 constructor TFrame_Classes.Create(AOwner: TComponent);
 begin
   inherited;
@@ -164,6 +169,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_Classes.Destroy
+//
+//==============================================================================
 destructor TFrame_Classes.Destroy;
 begin
   ClearClss;

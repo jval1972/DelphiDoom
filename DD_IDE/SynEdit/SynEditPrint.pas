@@ -254,6 +254,11 @@ uses
 
 { TSynEditPrint }
 
+//==============================================================================
+//
+// TSynEditPrint.Create
+//
+//==============================================================================
 constructor TSynEditPrint.Create(AOwner: TComponent);
 begin
   inherited;
@@ -278,6 +283,11 @@ begin
   FDefaultBG := clWhite;
 end;
 
+//==============================================================================
+//
+// TSynEditPrint.Destroy
+//
+//==============================================================================
 destructor TSynEditPrint.Destroy;
 var
   i: Integer;

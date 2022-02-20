@@ -161,7 +161,12 @@ const
   ASCII_COMMENT1 = '/';
   ASCII_COMMENT = $2F2F; // = '//'
 
+//==============================================================================
+// TScriptEngine.Create
+//
 // TScriptEngine
+//
+//==============================================================================
 constructor TScriptEngine.Create(const tx: string);
 begin
   Inherited Create;
@@ -174,6 +179,11 @@ begin
   SetText(tx);
 end;
 
+//==============================================================================
+//
+// TScriptEngine.Destroy
+//
+//==============================================================================
 destructor TScriptEngine.Destroy;
 begin
   Clear;

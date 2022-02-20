@@ -146,6 +146,11 @@ begin
   // frames, nothing is needed here.
 end;
 
+//==============================================================================
+//
+// TOBuffer_Wave.Create
+//
+//==============================================================================
 constructor TOBuffer_Wave.Create(NumberOfChannels: Cardinal; Player: TPlayer; Filename: String);
 var pwf: TWAVEFORMATEX;
     i: Cardinal;
@@ -210,6 +215,11 @@ begin
     FBufferP[i] := i * FChannels;
 end;
 
+//==============================================================================
+//
+// TOBuffer_Wave.Destroy
+//
+//==============================================================================
 destructor TOBuffer_Wave.Destroy;
 begin
   // Mark the current chunk as dirty and flush it

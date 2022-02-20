@@ -76,6 +76,11 @@ procedure P_NotifyMobjKey(const m: Pmobj_t);
 
 implementation
 
+//==============================================================================
+//
+// TMobjList.Create
+//
+//==============================================================================
 constructor TMobjList.Create;
 var
   i: integer;
@@ -85,6 +90,11 @@ begin
     containers[i] := TSmartPointerList.Create;
 end;
 
+//==============================================================================
+//
+// TMobjList.Destroy
+//
+//==============================================================================
 destructor TMobjList.Destroy;
 var
   i: integer;

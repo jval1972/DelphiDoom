@@ -13397,6 +13397,11 @@ begin
   {$ENDIF}
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.Create
+//
+//==============================================================================
 constructor TPSPascalCompiler.Create(const akeywords: PRTabArray; const anumkeywords: integer);
 begin
   inherited Create;
@@ -13413,6 +13418,11 @@ begin
   FMessages := TPSList.Create;
 end;
 
+//==============================================================================
+//
+// TPSPascalCompiler.Destroy
+//
+//==============================================================================
 destructor TPSPascalCompiler.Destroy;
 begin
   Clear;
@@ -15284,6 +15294,12 @@ end;
 {$ENDIF}
 
 { TPSType }
+
+//==============================================================================
+//
+// TPSType.Create
+//
+//==============================================================================
 constructor TPSType.Create;
 begin
   inherited Create;
@@ -15291,6 +15307,11 @@ begin
   FFinalTypeNo := InvalidVal;
 end;
 
+//==============================================================================
+//
+// TPSType.Destroy
+//
+//==============================================================================
 destructor TPSType.Destroy;
 begin
   FAttributes.Free;
@@ -15331,12 +15352,22 @@ begin
   FRecordSubVals.Add(Result);
 end;
 
+//==============================================================================
+//
+// TPSRecordType.Create
+//
+//==============================================================================
 constructor TPSRecordType.Create;
 begin
   inherited Create;
   FRecordSubVals := TPSList.Create;
 end;
 
+//==============================================================================
+//
+// TPSRecordType.Destroy
+//
+//==============================================================================
 destructor TPSRecordType.Destroy;
 var
   i: Longint;
@@ -15368,6 +15399,12 @@ begin
 end;
 
 { TPSRegProc }
+
+//==============================================================================
+//
+// TPSRegProc.Create
+//
+//==============================================================================
 constructor TPSRegProc.Create;
 begin
   inherited Create;
@@ -15376,6 +15413,11 @@ begin
   FDecl := TPSParametersDecl.Create;
 end;
 
+//==============================================================================
+//
+// TPSRegProc.Destroy
+//
+//==============================================================================
 destructor TPSRegProc.Destroy;
 begin
   FDecl.Free;
@@ -15431,6 +15473,12 @@ begin
 end;
 
 { TPSInternalProcedure }
+
+//==============================================================================
+//
+// TPSInternalProcedure.Create
+//
+//==============================================================================
 constructor TPSInternalProcedure.Create;
 begin
   inherited Create;
@@ -15440,6 +15488,11 @@ begin
   FDecl := TPSParametersDecl.Create;
 end;
 
+//==============================================================================
+//
+// TPSInternalProcedure.Destroy
+//
+//==============================================================================
 destructor TPSInternalProcedure.Destroy;
 var
   i: Longint;
@@ -15485,12 +15538,23 @@ begin
 end;
 
 { TPSProcedure }
+
+//==============================================================================
+//
+// TPSProcedure.Create
+//
+//==============================================================================
 constructor TPSProcedure.Create;
 begin
   inherited Create;
   FAttributes := TPSAttributes.Create;
 end;
 
+//==============================================================================
+//
+// TPSProcedure.Destroy
+//
+//==============================================================================
 destructor TPSProcedure.Destroy;
 begin
   FAttributes.Free;
@@ -15521,6 +15585,12 @@ begin
 end;
 
 { TPSConstant }
+
+//==============================================================================
+//
+// TPSConstant.Destroy
+//
+//==============================================================================
 destructor TPSConstant.Destroy;
 begin
   DisposeVariant(Value);
@@ -16072,6 +16142,12 @@ begin
 end;
 
 { TUnConstOperation }
+
+//==============================================================================
+//
+// TUnConstOperation.Destroy
+//
+//==============================================================================
 destructor TUnConstOperation.Destroy;
 begin
   FVal1.Free;
@@ -16079,6 +16155,12 @@ begin
 end;
 
 { TBinConstOperation }
+
+//==============================================================================
+//
+// TBinConstOperation.Destroy
+//
+//==============================================================================
 destructor TBinConstOperation.Destroy;
 begin
   FVal1.Free;
@@ -16087,6 +16169,12 @@ begin
 end;
 
 { TConstData }
+
+//==============================================================================
+//
+// TConstData.Destroy
+//
+//==============================================================================
 destructor TConstData.Destroy;
 begin
   DisposeVariant(FData);
@@ -16122,6 +16210,12 @@ begin
 end;
 
 { TPSValueData }
+
+//==============================================================================
+//
+// TPSValueData.Destroy
+//
+//==============================================================================
 destructor TPSValueData.Destroy;
 begin
   DisposeVariant(FData);
@@ -16129,12 +16223,23 @@ begin
 end;
 
 { TPSValueReplace }
+
+//==============================================================================
+//
+// TPSValueReplace.Create
+//
+//==============================================================================
 constructor TPSValueReplace.Create;
 begin
   FFreeNewValue := True;
   FReplaceTimes := 1;
 end;
 
+//==============================================================================
+//
+// TPSValueReplace.Destroy
+//
+//==============================================================================
 destructor TPSValueReplace.Destroy;
 begin
   if FFreeOldValue then
@@ -16145,6 +16250,12 @@ begin
 end;
 
 { TPSUnValueOp }
+
+//==============================================================================
+//
+// TPSUnValueOp.Destroy
+//
+//==============================================================================
 destructor TPSUnValueOp.Destroy;
 begin
   FVal1.Free;
@@ -16152,6 +16263,12 @@ begin
 end;
 
 { TPSBinValueOp }
+
+//==============================================================================
+//
+// TPSBinValueOp.Destroy
+//
+//==============================================================================
 destructor TPSBinValueOp.Destroy;
 begin
   FVal1.Free;
@@ -16160,6 +16277,12 @@ begin
 end;
 
 { TPSSubValue }
+
+//==============================================================================
+//
+// TPSSubValue.Destroy
+//
+//==============================================================================
 destructor TPSSubValue.Destroy;
 begin
   FSubNo.Free;
@@ -16167,12 +16290,23 @@ begin
 end;
 
 { TPSValueVar }
+
+//==============================================================================
+//
+// TPSValueVar.Create
+//
+//==============================================================================
 constructor TPSValueVar.Create;
 begin
   inherited Create;
   FRecItems := TPSList.Create;
 end;
 
+//==============================================================================
+//
+// TPSValueVar.Destroy
+//
+//==============================================================================
 destructor TPSValueVar.Destroy;
 var
   i: Longint;
@@ -16230,6 +16364,12 @@ begin
 end;
 
 { TPSValueProc }
+
+//==============================================================================
+//
+// TPSValueProc.Destroy
+//
+//==============================================================================
 destructor TPSValueProc.Destroy;
 begin
   FSelfPtr.Free;
@@ -16237,6 +16377,12 @@ begin
 end;
 
 { TPSParameter }
+
+//==============================================================================
+//
+// TPSParameter.Destroy
+//
+//==============================================================================
 destructor TPSParameter.Destroy;
 begin
   FTempVar.Free;
@@ -16257,6 +16403,11 @@ begin
   FItems.Add(Result);
 end;
 
+//==============================================================================
+//
+// TPSParameters.Create
+//
+//==============================================================================
 constructor TPSParameters.Create;
 begin
   inherited Create;
@@ -16277,6 +16428,11 @@ begin
   p.Free;
 end;
 
+//==============================================================================
+//
+// TPSParameters.Destroy
+//
+//==============================================================================
 destructor TPSParameters.Destroy;
 var
   i: Longint;
@@ -16321,6 +16477,11 @@ begin
   Result := FItems.Add(Item);
 end;
 
+//==============================================================================
+//
+// TPSValueArray.Create
+//
+//==============================================================================
 constructor TPSValueArray.Create;
 begin
   inherited Create;
@@ -16337,6 +16498,11 @@ begin
   FItems.Delete(i);
 end;
 
+//==============================================================================
+//
+// TPSValueArray.Destroy
+//
+//==============================================================================
 destructor TPSValueArray.Destroy;
 var
   i: Longint;
@@ -16369,6 +16535,12 @@ begin
 end;
 
 { TPSValueAllocatedStackVar }
+
+//==============================================================================
+//
+// TPSValueAllocatedStackVar.Destroy
+//
+//==============================================================================
 destructor TPSValueAllocatedStackVar.Destroy;
 var
   pv: TPSProcVar;
@@ -16543,6 +16715,11 @@ begin
   Result.FClass := FClass;
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.Create
+//
+//==============================================================================
 constructor TPSCompileTimeClass.Create(ClassName: TbtString; aOwner: TPSPascalCompiler; aType: TPSType);
 begin
   inherited Create;
@@ -16557,6 +16734,11 @@ begin
   FOwner := aOwner;
 end;
 
+//==============================================================================
+//
+// TPSCompileTimeClass.Destroy
+//
+//==============================================================================
 destructor TPSCompileTimeClass.Destroy;
 var
   i: Longint;
@@ -17095,6 +17277,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSBlockInfo.Create
+//
+//==============================================================================
 constructor TPSBlockInfo.Create(Owner: TPSBlockInfo);
 begin
   inherited Create;
@@ -17107,6 +17294,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSBlockInfo.Destroy
+//
+//==============================================================================
 destructor TPSBlockInfo.Destroy;
 begin
   Clear;
@@ -17128,6 +17320,11 @@ begin
   FFieldNameHash := MakeHash(FFieldName);
 end;
 
+//==============================================================================
+//
+// TPSAttributeTypeField.Create
+//
+//==============================================================================
 constructor TPSAttributeTypeField.Create(AOwner: TPSAttributeType);
 begin
   inherited Create;
@@ -17168,12 +17365,22 @@ begin
   FNameHash := MakeHash(FName);
 end;
 
+//==============================================================================
+//
+// TPSAttributeType.Create
+//
+//==============================================================================
 constructor TPSAttributeType.Create;
 begin
   inherited Create;
   FFields := TPSList.Create;
 end;
 
+//==============================================================================
+//
+// TPSAttributeType.Destroy
+//
+//==============================================================================
 destructor TPSAttributeType.Destroy;
 var
   i: Longint;
@@ -17233,6 +17440,11 @@ begin
   Result := FValues[i];
 end;
 
+//==============================================================================
+//
+// TPSAttribute.Create
+//
+//==============================================================================
 constructor TPSAttribute.Create(AttribType: TPSAttributeType);
 begin
   inherited Create;
@@ -17264,6 +17476,11 @@ begin
   Result := FValues.Add(v);
 end;
 
+//==============================================================================
+//
+// TPSAttribute.Destroy
+//
+//==============================================================================
 destructor TPSAttribute.Destroy;
 var
   i: Longint;
@@ -17346,12 +17563,22 @@ begin
   FItems.Add(Result);
 end;
 
+//==============================================================================
+//
+// TPSAttributes.Create
+//
+//==============================================================================
 constructor TPSAttributes.Create;
 begin
   inherited Create;
   FItems := TPSList.Create;
 end;
 
+//==============================================================================
+//
+// TPSAttributes.Destroy
+//
+//==============================================================================
 destructor TPSAttributes.Destroy;
 var
   i: Longint;
@@ -17500,12 +17727,22 @@ begin
   Param.Free;
 end;
 
+//==============================================================================
+//
+// TPSParametersDecl.Create
+//
+//==============================================================================
 constructor TPSParametersDecl.Create;
 begin
   inherited Create;
   FParams := TPSList.Create;
 end;
 
+//==============================================================================
+//
+// TPSParametersDecl.Destroy
+//
+//==============================================================================
 destructor TPSParametersDecl.Destroy;
 var
   i: Longint;
@@ -17544,12 +17781,23 @@ begin
 end;
 
 { TPSProceduralType }
+
+//==============================================================================
+//
+// TPSProceduralType.Create
+//
+//==============================================================================
 constructor TPSProceduralType.Create;
 begin
   inherited Create;
   FProcDef := TPSParametersDecl.Create;
 end;
 
+//==============================================================================
+//
+// TPSProceduralType.Destroy
+//
+//==============================================================================
 destructor TPSProceduralType.Destroy;
 begin
   FProcDef.Free;
@@ -17570,6 +17818,11 @@ begin
   FNameHash := MakeHash(FName);
 end;
 
+//==============================================================================
+//
+// TPSDelphiClassItem.Create
+//
+//==============================================================================
 constructor TPSDelphiClassItem.Create(Owner: TPSCompileTimeClass; const aDeclaration: TbtString);
 begin
   inherited Create;
@@ -17578,6 +17831,11 @@ begin
   FDeclaration := aDeclaration;
 end;
 
+//==============================================================================
+//
+// TPSDelphiClassItem.Destroy
+//
+//==============================================================================
 destructor TPSDelphiClassItem.Destroy;
 begin
   FDecl.Free;
@@ -17628,6 +17886,11 @@ begin
   Result := True;
 end;
 
+//==============================================================================
+//
+// TPSInterface.Create
+//
+//==============================================================================
 constructor TPSInterface.Create(Owner: TPSPascalCompiler; InheritedFrom: TPSInterface;
   Guid: TGuid; const Name: TbtString; aType: TPSType);
 begin
@@ -17655,6 +17918,11 @@ begin
   FInheritedFrom := p;
 end;
 
+//==============================================================================
+//
+// TPSInterface.Destroy
+//
+//==============================================================================
 destructor TPSInterface.Destroy;
 var
   i: Longint;
@@ -17861,6 +18129,12 @@ begin
 end;
 
 { TPSInterfaceMethod }
+
+//==============================================================================
+//
+// TPSInterfaceMethod.Create
+//
+//==============================================================================
 constructor TPSInterfaceMethod.Create(Owner: TPSInterface);
 begin
   inherited Create;
@@ -17891,6 +18165,11 @@ begin
   Result := FOffsetCache;
 end;
 
+//==============================================================================
+//
+// TPSInterfaceMethod.Destroy
+//
+//==============================================================================
 destructor TPSInterfaceMethod.Destroy;
 begin
   FDecl.Free;
@@ -17949,6 +18228,11 @@ begin
   Result := False;
 end;
 
+//==============================================================================
+//
+// TPSExternalClass.Create
+//
+//==============================================================================
 constructor TPSExternalClass.Create(Se: TIFPSPascalCompiler; TypeNo: TPSType);
 begin
   inherited Create;
@@ -18037,6 +18321,12 @@ begin
 end;
 
 { TPSValueProcVal }
+
+//==============================================================================
+//
+// TPSValueProcVal.Destroy
+//
+//==============================================================================
 destructor TPSValueProcVal.Destroy;
 begin
   FProcNo.Free;

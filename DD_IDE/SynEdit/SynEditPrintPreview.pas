@@ -36,7 +36,6 @@ located at http://SynEdit.SourceForge.net
 Known Issues:
 -------------------------------------------------------------------------------}
 
-
 {-------------------------------------------------------------------------------
 CONTENTS:
   Print preview component. Allmost identical to code developed by Michael Hieke.
@@ -198,6 +197,11 @@ const
 
 { TSynEditPrintPreview }
 
+//==============================================================================
+//
+// TSynEditPrintPreview.Create
+//
+//==============================================================================
 constructor TSynEditPrintPreview.Create(AOwner: TComponent);
 begin
   inherited;
@@ -504,7 +508,6 @@ begin
   FScrollPosition.X := 0;
   FScrollPosition.Y := 0;
 end;
-
 
 procedure TSynEditPrintPreview.UpdateScrollbars;
 {$IFNDEF SYN_CLX}

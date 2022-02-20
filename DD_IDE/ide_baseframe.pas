@@ -54,6 +54,11 @@ uses
   ide_utils,
   frm_projectmanager, frm_scripteditor;
 
+//==============================================================================
+//
+// TBaseEditorObject.Create
+//
+//==============================================================================
 constructor TBaseEditorObject.Create(afilename: AnsiString = '');
 begin
   Inherited Create;
@@ -68,6 +73,11 @@ begin
     LoadFromFile(ffilename);
 end;
 
+//==============================================================================
+//
+// TBaseEditorObject.Destroy
+//
+//==============================================================================
 destructor TBaseEditorObject.Destroy;
 begin
   undoManager.Free;

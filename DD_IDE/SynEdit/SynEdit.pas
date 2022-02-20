@@ -1214,6 +1214,11 @@ type
     function Equals(AEvent: THookedCommandEvent): Boolean; {$IFDEF UNICODE} reintroduce; {$ENDIF}
   end;
 
+//==============================================================================
+//
+// THookedCommandHandlerEntry.Create
+//
+//==============================================================================
 constructor THookedCommandHandlerEntry.Create(AEvent: THookedCommandEvent;
   AData: pointer);
 begin
@@ -1407,6 +1412,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TCustomSynEdit.Create
+//
+//==============================================================================
 constructor TCustomSynEdit.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -1615,6 +1625,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TCustomSynEdit.Destroy
+//
+//==============================================================================
 destructor TCustomSynEdit.Destroy;
 begin
   Highlighter := nil;
@@ -8417,7 +8432,6 @@ begin
   end;
 end;
 
-
 {$IFNDEF SYN_COMPILER_6_UP}
 procedure TCustomSynEdit.WMMouseWheel(var Msg: TMessage);
 var
@@ -11218,7 +11232,6 @@ begin
     InvalidateGutter;
 end;
 
-
 { TSynEditMark }
 
 function TSynEditMark.GetEdit: TCustomSynEdit;
@@ -11279,6 +11292,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TSynEditMark.Create
+//
+//==============================================================================
 constructor TSynEditMark.Create(AOwner: TCustomSynEdit);
 begin
   inherited Create;
@@ -11305,6 +11323,11 @@ begin
   inherited SetItem(Index, Item);
 end;
 
+//==============================================================================
+//
+// TSynEditMarkList.Create
+//
+//==============================================================================
 constructor TSynEditMarkList.Create(AOwner: TCustomSynEdit);
 begin
   inherited Create;
@@ -11365,6 +11388,11 @@ end;
 
 { TSynEditPlugin }
 
+//==============================================================================
+//
+// TSynEditPlugin.Create
+//
+//==============================================================================
 constructor TSynEditPlugin.Create(AOwner: TCustomSynEdit);
 begin
   inherited Create;
@@ -11377,6 +11405,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TSynEditPlugin.Destroy
+//
+//==============================================================================
 destructor TSynEditPlugin.Destroy;
 begin
   if fOwner <> nil then

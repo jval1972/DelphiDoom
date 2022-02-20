@@ -151,6 +151,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.Create
+//
+//==============================================================================
 constructor TFrame_ScriptEditor.Create(AOwner: TComponent);
 var
   AFont: TFont;
@@ -260,6 +265,11 @@ begin
   fEventsList := TStringList.Create;
 end;
 
+//==============================================================================
+//
+// TFrame_ScriptEditor.Destroy
+//
+//==============================================================================
 destructor TFrame_ScriptEditor.Destroy;
 begin
   if obj <> nil then

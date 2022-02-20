@@ -186,8 +186,13 @@ type
     function OnVarValue(v: string): string;
   end;
 
+//==============================================================================
+// TActorEvaluator.Create
+//
 ////////////////////////////////////////////////////////////////////////////////
 // TActorEvaluator
+//
+//==============================================================================
 constructor TActorEvaluator.Create;
 begin
   Inherited Create;

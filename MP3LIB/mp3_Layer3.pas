@@ -171,6 +171,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TLayerIII_Decoder.Create
+//
+//==============================================================================
 constructor TLayerIII_Decoder.Create(Stream: TBitStream; Header: THeader;
   FilterA, FilterB: TSynthesisFilter; Buffer: TOBuffer;
   Which_Ch: TChannels);
@@ -524,6 +529,11 @@ begin
     xr1d[j] := 0.0;
 end;
 
+//==============================================================================
+//
+// TLayerIII_Decoder.Destroy
+//
+//==============================================================================
 destructor TLayerIII_Decoder.Destroy;
 begin
   FreeAndNil(FBR);

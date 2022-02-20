@@ -51,6 +51,11 @@ implementation
 uses
   ddc_base, ide_utils;
 
+//==============================================================================
+//
+// TFrame_Sprites.Create
+//
+//==============================================================================
 constructor TFrame_Sprites.Create(AOwner: TComponent);
 begin
   inherited;
@@ -71,6 +76,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_Sprites.Destroy
+//
+//==============================================================================
 destructor TFrame_Sprites.Destroy;
 begin
   ClearSPRinfo;

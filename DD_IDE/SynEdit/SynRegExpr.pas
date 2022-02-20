@@ -149,7 +149,6 @@ const
   RegExprLinePairedSeparator = '';
   }
 
-
 const
  NSUBEXP = 15; // max number of subexpression //###0.929
  // Cannot be more than NSUBEXPMAX
@@ -170,7 +169,6 @@ const
  // then use full (32 bytes) ANYOFFULL instead of ANYOF[BUT]TINYSET
  // !!! Attension ! If you change TinySetLen, you must
  // change code marked as "//!!!TinySet"
-
 
 type
 
@@ -289,7 +287,6 @@ type
     // Default handler raise exception ERegExpr with
     // Message = ErrorMsg (AErrorID), ErrorCode = AErrorID
     // and CompilerErrorPos = value of property CompilerErrorPos.
-
 
     {==================== Compiler section ===================}
     function CompileRegExpr (exp : PRegExprChar) : boolean;
@@ -628,7 +625,6 @@ function RegExprSubExpressions (const ARegExpr : string;
 //         corresponding opening '('.
 // If Result <> 0, then ASubExpr can contain empty items or illegal ones
 
-
 implementation
 
 uses
@@ -727,7 +723,6 @@ function StrScan (Str: PRegExprChar; Chr: WideChar): PRegExprChar;
 --------------------------------------------------------------}
 
 {$ENDIF}
-
 
 {=============================================================}
 {===================== Global functions ======================}
@@ -917,8 +912,6 @@ function RegExprSubExpressions (const ARegExpr : string;
  end; { of function RegExprSubExpressions
 --------------------------------------------------------------}
 
-
-
 const
  MAGIC       = TREOp (216);// programm signature
 
@@ -1012,7 +1005,6 @@ const
 //      LOOPENTRY-LOOP. Each LOOPENTRY initialize loopstack for
 //      current level.
 // OPEN,CLOSE are numbered at compile time.
-
 
 {=============================================================}
 {================== Error handling section ===================}
@@ -1114,7 +1106,6 @@ function TRegExpr.LastError : integer;
  end; { of function TRegExpr.LastError
 --------------------------------------------------------------}
 
-
 {=============================================================}
 {===================== Common section ========================}
 {=============================================================}
@@ -1131,6 +1122,11 @@ class function TRegExpr.VersionMinor : integer; //###0.944
  end; { of class function TRegExpr.VersionMinor
 --------------------------------------------------------------}
 
+//==============================================================================
+//
+// TRegExpr.Create
+//
+//==============================================================================
 constructor TRegExpr.Create;
  begin
   inherited;
@@ -1156,6 +1152,11 @@ constructor TRegExpr.Create;
  end; { of constructor TRegExpr.Create
 --------------------------------------------------------------}
 
+//==============================================================================
+//
+// TRegExpr.Destroy
+//
+//==============================================================================
 destructor TRegExpr.Destroy;
  begin
   if programm <> nil
@@ -1375,7 +1376,6 @@ procedure TRegExpr.SetModifier (AIndex : integer; ASet : boolean);
    else fModifiers := fModifiers and not Mask;
  end; { of procedure TRegExpr.SetModifier
 --------------------------------------------------------------}
-
 
 {=============================================================}
 {==================== Compiler section =======================}
@@ -2548,7 +2548,6 @@ function TRegExpr.GetCompilerErrorPos : integer;
   Result := regparse - regexpbeg;
  end; { of function TRegExpr.GetCompilerErrorPos
 --------------------------------------------------------------}
-
 
 {=============================================================}
 {===================== Matching section ======================}
@@ -3824,7 +3823,6 @@ function TRegExpr.ReplaceEx (AInputStr : RegExprString;
   Result := Result + System.Copy (AInputStr, PrevPos, MaxInt); // Tail
  end; { of function TRegExpr.ReplaceEx
 --------------------------------------------------------------}
-
 
 {$IFDEF OverMeth}
 function TRegExpr.Replace (AInputStr : RegExprString;

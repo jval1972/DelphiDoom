@@ -144,6 +144,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// TFrame_UnitFunctions.Create
+//
+//==============================================================================
 constructor TFrame_UnitFunctions.Create(AOwner: TComponent);
 begin
   inherited;
@@ -178,6 +183,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_UnitFunctions.Destroy
+//
+//==============================================================================
 destructor TFrame_UnitFunctions.Destroy;
 begin
   ClearFuncs;

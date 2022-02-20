@@ -36,7 +36,6 @@ located at http://SynEdit.SourceForge.net
 Known Issues:
 -------------------------------------------------------------------------------}
 
-
 {-------------------------------------------------------------------------------
 CONTENTS:
   Classes handling info about headers and footers.
@@ -260,15 +259,24 @@ begin
   Delete(Value, 1, p);
 end;
 
-
 { THeaderFooterItem }
 
+//==============================================================================
+//
+// THeaderFooterItem.Create
+//
+//==============================================================================
 constructor THeaderFooterItem.Create;
 begin
   inherited;
   FFont := TFont.Create;
 end;
 
+//==============================================================================
+//
+// THeaderFooterItem.Destroy
+//
+//==============================================================================
 destructor THeaderFooterItem.Destroy;
 begin
   inherited;
@@ -300,7 +308,6 @@ begin
     IntToStr(FLineNumber) + '/' +
     IntToStr(Ord(FAlignment));
 end;
-
 
 { This is basically copied from original SynEditPrint.pas. Returns the
   header/footer text with macros expanded }
@@ -555,6 +562,11 @@ end;
 
 { THeaderFooter }
 
+//==============================================================================
+//
+// THeaderFooter.Create
+//
+//==============================================================================
 constructor THeaderFooter.Create;
 begin
   inherited;
@@ -577,6 +589,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// THeaderFooter.Destroy
+//
+//==============================================================================
 destructor THeaderFooter.Destroy;
 var
   i: Integer;
@@ -1025,6 +1042,11 @@ end;
 
 { THeader }
 
+//==============================================================================
+//
+// THeader.Create
+//
+//==============================================================================
 constructor THeader.Create;
 begin
   inherited;
@@ -1033,6 +1055,11 @@ end;
 
 { TFooter }
 
+//==============================================================================
+//
+// TFooter.Create
+//
+//==============================================================================
 constructor TFooter.Create;
 begin
   inherited;

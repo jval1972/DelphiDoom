@@ -104,6 +104,11 @@ implementation
 
 { TBinary }
 
+//==============================================================================
+//
+// TBinary.Create
+//
+//==============================================================================
 constructor TBinary.Create;
 begin
   Inherited Create;
@@ -111,6 +116,11 @@ begin
   FCompressionLevel := clNone;
 end;
 
+//==============================================================================
+//
+// TBinary.Destroy
+//
+//==============================================================================
 destructor TBinary.Destroy;
 begin
   FMemoryCache.Free;
@@ -423,6 +433,11 @@ end;
 
 { TCustomBinaryData }
 
+//==============================================================================
+//
+// TCustomBinaryData.Create
+//
+//==============================================================================
 constructor TCustomBinaryData.Create;
 begin
   Inherited;
@@ -431,6 +446,11 @@ begin
   FBinary.OnProgress := OnProgress;
 end;
 
+//==============================================================================
+//
+// TCustomBinaryData.Destroy
+//
+//==============================================================================
 destructor TCustomBinaryData.Destroy;
 begin
   FBinary.Free;

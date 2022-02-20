@@ -228,6 +228,11 @@ begin
   Result := inherited IsWordBreakChar(AChar) and not IsIdentChar(AChar);
 end;
 
+//==============================================================================
+//
+// TSynDDDisasmSyn.Create
+//
+//==============================================================================
 constructor TSynDDDisasmSyn.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -268,6 +273,11 @@ begin
   fRange := rsUnknown;
 end; { Create }
 
+//==============================================================================
+//
+// TSynDDDisasmSyn.Destroy
+//
+//==============================================================================
 destructor TSynDDDisasmSyn.Destroy;
 begin
   fKeyWords.Free;

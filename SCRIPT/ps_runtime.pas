@@ -1526,6 +1526,11 @@ type
     tag: pointer;
   end;
 
+//==============================================================================
+//
+// TPSExceptionHandler.Destroy
+//
+//==============================================================================
 destructor TPSExceptionHandler.Destroy;
 begin
   ExceptionObject.Free;
@@ -2457,12 +2462,22 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TPSTypeRec.Create
+//
+//==============================================================================
 constructor TPSTypeRec.Create(Owner: TPSExec);
 begin
   inherited Create;
   FAttributes := TPSRuntimeAttributes.Create(Owner);
 end;
 
+//==============================================================================
+//
+// TPSTypeRec.Destroy
+//
+//==============================================================================
 destructor TPSTypeRec.Destroy;
 begin
   FAttributes.Free;
@@ -2483,6 +2498,11 @@ begin
     IPointer(RealFieldOffsets[RealFieldOffsets.Count - 1]);
 end;
 
+//==============================================================================
+//
+// TPSTypeRec_Record.Create
+//
+//==============================================================================
 constructor TPSTypeRec_Record.Create(Owner: TPSExec);
 begin
   inherited Create(Owner);
@@ -2490,6 +2510,11 @@ begin
   FFieldTypes := TPSList.Create;
 end;
 
+//==============================================================================
+//
+// TPSTypeRec_Record.Destroy
+//
+//==============================================================================
 destructor TPSTypeRec_Record.Destroy;
 begin
   FFieldTypes.Free;
@@ -2947,6 +2972,11 @@ begin
   FCurrStackBase := InvalidVal;
 end;
 
+//==============================================================================
+//
+// TPSExec.Create
+//
+//==============================================================================
 constructor TPSExec.Create;
 begin
   inherited Create;
@@ -2978,6 +3008,11 @@ begin
   FAllowNullClasses := False;
 end;
 
+//==============================================================================
+//
+// TPSExec.Destroy
+//
+//==============================================================================
 destructor TPSExec.Destroy;
 var
   I: Longint;
@@ -14941,6 +14976,12 @@ begin
 end;
 
 { TPSRuntimeClass }
+
+//==============================================================================
+//
+// TPSRuntimeClass.Create
+//
+//==============================================================================
 constructor TPSRuntimeClass.Create(aClass: TClass; const AName: TbtString);
 begin
   inherited Create;
@@ -14959,6 +15000,11 @@ begin
   FEndOfVmt := MaxInt;
 end;
 
+//==============================================================================
+//
+// TPSRuntimeClass.Destroy
+//
+//==============================================================================
 destructor TPSRuntimeClass.Destroy;
 var
   I: Longint;
@@ -15150,12 +15196,22 @@ begin
   FClasses.Clear;
 end;
 
+//==============================================================================
+//
+// TPSRuntimeClassImporter.Create
+//
+//==============================================================================
 constructor TPSRuntimeClassImporter.Create;
 begin
   inherited Create;
   FClasses := TPSList.Create;
 end;
 
+//==============================================================================
+//
+// TPSRuntimeClassImporter.CreateAndRegister
+//
+//==============================================================================
 constructor TPSRuntimeClassImporter.CreateAndRegister(Exec: TPSExec;
   AutoFree: Boolean);
 begin
@@ -15166,6 +15222,11 @@ begin
     Exec.AddResource(@RCIFreeProc, Self);
 end;
 
+//==============================================================================
+//
+// TPSRuntimeClassImporter.Destroy
+//
+//==============================================================================
 destructor TPSRuntimeClassImporter.Destroy;
 begin
   Clear;
@@ -15778,6 +15839,12 @@ begin
 end;
 
 { EPSException }
+
+//==============================================================================
+//
+// EPSException.Create
+//
+//==============================================================================
 constructor EPSException.Create(const Error: TbtString; Exec: TPSExec;
   Procno, ProcPos: Cardinal);
 begin
@@ -15809,6 +15876,11 @@ begin
   FValues.Capacity := FValues.Length;
 end;
 
+//==============================================================================
+//
+// TPSRuntimeAttribute.Create
+//
+//==============================================================================
 constructor TPSRuntimeAttribute.Create(Owner: TPSRuntimeAttributes);
 begin
   inherited Create;
@@ -15828,6 +15900,11 @@ begin
   FValues.Pop;
 end;
 
+//==============================================================================
+//
+// TPSRuntimeAttribute.Destroy
+//
+//==============================================================================
 destructor TPSRuntimeAttribute.Destroy;
 begin
   FValues.Free;
@@ -15867,6 +15944,11 @@ begin
   FAttributes.Add(Result);
 end;
 
+//==============================================================================
+//
+// TPSRuntimeAttributes.Create
+//
+//==============================================================================
 constructor TPSRuntimeAttributes.Create(AOwner: TPSExec);
 begin
   inherited Create;
@@ -15885,6 +15967,11 @@ begin
   FAttributes.Delete(i);
 end;
 
+//==============================================================================
+//
+// TPSRuntimeAttributes.Destroy
+//
+//==============================================================================
 destructor TPSRuntimeAttributes.Destroy;
 var
   i: Longint;
@@ -15933,6 +16020,12 @@ begin
 end;
 
 { TPSInternalProcRec }
+
+//==============================================================================
+//
+// TPSInternalProcRec.Destroy
+//
+//==============================================================================
 destructor TPSInternalProcRec.Destroy;
 begin
   if FData <> nil then
@@ -15941,12 +16034,23 @@ begin
 end;
 
 { TPsProcRec }
+
+//==============================================================================
+//
+// TPSProcRec.Create
+//
+//==============================================================================
 constructor TPSProcRec.Create(Owner: TPSExec);
 begin
   inherited Create;
   FAttributes := TPSRuntimeAttributes.Create(Owner);
 end;
 
+//==============================================================================
+//
+// TPSProcRec.Destroy
+//
+//==============================================================================
 destructor TPSProcRec.Destroy;
 begin
   FAttributes.Free;
@@ -16029,6 +16133,11 @@ begin
   SetCapacity(0);
 end;
 
+//==============================================================================
+//
+// TPSStack.Create
+//
+//==============================================================================
 constructor TPSStack.Create;
 begin
   inherited Create;
@@ -16037,6 +16146,11 @@ begin
   FLength := 0;
 end;
 
+//==============================================================================
+//
+// TPSStack.Destroy
+//
+//==============================================================================
 destructor TPSStack.Destroy;
 var
   v: Pointer;

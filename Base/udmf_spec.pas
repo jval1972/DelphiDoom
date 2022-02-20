@@ -916,7 +916,6 @@ begin
         result := EVH_DoFloorAndCeiling(line, args, true);
       end;
 
-
     109: // Force Lightning
       begin
         result := true;

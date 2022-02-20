@@ -401,6 +401,11 @@ uses
 
 { TSynSelectedColor }
 
+//==============================================================================
+//
+// TSynSelectedColor.Create
+//
+//==============================================================================
 constructor TSynSelectedColor.Create;
 begin
   inherited Create;
@@ -446,6 +451,11 @@ end;
 
 { TSynGutter }
 
+//==============================================================================
+//
+// TSynGutter.Create
+//
+//==============================================================================
 constructor TSynGutter.Create;
 begin
   inherited Create;
@@ -473,6 +483,11 @@ begin
   fGradientSteps := 48;
 end;
 
+//==============================================================================
+//
+// TSynGutter.Destroy
+//
+//==============================================================================
 destructor TSynGutter.Destroy;
 begin
   fFont.Free;
@@ -756,6 +771,11 @@ end;
 
 { TSynBookMarkOpt }
 
+//==============================================================================
+//
+// TSynBookMarkOpt.Create
+//
+//==============================================================================
 constructor TSynBookMarkOpt.Create(AOwner: TComponent);
 begin
   inherited Create;
@@ -840,6 +860,11 @@ end;
 
 { TSynGlyph }
 
+//==============================================================================
+//
+// TSynGlyph.Create
+//
+//==============================================================================
 constructor TSynGlyph.Create(aModule: THandle; const aName: string; aMaskColor: TColor);
 begin
   inherited Create;
@@ -859,6 +884,11 @@ begin
   fMaskColor := clNone;
 end;
 
+//==============================================================================
+//
+// TSynGlyph.Destroy
+//
+//==============================================================================
 destructor TSynGlyph.Destroy;
 begin
   if Assigned(fInternalGlyph) then
@@ -1001,12 +1031,22 @@ begin
   end
 end;
 
+//==============================================================================
+//
+// TSynMethodChain.Create
+//
+//==============================================================================
 constructor TSynMethodChain.Create;
 begin
   inherited;
   FNotifyProcs := TList.Create;
 end;
 
+//==============================================================================
+//
+// TSynMethodChain.Destroy
+//
+//==============================================================================
 destructor TSynMethodChain.Destroy;
 begin
   FNotifyProcs.Free;
@@ -1086,6 +1126,11 @@ begin
   inherited Add(TMethod(AEvent));
 end;
 
+//==============================================================================
+//
+// TSynNotifyEventChain.CreateEx
+//
+//==============================================================================
 constructor TSynNotifyEventChain.CreateEx(ASender: TObject);
 begin
   inherited Create;
@@ -1102,7 +1147,6 @@ begin
   inherited Remove(TMethod(AEvent));
 end;
 
-
 { TSynInternalImage }
 
 type
@@ -1116,6 +1160,11 @@ type
 var
   InternalResources: TList;
 
+//==============================================================================
+//
+// TSynInternalImage.Create
+//
+//==============================================================================
 constructor TSynInternalImage.Create(aModule: THandle; const Name: string; Count: integer);
 begin
   inherited Create;
@@ -1125,6 +1174,11 @@ begin
   fCount := Count;
   end;
 
+//==============================================================================
+//
+// TSynInternalImage.Destroy
+//
+//==============================================================================
 destructor TSynInternalImage.Destroy;
 begin
   FreeBitmapFromInternalList;
@@ -1311,6 +1365,11 @@ begin
     Result := srNone;
 end;
 
+//==============================================================================
+//
+// TSynHotKey.Create
+//
+//==============================================================================
 constructor TSynHotKey.Create(AOwner: TComponent);
 begin
   inherited;
@@ -1554,7 +1613,6 @@ begin
   ShowCaret(Handle);
 end;
 {$ENDIF}
-
 
 {$IFNDEF SYN_CLX}
   {$IFNDEF SYN_COMPILER_4_UP}

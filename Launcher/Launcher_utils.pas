@@ -108,7 +108,6 @@ begin
   FreeLibrary(inst);
 end;
 
-
 function GetCPUSpeed(const DelayTime: integer = 500): Double;
 var
   TimerHi, TimerLo: DWORD;
@@ -203,7 +202,6 @@ begin
   end;
 end;
 
-
 procedure ScanNetworkResources(ResourceType, DisplayType: DWord; List: TStrings);
   procedure ScanLevel(NetResource: PNetResource);
   var
@@ -280,7 +278,6 @@ begin
   end;
 
 end;
-
 
 function I_IsCDRomDrive(const drive: char = #0): boolean;
 var
@@ -417,5 +414,4 @@ finalization
     CloseHandle(mHandle);
 
 end.
-
 

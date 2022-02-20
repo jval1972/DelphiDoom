@@ -142,6 +142,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// TFrame_Constants.Create
+//
+//==============================================================================
 constructor TFrame_Constants.Create(AOwner: TComponent);
 begin
   inherited;
@@ -176,6 +181,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_Constants.Destroy
+//
+//==============================================================================
 destructor TFrame_Constants.Destroy;
 begin
   ClearConsts;

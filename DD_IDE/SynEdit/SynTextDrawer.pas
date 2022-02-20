@@ -359,6 +359,11 @@ begin
   Inc(pFontsInfo^.LockCount);
 end;
 
+//==============================================================================
+//
+// TheFontsInfoManager.Create
+//
+//==============================================================================
 constructor TheFontsInfoManager.Create;
 begin
   inherited;
@@ -395,6 +400,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TheFontsInfoManager.Destroy
+//
+//==============================================================================
 destructor TheFontsInfoManager.Destroy;
 begin
   gFontsInfoManager := nil;
@@ -535,6 +545,11 @@ begin
     pCharHeight^ := Abs(TM.tmHeight) {+ TM.tmInternalLeading};
 end;
 
+//==============================================================================
+//
+// TheFontStock.Create
+//
+//==============================================================================
 constructor TheFontStock.Create(InitialFont: TFont);
 begin
   inherited Create;
@@ -542,6 +557,11 @@ begin
   SetBaseFont(InitialFont);
 end;
 
+//==============================================================================
+//
+// TheFontStock.Destroy
+//
+//==============================================================================
 destructor TheFontStock.Destroy;
 begin
   ReleaseFontsInfo;
@@ -718,6 +738,11 @@ end;
 
 { TheTextDrawer }
 
+//==============================================================================
+//
+// TheTextDrawer.Create
+//
+//==============================================================================
 constructor TheTextDrawer.Create(CalcExtentBaseStyle: TFontStyles; BaseFont: TFont);
 begin
   inherited Create;
@@ -730,6 +755,11 @@ begin
   FBkColor := clWindow;
 end;
 
+//==============================================================================
+//
+// TheTextDrawer.Destroy
+//
+//==============================================================================
 destructor TheTextDrawer.Destroy;
 begin
   FStockBitmap.Free;

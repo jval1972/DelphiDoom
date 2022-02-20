@@ -174,6 +174,11 @@ begin
   FBufferCount := 0;
 end;
 
+//==============================================================================
+//
+// TOBuffer_MCI.Create
+//
+//==============================================================================
 constructor TOBuffer_MCI.Create(NumberOfChannels: Cardinal;
   Player: TPlayer);
 var i: Cardinal;
@@ -236,6 +241,11 @@ begin
   FUserStop := 0;
 end;
 
+//==============================================================================
+//
+// TOBuffer_MCI.Destroy
+//
+//==============================================================================
 destructor TOBuffer_MCI.Destroy;
 var
   i, j: integer;

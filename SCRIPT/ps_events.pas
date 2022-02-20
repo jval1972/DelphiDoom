@@ -216,6 +216,11 @@ type
   TScriptEvent3I = procedure (aParam1, aParam2, aParam3: Integer) of object;
   TScriptEvent4I = procedure (aParam1, aParam2, aParam3, aParam4: Integer) of object;
 
+//==============================================================================
+//
+// TScriptEvents.Create
+//
+//==============================================================================
 constructor TScriptEvents.Create(const aExec: TDoomExec);
 begin
   fExec := aExec;

@@ -70,6 +70,11 @@ type
 var
   globalhashmanager: TSDBMHash;
 
+//==============================================================================
+//
+// TSDBMHash.Create
+//
+//==============================================================================
 constructor TSDBMHash.Create;
 begin
   inherited;

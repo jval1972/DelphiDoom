@@ -1729,7 +1729,6 @@ begin
     wide_stbar := sbar.width;
   end;
 
-
 // JVAL
 // Statusbar medikit, use stimpack patch (STIMA0)
   smedikit := W_GetNumForName('STIMA0');

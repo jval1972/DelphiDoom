@@ -75,6 +75,11 @@ type
 
 implementation
 
+//==============================================================================
+//
+// TProcedureList.Create
+//
+//==============================================================================
 constructor TProcedureList.Create(const aName: string);
 begin
   fList := nil;
@@ -84,6 +89,11 @@ begin
   inherited Create;
 end;
 
+//==============================================================================
+//
+// TProcedureList.Destroy
+//
+//==============================================================================
 destructor TProcedureList.Destroy;
 var
   i: integer;

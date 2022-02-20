@@ -644,7 +644,6 @@ begin
   end;
 end;
 
-
 { TSynEditKeyStrokes }
 
 function TSynEditKeyStrokes.Add: TSynEditKeyStroke;
@@ -685,6 +684,11 @@ begin
     inherited Assign(Source);
 end;
 
+//==============================================================================
+//
+// TSynEditKeyStrokes.Create
+//
+//==============================================================================
 constructor TSynEditKeyStrokes.Create(AOwner: TPersistent);
 begin
   inherited Create(TSynEditKeyStroke);
@@ -997,7 +1001,6 @@ begin
       break;
     end;
 end;
-
 
 initialization
   RegisterIntegerConsts(TypeInfo(TSynEditorCommand), IdentToEditorCommand,

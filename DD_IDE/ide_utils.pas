@@ -93,6 +93,11 @@ procedure BackupFile(const fname: string);
 
 implementation
 
+//==============================================================================
+//
+// TAnsiString.Create
+//
+//==============================================================================
 constructor TAnsiString.Create(const astring: AnsiString);
 begin
   str := astring;
@@ -201,6 +206,11 @@ begin
   l := nil;
 end;
 
+//==============================================================================
+//
+// TSimpleString.Create
+//
+//==============================================================================
 constructor TSimpleString.Create(const s: string);
 begin
   inherited Create;

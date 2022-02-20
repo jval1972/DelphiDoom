@@ -142,6 +142,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.Create
+//
+//==============================================================================
 constructor TFrame_Actordef.Create(AOwner: TComponent);
 begin
   inherited;
@@ -176,6 +181,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_Actordef.Destroy
+//
+//==============================================================================
 destructor TFrame_Actordef.Destroy;
 begin
   ClearActorDefFuncs;

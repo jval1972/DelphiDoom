@@ -186,6 +186,11 @@ begin
   Result.Row := fLineOffsets[aPos.Line - 1];
 end;
 
+//==============================================================================
+//
+// TSynWordWrapPlugin.Create
+//
+//==============================================================================
 constructor TSynWordWrapPlugin.Create(aOwner: TCustomSynEdit);
 begin
   inherited Create; // just to work as reminder in case I revert it to a TComponent...
@@ -195,6 +200,11 @@ begin
   Reset;
 end;
 
+//==============================================================================
+//
+// TSynWordWrapPlugin.Destroy
+//
+//==============================================================================
 destructor TSynWordWrapPlugin.Destroy;
 begin
   inherited;

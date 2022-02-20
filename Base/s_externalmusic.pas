@@ -74,6 +74,11 @@ uses
   w_pak,
   w_wad;
 
+//==============================================================================
+//
+// TExternalMusicInfo.Create
+//
+//==============================================================================
 constructor TExternalMusicInfo.Create(const strm: TDStream);
 begin
   size := strm.Size;

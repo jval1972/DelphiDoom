@@ -108,6 +108,11 @@ type
     property Trasnlatedsprites: Ptranslationsprite_tArray read ftrasnlatedsprites;
   end;
 
+//==============================================================================
+//
+// TSpriteLumpCache.Create
+//
+//==============================================================================
 constructor TSpriteLumpCache.Create;
 begin
   fsize := 0;
@@ -116,6 +121,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TSpriteLumpCache.Destroy
+//
+//==============================================================================
 destructor TSpriteLumpCache.Destroy;
 begin
   memfree(pointer(fitems), fsize * SizeOf(pointer));

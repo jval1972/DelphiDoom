@@ -88,6 +88,11 @@ type
     property Filename: string read fFilename write fFilename;
   end;
 
+//==============================================================================
+//
+// THandleClass.Create
+//
+//==============================================================================
 constructor THandleClass.Create(const aHandle: LongWord);
 begin
   inherited Create;

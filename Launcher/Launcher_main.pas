@@ -589,7 +589,6 @@ var
   swidth, sheight: integer;
   ep, map: integer;
 
-
   procedure AddCmd(const s: string);
   begin
     if Pos(' ', s) = 0 then
@@ -685,7 +684,6 @@ begin
   else if UseMMXCheckBox.State = cbUnChecked then
     AddCmd('-nommx');
 
-
   if RandomMonstersCheckBox.State = cbChecked then
     AddCmd('-spawnrandommonsters')
   else if RandomMonstersCheckBox.State = cbUnChecked then
@@ -758,7 +756,6 @@ begin
     AddCmd('-joystick')
   else if UseJoystickCheckBox.State = cbUnchecked then
     AddCmd('-nojoystick');
-
 
   if GameModeComboBox.ItemIndex > 0 then
   begin
@@ -985,7 +982,6 @@ begin
     ScreenResolutionComboBox.Text := IntToStr(w) + 'x' + IntToStr(h);
 
 end;
-
 
 procedure TForm1.UpdateNetwork;
 var

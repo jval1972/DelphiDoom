@@ -537,8 +537,12 @@ begin
   end;
 end;
 
+//==============================================================================
+// TCustomZLibStream.Create
+//
 // TCustomZlibStream
-
+//
+//==============================================================================
 constructor TCustomZLibStream.Create(Strm: TStream);
 begin
   inherited Create;
@@ -558,8 +562,12 @@ begin
   if Assigned(FOnProgress) then FOnProgress(Sender);
 end;
 
+//==============================================================================
+// TCompressionStream.Create
+//
 // TCompressionStream
-
+//
+//==============================================================================
 constructor TCompressionStream.Create(CompressionLevel: TCompressionLevel;
   Dest: TStream);
 const
@@ -572,6 +580,11 @@ begin
   CCheck(deflateInit_(FZRec, Levels[CompressionLevel], zlib_version, sizeof(FZRec)));
 end;
 
+//==============================================================================
+//
+// TCompressionStream.Destroy
+//
+//==============================================================================
 destructor TCompressionStream.Destroy;
 begin
   FZRec.next_in := nil;
@@ -654,8 +667,12 @@ begin
     Result := (1.0 - (FZRec.total_out / FZRec.total_in)) * 100.0;
 end;
 
+//==============================================================================
+// TDecompressionStream.Create
+//
 // TDecompressionStream
-
+//
+//==============================================================================
 constructor TDecompressionStream.Create(Source: TStream);
 begin
   inherited Create(Source);
@@ -664,6 +681,11 @@ begin
   DCheck(inflateInit_(FZRec, zlib_version, sizeof(FZRec)));
 end;
 
+//==============================================================================
+//
+// TDecompressionStream.Destroy
+//
+//==============================================================================
 destructor TDecompressionStream.Destroy;
 begin
   FStrm.Seek(-FZRec.avail_in, 1);

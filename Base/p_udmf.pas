@@ -317,6 +317,11 @@ type
     property namespace: string read fnamespace;
   end;
 
+//==============================================================================
+//
+// TUDMFManager.Create
+//
+//==============================================================================
 constructor TUDMFManager.Create;
 begin
   fthings := nil;
@@ -1598,6 +1603,11 @@ begin
   memfree(Pointer(fextrasectors), fnummapsectors * SizeOf(extrasector_t));
 end;
 
+//==============================================================================
+//
+// TUDMFManager.Destroy
+//
+//==============================================================================
 destructor TUDMFManager.Destroy;
 begin
   Clear;

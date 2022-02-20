@@ -135,6 +135,11 @@ begin
     Result := pi_none;
 end;
 
+//==============================================================================
+//
+// TIDEProjectItem.Create
+//
+//==============================================================================
 constructor TIDEProjectItem.Create(const aparent: TIDEProject; const afilename: AnsiString; atype: projectitemtype_t);
 begin
   Inherited Create(afilename);
@@ -172,6 +177,11 @@ begin
   Inherited FieldsToData(adata);
 end;
 
+//==============================================================================
+//
+// TIDEProject.Create
+//
+//==============================================================================
 constructor TIDEProject.Create(afilename: AnsiString = '');
 begin
   fList := TStringList.Create;
@@ -182,6 +192,11 @@ begin
   Inherited Create(afilename);
 end;
 
+//==============================================================================
+//
+// TIDEProject.Destroy
+//
+//==============================================================================
 destructor TIDEProject.Destroy;
 var
   i: integer;

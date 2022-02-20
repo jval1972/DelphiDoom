@@ -273,7 +273,6 @@ begin
     Result := False;
 end;
 
-
 function ConvertTabs1Ex(const Line: UnicodeString; TabWidth: Integer;
   var HasTabs: Boolean): UnicodeString;
 var

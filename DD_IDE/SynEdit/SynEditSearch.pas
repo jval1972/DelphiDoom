@@ -109,6 +109,11 @@ uses
 {$ENDIF}
   SysUtils;
 
+//==============================================================================
+//
+// TSynEditSearch.Create
+//
+//==============================================================================
 constructor TSynEditSearch.Create(aOwner: TComponent);
 begin
   inherited;
@@ -223,6 +228,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TSynEditSearch.Destroy
+//
+//==============================================================================
 destructor TSynEditSearch.Destroy;
 begin
   fResults.Free;
@@ -312,5 +322,4 @@ begin
 end;
 
 end.
-
 

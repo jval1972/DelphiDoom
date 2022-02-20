@@ -545,6 +545,11 @@ const
 
 { TSubBandLayer2 }
 
+//==============================================================================
+//
+// TSubBandLayer2.Create
+//
+//==============================================================================
 constructor TSubBandLayer2.Create(SubBandNumber: Cardinal);
 begin
   FSubBandNumber := SubBandNumber;

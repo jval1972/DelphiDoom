@@ -34,7 +34,6 @@ located at http://SynEdit.SourceForge.net
 Known Issues:
 -------------------------------------------------------------------------------}
 
-
 {-------------------------------------------------------------------------------
 CONTENTS:
   Class handling all sizes involded when printing.
@@ -204,6 +203,11 @@ const
   mmPrInch = 25.4;
   mmPrCm = 10;
 
+//==============================================================================
+//
+// TSynEditPrintMargins.Create
+//
+//==============================================================================
 constructor TSynEditPrintMargins.Create;
 begin
   inherited;

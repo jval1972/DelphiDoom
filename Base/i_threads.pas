@@ -101,6 +101,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TDThread.Create
+//
+//==============================================================================
 constructor TDThread.Create(const func: threadfunc_t = nil);
 begin
   fterminated := false;
@@ -113,6 +118,11 @@ begin
   suspended := true;
 end;
 
+//==============================================================================
+//
+// TDThread.Destroy
+//
+//==============================================================================
 destructor TDThread.Destroy;
 begin
   while frunning do

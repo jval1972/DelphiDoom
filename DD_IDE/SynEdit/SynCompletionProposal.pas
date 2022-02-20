@@ -130,7 +130,6 @@ type
 
   TSynCompletionOptions = set of TSynCompletionOption;
 
-
 const
   DefaultProposalOptions = [scoLimitToMatchedText, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter];
   DefaultEndOfTokenChr = '()[]. ';
@@ -576,7 +575,6 @@ type
     property Items[Index: Integer]: TProposalColumn read GetItem write SetItem; default;
   end;
 
-
 procedure FormattedTextOut(TargetCanvas: TCanvas; const Rect: TRect;
   const Text: UnicodeString; Selected: Boolean; Columns: TProposalColumns; Images: TImageList);
 function FormattedTextWidth(TargetCanvas: TCanvas; const Text: UnicodeString;
@@ -636,10 +634,8 @@ type
     property Chunks[Index: Integer]: PFormatChunk read GetChunk; default;
   end;
 
-
 const
   AllCommands = [fcColor..High(TFormatCommand)];
-
 
 function TFormatChunkList.GetCount: Integer;
 begin
@@ -673,12 +669,22 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TFormatChunkList.Create
+//
+//==============================================================================
 constructor TFormatChunkList.Create;
 begin
   inherited Create;
   FChunks := TList.Create;
 end;
 
+//==============================================================================
+//
+// TFormatChunkList.Destroy
+//
+//==============================================================================
 destructor TFormatChunkList.Destroy;
 begin
   Clear;
@@ -690,7 +696,6 @@ procedure TFormatChunkList.Add(AChunk: PFormatChunk);
 begin
   FChunks.Add(AChunk);
 end;
-
 
 function ParseFormatChunks(const FormattedString: UnicodeString; ChunkList: TFormatChunkList;
   const StripCommands: TFormatCommands): Boolean;
@@ -892,7 +897,6 @@ begin
     AddStringChunk;
 end;
 
-
 function StripFormatCommands(const FormattedString: UnicodeString): UnicodeString;
 var
   Chunks: TFormatChunkList;
@@ -910,7 +914,6 @@ begin
     Chunks.Free;
   end;
 end;
-
 
 function PaintChunks(TargetCanvas: TCanvas; const Rect: TRect;
   ChunkList: TFormatChunkList; Columns: TProposalColumns; Images: TImageList;
@@ -972,7 +975,6 @@ begin
           'S': Style := [fsStrikeout];
           else Assert(False);
           end;
-
 
           case PFormatStyleData(C^.Data)^.Action of
           -1: TargetCanvas.Font.Style := TargetCanvas.Font.Style - Style;
@@ -1118,9 +1120,12 @@ Begin
     end;
 end;
 
-
+//==============================================================================
+// TProposalColumn.Create
+//
 // TProposalColumn
-
+//
+//==============================================================================
 constructor TProposalColumn.Create(Collection: TCollection);
 begin
   inherited;
@@ -1129,6 +1134,11 @@ begin
   FFontStyle := [];
 end;
 
+//==============================================================================
+//
+// TProposalColumn.Destroy
+//
+//==============================================================================
 destructor TProposalColumn.Destroy;
 begin
   inherited;
@@ -1154,6 +1164,11 @@ begin
 {$ENDIF}
 end;
 
+//==============================================================================
+//
+// TProposalColumns.Create
+//
+//==============================================================================
 constructor TProposalColumns.Create(AOwner: TPersistent; ItemClass: TCollectionItemClass);
 begin
   inherited Create(ItemClass);
@@ -1180,7 +1195,6 @@ begin
   Result := inherited Add as TProposalColumn;
 end;
 
-
 {$IFDEF SYN_COMPILER_3_UP}
 function TProposalColumns.FindItemID(ID: Integer): TProposalColumn;
 begin
@@ -1195,10 +1209,7 @@ begin
 end;
 {$ENDIF}
 
-
-
 //============================================================================
-
 
 //Moved from completion component
 function FormatParamList(const S: UnicodeString; CurrentIndex: Integer): UnicodeString;
@@ -1229,6 +1240,11 @@ end;
 
 { TSynBaseCompletionProposalForm }
 
+//==============================================================================
+//
+// TSynBaseCompletionProposalForm.Create
+//
+//==============================================================================
 constructor TSynBaseCompletionProposalForm.Create(AOwner: TComponent);
 begin
   FResizeable := True;
@@ -1273,7 +1289,6 @@ begin
   ClSelectedText := clHighlightText;
   ClBackground := clWindow;
   ClTitleBackground := clBtnFace;
-
 
   (FItemList as TUnicodeStringList).OnChange := StringListChange;  // Really necessary? It seems to work
   FTitle := '';                                             // fine without it
@@ -1403,6 +1418,11 @@ begin
   Visible := False;
 end;
 
+//==============================================================================
+//
+// TSynBaseCompletionProposalForm.Destroy
+//
+//==============================================================================
 destructor TSynBaseCompletionProposalForm.Destroy;
 begin
   inherited Destroy;
@@ -1625,7 +1645,6 @@ begin
   AdjustScrollBarPosition;
   Invalidate;
 end;
-
 
 procedure TSynBaseCompletionProposalForm.Paint;
 
@@ -1867,7 +1886,6 @@ procedure TSynBaseCompletionProposalForm.SetCurrentString(const Value: UnicodeSt
         CompareString := StripFormatCommands(CompareString);
     end;
 
-
     CompareString := Copy(CompareString, 1, Length(Value));
 
     if FCase then
@@ -1991,7 +2009,6 @@ begin
       FImages.FreeNotification(Self);
   end;
 end;
-
 
 procedure TSynBaseCompletionProposalForm.RecalcItemHeight;
 begin
@@ -2191,7 +2208,6 @@ begin
   end;
 end;
 
-
 procedure TSynBaseCompletionProposalForm.AdjustScrollBarPosition;
 begin
   if FDisplayKind = ctCode then
@@ -2262,7 +2278,6 @@ begin
   FColumns.Assign(Value);
 end;
 
-
 procedure TSynBaseCompletionProposalForm.TitleFontChange(Sender: TObject);
 begin
   Canvas.Font.Assign(FTitleFont);
@@ -2288,9 +2303,13 @@ begin
   inherited Notification(AComponent, Operation);
 end;
 
-
 { TSynBaseCompletionProposal }
 
+//==============================================================================
+//
+// TSynBaseCompletionProposal.Create
+//
+//==============================================================================
 constructor TSynBaseCompletionProposal.Create(Aowner: TComponent);
 begin
   FWidth := 260;
@@ -2426,7 +2445,6 @@ procedure TSynBaseCompletionProposal.ExecuteEx(s: UnicodeString; x, y: integer; 
         inc(tmpWidth, 2 * FForm.Margin +BorderWidth);
       end;
     end;
-
 
     if tmpX + tmpWidth > GetWorkAreaWidth then
     begin
@@ -2599,7 +2617,6 @@ procedure TSynBaseCompletionProposal.SetOnMeasureItem(const Value:
 begin
   Form.OnMeasureItem := Value;
 end;
-
 
 procedure TSynBaseCompletionProposal.SetPosition(const Value: Integer);
 begin
@@ -3084,6 +3101,11 @@ begin
   inherited Notification(AComponent, Operation);
 end;
 
+//==============================================================================
+//
+// TSynCompletionProposal.Create
+//
+//==============================================================================
 constructor TSynCompletionProposal.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -3214,12 +3236,16 @@ begin
   end;
 end;
 
-
 procedure TSynCompletionProposal.HandleDblClick(Sender: TObject);
 begin
   HandleOnValidate(Sender, [], #0);
 end;
 
+//==============================================================================
+//
+// TSynCompletionProposal.Destroy
+//
+//==============================================================================
 destructor TSynCompletionProposal.Destroy;
 begin
   if Form.Visible then
@@ -3482,10 +3508,13 @@ begin
   DoExecute(Editor);
 end;
 
-
-
 { TSynAutoComplete }
 
+//==============================================================================
+//
+// TSynAutoComplete.Create
+//
+//==============================================================================
 constructor TSynAutoComplete.Create(AOwner: TComponent);
 begin
   inherited;
@@ -3506,6 +3535,11 @@ begin
   FShortCut := Value;
 end;
 
+//==============================================================================
+//
+// TSynAutoComplete.Destroy
+//
+//==============================================================================
 destructor TSynAutoComplete.Destroy;
 begin
   Editor := nil;

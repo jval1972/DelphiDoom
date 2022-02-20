@@ -647,7 +647,6 @@ begin
   end;
 end;
 
-
 procedure M_SaveDefaults(const defaultfile: string);
 var
   i: integer;
@@ -694,6 +693,5 @@ begin
     s.Free;
   end;
 end;
-
 
 end.

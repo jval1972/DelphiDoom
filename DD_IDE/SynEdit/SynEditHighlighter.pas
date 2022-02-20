@@ -297,12 +297,22 @@ begin
   Result := hlList.Count;
 end;
 
+//==============================================================================
+//
+// TSynHighlighterList.Create
+//
+//==============================================================================
 constructor TSynHighlighterList.Create;
 begin
   inherited Create;
   hlList := TList.Create;
 end;
 
+//==============================================================================
+//
+// TSynHighlighterList.Destroy
+//
+//==============================================================================
 destructor TSynHighlighterList.Destroy;
 begin
   hlList.Free;
@@ -411,13 +421,17 @@ begin
     Changed;
 end;
 
-
 procedure TSynHighlighterAttributes.Changed;
 begin
   if Assigned(fOnChange) then
     fOnChange(Self);
 end;
 
+//==============================================================================
+//
+// TSynHighlighterAttributes.Create
+//
+//==============================================================================
 constructor TSynHighlighterAttributes.Create(AName: string; AFriendlyName: UnicodeString);
 begin
   inherited Create;
@@ -771,6 +785,11 @@ end;
 
 { TSynCustomHighlighter }
 
+//==============================================================================
+//
+// TSynCustomHighlighter.Create
+//
+//==============================================================================
 constructor TSynCustomHighlighter.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -783,6 +802,11 @@ begin
   FOptions:= TSynEditHighlighterOptions.Create; // <-- Codehunter patch
 end;
 
+//==============================================================================
+//
+// TSynCustomHighlighter.Destroy
+//
+//==============================================================================
 destructor TSynCustomHighlighter.Destroy;
 begin
   inherited Destroy;

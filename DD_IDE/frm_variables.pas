@@ -142,6 +142,11 @@ begin
     end;
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.Create
+//
+//==============================================================================
 constructor TFrame_Variables.Create(AOwner: TComponent);
 begin
   inherited;
@@ -176,6 +181,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_Variables.Destroy
+//
+//==============================================================================
 destructor TFrame_Variables.Destroy;
 begin
   ClearVars;

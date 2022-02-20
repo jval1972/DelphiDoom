@@ -1339,6 +1339,11 @@ begin
   result := result and (DEH_STRINGLIST_HASH_SIZE - 1);
 end;
 
+//==============================================================================
+//
+// TDEHStringsHashTable.Create
+//
+//==============================================================================
 constructor TDEHStringsHashTable.Create;
 var
   i: integer;
@@ -1349,6 +1354,11 @@ begin
   fList := nil;
 end;
 
+//==============================================================================
+//
+// TDEHStringsHashTable.Destroy
+//
+//==============================================================================
 destructor TDEHStringsHashTable.Destroy;
 var
   i: integer;

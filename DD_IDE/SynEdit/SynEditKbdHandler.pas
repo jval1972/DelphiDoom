@@ -132,7 +132,6 @@ type
     procedure RemoveMouseCursorHandler(aHandler: TMouseCursorEvent);
   end;
 
-
 implementation
 
 { TSynEditKbdHandler }
@@ -167,6 +166,11 @@ begin
   fMouseCursorChain.Add(TMethod(aHandler));
 end;
 
+//==============================================================================
+//
+// TSynEditKbdHandler.Create
+//
+//==============================================================================
 constructor TSynEditKbdHandler.Create;
 begin
   { Elements to handle KeyDown-Events }
@@ -188,6 +192,11 @@ begin
   fMouseCursorChain := TMethodList.Create;
 end;
 
+//==============================================================================
+//
+// TSynEditKbdHandler.Destroy
+//
+//==============================================================================
 destructor TSynEditKbdHandler.Destroy;
 begin
   fKeyPressChain.Free;
@@ -361,11 +370,21 @@ begin
   fData.Add(aHandler.Code);
 end;
 
+//==============================================================================
+//
+// TMethodList.Create
+//
+//==============================================================================
 constructor TMethodList.Create;
 begin
   fData := TList.Create;
 end;
 
+//==============================================================================
+//
+// TMethodList.Destroy
+//
+//==============================================================================
 destructor TMethodList.Destroy;
 begin
   fData.Free;

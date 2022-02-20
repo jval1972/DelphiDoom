@@ -55,6 +55,11 @@ implementation
 uses
   ddc_base, ide_utils;
 
+//==============================================================================
+//
+// TFrame_States.Create
+//
+//==============================================================================
 constructor TFrame_States.Create(AOwner: TComponent);
 begin
   inherited;
@@ -77,6 +82,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_States.Destroy
+//
+//==============================================================================
 destructor TFrame_States.Destroy;
 begin
   ClearMinfo;

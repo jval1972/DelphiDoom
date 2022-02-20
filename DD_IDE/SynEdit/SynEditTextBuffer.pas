@@ -298,6 +298,11 @@ begin
   raise ESynEditStringList.CreateFmt(SListIndexOutOfBounds, [Index]);
 end;
 
+//==============================================================================
+//
+// TSynEditStringList.Create
+//
+//==============================================================================
 constructor TSynEditStringList.Create(AExpandAtWideGlyphsFunc: TExpandAtWideGlyphsFunc);
 begin
   inherited Create;
@@ -307,6 +312,11 @@ begin
   TabWidth := 8;
 end;
 
+//==============================================================================
+//
+// TSynEditStringList.Destroy
+//
+//==============================================================================
 destructor TSynEditStringList.Destroy;
 begin
   fOnChange := nil;
@@ -1100,9 +1110,13 @@ begin
     inherited Assign(Source);
 end;
 
-
 { TSynEditUndoList }
 
+//==============================================================================
+//
+// TSynEditUndoList.Create
+//
+//==============================================================================
 constructor TSynEditUndoList.Create;
 begin
   inherited Create;
@@ -1112,6 +1126,11 @@ begin
   fInsideRedo := False;
 end;
 
+//==============================================================================
+//
+// TSynEditUndoList.Destroy
+//
+//==============================================================================
 destructor TSynEditUndoList.Destroy;
 begin
   Clear;

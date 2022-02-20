@@ -140,7 +140,6 @@ type
       aIsOpenMarker: Boolean; const aMarkerText: UnicodeString);
   end;
 
-
   TRangeOperation = (roGet, roSet);
 
 {$IFDEF SYN_COMPILER_16_UP}
@@ -318,6 +317,11 @@ begin
   fMarkers.Clear;
 end;
 
+//==============================================================================
+//
+// TSynMultiSyn.Create
+//
+//==============================================================================
 constructor TSynMultiSyn.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -327,6 +331,11 @@ begin
   fRangeProc := NewRangeProc;
 end;
 
+//==============================================================================
+//
+// TSynMultiSyn.Destroy
+//
+//==============================================================================
 destructor TSynMultiSyn.Destroy;
 begin
   ClearMarkers;
@@ -971,6 +980,11 @@ end;
 
 { TSchemes }
 
+//==============================================================================
+//
+// TSchemes.Create
+//
+//==============================================================================
 constructor TSchemes.Create(aOwner: TSynMultiSyn);
 begin
   inherited Create(TScheme);
@@ -1014,6 +1028,11 @@ begin
     Result := Value;
 end;
 
+//==============================================================================
+//
+// TScheme.Create
+//
+//==============================================================================
 constructor TScheme.Create(Collection: TCollection);
 begin
   inherited Create(Collection);
@@ -1025,6 +1044,11 @@ begin
   MarkerAttri.InternalSaveDefaultValues;
 end;
 
+//==============================================================================
+//
+// TScheme.Destroy
+//
+//==============================================================================
 destructor TScheme.Destroy;
 begin
   { unhook notification handlers }

@@ -233,7 +233,6 @@ begin
   end;
 end;
 
-
 const
   Pakid: Longint = $4B434150;   // 'PACK' In Hex!
   WAD2id: LongInt = $32444157;  // 'WAD2' in Hex!
@@ -255,7 +254,5 @@ begin
     f.Free;
   end;
 end;
-
-
 
 end.

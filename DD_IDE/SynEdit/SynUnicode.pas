@@ -304,7 +304,6 @@ function WStrNew(const Str: PWideChar): PWideChar;
 procedure WStrDispose(Str: PWideChar);
 {$ENDIF}
 
-
 {$IFNDEF SYN_COMPILER_6_UP}
 {$IFDEF SYN_WIN32} // Kylix should have that from version 1 on
 function UnicodeToUtf8(Dest: PAnsiChar; MaxDestBytes: Cardinal;
@@ -475,6 +474,11 @@ uses
 {$IFNDEF UNICODE}
 { TUnicodeStrings }
 
+//==============================================================================
+//
+// TUnicodeStrings.Create
+//
+//==============================================================================
 constructor TUnicodeStrings.Create;
 begin
   inherited;
@@ -1195,9 +1199,13 @@ begin
   Writer.WriteWideString(GetTextStr);
 end;
 
-
 { TUnicodeStringList }
 
+//==============================================================================
+//
+// TUnicodeStringList.Destroy
+//
+//==============================================================================
 destructor TUnicodeStringList.Destroy;
 begin
   FOnChange := nil;
@@ -2287,7 +2295,6 @@ asm
        STOSW
        JMP     @@1
 
-
 @@2:
        POP     EDI
        POP     ESI
@@ -2639,6 +2646,11 @@ end;
 {$IFNDEF UNICODE}
 { TWideFileStream }
 
+//==============================================================================
+//
+// TWideFileStream.Create
+//
+//==============================================================================
 constructor TWideFileStream.Create(const FileName: UnicodeString; Mode: Word);
 begin
 {$IFDEF SYN_WIN32}
@@ -2648,6 +2660,11 @@ begin
 {$ENDIF}
 end;
 
+//==============================================================================
+//
+// TWideFileStream.Create
+//
+//==============================================================================
 constructor TWideFileStream.Create(const FileName: UnicodeString; Mode: Word;
   Rights: Cardinal);
 {$IFDEF USE_TNT_RUNTIME_SUPPORT}
@@ -2703,6 +2720,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// TWideFileStream.Destroy
+//
+//==============================================================================
 destructor TWideFileStream.Destroy;
 begin
   if Handle >= 0 then FileClose(Handle);

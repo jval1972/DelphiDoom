@@ -93,12 +93,22 @@ type
     procedure CreateDoomPatch(out p: pointer; out size: integer);
   end;
 
+//==============================================================================
+//
+// TVoxelImageLoader.Create
+//
+//==============================================================================
 constructor TVoxelImageLoader.Create;
 begin
   fvoxelbuffer := mallocz(SizeOf(voxelbuffer3d_t));
   fvoxelsize := 0;
 end;
 
+//==============================================================================
+//
+// TVoxelImageLoader.Destroy
+//
+//==============================================================================
 destructor TVoxelImageLoader.Destroy;
 begin
   memfree(pointer(fvoxelbuffer), SizeOf(voxelbuffer3d_t));

@@ -6,7 +6,6 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, Launcher_defs;
 
-
 type
   TGamePropertiesForm = class(TForm)
     Panel1: TPanel;

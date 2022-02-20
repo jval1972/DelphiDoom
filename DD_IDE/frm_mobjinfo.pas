@@ -56,6 +56,11 @@ uses
   ddc_base,
   ide_utils;
 
+//==============================================================================
+//
+// TFrame_Mobjinfo.Create
+//
+//==============================================================================
 constructor TFrame_Mobjinfo.Create(AOwner: TComponent);
 begin
   inherited;
@@ -79,6 +84,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_Mobjinfo.Destroy
+//
+//==============================================================================
 destructor TFrame_Mobjinfo.Destroy;
 begin
   ClearMinfo;

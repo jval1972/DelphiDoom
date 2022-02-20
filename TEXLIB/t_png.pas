@@ -1489,6 +1489,12 @@ end;
 {TPngPointerList implementation}
 
 {Object being created}
+
+//==============================================================================
+//
+// TPngPointerList.Create
+//
+//==============================================================================
 constructor TPngPointerList.Create(AOwner: TPNGObject);
 begin
   inherited Create; {Let ancestor work}
@@ -1543,6 +1549,12 @@ begin
 end;
 
 {Object being destroyed}
+
+//==============================================================================
+//
+// TPngPointerList.Destroy
+//
+//==============================================================================
 destructor TPngPointerList.Destroy;
 begin
   {Release memory if needed}
@@ -1833,6 +1845,12 @@ begin
 end;
 
 {Chunk being created}
+
+//==============================================================================
+//
+// TChunk.Create
+//
+//==============================================================================
 constructor TChunk.Create(Owner: TPngObject);
 var
   ChunkName: String;
@@ -1855,6 +1873,12 @@ begin
 end;
 
 {Chunk being destroyed}
+
+//==============================================================================
+//
+// TChunk.Destroy
+//
+//==============================================================================
 destructor TChunk.Destroy;
 begin
   {Free data holder}
@@ -2223,6 +2247,12 @@ end;
 {TChunkIHDR implementation}
 
 {Chunk being created}
+
+//==============================================================================
+//
+// TChunkIHDR.Create
+//
+//==============================================================================
 constructor TChunkIHDR.Create(Owner: TPngObject);
 begin
   {Prepare pointers}
@@ -2235,6 +2265,12 @@ begin
 end;
 
 {Chunk being destroyed}
+
+//==============================================================================
+//
+// TChunkIHDR.Destroy
+//
+//==============================================================================
 destructor TChunkIHDR.Destroy;
 begin
   {Free memory}
@@ -4741,6 +4777,12 @@ begin
 end;
 
 {Gamma chunk being created}
+
+//==============================================================================
+//
+// TChunkgAMA.Create
+//
+//==============================================================================
 constructor TChunkgAMA.Create(Owner: TPngObject);
 begin
   {Call ancestor}
@@ -4851,6 +4893,12 @@ begin
 end;
 
 {Portable Network Graphics object being created as a blank image}
+
+//==============================================================================
+//
+// TPNGObject.CreateBlank
+//
+//==============================================================================
 constructor TPNGObject.CreateBlank(ColorType, BitDepth: Cardinal;
   cx, cy: Integer);
 var NewIHDR: TChunkIHDR;
@@ -4885,6 +4933,12 @@ begin
 end;
 
 {Portable Network Graphics object being created}
+
+//==============================================================================
+//
+// TPngObject.Create
+//
+//==============================================================================
 constructor TPngObject.Create;
 begin
   {Let it be created}
@@ -4902,6 +4956,12 @@ begin
 end;
 
 {Portable Network Graphics object being destroyed}
+
+//==============================================================================
+//
+// TPngObject.Destroy
+//
+//==============================================================================
 destructor TPngObject.Destroy;
 begin
   {Free object list}
@@ -6413,9 +6473,8 @@ begin
 end;
 
 //==============================================================================
-// T_IsCommonTransparentColor
 //
-////////////////////////////////////////////////////////////////////////////////
+// T_IsCommonTransparentColor
 //
 //==============================================================================
 function T_IsCommonTransparentColor(c: LongWord): Boolean;
@@ -6445,6 +6504,13 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // TPNGBaseTextureManager
+////////////////////////////////////////////////////////////////////////////////
+
+//==============================================================================
+//
+// TPNGBaseTextureManager.Create
+//
+//==============================================================================
 constructor TPNGBaseTextureManager.Create(ext: string);
 begin
   inherited Create;
@@ -6485,6 +6551,11 @@ begin
     I_Warning('TPNGTextureManager(): ' + pngerr + #13#10);
 end;
 
+//==============================================================================
+//
+// TPNGBaseTextureManager.Destroy
+//
+//==============================================================================
 destructor TPNGBaseTextureManager.Destroy;
 begin
   png.Free;
@@ -6493,6 +6564,13 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // TPNGTextureManager
+////////////////////////////////////////////////////////////////////////////////
+
+//==============================================================================
+//
+// TPNGTextureManager.Create
+//
+//==============================================================================
 constructor TPNGTextureManager.Create;
 begin
   inherited Create(PNGEXT);
@@ -6572,10 +6650,16 @@ begin
   end;
   Result := CheckPNGError;
 end;
-////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
 // TPNGSpriteTextureManager
+////////////////////////////////////////////////////////////////////////////////
+
+//==============================================================================
+//
+// TPNGSpriteTextureManager.Create
+//
+//==============================================================================
 constructor TPNGSpriteTextureManager.Create;
 begin
   ftransparentcolor := 0;

@@ -87,6 +87,11 @@ uses
 
 { TSynEditRegexSearch }
 
+//==============================================================================
+//
+// TSynEditRegexSearch.Create
+//
+//==============================================================================
 constructor TSynEditRegexSearch.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -95,6 +100,11 @@ begin
   fLengths := TList.Create;
 end;
 
+//==============================================================================
+//
+// TSynEditRegexSearch.Destroy
+//
+//==============================================================================
 destructor TSynEditRegexSearch.Destroy;
 begin
   inherited;
@@ -164,5 +174,4 @@ begin
 end;
 
 end.
-
 

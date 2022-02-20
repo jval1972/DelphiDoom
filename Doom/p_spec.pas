@@ -717,7 +717,6 @@ type
     STAIRS_PHASED
   );
 
-
 // JVAL: BOOM compatibility
   special_e = (
     floor_special,

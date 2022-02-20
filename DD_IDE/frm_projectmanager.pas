@@ -118,6 +118,11 @@ begin
   Inherited;
 end;
 
+//==============================================================================
+//
+// TFrame_ProjectManager.Destroy
+//
+//==============================================================================
 destructor TFrame_ProjectManager.Destroy;
 begin
   if obj <> nil then

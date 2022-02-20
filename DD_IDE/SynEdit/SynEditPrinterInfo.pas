@@ -34,7 +34,6 @@ located at http://SynEdit.SourceForge.net
 Known Issues:
 -------------------------------------------------------------------------------}
 
-
 {-------------------------------------------------------------------------------
 CONTENTS:
   Class retrieving info about selected printer and paper size.

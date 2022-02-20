@@ -106,12 +106,22 @@ implementation
 uses
   i_system;
 
+//==============================================================================
+//
+// TDefineStates.Create
+//
+//==============================================================================
 constructor TDefineStates.Create;
 begin
   inherited Create;
   FItems := TList.Create;
 end;
 
+//==============================================================================
+//
+// TDefineStates.Destroy
+//
+//==============================================================================
 destructor TDefineStates.Destroy;
 var
   i: integer;
@@ -205,7 +215,12 @@ begin
     Result := TDefineState(FItems[FItems.Count - 2]).DoWrite;
 end;
 
+//==============================================================================
+// TDefinesPreprocessor.Create
+//
 //------------------------------------------------------------------------------
+//
+//==============================================================================
 constructor TDefinesPreprocessor.Create;
 begin
   FDefines := TStringList.Create;
@@ -213,6 +228,11 @@ begin
   inherited;
 end;
 
+//==============================================================================
+//
+// TDefinesPreprocessor.Destroy
+//
+//==============================================================================
 destructor TDefinesPreprocessor.Destroy;
 begin
   FDefines.Free;
