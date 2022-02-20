@@ -560,6 +560,8 @@ begin
     {$ELSE}
     players[consoleplayer]._message := ErrorMsg;
     {$ENDIF}
+    result := false;
+    exit;
   end;
 
   statePtr := @ACSInfo[infoIndex].state;

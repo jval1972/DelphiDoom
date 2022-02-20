@@ -253,6 +253,7 @@ Calculates 8 bit light tables in separate thread.
 Added "DROPPED ITEM" alias for "DROPITEM" DEHACKED field.
 Interpolate only the sectors touched by the renderer in uncapped framerate.
 Added #CREATEPALETTE directive. It can be placed in any text content and forces the engine to recreate PLAYPAL & COLORMAPS. You can specify a base pal as parameter.
+Does not crash if an ACS script not found.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
