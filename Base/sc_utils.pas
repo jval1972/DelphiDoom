@@ -53,6 +53,7 @@ uses
   {$ENDIF}
   sc_defines,
   sc_engine,
+  v_palettes,
   w_pak,
   w_wad;
 
@@ -82,6 +83,7 @@ var
     do_one: boolean;
     do_wad: boolean;
     lump: integer;
+    possible_directive: boolean;
   begin
     inc(depth);
     if depth >= MAXINCLUDEDEPTH then
@@ -104,6 +106,7 @@ var
       else
         str := str1;
       str2 := strupper(strtrim(str));
+      possible_directive := (str2 <> '') and (str2[1] = '#');
       if CharPos('I', str2) > 1 then
       begin
         do_one := (Pos('#INCLUDE ', str2) = 1) or (Pos('{$INCLUDE ', str2) = 1) or (Pos('{$INCLUDE} ', str2) = 1);
@@ -167,7 +170,7 @@ var
       else if (str2 = 'VANILLA_DEMO_OFF') or (str2 = '#VANILLA_DEMO_OFF') or (str2 = '{$VANILLA_DEMO_OFF}') then
         vanilla_demo_off := true
       {$ENDIF}
-      else if Pos('#CVARFORCE ', str2) = 1 then
+      else if possible_directive and (Pos('#CVARFORCE ', str2) = 1) then
       begin
         splitstring(str2, s1, s);
         if s <> '' then
@@ -185,6 +188,14 @@ var
         end
         else
           I_Warning('SC_Preprocess(): No cvar specified after the #CVARFORCE directive'#13#10);
+      end
+      else if possible_directive and (Pos('#CREATEPALETTE', str2) = 1) then
+      begin
+        splitstring(str2, s1, s);
+        if s1 <> '#CREATEPALETTE' then
+          I_Warning('SC_Preprocess(): Unknown directive %s'#13#10, [s1])
+        else
+          V_AutoGeneratePalettes(s);
       end
       else
         result := result + str1 + #13#10;

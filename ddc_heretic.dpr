@@ -422,7 +422,8 @@ uses
   udmf_ceilng in 'Base\udmf_ceilng.pas',
   udmf_plats in 'Base\udmf_plats.pas',
   udmf_telept in 'Base\udmf_telept.pas',
-  udmf_lights in 'Base\udmf_lights.pas';
+  udmf_lights in 'Base\udmf_lights.pas',
+  v_palettes in 'Base\v_palettes.pas';
 
 exports
   dd_compile_heretic,

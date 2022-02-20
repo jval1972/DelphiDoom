@@ -390,7 +390,8 @@ uses
   acs_pcode in 'Base\acs_pcode.pas',
   acs_strlist in 'Base\acs_strlist.pas',
   acs_symbol in 'Base\acs_symbol.pas',
-  acs_token in 'Base\acs_token.pas';
+  acs_token in 'Base\acs_token.pas',
+  v_palettes in 'Base\v_palettes.pas';
 
 var
   Saved8087CW: Word;

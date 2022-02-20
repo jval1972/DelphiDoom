@@ -431,7 +431,8 @@ uses
   udmf_telept in 'Base\udmf_telept.pas',
   udmf_lights in 'Base\udmf_lights.pas',
   p_umapinfo in 'Base\p_umapinfo.pas',
-  p_uactornames in 'Strife\p_uactornames.pas';
+  p_uactornames in 'Strife\p_uactornames.pas',
+  v_palettes in 'Base\v_palettes.pas';
 
 var
   Saved8087CW: Word;
