@@ -554,7 +554,11 @@ end;
 // ===== Build Stairs Private Data =====
 
 const
+  {$IFDEF HERETIC}
+  STAIR_SECTOR_TYPE = 57;
+  {$ELSE}
   STAIR_SECTOR_TYPE = 26;
+  {$ENDIF}
   STAIR_QUEUE_SIZE = 32;
 
 type

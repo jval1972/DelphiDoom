@@ -1551,6 +1551,17 @@ begin
   if player.mo.z <> height then
     exit;
 
+  // Ignore all other UDMF line specials:
+  // -LIGHT_SEQUENCE_START
+  // -LIGHT_SEQUENCE
+  // -LIGHT_SEQUENCE_ALT
+  // -LIGHTNING_SPECIAL
+  // -LIGHTNING_SPECIAL2
+  // -STAIR_SECTOR_TYPE
+  // -STAIR_SECTOR_TYPE + 1
+  if sector.special > 51 then
+    exit;
+
   // Has hitten ground.
   case sector.special of
      5:
