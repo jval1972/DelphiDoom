@@ -79,7 +79,7 @@ procedure gld_AddSprite(vspr: Pvissprite_t);
 // gld_AddWall
 //
 //==============================================================================
-procedure gld_AddWall(seg: Pseg_t{$IFDEF HEXEN}; const ispolyobj: boolean; const ssec: Psector_t{$ENDIF});
+procedure gld_AddWall(seg: Pseg_t; const ispolyobj: boolean = false; const ssec: Psector_t = nil);
 
 //==============================================================================
 //
@@ -3413,7 +3413,7 @@ end;
 // gld_AddWall
 //
 //==============================================================================
-procedure gld_AddWall(seg: Pseg_t{$IFDEF HEXEN}; const ispolyobj: boolean; const ssec: Psector_t{$ENDIF});
+procedure gld_AddWall(seg: Pseg_t; const ispolyobj: boolean = false; const ssec: Psector_t = nil);
 var
   wall: GLWall;
   temptex: PGLTexture;
@@ -3503,7 +3503,6 @@ begin
 
   wall.gltexture := nil;
 
-  {$IFDEF HEXEN}
   if ispolyobj then
   begin
     wall.glseg.x1 := -seg.v1.x / MAP_SCALE;
@@ -3524,7 +3523,6 @@ begin
     end;
     exit;
   end;
-  {$ENDIF}
 
   if seg.backsector = nil then // onesided
   begin
