@@ -379,6 +379,12 @@ var
 begin
   ACScriptCount := -1;
 
+  if lump >= W_NumLumps then
+  begin
+    ACScriptCount := 0;
+    exit;
+  end;
+
   if W_LumpLength(lump) = 0 then
     ACScriptCount := 0;
 
