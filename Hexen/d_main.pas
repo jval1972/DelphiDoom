@@ -2380,7 +2380,7 @@ begin
 
   SUC_Progress(84);
 
-  printf('SV_InitializeSerializers: Setting up serializers,'#13#10);
+  printf('SV_InitializeSerializers: Setting up serializers.'#13#10);
   SV_InitializeSerializers;
 
   SUC_Progress(85);

@@ -2756,7 +2756,7 @@ begin
   S_Init(snd_SfxVolume, snd_MusicVolume);
 
   SUC_Progress(89);
-  printf('SV_InitializeSerializers: Setting up serializers,'#13#10);
+  printf('SV_InitializeSerializers: Setting up serializers.'#13#10);
   SV_InitializeSerializers;
 
   SUC_Progress(90);

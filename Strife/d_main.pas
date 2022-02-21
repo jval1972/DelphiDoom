@@ -2553,7 +2553,7 @@ begin
   S_Init(snd_SfxVolume, snd_MusicVolume, snd_VoiceVolume);
 
   SUC_Progress(89);
-  printf('SV_InitializeSerializers: Setting up serializers,'#13#10);
+  printf('SV_InitializeSerializers: Setting up serializers.'#13#10);
   SV_InitializeSerializers;
 
   {$IFNDEF FPC}
