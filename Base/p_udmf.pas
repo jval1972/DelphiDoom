@@ -1621,8 +1621,11 @@ end;
 //
 //==============================================================================
 function UDMF_Check(const mapname: string): boolean;
+const
+  MAXLUMPCHECK = 10;
 var
   udmf: TUDMFManager;
+  i: integer;
   lumpnum: integer;
   crc32: string;
   wadfilemap: string;
@@ -1692,15 +1695,32 @@ begin
   end;
 
   behav_lump := -1;
-  if lumpnum + 2 < W_NumLumps then
-    if strupper(stringtochar8(lumpinfo[lumpnum + 2].name)) = 'BEHAVIOR' then
-      behav_lump := lumpnum + 2;
+  for i := lumpnum + 1 to lumpnum + MAXLUMPCHECK do
+  begin
+    if i >= W_NumLumps then
+      break;
+    if strupper(stringtochar8(lumpinfo[i].name)) = 'ENDMAP' then
+      break;
+    if strupper(stringtochar8(lumpinfo[i].name)) = 'BEHAVIOR' then
+    begin
+      behav_lump := i;
+      break;
+    end;
+  end;
 
   script_lump := -1;
-  if acc_isscriptlump(lumpnum + 2) then
-    script_lump := lumpnum + 2
-  else if acc_isscriptlump(lumpnum + 3) then
-    script_lump := lumpnum + 3;
+  for i := lumpnum + 1 to lumpnum + MAXLUMPCHECK do
+  begin
+    if i >= W_NumLumps then
+      break;
+    if strupper(stringtochar8(lumpinfo[i].name)) = 'ENDMAP' then
+      break;
+    if acc_isscriptlump(i) then
+    begin
+      script_lump := i;
+      break;
+    end;
+  end;
 
   inc(lumpnum);
   crc32 := GetLumpCRC32(lumpnum);
