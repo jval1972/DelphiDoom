@@ -2450,10 +2450,10 @@ begin
 
     if (W_InitMultipleFiles(wadfiles) = 0) or (W_CheckNumForName('playpal') = -1) then
     begin
-    // JVAL
-    //  If none wadfile has found as far,
-    //  we search the current directory
-    //  and we use the first WAD we find
+      // JVAL
+      //  If none wadfile has found as far,
+      //  we search the current directory
+      //  and we use the first WAD we find
       filename := findfile('*.wad');
       if filename <> '' then
       begin
@@ -2750,12 +2750,13 @@ begin
   printf('D_CheckNetGame: Checking network game status.'#13#10);
   D_CheckNetGame;
 
-  SUC_Progress(87);
+  SUC_Progress(85);
 
   printf('S_Init: Setting up sound.'#13#10);
   S_Init(snd_SfxVolume, snd_MusicVolume);
 
   SUC_Progress(89);
+
   printf('SV_InitializeSerializers: Setting up serializers.'#13#10);
   SV_InitializeSerializers;
 
@@ -2771,7 +2772,7 @@ begin
 
   SUC_Progress(92);
 
-  //    // check for a driver that wants intermission stats
+  // check for a driver that wants intermission stats
   p := M_CheckParm('-statcopy');
   if (p > 0) and (p < myargc - 1) then
   begin
@@ -2789,18 +2790,20 @@ begin
     autostart := true;
   end;
 
+  SUC_Progress(93);
+
 {$IFDEF OPENGL}
   GL_InitGraphics;
 {$ELSE}
   I_InitGraphics;
 {$ENDIF}
 
-  SUC_Progress(95);
+  SUC_Progress(96);
 
   printf('I_Init: Setting up machine state.'#13#10);
   I_Init;
 
-  SUC_Progress(96);
+  SUC_Progress(97);
 
   printf('C_Init: Initializing console.'#13#10);
   C_Init;
@@ -2818,8 +2821,9 @@ begin
       M_SetKeyboardMode(2);
   end;
 
+  SUC_Progress(98);
+
   // JVAL: PascalScript
-  SUC_Progress(97);
   printf('PS_CompileAllScripts: Compiling all scripts.'#13#10);
   PS_CompileAllScripts;
 

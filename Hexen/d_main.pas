@@ -2130,10 +2130,10 @@ begin
   printf('W_Init: Init WADfiles.'#13#10);
   if W_InitMultipleFiles(wadfiles) = 0 then
   begin
-  // JVAL
-  //  If none wadfile has found as far,
-  //  we search the current directory
-  //  and we use the first WAD we find
+    // JVAL
+    //  If none wadfile has found as far,
+    //  we search the current directory
+    //  and we use the first WAD we find
     filename := findfile('*.wad');
     if filename <> '' then
     begin
@@ -2241,7 +2241,7 @@ begin
   printf('T_Init: Initializing texture manager.'#13#10);
   T_Init;
 
-  SUC_Progress(56);
+  SUC_Progress(55);
 
   printf('V_Init: allocate screens.'#13#10);
   V_Init;
@@ -2265,12 +2265,12 @@ begin
   printf('M_InitMenus: Initializing menus.'#13#10);
   M_InitMenus;
 
-  SUC_Progress(60);
+  SUC_Progress(58);
 
   sharewaremsg := '';
   sprintf(sharewaremsg, MSG_SHAREWARE, [numwadmaps]);
 
-  SUC_Progress(61);
+  SUC_Progress(59);
 
   printf('D_IdentifyGameDirectories: Identify game directories.'#13#10);
   D_IdentifyGameDirectories;
@@ -2283,6 +2283,8 @@ begin
     startmap := atoi(myargv[p + 1]);
     autostart := true;
   end;
+
+  SUC_Progress(61);
 
   // Check for -file in shareware
   // JVAL
@@ -2304,7 +2306,7 @@ begin
     end;
   end;
 
-  SUC_Progress(63);
+  SUC_Progress(65);
 
   if hexdd_pack then
   begin
@@ -2327,15 +2329,17 @@ begin
     end;
   end;
 
+  SUC_Progress(66);
+
   printf('Info_InitRandom: Initializing randomizers.'#13#10);
   Info_InitRandom;
 
-  SUC_Progress(64);
+  SUC_Progress(67);
 
   printf('M_Init: Init miscellaneous info.'#13#10);
   M_Init;
 
-  SUC_Progress(65);
+  SUC_Progress(68);
 
   p := M_CheckParm('-mmx');
   if p > 0 then
@@ -2373,32 +2377,30 @@ begin
   printf('D_CheckNetGame: Checking network game status.'#13#10);
   D_CheckNetGame;
 
-  SUC_Progress(83);
+  SUC_Progress(85);
 
   printf('S_Init: Setting up sound.'#13#10);
   S_Init(snd_SfxVolume, snd_MusicVolume);
 
-  SUC_Progress(84);
+  SUC_Progress(89);
 
   printf('SV_InitializeSerializers: Setting up serializers.'#13#10);
   SV_InitializeSerializers;
 
-  SUC_Progress(85);
+  SUC_Progress(90);
 
   printf('S_InitSequenceScript: Registering sound sequences.'#13#10);
   S_InitSequenceScript;
 
-  SUC_Progress(86);
-
   printf('HU_Init: Setting up heads up display.'#13#10);
   HU_Init;
 
-  SUC_Progress(87);
+  SUC_Progress(91);
 
   printf('SB_Init: Init status bar.'#13#10);
   SB_Init;
 
-  SUC_Progress(88);
+  SUC_Progress(92);
 
   // check for a driver that wants intermission stats
   p := M_CheckParm('-statcopy');
@@ -2418,7 +2420,7 @@ begin
     autostart := true;
   end;
 
-  SUC_Progress(89);
+  SUC_Progress(93);
 
 {$IFDEF OPENGL}
   GL_InitGraphics;
@@ -2426,12 +2428,12 @@ begin
   I_InitGraphics;
 {$ENDIF}
 
-  SUC_Progress(95);
+  SUC_Progress(96);
 
   printf('I_Init: Setting up machine state.'#13#10);
   I_Init;
 
-  SUC_Progress(96);
+  SUC_Progress(97);
 
   printf('C_Init: Initializing console.'#13#10);
   C_Init;
@@ -2449,8 +2451,9 @@ begin
       M_SetKeyboardMode(2);
   end;
 
+  SUC_Progress(98);
+
   // JVAL: PascalScript
-  SUC_Progress(97);
   printf('PS_CompileAllScripts: Compiling all scripts.'#13#10);
   PS_CompileAllScripts;
 

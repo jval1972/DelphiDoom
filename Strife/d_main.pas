@@ -2545,20 +2545,17 @@ begin
   printf('M_ClearTmp: Clear temporary save directory.'#13#10);
   M_ClearTmp;
 
-  {$IFNDEF FPC}
   SUC_Progress(87);
-  {$ENDIF}
 
   printf('S_Init: Setting up sound.'#13#10);
   S_Init(snd_SfxVolume, snd_MusicVolume, snd_VoiceVolume);
 
   SUC_Progress(89);
+
   printf('SV_InitializeSerializers: Setting up serializers.'#13#10);
   SV_InitializeSerializers;
 
-  {$IFNDEF FPC}
   SUC_Progress(90);
-  {$ENDIF}
 
   printf('HU_Init: Setting up heads up display.'#13#10);
   HU_Init;
@@ -2579,18 +2576,20 @@ begin
     autostart := true;
   end;
 
+  SUC_Progress(93);
+
 {$IFDEF OPENGL}
   GL_InitGraphics;
 {$ELSE}
   I_InitGraphics;
 {$ENDIF}
 
-  SUC_Progress(95);
+  SUC_Progress(96);
 
   printf('I_Init: Setting up machine state.'#13#10);
   I_Init;
 
-  SUC_Progress(96);
+  SUC_Progress(97);
 
   printf('C_Init: Initializing console.'#13#10);
   C_Init;
@@ -2611,8 +2610,9 @@ begin
   printf('F_Init: Setting up startcast :)'#13#10);
   F_Init;
 
+  SUC_Progress(98);
+
   // JVAL: PascalScript
-  SUC_Progress(97);
   printf('PS_CompileAllScripts: Compiling all scripts.'#13#10);
   PS_CompileAllScripts;
 
