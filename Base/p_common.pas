@@ -10228,7 +10228,7 @@ begin
 
   if m.mbf21bits and MF_MBF21_LONGMELEE <> 0 then
   begin
-    m.flags4_ex := m.flags4_ex or MF4_EX_LONGMELEE;
+    m.flags4_ex := m.flags4_ex or MF4_EX_LONGMELEERANGE;
   end;
 
   if m.mbf21bits and MF_MBF21_BOSS <> 0 then
@@ -11311,7 +11311,7 @@ begin
 
   if mbf21bits and MF_MBF21_LONGMELEE <> 0 then
   begin
-    m.flags4_ex := m.flags4_ex or MF4_EX_LONGMELEE;
+    m.flags4_ex := m.flags4_ex or MF4_EX_LONGMELEERANGE;
   end;
 
   if mbf21bits and MF_MBF21_BOSS <> 0 then
@@ -11512,7 +11512,7 @@ begin
 
   if mbf21bits and MF_MBF21_LONGMELEE <> 0 then
   begin
-    m.flags4_ex := m.flags4_ex and not MF4_EX_LONGMELEE;
+    m.flags4_ex := m.flags4_ex and not MF4_EX_LONGMELEERANGE;
   end;
 
   if mbf21bits and MF_MBF21_BOSS <> 0 then
@@ -11761,7 +11761,7 @@ begin
 
   if mbf21bits and MF_MBF21_LONGMELEE <> 0 then
   begin
-    result := m.flags4_ex and MF4_EX_LONGMELEE <> 0;
+    result := m.flags4_ex and MF4_EX_LONGMELEERANGE <> 0;
     if not result then
       exit;
   end;

@@ -467,7 +467,7 @@ const
   // no targeting threshold
   MF4_EX_NOTHRESHOLD = $400;
   // long melee range
-  MF4_EX_LONGMELEE = $800;
+  MF4_EX_LONGMELEERANGE = $800;
   // Follow trace
   MF4_EX_TRACEDEFINED = $1000;
   // Tag 666 "boss" on map 7

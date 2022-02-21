@@ -440,7 +440,7 @@ const
   // no targeting threshold
   MF4_EX_NOTHRESHOLD = $400;
   // long melee range
-  MF4_EX_LONGMELEE = $800;
+  MF4_EX_LONGMELEERANGE = $800;
   // projectile rips through targets
   MF4_EX_RIP = $1000;
   // Follow trace

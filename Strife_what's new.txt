@@ -114,7 +114,7 @@ Added MF4_EX_DMGIGNORED mobj flag. When set the other actors ignore its attacks.
 Added MF4_EX_HIGHERMPROB mobj flag. When set the actor has higher missile attack probability.
 Added MF4_EX_RANGEHALF mobj flag. When set the actor use half distance for missile attack probability.
 Added MF4_EX_NOTHRESHOLD mobj flag. When set the actor can target other actors without checking threshold.
-Added MF4_EX_LONGMELEE mobj flag. When set the actor has long melee range.
+Added MF4_EX_LONGMELEERANGE mobj flag. When set the actor has long melee range.
 Added MF4_EX_RIP mobj flag. When set the projectile rips through targets.
 Parse [SPRITES] DEHACKED/BEX extention.
 Added MF4_EX_MAP07BOSS1 & MF4_EX_MAP07BOSS2 mobj flags.

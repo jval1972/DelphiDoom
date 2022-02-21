@@ -2444,7 +2444,7 @@ begin
   mobj_flags4_ex.Add('MF4_EX_HIGHERMPROB');
   mobj_flags4_ex.Add('MF4_EX_RANGEHALF');
   mobj_flags4_ex.Add('MF4_EX_NOTHRESHOLD');
-  mobj_flags4_ex.Add('MF4_EX_LONGMELEE');
+  mobj_flags4_ex.Add('MF4_EX_LONGMELEERANGE');
   mobj_flags4_ex.Add('MF4_EX_TRACEDEFINED');
   mobj_flags4_ex.Add('MF4_EX_MAP07BOSS1');
   mobj_flags4_ex.Add('MF4_EX_MAP07BOSS2');
