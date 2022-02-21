@@ -254,6 +254,7 @@ Texture offsets can be set individually for top, bottom & middle textures of sid
 Added "HIDDEN" UDMF sector property.
 DEFAULTMISSILE in ACTORDEF will add the MF5_EX_IMPACT & MF5_EX_PCROSS mobj flags.
 Fix of OPENARRAYOFU16 and OPENARRAYOFS16 declarations (PascalScript).
+Fixed missileheight ACTORDEF export.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

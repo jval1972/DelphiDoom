@@ -3957,7 +3957,7 @@ begin
   if m.hitobituary <> '' then
     AddLn('HitObituary ' + '"' + m.hitobituary + '"');
   if m.missileheight > 0 then
-    AddLn('Missileheight ' + S_GetSoundNameForNum(m.missileheight));
+    AddLn('MissileHeight ' + itoa(m.missileheight));
   if m.renderstyle <> mrs_normal then
   begin
     AddLn('Renderstyle ' + renderstyle_tokens[Ord(m.renderstyle)]);
