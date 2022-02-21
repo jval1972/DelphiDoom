@@ -1972,6 +1972,13 @@ var
   speed: float;
   an: angle_t;
 begin
+  // JVAL: Prevent savegame bug
+  if dest = nil then
+  begin
+    result := nil;
+    exit;
+  end;
+
   P_SaveRandom;
 
   flags_ex := mobjinfo[Ord(_type)].flags_ex;
