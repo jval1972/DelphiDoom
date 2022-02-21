@@ -1992,11 +1992,14 @@ begin
 
   PAK_LoadPendingPaks;
 
-  SUC_Progress(15);
+  SUC_Progress(11);
 
   D_AddPAKFiles('-pakfile');
   for p := 1 to 9 do
     D_AddPAKFiles('-pakfile' + itoa(p));
+
+  SUC_Progress(15);
+
   D_AddPAKFiles('-lpakfile'); // JVAL launcher specific
 
   SUC_Progress(16);
