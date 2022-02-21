@@ -3078,6 +3078,11 @@ begin
         else if sc.MatchString('DEFAULTMISSILE') or sc.MatchString('+DEFAULTMISSILE') then // JVAL: DelphiDoom specific
         begin
           mobj.flags := mobj.flags + 'NOGRAVITY MISSILE NOBLOCKMAP DROPOFF ';
+          {$IFDEF HEXEN}
+          mobj.flags2 := mobj.flags2 + 'MF2_IMPACT MF2_PCROSS ';
+          {$ELSE}
+          mobj.flags5_ex := mobj.flags5_ex + 'MF5_EX_IMPACT MF5_EX_PCROSS ';
+          {$ENDIF}
           sc.GetString;
         end
         else if sc.MatchString('DEFAULTTRANSPARENT') or sc.MatchString('+DEFAULTTRANSPARENT') then // JVAL: DelphiDoom specific
