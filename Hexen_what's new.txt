@@ -257,6 +257,7 @@ Does not crash if an ACS script not found.
 Texture offsets can be set individually for top, bottom & middle textures of sidedefs.
 Added "HIDDEN" UDMF sector property.
 DEFAULTMISSILE in ACTORDEF will add the MF2_IMPACT & MF2_PCROSS mobj flags.
+Added missileheight mobjinfo field.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

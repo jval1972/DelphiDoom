@@ -70,7 +70,10 @@ type
     SPR_FX16, SPR_MNTR, SPR_FX12, SPR_FX13, SPR_AKYY,
     SPR_BKYY, SPR_CKYY, SPR_AMG2, SPR_AMM1, SPR_AMM2,
     SPR_AMC1, SPR_AMC2, SPR_AMS1, SPR_AMS2, SPR_AMP1,
-    SPR_AMP2, SPR_AMB1, SPR_AMB2, SPR_TNT1, SPR_NULL,
+    SPR_AMP2, SPR_AMB1, SPR_AMB2, SPR_TNT1,
+
+    SPR_NULL,
+
     DO_NUMSPRITES
   );
 
@@ -1281,6 +1284,7 @@ type
     S_SND_WIND,
     S_SND_WATERFALL,
     S_NONE,
+
     DO_NUMSTATES
   );
 
@@ -1497,6 +1501,7 @@ type
     MT_SOUNDWIND,
     MT_SOUNDWATERFALL,
     MT_NONE,
+
     DO_NUMMOBJTYPES
   );
 
@@ -1548,6 +1553,7 @@ type
     crashstate: integer;
     crushstate: integer;
     interactstate: integer;
+    missileheight: integer;
     vspeed: integer;  // Initial vertical speed
     pushfactor: integer; // How much can be pushed? 1..FRACUNIT
     friction: Integer; // Default is ORIG_FRICTION

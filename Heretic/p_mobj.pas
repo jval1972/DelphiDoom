@@ -2029,19 +2029,27 @@ begin
     exit;
   end;
 
-  case _type of
-    Ord(MT_MNTRFX1): // Minotaur swing attack missile
-      z := source.z + 40 * FRACUNIT;
-    Ord(MT_MNTRFX2): // Minotaur floor fire missile
-      z := ONFLOORZ;
-    Ord(MT_SRCRFX1): // Sorcerer Demon fireball
-      z := source.z + 48 * FRACUNIT;
-    Ord(MT_KNIGHTAXE), // Knight normal axe
-    Ord(MT_REDAXE): // Knight red power axe
-      z := source.z + 36 * FRACUNIT;
-    else
-      z := source.z + 32 * FRACUNIT;
-  end;
+  if source.info.missileheight = 0 then
+  begin
+    case _type of
+      Ord(MT_MNTRFX1): // Minotaur swing attack missile
+        z := source.z + 40 * FRACUNIT;
+      Ord(MT_MNTRFX2): // Minotaur floor fire missile
+        z := ONFLOORZ;
+      Ord(MT_SRCRFX1): // Sorcerer Demon fireball
+        z := source.z + 48 * FRACUNIT;
+      Ord(MT_KNIGHTAXE), // Knight normal axe
+      Ord(MT_REDAXE): // Knight red power axe
+        z := source.z + 36 * FRACUNIT;
+      else
+        z := source.z + 32 * FRACUNIT;
+    end;
+  end
+  else if source.info.missileheight < FRACUNIT div 2 then
+    z := source.z + source.info.missileheight * FRACUNIT
+  else
+    z := source.z + source.info.missileheight;
+
   if source.flags2 and MF2_FEETARECLIPPED <> 0 then
     z := z - FOOTCLIPSIZE;
 
@@ -2088,14 +2096,12 @@ begin
   result := th;
 end;
 
-//---------------------------------------------------------------------------
+//==============================================================================
 //
 // FUNC P_SpawnMissileAngle
 //
 // Returns NULL if the missile exploded immediately, otherwise returns
 // a mobj_t pointer to the missile.
-//
-//---------------------------------------------------------------------------
 //
 //==============================================================================
 function P_SpawnMissileAngle(source: Pmobj_t; _type: integer; angle: angle_t; momz: fixed_t): Pmobj_t;
@@ -2103,19 +2109,27 @@ var
   th: Pmobj_t;
   z: fixed_t;
 begin
-  case _type of
-    Ord(MT_MNTRFX1): // Minotaur swing attack missile
-      z := source.z + 40 * FRACUNIT;
-    Ord(MT_MNTRFX2): // Minotaur floor fire missile
-      z := ONFLOORZ;
-    Ord(MT_SRCRFX1): // Sorcerer Demon fireball
-      z := source.z + 48 * FRACUNIT;
-    Ord(MT_KNIGHTAXE), // Knight normal axe
-    Ord(MT_REDAXE): // Knight red power axe
-      z := source.z + 36 * FRACUNIT;
-    else
-      z := source.z + 32 * FRACUNIT;
-  end;
+  if source.info.missileheight = 0 then
+  begin
+    case _type of
+      Ord(MT_MNTRFX1): // Minotaur swing attack missile
+        z := source.z + 40 * FRACUNIT;
+      Ord(MT_MNTRFX2): // Minotaur floor fire missile
+        z := ONFLOORZ;
+      Ord(MT_SRCRFX1): // Sorcerer Demon fireball
+        z := source.z + 48 * FRACUNIT;
+      Ord(MT_KNIGHTAXE), // Knight normal axe
+      Ord(MT_REDAXE): // Knight red power axe
+        z := source.z + 36 * FRACUNIT;
+      else
+        z := source.z + 32 * FRACUNIT;
+    end;
+  end
+  else if source.info.missileheight < FRACUNIT div 2 then
+    z := source.z + source.info.missileheight * FRACUNIT
+  else
+    z := source.z + source.info.missileheight;
+
   if source.flags2 and MF2_FEETARECLIPPED <> 0 then
     z := z - FOOTCLIPSIZE;
 
@@ -2153,6 +2167,13 @@ var
   speed: float;
   an: angle_t;
 begin
+  // JVAL: Prevent savegame bug
+  if dest = nil then
+  begin
+    result := nil;
+    exit;
+  end;
+
   P_SaveRandom;
 
   flags_ex := mobjinfo[Ord(_type)].flags_ex;

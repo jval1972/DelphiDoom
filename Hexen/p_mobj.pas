@@ -2700,21 +2700,37 @@ var
   dist: integer;
   z: fixed_t;
 begin
-  case _type of
-    Ord(MT_MNTRFX1): // Minotaur swing attack missile
-      z := source.z + 40 * FRACUNIT;
-    Ord(MT_MNTRFX2): // Minotaur floor fire missile
-      z := ONFLOORZ + source.floorclip;
-    Ord(MT_CENTAUR_FX):
-      z := source.z + 45 * FRACUNIT;
-    Ord(MT_ICEGUY_FX):
-      z := source.z + 40 * FRACUNIT;
-    Ord(MT_HOLY_MISSILE):
-      z := source.z + 40 * FRACUNIT;
-  else
-    z := source.z + 32 * FRACUNIT;
+  // JVAL: Prevent possible savegame bug
+  if dest = nil then
+  begin
+    result := nil;
+    exit;
   end;
+
+  if source.info.missileheight = 0 then
+  begin
+    case _type of
+      Ord(MT_MNTRFX1): // Minotaur swing attack missile
+        z := source.z + 40 * FRACUNIT;
+      Ord(MT_MNTRFX2): // Minotaur floor fire missile
+        z := ONFLOORZ + source.floorclip;
+      Ord(MT_CENTAUR_FX):
+        z := source.z + 45 * FRACUNIT;
+      Ord(MT_ICEGUY_FX):
+        z := source.z + 40 * FRACUNIT;
+      Ord(MT_HOLY_MISSILE):
+        z := source.z + 40 * FRACUNIT;
+    else
+      z := source.z + 32 * FRACUNIT;
+    end;
+  end
+  else if source.info.missileheight < FRACUNIT div 2 then
+    z := source.z + source.info.missileheight * FRACUNIT
+  else
+    z := source.z + source.info.missileheight;
+
   z := z - source.floorclip;
+
   th := P_SpawnMobj(source.x, source.y, z, _type);
   if th <> nil then
   begin
@@ -2763,6 +2779,13 @@ var
   an: angle_t;
   dist: integer;
 begin
+  // JVAL: Prevent savegame bug
+  if dest = nil then
+  begin
+    result := nil;
+    exit;
+  end;
+
   flags_ex := mobjinfo[Ord(_type)].flags_ex;
 
   if flags_ex and MF_EX_FLOORHUGGER <> 0 then
@@ -2891,19 +2914,28 @@ var
   z: fixed_t;
   mo: Pmobj_t;
 begin
-  case _type of
-    Ord(MT_MNTRFX1): // Minotaur swing attack missile
-      z := source.z + 40 * FRACUNIT;
-    Ord(MT_MNTRFX2): // Minotaur floor fire missile
-      z := ONFLOORZ + source.floorclip;
-    Ord(MT_ICEGUY_FX2): // Secondary Projectiles of the Ice Guy
-      z := source.z + 3 * FRACUNIT;
-    Ord(MT_MSTAFF_FX2):
-      z := source.z + 40 * FRACUNIT;
+  if source.info.missileheight = 0 then
+  begin
+    case _type of
+      Ord(MT_MNTRFX1): // Minotaur swing attack missile
+        z := source.z + 40 * FRACUNIT;
+      Ord(MT_MNTRFX2): // Minotaur floor fire missile
+        z := ONFLOORZ + source.floorclip;
+      Ord(MT_ICEGUY_FX2): // Secondary Projectiles of the Ice Guy
+        z := source.z + 3 * FRACUNIT;
+      Ord(MT_MSTAFF_FX2):
+        z := source.z + 40 * FRACUNIT;
+    else
+      z := source.z + 32 * FRACUNIT;
+    end;
+  end
+  else if source.info.missileheight < FRACUNIT div 2 then
+    z := source.z + source.info.missileheight * FRACUNIT
   else
-    z := source.z + 32 * FRACUNIT;
-  end;
+    z := source.z + source.info.missileheight;
+
   z := z - source.floorclip;
+
   mo := P_SpawnMobj(source.x, source.y, z, _type);
   if mo <> nil then
   begin

@@ -14635,6 +14635,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -14713,6 +14715,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -14791,6 +14795,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -14869,6 +14875,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -14947,6 +14955,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -15025,6 +15035,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -15103,6 +15115,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -15181,6 +15195,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -15259,6 +15275,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -15337,6 +15355,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -15415,6 +15435,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -15493,6 +15515,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -15571,6 +15595,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -15649,6 +15675,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -15727,6 +15755,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -15805,6 +15835,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -15883,6 +15915,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -15961,6 +15995,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -16039,6 +16075,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -16117,6 +16155,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -16195,6 +16235,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -16273,6 +16315,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -16351,6 +16395,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -16429,6 +16475,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -16507,6 +16555,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -16585,6 +16635,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -16663,6 +16715,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -16741,6 +16795,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -16819,6 +16875,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -16897,6 +16955,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -16975,6 +17035,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -17053,6 +17115,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -17131,6 +17195,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -17209,6 +17275,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -17287,6 +17355,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -17365,6 +17435,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -17443,6 +17515,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -17521,6 +17595,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -17599,6 +17675,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -17677,6 +17755,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -17755,6 +17835,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -17833,6 +17915,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -17911,6 +17995,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -17989,6 +18075,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -18067,6 +18155,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -18145,6 +18235,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -18223,6 +18315,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -18301,6 +18395,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -18379,6 +18475,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -18457,6 +18555,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -18535,6 +18635,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -18613,6 +18715,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -18691,6 +18795,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -18769,6 +18875,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -18847,6 +18955,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -18925,6 +19035,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -19003,6 +19115,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -19081,6 +19195,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -19159,6 +19275,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -19237,6 +19355,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -19315,6 +19435,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -19393,6 +19515,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -19471,6 +19595,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -19549,6 +19675,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -19627,6 +19755,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -19705,6 +19835,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -19783,6 +19915,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -19861,6 +19995,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -19939,6 +20075,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -20017,6 +20155,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -20095,6 +20235,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -20173,6 +20315,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -20251,6 +20395,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -20329,6 +20475,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -20407,6 +20555,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -20485,6 +20635,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -20563,6 +20715,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -20641,6 +20795,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -20719,6 +20875,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -20797,6 +20955,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -20875,6 +21035,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -20953,6 +21115,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -21031,6 +21195,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -21109,6 +21275,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -21187,6 +21355,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -21265,6 +21435,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -21343,6 +21515,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -21421,6 +21595,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -21499,6 +21675,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -21577,6 +21755,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -21655,6 +21835,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -21733,6 +21915,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -21811,6 +21995,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -21889,6 +22075,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -21967,6 +22155,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -22045,6 +22235,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -22123,6 +22315,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -22201,6 +22395,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -22279,6 +22475,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -22357,6 +22555,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -22435,6 +22635,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -22513,6 +22715,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -22591,6 +22795,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -22669,6 +22875,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -22747,6 +22955,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -22825,6 +23035,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -22903,6 +23115,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -22981,6 +23195,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -23059,6 +23275,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -23137,6 +23355,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -23215,6 +23435,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -23293,6 +23515,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -23371,6 +23595,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -23449,6 +23675,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -23527,6 +23755,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -23605,6 +23835,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -23683,6 +23915,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -23761,6 +23995,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -23839,6 +24075,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -23917,6 +24155,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -23995,6 +24235,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -24073,6 +24315,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -24151,6 +24395,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -24383,6 +24629,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -24461,6 +24709,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -24539,6 +24789,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -24617,6 +24869,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -24695,6 +24949,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -24773,6 +25029,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -24851,6 +25109,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -24929,6 +25189,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -25007,6 +25269,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -25085,6 +25349,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -25163,6 +25429,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -25241,6 +25509,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -25319,6 +25589,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -25397,6 +25669,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -25475,6 +25749,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -25553,6 +25829,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -25631,6 +25909,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -25709,6 +25989,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -25787,6 +26069,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -25865,6 +26149,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -25943,6 +26229,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -26021,6 +26309,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -26099,6 +26389,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -26177,6 +26469,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -26255,6 +26549,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -26333,6 +26629,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -26411,6 +26709,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -26489,6 +26789,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -26567,6 +26869,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -26645,6 +26949,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -26723,6 +27029,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -26801,6 +27109,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -26879,6 +27189,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -26957,6 +27269,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -27035,6 +27349,8 @@ const // Heretic Original mobjinfo
     healstate: Ord(S_NULL);                                                     // healstate
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
+    interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction
@@ -27113,6 +27429,7 @@ const // Heretic Original mobjinfo
     crashstate: Ord(S_NULL);                                                    // crashstate
     crushstate: Ord(S_NULL);                                                    // crushstate
     interactstate: Ord(S_NULL);                                                 // interactstate
+    missileheight: 0;                                                           // missileheight
     vspeed: 0;                                                                  // vspeed
     pushfactor: DEFPUSHFACTOR;                                                  // pushfactor
     friction: ORIG_FRICTION;                                                    // friction

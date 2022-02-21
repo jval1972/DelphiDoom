@@ -130,9 +130,7 @@ type
     healstate: integer;
     crashstate: integer;
     interactstate: integer;
-    {$IFDEF DOOM_OR_STRIFE}
     missileheight: integer;
-    {$ENDIF}
     vspeed: float;
     pushfactor: float;
     friction: float;

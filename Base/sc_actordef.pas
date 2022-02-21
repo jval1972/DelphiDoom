@@ -1942,9 +1942,7 @@ var
     AddRes('flags2_ex = ' + mobj.flags2_ex);
     AddRes('flags3_ex = ' + mobj.flags3_ex);
     AddRes('flags4_ex = ' + mobj.flags4_ex);
-    {$IFDEF DOOM_OR_STRIFE}
     AddRes('missileheight = ' + itoa(mobj.missileheight));
-    {$ENDIF}
     AddRes('Scale = ' + itoa(round(mobj.scale * FRACUNIT)));
     AddRes('Gravity = ' + itoa(round(mobj.gravity * FRACUNIT)));
     Addres('Float Speed = ' + itoa(mobj.floatspeed));
@@ -2781,9 +2779,7 @@ begin
           mobj.meleesound := itoa(pinf.meleesound);
           mobj.renderstyle := itoa(Ord(pinf.renderstyle));
           mobj.alpha := pinf.alpha;
-          {$IFDEF DOOM_OR_STRIFE}
           mobj.missileheight := pinf.missileheight;
-          {$ENDIF}
           mobj.vspeed := pinf.vspeed / FRACUNIT;
           mobj.pushfactor := pinf.pushfactor / FRACUNIT;
           mobj.scale := pinf.scale / FRACUNIT;
@@ -3317,14 +3313,12 @@ begin
           mobj.hitobituary := sc._String;
           sc.GetString;
         end
-        {$IFDEF DOOM_OR_STRIFE}
         else if sc.MatchString('missileheight') then
         begin
           sc.GetInteger;
           mobj.missileheight := sc._Integer;
           sc.GetString;
         end
-        {$ENDIF}
         else if sc.MatchString('states') then
         begin
           foundstates := true;
@@ -3962,10 +3956,8 @@ begin
     AddLn('Obituary ' + '"' + m.obituary + '"');
   if m.hitobituary <> '' then
     AddLn('HitObituary ' + '"' + m.hitobituary + '"');
-  {$IFDEF DOOM_OR_STRIFE}
   if m.missileheight > 0 then
     AddLn('Missileheight ' + S_GetSoundNameForNum(m.missileheight));
-  {$ENDIF}
   if m.renderstyle <> mrs_normal then
   begin
     AddLn('Renderstyle ' + renderstyle_tokens[Ord(m.renderstyle)]);

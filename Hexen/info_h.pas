@@ -3703,6 +3703,7 @@ type
     crashstate: integer;
     crushstate: integer;
     interactstate: integer;
+    missileheight: integer;
     vspeed: integer;  // Initial vertical speed
     pushfactor: integer; // How much can be pushed? 1..FRACUNIT
     friction: Integer; // Default is ORIG_FRICTION
