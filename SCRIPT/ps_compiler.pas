@@ -1866,9 +1866,9 @@ begin
               btS8:
                 VCType := FindAndAddType(Owner, '!OPENARRAYOFS8', 'array of ShortInt');
               btU16:
-                VCType := FindAndAddType(Owner, '!OPENARRAYOFU16', 'array of SmallInt');
+                VCType := FindAndAddType(Owner, '!OPENARRAYOFU16', 'array of Word');
               btS16:
-                VCType := FindAndAddType(Owner, '!OPENARRAYOFS16', 'array of Word');
+                VCType := FindAndAddType(Owner, '!OPENARRAYOFS16', 'array of SmallInt');
               btU32:
                 VCType := FindAndAddType(Owner, '!OPENARRAYOFU32', 'array of Cardinal');
               btS32:
