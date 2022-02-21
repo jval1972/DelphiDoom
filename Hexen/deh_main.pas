@@ -786,6 +786,7 @@ begin
           75: mobjinfo[mobj_no].bloodcolor := R_GetBloodTranslationIdForName(token2);
           76: mobjinfo[mobj_no].translationname := strupper(token2);
           78: mobjinfo[mobj_no].missileheight := mobj_val;
+          79: mobjinfo[mobj_no].meleethreshold := mobj_val;
         end;
       end;
 
@@ -1979,6 +1980,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[75]), mobjinfo[i].bloodcolor]);
     result.Add('%s = "%s"', [capitalizedstring(mobj_tokens[76]), mobjinfo[i].translationname]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[78]), mobjinfo[i].missileheight]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[79]), mobjinfo[i].meleethreshold]);
 
     result.Add('');
   end;
@@ -2256,6 +2258,7 @@ begin
   mobj_tokens.Add('TRANSLATION');        // .translationname          // 76
   mobj_tokens.Add('DROPPED ITEM');       // .dropitem                 // 77 - Alias for 36
   mobj_tokens.Add('MISSILEHEIGHT');      // .missileheight (DelphiDoom) // 78
+  mobj_tokens.Add('MELEE THRESHOLD');    // .meleethreshold           // 79
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);

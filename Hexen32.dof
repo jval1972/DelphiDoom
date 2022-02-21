@@ -100,7 +100,7 @@ Conditionals=HEXEN;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Hexen\
 UsePackages=0
 [Parameters]
-RunParams=
+RunParams=-noactordef -internalgamedef -nodehextra
 HostApplication=
 Launcher=
 UseLauncher=0

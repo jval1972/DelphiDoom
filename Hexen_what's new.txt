@@ -260,6 +260,7 @@ DEFAULTMISSILE in ACTORDEF will add the MF2_IMPACT & MF2_PCROSS mobj flags.
 Added missileheight mobjinfo field.
 Fix of OPENARRAYOFU16 and OPENARRAYOFS16 declarations (PascalScript).
 Fixed missileheight ACTORDEF export.
+Added meleethreshold mobjinfo field.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

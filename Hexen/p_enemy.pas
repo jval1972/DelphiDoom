@@ -1540,6 +1540,13 @@ begin
       exit;
     end;
 
+  if actor.info.meleethreshold > 0 then
+    if dist < actor.info.meleethreshold then
+    begin
+      result := false; // close for fist attack
+      exit;
+    end;
+
   if actor.flags4_ex and MF4_EX_LONGMELEERANGE <> 0 then
     if dist < 196 then
     begin

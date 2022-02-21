@@ -1943,6 +1943,7 @@ var
     AddRes('flags3_ex = ' + mobj.flags3_ex);
     AddRes('flags4_ex = ' + mobj.flags4_ex);
     AddRes('missileheight = ' + itoa(mobj.missileheight));
+    AddRes('melee threshold = ' + itoa(mobj.meleethreshold));
     AddRes('Scale = ' + itoa(round(mobj.scale * FRACUNIT)));
     AddRes('Gravity = ' + itoa(round(mobj.gravity * FRACUNIT)));
     Addres('Float Speed = ' + itoa(mobj.floatspeed));
@@ -2780,6 +2781,7 @@ begin
           mobj.renderstyle := itoa(Ord(pinf.renderstyle));
           mobj.alpha := pinf.alpha;
           mobj.missileheight := pinf.missileheight;
+          mobj.meleethreshold := pinf.meleethreshold;
           mobj.vspeed := pinf.vspeed / FRACUNIT;
           mobj.pushfactor := pinf.pushfactor / FRACUNIT;
           mobj.scale := pinf.scale / FRACUNIT;
@@ -3317,6 +3319,12 @@ begin
         begin
           sc.GetInteger;
           mobj.missileheight := sc._Integer;
+          sc.GetString;
+        end
+        else if sc.MatchString('meleethreshold') then
+        begin
+          sc.GetInteger;
+          mobj.meleethreshold := sc._Integer;
           sc.GetString;
         end
         else if sc.MatchString('states') then
@@ -3958,6 +3966,8 @@ begin
     AddLn('HitObituary ' + '"' + m.hitobituary + '"');
   if m.missileheight > 0 then
     AddLn('MissileHeight ' + itoa(m.missileheight));
+  if m.meleethreshold > 0 then
+    AddLn('MeleeThreshold ' + itoa(m.meleethreshold));
   if m.renderstyle <> mrs_normal then
   begin
     AddLn('Renderstyle ' + renderstyle_tokens[Ord(m.renderstyle)]);

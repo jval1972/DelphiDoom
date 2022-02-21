@@ -413,6 +413,7 @@ begin
     AddLn('mobjinfo[' + mname + '].ripsound := ' + _sound_name_Ord(mobjinfo[i].ripsound) + ';');
     AddLn('mobjinfo[' + mname + '].bloodcolor := ' + itoa(mobjinfo[i].bloodcolor) + ';');
     AddLn('mobjinfo[' + mname + '].translationname := ''' + mobjinfo[i].translationname + ''';');
+    AddLn('mobjinfo[' + mname + '].meleethreshold := ' + itoa(mobjinfo[i].meleethreshold) + ';');
     AddLn('');
   end;
 
@@ -567,6 +568,7 @@ begin
     AddField('ripsound', _sound_name_Ord(fmobjinfo[i].ripsound));
     AddField('bloodcolor', itoa(fmobjinfo[i].bloodcolor));
     AddField('translationname', '''' + _pascal_name(fmobjinfo[i].translationname) + '''');
+    AddField('meleethreshold', itoa(fmobjinfo[i].meleethreshold));
     if i = finish then
       AddLn(' )')
     else

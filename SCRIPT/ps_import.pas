@@ -588,6 +588,7 @@ begin
   baseproclist.Add('function GetMobjInfoProjectileGroup(const typ: integer): Integer;', @PS_GetMobjInfoProjectileGroup);
   baseproclist.Add('function GetMobjInfoSplashGroup(const typ: integer): Integer;', @PS_GetMobjInfoSplashGroup);
   baseproclist.Add('function GetMobjInfoRipSound(const typ: integer): string;', @PS_GetMobjInfoRipSound);
+  baseproclist.Add('function GetMobjInfoMeleeThreshold(const typ: integer): integer;', @PS_GetMobjInfoMeleeThreshold);
 // ------------------------------ GAME -----------------------------------------
   {$IFDEF HEXEN}
   baseproclist.Add('procedure G_Completed(map, position: integer);', @G_Completed);

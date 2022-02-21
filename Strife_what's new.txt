@@ -246,6 +246,7 @@ Added "HIDDEN" UDMF sector property.
 DEFAULTMISSILE in ACTORDEF will add the MF5_EX_IMPACT & MF5_EX_PCROSS mobj flags.
 Fix of OPENARRAYOFU16 and OPENARRAYOFS16 declarations (PascalScript).
 Fixed missileheight ACTORDEF export.
+Added meleethreshold mobjinfo field.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

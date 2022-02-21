@@ -13132,6 +13132,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13211,6 +13212,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13290,6 +13292,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13369,6 +13372,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13448,6 +13452,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13527,6 +13532,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13606,6 +13612,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13685,6 +13692,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13764,6 +13772,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13843,6 +13852,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -13922,6 +13932,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14001,6 +14012,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14080,6 +14092,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14159,6 +14172,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14238,6 +14252,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14317,6 +14332,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14396,6 +14412,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14475,6 +14492,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14554,6 +14572,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14633,6 +14652,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14712,6 +14732,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14791,6 +14812,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14870,6 +14892,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -14949,6 +14972,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15028,6 +15052,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15107,6 +15132,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15186,6 +15212,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15265,6 +15292,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15344,6 +15372,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15423,6 +15452,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15502,6 +15532,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15581,6 +15612,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15660,6 +15692,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15739,6 +15772,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15818,6 +15852,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15897,6 +15932,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -15976,6 +16012,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16055,6 +16092,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16134,6 +16172,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16213,6 +16252,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16292,6 +16332,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16371,6 +16412,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16450,6 +16492,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16529,6 +16572,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16608,6 +16652,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16687,6 +16732,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16766,6 +16812,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16845,6 +16892,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -16924,6 +16972,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17003,6 +17052,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17082,6 +17132,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17161,6 +17212,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17240,6 +17292,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17319,6 +17372,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17398,6 +17452,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17477,6 +17532,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17556,6 +17612,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17635,6 +17692,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17714,6 +17772,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17793,6 +17852,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17872,6 +17932,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -17951,6 +18012,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18030,6 +18092,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18109,6 +18172,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18188,6 +18252,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18267,6 +18332,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18346,6 +18412,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18425,6 +18492,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18504,6 +18572,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18583,6 +18652,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18662,6 +18732,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18741,6 +18812,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18820,6 +18892,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18899,6 +18972,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -18978,6 +19052,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19057,6 +19132,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19136,6 +19212,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19215,6 +19292,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19294,6 +19372,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19373,6 +19452,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19452,6 +19532,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19531,6 +19612,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19610,6 +19692,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19689,6 +19772,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19768,6 +19852,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19847,6 +19932,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -19926,6 +20012,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20005,6 +20092,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20084,6 +20172,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20163,6 +20252,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20242,6 +20332,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20321,6 +20412,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20400,6 +20492,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20479,6 +20572,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20558,6 +20652,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20637,6 +20732,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20716,6 +20812,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20795,6 +20892,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20874,6 +20972,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -20953,6 +21052,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21032,6 +21132,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21111,6 +21212,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21190,6 +21292,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21269,6 +21372,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21348,6 +21452,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21427,6 +21532,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21506,6 +21612,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21585,6 +21692,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21664,6 +21772,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21743,6 +21852,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21822,6 +21932,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21901,6 +22012,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -21980,6 +22092,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22059,6 +22172,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22138,6 +22252,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22217,6 +22332,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22296,6 +22412,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22375,6 +22492,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22454,6 +22572,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22533,6 +22652,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22612,6 +22732,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22691,6 +22812,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22770,6 +22892,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22849,6 +22972,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -22928,6 +23052,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23007,6 +23132,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23086,6 +23212,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23165,6 +23292,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23244,6 +23372,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23323,6 +23452,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23402,6 +23532,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23481,6 +23612,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23560,6 +23692,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23639,6 +23772,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23718,6 +23852,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23797,6 +23932,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23876,6 +24012,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -23955,6 +24092,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24034,6 +24172,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24113,6 +24252,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24192,6 +24332,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24271,6 +24412,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24350,6 +24492,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24429,6 +24572,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    ),
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -24508,6 +24652,7 @@ const // Doom Original mobjinfo
     ripsound: 0;                                                                // ripsound
     bloodcolor: 0;                                                              // bloodcolor
     translationname: '';                                                        // translationname
+    meleethreshold: 0;                                                          // meleethreshold
    )
 
   );

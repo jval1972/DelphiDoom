@@ -3737,6 +3737,7 @@ type
     ripsound: integer;
     bloodcolor: integer;
     translationname: string[8];
+    meleethreshold: integer;
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;

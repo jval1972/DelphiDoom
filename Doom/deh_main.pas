@@ -762,6 +762,7 @@ begin
           73: mobjinfo[mobj_no].crushstate := mobj_val;
           76: mobjinfo[mobj_no].bloodcolor := R_GetBloodTranslationIdForName(token2);
           77: mobjinfo[mobj_no].translationname := strupper(token2);
+          79: mobjinfo[mobj_no].meleethreshold := mobj_val;
         end;
       end;
 
@@ -796,7 +797,7 @@ begin
         state_no := atoi(stmp, -1);
         if stmp = '' then
         begin
-          I_Warning('DEH_Parse(): New state number unspecified after %s keyword'#13#10, [firstword(token2)]);
+          I_Warning('DEH_Parse(): New state number unspecified after %s keyword'#13#10, [firstword_ch(token2)]);
           continue;
         end;
         if state_no < 0 then
@@ -2029,6 +2030,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[73]), mobjinfo[i].crushstate]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[76]), mobjinfo[i].bloodcolor]);
     result.Add('%s = "%s"', [capitalizedstring(mobj_tokens[77]), mobjinfo[i].translationname]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[79]), mobjinfo[i].meleethreshold]);
 
     result.Add('');
   end;
@@ -2351,6 +2353,7 @@ begin
   mobj_tokens.Add('BLOOD COLOR');        // .bloodcolor               // 76
   mobj_tokens.Add('TRANSLATION');        // .translationname          // 77
   mobj_tokens.Add('DROPPED ITEM');       // .dropitem                 // 78 - Alias for 36
+  mobj_tokens.Add('MELEE THRESHOLD');    // .meleethreshold           // 79
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);

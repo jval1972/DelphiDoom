@@ -2533,6 +2533,13 @@ function PS_GetMobjInfoRipSound(const typ: integer): string;
 //==============================================================================
 function PS_GetMobjInfoMissileHeight(const typ: integer): integer;
 
+//==============================================================================
+//
+// PS_GetMobjInfoMeleeThreshold
+//
+//==============================================================================
+function PS_GetMobjInfoMeleeThreshold(const typ: integer): integer;
+
 // ------------------------------ GAME -----------------------------------------
 
 //==============================================================================
@@ -11847,6 +11854,21 @@ begin
   Result := mobjinfo[typ].missileheight;
 end;
 
+//==============================================================================
+//
+// PS_GetMobjInfoMeleeThreshold
+//
+//==============================================================================
+function PS_GetMobjInfoMeleeThreshold(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].meleethreshold;
+end;
+
 // --------------------- TRTLMobjInfo ------------------------------------------
 
 //==============================================================================
@@ -12554,6 +12576,17 @@ procedure TRTLMobjInfoItemMissileHeight_R(Self: TRTLMobjInfoItem; var T: integer
 begin
   T := PS_GetMobjInfoMissileHeight(Integer(Self) - 1);
 end;
+
+//==============================================================================
+//
+// TRTLMobjInfoItemMeleeThreshold_R
+//
+//==============================================================================
+procedure TRTLMobjInfoItemMeleeThreshold_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoMeleeThreshold(Integer(Self) - 1);
+end;
+
 
 // ------------------------------ GAME -----------------------------------------
 
@@ -13706,6 +13739,7 @@ begin
   cmobjinfoitem.RegisterProperty('ProjectileGroup', 'Integer', iptRW);
   cmobjinfoitem.RegisterProperty('SplashGroup', 'Integer', iptRW);
   cmobjinfoitem.RegisterProperty('RipSound', 'string', iptRW);
+  cmobjinfoitem.RegisterProperty('MeleeThreshold', 'Integer', iptRW);
 
   cmobjinfo.RegisterProperty('Item', '!TMobjInfoItem integer', iptR);
   cmobjinfo.SetDefaultPropery('Item');
@@ -13986,6 +14020,7 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemRipSound_R, nil, 'RipSound');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemInteractState_R, nil, 'InteractState');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMissileHeight_R, nil, 'MissileHeight');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMeleeThreshold_R, nil, 'MeleeThreshold');
 
   rmobjinfo.RegisterPropertyHelper(@TRTLMobjInfoItem_R, nil, 'Item');
   rmobjinfo.RegisterPropertyHelper(@TRTLMobjInfoCount_R, nil, 'Count');
