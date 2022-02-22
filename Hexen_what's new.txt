@@ -261,6 +261,7 @@ Added missileheight mobjinfo field.
 Fix of OPENARRAYOFU16 and OPENARRAYOFS16 declarations (PascalScript).
 Fixed missileheight ACTORDEF export.
 Added meleethreshold mobjinfo field.
+Does not check CRC for grAb PNG chunk.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

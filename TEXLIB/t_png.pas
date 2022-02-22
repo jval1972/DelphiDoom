@@ -1970,6 +1970,12 @@ begin
   Stream.Read(CheckCRC, 4);
   CheckCrc := ByteSwap(CheckCRC);
 
+  if ChunkName = 'grAb' then
+  begin
+    Result := true;
+    exit;
+  end;
+
   {Check if crc readed is valid}
   {$IFDEF CheckCRC}
     RightCRC := update_crc($ffffffff, @ChunkName[0], 4);
