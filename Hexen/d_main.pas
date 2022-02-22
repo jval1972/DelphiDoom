@@ -229,7 +229,6 @@ uses
   info_common,
   info_rnd,
   i_system,
-  i_displaymodes,
   i_sound,
   i_io,
   i_tmp,
@@ -237,12 +236,13 @@ uses
   i_steam,
 {$IFDEF OPENGL}
   gl_main,
+  nd_main,
 {$ELSE}
   r_defs,
   r_fake3d,
   i_video,
+  i_displaymodes,
 {$ENDIF}
-  nd_main,
   g_game,
   g_demo,
   sb_bar,
@@ -351,7 +351,7 @@ var
   norender: boolean = false;  // for comparative timing purposes
 {$IFNDEF OPENGL}
   hom: boolean = false; // HOM detection
-  blancbeforerender: Boolean = false;
+  blancbeforerender: boolean = false;
 {$ENDIF}
   autoscreenshot: boolean = false;
   shotnumber: integer = 0;
@@ -413,9 +413,9 @@ end;
 
 var
   diskbusyend: integer = -1;
-{$IFNDEF OPENGL}
+  {$IFNDEF OPENGL}
   oldusemultithread: boolean = false;
-{$ENDIF}
+  {$ENDIF}
 
 //==============================================================================
 //
@@ -479,7 +479,6 @@ begin
 
 {$IFNDEF OPENGL}
   // save the current screen if about to wipe
-//  if (Ord(gamestate) <> wipegamestate) and (gamestate <> GS_INTERMISSION) and (wipegamestate <> Ord(GS_INTERMISSION)) then
   if (Ord(gamestate) <> wipegamestate) and ((gamestate = GS_DEMOSCREEN) or (wipegamestate = Ord(GS_DEMOSCREEN))) then
   begin
     wipe := true;
@@ -535,8 +534,8 @@ begin
     if gametic <> 0 then
       drawhu := true;
 
-{$IFNDEF OPENGL}
   // see if the border needs to be initially drawn
+{$IFNDEF OPENGL}
     if needsbackscreen or (oldgamestate <> Ord(GS_LEVEL)) then
     begin
       viewactivestate := false; // view was not active
@@ -548,7 +547,7 @@ begin
     begin
       if scaledviewwidth <> SCREENWIDTH then
       begin
-        if sbiconsactive or menuactive or menuactivestate or (not viewactivestate) or C_IsConsoleActive then
+        if sbiconsactive or menuactive or menuactivestate or not viewactivestate or C_IsConsoleActive then
           borderdrawcount := 3;
         if borderdrawcount > 0 then
         begin
@@ -603,7 +602,7 @@ begin
     C_Drawer;   // Console is drawn even on top of menus
 
     // Draw disk busy patch
-    R_DrawDiskBusy; // Draw disk busy is draw on top of console
+    R_DrawDiskBusy; // Draw disk busy on top of console
   end
   else if (diskbusyend <= nowtime) and (diskbusyend <> -1) then
   begin
@@ -835,7 +834,7 @@ procedure D_DoAdvanceDemo;
 begin
   players[consoleplayer].playerstate := PST_LIVE;  // not reborn
   advancedemo := false;
-  usergame := false;               // no save / end game here
+  usergame := false; // no save/end game here
   paused := false;
   gameaction := ga_nothing;
 
@@ -1158,18 +1157,15 @@ begin
     I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [SYSWAD]);
 end;
 
-//
-// IdentifyVersion
-// Checks availability of IWAD files by name,
-// to determine whether registered/commercial features
-// should be executed (notably loading PWAD's).
-//
 var
   custiwad: string = ''; // Custom main WAD
 
 //==============================================================================
 //
 // IdentifyVersion
+// Checks availability of IWAD files by name,
+// to determine whether registered/commercial features
+// should be executed (notably loading PWAD's).
 //
 //==============================================================================
 procedure IdentifyVersion;
@@ -1899,6 +1895,8 @@ begin
 
   D_AddSystemWAD; // Add system wad first
 
+  SUC_Progress(4);
+
   IdentifyVersion;
 
   SUC_Progress(5);
@@ -2275,7 +2273,7 @@ begin
   printf('D_IdentifyGameDirectories: Identify game directories.'#13#10);
   D_IdentifyGameDirectories;
 
-  SUC_Progress(62);
+  SUC_Progress(60);
 
   p := M_CheckParm('-warp');
   if (p <> 0) and (p < myargc - 1) then

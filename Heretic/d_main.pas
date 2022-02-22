@@ -206,10 +206,8 @@ uses
   deh_base,
   deh_main,
   doomstat,
-  d_ticcmd,
   d_player,
   d_net,
-  d_net_h,
   d_notifications,
   c_con,
   c_cmds,
@@ -222,27 +220,25 @@ uses
   m_argv,
   m_misc,
   m_menu,
-  m_fixed,
   mt_utils,
   h_strings,
   info,
   info_common,
   info_rnd,
   i_system,
-  i_displaymodes,
-  i_sound,
   i_io,
   i_tmp,
   i_startup,
   i_steam,
 {$IFDEF OPENGL}
   gl_main,
+  nd_main,
 {$ELSE}
   r_defs,
   r_fake3d,
   i_video,
+  i_displaymodes,
 {$ENDIF}
-  nd_main,
   g_game,
   sb_bar,
   hu_stuff,
@@ -349,7 +345,7 @@ var
   norender: boolean = false;  // for comparative timing purposes
 {$IFNDEF OPENGL}
   hom: boolean = false; // HOM detection
-  blancbeforerender: Boolean = false;
+  blancbeforerender: boolean = false;
 {$ENDIF}
   autoscreenshot: boolean = false;
   shotnumber: integer = 0;
@@ -837,7 +833,7 @@ procedure D_DoAdvanceDemo;
 begin
   players[consoleplayer].playerstate := PST_LIVE;  // not reborn
   advancedemo := false;
-  usergame := false;               // no save / end game here
+  usergame := false; // no save/end game here
   paused := false;
   gameaction := ga_nothing;
 
@@ -993,7 +989,7 @@ procedure D_PaksAutoload(fnames: string);
 var
   s1, s2: string;
 begin
-  fnames := strtrim(fnames);
+  trimproc(fnames);
   if fnames = '' then
     exit;
 
@@ -1150,18 +1146,15 @@ begin
     I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [SYSWAD]);
 end;
 
-//
-// IdentifyVersion
-// Checks availability of IWAD files by name,
-// to determine whether registered/commercial features
-// should be executed (notably loading PWAD's).
-//
 var
   custiwad: string = ''; // Custom main WAD
 
 //==============================================================================
 //
 // IdentifyVersion
+// Checks availability of IWAD files by name,
+// to determine whether registered/commercial features
+// should be executed (notably loading PWAD's).
 //
 //==============================================================================
 procedure IdentifyVersion;
@@ -1890,9 +1883,11 @@ begin
 
   D_AddSystemWAD; // Add system wad first
 
-  SUC_Progress(5);
+  SUC_Progress(4);
 
   IdentifyVersion;
+
+  SUC_Progress(5);
 
   modifiedgame := false;
 

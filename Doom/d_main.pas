@@ -227,20 +227,19 @@ uses
   info_common,
   info_rnd,
   i_system,
-  i_displaymodes,
-  i_sound,
   i_io,
   i_tmp,
   i_startup,
   i_steam,
 {$IFDEF OPENGL}
   gl_main,
+  nd_main,
 {$ELSE}
   r_defs,
   r_fake3d,
   i_video,
+  i_displaymodes,
 {$ENDIF}
-  nd_main,
   g_game,
   hu_stuff,
   wi_stuff,
@@ -300,16 +299,13 @@ begin
   eventhead := eventhead and (MAXEVENTS - 1);
 end;
 
-//
-// D_ProcessEvents
-// Send all the events of the given timestamp down the responder chain
-//
 var
   map01_lump: integer = -2;
 
 //==============================================================================
 //
 // D_ProcessEvents
+// Send all the events of the given timestamp down the responder chain
 //
 //==============================================================================
 procedure D_ProcessEvents;
@@ -364,7 +360,7 @@ var
   norender: boolean = false;  // for comparative timing purposes
 {$IFNDEF OPENGL}
   hom: boolean = false; // HOM detection
-  blancbeforerender: Boolean = false;
+  blancbeforerender: boolean = false;
 {$ENDIF}
   autoscreenshot: boolean = false;
   shotnumber: integer = 0;
@@ -863,7 +859,7 @@ procedure D_DoAdvanceDemo;
 begin
   players[consoleplayer].playerstate := PST_LIVE;  // not reborn
   advancedemo := false;
-  usergame := false;               // no save / end game here
+  usergame := false; // no save/end game here
   paused := false;
   gameaction := ga_nothing;
 
@@ -2155,9 +2151,11 @@ begin
 
   D_AddSystemWAD; // Add system wad first
 
-  SUC_Progress(5);
+  SUC_Progress(4);
 
   IdentifyVersion;
+
+  SUC_Progress(5);
 
   modifiedgame := false;
 
@@ -2888,6 +2886,8 @@ procedure D_ShutDown;
 var
   i: integer;
 begin
+  printf('M_ShutDownMenus: Shut down menus.'#13#10);
+  M_ShutDownMenus;
   printf('C_ShutDown: Shut down console.'#13#10);
   C_ShutDown;
   printf('P_ShutDown: Shut down Playloop state.'#13#10);
@@ -2900,8 +2900,6 @@ begin
   P_ACSShutDown;
   printf('T_ShutDown: Shut down texture manager.'#13#10);
   T_ShutDown;
-  printf('M_ShutDownMenus: Shut down menus.'#13#10);
-  M_ShutDownMenus;
   printf('SC_ShutDown: Shut down script engine.'#13#10);
   SC_ShutDown;
   printf('SC_ShutDownGameDefines: Shut down global defines.'#13#10);

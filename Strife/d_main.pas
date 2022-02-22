@@ -252,7 +252,6 @@ uses
   info_common,
   info_rnd,
   i_system,
-  i_displaymodes,
   i_sound,
   i_io,
   i_tmp,
@@ -260,12 +259,13 @@ uses
   i_steam,
 {$IFDEF OPENGL}
   gl_main,
+  nd_main,
 {$ELSE}
   r_defs,
   r_fake3d,
   i_video,
+  i_displaymodes,
 {$ENDIF}
-  nd_main,
   g_game,
   hu_stuff,
   st_stuff,
@@ -662,7 +662,7 @@ begin
     C_Drawer;   // Console is drawn even on top of menus
 
     // Draw disk busy patch
-    R_DrawDiskBusy; // Draw disk busy is draw on top of console
+    R_DrawDiskBusy; // Draw disk busy on top of console
   end
   else if (diskbusyend <= nowtime) and (diskbusyend <> -1) then
   begin
@@ -889,7 +889,7 @@ procedure D_DoAdvanceDemo;
 begin
   players[consoleplayer].playerstate := PST_LIVE;  // not reborn
   advancedemo := false;
-  usergame := false;                              // no save / end game here
+  usergame := false; // no save/end game here
   paused := false;
   gameaction := ga_nothing;
 
@@ -1128,7 +1128,7 @@ procedure D_PaksAutoload(fnames: string);
 var
   s1, s2: string;
 begin
-  fnames := strtrim(fnames);
+  trimproc(fnames);
   if fnames = '' then
     exit;
 
@@ -2045,11 +2045,13 @@ begin
 
   D_AddSystemWAD; // Add system wad first
 
-  SUC_Progress(5);
+  SUC_Progress(4);
 
   disable_voices := true;
 
   IdentifyVersion;
+
+  SUC_Progress(5);
 
   modifiedgame := false;
 
