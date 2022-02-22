@@ -934,7 +934,7 @@ begin
   begin
     TK_Undo;
     direct := False;
-   end;
+  end;
   i := 0;
   repeat
     if i = argCount then
@@ -1249,7 +1249,7 @@ begin
   begin
     PC_AppendCmd(PCD_GOTO);
     PC_AppendLong(defaultAddress);
-   end;
+  end;
 
   PC_WriteLong(pc_Address, outAddrPtr);
 

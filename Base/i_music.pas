@@ -485,7 +485,7 @@ begin
 
   // midiStreamOut not supported (should not happen with MIDI MAPPER...)
   // Try to enumurate all midi devices
-  if (midicaps.dwSupport and MIDICAPS_STREAM) = 0 then
+  if midicaps.dwSupport and MIDICAPS_STREAM = 0 then
   begin
     numdev := midiOutGetNumDevs;
     if numdev = 0 then // fatal
