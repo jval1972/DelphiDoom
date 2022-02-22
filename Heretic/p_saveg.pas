@@ -925,7 +925,7 @@ begin
   if savegameversion >= VERSION207 then
   begin
     if get[0] <> po_NumPolyobjs then
-      I_Error('P_UnArchiveWorld(): Invalid number if polyobjs (%d should be %d)', [get[0], po_NumPolyobjs]);
+      I_Error('P_UnArchiveWorld(): Invalid number of polyobjs (%d should be %d)', [get[0], po_NumPolyobjs]);
     get := @get[1];
     for i := 0 to po_NumPolyobjs - 1 do
     begin
