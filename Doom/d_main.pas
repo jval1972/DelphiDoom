@@ -220,6 +220,7 @@ uses
 {$ENDIF}
   f_finale,
   m_argv,
+  m_base,
   m_misc,
   m_menu,
   mt_utils,
@@ -2735,7 +2736,7 @@ begin
 
   SUC_Progress(70);
 
-  printf('R_Init: Init DOOM refresh daemon.'#13#10);
+  printf('R_Init: Init %s refresh daemon.'#13#10, [strupper(_GAME)]);
   R_Init;
 
   SUC_Progress(80);
@@ -2892,7 +2893,7 @@ begin
   C_ShutDown;
   printf('P_ShutDown: Shut down Playloop state.'#13#10);
   P_ShutDown;
-  printf('R_ShutDown: Shut down DOOM refresh daemon.');
+  printf('R_ShutDown: Shut down %s refresh daemon.', [strupper(_GAME)]);
   R_ShutDown;
   printf('Info_ShutDownRandom: Shut down randomizers.'#13#10);
   Info_ShutDownRandom;
