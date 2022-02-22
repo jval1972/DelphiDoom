@@ -1156,7 +1156,7 @@ begin
   if G_PlayingEngineVersion <= VERSION115 then
   begin
     oldcompatibility := true;
-    if (line.flags and ML_TWOSIDED) = 0 then
+    if line.flags and ML_TWOSIDED = 0 then
     begin
       result := nil;
       exit;
@@ -3898,9 +3898,8 @@ end;
 // values that are applied by the player movement code later.
 
 //==============================================================================
-// T_Friction
 //
-/////////////////////////////
+// T_Friction
 //
 // This is where abnormal friction is applied to objects in the sectors.
 // A friction thinker has been spawned for each sector where less or
@@ -3951,7 +3950,7 @@ begin
   end;
 end;
 
-/////////////////////////////
+//==============================================================================
 //
 // Add a friction thinker to the thinker list
 //
@@ -3972,9 +3971,8 @@ begin
 end;
 
 //==============================================================================
-// P_SpawnFriction
 //
-/////////////////////////////
+// P_SpawnFriction
 //
 // Initialize the sectors where friction is increased or decreased
 //
@@ -4070,7 +4068,7 @@ const
 var
   tmpusher: Ppusher_t = nil; // pusher structure for blockmap searches
 
-/////////////////////////////
+//==============================================================================
 //
 // PIT_PushThing determines the angle and magnitude of the effect.
 // The object's x and y momentum values are changed.
@@ -4116,7 +4114,7 @@ begin
   result := true;
 end;
 
-/////////////////////////////
+//==============================================================================
 //
 // T_Pusher looks for all objects that are inside the radius of
 // the effect.
@@ -4157,8 +4155,8 @@ begin
   //
   // In Phase II, you can apply these effects to Things other than players.
 
-   if p._type = p_push then
-   begin
+  if p._type = p_push then
+  begin
 
     // Seek out all pushable things within the force radius of this
     // point pusher. Crosses sectors, so use blockmap.
@@ -4287,9 +4285,8 @@ begin
 end;
 
 //==============================================================================
-// Add_Pusher
 //
-/////////////////////////////
+// Add_Pusher
 //
 // Add a push thinker to the thinker list
 //
@@ -4316,7 +4313,7 @@ begin
   P_AddThinker(@p.thinker);
 end;
 
-/////////////////////////////
+//==============================================================================
 //
 // P_GetPushThing returns a pointer to an MT_PUSH or MT_PULL thing,
 // nil otherwise.
@@ -4346,9 +4343,8 @@ begin
 end;
 
 //==============================================================================
-// P_SpawnPushers
 //
-/////////////////////////////
+// P_SpawnPushers
 //
 // Initialize the sectors where pushers are present
 //
