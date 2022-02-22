@@ -42,16 +42,12 @@ implementation
 uses
   d_delphi,
   m_fixed,
-  r_main,
   r_precalc,
   r_ripple,
   r_flatinfo,
   r_span,
   r_span32,
-  r_draw,
-  r_hires,
-  r_grow,
-  v_video;
+  r_draw;
 
 //==============================================================================
 //

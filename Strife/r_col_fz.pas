@@ -99,13 +99,10 @@ uses
   d_delphi,
   doomdef,
   m_fixed,
-  r_data,
   r_draw,
   r_main,
   r_column,
-  r_hires,
-  r_precalc,
-  v_video;
+  r_precalc;
 
 //==============================================================================
 // R_DrawFuzzColumn1

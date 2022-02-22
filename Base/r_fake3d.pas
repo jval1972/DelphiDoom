@@ -102,13 +102,11 @@ implementation
 
 uses
   doomdef,
-  tables,
   m_fixed,
   i_system,
   i_threads,
   r_draw,
   r_hires,
-  r_main,
   r_plane,
 {$IFDEF DEBUG}
   r_debug,

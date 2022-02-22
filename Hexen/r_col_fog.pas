@@ -52,13 +52,10 @@ uses
   m_fixed,
   doomdef,
   doomtype,
-  r_data,
   r_draw,
-  r_hires,
   r_main,
   r_column,
-  r_precalc,
-  v_video;
+  r_precalc;
 
 //==============================================================================
 //

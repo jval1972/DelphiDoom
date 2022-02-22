@@ -88,13 +88,10 @@ implementation
 uses
   d_delphi,
   doomdef,
-  m_fixed,
   r_data,
   r_draw,
-  r_main,
   r_column,
-  r_hires,
-  v_video;
+  r_hires;
 
 //==============================================================================
 // R_DrawFuzzColumn

@@ -191,13 +191,11 @@ implementation
 
 uses
   doomstat,
-  d_net,
   d_main,
   i_system,
   tables,
   doomtype,
   doomdef,
-  am_map,
   {$IFDEF DOOM}
   r_plane,
   st_stuff,
@@ -210,7 +208,6 @@ uses
   g_game,
   v_video,
   v_data,
-  m_stack,
   info,
   sc_states,
   gl_ambient,
@@ -238,9 +235,10 @@ uses
   p_setup,
   p_pspr,
   p_tick,
-  r_main,
-  r_aspect,
+  {$IFDEF DOOM_OR_STRIFE}
   r_bsp,
+  {$ENDIF}
+  r_main,
   r_draw,
   r_data,
   r_sky,

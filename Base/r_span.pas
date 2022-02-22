@@ -33,8 +33,7 @@ interface
 uses
   d_delphi,
   m_fixed,
-  tables, // JVAL: 20200221 - Texture angle
-  r_main;
+  tables; // JVAL: 20200221 - Texture angle
 
 //==============================================================================
 // R_DrawSpanLow

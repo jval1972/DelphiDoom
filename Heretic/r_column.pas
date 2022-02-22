@@ -117,10 +117,7 @@ uses
   doomdef,
   doomtype,
   r_precalc,
-  r_data,
-  r_draw,
-  r_hires,
-  v_video;
+  r_draw;
 
 //==============================================================================
 // R_DrawColumnLowest
