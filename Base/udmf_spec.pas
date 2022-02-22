@@ -98,8 +98,8 @@ function P_ExecuteActorSpecial(special: integer; args: PIntegerArray; mo: Pmobj_
 
 const
   {$IFDEF DOOM_OR_STRIFE}
-  LIGHTNING_SPECIAL = 23;
-  LIGHTNING_SPECIAL2 = 22;
+  LIGHTNING_SPECIAL = 20;
+  LIGHTNING_SPECIAL2 = 19;
   LIGHTNING_SPECIAL_MASK = 31;
   {$ENDIF}
   {$IFDEF HERETIC}
