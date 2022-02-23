@@ -627,29 +627,22 @@ begin
   if (f_SC and IMAGE_SCN_MEM_NOT_CACHED) <> 0 then
     Result := Result or PAGE_NOCACHE;
   // E - Execute, R – Read , W – Write
-  if (f_SC and IMAGE_SCN_MEM_EXECUTE) <> 0 // E ?
-    then
-    if (f_SC and IMAGE_SCN_MEM_READ) <> 0 // ER ?
-      then
-      if (f_SC and IMAGE_SCN_MEM_WRITE) <> 0 // ERW ?
-        then
+  if (f_SC and IMAGE_SCN_MEM_EXECUTE) <> 0 then // E ?
+    if (f_SC and IMAGE_SCN_MEM_READ) <> 0 then  // ER ?
+      if (f_SC and IMAGE_SCN_MEM_WRITE) <> 0 then // ERW ?
         Result := Result or PAGE_EXECUTE_READWRITE
       else
         Result := Result or PAGE_EXECUTE_READ
-      else if (f_SC and IMAGE_SCN_MEM_WRITE) <> 0 // EW?
-        then
+      else if (f_SC and IMAGE_SCN_MEM_WRITE) <> 0 then  // EW?
         Result := Result or PAGE_EXECUTE_WRITECOPY
       else
         Result := Result or PAGE_EXECUTE
-      else if (f_SC and IMAGE_SCN_MEM_READ) <> 0 // R?
-        then
-        if (f_SC and IMAGE_SCN_MEM_WRITE) <> 0 // RW?
-          then
+      else if (f_SC and IMAGE_SCN_MEM_READ) <> 0 then // R?
+        if (f_SC and IMAGE_SCN_MEM_WRITE) <> 0 then // RW?
           Result := Result or PAGE_READWRITE
         else
           Result := Result or PAGE_READONLY
-        else if (f_SC and IMAGE_SCN_MEM_WRITE) <> 0 // W?
-          then
+        else if (f_SC and IMAGE_SCN_MEM_WRITE) <> 0 then  // W?
           Result := Result or PAGE_WRITECOPY
         else
           Result := Result or PAGE_NOACCESS;
@@ -696,7 +689,9 @@ begin
           <> 0 then
         begin
           l_size := fp_module^.headers^.OptionalHeader.SizeOfInitializedData;
-        end else begin
+        end
+        else
+        begin
           if (lp_section^.Characteristics and IMAGE_SCN_CNT_UNINITIALIZED_DATA)
             <> 0 then
             l_size := fp_module^.headers^.OptionalHeader.SizeOfUninitializedData;
@@ -813,7 +808,8 @@ begin
         lastErrStr := 'BTMemoryLoadLibary: Get DLLEntyPoint failed';
         Abort;
       end;
-      if f_DllProcessAttach then begin
+      if f_DllProcessAttach then
+      begin
         l_successfull := TDllEntryProc(lp_DllEntry)(UInt64(l_code),
           DLL_PROCESS_ATTACH, nil);
         if not l_successfull then
@@ -874,7 +870,7 @@ begin
     Inc(l_nameRef);
     Inc(l_ordinal);
   end;
-  if (l_idx = -1) then
+  if l_idx = -1 then
   begin
     lastErrStr := 'BTMemoryGetProcAddress: exported symbol not found';
     exit;

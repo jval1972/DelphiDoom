@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=G:\DelphiDoom_Release\DD_EXAMPLES\EXAMPLE_19_SIMPLE_DIALOGS\EXAMPLE_19_SIMPLE_DIALOGS.pk3
+RunParams=EXAMPLE_21_ACSSCRIPT.wad
 HostApplication=
 Launcher=
 UseLauncher=0
