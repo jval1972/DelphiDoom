@@ -648,6 +648,12 @@ begin
 
   wasonfloorz := mo.z <= mo.floorz;
   oldsector := Psubsector_t(mo.subsector).sector;
+
+  // JVAL: 20220222 - Wind thrust
+  if mo.flags2 and MF2_WINDTHRUST <> 0 then
+    if oldsector.windthrust <> 0 then
+      P_ThrustMobj(mo, oldsector.windangle, oldsector.windthrust);
+
   wasonslope := oldsector.renderflags and SRF_SLOPED <> 0;
 
   player := mo.player;

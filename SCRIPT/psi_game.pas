@@ -1738,6 +1738,34 @@ procedure PS_SetSectorGravity(const sec: Integer; const grav: Integer);
 
 //==============================================================================
 //
+// PS_GetSectorWindThrust
+//
+//==============================================================================
+function PS_GetSectorWindThrust(const sec: Integer): Integer;
+
+//==============================================================================
+//
+// PS_SetSectorWindThrust
+//
+//==============================================================================
+procedure PS_SetSectorWindThrust(const sec: Integer; const wthrust: Integer);
+
+//==============================================================================
+//
+// PS_GetSectorWindAngle
+//
+//==============================================================================
+function PS_GetSectorWindAngle(const sec: Integer): LongWord;
+
+//==============================================================================
+//
+// PS_SetSectorWindAngle
+//
+//==============================================================================
+procedure PS_SetSectorWindAngle(const sec: Integer; const wangle: LongWord);
+
+//==============================================================================
+//
 // PS_GetSectorMidSector
 //
 //==============================================================================
@@ -9480,6 +9508,54 @@ end;
 
 //==============================================================================
 //
+// PS_GetSectorWindThrust
+//
+//==============================================================================
+function PS_GetSectorWindThrust(const sec: Integer): Integer;
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    Result := sectors[sec].windthrust
+  else
+    Result := GRAVITY;
+end;
+
+//==============================================================================
+//
+// PS_SetSectorWindThrust
+//
+//==============================================================================
+procedure PS_SetSectorWindThrust(const sec: Integer; const wthrust: Integer);
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    sectors[sec].windthrust := wthrust;
+end;
+
+//==============================================================================
+//
+// PS_GetSectorWindAngle
+//
+//==============================================================================
+function PS_GetSectorWindAngle(const sec: Integer): LongWord;
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    Result := sectors[sec].windangle
+  else
+    Result := GRAVITY;
+end;
+
+//==============================================================================
+//
+// PS_GetSectorWindAngle
+//
+//==============================================================================
+procedure PS_SetSectorWindAngle(const sec: Integer; const wangle: LongWord);
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    sectors[sec].windangle := wangle;
+end;
+
+//==============================================================================
+//
 // PS_GetSectorMidSector
 //
 //==============================================================================
@@ -10125,6 +10201,7 @@ begin
 end;
 
 //==============================================================================
+//
 // TRTLSectorGravity_W
 //
 // JVAL: sector gravity (VERSION 204)
@@ -10139,10 +10216,60 @@ end;
 //
 // TRTLSectorGravity_R
 //
+// JVAL: sector gravity (VERSION 204)
+//
 //==============================================================================
 procedure TRTLSectorGravity_R(Self: TRTLSector; var T: fixed_t);
 begin
   T := PS_GetSectorGravity(Integer(Self) - 1);
+end;
+
+//==============================================================================
+//
+// TRTLSectorWindThrust_W
+//
+// JVAL: 20220223 - Sector WindThrust
+//
+//==============================================================================
+procedure TRTLSectorWindThrust_W(Self: TRTLSector; const T: fixed_t);
+begin
+  PS_SetSectorWindThrust(Integer(Self) - 1, T);
+end;
+
+//==============================================================================
+//
+// TRTLSectorWindThrust_R
+//
+// JVAL: 20220223 - Sector WindThrust
+//
+//==============================================================================
+procedure TRTLSectorWindThrust_R(Self: TRTLSector; var T: fixed_t);
+begin
+  T := PS_GetSectorWindThrust(Integer(Self) - 1);
+end;
+
+//==============================================================================
+//
+// TRTLSectorWindAngle_W
+//
+// JVAL: 20220223 - Sector WindAngle
+//
+//==============================================================================
+procedure TRTLSectorWindAngle_W(Self: TRTLSector; const T: angle_t);
+begin
+  PS_SetSectorWindAngle(Integer(Self) - 1, T);
+end;
+
+//==============================================================================
+//
+// TRTLSectorWindAngle_R
+//
+// JVAL: 20220223 - Sector WindAngle
+//
+//==============================================================================
+procedure TRTLSectorWindAngle_R(Self: TRTLSector; var T: angle_t);
+begin
+  T := PS_GetSectorWindAngle(Integer(Self) - 1);
 end;
 
 //==============================================================================
@@ -13663,6 +13790,8 @@ begin
   csector.RegisterProperty('Interpolate', 'boolean', iptRW);
   csector.RegisterProperty('Fog', 'boolean', iptRW);
   csector.RegisterProperty('Gravity', 'fixed_t', iptRW);
+  csector.RegisterProperty('WindThrust', 'fixed_t', iptRW);
+  csector.RegisterProperty('WindAngle', 'angle_t', iptRW);
   csector.RegisterMethod('procedure PlaySound(const snd: string);');
   csector.RegisterMethod('procedure MoveZ(const dz: fixed_t);');
   csector.RegisterMethod('procedure SetFloorSlope(const x1, y1, z1: fixed_t; const x2, y2, z2: fixed_t; const x3, y3, z3: fixed_t);');
@@ -13943,6 +14072,8 @@ begin
   rsector.RegisterPropertyHelper(@TRTLSectorInterpolate_R, @TRTLSectorInterpolate_W, 'Interpolate');
   rsector.RegisterPropertyHelper(@TRTLSectorFog_R, @TRTLSectorFog_W, 'Fog');
   rsector.RegisterPropertyHelper(@TRTLSectorGravity_R, @TRTLSectorGravity_W, 'Gravity');
+  rsector.RegisterPropertyHelper(@TRTLSectorWindThrust_R, @TRTLSectorWindThrust_W, 'WindThrust');
+  rsector.RegisterPropertyHelper(@TRTLSectorWindAngle_R, @TRTLSectorWindAngle_W, 'WindAngle');
   rsector.RegisterMethod(@TRTLSector.PlaySound, 'PlaySound');
   rsector.RegisterMethod(@TRTLSector.MoveZ, 'MoveZ');
   rsector.RegisterMethod(@TRTLSector.SetFloorSlope, 'SetFloorSlope');

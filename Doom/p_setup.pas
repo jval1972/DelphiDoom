@@ -226,6 +226,7 @@ uses
   p_slopes,   // JVAL: Slopes
   p_easyslope,
   p_easyangle, // JVAL: 20201229 - Easy floor and ceiling texture angle
+  p_easywind, // JVAL: 20220222 - Easy wind
   p_affectees,
   p_musinfo,
   po_man,
@@ -1427,6 +1428,9 @@ begin
 
   // JVAL: 20201229 - Easy floor and ceiling texture angle
   P_AdjustEasyAngle;
+
+  // JVAL: 20220222 - Easy wind
+  P_AdjustEasyWind;
 
   PO_Init(lumpnum + Ord(ML_THINGS));            // Initialize the polyobjs
   P_LoadACScripts(lumpnum + Ord(ML_BEHAVIOR));  // ACS object code

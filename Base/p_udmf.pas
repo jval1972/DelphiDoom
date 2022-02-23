@@ -145,6 +145,8 @@ type
     {$IFNDEF HEXEN}
     sound: integer;
     {$ENDIF}
+    windthrust: fixed_t;
+    windangle: angle_t;
   end;
   Pextrasector_t = ^extrasector_t;
   extrasector_tArray = array[0..$FFFF] of extrasector_t;
@@ -1362,6 +1364,16 @@ var
         pextrasector.sound := S_GetSoundNumForName(token);
       end
       {$ENDIF}
+      else if token = 'WINDTHRUST' then
+      begin
+        sc.MustGetFloat;
+        pextrasector.windthrust := Round(sc._Float * 2048);
+      end
+      else if token = 'WINDANGLE' then
+      begin
+        sc.MustGetFloat;
+        pextrasector.windangle := Round(sc._Float * ANG1);
+      end
       else if (token = 'COMMENT') then
       begin
         GetToken; // skip comment
@@ -1937,6 +1949,8 @@ begin
   {$IFNDEF HEXEN}
   sec.seqType := usec.sound;
   {$ENDIF}
+  sec.windthrust := usec.windthrust;
+  sec.windangle := usec.windangle;
 end;
 
 //==============================================================================

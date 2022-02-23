@@ -2538,6 +2538,7 @@ begin
   mobj_flags4_ex.Add('MF4_EX_DONTGIB');
   mobj_flags4_ex.Add('MF4_EX_RECOIL');
   mobj_flags4_ex.Add('MF4_EX_BACKINGMELEE');
+  mobj_flags4_ex.Add('MF4_EX_WINDTHRUST');
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);

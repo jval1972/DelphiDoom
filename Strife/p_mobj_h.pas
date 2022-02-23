@@ -465,6 +465,8 @@ const
   MF4_EX_DONTGIB = $200000;
   // Backing in melee attack
   MF4_EX_BACKINGMELEE = $400000;
+  // Thrusted by the wind
+  MF4_EX_WINDTHRUST = $800000;
 
 const
   // Monster can push walls

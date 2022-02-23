@@ -1055,6 +1055,10 @@ begin
     // JVAL: 20200209 - Store moreids
     StreamOutBuffer(@sec.moreids, SizeOf(moreids_t));
 
+    // JVAL: 20220222 - Store wind
+    StreamOutLong(sec.windthrust);
+    StreamOutLongWord(sec.windangle);
+
     inc(sec);
   end;
   li := @lines[0];
@@ -1194,12 +1198,17 @@ begin
     begin
       memcpy(@sec.moreids, saveptr, SizeOf(moreids_t));
       incp(saveptr, SizeOf(moreids_t));
+      // JVAL: 20220222 - Restore wind
+      sec.windthrust := GET_LONG;
+      sec.windangle := GET_LONGWORD;
     end
     else
     begin
       sec.moreids := [];
       if IsIntegerInRange(sec.tag, 0, 255) then
         Include(sec.moreids, sec.tag);
+      sec.windthrust := 0;
+      sec.windangle := 0;
     end;
 
     sec.specialdata := nil;

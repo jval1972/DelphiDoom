@@ -416,7 +416,8 @@ uses
   acs_strlist in 'Base\acs_strlist.pas',
   acs_symbol in 'Base\acs_symbol.pas',
   acs_token in 'Base\acs_token.pas',
-  v_palettes in 'Base\v_palettes.pas';
+  v_palettes in 'Base\v_palettes.pas',
+  p_easywind in 'Base\p_easywind.pas';
 
 var
   Saved8087CW: Word;

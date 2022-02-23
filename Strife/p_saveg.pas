@@ -560,6 +560,12 @@ begin
     PInteger(put)^ := sec.lightninglightlevel;
     put := @put[2];
 
+    // JVAL: 20220222 - Store wind
+    PInteger(put)^ := sec.windthrust;
+    put := @put[2];
+    PLongWord(put)^ := sec.windangle;
+    put := @put[2];
+
     inc(i);
   end;
 
@@ -820,6 +826,11 @@ begin
       get := @get[2];
       sec.lightninglightlevel := PInteger(get)^;
       get := @get[2];
+      // JVAL: 20220222 - Restore wind
+      sec.windthrust := PInteger(get)^;
+      get := @get[2];
+      sec.windangle := PLongWord(get)^;
+      get := @get[2];
     end
     else
     begin
@@ -828,6 +839,8 @@ begin
         Include(sec.moreids, sec.tag);
       sec.seqType := 0;
       sec.lightninglightlevel := 255;
+      sec.windthrust := 0;
+      sec.windangle := 0;
     end;
 
     sec.touching_thinglist := nil;

@@ -455,6 +455,10 @@ begin
   baseproclist.Add('procedure SetSectorFog(const sec: Integer; const fog: Boolean);', @PS_SetSectorFog);
   baseproclist.Add('function GetSectorGravity(const sec: Integer): fixed_t;', @PS_GetSectorGravity);  // JVAL: sector gravity (VERSION 204)
   baseproclist.Add('procedure SetSectorGravity(const sec: Integer; const grav: fixed_t);', @PS_SetSectorGravity); // JVAL: sector gravity (VERSION 204)
+  baseproclist.Add('function GetSectorWindThrust(const sec: Integer): Integer;', @PS_GetSectorWindThrust);  // JVAL: 20220223 - Sector WindThrust
+  baseproclist.Add('procedure SetSectorWindThrust(const sec: Integer; const wthrust: Integer);', @PS_SetSectorWindThrust);  // JVAL: 20220223 - Sector WindThrust
+  baseproclist.Add('function GetSectorWindAngle(const sec: Integer): LongWord;', @PS_GetSectorWindAngle); // JVAL: 20220223 - Sector WindAngle
+  baseproclist.Add('procedure SetSectorWindAngle(const sec: Integer; const wangle: LongWord);', @PS_SetSectorWindAngle);  // JVAL: 20220223 - Sector WindAngle
   baseproclist.Add('function GetSectorMidSector(const sec: Integer): Integer;', @PS_GetSectorMidSector);
   baseproclist.Add('function GetSectorSlopeSector(const sec: Integer): Integer;', @PS_GetSectorSlopeSector);
   baseproclist.Add('function SkyPicture: string;', @PS_SkyPicture);

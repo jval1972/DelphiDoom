@@ -188,6 +188,8 @@ type
 {$ENDIF}
     moreids: moreids_t;
     rendervalidcount: integer;
+    windthrust: integer;
+    windangle: angle_t;
   end;
   sector_tArray = packed array[0..$FFFF] of sector_t;
   Psector_tArray = ^sector_tArray;
