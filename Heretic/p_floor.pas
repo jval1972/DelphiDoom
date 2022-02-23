@@ -479,6 +479,7 @@ begin
     // new floor thinker
     result := 1;
     floor := Z_Malloc(SizeOf(floormove_t), PU_LEVSPEC, nil);
+    ZeroMemory(floor, SizeOf(floormove_t));
     P_AddThinker(@floor.thinker);
     sec.specialdata := floor;
     height := sec.floorheight + step;
@@ -523,7 +524,7 @@ begin
         sec := tsec;
         secnum := newsecnum;
         floor := Z_Malloc(SizeOf(floormove_t), PU_LEVSPEC, nil);
-
+        ZeroMemory(floor, SizeOf(floormove_t));
         P_AddThinker(@floor.thinker);
 
         sec.specialdata := floor;
