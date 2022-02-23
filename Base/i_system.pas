@@ -45,6 +45,7 @@ uses
 procedure I_Init;
 
 //==============================================================================
+//
 // I_ZoneBase
 //
 // Called by startup code
@@ -62,6 +63,7 @@ function I_ZoneBase(var size: integer): pointer;
 procedure I_ZoneFree(var p: pointer);
 
 //==============================================================================
+//
 // I_GetSysTime
 //
 // Called by D_DoomLoop,
@@ -99,6 +101,7 @@ function I_GetFracTime: integer;
 procedure I_StartFrame;
 
 //==============================================================================
+//
 // I_StartTic
 //
 //  Called by D_DoomLoop, }
@@ -110,6 +113,7 @@ procedure I_StartFrame;
 procedure I_StartTic;
 
 //==============================================================================
+//
 // I_BaseTiccmd
 //
 //  Asynchronous interrupt functions should maintain private queues
@@ -131,6 +135,7 @@ function I_BaseTiccmd: Pticcmd_t;
 function I_BaseTiccmd202: Pticcmd_t202;
 
 //==============================================================================
+//
 // I_Quit
 //
 //  Called by M_Responder when quit is selected.
@@ -414,7 +419,6 @@ uses
   gl_main,
 {$ELSE}
   i_video,
-  i_main,
 {$ENDIF}
   i_mainwindow,
   d_main,
@@ -574,6 +578,7 @@ begin
 end;
 
 //==============================================================================
+//
 // I_CmdUseMMX
 //
 //==============================================================================
@@ -824,8 +829,8 @@ begin
 end;
 
 //==============================================================================
-// I_WaitVBL
 //
+// I_WaitVBL
 // Wait for vertical retrace or pause a bit.
 //
 //==============================================================================
@@ -1248,11 +1253,12 @@ type
     Directory: PChar; ShowCmd: Integer): HINST; stdcall;
 
 //==============================================================================
+//
 // I_GoToWebPage
 //
-// JVAL
-// Dynamically get ShellExecute function to avoid malicius detection of
-// some antivirus programs
+// JVAL:
+//  Dynamically get ShellExecute function to avoid malicius detection of
+//  some antivirus programs
 //
 //==============================================================================
 procedure I_GoToWebPage(const cmd: string);
