@@ -273,13 +273,13 @@ begin
   else
     TK_OpenSource(acs_SourceFileName);
 
-  PC_OpenObject(ObjectFileName, DEFAULT_OBJECT_SIZE, 0);
+  PC_OpenObject(ObjectFileName, DEFAULT_OBJECT_SIZE, 0, wadmode);
   PA_Parse;
   if wadmode then
     Result := PC_GetObject
   else
   begin
-    PC_CloseObject;
+    PC_CloseObject(wadmode);
     Result := nil;
   end;
 

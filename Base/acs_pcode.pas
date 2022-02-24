@@ -161,14 +161,15 @@ var
 // PC_OpenObject
 //
 //==============================================================================
-procedure PC_OpenObject(const name: string; const size: Integer; const flags: integer);
+procedure PC_OpenObject(const name: string; const size: Integer; const flags: integer;
+  const wadmode: boolean);
 
 //==============================================================================
 //
 // PC_CloseObject
 //
 //==============================================================================
-procedure PC_CloseObject;
+procedure PC_CloseObject(const wadmode: boolean);
 
 //==============================================================================
 //
@@ -351,10 +352,11 @@ const
 // PC_OpenObject
 //
 //==============================================================================
-procedure PC_OpenObject(const name: string; const size: Integer; const flags: integer);
+procedure PC_OpenObject(const name: string; const size: Integer; const flags: integer;
+  const wadmode: boolean);
 begin
   if ObjectOpened then
-    PC_CloseObject;
+    PC_CloseObject(wadmode);
 
   ObjectName := name;
   pc_Buffer := ACS_Alloc(size, ERR_ALLOC_PCODE_BUFFER);
@@ -373,7 +375,7 @@ end;
 // PC_CloseObject
 //
 //==============================================================================
-procedure PC_CloseObject;
+procedure PC_CloseObject(const wadmode: boolean);
 var
   i: integer;
   info: PscriptInfo_t;
@@ -392,8 +394,9 @@ begin
     PC_AppendLong(U_LONG(info.argCount));
    end;
   STR_WriteList;
-  if not ACS_SaveFile(ObjectName, pc_Buffer, pc_Address) then
-    ERR_Exit(ERR_SAVE_OBJECT_FAILED, False, '', []);
+  if not wadmode then
+    if not ACS_SaveFile(ObjectName, pc_Buffer, pc_Address) then
+      ERR_Exit(ERR_SAVE_OBJECT_FAILED, False, '', []);
   ACS_Free(pointer(pc_Buffer));
 end;
 
