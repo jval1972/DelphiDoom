@@ -309,8 +309,11 @@ begin
   case it.typ of
     st_generic:
       begin
-        strm.Write(it.id, SizeOf(word));
-        strm.Write(b[it.offs], it.size);
+        if not IsZeroes(@b[it.offs], it.size) then
+        begin
+          strm.Write(it.id, SizeOf(word));
+          strm.Write(b[it.offs], it.size);
+        end;
       end;
     st_byte:
       begin
@@ -434,6 +437,7 @@ begin
   case it.typ of
     st_generic:
       begin
+        ZeroMemory(@b[it.offs], it.size);
       end;
     st_byte:
       begin

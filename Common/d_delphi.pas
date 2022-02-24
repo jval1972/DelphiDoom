@@ -1464,6 +1464,8 @@ function readablestring(const s: string): string;
 //==============================================================================
 function CharPos(const ch: Char; const s: string): integer;
 
+function IsZeroes(const p: Pointer; const size: integer): boolean;
+
 implementation
 
 uses
@@ -6913,6 +6915,21 @@ begin
       exit;
     end;
   result := 0;
+end;
+
+function IsZeroes(const p: Pointer; const size: integer): boolean;
+var
+  pb: PByteArray;
+  i: integer;
+begin
+  pb := p;
+  for i := 0 to size - 1 do
+    if pb[i] <> 0 then
+    begin
+      result := false;
+      exit;
+    end;
+  result := true;
 end;
 
 end.
