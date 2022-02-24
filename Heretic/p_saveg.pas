@@ -2135,6 +2135,31 @@ end;
 
 //==============================================================================
 //
+// P_ArchivePSMapScript
+//
+//==============================================================================
+procedure P_ArchivePSMapScript;
+var
+  fname: string;
+  sz: Integer;
+begin
+  fname := I_NewTempFile('mapscript' + itoa(Random(1000)));
+  PS_MapScriptSaveToFile(fname);
+  sz := fsize(fname);
+  PInteger(save_p)^ := sz;
+  incp(pointer(save_p), SizeOf(integer));
+  with TFile.Create(fname, fOpenReadOnly) do
+  try
+    Read(save_p^, sz);
+  finally
+    Free;
+  end;
+  fdelete(fname);
+  incp(Pointer(save_p), sz);
+end;
+
+//==============================================================================
+//
 // P_UnArchiveGlobalVariables
 //
 //==============================================================================
@@ -2160,31 +2185,6 @@ procedure P_UnArchiveVariables;
 begin
   P_UnArchiveGlobalVariables(mapvars);
   P_UnArchiveGlobalVariables(worldvars);
-end;
-
-//==============================================================================
-//
-// P_ArchivePSMapScript
-//
-//==============================================================================
-procedure P_ArchivePSMapScript;
-var
-  fname: string;
-  sz: Integer;
-begin
-  fname := I_NewTempFile('mapscript' + itoa(Random(1000)));
-  PS_MapScriptSaveToFile(fname);
-  sz := fsize(fname);
-  PInteger(save_p)^ := sz;
-  incp(pointer(save_p), SizeOf(integer));
-  with TFile.Create(fname, fOpenReadOnly) do
-  try
-    Read(save_p^, sz);
-  finally
-    Free;
-  end;
-  fdelete(fname);
-  incp(Pointer(save_p), sz);
 end;
 
 //==============================================================================
