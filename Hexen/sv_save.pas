@@ -324,9 +324,25 @@ end;
 function GET_CHAR8T: char8_t;
 var
   i: integer;
+  ch: Char;
 begin
-  for i := 0 to 7 do
-    result[i] := Chr(GET_BYTE);
+  if LOADVERSION >= VERSION207 then
+  begin
+    for i := 0 to 7 do
+      result[i] := #0;
+    for i := 0 to 7 do
+    begin
+      ch := Chr(GET_BYTE);
+      result[i] := ch;
+      if ch = #0 then
+        exit;
+    end;
+  end
+  else
+  begin
+    for i := 0 to 7 do
+      result[i] := Chr(GET_BYTE);
+  end;
 end;
 
 //==============================================================================
@@ -441,6 +457,8 @@ begin
   begin
     b := Ord(s[i]);
     SavingFP.Write(b, SizeOf(byte));
+    if b = 0 then
+      exit;
   end;
 end;
 
@@ -1006,7 +1024,10 @@ var
   li: Pline_t;
   si: Pside_t;
   levelinf: Plevelinfo_t;
+  buf: pointer;
 begin
+  buf := malloc($10000);
+
   StreamOutLong(ASEG_WORLD);
 
   levelinf := P_GetLevelInfo(P_GetMapName(gamemap));
@@ -1016,95 +1037,46 @@ begin
   sec := @sectors[0];
   for i := 0 to numsectors - 1 do
   begin
-    StreamOutLong(sec.floorheight);
-    StreamOutLong(sec.ceilingheight);
+    StreamOutBuffer(buf, SectorSerializer.SaveToMem(buf, sec, $FFFF));
+
     StreamOutChar8t(flats[sec.floorpic].name);
     StreamOutChar8t(flats[sec.ceilingpic].name);
-    StreamOutWord(sec.lightlevel);
-    StreamOutWord(sec.special);
-    StreamOutWord(sec.tag);
-    StreamOutByte(Ord(sec.seqType));
-    StreamOutLongWord(sec.renderflags);
-    StreamOutLongWord(sec.flags);
-    StreamOutLong(sec.midsec);
-    StreamOutLong(sec.midline);
-    StreamOutLong(sec.gravity);
 
-    // JVAL: 20200221 - Texture angle
-    StreamOutLongWord(sec.floorangle);
-    StreamOutLong(sec.flooranglex);
-    StreamOutLong(sec.floorangley);
-    StreamOutLongWord(sec.ceilingangle);
-    StreamOutLong(sec.ceilinganglex);
-    StreamOutLong(sec.ceilingangley);
-
-    // JVAL: 20200522 - Slope values
-    StreamOutFloat(sec.fa);
-    StreamOutFloat(sec.fb);
-    StreamOutFloat(sec.fd);
-    StreamOutFloat(sec.fic);
-    StreamOutFloat(sec.ca);
-    StreamOutFloat(sec.cb);
-    StreamOutFloat(sec.cd);
-    StreamOutFloat(sec.cic);
-
-    StreamOutLong(sec.num_saffectees);
     for j := 0 to sec.num_saffectees - 1 do
       StreamOutLong(sec.saffectees[j]);
 
-    // JVAL: 20200209 - Store moreids
-    StreamOutBuffer(@sec.moreids, SizeOf(moreids_t));
-
-    // JVAL: 20220222 - Store wind
-    StreamOutLong(sec.windthrust);
-    StreamOutLongWord(sec.windangle);
-
     inc(sec);
   end;
+
   li := @lines[0];
   for i := 0 to numlines -  1 do
   begin
-    StreamOutWord(li.flags);
-    StreamOutByte(li.special);
-    StreamOutByte(li.arg1);
-    StreamOutByte(li.arg2);
-    StreamOutByte(li.arg3);
-    StreamOutByte(li.arg4);
-    StreamOutByte(li.arg5);
-    StreamOutLongWord(li.renderflags);
-    StreamOutBuffer(@li.moreids, SizeOf(moreids_t));
-    for j := 0 to 1 do
-    begin
-      if li.sidenum[j] = -1 then
-        continue;
+    StreamOutBuffer(buf, LineSerializer.SaveToMem(buf, li, $FFFF));
 
-      si := @sides[li.sidenum[j]];
-      StreamOutLong(si.textureoffset);
-      StreamOutLong(si.rowoffset);
-
-      // JVAL: 20220211 - UDMF support
-      StreamOutLong(si.toptextureoffset);
-      StreamOutLong(si.bottomtextureoffset);
-      StreamOutLong(si.midtextureoffset);
-      StreamOutLong(si.toprowoffset);
-      StreamOutLong(si.bottomrowoffset);
-      StreamOutLong(si.midrowoffset);
-      StreamOutLong(si.flags);
-
-      StreamOutChar8t(R_NameForSideTexture(si.toptexture));
-      StreamOutChar8t(R_NameForSideTexture(si.bottomtexture));
-      StreamOutChar8t(R_NameForSideTexture(si.midtexture));
-    end;
     inc(li);
   end;
+
+  si := @sides[0];
+  for i := 0 to numsides -  1 do
+  begin
+    StreamOutBuffer(buf, SideSerializer.SaveToMem(buf, si, $FFFF));
+
+    StreamOutChar8t(R_NameForSideTexture(si.toptexture));
+    StreamOutChar8t(R_NameForSideTexture(si.bottomtexture));
+    StreamOutChar8t(R_NameForSideTexture(si.midtexture));
+
+    inc(si);
+  end;
+
+  memfree(buf, $10000);
 end;
 
 //==============================================================================
 //
-// UnarchiveWorld
+// UnarchiveWorld206
 //
 //==============================================================================
-procedure UnarchiveWorld;
+procedure UnarchiveWorld206;
 var
   i: integer;
   j: integer;
@@ -1194,28 +1166,18 @@ begin
         sec.saffectees[j] := GET_LONG;
     end;
 
-    if LOADVERSION >= VERSION207 then
-    begin
-      memcpy(@sec.moreids, saveptr, SizeOf(moreids_t));
-      incp(saveptr, SizeOf(moreids_t));
-      // JVAL: 20220222 - Restore wind
-      sec.windthrust := GET_LONG;
-      sec.windangle := GET_LONGWORD;
-    end
-    else
-    begin
-      sec.moreids := [];
-      if IsIntegerInRange(sec.tag, 0, 255) then
-        Include(sec.moreids, sec.tag);
-      sec.windthrust := 0;
-      sec.windangle := 0;
-    end;
+    sec.moreids := [];
+    if IsIntegerInRange(sec.tag, 0, 255) then
+      Include(sec.moreids, sec.tag);
+    sec.windthrust := 0;
+    sec.windangle := 0;
 
     sec.specialdata := nil;
     sec.soundtarget := nil;
     sec.iSectorID := i;
     inc(sec);
   end;
+
   li := @lines[0];
   for i := 0 to numlines - 1 do
   begin
@@ -1226,14 +1188,8 @@ begin
     li.arg3 := GET_BYTE;
     li.arg4 := GET_BYTE;
     li.arg5 := GET_BYTE;
-    if LOADVERSION >= VERSION207 then
-    begin
-      li.renderflags := GET_LONGWORD;
-      memcpy(@li.moreids, saveptr, SizeOf(moreids_t));
-      incp(saveptr, SizeOf(moreids_t));
-    end
-    else
-      li.moreids := [];
+    li.moreids := [];
+
     for j := 0 to 1 do
     begin
       if li.sidenum[j] = -1 then
@@ -1242,28 +1198,6 @@ begin
       si := @sides[li.sidenum[j]];
       si.textureoffset := GET_LONG;
       si.rowoffset := GET_LONG;
-
-      // JVAL: 20220211 - UDMF support
-      if LOADVERSION >= VERSION207 then
-      begin
-        si.toptextureoffset := GET_LONG;
-        si.bottomtextureoffset := GET_LONG;
-        si.midtextureoffset := GET_LONG;
-        si.toprowoffset := GET_LONG;
-        si.bottomrowoffset := GET_LONG;
-        si.midrowoffset := GET_LONG;
-        si.flags := GET_LONG;
-      end
-      else
-      begin
-        si.toptextureoffset := 0;
-        si.bottomtextureoffset := 0;
-        si.midtextureoffset := 0;
-        si.toprowoffset := 0;
-        si.bottomrowoffset := 0;
-        si.midrowoffset := 0;
-        si.flags := 0;
-      end;
 
       if LOADVERSION <= VERSION141 then
       begin
@@ -1277,8 +1211,82 @@ begin
         si.bottomtexture := R_SafeTextureNumForName(GET_CHAR8T);
         si.midtexture := R_SafeTextureNumForName(GET_CHAR8T);
       end;
+
+      si.toptextureoffset := 0;
+      si.bottomtextureoffset := 0;
+      si.midtextureoffset := 0;
+      si.toprowoffset := 0;
+      si.bottomrowoffset := 0;
+      si.midrowoffset := 0;
+      si.flags := 0;
     end;
     inc(li);
+  end;
+end;
+
+//==============================================================================
+//
+// UnarchiveWorld
+//
+//==============================================================================
+procedure UnarchiveWorld;
+var
+  i: integer;
+  j: integer;
+  sec: Psector_t;
+  li: Pline_t;
+  si: Pside_t;
+  levelinf: Plevelinfo_t;
+begin
+  if LOADVERSION <= VERSION206 then
+  begin
+    UnarchiveWorld206;
+    exit;
+  end;
+
+  AssertSegment(ASEG_WORLD);
+
+  levelinf := P_GetLevelInfo(P_GetMapName(gamemap));
+  levelinf.musname := GET_CHAR8T;
+  levelinf.skyflat := GET_CHAR8T;
+
+  sec := @sectors[0];
+  for i := 0 to numsectors - 1 do
+  begin
+    incp(saveptr, SectorSerializer.LoadFromMem(saveptr, sec, $FFFF));
+
+    sec.floorpic := R_FlatNumForName(GET_CHAR8T);
+    sec.ceilingpic := R_FlatNumForName(GET_CHAR8T);
+
+    sec.saffectees := Z_Realloc(sec.saffectees, sec.num_saffectees * SizeOf(integer), PU_LEVEL, nil);
+    for j := 0 to sec.num_saffectees - 1 do
+      sec.saffectees[j] := GET_LONG;
+
+    sec.specialdata := nil;
+    sec.soundtarget := nil;
+    sec.iSectorID := i;
+
+    inc(sec);
+  end;
+
+  li := @lines[0];
+  for i := 0 to numlines - 1 do
+  begin
+    incp(saveptr, LineSerializer.LoadFromMem(saveptr, li, $FFFF));
+
+    inc(li);
+  end;
+
+  si := @sides[0];
+  for i := 0 to numsides - 1 do
+  begin
+    incp(saveptr, SideSerializer.LoadFromMem(saveptr, si, $FFFF));
+
+    si.toptexture := R_SafeTextureNumForName(GET_CHAR8T);
+    si.bottomtexture := R_SafeTextureNumForName(GET_CHAR8T);
+    si.midtexture := R_SafeTextureNumForName(GET_CHAR8T);
+
+    inc(si);
   end;
 end;
 
