@@ -261,6 +261,7 @@ Added windthrust & windangle sector fields. They affect actors with the +WINDTHR
 More flexible Save/Load serialization to allow easier field additions and save space.
 Moving Poly objects interpolation (uncapped framerate mode).
 Added NOJUMP sector flag. When set it will prevent player jump in the sector.
+Added interpolatepolyobjs console variable. When true (default) will interpolate polyobjs movement.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

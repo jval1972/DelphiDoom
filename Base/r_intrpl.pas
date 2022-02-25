@@ -90,6 +90,7 @@ var
   interpolate: boolean;
   interpolateprecise: boolean = true;
   interpolateoncapped: boolean = false;
+  interpolatepolyobjs: boolean = true;
   interpolationstarttime: fixed_t = 0;
   didinterpolations: boolean;
   ticfrac: fixed_t;
@@ -575,34 +576,35 @@ begin
   end;
 
   // Poly objects
-  for i := 0 to po_NumPolyobjs - 1 do
-  begin
-    if polyobjs[i].specialdata <> nil then
-      if (@Ppolyevent_t(polyobjs[i].specialdata).thinker._function.acp1 = @TH_MovePoly) or
-         ((@Ppolydoor_t(polyobjs[i].specialdata).thinker._function.acp1 = @TH_PolyDoor) and (Ppolydoor_t(polyobjs[i].specialdata)._type = PODOOR_SLIDE)) then
-      begin
-        pseg := polyobjs[i].segs;
-        for j := 0 to polyobjs[i].numsegs - 1 do
+  if interpolatepolyobjs then
+    for i := 0 to po_NumPolyobjs - 1 do
+    begin
+      if polyobjs[i].specialdata <> nil then
+        if (@Ppolyevent_t(polyobjs[i].specialdata).thinker._function.acp1 = @TH_MovePoly) or
+           ((@Ppolydoor_t(polyobjs[i].specialdata).thinker._function.acp1 = @TH_PolyDoor) and (Ppolydoor_t(polyobjs[i].specialdata)._type = PODOOR_SLIDE)) then
         begin
-          if not pseg^.miniseg then
+          pseg := polyobjs[i].segs;
+          for j := 0 to polyobjs[i].numsegs - 1 do
           begin
-            if pseg^.v1.interpvalidcount <> rendervalidcount then
+            if not pseg^.miniseg then
             begin
-              R_AddInterpolationItem(@pseg^.v1.x, iinteger);
-              R_AddInterpolationItem(@pseg^.v1.y, iinteger);
-              pseg^.v1.interpvalidcount := rendervalidcount;
+              if pseg^.v1.interpvalidcount <> rendervalidcount then
+              begin
+                R_AddInterpolationItem(@pseg^.v1.x, iinteger);
+                R_AddInterpolationItem(@pseg^.v1.y, iinteger);
+                pseg^.v1.interpvalidcount := rendervalidcount;
+              end;
+              if pseg^.v2.interpvalidcount <> rendervalidcount then
+              begin
+                R_AddInterpolationItem(@pseg^.v2.x, iinteger);
+                R_AddInterpolationItem(@pseg^.v2.y, iinteger);
+                pseg^.v2.interpvalidcount := rendervalidcount;
+              end;
             end;
-            if pseg^.v2.interpvalidcount <> rendervalidcount then
-            begin
-              R_AddInterpolationItem(@pseg^.v2.x, iinteger);
-              R_AddInterpolationItem(@pseg^.v2.y, iinteger);
-              pseg^.v2.interpvalidcount := rendervalidcount;
-            end;
+            Inc(pseg);
           end;
-          Inc(pseg);
         end;
-      end;
-  end;
+    end;
 
   // Map Objects
   th := thinkercap.next;

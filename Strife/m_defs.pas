@@ -174,7 +174,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 218;
+  NUMDEFAULTS = 219;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -262,6 +262,15 @@ const
 
     (name: 'interpolateoncapped';
      location: @interpolateoncapped;
+     oldlocation: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'interpolatepolyobjs';
+     location: @interpolatepolyobjs;
      oldlocation: nil;
      setable: DFS_NEVER;
      defaultsvalue: '';
