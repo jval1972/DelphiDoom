@@ -933,7 +933,7 @@ begin
         end;
 
         // Hit same species as originator, explode, no damage
-        if (thing._type <> Ord(MT_PLAYER)) and (thing.flags2_ex and MF2_EX_MISSILEHURTSPECIES = 0)  then
+        if (thing._type <> Ord(MT_PLAYER)) and (thing.flags2_ex and MF2_EX_MISSILEHURTSPECIES = 0) then
         begin
           // Explode, but do no damage.
           // Let players missile other players.

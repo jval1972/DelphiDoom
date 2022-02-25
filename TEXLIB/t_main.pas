@@ -142,7 +142,7 @@ type
     procedure GetColumn32(col: integer; size: integer; dest: pointer);
     function GetPalettedColumn32(col: integer; size: integer; dest: pointer; APalColor: LongWord): boolean;
     procedure GetRow32(row: integer; size: integer; dest: pointer);
-    function  GetPalettedRow32(row: integer; size: integer; dest: pointer; APalColor: LongWord): boolean;
+    function GetPalettedRow32(row: integer; size: integer; dest: pointer; APalColor: LongWord): boolean;
     procedure AddColorOverlay(const color: LongWord);
     procedure ScaleTo(AWidth, AHeight: word);
     procedure SetWidth(Value: word);
@@ -765,7 +765,7 @@ end;
 //  TTexture.GetPalettedRow32
 //
 //==============================================================================
-function  TTexture.GetPalettedRow32(row: integer; size: integer; dest: pointer; APalColor: LongWord): boolean;
+function TTexture.GetPalettedRow32(row: integer; size: integer; dest: pointer; APalColor: LongWord): boolean;
 var
   col: integer;
   icol: integer; // Original internal row

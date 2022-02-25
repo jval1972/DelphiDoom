@@ -5275,7 +5275,7 @@ begin
           PolyTree.AddChild(OutRec.PolyNode);
         end
         else if Assigned(OutRec.FirstLeft) and
-          assigned(OutRec.FirstLeft.PolyNode)then
+          assigned(OutRec.FirstLeft.PolyNode) then
           OutRec.FirstLeft.PolyNode.AddChild(OutRec.PolyNode)
         else
           PolyTree.AddChild(OutRec.PolyNode);

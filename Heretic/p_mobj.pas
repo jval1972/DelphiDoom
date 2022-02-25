@@ -852,7 +852,7 @@ begin
       exit;
     end;
   end
-  else if (mo.flags2 and MF2_LOGRAV <> 0) or (mo.flags_ex and MF_EX_LOWGRAVITY <> 0)  then
+  else if (mo.flags2 and MF2_LOGRAV <> 0) or (mo.flags_ex and MF_EX_LOWGRAVITY <> 0) then
   begin
     if mo.momz = 0 then
       mo.momz := -(P_GetMobjGravity(mo) div 8) * 2

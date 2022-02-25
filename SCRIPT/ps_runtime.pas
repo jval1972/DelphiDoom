@@ -1352,7 +1352,7 @@ const
 //  PSDynArrayGetLength
 //
 //==============================================================================
-function  PSDynArrayGetLength(arr: Pointer; aType: TPSTypeRec): Longint;
+function PSDynArrayGetLength(arr: Pointer; aType: TPSTypeRec): Longint;
 
 //==============================================================================
 //
@@ -1366,7 +1366,7 @@ procedure PSDynArraySetLength(var arr: Pointer; aType: TPSTypeRec; NewLength: Lo
 //  GetPSArrayLength
 //
 //==============================================================================
-function  GetPSArrayLength(Arr: PIFVariant): Longint;
+function GetPSArrayLength(Arr: PIFVariant): Longint;
 
 //==============================================================================
 //
@@ -5805,7 +5805,7 @@ end;
 //  GetPSArrayLength
 //
 //==============================================================================
-function  GetPSArrayLength(Arr: PIFVariant): Longint;
+function GetPSArrayLength(Arr: PIFVariant): Longint;
 begin
   Result := PSDynArrayGetLength(PPSVariantDynamicArray(arr).Data, arr.FType);
 end;
@@ -13254,7 +13254,7 @@ end;
 procedure CheckPackagePtr(var P: PByteArr);
 begin
   {$IFDEF Win32}
-  if (word((@p[0])^) = $25FF) and (word((@p[6])^)=$C08B)then
+  if (word((@p[0])^) = $25FF) and (word((@p[6])^) = $C08B) then
   begin
     p := PPointer((@p[2])^)^;
   end;
@@ -13529,7 +13529,7 @@ begin
     n := Stack[Stack.Count - 1]
   else
     n := Stack[Stack.Count - 2];
-  if (n = nil) or (n^.FType.BaseType <> btClass)or (PPSVariantClass(n).Data = nil) then
+  if (n = nil) or (n^.FType.BaseType <> btClass) or (PPSVariantClass(n).Data = nil) then
   begin
     Caller.CMD_Err(erNullPointerException);
     Result := False;
@@ -14043,7 +14043,7 @@ begin
         Exit;
       end;
       n := NewTPSVariantIFC(Stack[Stack.Count - 2], False);
-      if (PPropInfo(p.Ext1)^.PropType^.Kind = tkMethod) and ((n.aType.BaseType = btU32) or (n.aType.BaseType = btProcPtr))then
+      if (PPropInfo(p.Ext1)^.PropType^.Kind = tkMethod) and ((n.aType.BaseType = btU32) or (n.aType.BaseType = btProcPtr)) then
       begin
         SetMethodProp(TObject(FSelf), PPropInfo(p.Ext1), MkMethod(Caller, TbtU32(n.dta^)));
       end
@@ -14107,7 +14107,7 @@ begin
     else
     begin
       n := NewTPSVariantIFC(Stack[Stack.Count - 2], False);
-      if (n.dta = nil) or (n.aType.BaseType <> btClass)then
+      if (n.dta = nil) or (n.aType.BaseType <> btClass) then
       begin
         Result := False;
         Caller.CMD_Err(erNullPointerException);
@@ -15042,8 +15042,7 @@ end;
 // TPSRuntimeClass.RegisterConstructor
 //
 //==============================================================================
-procedure TPSRuntimeClass.RegisterConstructor(ProcPtr: Pointer;
-  const Name: TbtString);
+procedure TPSRuntimeClass.RegisterConstructor(ProcPtr: Pointer; const Name: TbtString);
 var
   P: PClassItem;
 begin

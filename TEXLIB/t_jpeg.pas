@@ -246,7 +246,7 @@ var
   bmpinfoheader: TBitmapInfoHeader;
   headersize: INT32;
   bits_per_pixel, cmap_entries, num_colors, i: INT;
-  output_ext_color_map: array[0..255] of record b,g,r,a: byte; end;
+  output_ext_color_map: array[0..255] of record b, g, r, a: byte; end;
 begin
   {colormap size and total file size}
   if (cinfo^.out_color_space = JCS_RGB) then

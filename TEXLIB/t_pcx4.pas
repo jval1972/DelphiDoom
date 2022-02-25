@@ -266,9 +266,9 @@ end;
 procedure MakeGenPalette;
 var
   X: Word;
-  R,G,B: Word;
+  R, G, B: Word;
 begin
-  X:=0;
+  X := 0;
   for R := 0 to 7 do
   begin
     for G := 0 to 7 do

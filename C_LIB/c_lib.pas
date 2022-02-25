@@ -785,7 +785,7 @@ begin
       mb := True;
       Inc(m);
       Width := -1;
-      Modifier:=0;
+      Modifier := 0;
       {flags}
       case m^ of
         Ord('-'): mb := False;
@@ -802,7 +802,8 @@ begin
             Width := 0;
             while True do
             begin
-              if (m^ < Ord('0')) or (Ord('9') < m^) then break;
+              if (m^ < Ord('0')) or (Ord('9') < m^) then
+                break;
               Width := Width * 10 + m^ - Ord('0');
               Inc(m);
             end;

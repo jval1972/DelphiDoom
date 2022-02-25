@@ -2042,7 +2042,7 @@ begin
     else
     begin
       if (TPSExternalProcedure(x).RegProc.NameHash = h) and
-        (TPSExternalProcedure(x).RegProc.Name = Name)then
+        (TPSExternalProcedure(x).RegProc.Name = Name) then
       begin
         Result := l;
         Exit;
@@ -3277,7 +3277,7 @@ begin
      ((p1.BaseType = btUnicodeString) and (p2.BaseType = btWideChar)) or
      ((p1.BaseType = btUnicodeString) and ((p2.BaseType = btString) or (p2.BaseType = btPchar) or (p2.BaseType = btUnicodeString))) or
      ((p1.BaseType = btUnicodeString) and (p2.BaseType = btWideString)) or
-     (((p1.basetype = btPchar) or (p1.BaseType = btString)) and (p2.BaseType = btWideString)or (p2.BaseType = btUnicodeString)) or
+     (((p1.basetype = btPchar) or (p1.BaseType = btString)) and (p2.BaseType = btWideString) or (p2.BaseType = btUnicodeString)) or
      (((p1.basetype = btPchar) or (p1.BaseType = btString)) and (p2.BaseType = btWidechar)) or
      (((p1.basetype = btPchar) or (p1.BaseType = btString)) and (p2.BaseType = btChar)) or
      {$ENDIF}
@@ -8974,7 +8974,8 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
               end;
               NewVar := CallAssigned(NewVar);
               FParser.Next;
-            end  else
+            end
+            else
             begin
               NewVar := GetIdentifier(0);
               if NewVar = nil then
@@ -9063,7 +9064,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
             else if ((t1.BaseType = btPchar) or(t1.BaseType = btString) or (t1.BaseType = btChar)) and ((t2.BaseType = btPchar) or(t2.BaseType = btString) or (t2.BaseType = btChar)) then
               Result := at2ut(FindBaseType(btString))
             {$IFNDEF PS_NOWIDESTRING}
-            else if ((t1.BaseType = btString) or (t1.BaseType = btChar) or (t1.BaseType = btPchar)or (t1.BaseType = btWideString) or (t1.BaseType = btWideChar) or (t1.BaseType = btUnicodeString)) and
+            else if ((t1.BaseType = btString) or (t1.BaseType = btChar) or (t1.BaseType = btPchar) or (t1.BaseType = btWideString) or (t1.BaseType = btWideChar) or (t1.BaseType = btUnicodeString)) and
             ((t2.BaseType = btString) or (t2.BaseType = btChar) or (t2.BaseType = btPchar) or (t2.BaseType = btWideString) or (t2.BaseType = btWideChar) or (t2.BaseType = btUnicodeString)) then
               Result := at2ut(FindBaseType(btUnicodeString))
             {$ENDIF}

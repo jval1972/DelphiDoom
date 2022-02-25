@@ -1802,16 +1802,13 @@ begin
         end;
 
       // Ohmygod - this is not going to work.
-      if (gamemode = extendedwad) and
-         (epsd > 5)  then
+      if (gamemode = extendedwad) and (epsd > 5) then
         exit;
 
-      if (gamemode = registered) and
-         (epsd > 3) then
+      if (gamemode = registered) and (epsd > 3) then
         exit;
 
-      if (gamemode = shareware) and
-         (epsd > 1) then
+      if (gamemode = shareware) and (epsd > 1) then
         exit;
 
       // So be it.

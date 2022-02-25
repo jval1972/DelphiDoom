@@ -778,8 +778,8 @@ type
     procedure Insert(Index: Integer; const S: string); virtual; abstract;
     procedure InsertObject(Index: Integer; const S: string;
       AObject: TObject);
-    function  LoadFromFile(const FileName: string): boolean; virtual;
-    function  LoadFromStream(const strm: TDStream): boolean; virtual;
+    function LoadFromFile(const FileName: string): boolean; virtual;
+    function LoadFromStream(const strm: TDStream): boolean; virtual;
     procedure Move(CurIndex, NewIndex: Integer); virtual;
     function SaveToFile(const FileName: string): boolean; virtual;
     procedure SetText(Text: PChar); virtual;

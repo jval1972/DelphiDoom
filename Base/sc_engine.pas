@@ -1021,7 +1021,8 @@ begin
         //I_Warning ....
         parenthesislevel := 0;
       end;
-    end else if inp[i] = '"' then
+    end
+    else if inp[i] = '"' then
       inquotes := not inquotes;
   end;
   trimproc(stmp);
