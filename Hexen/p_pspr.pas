@@ -341,13 +341,6 @@ procedure A_CStaffAttack(player: Pplayer_t; psp: Ppspdef_t);
 
 //==============================================================================
 //
-// A_CStaffMissileSlither
-//
-//==============================================================================
-procedure A_CStaffMissileSlither(actor: Pmobj_t);
-
-//==============================================================================
-//
 // A_CStaffInitBlink
 //
 //==============================================================================
@@ -1937,28 +1930,6 @@ begin
   if mo <> nil then
     mo.special2 := 0;
   S_StartSound(player.mo, Ord(SFX_CLERIC_CSTAFF_FIRE));
-end;
-
-//==============================================================================
-//
-// A_CStaffMissileSlither
-//
-//==============================================================================
-procedure A_CStaffMissileSlither(actor: Pmobj_t);
-var
-  newX, newY: fixed_t;
-  weaveXY: integer;
-  angle: angle_t;
-begin
-  weaveXY := actor.special2;
-  angle := (actor.angle + ANG90) shr ANGLETOFINESHIFT;
-  newX := actor.x - FixedMul(finecosine[angle], FloatBobOffsets[weaveXY]);
-  newY := actor.y - FixedMul(finesine[angle], FloatBobOffsets[weaveXY]);
-  weaveXY := (weaveXY + 3) and 63;
-  newX := newX + FixedMul(finecosine[angle], FloatBobOffsets[weaveXY]);
-  newY := newY + FixedMul(finesine[angle], FloatBobOffsets[weaveXY]);
-  P_TryMove(actor, newX, newY);
-  actor.special2 := weaveXY;
 end;
 
 //==============================================================================

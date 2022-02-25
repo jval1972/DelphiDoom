@@ -5451,7 +5451,7 @@ var
   weaveXY: integer;
   angle: angle_t;
 begin
-  weaveXY := actor.bob;
+  weaveXY := {$IFDEF HEXEN}actor.special2{$ELSE}actor.bob{$ENDIF};
   angle := (actor.angle + ANG90) shr ANGLETOFINESHIFT;
   newX := actor.x - FixedMul(finecosine[angle], FloatBobOffsets[weaveXY]);
   newY := actor.y - FixedMul(finesine[angle], FloatBobOffsets[weaveXY]);
@@ -5459,7 +5459,7 @@ begin
   newX := newX + FixedMul(finecosine[angle], FloatBobOffsets[weaveXY]);
   newY := newY + FixedMul(finesine[angle], FloatBobOffsets[weaveXY]);
   P_TryMove(actor, newX, newY);
-  actor.bob := weaveXY;
+  {$IFDEF HEXEN}actor.special2{$ELSE}actor.bob{$ENDIF} := weaveXY;
 end;
 
 //==============================================================================
