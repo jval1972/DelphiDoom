@@ -2354,8 +2354,8 @@ begin
   {Free old image data}
   if ImageHandle <> 0 then
     DeleteObject(ImageHandle);
-  if ImageDC <> 0
-    then DeleteDC(ImageDC);
+  if ImageDC <> 0 then
+    DeleteDC(ImageDC);
   if ImageAlpha <> nil then
     FreeMem(ImageAlpha);
   if ImagePalette <> 0 then
@@ -6105,9 +6105,10 @@ begin
             GammaTable[rgbBlue]);
       COLOR_GRAYSCALE:
       begin
-        if BitDepth = 1
-        then ByteData := GammaTable[Byte(ByteData * 255)]
-        else ByteData := GammaTable[Byte(ByteData * ((1 shl DataDepth) + 1))];
+        if BitDepth = 1 then
+          ByteData := GammaTable[Byte(ByteData * 255)]
+        else
+          ByteData := GammaTable[Byte(ByteData * ((1 shl DataDepth) + 1))];
         Result := rgb(ByteData, ByteData, ByteData);
       end;
       else

@@ -325,7 +325,7 @@ begin
   result := false;
   for i := 0 to MAXCEILINGS - 1 do
     if (hactiveceilings[i] <> nil) and
-       (hactiveceilings[i].tag = args[0])  then
+       (hactiveceilings[i].tag = args[0]) then
     begin
       {$IFDEF HEXEN}
       S_StopSequence(Pmobj_t(@hactiveceilings[i].sector.soundorg));

@@ -766,7 +766,7 @@ begin
         FillerUp(TempArrayDBIG^[0], Width * PcxColorPlanes + 20{Slack Bytes}, 0);
       end;
       ReadPCXLine;
-      if (PCXColorPlanes = 3) and (BitsPerPixel = 8)   then
+      if (PCXColorPlanes = 3) and (BitsPerPixel = 8) then
       begin
        {
        { 24 Bit Image!

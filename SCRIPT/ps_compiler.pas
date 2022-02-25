@@ -10237,8 +10237,8 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
       i: Longint;
     begin
       Result := False;
-      if Outreg is TPSValueReplace
-        then Outreg := TPSValueReplace(Outreg).OldValue;
+      if Outreg is TPSValueReplace then
+        Outreg := TPSValueReplace(Outreg).OldValue;
       if Where is TPSValueVar then
       begin
         if TPSValueVar(Where).GetRecCount > 0 then

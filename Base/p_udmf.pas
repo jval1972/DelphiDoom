@@ -756,7 +756,7 @@ var
         sc.MustGetInteger;
         pmaplinedef.special := sc._Integer;
       end
-      else if (token = 'BLOCKING') or (token = 'BLOCKEVERYTHING')  then
+      else if (token = 'BLOCKING') or (token = 'BLOCKEVERYTHING') then
       begin
         GetToken;
         if token = 'TRUE' then

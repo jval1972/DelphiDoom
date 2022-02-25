@@ -1336,7 +1336,7 @@ begin
     exit;
 
   // haleyjd [STRIFE]: 30 second wait is not accounted for here, see above.
-  if leveltime < itemrespawntime[iquetail]  then
+  if leveltime < itemrespawntime[iquetail] then
     exit;
 
   mthing := @itemrespawnque[iquetail];

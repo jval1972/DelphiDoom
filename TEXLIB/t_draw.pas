@@ -147,7 +147,7 @@ begin
     exit;
   end;
 
-  if drawtextures[texid].texture32 = nil  then
+  if drawtextures[texid].texture32 = nil then
   begin
     t := T_LoadHiResTexture(W_GetNameForNum(drawtextures[texid].lump));
     if t = nil then
