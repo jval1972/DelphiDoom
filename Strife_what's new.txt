@@ -253,6 +253,7 @@ Fixed the "Stairs create unknown sector types" bug.
 More flexible Save/Load serialization to allow easier field additions and save space.
 Moving Poly objects interpolation (uncapped framerate mode).
 Added NOJUMP sector flag. When set it will prevent player jump in the sector.
+Prevent crash in errornous 2-sides flaged lines when building stairs.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

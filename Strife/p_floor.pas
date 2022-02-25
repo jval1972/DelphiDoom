@@ -819,6 +819,8 @@ begin
           continue;
 
         tsec := sec.lines[i].backsector;
+        if tsec = nil then
+          continue;
         newsecnum := pDiff(tsec, @sectors[0], SizeOf(sector_t));
 
         if tsec.floorpic <> texture then
