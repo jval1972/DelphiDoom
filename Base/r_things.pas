@@ -1733,6 +1733,21 @@ begin
   vis.mo := thing;
   vis.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
   vis.infoscale := infoscale;
+  {$IFDEF HEXEN}
+  if thing.flags and MF_TRANSLATION <> 0 then
+  begin
+    if thing.player <> nil then
+      vis._class := Ord(Pplayer_t(thing.player)._class)
+    else
+      vis._class := thing.special1;
+    if vis._class > 2 then
+      vis._class := 0
+    else if vis._class < 0 then
+      vis._class := 0;
+  end
+  else
+    vis._class := 0;
+  {$ENDIF}
   {$IFNDEF OPENGL}
   {$IFDEF DOOM_OR_STRIFE}
   vis.heightsec := heightsec;
@@ -1742,19 +1757,6 @@ begin
   vis.gy := thing.y;
   vis.gz := thing.z;
   vis.gzt := gzt;
-  {$IFDEF HEXEN}
-  if thing.flags and MF_TRANSLATION <> 0 then
-  begin
-    if thing.player <> nil then
-      vis._class := Ord(Pplayer_t(thing.player)._class)
-    else
-      vis._class := thing.special1;
-    if vis._class > 2 then
-      vis._class := 0;
-  end
-  else
-    vis._class := 0;
-  {$ENDIF}
   // foot clipping
   {$IFDEF HERETIC}
   if (thing.flags2 and MF2_FEETARECLIPPED <> 0) and (thing.z <=

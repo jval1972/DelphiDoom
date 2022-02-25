@@ -5238,6 +5238,8 @@ begin
     sprite.cm := Ord(CR_LIMIT) +
       {$IFDEF HEXEN}vspr._class * ((MAXPLAYERS - 1)) + {$ENDIF}
       ((pSpr.flags and MF_TRANSLATION) shr MF_TRANSSHIFT);
+  if not IsIntegerInRange(sprite.cm, 0, CR_INVUL) then
+    sprite.cm := Ord(CR_LIMIT);
   sprite.gltexture := gld_RegisterPatch(vspr.patch + firstspritelump, sprite.cm);
   if sprite.gltexture = nil then
     exit;
