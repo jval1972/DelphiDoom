@@ -92,6 +92,7 @@ type
     x: fixed_t;
     y: fixed_t;
     amvalidcount: integer;
+    interpvalidcount: integer;
   end;
   Pvertex_t = ^vertex_t;
   vertex_tArray = packed array[0..$FFFF] of vertex_t;

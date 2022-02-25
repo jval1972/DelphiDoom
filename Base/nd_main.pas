@@ -4855,6 +4855,7 @@ begin
     li.x := ml.x * FRACUNIT;
     li.y := ml.y * FRACUNIT;
     li.amvalidcount := 0;
+    li.interpvalidcount := 0;
     inc(ml);
     inc(li);
   end;
@@ -4872,6 +4873,7 @@ begin
     li.x := gwa.glvertexes[i].x;
     li.y := gwa.glvertexes[i].y;
     li.amvalidcount := 0;
+    li.interpvalidcount := 0;
     inc(li);
   end;
 end;

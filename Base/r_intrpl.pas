@@ -110,6 +110,7 @@ uses
   p_mobj,
   p_mobj_h,
   p_pspr_h,
+  po_man,
   r_defs,
   r_main,
   tables;
@@ -470,6 +471,7 @@ var
   i, j: integer;
   player: Pplayer_t;
   th: Pthinker_t;
+  pseg: PPseg_t;
 begin
   if prevtic > 0 then
     if gametic = prevtic then
@@ -570,6 +572,36 @@ begin
         end;
       end;
     inc(li);
+  end;
+
+  // Poly objects
+  for i := 0 to po_NumPolyobjs - 1 do
+  begin
+    if polyobjs[i].specialdata <> nil then
+      if (@Ppolyevent_t(polyobjs[i].specialdata).thinker._function.acp1 = @TH_MovePoly) or
+         ((@Ppolydoor_t(polyobjs[i].specialdata).thinker._function.acp1 = @TH_PolyDoor) and (Ppolydoor_t(polyobjs[i].specialdata)._type = PODOOR_SLIDE)) then
+      begin
+        pseg := polyobjs[i].segs;
+        for j := 0 to polyobjs[i].numsegs - 1 do
+        begin
+          if not pseg^.miniseg then
+          begin
+            if pseg^.v1.interpvalidcount <> rendervalidcount then
+            begin
+              R_AddInterpolationItem(@pseg^.v1.x, iinteger);
+              R_AddInterpolationItem(@pseg^.v1.y, iinteger);
+              pseg^.v1.interpvalidcount := rendervalidcount;
+            end;
+            if pseg^.v2.interpvalidcount <> rendervalidcount then
+            begin
+              R_AddInterpolationItem(@pseg^.v2.x, iinteger);
+              R_AddInterpolationItem(@pseg^.v2.y, iinteger);
+              pseg^.v2.interpvalidcount := rendervalidcount;
+            end;
+          end;
+          Inc(pseg);
+        end;
+      end;
   end;
 
   // Map Objects

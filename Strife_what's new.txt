@@ -251,6 +251,7 @@ Does not check CRC for grAb PNG chunk.
 Added windthrust & windangle sector fields. They affect actors with the +WINDTHRUST flag.
 Fixed the "Stairs create unknown sector types" bug.
 More flexible Save/Load serialization to allow easier field additions and save space.
+Moving Poly objects interpolation (uncapped framerate mode).
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
