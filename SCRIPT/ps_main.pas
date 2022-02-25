@@ -170,10 +170,11 @@ procedure PS_EventTimerEveryMinute(minute: integer);
 //==============================================================================
 procedure PS_EventMapStart;
 
-//==============================================================================
-// PS_MapScriptSaveToFile
-//
 //-------------------- Map Script Serialization --------------------------------
+
+//==============================================================================
+//
+// PS_MapScriptSaveToFile
 //
 //==============================================================================
 function PS_MapScriptSaveToFile(const fname: string): boolean;
@@ -207,9 +208,8 @@ function PS_MapScriptLoadFromFile(const fname: string): boolean;
 function PS_MapScriptLoadFromFilePos(const fname: string; var position: integer): boolean;
 
 //==============================================================================
-// A_RunScript
 //
-//------------------------------------------------------------------------------
+// A_RunScript
 //
 //==============================================================================
 procedure A_RunScript(actor: Pmobj_t);
@@ -989,10 +989,11 @@ begin
   psmanager.LinkScriptEvents(mapname);
 end;
 
-//==============================================================================
-// PS_EventActorDied
-//
 // Events
+
+//==============================================================================
+//
+// PS_EventActorDied
 //
 //==============================================================================
 procedure PS_EventActorDied(actor: Pmobj_t; killer: Pmobj_t);
@@ -1102,10 +1103,11 @@ begin
   psmanager.Events.ProcMapStart;
 end;
 
-//==============================================================================
-// PS_MapScriptSaveToFile
-//
 //-------------------- Map Script Serialization --------------------------------
+
+//==============================================================================
+//
+// PS_MapScriptSaveToFile
 //
 //==============================================================================
 function PS_MapScriptSaveToFile(const fname: string): boolean;
@@ -1189,9 +1191,8 @@ begin
 end;
 
 //==============================================================================
-// A_RunScript
 //
-//------------------------------------------------------------------------------
+// A_RunScript
 //
 //==============================================================================
 procedure A_RunScript(actor: Pmobj_t);

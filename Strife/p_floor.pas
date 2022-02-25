@@ -402,7 +402,7 @@ begin
       1,                          // move floor
       elevator.direction
     );
-    if (res = ok) or (res = pastdest)  then// jff 4/7/98 don't move ceil if blocked
+    if (res = ok) or (res = pastdest) then// jff 4/7/98 don't move ceil if blocked
       T_MovePlane
       (
         elevator.sector,
