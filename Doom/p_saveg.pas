@@ -492,116 +492,43 @@ var
   sec: Psector_t;
   li: Pline_t;
   si: Pside_t;
-  put: PSmallIntArray;
   levelinf: Plevelinfo_t;
-begin
-  put := PSmallIntArray(save_p);
 
+  procedure _put_char8(const c8: char8_t);
+  var
+    ii: integer;
+    b: byte;
+  begin
+    for ii := 0 to 7 do
+    begin
+      b := Ord(c8[ii]);
+      save_p[0] := b;
+      save_p := @save_p[1];
+      if b = 0 then
+        break;
+    end;
+  end;
+
+begin
   levelinf := P_GetLevelInfo(P_GetMapName(gameepisode, gamemap));
-  Pchar8_t(put)^ := levelinf.musname;
-  put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
-  Pchar8_t(put)^ := levelinf.skyflat;
-  put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
+  _put_char8(levelinf.musname);
+  _put_char8(levelinf.skyflat);
 
   // do sectors
   i := 0;
   while i < numsectors do
   begin
     sec := Psector_t(@sectors[i]);
-    PInteger(put)^ := sec.floorheight;
-    put := @put[2];
-    PInteger(put)^ := sec.ceilingheight;
-    put := @put[2];
+    save_p := @save_p[SectorSerializer.SaveToMem(save_p, sec, $FFFF)];
 
-    Pchar8_t(put)^ := flats[sec.floorpic].name;
-    put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
-    Pchar8_t(put)^ := flats[sec.ceilingpic].name;
-    put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
+    _put_char8(flats[sec.floorpic].name);
+    _put_char8(flats[sec.ceilingpic].name);
 
-    put[0] := sec.lightlevel;
-    put := @put[1];
-    put[0] := sec.special; // needed?
-    put := @put[1];
-    put[0] := sec.tag;  // needed?
-    put := @put[1];
-    PInteger(put)^ := sec.floor_xoffs;
-    put := @put[2];
-    PInteger(put)^ := sec.floor_yoffs;
-    put := @put[2];
-    PInteger(put)^ := sec.ceiling_xoffs;
-    put := @put[2];
-    PInteger(put)^ := sec.ceiling_yoffs;
-    put := @put[2];
-    PLongWord(put)^ := sec.renderflags;
-    put := @put[2];
-    PLongWord(put)^ := sec.flags;
-    put := @put[2];
-    // JVAL: 3d Floors
-    PInteger(put)^ := sec.midsec;
-    put := @put[2];
-    PInteger(put)^ := sec.midline;
-    put := @put[2];
-    // JVAL: sector gravity (VERSION 204)
-    PInteger(put)^ := sec.gravity;
-    put := @put[2];
-
-    // JVAL: 20200221 - Texture angle
-    PLongWord(put)^ := sec.floorangle;
-    put := @put[2];
-    PInteger(put)^ := sec.flooranglex;
-    put := @put[2];
-    PInteger(put)^ := sec.floorangley;
-    put := @put[2];
-    PLongWord(put)^ := sec.ceilingangle;
-    put := @put[2];
-    PInteger(put)^ := sec.ceilinganglex;
-    put := @put[2];
-    PInteger(put)^ := sec.ceilingangley;
-    put := @put[2];
-
-    // JVAL: 20200522 - Slope values
-    Pfloat(put)^ := sec.fa;
-    put := @put[SizeOf(float) div 2];
-    Pfloat(put)^ := sec.fb;
-    put := @put[SizeOf(float) div 2];
-    Pfloat(put)^ := sec.fd;
-    put := @put[SizeOf(float) div 2];
-    Pfloat(put)^ := sec.fic;
-    put := @put[SizeOf(float) div 2];
-    Pfloat(put)^ := sec.ca;
-    put := @put[SizeOf(float) div 2];
-    Pfloat(put)^ := sec.cb;
-    put := @put[SizeOf(float) div 2];
-    Pfloat(put)^ := sec.cd;
-    put := @put[SizeOf(float) div 2];
-    Pfloat(put)^ := sec.cic;
-    put := @put[SizeOf(float) div 2];
-
-    PInteger(put)^ := sec.num_saffectees;
-    put := @put[2];
     for j := 0 to sec.num_saffectees - 1 do
     begin
-      PInteger(put)^ := sec.saffectees[j];
-      put := @put[2];
+      PInteger(save_p)^ := sec.saffectees[j];
+      save_p := @save_p[4];
     end;
-
-    // JVAL: 20220209 - Store moreids
-    Pmoreids_t(put)^ := sec.moreids;
-    put := @put[SizeOf(moreids_t)];
-
-    // JVAL: 20220214 - Store seqType
-    PInteger(put)^ := sec.seqType;
-    put := @put[2];
-
-    // JVAL: 20220218 - Store lightninglightlevel
-    PInteger(put)^ := sec.lightninglightlevel;
-    put := @put[2];
-
-    // JVAL: 20220222 - Store wind
-    PInteger(put)^ := sec.windthrust;
-    put := @put[2];
-    PLongWord(put)^ := sec.windangle;
-    put := @put[2];
 
     inc(i);
   end;
@@ -611,93 +538,49 @@ begin
   while i < numlines do
   begin
     li := Pline_t(@lines[i]);
-    put[0] := li.flags;
-    put := @put[1];
-    put[0] := li.special;
-    put := @put[1];
-    put[0] := li.tag;
-    put := @put[1];
-    PLongWord(put)^ := li.renderflags;
-    put := @put[2];
 
-    // JVAL: 20220209 - UDMF support
-    PInteger(put)^ := li.arg1;
-    put := @put[2];
-    PInteger(put)^ := li.arg2;
-    put := @put[2];
-    PInteger(put)^ := li.arg3;
-    put := @put[2];
-    PInteger(put)^ := li.arg4;
-    put := @put[2];
-    PInteger(put)^ := li.arg5;
-    put := @put[2];
-    PInteger(put)^ := li.activators;
-    put := @put[2];
-    Pmoreids_t(put)^ := li.moreids;
-    put := @put[SizeOf(moreids_t)];
+    save_p := @save_p[LineSerializer.SaveToMem(save_p, li, $FFFF)];
 
-    for j := 0 to 1 do
-    begin
-      if li.sidenum[j] = -1 then
-        continue;
+    inc(i);
+  end;
 
-      si := @sides[li.sidenum[j]];
+  // do sides
+  i := 0;
+  while i < numsides do
+  begin
+    si := @sides[i];
 
-      PInteger(put)^ := si.textureoffset;
-      put := @put[2];
-      PInteger(put)^ := si.rowoffset;
-      put := @put[2];
+    save_p := @save_p[SideSerializer.SaveToMem(save_p, si, $FFFF)];
 
-      // JVAL: 20220211 - UDMF support
-      PInteger(put)^ := si.toptextureoffset;
-      put := @put[2];
-      PInteger(put)^ := si.bottomtextureoffset;
-      put := @put[2];
-      PInteger(put)^ := si.midtextureoffset;
-      put := @put[2];
-      PInteger(put)^ := si.toprowoffset;
-      put := @put[2];
-      PInteger(put)^ := si.bottomrowoffset;
-      put := @put[2];
-      PInteger(put)^ := si.midrowoffset;
-      put := @put[2];
-      PInteger(put)^ := si.flags;
-      put := @put[2];
+    _put_char8(R_NameForSideTexture(si.toptexture));
+    _put_char8(R_NameForSideTexture(si.bottomtexture));
+    _put_char8(R_NameForSideTexture(si.midtexture));
 
-      Pchar8_t(put)^ := R_NameForSideTexture(si.toptexture);
-      put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
-      Pchar8_t(put)^ := R_NameForSideTexture(si.bottomtexture);
-      put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
-      Pchar8_t(put)^ := R_NameForSideTexture(si.midtexture);
-      put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
-    end;
     inc(i);
   end;
 
   // JVAL: 20220216 - Polyobjs
-  put[0] := po_NumPolyobjs;
-  put := @put[1];
+  PInteger(save_p)^ := po_NumPolyobjs;
+  save_p := @save_p[4];
   for i := 0 to po_NumPolyobjs - 1 do
   begin
-    PInteger(put)^ := polyobjs[i].tag;
-    put := @put[2];
-    PLongWord(put)^ := polyobjs[i].angle;
-    put := @put[2];
-    PInteger(put)^ := polyobjs[i].startSpot.x;
-    put := @put[2];
-    PInteger(put)^ := polyobjs[i].startSpot.y;
-    put := @put[2];
+    PInteger(save_p)^ := polyobjs[i].tag;
+    save_p := @save_p[4];
+    PLongWord(save_p)^ := polyobjs[i].angle;
+    save_p := @save_p[4];
+    PInteger(save_p)^ := polyobjs[i].startSpot.x;
+    save_p := @save_p[4];
+    PInteger(save_p)^ := polyobjs[i].startSpot.y;
+    save_p := @save_p[4];
   end;
-
-  save_p := PByteArray(put);
 end;
 
 //==============================================================================
 //
-// P_UnArchiveWorld
+// P_UnArchiveWorld206
 //
 //==============================================================================
-procedure P_UnArchiveWorld;
+procedure P_UnArchiveWorld206;
 var
   i: integer;
   j: integer;
@@ -706,8 +589,6 @@ var
   si: Pside_t;
   get: PSmallIntArray;
   levelinf: Plevelinfo_t;
-  deltaX: fixed_t;
-  deltaY: fixed_t;
 begin
   get := PSmallIntArray(save_p);
 
@@ -755,6 +636,10 @@ begin
     get := @get[1];
     sec.tag := get[0]; // needed?
     get := @get[1];
+    sec.floordata := nil;
+    sec.ceilingdata := nil;
+    sec.lightingdata := nil;
+    sec.soundtarget := nil;
 
     if savegameversion > VERSION115 then
     begin
@@ -871,38 +756,21 @@ begin
       end;
     end;
 
-    // JVAL: 20200209 - Read UDMF data
-    if savegameversion >= VERSION207 then
-    begin
-      sec.moreids := Pmoreids_t(get)^;
-      get := @get[SizeOf(moreids_t)];
-      sec.seqType := PInteger(get)^;
-      get := @get[2];
-      sec.lightninglightlevel := PInteger(get)^;
-      get := @get[2];
-      // JVAL: 20220222 - Restore wind
-      sec.windthrust := PInteger(get)^;
-      get := @get[2];
-      sec.windangle := PLongWord(get)^;
-      get := @get[2];
-    end
-    else
-    begin
-      sec.moreids := [];
-      if IsIntegerInRange(sec.tag, 0, 255) then
-        Include(sec.moreids, sec.tag);
-      sec.seqType := 0;
-      sec.lightninglightlevel := 255;
-      sec.windthrust := 0;
-      sec.windangle := 0;
-    end;
+
+    sec.moreids := [];
+    if IsIntegerInRange(sec.tag, 0, 255) then
+      Include(sec.moreids, sec.tag);
+    sec.seqType := 0;
+    sec.lightninglightlevel := 255;
+    sec.windthrust := 0;
+    sec.windangle := 0;
 
     sec.touching_thinglist := nil;
     sec.floordata := nil;
     sec.ceilingdata := nil;
     sec.lightingdata := nil;
-    sec.specialdata := nil;
     sec.soundtarget := nil;
+    sec.specialdata := nil;
     sec.iSectorID := i; // JVAL: 3d Floors
     inc(i);
   end;
@@ -924,54 +792,21 @@ begin
       get := @get[2];
     end;
 
-    // JVAL: 20220209 - UDMF support
-    if savegameversion >= VERSION207 then
-    begin
-      li.arg1 := PInteger(get)^;
-      get := @get[2];
-      li.arg2 := PInteger(get)^;
-      get := @get[2];
-      li.arg3 := PInteger(get)^;
-      get := @get[2];
-      li.arg4 := PInteger(get)^;
-      get := @get[2];
-      li.arg5 := PInteger(get)^;
-      get := @get[2];
-      li.activators := PInteger(get)^;
-      get := @get[2];
-      li.moreids := Pmoreids_t(get)^;
-      get := @get[SizeOf(moreids_t)];
-    end
-    else
-    begin
-      li.arg1 := 0;
-      li.arg2 := 0;
-      li.arg3 := 0;
-      li.arg4 := 0;
-      li.arg5 := 0;
-      li.activators := 0;
-      li.moreids := [];
-      if IsIntegerInRange(li.tag, 0, 255) then
-        Include(li.moreids, li.tag);
-    end;
+    li.arg1 := 0;
+    li.arg2 := 0;
+    li.arg3 := 0;
+    li.arg4 := 0;
+    li.arg5 := 0;
+    li.activators := 0;
+    li.moreids := [];
+    if IsIntegerInRange(li.tag, 0, 255) then
+      Include(li.moreids, li.tag);
 
     for j := 0 to 1 do
     begin
       if li.sidenum[j] = -1 then
         continue;
       si := @sides[li.sidenum[j]];
-
-      // JVAL: 20220211 - UDMF support
-      if savegameversion < VERSION207 then
-      begin
-        si.toptextureoffset := 0;
-        si.bottomtextureoffset := 0;
-        si.midtextureoffset := 0;
-        si.toprowoffset := 0;
-        si.bottomrowoffset := 0;
-        si.midrowoffset := 0;
-        si.flags := 0;
-      end;
 
       if savegameversion <= VERSION121 then
       begin
@@ -993,25 +828,6 @@ begin
         si.rowoffset := PInteger(get)^;
         get := @get[2];
 
-        // JVAL: 20220211 - UDMF support
-        if savegameversion >= VERSION207 then
-        begin
-          si.toptextureoffset := PInteger(get)^;
-          get := @get[2];
-          si.bottomtextureoffset := PInteger(get)^;
-          get := @get[2];
-          si.midtextureoffset := PInteger(get)^;
-          get := @get[2];
-          si.toprowoffset := PInteger(get)^;
-          get := @get[2];
-          si.bottomrowoffset := PInteger(get)^;
-          get := @get[2];
-          si.midrowoffset := PInteger(get)^;
-          get := @get[2];
-          si.flags := PInteger(get)^;
-          get := @get[2];
-        end;
-
         si.toptexture := R_SafeTextureNumForName(Pchar8_t(get)^);
         if si.toptexture = 0 then
           si.toptexture := -1 - R_CustomColorMapForName(Pchar8_t(get)^);
@@ -1027,34 +843,149 @@ begin
           si.midtexture := -1 - R_CustomColorMapForName(Pchar8_t(get)^);
         get := @get[SizeOf(char8_t) div SizeOf(SmallInt)];
       end;
+
+      si.toptextureoffset := 0;
+      si.bottomtextureoffset := 0;
+      si.midtextureoffset := 0;
+      si.toprowoffset := 0;
+      si.bottomrowoffset := 0;
+      si.midrowoffset := 0;
+      si.flags := 0;
+
     end;
+    inc(i);
+  end;
+  save_p := PByteArray(get);
+end;
+
+//==============================================================================
+//
+// P_UnArchiveWorld
+//
+//==============================================================================
+procedure P_UnArchiveWorld;
+var
+  i: integer;
+  j: integer;
+  sec: Psector_t;
+  li: Pline_t;
+  si: Pside_t;
+  levelinf: Plevelinfo_t;
+  deltaX: fixed_t;
+  deltaY: fixed_t;
+  tex: char8_t;
+
+  function _get_char8: char8_t;
+  var
+    ii: integer;
+    ch: Char;
+  begin
+    for ii := 0 to 7 do
+      result[ii] := #0;
+    for ii := 0 to 7 do
+    begin
+      ch := Chr(save_p[0]);
+      result[ii] := ch;
+      save_p := @save_p[1];
+      if ch = #0 then
+        break;
+    end;
+  end;
+
+begin
+  if savegameversion <= VERSION206 then
+  begin
+    P_UnArchiveWorld206;
+    exit;
+  end;
+
+  levelinf := P_GetLevelInfo(P_GetMapName(gameepisode, gamemap));
+  levelinf.musname := _get_char8;
+  levelinf.skyflat := _get_char8;
+
+  // do sectors
+  i := 0;
+  while i < numsectors do
+  begin
+    sec := Psector_t(@sectors[i]);
+
+    save_p := @save_p[SectorSerializer.LoadFromMem(save_p, sec, $FFFF)];
+
+    sec.floorpic := R_FlatNumForName(_get_char8);
+    sec.ceilingpic := R_FlatNumForName(_get_char8);
+
+    sec.saffectees := Z_Realloc(sec.saffectees, sec.num_saffectees * SizeOf(integer), PU_LEVEL, nil);
+    for j := 0 to sec.num_saffectees - 1 do
+    begin
+      sec.saffectees[j] := PInteger(save_p)^;
+      save_p := @save_p[4];
+    end;
+
+    sec.touching_thinglist := nil;
+    sec.floordata := nil;
+    sec.ceilingdata := nil;
+    sec.lightingdata := nil;
+    sec.specialdata := nil;
+    sec.soundtarget := nil;
+    sec.iSectorID := i; // JVAL: 3d Floors
+
+    inc(i);
+  end;
+
+  // do lines
+  i := 0;
+  while i < numlines do
+  begin
+    li := Pline_t(@lines[i]);
+
+    save_p := @save_p[LineSerializer.LoadFromMem(save_p, li, $FFFF)];
+
+    inc(i);
+  end;
+
+  // do lines
+  i := 0;
+  while i < numsides do
+  begin
+    si := Pside_t(@sides[i]);
+
+    save_p := @save_p[SideSerializer.LoadFromMem(save_p, si, $FFFF)];
+
+    tex := _get_char8;
+    si.toptexture := R_SafeTextureNumForName(tex);
+    if si.toptexture = 0 then
+      si.toptexture := -1 - R_CustomColorMapForName(tex);
+
+    tex := _get_char8;
+    si.bottomtexture := R_SafeTextureNumForName(tex);
+    if si.bottomtexture = 0 then
+      si.bottomtexture := -1 - R_CustomColorMapForName(tex);
+
+    tex := _get_char8;
+    si.midtexture := R_SafeTextureNumForName(tex);
+    if si.midtexture = 0 then
+      si.midtexture := -1 - R_CustomColorMapForName(tex);
+
     inc(i);
   end;
 
   // JVAL: 20220216 - Polyobjs
-  if savegameversion >= VERSION207 then
+  if PInteger(save_p)^ <> po_NumPolyobjs then
+    I_Error('P_UnArchiveWorld(): Invalid number of polyobjs (%d should be %d)', [PInteger(save_p)^, po_NumPolyobjs]);
+  save_p := @save_p[4];
+  for i := 0 to po_NumPolyobjs - 1 do
   begin
-    if get[0] <> po_NumPolyobjs then
-      I_Error('P_UnArchiveWorld(): Invalid number of polyobjs (%d should be %d)', [get[0], po_NumPolyobjs]);
-    get := @get[1];
-    for i := 0 to po_NumPolyobjs - 1 do
-    begin
-      if PInteger(@get[0])^ <> polyobjs[i].tag then
-      begin
-        I_Error('P_UnArchiveWorld(): Invalid polyobj tag');
-      end;
-      get := @get[2];
-      PO_RotatePolyobj(polyobjs[i].tag, PLongWord(@get[0])^);
-      get := @get[2];
-      deltaX := PInteger(@get[0])^ - polyobjs[i].startSpot.x;
-      get := @get[2];
-      deltaY := PInteger(@get[0])^ - polyobjs[i].startSpot.y;
-      get := @get[2];
-      PO_MovePolyobj(polyobjs[i].tag, deltaX, deltaY);
-    end;
+    if PInteger(save_p)^ <> polyobjs[i].tag then
+      I_Error('P_UnArchiveWorld(): Invalid polyobj tag');
+    save_p := @save_p[4];
+    PO_RotatePolyobj(polyobjs[i].tag, PLongWord(save_p)^);
+    save_p := @save_p[4];
+    deltaX := PInteger(save_p)^ - polyobjs[i].startSpot.x;
+    save_p := @save_p[4];
+    deltaY := PInteger(save_p)^ - polyobjs[i].startSpot.y;
+    save_p := @save_p[4];
+    PO_MovePolyobj(polyobjs[i].tag, deltaX, deltaY);
   end;
-
-  save_p := PByteArray(get);
 end;
 
 //
@@ -2166,7 +2097,8 @@ begin
         acs.line := Pline_t(pDiff(acs.line, lines, SizeOf(line_t)))
       else
         acs.line := Pline_t(-1);
-      acs.activator := Pmobj_t(acs.activator.key);
+      if acs.activator <> nil then
+        acs.activator := Pmobj_t(acs.activator.key);
       continue;
     end;
 
@@ -2643,7 +2575,8 @@ begin
             acs.line := nil
           else
             acs.line := @lines[integer(acs.line)];
-          acs.activator := P_FindMobjFromKey(integer(acs.activator));
+          if acs.activator <> nil then
+            acs.activator := P_FindMobjFromKey(integer(acs.activator));
 
           if Assigned(acs.thinker._function.acp1) then
             @acs.thinker._function.acp1 := @TH_InterpretACS;
@@ -2844,9 +2777,6 @@ end;
 //==============================================================================
 procedure P_ArchiveOverlay;
 begin
-  if savegameversion <= VERSION121 then
-    Exit;
-
   overlay.SaveToBuffer(Pointer(save_p));
 end;
 
