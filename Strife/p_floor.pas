@@ -787,6 +787,7 @@ begin
     // new floor thinker
     result := 1;
     floor := Z_Malloc(SizeOf(floormove_t), PU_LEVSPEC, nil);
+    ZeroMemory(floor, SizeOf(floormove_t));
     P_AddThinker(@floor.thinker);
     sec.tag := 0; // haleyjd 20140919: [STRIFE] clears tag of first stair sector
     sec.floordata := floor;
@@ -831,7 +832,7 @@ begin
         sec := tsec;
         secnum := newsecnum;
         floor := Z_Malloc(SizeOf(floormove_t), PU_LEVSPEC, nil);
-
+        ZeroMemory(floor, SizeOf(floormove_t));
         P_AddThinker(@floor.thinker);
 
         sec.floordata := floor;
