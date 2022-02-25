@@ -2218,6 +2218,8 @@ const
   SF_LADDER = 1;
 // Slip while descenting if sloped
   SF_SLIPSLOPEDESCENT = 2;
+// Can not jump in sector
+  SF_NOJUMP = $4;
 
 // A_SpawnItemEx Flags
 const

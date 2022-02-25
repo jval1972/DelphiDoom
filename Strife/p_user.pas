@@ -123,6 +123,7 @@ uses
   i_io,
 {$ENDIF}
   g_game,
+  p_common,
   p_genlin,
   p_playertrace,
   p_friends,
@@ -144,8 +145,7 @@ uses
   sounddata,
   sounds,
   s_sound,
-  doomdef,
-  doomstat;
+  doomdef;
 
 //
 // Movement.
@@ -551,7 +551,12 @@ begin
 
   if onground then
     player.lastongroundtime := leveltime; // JVAL: 20211101 - Crouch
-  cmd_jump := (cmd.jump_crouch and CMD_JUMP_MASK) shr CMD_JUMP_SHIFT;
+
+  // JVAL: 20220225 - NOJUMP sector flag (UDMF)
+  if Psubsector_t(player.mo.subsector).sector.flags and SF_NOJUMP <> 0 then
+    cmd_jump := 0
+  else
+    cmd_jump := (cmd.jump_crouch and CMD_JUMP_MASK) shr CMD_JUMP_SHIFT;
   cmd_crouch := (cmd.jump_crouch and CMD_CROUCH_MASK) shr CMD_CROUCH_SHIFT;
 
   // villsa [STRIFE] allows player to climb over things by jumping
