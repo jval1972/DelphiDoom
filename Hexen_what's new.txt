@@ -267,6 +267,7 @@ More flexible Save/Load serialization to allow easier field additions and save s
 Moving Poly objects interpolation (uncapped framerate mode).
 Added NOJUMP sector flag. When set it will prevent player jump in the sector.
 Added interpolatepolyobjs console variable. When true (default) will interpolate polyobjs movement.
+Rotating Poly objects interpolation (uncapped framerate mode).
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

@@ -117,7 +117,7 @@ uses
   tables;
 
 type
-  itype = (iinteger, iinteger2, ismallint, ibyte, iangle, ifloat, imobj);
+  itype = (iinteger, iinteger2, ismallint, ibyte, iangle, ifloat, imobj, ipolyrotate);
 
   // Interpolation item
   //  Holds information about the previous and next values and interpolation type
@@ -380,6 +380,24 @@ end;
 
 //==============================================================================
 //
+// R_InterpolationCalcPoly
+//
+//==============================================================================
+procedure R_InterpolationCalcPoly(const pi: Piitem_t; const frac: fixed_t);
+var
+  po: Ppolyobj_t;
+begin
+  po := pi.address;
+
+  if po.nextangle = po.prevangle then
+    exit;
+
+  po.angle := R_InterpolationCalcA(po.prevangle, po.nextangle, frac);
+  PO_RotatePolyIntrpl(po);
+end;
+
+//==============================================================================
+//
 // R_AddInterpolationItem
 //
 //==============================================================================
@@ -446,6 +464,12 @@ begin
       begin
         pi.fprev := pi.fnext;
         pi.fnext := Pfloat(addr)^;
+      end;
+    ipolyrotate:
+      begin
+        Ppolyobj_t(addr).nextangle := Ppolyobj_t(addr).angle;
+        Ppolyobj_t(addr).angle := Ppolyobj_t(addr).prevangle;
+        PO_RotatePolyIntrpl(Ppolyobj_t(addr));
       end;
   end;
   inc(istruct.numitems);
@@ -578,8 +602,8 @@ begin
   // Poly objects
   if interpolatepolyobjs then
     for i := 0 to po_NumPolyobjs - 1 do
-    begin
       if polyobjs[i].specialdata <> nil then
+      begin
         if (@Ppolyevent_t(polyobjs[i].specialdata).thinker._function.acp1 = @TH_MovePoly) or
            ((@Ppolydoor_t(polyobjs[i].specialdata).thinker._function.acp1 = @TH_PolyDoor) and (Ppolydoor_t(polyobjs[i].specialdata)._type = PODOOR_SLIDE)) then
         begin
@@ -603,8 +627,10 @@ begin
             end;
             Inc(pseg);
           end;
-        end;
-    end;
+        end
+        else
+          R_AddInterpolationItem(@polyobjs[i], ipolyrotate);
+      end;
 
   // Map Objects
   th := thinkercap.next;
@@ -649,6 +675,12 @@ begin
       ibyte: PByte(pi.address)^ := pi.bnext;
       iangle: Pangle_t(pi.address)^ := pi.anext;
       ifloat: Pfloat(pi.address)^ := pi.fnext;
+      ipolyrotate:
+        begin
+          Ppolyobj_t(pi.address).prevangle := Ppolyobj_t(pi.address).angle;
+          Ppolyobj_t(pi.address).angle := Ppolyobj_t(pi.address).nextangle;
+          PO_RotatePolyIntrpl(Ppolyobj_t(pi.address));
+        end;
     end;
     inc(pi);
   end;
@@ -697,6 +729,12 @@ begin
       ibyte: PByte(pi.address)^ := pi.bnext;
       iangle: Pangle_t(pi.address)^ := pi.anext;
       ifloat: Pfloat(pi.address)^ := pi.fnext;
+      ipolyrotate:
+        begin
+          Ppolyobj_t(pi.address).prevangle := Ppolyobj_t(pi.address).angle;
+          Ppolyobj_t(pi.address).angle := Ppolyobj_t(pi.address).nextangle;
+          PO_RotatePolyIntrpl(Ppolyobj_t(pi.address));
+        end;
     end;
     inc(pi);
   end;
@@ -761,6 +799,7 @@ begin
         ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
         iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
         ifloat: R_InterpolationCalcF(pi, ticfrac);
+        ipolyrotate: R_InterpolationCalcPoly(pi, ticfrac);
       end;
     end;
     inc(pi);
@@ -864,6 +903,7 @@ begin
             ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
             iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
             ifloat: R_InterpolationCalcF(pi, ticfrac);
+            ipolyrotate: R_InterpolationCalcPoly(pi, ticfrac);
           end;
         end;
         inc(pi);

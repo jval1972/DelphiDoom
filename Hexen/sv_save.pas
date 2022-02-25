@@ -2148,6 +2148,7 @@ begin
     deltaX := GET_LONG - polyobjs[i].startSpot.x;
     deltaY := GET_LONG - polyobjs[i].startSpot.y;
     PO_MovePolyobj(polyobjs[i].tag, deltaX, deltaY);
+    polyobjs[i].prevangle := polyobjs[i].angle; // Interpolation
   end;
 end;
 

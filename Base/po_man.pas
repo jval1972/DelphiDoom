@@ -61,6 +61,13 @@ function PO_RotatePolyobj(num: integer; angle: angle_t): boolean;
 
 //==============================================================================
 //
+// PO_RotatePolyIntrpl
+//
+//==============================================================================
+procedure PO_RotatePolyIntrpl(po: Ppolyobj_t);
+
+//==============================================================================
+//
 // PO_Init
 //
 //==============================================================================
@@ -1222,6 +1229,28 @@ end;
 
 //==============================================================================
 //
+// RotatePtFixed
+//
+//==============================================================================
+procedure RotatePtFixed(an: angle_t; x, y: Pfixed_t; startSpotX, startSpotY: fixed_t);
+var
+  tr_x, tr_y: fixed_t;
+  gxt, gyt: fixed_t;
+begin
+  tr_x := x^;
+  tr_y := y^;
+
+  gxt := FixedMul(tr_x, fixedcosine[an]);
+  gyt := FixedMul(tr_y, fixedsine[an]);
+  x^ := (gxt - gyt) + startSpotX;
+
+  gxt := FixedMul(tr_x, fixedsine[an]);
+  gyt := FixedMul(tr_y, fixedcosine[an]);
+  y^ := (gyt + gxt) + startSpotY;
+end;
+
+//==============================================================================
+//
 // PO_RotatePolyobj
 //
 //==============================================================================
@@ -1325,9 +1354,72 @@ begin
     exit;
   end;
 
+  po.prevangle := po.angle;
   po.angle := po.angle + angle;
   LinkPolyobj(po);
   result := true;
+end;
+
+//==============================================================================
+//
+// PO_RotatePolyIntrpl
+//
+//==============================================================================
+procedure PO_RotatePolyIntrpl(po: Ppolyobj_t);
+var
+  count: integer;
+  segList: PPseg_t;
+  originalPts: Pvertex_t;
+  prevPts: Pvertex_t;
+  an: angle_t;
+begin
+  // More precise rotation angle for interpolation
+  an := po.angle div FRACUNIT;
+
+  //UnLinkPolyobj(po);
+
+  segList := po.segs;
+  originalPts := @po.originalPts[0];
+  prevPts := @po.prevPts[0];
+
+  count := po.numsegs;
+  while count > 0 do
+  begin
+    if not segList^.miniseg then
+    begin
+      prevPts.x := segList^.v1.x;
+      prevPts.y := segList^.v1.y;
+      segList^.v1.x := originalPts.x;
+      segList^.v1.y := originalPts.y;
+      RotatePtFixed(an, @segList^.v1.x, @segList^.v1.y, po.startSpot.x, po.startSpot.y);
+    end;
+    inc(segList);
+    inc(originalPts);
+    inc(prevPts);
+    dec(count);
+  end;
+
+  segList := po.segs;
+  inc(validcount);
+
+  count := po.numsegs;
+  while count > 0 do
+  begin
+    if not segList^.miniseg then
+    begin
+      if segList^.linedef.validcount <> validcount then
+      begin
+        UpdateSegBBox(segList^);
+        segList^.linedef.validcount := validcount;
+      end;
+      segList^.angle := R_PointToAngle2(segList^.v1.x, segList^.v1.y, segList^.v2.x, segList^.v2.y);
+    end;
+    inc(segList);
+    dec(count);
+  end;
+
+
+  //LinkPolyobj(po);
 end;
 
 //==============================================================================

@@ -985,6 +985,7 @@ begin
     deltaY := PInteger(save_p)^ - polyobjs[i].startSpot.y;
     save_p := @save_p[4];
     PO_MovePolyobj(polyobjs[i].tag, deltaX, deltaY);
+    polyobjs[i].prevangle := polyobjs[i].angle; // Interpolation
   end;
 end;
 

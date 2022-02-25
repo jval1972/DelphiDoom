@@ -246,6 +246,7 @@ type
     m_snext: Pmsecnode_t; // next msecnode_t for this sector
     visited: boolean;     // killough 4/4/98, 4/7/98: used in search algorithms
   end;
+
 //
 // The SideDef.
 //
@@ -444,6 +445,8 @@ type
     originalPts: Pvertex_tArray;  // used as the base for the rotations
     prevPts: Pvertex_tArray;      // use to restore the old point values
     angle: angle_t;
+    prevangle: angle_t;
+    nextangle: angle_t;
     tag: integer;                 // reference tag assigned in HereticEd
     bbox: packed array[0..3] of fixed_t;
     validcount: integer;
