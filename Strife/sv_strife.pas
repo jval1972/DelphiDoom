@@ -47,7 +47,8 @@ var
   MobjSerializer206: TSerializer;
   MobjSerializer: TSerializer;
   SectorSerializer: TSerializer;
-  LinesSerializer: TSerializer;
+  LineSerializer: TSerializer;
+  SideSerializer: TSerializer;
 
 //==============================================================================
 //
@@ -70,6 +71,7 @@ uses
   info,
   info_h,
   p_mobj_h,
+  p_udmf,
   r_defs,
   r_renderstyle;
 
@@ -106,6 +108,9 @@ procedure SV_InitializeSerializers;
 var
   mo206: Pmobj_t206;
   mo: Pmobj_t;
+  sec: Psector_t;
+  ln: Pline_t;
+  sd: Pside_t;
 begin
   mo206 := nil;
   MobjSerializer206 := TSerializer.Create;
@@ -271,8 +276,68 @@ begin
   MobjSerializer.AddStringItem(@mo.translationname, '');
   MobjSerializer.AddTypedItem(@mo.tid, st_integer, 0);
 
+  sec := nil;
   SectorSerializer := TSerializer.Create;
-  LinesSerializer := TSerializer.Create;
+  SectorSerializer.AddTypedItem(@sec.floorheight, st_integer, 0);
+  SectorSerializer.AddTypedItem(@sec.ceilingheight, st_integer, 128 * FRACUNIT);
+  SectorSerializer.AddTypedItem(@sec.lightlevel, st_smallint, 160);
+  SectorSerializer.AddTypedItem(@sec.special, st_smallint, 0);
+  SectorSerializer.AddTypedItem(@sec.tag, st_smallint, 0);
+  SectorSerializer.AddTypedItem(@sec.floor_xoffs, st_integer, 0);
+  SectorSerializer.AddTypedItem(@sec.floor_yoffs, st_integer, 0);
+  SectorSerializer.AddTypedItem(@sec.ceiling_xoffs, st_integer, 0);
+  SectorSerializer.AddTypedItem(@sec.ceiling_yoffs, st_integer, 0);
+  SectorSerializer.AddTypedItem(@sec.renderflags, st_longword, 0);
+  SectorSerializer.AddTypedItem(@sec.flags, st_longword, 0);
+  SectorSerializer.AddTypedItem(@sec.midsec, st_integer, -1);
+  SectorSerializer.AddTypedItem(@sec.midline, st_integer, -1);
+  SectorSerializer.AddTypedItem(@sec.gravity, st_integer, FRACUNIT);
+  SectorSerializer.AddTypedItem(@sec.floorangle, st_longword, 0);
+  SectorSerializer.AddTypedItem(@sec.flooranglex, st_integer, 0);
+  SectorSerializer.AddTypedItem(@sec.floorangley, st_integer, 0);
+  SectorSerializer.AddTypedItem(@sec.ceilingangle, st_longword, 0);
+  SectorSerializer.AddTypedItem(@sec.ceilinganglex, st_integer, 0);
+  SectorSerializer.AddTypedItem(@sec.ceilingangley, st_integer, 0);
+  SectorSerializer.AddFloatItem(@sec.fa, 0.0);
+  SectorSerializer.AddFloatItem(@sec.fb, 0.0);
+  SectorSerializer.AddFloatItem(@sec.fd, 0.0);
+  SectorSerializer.AddFloatItem(@sec.fic, 0.0);
+  SectorSerializer.AddFloatItem(@sec.ca, 0.0);
+  SectorSerializer.AddFloatItem(@sec.cb, 0.0);
+  SectorSerializer.AddFloatItem(@sec.cd, 0.0);
+  SectorSerializer.AddFloatItem(@sec.cic, 0.0);
+  SectorSerializer.AddTypedItem(@sec.num_saffectees, st_integer, 1);
+  SectorSerializer.AddItem(@sec.moreids, SizeOf(moreids_t));
+  SectorSerializer.AddTypedItem(@sec.seqType, st_integer, 0);
+  SectorSerializer.AddTypedItem(@sec.lightninglightlevel, st_integer, 255);
+  SectorSerializer.AddTypedItem(@sec.windthrust, st_integer, 0);
+  SectorSerializer.AddTypedItem(@sec.windangle, st_longword, 0);
+
+  ln := nil;
+  LineSerializer := TSerializer.Create;
+  LineSerializer.AddTypedItem(@ln.flags, st_word, 1);
+  LineSerializer.AddTypedItem(@ln.special, st_smallint, 0);
+  LineSerializer.AddTypedItem(@ln.tag, st_smallint, 0);
+  LineSerializer.AddTypedItem(@ln.renderflags, st_longword, 0);
+  LineSerializer.AddTypedItem(@ln.arg1, st_integer, 0);
+  LineSerializer.AddTypedItem(@ln.arg2, st_integer, 0);
+  LineSerializer.AddTypedItem(@ln.arg3, st_integer, 0);
+  LineSerializer.AddTypedItem(@ln.arg4, st_integer, 0);
+  LineSerializer.AddTypedItem(@ln.arg5, st_integer, 0);
+  LineSerializer.AddTypedItem(@ln.activators, st_integer, 0);
+  LineSerializer.AddItem(@ln.moreids, SizeOf(moreids_t));
+
+  sd := nil;
+  SideSerializer := TSerializer.Create;
+  SideSerializer.AddTypedItem(@sd.textureoffset, st_integer, 0);
+  SideSerializer.AddTypedItem(@sd.rowoffset, st_integer, 0);
+  SideSerializer.AddTypedItem(@sd.toptextureoffset, st_integer, 0);
+  SideSerializer.AddTypedItem(@sd.bottomtextureoffset, st_integer, 0);
+  SideSerializer.AddTypedItem(@sd.midtextureoffset, st_integer, 0);
+  SideSerializer.AddTypedItem(@sd.toprowoffset, st_integer, 0);
+  SideSerializer.AddTypedItem(@sd.bottomrowoffset, st_integer, 0);
+  SideSerializer.AddTypedItem(@sd.midrowoffset, st_integer, 0);
+  SideSerializer.AddTypedItem(@sd.flags, st_integer, 0);
 end;
 
 //==============================================================================
@@ -285,7 +350,8 @@ begin
   MobjSerializer206.Free;
   MobjSerializer.Free;
   SectorSerializer.Free;
-  LinesSerializer.Free;
+  LineSerializer.Free;
+  SideSerializer.Free;
 end;
 
 end.
