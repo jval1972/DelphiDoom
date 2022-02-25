@@ -340,8 +340,7 @@ begin
           floor.direction := -1;
           floor.sector := sec;
           floor.speed := FLOORSPEED * 4;
-          floor.floordestheight :=
-          P_FindHighestFloorSurrounding(sec);
+          floor.floordestheight := P_FindHighestFloorSurrounding(sec);
           if floor.floordestheight <> sec.floorheight then
             floor.floordestheight := floor.floordestheight + 8 * FRACUNIT;
         end;
