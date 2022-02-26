@@ -100,7 +100,7 @@ var
   interpolatepolyobjs: boolean = true;
   interpolationstarttime: fixed_t = 0;
   didinterpolations: boolean;
-  storedinterpolations: boolean;
+  storedpolyinterpolations: boolean;
   ticfrac: fixed_t;
 
 implementation
@@ -661,6 +661,7 @@ begin
             R_AddInterpolationItem(@polyobjs[i], ipolymove)
           else
             R_AddInterpolationItem(@polyobjs[i], ipolyrotate);
+          storedpolyinterpolations := true;
         end;
 
   // Map Objects
@@ -717,6 +718,8 @@ begin
         begin
           Ppolyobj_t(pi.address).x := Ppolyobj_t(pi.address).nextx;
           Ppolyobj_t(pi.address).y := Ppolyobj_t(pi.address).nexty;
+          Ppolyobj_t(pi.address).prevx := Ppolyobj_t(pi.address).startSpot.x;
+          Ppolyobj_t(pi.address).prevy := Ppolyobj_t(pi.address).startSpot.y;
           PO_MovePolyIntrpl(Ppolyobj_t(pi.address));
           PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
         end;
@@ -779,6 +782,8 @@ begin
         begin
           Ppolyobj_t(pi.address).x := Ppolyobj_t(pi.address).nextx;
           Ppolyobj_t(pi.address).y := Ppolyobj_t(pi.address).nexty;
+          Ppolyobj_t(pi.address).prevx := Ppolyobj_t(pi.address).startSpot.x;
+          Ppolyobj_t(pi.address).prevy := Ppolyobj_t(pi.address).startSpot.y;
           PO_MovePolyIntrpl(Ppolyobj_t(pi.address));
           PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
         end;
@@ -824,6 +829,8 @@ begin
         begin
           Ppolyobj_t(pi.address).x := Ppolyobj_t(pi.address).nextx;
           Ppolyobj_t(pi.address).y := Ppolyobj_t(pi.address).nexty;
+          Ppolyobj_t(pi.address).prevx := Ppolyobj_t(pi.address).startSpot.x;
+          Ppolyobj_t(pi.address).prevy := Ppolyobj_t(pi.address).startSpot.y;
           PO_MovePolyIntrpl(Ppolyobj_t(pi.address));
           PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
         end;
