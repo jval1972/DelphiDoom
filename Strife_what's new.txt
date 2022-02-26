@@ -256,6 +256,7 @@ Added NOJUMP sector flag. When set it will prevent player jump in the sector.
 Prevent crash in errornous 2-sides flaged lines when building stairs.
 Added interpolatepolyobjs console variable. When true (default) will interpolate polyobjs movement.
 Rotating Poly objects interpolation (uncapped framerate mode).
+Added NOJUMP option in UMAPINFO.
 Added NOCROUCH sector flag. When set it will prevent player crouch in the sector.
 
 Version 2.0.6 build 729 - (20211011)
