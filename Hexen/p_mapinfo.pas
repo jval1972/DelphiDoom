@@ -95,6 +95,13 @@ function P_GetMapNoJump(map: integer): boolean;
 
 //==============================================================================
 //
+// P_GetMapNoCrouch
+//
+//==============================================================================
+function P_GetMapNoCrouch(map: integer): boolean;
+
+//==============================================================================
+//
 // P_TranslateMap
 //
 //==============================================================================
@@ -162,9 +169,10 @@ const
   MCMD_CD_INTERTRACK = 14;
   MCMD_CD_TITLETRACK = 15;
   MCMD_NOJUMP = 16;
+  MCMD_NOCROUCH = 17;
 
 const
-  MapCmdIDs: array[-1..15] of integer = (
+  MapCmdIDs: array[-1..16] of integer = (
     MCMD_NOMATCH,
     MCMD_SKY1,
     MCMD_SKY2,
@@ -181,7 +189,8 @@ const
     MCMD_CD_END3TRACK,
     MCMD_CD_INTERTRACK,
     MCMD_CD_TITLETRACK,
-    MCMD_NOJUMP
+    MCMD_NOJUMP,
+    MCMD_NOCROUCH
   );
 
 var
@@ -207,6 +216,7 @@ type
     doubleSky: boolean;
     lightning: boolean;
     nojump: boolean;
+    nocrouch: boolean;
     fadetable: integer;
     songLump: string[10];
   end;
@@ -259,6 +269,7 @@ begin
   MapCmdNames.Add('CD_INTERMISSION_TRACK');
   MapCmdNames.Add('CD_TITLE_TRACK');
   MapCmdNames.Add('NOJUMP');
+  MapCmdNames.Add('NOCROUCH');
 
   mapMax := 1;
 
@@ -359,6 +370,10 @@ begin
         MCMD_NOJUMP:
           begin
             info.nojump := true;
+          end;
+        MCMD_NOCROUCH:
+          begin
+            info.nocrouch := true;
           end;
         MCMD_FADETABLE:
           begin
@@ -529,6 +544,16 @@ end;
 function P_GetMapNoJump(map: integer): boolean;
 begin
   result := MapInfo[P_QualifyMap(map)].nojump;
+end;
+
+//==============================================================================
+//
+// P_GetMapNoCrouch
+//
+//==============================================================================
+function P_GetMapNoCrouch(map: integer): boolean;
+begin
+  result := MapInfo[P_QualifyMap(map)].nocrouch;
 end;
 
 //==============================================================================
