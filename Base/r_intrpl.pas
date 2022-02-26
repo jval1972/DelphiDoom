@@ -67,6 +67,13 @@ procedure R_RestoreInterpolationData;
 
 //==============================================================================
 //
+// R_RestoreInterpolationPolys
+//
+//==============================================================================
+procedure R_RestoreInterpolationPolys;
+
+//==============================================================================
+//
 // R_Interpolate
 //
 //==============================================================================
@@ -93,6 +100,7 @@ var
   interpolatepolyobjs: boolean = true;
   interpolationstarttime: fixed_t = 0;
   didinterpolations: boolean;
+  storedinterpolations: boolean;
   ticfrac: fixed_t;
 
 implementation
@@ -104,6 +112,9 @@ uses
   c_cmds,
   m_misc,
   g_game,
+  {$IFDEF HEXEN}
+  g_demo,
+  {$ENDIF}
   mt_utils,
   i_system,
   p_setup,
@@ -117,7 +128,17 @@ uses
   tables;
 
 type
-  itype = (iinteger, iinteger2, ismallint, ibyte, iangle, ifloat, imobj, ipolyrotate);
+  itype = (
+    iinteger,
+    iinteger2,
+    ismallint,
+    ibyte,
+    iangle,
+    ifloat,
+    imobj,
+    ipolyrotate,
+    ipolymove
+  );
 
   // Interpolation item
   //  Holds information about the previous and next values and interpolation type
@@ -398,6 +419,26 @@ end;
 
 //==============================================================================
 //
+// R_InterpolationCalcPolyMove
+//
+//==============================================================================
+procedure R_InterpolationCalcPolyMove(const pi: Piitem_t; const frac: fixed_t);
+var
+  po: Ppolyobj_t;
+begin
+  po := pi.address;
+
+  if po.nextx = po.prevx then
+    if po.nexty = po.prevy then
+      exit;
+
+  po.x := R_InterpolationCalcIF(po.prevx, po.nextx, frac);
+  po.y := R_InterpolationCalcIF(po.prevy, po.nexty, frac);
+  PO_MovePolyIntrpl(po);
+end;
+
+//==============================================================================
+//
 // R_AddInterpolationItem
 //
 //==============================================================================
@@ -467,9 +508,19 @@ begin
       end;
     ipolyrotate:
       begin
+        PO_SaveSegsIntrpl(Ppolyobj_t(addr));
         Ppolyobj_t(addr).nextangle := Ppolyobj_t(addr).angle;
         Ppolyobj_t(addr).angle := Ppolyobj_t(addr).prevangle;
         PO_RotatePolyIntrpl(Ppolyobj_t(addr));
+      end;
+    ipolymove:
+      begin
+        PO_SaveSegsIntrpl(Ppolyobj_t(addr));
+        Ppolyobj_t(addr).x := Ppolyobj_t(addr).prevx;
+        Ppolyobj_t(addr).y := Ppolyobj_t(addr).prevy;
+        Ppolyobj_t(addr).nextx := Ppolyobj_t(addr).startspot.x;
+        Ppolyobj_t(addr).nexty := Ppolyobj_t(addr).startspot.y;
+        PO_MovePolyIntrpl(Ppolyobj_t(addr));
       end;
   end;
   inc(istruct.numitems);
@@ -496,7 +547,6 @@ var
   i, j: integer;
   player: Pplayer_t;
   th: Pthinker_t;
-  pseg: PPseg_t;
 begin
   if prevtic > 0 then
     if gametic = prevtic then
@@ -601,36 +651,17 @@ begin
 
   // Poly objects
   if interpolatepolyobjs then
-    for i := 0 to po_NumPolyobjs - 1 do
-      if polyobjs[i].specialdata <> nil then
-      begin
-        if (@Ppolyevent_t(polyobjs[i].specialdata).thinker._function.acp1 = @TH_MovePoly) or
-           ((@Ppolydoor_t(polyobjs[i].specialdata).thinker._function.acp1 = @TH_PolyDoor) and (Ppolydoor_t(polyobjs[i].specialdata)._type = PODOOR_SLIDE)) then
+    // JVAL: Polyobj interpolation may cause desync, needs verification
+    if not demoplayback and not demorecording then
+      for i := 0 to po_NumPolyobjs - 1 do
+        if polyobjs[i].specialdata <> nil then
         begin
-          pseg := polyobjs[i].segs;
-          for j := 0 to polyobjs[i].numsegs - 1 do
-          begin
-            if not pseg^.miniseg then
-            begin
-              if pseg^.v1.interpvalidcount <> rendervalidcount then
-              begin
-                R_AddInterpolationItem(@pseg^.v1.x, iinteger);
-                R_AddInterpolationItem(@pseg^.v1.y, iinteger);
-                pseg^.v1.interpvalidcount := rendervalidcount;
-              end;
-              if pseg^.v2.interpvalidcount <> rendervalidcount then
-              begin
-                R_AddInterpolationItem(@pseg^.v2.x, iinteger);
-                R_AddInterpolationItem(@pseg^.v2.y, iinteger);
-                pseg^.v2.interpvalidcount := rendervalidcount;
-              end;
-            end;
-            Inc(pseg);
-          end;
-        end
-        else
-          R_AddInterpolationItem(@polyobjs[i], ipolyrotate);
-      end;
+          if (@Ppolyevent_t(polyobjs[i].specialdata).thinker._function.acp1 = @TH_MovePoly) or
+             ((@Ppolydoor_t(polyobjs[i].specialdata).thinker._function.acp1 = @TH_PolyDoor) and (Ppolydoor_t(polyobjs[i].specialdata)._type = PODOOR_SLIDE)) then
+            R_AddInterpolationItem(@polyobjs[i], ipolymove)
+          else
+            R_AddInterpolationItem(@polyobjs[i], ipolyrotate);
+        end;
 
   // Map Objects
   th := thinkercap.next;
@@ -677,9 +708,17 @@ begin
       ifloat: Pfloat(pi.address)^ := pi.fnext;
       ipolyrotate:
         begin
-          Ppolyobj_t(pi.address).prevangle := Ppolyobj_t(pi.address).angle;
           Ppolyobj_t(pi.address).angle := Ppolyobj_t(pi.address).nextangle;
+          Ppolyobj_t(pi.address).prevangle := Ppolyobj_t(pi.address).nextangle;
           PO_RotatePolyIntrpl(Ppolyobj_t(pi.address));
+          PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
+        end;
+      ipolymove:
+        begin
+          Ppolyobj_t(pi.address).x := Ppolyobj_t(pi.address).nextx;
+          Ppolyobj_t(pi.address).y := Ppolyobj_t(pi.address).nexty;
+          PO_MovePolyIntrpl(Ppolyobj_t(pi.address));
+          PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
         end;
     end;
     inc(pi);
@@ -731,9 +770,17 @@ begin
       ifloat: Pfloat(pi.address)^ := pi.fnext;
       ipolyrotate:
         begin
-          Ppolyobj_t(pi.address).prevangle := Ppolyobj_t(pi.address).angle;
           Ppolyobj_t(pi.address).angle := Ppolyobj_t(pi.address).nextangle;
+          Ppolyobj_t(pi.address).prevangle := Ppolyobj_t(pi.address).nextangle;
           PO_RotatePolyIntrpl(Ppolyobj_t(pi.address));
+          PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
+        end;
+      ipolymove:
+        begin
+          Ppolyobj_t(pi.address).x := Ppolyobj_t(pi.address).nextx;
+          Ppolyobj_t(pi.address).y := Ppolyobj_t(pi.address).nexty;
+          PO_MovePolyIntrpl(Ppolyobj_t(pi.address));
+          PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
         end;
     end;
     inc(pi);
@@ -748,6 +795,43 @@ begin
     mo.angle := mo.nextangle;
   end;
 end;
+
+//==============================================================================
+//
+// R_RestoreInterpolationPolys
+//
+//==============================================================================
+procedure R_RestoreInterpolationPolys;
+var
+  i: integer;
+  pi: Piitem_t;
+begin
+  if not interpolatepolyobjs then
+    exit;
+
+  pi := @istruct.items[0];
+  for i := 0 to istruct.numitems - 1 do
+  begin
+    case pi._type of
+      ipolyrotate:
+        begin
+          Ppolyobj_t(pi.address).angle := Ppolyobj_t(pi.address).nextangle;
+          Ppolyobj_t(pi.address).prevangle := Ppolyobj_t(pi.address).nextangle;
+          PO_RotatePolyIntrpl(Ppolyobj_t(pi.address));
+          PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
+        end;
+      ipolymove:
+        begin
+          Ppolyobj_t(pi.address).x := Ppolyobj_t(pi.address).nextx;
+          Ppolyobj_t(pi.address).y := Ppolyobj_t(pi.address).nexty;
+          PO_MovePolyIntrpl(Ppolyobj_t(pi.address));
+          PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
+        end;
+    end;
+    inc(pi);
+  end;
+end;
+
 
 //==============================================================================
 //
@@ -800,6 +884,7 @@ begin
         iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
         ifloat: R_InterpolationCalcF(pi, ticfrac);
         ipolyrotate: R_InterpolationCalcPolyRotation(pi, ticfrac);
+        ipolymove: R_InterpolationCalcPolyMove(pi, ticfrac);
       end;
     end;
     inc(pi);

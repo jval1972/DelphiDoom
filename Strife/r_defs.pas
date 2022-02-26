@@ -436,14 +436,27 @@ type
   seg_tPArray = packed array[0..$FFFF] of Pseg_t;
   Pseg_tPArray = ^seg_tPArray;
 
+type
+  saveseg_t = record
+    v1: vertex_t;
+    angle: angle_t;
+  end;
+  Psaveseg_t = ^saveseg_t;
+  saveseg_tArray = packed array[0..$FFFF] of saveseg_t;
+  Psaveseg_tArray = ^saveseg_tArray;
+
 // ===== Polyobj data =====
 type
   polyobj_t = record
     numsegs: integer;
     segs: PPseg_t;
     startSpot: degenmobj_t;
+    x, y: fixed_t;
+    prevx, prevy: fixed_t;
+    nextx, nexty: fixed_t;
     originalPts: Pvertex_tArray;  // used as the base for the rotations
     prevPts: Pvertex_tArray;      // use to restore the old point values
+    saveSegs: Psaveseg_tArray;    // use to restore the interpolation values
     angle: angle_t;
     prevangle: angle_t;
     nextangle: angle_t;

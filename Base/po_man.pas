@@ -54,6 +54,13 @@ function PO_MovePolyobj(num: integer; x, y: integer): boolean;
 
 //==============================================================================
 //
+// PO_MovePolyIntrpl
+//
+//==============================================================================
+procedure PO_MovePolyIntrpl(po: Ppolyobj_t);
+
+//==============================================================================
+//
 // PO_RotatePolyobj
 //
 //==============================================================================
@@ -65,6 +72,20 @@ function PO_RotatePolyobj(num: integer; angle: angle_t): boolean;
 //
 //==============================================================================
 procedure PO_RotatePolyIntrpl(po: Ppolyobj_t);
+
+//==============================================================================
+//
+// PO_SaveSegsIntrpl
+//
+//==============================================================================
+procedure PO_SaveSegsIntrpl(po: Ppolyobj_t);
+
+//==============================================================================
+//
+// PO_RestoreSegsIntrpl
+//
+//==============================================================================
+procedure PO_RestoreSegsIntrpl(po: Ppolyobj_t);
 
 //==============================================================================
 //
@@ -1199,10 +1220,58 @@ begin
     result := false;
     exit;
   end;
+  po.prevx := po.startSpot.x;
+  po.prevy := po.startSpot.y;
   po.startSpot.x := po.startSpot.x + x;
   po.startSpot.y := po.startSpot.y + y;
   LinkPolyobj(po);
   result := true;
+end;
+
+//==============================================================================
+//
+// PO_MovePolyIntrpl
+//
+//==============================================================================
+procedure PO_MovePolyIntrpl(po: Ppolyobj_t);
+var
+  count: integer;
+  segList: PPseg_t;
+  originalPts: Pvertex_t;
+begin
+  segList := po.segs;
+  originalPts := @po.originalPts[0];
+
+  count := po.numsegs;
+  while count > 0 do
+  begin
+    if not segList^.miniseg then
+    begin
+      segList^.v1.x := originalPts.x + po.x;
+      segList^.v1.y := originalPts.y + po.y;
+    end;
+    inc(segList);
+    inc(originalPts);
+    dec(count);
+  end;
+
+  segList := po.segs;
+  inc(validcount);
+
+  count := po.numsegs;
+  while count > 0 do
+  begin
+    if not segList^.miniseg then
+    begin
+      if segList^.linedef.validcount <> validcount then
+      begin
+        UpdateSegBBox(segList^);
+        segList^.linedef.validcount := validcount;
+      end;
+    end;
+    inc(segList);
+    dec(count);
+  end;
 end;
 
 //==============================================================================
@@ -1370,32 +1439,25 @@ var
   count: integer;
   segList: PPseg_t;
   originalPts: Pvertex_t;
-  prevPts: Pvertex_t;
   an: angle_t;
 begin
   // More precise rotation angle for interpolation
   an := po.angle div FRACUNIT;
 
-  //UnLinkPolyobj(po);
-
   segList := po.segs;
   originalPts := @po.originalPts[0];
-  prevPts := @po.prevPts[0];
 
   count := po.numsegs;
   while count > 0 do
   begin
     if not segList^.miniseg then
     begin
-      prevPts.x := segList^.v1.x;
-      prevPts.y := segList^.v1.y;
       segList^.v1.x := originalPts.x;
       segList^.v1.y := originalPts.y;
       RotatePtFixed(an, @segList^.v1.x, @segList^.v1.y, po.startSpot.x, po.startSpot.y);
     end;
     inc(segList);
     inc(originalPts);
-    inc(prevPts);
     dec(count);
   end;
 
@@ -1417,9 +1479,82 @@ begin
     inc(segList);
     dec(count);
   end;
+end;
 
+//==============================================================================
+//
+// PO_SaveSegsIntrpl
+//
+//==============================================================================
+procedure PO_SaveSegsIntrpl(po: Ppolyobj_t);
+var
+  count: integer;
+  segList: PPseg_t;
+  savesegs: Psaveseg_t;
+begin
+  segList := po.segs;
+  savesegs := @po.saveSegs[0];
 
-  //LinkPolyobj(po);
+  count := po.numsegs;
+  while count > 0 do
+  begin
+    if not segList^.miniseg then
+    begin
+      savesegs.v1.x := segList^.v1.x;
+      savesegs.v1.y := segList^.v1.y;
+      savesegs.angle := segList^.angle;
+    end;
+    inc(segList);
+    inc(savesegs);
+    dec(count);
+  end;
+end;
+
+//==============================================================================
+//
+// PO_RestoreSegsIntrpl
+//
+//==============================================================================
+procedure PO_RestoreSegsIntrpl(po: Ppolyobj_t);
+var
+  count: integer;
+  segList: PPseg_t;
+  savesegs: Psaveseg_t;
+begin
+  segList := po.segs;
+  savesegs := @po.saveSegs[0];
+
+  count := po.numsegs;
+  while count > 0 do
+  begin
+    if not segList^.miniseg then
+    begin
+      segList^.v1.x := savesegs.v1.x;
+      segList^.v1.y := savesegs.v1.y;
+      segList^.angle := savesegs.angle;
+    end;
+    inc(segList);
+    inc(savesegs);
+    dec(count);
+  end;
+
+  segList := po.segs;
+  inc(validcount);
+
+  count := po.numsegs;
+  while count > 0 do
+  begin
+    if not segList^.miniseg then
+    begin
+      if segList^.linedef.validcount <> validcount then
+      begin
+        UpdateSegBBox(segList^);
+        segList^.linedef.validcount := validcount;
+      end;
+    end;
+    inc(segList);
+    dec(count);
+  end;
 end;
 
 //==============================================================================
@@ -1661,6 +1796,7 @@ begin
   end;
   po.originalPts := Z_Malloc(po.numsegs * SizeOf(vertex_t), PU_LEVEL, nil);
   po.prevPts := Z_Malloc(po.numsegs * SizeOf(vertex_t), PU_LEVEL, nil);
+  po.saveSegs := Z_Malloc(po.numsegs * SizeOf(saveseg_t), PU_LEVEL, nil);
   deltaX := originX - po.startSpot.x;
   deltaY := originY - po.startSpot.y;
 

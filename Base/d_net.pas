@@ -922,6 +922,7 @@ begin
   end; // demoplayback
 
   didinterpolations := false;
+  storedinterpolations := false;
   isinterpolateddisplay := true;
   firstinterpolation := true;
 
@@ -956,6 +957,7 @@ begin
         if not didinterpolations then
         begin
           R_StoreInterpolationData(entertime, counts * ticdup);
+          storedinterpolations := true;
         end;
         if R_Interpolate then
         begin
@@ -967,6 +969,7 @@ begin
       else if interpolateoncapped and firstinterpolation then
       begin
         R_StoreInterpolationData(entertime, counts * ticdup);
+        storedinterpolations := true;
         if R_Interpolate then
         begin
           didinterpolations := true;
@@ -978,7 +981,9 @@ begin
   until lowtic >= gametic div ticdup + counts;
 
   if didinterpolations then
-    R_RestoreInterpolationData;
+    R_RestoreInterpolationData
+  else if storedinterpolations then
+    R_RestoreInterpolationPolys;
 
   ticfrac := 0;
   isinterpolateddisplay := false;
