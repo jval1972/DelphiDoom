@@ -74,6 +74,7 @@ type
     nointermission: boolean;
     lightning: boolean;
     nojump: boolean;
+    nocrouch: boolean;
     numbossactions: integer;
     bossactions: Pbossaction_tArray;
   end;
@@ -235,6 +236,8 @@ begin
     mape.lightning := newe.lightning;
   if newe.nojump then
     mape.nojump := newe.nojump;
+  if newe.nocrouch then
+    mape.nocrouch := newe.nocrouch;
   if newe.nointermission then
     mape.nointermission := newe.nointermission;
   if newe.numbossactions <> 0 then
@@ -540,6 +543,11 @@ begin
   begin
     if sc.MustGetBoolean then
       mape.nojump := sc._Boolean;
+  end
+  else if pname = 'NOCROUCH' then
+  begin
+    if sc.MustGetBoolean then
+      mape.nocrouch := sc._Boolean;
   end
   else if pname = 'NOINTERMISSION' then
   begin

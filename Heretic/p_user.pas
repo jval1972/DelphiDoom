@@ -540,6 +540,8 @@ begin
   // JVAL: 20220226 - NOCROUCH sector flag (UDMF)
   if Psubsector_t(player.mo.subsector).sector.flags and SF_NOCROUCH <> 0 then
     cmd_crouch := 0
+  else if (gamemapinfo <> nil) and gamemapinfo.nocrouch then
+    cmd_crouch := 0
   else
     cmd_crouch := (cmd.jump_crouch and CMD_CROUCH_MASK) shr CMD_CROUCH_SHIFT;
 
