@@ -380,10 +380,10 @@ end;
 
 //==============================================================================
 //
-// R_InterpolationCalcPoly
+// R_InterpolationCalcPolyRotation
 //
 //==============================================================================
-procedure R_InterpolationCalcPoly(const pi: Piitem_t; const frac: fixed_t);
+procedure R_InterpolationCalcPolyRotation(const pi: Piitem_t; const frac: fixed_t);
 var
   po: Ppolyobj_t;
 begin
@@ -799,7 +799,7 @@ begin
         ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
         iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
         ifloat: R_InterpolationCalcF(pi, ticfrac);
-        ipolyrotate: R_InterpolationCalcPoly(pi, ticfrac);
+        ipolyrotate: R_InterpolationCalcPolyRotation(pi, ticfrac);
       end;
     end;
     inc(pi);
@@ -903,7 +903,7 @@ begin
             ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
             iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
             ifloat: R_InterpolationCalcF(pi, ticfrac);
-            ipolyrotate: R_InterpolationCalcPoly(pi, ticfrac);
+            ipolyrotate: R_InterpolationCalcPolyRotation(pi, ticfrac);
           end;
         end;
         inc(pi);
