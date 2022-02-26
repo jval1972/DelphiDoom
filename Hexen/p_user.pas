@@ -192,6 +192,7 @@ uses
   p_3dfloors, // JVAL: Slopes
   p_spec,
   p_map,
+  p_mapinfo,
   p_maputl,
   udmf_telept,
   p_inter,
@@ -609,6 +610,8 @@ begin
 
   // JVAL: 20220225 - NOJUMP sector flag (UDMF)
   if Psubsector_t(player.mo.subsector).sector.flags and SF_NOJUMP <> 0 then
+    cmd_jump := 0
+  else if P_GetMapNoJump(gamemap) then
     cmd_jump := 0
   else
     cmd_jump := (cmd.jump_crouch and CMD_JUMP_MASK) shr CMD_JUMP_SHIFT;

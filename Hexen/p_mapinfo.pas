@@ -88,6 +88,13 @@ function P_GetMapLightning(map: integer): boolean;
 
 //==============================================================================
 //
+// P_GetMapNoJump
+//
+//==============================================================================
+function P_GetMapNoJump(map: integer): boolean;
+
+//==============================================================================
+//
 // P_TranslateMap
 //
 //==============================================================================
@@ -154,9 +161,10 @@ const
   MCMD_CD_END3TRACK = 13;
   MCMD_CD_INTERTRACK = 14;
   MCMD_CD_TITLETRACK = 15;
+  MCMD_NOJUMP = 16;
 
 const
-  MapCmdIDs: array[-1..14] of integer = (
+  MapCmdIDs: array[-1..15] of integer = (
     MCMD_NOMATCH,
     MCMD_SKY1,
     MCMD_SKY2,
@@ -172,7 +180,8 @@ const
     MCMD_CD_END2TRACK,
     MCMD_CD_END3TRACK,
     MCMD_CD_INTERTRACK,
-    MCMD_CD_TITLETRACK
+    MCMD_CD_TITLETRACK,
+    MCMD_NOJUMP
   );
 
 var
@@ -197,6 +206,7 @@ type
     sky2ScrollDelta: fixed_t;
     doubleSky: boolean;
     lightning: boolean;
+    nojump: boolean;
     fadetable: integer;
     songLump: string[10];
   end;
@@ -248,6 +258,7 @@ begin
   MapCmdNames.Add('CD_END3_TRACK');
   MapCmdNames.Add('CD_INTERMISSION_TRACK');
   MapCmdNames.Add('CD_TITLE_TRACK');
+  MapCmdNames.Add('NOJUMP');
 
   mapMax := 1;
 
@@ -263,6 +274,7 @@ begin
   info.sky2ScrollDelta := 0;
   info.doubleSky := false;
   info.lightning := false;
+  info.nojump := false;
   info.fadetable := W_GetNumForName(DEFAULT_FADE_TABLE);
   info.name := UNKNOWN_MAP_NAME;
 
@@ -343,6 +355,10 @@ begin
         MCMD_LIGHTNING:
           begin
             info.lightning := true;
+          end;
+        MCMD_NOJUMP:
+          begin
+            info.nojump := true;
           end;
         MCMD_FADETABLE:
           begin
@@ -503,6 +519,16 @@ end;
 function P_GetMapLightning(map: integer): boolean;
 begin
   result := MapInfo[P_QualifyMap(map)].lightning;
+end;
+
+//==============================================================================
+//
+// P_GetMapNoJump
+//
+//==============================================================================
+function P_GetMapNoJump(map: integer): boolean;
+begin
+  result := MapInfo[P_QualifyMap(map)].nojump;
 end;
 
 //==============================================================================
