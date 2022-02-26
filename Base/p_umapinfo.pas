@@ -73,6 +73,7 @@ type
     partime: integer;
     nointermission: boolean;
     lightning: boolean;
+    nojump: boolean;
     numbossactions: integer;
     bossactions: Pbossaction_tArray;
   end;
@@ -232,6 +233,8 @@ begin
     mape.partime := newe.partime;
   if newe.lightning then
     mape.lightning := newe.lightning;
+  if newe.nojump then
+    mape.nojump := newe.nojump;
   if newe.nointermission then
     mape.nointermission := newe.nointermission;
   if newe.numbossactions <> 0 then
@@ -532,6 +535,11 @@ begin
   begin
     if sc.MustGetBoolean then
       mape.lightning := sc._Boolean;
+  end
+  else if pname = 'NOJUMP' then
+  begin
+    if sc.MustGetBoolean then
+      mape.nojump := sc._Boolean;
   end
   else if pname = 'NOINTERMISSION' then
   begin
