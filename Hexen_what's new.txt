@@ -270,6 +270,7 @@ Added interpolatepolyobjs console variable. When true (default) will interpolate
 Rotating Poly objects interpolation (uncapped framerate mode).
 Fix A_CStaffMissileSlither double declaration.
 Added NOJUMP option in MAPINFO.
+Added NOCROUCH sector flag. When set it will prevent player crouch in the sector.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

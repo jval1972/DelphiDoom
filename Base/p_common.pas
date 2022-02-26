@@ -2220,6 +2220,8 @@ const
   SF_SLIPSLOPEDESCENT = 2;
 // Can not jump in sector
   SF_NOJUMP = $4;
+// Can not crouch in sector
+  SF_NOCROUCH = $8;
 
 // A_SpawnItemEx Flags
 const

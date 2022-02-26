@@ -115,6 +115,7 @@ const
   UDMF_SF_FOG = $400;
   UDMF_SF_HIDDEN = $800;
   UDMF_SF_NOJUMP = $1000;
+  UDMF_SF_NOCROUCH = $2000;
 
 type
   extrasector_t = record
@@ -1365,6 +1366,12 @@ var
         if token = 'TRUE' then
           pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_NOJUMP;
       end
+      else if (token = 'NOCROUCH') then
+      begin
+        GetToken;
+        if token = 'TRUE' then
+          pextrasector.extraflags := pextrasector.extraflags or UDMF_SF_NOCROUCH;
+      end
       {$IFNDEF HEXEN}
       else if (token = 'SOUND') then
       begin
@@ -1955,6 +1962,8 @@ begin
     sec.renderflags := sec.renderflags or SRF_HIDDEN;
   if usec.extraflags and UDMF_SF_NOJUMP <> 0 then
     sec.flags := sec.flags or SF_NOJUMP;
+  if usec.extraflags and UDMF_SF_NOCROUCH <> 0 then
+    sec.flags := sec.flags or SF_NOCROUCH;
   sec.moreids := usec.moreids;
   {$IFNDEF HEXEN}
   sec.seqType := usec.sound;
