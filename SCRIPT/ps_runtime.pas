@@ -5495,7 +5495,7 @@ begin
   for i := 0 to aType.FieldTypes.Count - 1 do
   begin
     o := Longint(atype.RealFieldOffsets[i]);
-    CopyArrayContents(Pointer(IPointer(Dest)+Cardinal(o)), Pointer(IPointer(Src)+Cardinal(o)), 1, aType.FieldTypes[i]);
+    CopyArrayContents(Pointer(IPointer(Dest) + Cardinal(o)), Pointer(IPointer(Src) + Cardinal(o)), 1, aType.FieldTypes[i]);
   end;
   Result := True;
 end;
@@ -12963,7 +12963,7 @@ begin
         {$ENDIF}
       end;
     end;
-    datap := Pointer(IPointer(datap)+ (2 * SizeOf(Pointer) + SizeOf(LongBool)));
+    datap := Pointer(IPointer(datap) + (2 * SizeOf(Pointer) + SizeOf(LongBool)));
     p := PAnsiChar(p) + Result^.ElementSize;
   end;
 end;
@@ -13098,7 +13098,7 @@ begin
           {$ENDIF}
           {$ENDIF}
       end;
-      datap := Pointer(IPointer(datap)+ (2 * SizeOf(Pointer) + SizeOf(LongBool)));
+      datap := Pointer(IPointer(datap) + (2 * SizeOf(Pointer) + SizeOf(LongBool)));
       p := Pointer(IPointer(p) + Cardinal(v^.ElementSize));
     end;
     FreeMem(v.Data, v.ElementSize * v.ItemCount);
@@ -13375,7 +13375,7 @@ begin
     Result.Dta := @PPSVariantData(avar).Data;
     if Result.aType.BaseType = btPointer then
     begin
-      Result.aType := Pointer(Pointer(IPointer(Result.dta)+ PointerSize)^);
+      Result.aType := Pointer(Pointer(IPointer(Result.dta) + PointerSize)^);
       Result.Dta := Pointer(Result.dta^);
     end;
   end;
@@ -15659,7 +15659,7 @@ begin
         {$IFNDEF PS_NOINT64}
         if res^.FType.BaseType <> btS64 then
         {$ENDIF}
-          //CopyArrayContents(Pointer(Longint(Stack)-PointerSize2), @PPSVariantData(res)^.Data, 1, Res^.FType);
+          //CopyArrayContents(Pointer(Longint(Stack) - PointerSize2), @PPSVariantData(res)^.Data, 1, Res^.FType);
           CopyArrayContents(Pointer(Longint(Stack) - Longint(PointerSize2)), @PPSVariantData(res)^.Data, 1, Res^.FType);
       end;
     end;
@@ -16778,7 +16778,7 @@ begin
           {$ELSE}
             PVariant
           {$ENDIF}
-           (DispParam.rgvarg[i].pvarVal)^ := Par[High(Par)-i];
+           (DispParam.rgvarg[i].pvarVal)^ := Par[High(Par) - i];
           *)
           Move(Par[High(Par) - i],Pointer(DispParam.rgvarg[i].pvarVal)^,
            SizeOf({$IFDEF DELPHI4UP}OleVariant{$ELSE}Variant{$ENDIF}));

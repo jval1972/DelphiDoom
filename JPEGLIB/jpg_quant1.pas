@@ -736,7 +736,7 @@ begin
     required amount of padding. }
 
   inc(output_ptr^,
-            colorindex_ci^[GETJSAMPLE(input_ptr^)+ pad_offset +
+            colorindex_ci^[GETJSAMPLE(input_ptr^) + pad_offset +
                                          dither^[col_index]]);
         inc(output_ptr);
   inc(input_ptr, nc);

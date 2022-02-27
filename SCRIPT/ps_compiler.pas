@@ -3369,7 +3369,7 @@ begin
               TbtUnicodeString(var1^.tunistring) := TbtUnicodeString(var1^.tunistring) + GetUnicodeString(Var2, Result);
             btWidechar:
               begin
-                ConvertToUnicodeString(Self, FUseUsedTypes, var1, GetUnicodeString(Var1, b)+GetUnicodeString(Var2, b));
+                ConvertToUnicodeString(Self, FUseUsedTypes, var1, GetUnicodeString(Var1, b) + GetUnicodeString(Var2, b));
               end;
             {$ENDIF}
             else
@@ -4701,7 +4701,7 @@ begin
     end;
     s := FParser.GetToken;
     try
-      Guid := StringToGuid(String(Copy(s, 2, Length(s)-2)));
+      Guid := StringToGuid(String(Copy(s, 2, Length(s) - 2)));
     except
       on e: Exception do
       begin
@@ -5142,7 +5142,7 @@ begin
   WriteDebugData(Ps_mi2s(Row));
   WriteDebugData(Ps_mi2s(Col));
   {$ELSE}
-  WriteDebugData(#4 + s + #1 + PS_mi2s(ProcNo) + PS_mi2s(Length(Proc.Data)) + PS_mi2s(Pos) + PS_mi2s(Row)+ PS_mi2s(Col));
+  WriteDebugData(#4 + s + #1 + PS_mi2s(ProcNo) + PS_mi2s(Length(Proc.Data)) + PS_mi2s(Pos) + PS_mi2s(Row) + PS_mi2s(Col));
   {$ENDIF}
 end;
 
@@ -11524,9 +11524,9 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
     for i := 0 to EndReloc.Count - 1 do
     begin
       {$IFDEF FPC_REQUIRES_PROPER_ALIGNMENT}
-      unaligned(Cardinal((@BlockInfo.Proc.Data[Cardinal(EndReloc[I])- 3])^)) := Cardinal(Length(BlockInfo.Proc.Data)) - Cardinal(EndReloc[I]);
+      unaligned(Cardinal((@BlockInfo.Proc.Data[Cardinal(EndReloc[I]) - 3])^)) := Cardinal(Length(BlockInfo.Proc.Data)) - Cardinal(EndReloc[I]);
       {$ELSE}
-      Cardinal((@BlockInfo.Proc.Data[Cardinal(EndReloc[I])- 3])^) := Cardinal(Length(BlockInfo.Proc.Data)) - Cardinal(EndReloc[I]);
+      Cardinal((@BlockInfo.Proc.Data[Cardinal(EndReloc[I]) - 3])^) := Cardinal(Length(BlockInfo.Proc.Data)) - Cardinal(EndReloc[I]);
       {$ENDIF}
     end;
     CalcItem.Free;
@@ -12219,7 +12219,7 @@ begin
   begin
     s := Proc.FGotos[I];
     s2 := Proc.FLabels[Cardinal((@s[5])^)];
-    Cardinal((@Proc.Data[Cardinal((@s[1])^)-3])^) :=  Cardinal((@s2[1])^) - Cardinal((@s[1])^) ;
+    Cardinal((@Proc.Data[Cardinal((@s[1])^) - 3])^) :=  Cardinal((@s2[1])^) - Cardinal((@s[1])^) ;
   end;
   Result := True;
 end;

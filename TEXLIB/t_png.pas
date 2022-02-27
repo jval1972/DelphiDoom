@@ -2011,7 +2011,7 @@ begin
     Exit; {Size must be 7}
 
   {Reads data}
-  fYear := ((PByte(Longint(Data) )^) * 256)+ (PByte(Longint(Data) + 1)^);
+  fYear := ((PByte(Longint(Data) )^) * 256) + (PByte(Longint(Data) + 1)^);
   fMonth := PByte(Longint(Data) + 2)^;
   fDay := PByte(Longint(Data) + 3)^;
   fHour := PByte(Longint(Data) + 4)^;

@@ -245,7 +245,7 @@ type
     backpack: boolean;
 
     // Frags, kills of other players.
-    frags: array[0..(MAXPLAYERS)-1] of integer;
+    frags: array[0..MAXPLAYERS - 1] of integer;
     readyweapon: weapontype_t;
 
     // Is wp_nochange if not changing.
@@ -363,7 +363,7 @@ type
     backpack: boolean;
 
     // Frags, kills of other players.
-    frags: array[0..(MAXPLAYERS)-1] of integer;
+    frags: array[0..MAXPLAYERS - 1] of integer;
     readyweapon: weapontype_t;
 
     // Is wp_nochange if not changing.
@@ -482,7 +482,7 @@ type
     backpack: boolean;
 
     // Frags, kills of other players.
-    frags: array[0..(MAXPLAYERS)-1] of integer;
+    frags: array[0..MAXPLAYERS - 1] of integer;
     readyweapon: weapontype_t;
 
     // Is wp_nochange if not changing.
@@ -596,7 +596,7 @@ type
     backpack: boolean;
 
     // Frags, kills of other players.
-    frags: array[0..(MAXPLAYERS)-1] of integer;
+    frags: array[0..MAXPLAYERS - 1] of integer;
     readyweapon: weapontype_t;
 
     // Is wp_nochange if not changing.
@@ -703,7 +703,7 @@ type
     backpack: boolean;
 
     // Frags, kills of other players.
-    frags: array[0..(MAXPLAYERS)-1] of integer;
+    frags: array[0..MAXPLAYERS - 1] of integer;
     readyweapon: weapontype_t;
 
     // Is wp_nochange if not changing.
@@ -801,7 +801,7 @@ type
     backpack: boolean;
 
     // Frags, kills of other players.
-    frags: array[0..(MAXPLAYERS)-1] of integer;
+    frags: array[0..MAXPLAYERS - 1] of integer;
     readyweapon: weapontype_t;
 
     // Is wp_nochange if not changing.
