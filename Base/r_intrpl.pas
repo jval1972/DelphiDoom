@@ -687,6 +687,34 @@ end;
 
 //==============================================================================
 //
+// R_RestoreInterpolationPolyRotate
+//
+//==============================================================================
+procedure R_RestoreInterpolationPolyRotate(const po: Ppolyobj_t);
+begin
+  po.angle := po.nextangle;
+  po.prevangle := po.nextangle;
+  PO_RotatePolyIntrpl(po);
+  PO_RestoreSegsIntrpl(po);
+end;
+
+//==============================================================================
+//
+// R_RestoreInterpolationPolyMove
+//
+//==============================================================================
+procedure R_RestoreInterpolationPolyMove(const po: Ppolyobj_t);
+begin
+  po.x := po.nextx;
+  po.y := po.nexty;
+  po.prevx := po.startSpot.x;
+  po.prevy := po.startSpot.y;
+  PO_MovePolyIntrpl(po);
+  PO_RestoreSegsIntrpl(po);
+end;
+
+//==============================================================================
+//
 // R_RestoreInterpolationData_thr1
 //
 //==============================================================================
@@ -707,22 +735,8 @@ begin
       ibyte: PByte(pi.address)^ := pi.bnext;
       iangle: Pangle_t(pi.address)^ := pi.anext;
       ifloat: Pfloat(pi.address)^ := pi.fnext;
-      ipolyrotate:
-        begin
-          Ppolyobj_t(pi.address).angle := Ppolyobj_t(pi.address).nextangle;
-          Ppolyobj_t(pi.address).prevangle := Ppolyobj_t(pi.address).nextangle;
-          PO_RotatePolyIntrpl(Ppolyobj_t(pi.address));
-          PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
-        end;
-      ipolymove:
-        begin
-          Ppolyobj_t(pi.address).x := Ppolyobj_t(pi.address).nextx;
-          Ppolyobj_t(pi.address).y := Ppolyobj_t(pi.address).nexty;
-          Ppolyobj_t(pi.address).prevx := Ppolyobj_t(pi.address).startSpot.x;
-          Ppolyobj_t(pi.address).prevy := Ppolyobj_t(pi.address).startSpot.y;
-          PO_MovePolyIntrpl(Ppolyobj_t(pi.address));
-          PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
-        end;
+      ipolyrotate: R_RestoreInterpolationPolyRotate(Ppolyobj_t(pi.address));
+      ipolymove: R_RestoreInterpolationPolyMove(Ppolyobj_t(pi.address));
     end;
     inc(pi);
   end;
@@ -771,22 +785,8 @@ begin
       ibyte: PByte(pi.address)^ := pi.bnext;
       iangle: Pangle_t(pi.address)^ := pi.anext;
       ifloat: Pfloat(pi.address)^ := pi.fnext;
-      ipolyrotate:
-        begin
-          Ppolyobj_t(pi.address).angle := Ppolyobj_t(pi.address).nextangle;
-          Ppolyobj_t(pi.address).prevangle := Ppolyobj_t(pi.address).nextangle;
-          PO_RotatePolyIntrpl(Ppolyobj_t(pi.address));
-          PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
-        end;
-      ipolymove:
-        begin
-          Ppolyobj_t(pi.address).x := Ppolyobj_t(pi.address).nextx;
-          Ppolyobj_t(pi.address).y := Ppolyobj_t(pi.address).nexty;
-          Ppolyobj_t(pi.address).prevx := Ppolyobj_t(pi.address).startSpot.x;
-          Ppolyobj_t(pi.address).prevy := Ppolyobj_t(pi.address).startSpot.y;
-          PO_MovePolyIntrpl(Ppolyobj_t(pi.address));
-          PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
-        end;
+      ipolyrotate: R_RestoreInterpolationPolyRotate(Ppolyobj_t(pi.address));
+      ipolymove: R_RestoreInterpolationPolyMove(Ppolyobj_t(pi.address));
     end;
     inc(pi);
   end;
@@ -818,27 +818,12 @@ begin
   for i := 0 to istruct.numitems - 1 do
   begin
     case pi._type of
-      ipolyrotate:
-        begin
-          Ppolyobj_t(pi.address).angle := Ppolyobj_t(pi.address).nextangle;
-          Ppolyobj_t(pi.address).prevangle := Ppolyobj_t(pi.address).nextangle;
-          PO_RotatePolyIntrpl(Ppolyobj_t(pi.address));
-          PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
-        end;
-      ipolymove:
-        begin
-          Ppolyobj_t(pi.address).x := Ppolyobj_t(pi.address).nextx;
-          Ppolyobj_t(pi.address).y := Ppolyobj_t(pi.address).nexty;
-          Ppolyobj_t(pi.address).prevx := Ppolyobj_t(pi.address).startSpot.x;
-          Ppolyobj_t(pi.address).prevy := Ppolyobj_t(pi.address).startSpot.y;
-          PO_MovePolyIntrpl(Ppolyobj_t(pi.address));
-          PO_RestoreSegsIntrpl(Ppolyobj_t(pi.address));
-        end;
+      ipolyrotate: R_RestoreInterpolationPolyRotate(Ppolyobj_t(pi.address));
+      ipolymove: R_RestoreInterpolationPolyMove(Ppolyobj_t(pi.address));
     end;
     inc(pi);
   end;
 end;
-
 
 //==============================================================================
 //
