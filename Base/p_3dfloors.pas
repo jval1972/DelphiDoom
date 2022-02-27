@@ -150,8 +150,7 @@ uses
   p_slopes,
   p_spec,
   r_main,
-  tables,
-  z_zone;
+  tables;
 
 //==============================================================================
 // P_3dFloorNumber

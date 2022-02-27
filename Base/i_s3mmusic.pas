@@ -103,12 +103,8 @@ uses
   Windows,
   libs3m,
   d_delphi,
-  d_main,
-  m_fixed,
   i_system,
-  i_threads,
-  w_wad,
-  z_zone;
+  i_threads;
 
 const
   SAMPLING_FREQ = 48000; { 48khz. }

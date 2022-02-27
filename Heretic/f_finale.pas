@@ -35,9 +35,7 @@ unit f_finale;
 interface
 
 uses
-  doomtype,
-  d_event,
-  info_h;
+  d_event;
 
 //==============================================================================
 //
@@ -88,18 +86,12 @@ uses
   i_video,
 {$ENDIF}
   am_map,
-  d_player,
   d_main,
   g_game,
   m_menu,
-  info,
-  p_pspr,
   p_umapinfo,
-  r_data,
   r_defs,
-  r_things,
 // Functions.
-  i_system,
   z_zone,
   v_data,
   v_video,

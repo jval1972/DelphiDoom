@@ -99,8 +99,6 @@ const // Heretic Original Sprite Names
 implementation
 
 uses
-  doomdef,
-  i_system,
   p_enemy,
   p_gender,
   p_pspr,

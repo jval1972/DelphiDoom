@@ -49,11 +49,8 @@ implementation
 
 uses
   d_delphi,
-  doomdef,
-  doomstat,
   m_argv,
   m_crc32,
-  w_wad,
   w_wadreader;
 
 var

@@ -506,7 +506,6 @@ uses
   m_rnd,
   p_common,
   p_local,
-  p_plats,
   p_tick,
   p_mobj,
   p_enemy,
@@ -514,11 +513,8 @@ uses
   p_inter,
   p_maputl,
   r_main,
-  r_draw,
   r_defs,
   s_sound,
-// State.
-  doomstat,
 // Data.
   sounddata;
 

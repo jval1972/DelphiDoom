@@ -128,7 +128,6 @@ uses
   r_column,
   r_tallcolumn,
   r_draw,
-  r_precalc,
   r_main;
 
 {$IFNDEF OPTIMIZE_FOR_SIZE}

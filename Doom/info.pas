@@ -119,7 +119,6 @@ const // Doom Original Sprite Names
 implementation
 
 uses
-  i_system,
   m_argv,
   p_enemy,
   p_pspr,
@@ -131,7 +130,6 @@ uses
   info_common,
   info_export,
   r_renderstyle,
-  sc_states,
   sounddata;
 
 const

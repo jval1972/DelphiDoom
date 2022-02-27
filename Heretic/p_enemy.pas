@@ -707,7 +707,6 @@ uses
   i_system,
   info_h,
   info,
-  info_common,
   m_rnd,
   p_common,
   p_floor,
