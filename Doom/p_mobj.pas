@@ -1573,25 +1573,51 @@ begin
     end;
   end;
 
-  // check for apropriate skill level
-  if not netgame and (mthing.options and 16 <> 0) then
+  if uthing <> nil then
   begin
-    result := nil;
-    exit;
-  end;
+    if not netgame then
+      if uthing.extraflags and UDMF_TF_SINGLE = 0 then
+      begin
+        result := nil;
+        exit;
+      end;
 
-  //jff 3/30/98 implement "not deathmatch" thing flag
-  if netgame and (deathmatch <> 0) and (mthing.options and 32 <> 0) then
-  begin
-    result := nil;
-    exit;
-  end;
+    if netgame and (deathmatch <> 0) then
+      if uthing.extraflags and UDMF_TF_DM = 0 then
+      begin
+        result := nil;
+        exit;
+      end;
 
-  //jff 3/30/98 implement "not cooperative" thing flag
-  if netgame and (deathmatch = 0) and (mthing.options and 64 <> 0) then
+    if netgame and (deathmatch = 0) then
+      if uthing.extraflags and UDMF_TF_COOP = 0 then
+      begin
+        result := nil;
+        exit;
+      end;
+  end
+  else
   begin
-    result := nil;
-    exit;
+    // check for apropriate skill level
+    if not netgame and (mthing.options and 16 <> 0) then
+    begin
+      result := nil;
+      exit;
+    end;
+
+    //jff 3/30/98 implement "not deathmatch" thing flag
+    if netgame and (deathmatch <> 0) and (mthing.options and 32 <> 0) then
+    begin
+      result := nil;
+      exit;
+    end;
+
+    //jff 3/30/98 implement "not cooperative" thing flag
+    if netgame and (deathmatch = 0) and (mthing.options and 64 <> 0) then
+    begin
+      result := nil;
+      exit;
+    end;
   end;
 
   if uthing <> nil then

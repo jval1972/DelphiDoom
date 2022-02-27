@@ -74,6 +74,9 @@ const
   UDMF_TF_HASZ = $20;
   UDMF_TF_HASGRAVITY = $40;
   UDMF_TF_HASHEALTH = $80;
+  UDMF_TF_SINGLE = $100;
+  UDMF_TF_DM = $200;
+  UDMF_TF_COOP = $400;
 
 type
   extrathing_t = record
@@ -551,19 +554,28 @@ var
       begin
         GetToken;
         if token = 'TRUE' then
+        begin
           pthing.options := pthing.options or MTF_GSINGLE;
+          pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SINGLE;
+        end;
       end
       else if (token = 'COOP') then
       begin
         GetToken;
         if token = 'TRUE' then
+        begin
           pthing.options := pthing.options or MTF_GCOOP;
+          pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_COOP;
+        end;
       end
       else if (token = 'DM') then
       begin
         GetToken;
         if token = 'TRUE' then
+        begin
           pthing.options := pthing.options or MTF_GDEATHMATCH;
+          pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_DM;
+        end;
       end
       else if (token = 'DORMANT') then
       begin
@@ -624,19 +636,28 @@ var
       begin
         GetToken;
         if token = 'TRUE' then
+        begin
           pthing.options := pthing.options and not 16;
+          pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_SINGLE;
+        end;
       end
       else if (token = 'COOP') then
       begin
         GetToken;
         if token = 'TRUE' then
+        begin
           pthing.options := pthing.options or 32;
+          pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_COOP;
+        end;
       end
       else if (token = 'DM') then
       begin
         GetToken;
         if token = 'TRUE' then
+        begin
           pthing.options := pthing.options or 64;
+          pextrathing.extraflags := pextrathing.extraflags or UDMF_TF_DM;
+        end;
       end
       else if (token = 'SPECIAL') then
       begin
