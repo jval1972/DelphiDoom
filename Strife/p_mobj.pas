@@ -1633,11 +1633,37 @@ begin
     exit;
   end;
 
-  // check for apropriate skill level
-  if not netgame and (mthing.options and 16 <> 0) then
+  if uthing <> nil then
   begin
-    result := nil;
-    exit;
+    if not netgame then
+      if uthing.extraflags and UDMF_TF_SINGLE = 0 then
+      begin
+        result := nil;
+        exit;
+      end;
+
+    if netgame and (deathmatch <> 0) then
+      if uthing.extraflags and UDMF_TF_DM = 0 then
+      begin
+        result := nil;
+        exit;
+      end;
+
+    if netgame and (deathmatch = 0) then
+      if uthing.extraflags and UDMF_TF_COOP = 0 then
+      begin
+        result := nil;
+        exit;
+      end;
+  end
+  else
+  begin
+    // check for apropriate skill level
+    if not netgame and (mthing.options and 16 <> 0) then
+    begin
+      result := nil;
+      exit;
+    end;
   end;
 
   if uthing <> nil then
