@@ -432,7 +432,8 @@ uses
   p_umapinfo in 'Base\p_umapinfo.pas',
   p_uactornames in 'Strife\p_uactornames.pas',
   v_palettes in 'Base\v_palettes.pas',
-  p_easywind in 'Base\p_easywind.pas';
+  p_easywind in 'Base\p_easywind.pas',
+  psi_map in 'SCRIPT\psi_map.pas';
 
 exports
   dd_compile_strife,

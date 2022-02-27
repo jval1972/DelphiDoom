@@ -430,7 +430,8 @@ uses
   udmf_telept in 'Base\udmf_telept.pas',
   udmf_lights in 'Base\udmf_lights.pas',
   v_palettes in 'Base\v_palettes.pas',
-  p_easywind in 'Base\p_easywind.pas';
+  p_easywind in 'Base\p_easywind.pas',
+  psi_map in 'SCRIPT\psi_map.pas';
 
 var
   Saved8087CW: Word;

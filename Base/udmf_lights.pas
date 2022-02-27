@@ -43,7 +43,11 @@ type
     LITE_FADE,
     LITE_GLOW,
     LITE_FLICKER,
-    LITE_STROBE
+    LITE_STROBE,
+    // JVAL: 20220227 - Added new light types
+    LITE_MAXNEIGHTBOR,
+    LITE_MINNEIGHTBOR,
+    LITE_STROBEDOOM
   );
 
 //==============================================================================
@@ -135,6 +139,64 @@ uses
 
 //==============================================================================
 //
+// P_FindLowestLightSurrounding
+//
+//==============================================================================
+function P_FindLowestLightSurrounding(sec: Psector_t): integer;
+const
+  MAXLIGHT = $FFFF;
+var
+  i: integer;
+  check: Pline_t;
+  other: Psector_t;
+begin
+  result := MAXLIGHT;
+
+  for i := 0 to sec.linecount - 1 do
+  begin
+    check := sec.lines[i];
+    other := getNextSector(check, sec);
+
+    if other <> nil then
+      if other.lightlevel < result then
+        result := other.lightlevel;
+  end;
+
+  if result = MAXLIGHT then
+    result := sec.lightlevel;
+end;
+
+//==============================================================================
+//
+// P_FindHighestLightSurrounding
+//
+//==============================================================================
+function P_FindHighestLightSurrounding(sec: Psector_t): integer;
+const
+  MINLIGHT = -1;
+var
+  i: integer;
+  check: Pline_t;
+  other: Psector_t;
+begin
+  result := MINLIGHT;
+
+  for i := 0 to sec.linecount - 1 do
+  begin
+    check := sec.lines[i];
+    other := getNextSector(check, sec);
+
+    if other <> nil then
+      if other.lightlevel < result then
+        result := other.lightlevel;
+  end;
+
+  if result = MINLIGHT then
+    result := sec.lightlevel;
+end;
+
+//==============================================================================
+//
 //  TH_Light
 //
 //==============================================================================
@@ -196,7 +258,8 @@ begin
           light.count := (P_Random and 31) + 1;
         end;
       end;
-    LITE_STROBE:
+    LITE_STROBE,
+    LITE_STROBEDOOM:
       begin
         if light.sector.lightlevel = light.value1 then
         begin
@@ -302,6 +365,34 @@ begin
           light.tics2 := arg4;  // lower tics
           light.count := arg3;
           sec.lightlevel := light.value1;
+        end;
+      LITE_STROBEDOOM:
+        begin
+          think := true;
+          light.value1 := sec.lightlevel; // upper lightlevel
+          light.value2 := P_FindLowestLightSurrounding(sec); // lower lightlevel
+          if light.value2 = light.value1 then
+            light.value2 := 0;
+          light.tics1 := arg1;  // upper tics
+          light.tics2 := arg2;  // lower tics
+          light.count := arg1;
+          sec.lightlevel := light.value1;
+        end;
+      LITE_MAXNEIGHTBOR:
+        begin
+          sec.lightlevel := P_FindHighestLightSurrounding(sec);
+          if sec.lightlevel < 0 then
+            sec.lightlevel := 0
+          else if sec.lightlevel > 255 then
+            sec.lightlevel := 255;
+        end;
+      LITE_MINNEIGHTBOR:
+        begin
+          sec.lightlevel := P_FindLowestLightSurrounding(sec);
+          if sec.lightlevel < 0 then
+            sec.lightlevel := 0
+          else if sec.lightlevel > 255 then
+            sec.lightlevel := 255;
         end;
       else
         result := false;

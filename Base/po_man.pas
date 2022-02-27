@@ -728,7 +728,11 @@ begin
   else if _type = PODOOR_SWING then
   begin
     pd.waitTics := args[3];
-    pd.direction := 1; // ADD:  PODOOR_SWINGL, PODOOR_SWINGR
+    // ADD:  PODOOR_SWINGL, PODOOR_SWINGR
+    if args[4] = 0 then
+      pd.direction := 1
+    else
+      pd.direction := -1;
     pd.speed := _SHR3(args[1] * pd.direction * (ANG90 div 64));
     pd.totalDist := args[2] * (ANG90 div 64);
     pd.dist := pd.totalDist;
@@ -774,7 +778,11 @@ begin
     else if _type = PODOOR_SWING then
     begin
       pd.waitTics := args[3];
-      pd.direction := -1; // ADD:  same as above
+      // ADD:  same as above
+      if args[4] = 0 then
+        pd.direction := -1
+      else
+        pd.direction := 1;
       pd.speed := _SHR(args[1] * pd.direction * (ANG90 div 64), 3);
       pd.totalDist := args[2] * (ANG90 div 64);
       pd.dist := pd.totalDist;

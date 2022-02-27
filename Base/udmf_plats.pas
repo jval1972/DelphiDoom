@@ -125,7 +125,8 @@ begin
           {$ELSE}
           S_StopSound(@plat.sector.soundorg);
           {$ENDIF}
-          if (plat._type = PLAT_DOWNWAITUPSTAY) or (plat._type = PLAT_DOWNBYVALUEWAITUPSTAY) then
+          if (plat._type = PLAT_DOWNWAITUPSTAY) or (plat._type = PLAT_DOWNBYVALUEWAITUPSTAY) or
+            (plat._type = PLAT_DOWNWAITUPSTAYLIP) then
             PH_RemoveActivePlat(plat);
         end;
       end;
@@ -136,7 +137,8 @@ begin
         begin
           plat.count := plat.wait;
           plat.status := PLAT_WAITING;
-          if (plat._type = PLAT_UPWAITDOWNSTAY) or (plat._type = PLAT_UPBYVALUEWAITDOWNSTAY) then
+          if (plat._type = PLAT_UPWAITDOWNSTAY) or (plat._type = PLAT_UPBYVALUEWAITDOWNSTAY) or
+            (plat._type = PLAT_UPNEARESTWAITDOWNSTAY) then
             PH_RemoveActivePlat(plat);
           {$IFDEF HEXEN}
           S_StopSequence(Pmobj_t(@plat.sector.soundorg));
@@ -210,6 +212,15 @@ begin
           plat.wait := args[2];
           plat.status := PLAT_DOWN;
         end;
+      PLAT_DOWNWAITUPSTAYLIP:
+        begin
+          plat.low := P_FindLowestFloorSurrounding(sec) + args[3] * FRACUNIT;
+          if plat.low > sec.floorheight then
+            plat.low := sec.floorheight;
+          plat.high := sec.floorheight;
+          plat.wait := args[2];
+          plat.status := PLAT_DOWN;
+        end;
       PLAT_DOWNBYVALUEWAITUPSTAY:
         begin
           plat.low := sec.floorheight - args[3] * 8 * FRACUNIT;
@@ -228,6 +239,15 @@ begin
           plat.wait := args[2];
           plat.status := PLAT_UP;
         end;
+      PLAT_UPNEARESTWAITDOWNSTAY:
+        begin
+          plat.high := P_FindNextHighestFloor(sec, sec.floorheight);
+          if plat.high < sec.floorheight then
+            plat.high := sec.floorheight;
+          plat.low := sec.floorheight;
+          plat.wait := args[2];
+          plat.status := PLAT_UP;
+        end;
       PLAT_UPBYVALUEWAITDOWNSTAY:
         begin
           plat.high := sec.floorheight + args[3] * 8 * FRACUNIT;
@@ -240,6 +260,17 @@ begin
       PLAT_PERPETUALRAISE:
         begin
           plat.low := P_FindLowestFloorSurrounding(sec) + 8 * FRACUNIT;
+          if plat.low > sec.floorheight then
+            plat.low := sec.floorheight;
+          plat.high := P_FindHighestFloorSurrounding(sec);
+          if plat.high < sec.floorheight then
+            plat.high := sec.floorheight;
+          plat.wait := args[2];
+          plat.status := plat_e((P_Random and 1) + Ord(PLAT_UP));
+        end;
+      PLAT_PERPETUALRAISELIP:
+        begin
+          plat.low := P_FindLowestFloorSurrounding(sec) + args[3] * FRACUNIT;
           if plat.low > sec.floorheight then
             plat.low := sec.floorheight;
           plat.high := P_FindHighestFloorSurrounding(sec);

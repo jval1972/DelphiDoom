@@ -40,7 +40,7 @@ uses
 // P_ForceLightning
 //
 //==============================================================================
-procedure P_ForceLightning;
+procedure P_ForceLightning(const tics: integer = 0);
 
 //==============================================================================
 //
@@ -340,9 +340,9 @@ end;
 // P_ForceLightning
 //
 //==============================================================================
-procedure P_ForceLightning;
+procedure P_ForceLightning(const tics: integer = 0);
 begin
-  NextLightningFlash := 0;
+  NextLightningFlash := tics;
 end;
 
 //==============================================================================

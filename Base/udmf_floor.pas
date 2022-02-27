@@ -391,7 +391,8 @@ begin
     floor._type := floortype;
     floor.crush := false;
     floor.speed := args[1] * (FRACUNIT div 8);
-    if (floortype = FLEV_LOWERTIMES8INSTANT) or (floortype = FLEV_RAISETIMES8INSTANT) then
+    if (floortype = FLEV_LOWERTIMES8INSTANT) or (floortype = FLEV_RAISETIMES8INSTANT) or
+      (floortype = FLEV_FLOORTOCEILINGINSTANT) then
       floor.speed := 2000 shl FRACBITS;
 
     case floortype of
@@ -406,6 +407,18 @@ begin
           floor.direction := -1;
           floor.sector := sec;
           floor.floordestheight := P_FindLowestFloorSurrounding(sec);
+        end;
+      FLEV_LOWERFLOORTOHIGHEST:
+        begin
+          floor.direction := -1;
+          floor.sector := sec;
+          floor.floordestheight := P_FindHighestFloorSurrounding(sec) + args[2] * FRACUNIT - 128 * FRACUNIT;
+        end;
+      FLEV_LOWERFLOORTOLOWESTCEILING:
+        begin
+          floor.direction := -1;
+          floor.sector := sec;
+          floor.floordestheight := P_FindLowestCeilingSurrounding(sec);
         end;
       FLEV_LOWERFLOORBYVALUE:
         begin
@@ -425,6 +438,16 @@ begin
           floor.crush := args[2] <> 0; // arg[2] := crushing value
           floor.direction := 1;
           floor.sector := sec;
+          floor.floordestheight := sec.ceilingheight - 8 * FRACUNIT;
+        end;
+      FLEV_RAISEFLOORCRUSHDOOM:
+        begin
+          floor.crush := args[2] <> 0; // arg[2] := crushing value
+          floor.direction := 1;
+          floor.sector := sec;
+          floor.floordestheight := P_FindLowestCeilingSurrounding(sec);
+          if floor.floordestheight > sec.ceilingheight then
+            floor.floordestheight := sec.ceilingheight;
           floor.floordestheight := sec.ceilingheight - 8 * FRACUNIT;
         end;
       FLEV_RAISEFLOOR:
@@ -447,6 +470,22 @@ begin
           floor.sector := sec;
           floor.floordestheight := floor.sector.floorheight + args[2] * FRACUNIT;
         end;
+      FLEV_RAISETOCEILING:
+        begin
+          floor.crush := args[2] <> 0; // arg[2] := crushing value
+          floor.direction := 1;
+          floor.sector := sec;
+          floor.floordestheight := floor.sector.ceilingheight - args[3] * FRACUNIT;
+        end;
+      FLEV_RAISETOLOWESTCEILING:
+        begin
+          floor.crush := args[2] <> 0; // arg[2] := crushing value
+          floor.direction := 1;
+          floor.sector := sec;
+          floor.floordestheight := P_FindLowestCeilingSurrounding(sec);
+          if floor.floordestheight > sec.ceilingheight then
+            floor.floordestheight := sec.ceilingheight;
+        end;
       FLEV_RAISETIMES8INSTANT,
       FLEV_RAISEBYVALUETIMES8:
         begin
@@ -454,11 +493,31 @@ begin
           floor.sector := sec;
           floor.floordestheight := floor.sector.floorheight + args[2] * FRACUNIT * 8;
         end;
+      FLEV_FLOORTOCEILINGINSTANT:
+        begin
+          floor.crush := args[2] <> 0; // arg[2] := crushing value
+          floor.direction := 1;
+          floor.sector := sec;
+          floor.floordestheight := sec.ceilingheight - args[3] * FRACUNIT * 8;
+        end;
       FLEV_MOVETOVALUETIMES8:
         begin
           floor.sector := sec;
           floor.floordestheight := args[2] * FRACUNIT * 8;
           if args[3] <> 0 then
+            floor.floordestheight := -floor.floordestheight;
+          if floor.floordestheight > floor.sector.floorheight then
+            floor.direction := 1
+          else if floor.floordestheight < floor.sector.floorheight then
+            floor.direction := -1
+          else // already at lowest position
+            result := false;
+        end;
+      FLEV_MOVETOVALUE:
+        begin
+          floor.sector := sec;
+          floor.floordestheight := PSmallInt(@args[2])^ * FRACUNIT;
+          if args[4] <> 0 then
             floor.floordestheight := -floor.floordestheight;
           if floor.floordestheight > floor.sector.floorheight then
             floor.direction := 1
@@ -834,7 +893,7 @@ begin
     if args[2] = 0 then
       newHeight := sec.floorheight + ((sec.ceilingheight - sec.floorheight) div 2)
     else
-      newHeight := sec.floorheight+(args[2] shl FRACBITS);
+      newHeight := sec.floorheight + (args[2] shl FRACBITS);
 
     pillar := Z_Malloc(SizeOf(pillar_t), PU_LEVSPEC, nil);
     sec.specialdata := pillar;
@@ -908,12 +967,12 @@ begin
     if args[2] = 0 then
       pillar.floordest := P_FindLowestFloorSurrounding(sec)
     else
-      pillar.floordest := sec.floorheight-(args[2] shl FRACBITS);
+      pillar.floordest := sec.floorheight - (args[2] shl FRACBITS);
 
     if args[3] = 0 then
       pillar.ceilingdest := P_FindHighestCeilingSurrounding(sec)
     else
-      pillar.ceilingdest := sec.ceilingheight+(args[3] shl FRACBITS);
+      pillar.ceilingdest := sec.ceilingheight + (args[3] shl FRACBITS);
 
     if (sec.floorheight - pillar.floordest) >=
        (pillar.ceilingdest - sec.ceilingheight) then

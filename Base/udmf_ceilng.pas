@@ -272,9 +272,29 @@ begin
           ceiling.bottomheight := sec.ceilingheight - args[2] * FRACUNIT;
           ceiling.direction := -1;
         end;
+      CLEV_LOWERBYVALUETIMES8:
+        begin
+          ceiling.bottomheight := sec.ceilingheight - 8 * args[2] * FRACUNIT;
+          ceiling.direction := -1;
+        end;
+      CLEV_LOWERTOMAXFLOOR:
+        begin
+          ceiling.bottomheight := P_FindHighestFloorSurrounding(sec);
+          ceiling.direction := -1;
+        end;
+      CLEV_LOWERTOLOWEST:
+        begin
+          ceiling.bottomheight := P_FindLowestCeilingSurrounding(sec);
+          ceiling.direction := -1;
+        end;
       CLEV_RAISEBYVALUE:
         begin
           ceiling.topheight := sec.ceilingheight + args[2] * FRACUNIT;
+          ceiling.direction := 1;
+        end;
+      CLEV_RAISEBYVALUETIMES8:
+        begin
+          ceiling.topheight := sec.ceilingheight + 8 * args[2] * FRACUNIT;
           ceiling.direction := 1;
         end;
       CLEV_MOVETOVALUETIMES8:
@@ -294,6 +314,49 @@ begin
             ceiling.direction := -1;
             ceiling.bottomheight := destHeight;
           end;
+        end;
+      CLEV_MOVETOVALUEANDCRUSH:
+        begin
+          destHeight := PSmallInt(@args[2])^ * FRACUNIT;
+          if sec.ceilingheight <= destHeight then
+          begin
+            ceiling.direction := 1;
+            ceiling.topheight := destHeight;
+            if sec.ceilingheight = destHeight then
+              result := false;
+          end
+          else if sec.ceilingheight > destHeight then
+          begin
+            ceiling.direction := -1;
+            ceiling.bottomheight := destHeight;
+          end;
+          if args[4] <> 0 then
+            ceiling.crush := true // arg[4] := crushing value
+          else
+            ceiling.crush := false;
+        end;
+      CLEV_MOVETOVALUE:
+        begin
+          destHeight := PSmallInt(@args[2])^ * FRACUNIT;
+          if args[4] <> 0 then
+            destHeight := -destHeight;
+          if sec.ceilingheight <= destHeight then
+          begin
+            ceiling.direction := 1;
+            ceiling.topheight := destHeight;
+            if sec.ceilingheight = destHeight then
+              result := false;
+          end
+          else if sec.ceilingheight > destHeight then
+          begin
+            ceiling.direction := -1;
+            ceiling.bottomheight := destHeight;
+          end;
+        end;
+      CLEV_RAISETOHIGHESTFLOOR:
+        begin
+          ceiling.topheight := P_FindHighestFloorSurrounding(sec);
+          ceiling.direction := 1;
         end;
       else
         result := false;

@@ -105,7 +105,8 @@ begin
                 S_StartSound(@door.sector.soundorg, door.sector.seqType);
                 {$ENDIF}
               end;
-            DREV_CLOSE30THENOPEN:
+            DREV_CLOSE30THENOPEN,
+            DREV_CLOSEWAITTHENOPEN:
               begin
                 door.direction := 1;
               end;
@@ -153,6 +154,11 @@ begin
                 door.direction := 0;
                 door.topcountdown := TICRATE * 30;
               end;
+            DREV_CLOSEWAITTHENOPEN:
+              begin
+                door.direction := 0;
+                door.topcountdown := door.topwait;
+              end;
           end;
         end
         else if res = RES_CRUSHED then
@@ -187,6 +193,7 @@ begin
                 door.topcountdown := door.topwait;
               end;
             DREV_CLOSE30THENOPEN,
+            DREV_CLOSEWAITTHENOPEN,
             DREV_OPEN:
               begin
                 door.sector.specialdata := nil;
@@ -247,7 +254,8 @@ begin
           door.direction := -1;
         end;
 
-      DREV_CLOSE30THENOPEN:
+      DREV_CLOSE30THENOPEN,
+      DREV_CLOSEWAITTHENOPEN:
         begin
           door.topheight := sec.ceilingheight;
           door.direction := -1;
@@ -265,6 +273,8 @@ begin
     door._type := _type;
     door.speed := speed;
     door.topwait := args[2];
+    if _type = DREV_CLOSEWAITTHENOPEN then
+      door.topwait := (door.topwait * TICRATE) div 8; // OctTics
     {$IFDEF HEXEN}
     S_StartSequence(Pmobj_t(@door.sector.soundorg), Ord(SEQ_DOOR_STONE) + Ord(door.sector.seqType));
     {$ELSE}
