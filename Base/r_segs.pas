@@ -676,7 +676,7 @@ begin
       // top of texture at top
       rw_midtexturemid := worldtop;
     end;
-    rw_midtexturemid := rw_midtexturemid + FixedMod(sidedef.rowoffset + sidedef.midtextureoffset, textureheight[midtexture]);
+    rw_midtexturemid := rw_midtexturemid + FixedMod(sidedef.rowoffset + sidedef.midrowoffset, textureheight[midtexture]);
     rw_midtexturemid := FixedMod(rw_midtexturemid, texturecolumnheightfrac[midtexture]);
 
     pds.silhouette := SIL_BOTH;
@@ -1333,7 +1333,7 @@ begin
       // top of texture at top
       rw_midtexturemid := worldtop;
     end;
-    rw_midtexturemid := rw_midtexturemid + FixedMod(sidedef.rowoffset + sidedef.midtextureoffset, textureheight[midtexture]);
+    rw_midtexturemid := rw_midtexturemid + FixedMod(sidedef.rowoffset + sidedef.midrowoffset, textureheight[midtexture]);
     rw_midtexturemid := FixedMod(rw_midtexturemid, texturecolumnheightfrac[midtexture]);
 
     pds.silhouette := SIL_BOTH;
