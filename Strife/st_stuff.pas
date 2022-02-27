@@ -129,7 +129,6 @@ implementation
 uses
   d_delphi,
   deh_main,
-  tables,
   d_net,
   c_cmds,
   d_items,
@@ -162,19 +161,13 @@ uses
   r_draw,
   am_map,
   m_cheat,
-  m_rnd,
   m_fixed,
   m_menu,
   s_sound,
 // Needs access to LFB.
   v_data,
   v_video,
-// State.
-  doomstat,
-// Data.
-  dstrings,
   d_englsh,
-  sounds,
 // for mapnames
   hu_stuff;
 

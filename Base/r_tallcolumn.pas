@@ -108,10 +108,7 @@ uses
   doomtype,
   r_precalc,
   r_column,
-  r_data,
-  r_draw,
-  r_hires,
-  v_video;
+  r_draw;
 
 //==============================================================================
 //

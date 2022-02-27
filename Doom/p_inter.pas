@@ -35,7 +35,6 @@ interface
 
 uses
   doomdef,
-  dstrings,
   d_englsh,
   sounddata,
   doomstat,

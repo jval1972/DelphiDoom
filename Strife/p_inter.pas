@@ -42,10 +42,7 @@ interface
 
 uses
   doomdef,
-  dstrings,
-  d_englsh,
   sounddata,
-  doomstat,
   m_rnd,
   i_system,
   am_map,
@@ -159,7 +156,6 @@ uses
   p_common,
   p_mobj,
   p_obituaries,
-  p_3dfloors,
   p_pspr,
   p_pspr_h,
   p_dialog,

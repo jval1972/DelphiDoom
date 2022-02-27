@@ -41,7 +41,6 @@ unit p_floor;
 interface
 
 uses
-  doomdef,
   z_zone,
   p_spec,
   m_fixed,
@@ -112,10 +111,8 @@ implementation
 uses
   d_delphi,
   doomdata,
-  g_game,
   p_map,
   p_tick,
-  p_mobj_h,
   p_setup,
   p_slopes,
   r_data;

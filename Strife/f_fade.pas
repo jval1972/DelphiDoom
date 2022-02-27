@@ -95,8 +95,7 @@ uses
 {$ELSE}
   i_video,
 {$ENDIF}
-  v_data,
-  v_video;
+  v_data;
 
 var
   fade_scr_start: PLongWordArray;

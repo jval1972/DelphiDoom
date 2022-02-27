@@ -159,13 +159,10 @@ var
 implementation
 
 uses
-  doomdef,
   z_zone,
   v_data,
   v_video,
-  i_system,
-  w_wad,
-  st_stuff;
+  w_wad;
 
 //
 // Hack display negative frags.
