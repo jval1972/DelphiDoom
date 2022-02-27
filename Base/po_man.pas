@@ -1684,7 +1684,7 @@ begin
         polyobjs[index].crush := crush;
         polyobjs[index].tag := tag;
         polyobjs[index].seqType := segs[i].linedef.arg3;
-        if (polyobjs[index].seqType < 0) or
+        if (polyobjs[index].seqType {$IFDEF HEXEN}< 0{$ELSE}<= 0{$ENDIF}) or
            (polyobjs[index].seqType >= {$IFDEF HEXEN}Ord(SEQTYPE_NUMSEQ){$ELSE}numsfx{$ENDIF}) then
         {$IFNDEF HEXEN}
           if segs[i].linedef.frontsector.seqType > 0 then
