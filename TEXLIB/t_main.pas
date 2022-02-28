@@ -1812,7 +1812,7 @@ begin
   result := ImageFormats;
   while result <> nil do
   begin
-    if not(Pos(FileExt, result.GetFileExt) = 0) then
+    if Pos(FileExt, result.GetFileExt) > 0 then
       break;
     result := result^.getNext;
   end;

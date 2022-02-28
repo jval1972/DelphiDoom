@@ -113,7 +113,8 @@ begin
       Delete(FuncCC, 1, 1);
       FuncName := RemoveQuotes(Copy(FuncCC, 1, Pos(TbtChar('"'), FuncCC) - 1)) + #0 + FuncName;
       Delete(FuncCC,1, Pos(TbtChar('"'), FuncCC));
-      if (FuncCC <> '') and( FuncCC[1] = ' ') then Delete(FuncCC, 1, 1);
+      if (FuncCC <> '') and (FuncCC[1] = ' ') then
+        Delete(FuncCC, 1, 1);
     end
     else
     begin

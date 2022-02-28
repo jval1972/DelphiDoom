@@ -542,7 +542,7 @@ begin
     xStart := TALLY_STOP_XPOS;
     yPos := TALLY_STOP_YPOS;
   end;
-  if (intertime >= TALLY_EFFECT_TICKS) and (not showTotals) then
+  if (intertime >= TALLY_EFFECT_TICKS) and not showTotals then
   begin
     showTotals := true;
     S_StartSound(nil, Ord(SFX_PLATFORM_STOP));

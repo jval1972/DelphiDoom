@@ -596,7 +596,7 @@ end;
 function jpeg_finish_decompress (cinfo: j_decompress_ptr): boolean;
 begin
   if ((cinfo^.global_state = DSTATE_SCANNING) or
-      (cinfo^.global_state = DSTATE_RAW_OK) and (not cinfo^.buffered_image)) then
+      (cinfo^.global_state = DSTATE_RAW_OK) and not cinfo^.buffered_image) then
   begin
     { Terminate final pass of non-buffered mode }
     if (cinfo^.output_scanline < cinfo^.output_height) then

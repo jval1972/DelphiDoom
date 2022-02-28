@@ -728,7 +728,7 @@ begin
   else
   begin // Normal string
     while (ScriptPtr^ > Chr(32)) and (ScriptPtr < ScriptEndPtr) and
-          (PWord(ScriptPtr)^ <> ASCII_COMMENT) and (not (ScriptPtr^ in ['{', '}', '(', ')', ','])) do
+          (PWord(ScriptPtr)^ <> ASCII_COMMENT) and not (ScriptPtr^ in ['{', '}', '(', ')', ',']) do
     begin
       txt^ := ScriptPtr^;
       inc(txt);

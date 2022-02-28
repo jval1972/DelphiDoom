@@ -244,7 +244,7 @@ begin
   cmd.angleturn := PSmallInt(demo_p)^;
   demo_p := @demo_p[2];
 
-  cmd.buttons := demo_p[0] and (not BT_SPECIAL);
+  cmd.buttons := demo_p[0] and not BT_SPECIAL;
   demo_p := @demo_p[1];
 
   cmd.lookfly := demo_p[0];
@@ -335,7 +335,7 @@ begin
   PSmallInt(demo_p)^ := cmd.angleturn;
   demo_p := @demo_p[2];
 
-  demo_p[0] := cmd.buttons and (not BT_SPECIAL);
+  demo_p[0] := cmd.buttons and not BT_SPECIAL;
   demo_p := @demo_p[1];
 
   demo_p[0] := cmd.lookfly;

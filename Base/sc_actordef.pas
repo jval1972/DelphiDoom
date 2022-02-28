@@ -2235,7 +2235,7 @@ var
           passcriptline := sc.GetStringEOLUnChanged;
           if passcriptline = '' then
             passcriptline := sc.GetStringEOLUnChanged;
-          while (strupper(firstword(passcriptline, [Chr(9), ' ', ';', '.'])) <> 'ENDSCRIPT') and (not sc._Finished) do
+          while (strupper(firstword(passcriptline, [Chr(9), ' ', ';', '.'])) <> 'ENDSCRIPT') and not sc._Finished do
           begin
             if passcript = '' then
               passcript := passcriptline

@@ -143,7 +143,7 @@ begin
       pop esi
     end;
 
-    inc(dest, count and (not 63));
+    inc(dest, count and not 63);
     count := count and 63;
   end;
 
@@ -257,7 +257,7 @@ begin
       pop esi
     end;
 
-    inc(dest, count and (not 63));
+    inc(dest, count and not 63);
     count := count and 63;
   end;
 
@@ -285,7 +285,7 @@ begin
 
       pop esi
     end;
-    inc(dest, count and (not 7));
+    inc(dest, count and not 7);
     count := count and 7;
   end;
 

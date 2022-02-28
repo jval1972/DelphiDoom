@@ -240,7 +240,7 @@ begin
   begin
     x := 0;
     y := hdr.height - 1;
-    while not(y < 0) do
+    while y >= 0 do
     begin
       stream.read(rle, 1);
       if rle > 127 then

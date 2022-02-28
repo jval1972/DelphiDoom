@@ -1227,7 +1227,7 @@ var
           while (FText[ci] in ['0'..'9']) do
           begin
             Inc(ci);
-            if (FText[ci] = '.') and (not hs) then
+            if (FText[ci] = '.') and not hs then
             begin
               if FText[ci + 1] = '.' then
                 Break;

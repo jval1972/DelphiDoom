@@ -3281,7 +3281,7 @@ begin
      (((p1.basetype = btPchar) or (p1.BaseType = btString)) and (p2.BaseType = btWidechar)) or
      (((p1.basetype = btPchar) or (p1.BaseType = btString)) and (p2.BaseType = btChar)) or
      {$ENDIF}
-     ((p1.BaseType = btRecord) and (p2.BaseType = btrecord) and (not IsVarInCompatible(p1, p2))) or
+     ((p1.BaseType = btRecord) and (p2.BaseType = btrecord) and not IsVarInCompatible(p1, p2)) or
      ((p1.BaseType = btEnum) and (p2.BaseType = btEnum)) or
      (Cast and IsIntType(P1.BaseType) and (p2.baseType = btEnum)) or
      (Cast and (p1.baseType = btEnum) and IsIntType(P2.BaseType)) then
@@ -10319,7 +10319,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
           end;
         end;
       end
-      else if (InData is TPSBinValueOp) and (not CheckOutReg(TPSBinValueOp(InData).Val2, OutReg, False)) then
+      else if (InData is TPSBinValueOp) and not CheckOutReg(TPSBinValueOp(InData).Val2, OutReg, False) then
       begin
         if not DoBinCalc(TPSBinValueOp(InData), OutReg) then
         begin
@@ -11665,7 +11665,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
 
     iStartOffset := Length(Block.Proc.Data);
 
-    if not (ProcessSub(Block) and (not HasInvalidJumps(iStartOffset, Length(BlockInfo.Proc.Data) + 1))) then
+    if not (ProcessSub(Block) and not HasInvalidJumps(iStartOffset, Length(BlockInfo.Proc.Data) + 1)) then
     begin
       Dec(FWithCount);
       Block.Free;
@@ -11696,7 +11696,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
     Block := TPSBlockInfo.Create(BlockInfo);
     Block.SubType := tTry;
     Inc(FTryCount);
-    if ProcessSub(Block) and (not HasInvalidJumps(FStartOffset, Length(BlockInfo.Proc.Data) + 1)) then
+    if ProcessSub(Block) and not HasInvalidJumps(FStartOffset, Length(BlockInfo.Proc.Data) + 1) then
     begin
       Dec(FTryCount);
       Block.Free;
@@ -11710,7 +11710,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
         Block := TPSBlockInfo.Create(BlockInfo);
         Block.SubType := tTryEnd;
         Inc(FExceptFinallyCount);
-        if ProcessSub(Block) and (not HasInvalidJumps(iBlockStartOffset, Length(BlockInfo.Proc.Data) + 1)) then
+        if ProcessSub(Block) and not HasInvalidJumps(iBlockStartOffset, Length(BlockInfo.Proc.Data) + 1) then
         begin
           Dec(FExceptFinallyCount);
           Block.Free;
@@ -11724,7 +11724,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
             Block.SubType := tTryEnd;
             FParser.Next;
             Inc(FExceptFinallyCount);
-            if ProcessSub(Block) and (not HasInvalidJumps(iBlockStartOffset, Length(BlockInfo.Proc.Data) + 1)) then
+            if ProcessSub(Block) and not HasInvalidJumps(iBlockStartOffset, Length(BlockInfo.Proc.Data) + 1) then
             begin
               Dec(FExceptFinallyCount);
               Block.Free;
@@ -11772,7 +11772,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
         Block := TPSBlockInfo.Create(BlockInfo);
         Block.SubType := tTryEnd;
         Inc(FExceptFinallyCount);
-        if ProcessSub(Block)  and (not HasInvalidJumps(iBlockStartOffset, Length(BlockInfo.Proc.Data) + 1)) then
+        if ProcessSub(Block)  and not HasInvalidJumps(iBlockStartOffset, Length(BlockInfo.Proc.Data) + 1) then
         begin
           Dec(FExceptFinallyCount);
           Block.Free;
@@ -11786,7 +11786,7 @@ function TPSPascalCompiler.ProcessSub(BlockInfo: TPSBlockInfo): Boolean;
             Block := TPSBlockInfo.Create(BlockInfo);
             Block.SubType := tTryEnd;
             Inc(FExceptFinallyCount);
-            if ProcessSub(Block) and (not HasInvalidJumps(iBlockStartOffset, Length(BlockInfo.Proc.Data) + 1)) then
+            if ProcessSub(Block) and not HasInvalidJumps(iBlockStartOffset, Length(BlockInfo.Proc.Data) + 1) then
             begin
               Dec(FExceptFinallyCount);
               Block.Free;

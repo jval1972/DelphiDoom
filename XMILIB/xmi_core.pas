@@ -3068,7 +3068,7 @@ begin
     end;
     // Reading status byte
     ReadBuf(B, 1);
-    if (B < 128) and (not StatByte) then
+    if (B < 128) and not StatByte then
     begin
       LogOutput('[-] Error: Status byte expected at offset ' +
         IntToStr(F.Position - 1) + '.');
@@ -4337,7 +4337,7 @@ begin
     begin
       // Reading status byte
       ReadBuf(B, 1);
-      if (B < 128) and (not StatByte) then
+      if (B < 128) and not StatByte then
         LogOutput('[-] Error: Status byte expected at offset ' +
           IntToStr(F.Position - 1) + '.')
       else
@@ -12940,7 +12940,7 @@ var
   NewMIDIOut: THandle;
   PlaySet: PPlaySet;
 begin
-  if (MIDIThrId > 0) and (not gStepEvent.Send) then
+  if (MIDIThrId > 0) and not gStepEvent.Send then
   begin
     gStepEvent.TrackIdx := TrkCh.ItemIndex;
     gStepEvent.EventIdx := Events.Row - 1;
@@ -15752,7 +15752,7 @@ begin
   for I := 0 to Length(TrackData) - 1 do
     for J := 1 to Length(TrackData[I].Data) - 1 do
       if (TrackData[I].Data[J].Status = TrackData[I].Data[J - 1].Status) and
-        (TrackData[I].Data[J].Status < $F0) and (not TrackData[I].Data[J].RunStatMode) then
+        (TrackData[I].Data[J].Status < $F0) and not TrackData[I].Data[J].RunStatMode then
       begin
         TrackData[I].Data[J].RunStatMode := True;
         Inc(Counter);

@@ -569,7 +569,7 @@ begin
     progress monitoring appropriately.  The input step is counted
     as one pass. }
 
-  if (cinfo^.progress <> nil) and (not cinfo^.buffered_image) and
+  if (cinfo^.progress <> nil) and not cinfo^.buffered_image and
      (cinfo^.inputctl^.has_multiple_scans) then
   begin
 
@@ -677,7 +677,7 @@ begin
     { In buffered-image mode, we assume one more output pass if EOI not
       yet reached, but no more passes if EOI has been reached. }
 
-    if (cinfo^.buffered_image) and (not cinfo^.inputctl^.eoi_reached) then
+    if (cinfo^.buffered_image) and not cinfo^.inputctl^.eoi_reached then
     begin
       if cinfo^.enable_2pass_quant then
         inc(cinfo^.progress^.total_passes, 2)

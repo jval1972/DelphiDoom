@@ -750,7 +750,7 @@ begin
   i := start_i;
   repeat;
     i := (i + direction + WEAPONORDERSIZE) mod WEAPONORDERSIZE;
-  until not (i <> start_i) and (not G_IsWeaponSelectable(weapon_order_table[i].weapon));
+  until not (i <> start_i) and not G_IsWeaponSelectable(weapon_order_table[i].weapon);
 
   result := Ord(weapon_order_table[i].weapon_num);
 end;

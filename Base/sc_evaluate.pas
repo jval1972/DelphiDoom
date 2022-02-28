@@ -435,7 +435,7 @@ end;
 //==============================================================================
 function TEvalFunction.Value(p: TDStrings): string;
 begin
-  if (not Assigned(FEvalObjFunc)) and (not Assigned(FEvalFunc)) then
+  if not Assigned(FEvalObjFunc) and not Assigned(FEvalFunc) then
     I_Error('TEvalFunction.Value(): No function assigned for %s()', [FName]);
   if (p.Count <> FNumParams) and (FNumParams > -1) then
   begin

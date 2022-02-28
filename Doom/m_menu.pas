@@ -4028,8 +4028,7 @@ begin
   // Take care of any messages that need input
   if messageToPrint <> 0 then
   begin
-    if messageNeedsInput and ( not(
-      (ch = Ord(' ')) or (ch = Ord('n')) or (ch = Ord('y')) or (ch = KEY_ESCAPE))) then
+    if messageNeedsInput and not ((ch = Ord(' ')) or (ch = Ord('n')) or (ch = Ord('y')) or (ch = KEY_ESCAPE)) then
     begin
       result := false;
       exit;
