@@ -126,6 +126,7 @@ uses
   Messages,
   MMSystem,
   d_delphi,
+  m_argv,
   i_midi_new,
   i_midi_legacy;
 
