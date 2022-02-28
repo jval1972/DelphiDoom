@@ -160,6 +160,8 @@ uses
   i_input in 'Base\i_input.pas',
   i_io in 'Base\i_io.pas',
   i_midi in 'Base\i_midi.pas',
+  i_midi_legacy in 'Base\i_midi_legacy.pas',
+  i_midi_new in 'Base\i_midi_new.pas',
   i_mp3 in 'Base\i_mp3.pas',
   i_music in 'Base\i_music.pas',
   i_net in 'Base\i_net.pas',

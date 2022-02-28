@@ -174,7 +174,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 219;
+  NUMDEFAULTS = 220;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -1766,6 +1766,15 @@ const
      setable: DFS_NEVER;
      defaultsvalue: '';
      defaultivalue: 160;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'snd_uselegacymidiplayer';
+     location: @snd_uselegacymidiplayer;
+     oldlocation: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
      defaultbvalue: false;
      _type: tInteger),
 
