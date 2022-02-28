@@ -125,6 +125,7 @@ uses
   Windows,
   Messages,
   MMSystem,
+  d_delphi,
   i_midi_new,
   i_midi_legacy;
 

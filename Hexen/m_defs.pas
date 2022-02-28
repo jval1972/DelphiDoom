@@ -45,6 +45,7 @@ uses
   p_obituaries,
   i_system,
   i_mp3,
+  i_midi,
   i_music,
   i_sound,
 {$IFDEF OPENGL}
