@@ -119,6 +119,7 @@ type
     PopupMenu1: TPopupMenu;
     ItemProperties1: TMenuItem;
     KeyboardModeRadioGroup: TRadioGroup;
+    MidiRadioGroup: TRadioGroup;
     procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure RunDelphiDoomClick(Sender: TObject);
@@ -740,6 +741,11 @@ begin
   end;
 
 // Sound
+  if MidiRadioGroup.ItemIndex = 1 then
+    AddCmd('-uselegacymidiplayer')
+  else if MidiRadioGroup.ItemIndex = 2 then
+    AddCmd('-nouselegacymidiplayer');
+
   if NoSoundCheckBox.State = cbChecked then
     AddCmd('-nosound');
 
@@ -794,7 +800,8 @@ begin
     AddCmd(IntToStr(KeyboardModeRadioGroup.ItemIndex - 1));
   end;
 
-  result := cmd + ' ' + AdditionalParametersEdit.Text;
+  if Trim(AdditionalParametersEdit.Text) <> '' then
+    result := cmd + ' ' + Trim(AdditionalParametersEdit.Text);
 end;
 
 procedure TForm1.RunDelphiDoomClick(Sender: TObject);

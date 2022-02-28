@@ -208,6 +208,10 @@ end;
 //==============================================================================
 procedure I_InitMidi;
 begin
+  if M_CheckParm('-uselegacymidiplayer') > 0 then
+    snd_uselegacymidiplayer := true;
+  if M_CheckParm('-nouselegacymidiplayer') > 0 then
+    snd_uselegacymidiplayer := false;
   uselegacymidiplayer := snd_uselegacymidiplayer;
   if uselegacymidiplayer then
   begin

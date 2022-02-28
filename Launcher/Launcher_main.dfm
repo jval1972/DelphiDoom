@@ -3104,7 +3104,7 @@ object Form1: TForm1
         Top = 0
         Width = 432
         Height = 320
-        ActivePage = TabSheet3
+        ActivePage = TabSheet8
         Align = alClient
         TabOrder = 0
         object TabSheet8: TTabSheet
@@ -3598,20 +3598,33 @@ object Form1: TForm1
           Caption = 'Sound'
           ImageIndex = 1
           object NoSoundCheckBox: TCheckBox
-            Left = 8
-            Top = 16
+            Left = 16
+            Top = 136
             Width = 97
             Height = 17
             Caption = 'No Sound'
-            TabOrder = 0
+            TabOrder = 1
           end
           object NoMusicCheckBox: TCheckBox
-            Left = 8
-            Top = 40
+            Left = 16
+            Top = 160
             Width = 97
             Height = 17
             Caption = 'No Music'
-            TabOrder = 1
+            TabOrder = 2
+          end
+          object MidiRadioGroup: TRadioGroup
+            Left = 8
+            Top = 16
+            Width = 185
+            Height = 105
+            Caption = ' Midi playback options '
+            ItemIndex = 0
+            Items.Strings = (
+              'Default/No change'
+              'Legacy (No volume control)'
+              'Modern')
+            TabOrder = 0
           end
         end
         object TabSheet3: TTabSheet

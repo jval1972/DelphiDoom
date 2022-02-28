@@ -235,7 +235,7 @@ Added #CVARFORCE directive. It can be placed in any text content and forces the 
 Search and compile ACS script if the BEHAVIOR lump is invalid or missing.
 Remember line's renderflags in saved games.
 More accurate check while searching the highest surrounding floor.
-Added new PascalSccript functions to access the new SideDefs' fields:
+Added new PascalScript functions to access the new SideDefs' fields:
  -function PS_GetSideTopTextureOffset(const sd: Integer): Integer;
  -procedure PS_SetSideTopTextureOffset(const sd: Integer; const offs: Integer);
  -function PS_GetSideBottomTextureOffset(const sd: Integer): Integer;
@@ -351,6 +351,7 @@ Added 77 new PascalScript funtions to access UDMF line specials procs:
   -Polyobj_RotateLeft()
   -Polyobj_RotateRight()
 Added option to use legacy midi playback (snd_uselegacymidiplayer default).
+Added -uselegacymidiplayer & -nouselegacymidiplayer command lines parameters.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
