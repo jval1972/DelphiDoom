@@ -372,7 +372,7 @@ begin
   buffer := malloc(hdr.width * 4);
   if hdr.imgtype = 2 then
   begin
-    for y := hdr.height-1 downto 0 do
+    for y := hdr.height - 1 downto 0 do
     begin
       stream.read(buffer^, hdr.width * 4);
       FBitmap^.PutPixels(0, y, hdr.width, buffer, 32);

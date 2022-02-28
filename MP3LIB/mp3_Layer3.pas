@@ -551,7 +551,7 @@ procedure TLayerIII_Decoder.DoDownmix;
 var
   ss, sb: Cardinal;
 begin
-  for sb := 0 to SBLIMIT-1 do
+  for sb := 0 to SBLIMIT - 1 do
   begin
     ss := 0;
     while ss < SSLIMIT do

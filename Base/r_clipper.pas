@@ -1310,7 +1310,7 @@ begin
   if Cnt < 3 then
     Exit;
   J := cnt - 1;
-  for I := 0 to Cnt -1 do
+  for I := 0 to Cnt - 1 do
   begin
     D := (Pts[j].X + Pts[i].X);
     Result := Result + D * (Pts[j].Y - Pts[i].Y);
@@ -1391,7 +1391,7 @@ var
 begin
   I := length(Pts);
   SetLength(Result, I);
-  for I := 0 to I -1 do
+  for I := 0 to I - 1 do
   begin
     highJ := high(Pts[I]);
     SetLength(Result[I], highJ + 1);
@@ -1428,7 +1428,7 @@ begin
   Result.Right := Result.Left;
   Result.Top := polys[I][0].Y;
   Result.Bottom := Result.Top;
-  for I := I to Len -1 do
+  for I := I to Len - 1 do
     for J := 0 to High(polys[I]) do
     begin
       if polys[I][J].X < Result.Left then

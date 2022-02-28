@@ -717,7 +717,7 @@ begin
 
   // No luck so far? Look for the lumps previous to map
   // Check all the lumps after the map
-  for i := 0 to maplump -1 do
+  for i := 0 to maplump - 1 do
     if (lumpinfo[i].v1 = glmapname8.x[0]) and
        (lumpinfo[i].v2 = glmapname8.x[1]) then
       begin

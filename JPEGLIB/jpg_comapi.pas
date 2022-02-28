@@ -111,7 +111,7 @@ begin
   { Releasing pools in reverse order might help avoid fragmentation
     with some (brain-damaged) malloc libraries. }
 
-  for pool := JPOOL_NUMPOOLS-1 downto JPOOL_PERMANENT+1 do
+  for pool := JPOOL_NUMPOOLS - 1 downto JPOOL_PERMANENT + 1 do
   begin
     cinfo^.mem^.free_pool (cinfo, pool);
   end;

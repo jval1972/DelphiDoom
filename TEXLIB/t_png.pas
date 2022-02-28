@@ -1463,7 +1463,9 @@ begin
         {Updates the output memory}
         inc(OutputSize, total_out);
         if Output = nil then
-          GetMem(Output, OutputSize) else ReallocMem(Output, OutputSize);
+          GetMem(Output, OutputSize)
+        else
+          ReallocMem(Output, OutputSize);
 
         {Copies the new data}
         memcpy({$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Output) + OutputSize - total_out),

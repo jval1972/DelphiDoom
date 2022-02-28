@@ -291,7 +291,7 @@ var
 begin
   inptr := JCOEFPTR (input_row);
   outptr := JCOEFPTR (output_row);
-  for count := long(num_blocks) * DCTSIZE2 -1 downto 0 do
+  for count := long(num_blocks) * DCTSIZE2 - 1 downto 0 do
   begin
     outptr^ := inptr^;
     inc(outptr);
@@ -319,7 +319,7 @@ var
   count: size_t; {register}
 begin
   ptr := target;
-  for count := bytestozero-1 downto 0 do
+  for count := bytestozero - 1 downto 0 do
   begin
     ptr^ := 0;
     inc(ptr);

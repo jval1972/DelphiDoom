@@ -161,12 +161,12 @@ begin
 
     temp.dwUser := 0;
 
-    for j := 0 to FDataSize-1 do
+    for j := 0 to FDataSize - 1 do
       temp.lpData[j] := #0;
   end;
 
   // Reset buffer pointers
-  for i := 0 to FChannels-1 do
+  for i := 0 to FChannels - 1 do
     FBuffer[i] := i * FChannels;
 
   // Force the buffers to fillup before playing.
@@ -235,7 +235,7 @@ begin
     temp.dwFlags         := 0;
   end;
 
-  for i := 0 to FChannels-1 do
+  for i := 0 to FChannels - 1 do
     FBuffer[i] := i * FChannels;
 
   FUserStop := 0;
@@ -271,7 +271,7 @@ begin
          // Write the last wave header (probably not be written due to buffer
          // size increase.)
 
-         for i := FBuffer[FChannels-1] to FDataSize-1 do
+         for i := FBuffer[FChannels - 1] to FDataSize - 1 do
            PWaveHdr(PPointerArray(FWaveHdrArr)[2]).lpData[i] := #0;
 
          waveOutPrepareHeader(FHWO, PPointerArray(FWaveHdrArr)[2], FHdrSize);
@@ -389,7 +389,7 @@ begin
         WaveSwap;
     end;
 
-    for i := 0 to FChannels-1 do
+    for i := 0 to FChannels - 1 do
       FBuffer[i] := i * FChannels;
   end;
 end;

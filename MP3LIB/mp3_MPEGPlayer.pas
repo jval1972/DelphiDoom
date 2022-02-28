@@ -228,7 +228,7 @@ begin
     if FLayer = 1 then
     begin
       if Mode = SingleChannel then
-        for i := 0 to NumSubBands-1 do
+        for i := 0 to NumSubBands - 1 do
           SubBands[i] := TSubbandLayer1.Create(i)
       else if Mode = JointStereo then
       begin

@@ -14455,14 +14455,14 @@ begin
     end; *)
 
     //if (n.aType.BaseType = btProcPtr) and (Cardinal(n.dta^) = 0) then
-    //  data := TMethod(Pointer(IPointer(n.dta^)+4)^)
+    //  data := TMethod(Pointer(IPointer(n.dta^) + 4)^)
     //else
     //  data := MkMethod(Caller, Cardinal(n.dta^));
 
     Params := TPSList.Create;
     Params.Add(@n);
 
- //   for i := Stack.Count - 2 downto Longint(Stack.Count) - paramcnt -1 do
+ //   for i := Stack.Count - 2 downto Longint(Stack.Count) - paramcnt - 1 do
  //   begin
 //      Params.Add(NewPPSVariantIFC(Stack[I], False));
 //    end;

@@ -1802,7 +1802,7 @@ begin
       numtoread := uint(length)
     else
       numtoread := 0;
-  for i := 0 to numtoread-1 do
+  for i := 0 to numtoread - 1 do
   begin
   { Read a byte into b[i]. If must suspend, return FALSE. }
     { make a byte available.
@@ -2697,7 +2697,7 @@ begin
 
   marker^.process_COM := skip_variable;
   marker^.length_limit_COM := 0;
-  for i := 0 to 16-1 do
+  for i := 0 to 15 do
   begin
     marker^.process_APPn[i] := skip_variable;
     marker^.length_limit_APPn[i] := 0;

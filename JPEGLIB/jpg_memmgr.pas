@@ -1325,7 +1325,7 @@ begin
   { Initialize working state }
   mem^.pub.max_memory_to_use := max_to_use;
 
-  for pool := JPOOL_NUMPOOLS-1 downto JPOOL_PERMANENT do
+  for pool := JPOOL_NUMPOOLS - 1 downto JPOOL_PERMANENT do
   begin
     mem^.small_list[pool] := nil;
     mem^.large_list[pool] := nil;

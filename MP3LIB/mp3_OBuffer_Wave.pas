@@ -211,7 +211,7 @@ begin
 
   mmioGetInfo(hmmioOut, @mmioinfoOut, 0);
 
-  for i := 0 to FChannels-1 do
+  for i := 0 to FChannels - 1 do
     FBufferP[i] := i * FChannels;
 end;
 
@@ -277,7 +277,7 @@ begin
   inc(Cardinal(mmioinfoOut.pchNext), FDataSize - Write);
 
   // Reset buffer pointers
-  for i := 0 to FChannels-1 do
+  for i := 0 to FChannels - 1 do
     FBufferP[i] := i * FChannels;
 end;
 

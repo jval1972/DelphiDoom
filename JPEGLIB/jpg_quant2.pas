@@ -1032,7 +1032,7 @@ var
   bestdist: array[0..BOX_C0_ELEMS * BOX_C1_ELEMS * BOX_C2_ELEMS-1] of INT32;
 begin
   { Initialize best-distance for each cell of the update box }
-  for i := BOX_C0_ELEMS*BOX_C1_ELEMS*BOX_C2_ELEMS-1 downto 0 do
+  for i := BOX_C0_ELEMS * BOX_C1_ELEMS*BOX_C2_ELEMS - 1 downto 0 do
     bestdist[i] := $7FFFFFFF;
 
   { For each color selected by find_nearby_colors,
@@ -1057,15 +1057,15 @@ begin
     bptr := @bestdist[0];
     cptr := @bestcolor[0];
     xx0 := inc0;
-    for ic0 := BOX_C0_ELEMS-1 downto 0 do
+    for ic0 := BOX_C0_ELEMS - 1 downto 0 do
     begin
       dist1 := dist0;
       xx1 := inc1;
-      for ic1 := BOX_C1_ELEMS-1 downto 0 do
+      for ic1 := BOX_C1_ELEMS - 1 downto 0 do
       begin
   dist2 := dist1;
   xx2 := inc2;
-  for ic2 := BOX_C2_ELEMS-1 downto 0 do
+  for ic2 := BOX_C2_ELEMS - 1 downto 0 do
         begin
     if (dist2 < bptr^) then
           begin
