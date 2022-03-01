@@ -356,6 +356,7 @@ Max light source distance increased from 2048px to 8192px in software rendering.
 Small optimizations to sprite rendering.
 Fixed masked middle texture bleeding when player was exactly placed on the line.
 Small optimization to masked middle textute software rendering.
+Bosses will have only seesound and deathsound at full volume by default.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
