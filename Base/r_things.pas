@@ -1175,7 +1175,10 @@ begin
   end;
 
   dc_iscale := FixedDivEx(FRACUNIT, vis.scale);
-  dbscale := trunc((FRACUNIT / dc_iscale) * (FRACUNIT / vis.infoscale) * FRACUNIT);
+  if vis.infoscale = FRACUNIT then
+    dbscale := vis.scale
+  else
+    dbscale := trunc((FRACUNIT / dc_iscale) * (FRACUNIT / vis.infoscale) * FRACUNIT);
 
   dc_fog := vis.fog; // JVAL: Mars fog sectors
 
@@ -1192,7 +1195,7 @@ begin
   xiscale := vis.xiscale;
   dc_x := vis.x1;
 
-  do_mt := (vis.x2 - vis.x1 > MIN_SPRITE_SIZE_MT) and usemultithread;
+  do_mt := usemultithread and (vis.x2 - vis.x1 > MIN_SPRITE_SIZE_MT);
 
   if do_mt and Assigned(spritefunc_mt) then
     dmcproc := @R_DrawMaskedColumnMT
@@ -2415,8 +2418,11 @@ begin
   mfloorclip := @clipbot;
   mceilingclip := @cliptop;
 
-  spr.scale := FixedMul(spr.scale, spr.infoscale);
-  spr.xiscale := FixedDiv(spr.xiscale, spr.infoscale);
+  if spr.infoscale <> FRACUNIT then
+  begin
+    spr.scale := FixedMul(spr.scale, spr.infoscale);
+    spr.xiscale := FixedDiv(spr.xiscale, spr.infoscale);
+  end;
 
   R_DrawVisSprite(spr);
 end;
