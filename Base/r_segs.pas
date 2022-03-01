@@ -495,7 +495,7 @@ begin
 
      //t -> double (delphidoom)
       t := (centeryfrac / FRACUNIT) - (dc_texturemid / FRACUNIT) * (spryscale / FRACUNIT);
-      if (t + (textureheight[texnum] / FRACUNIT) * (spryscale / FRACUNIT) < 0) or (t > SCREENHEIGHT * 2) then
+      if (t + (textureheight[texnum] / FRACUNIT) * (spryscale / FRACUNIT) < 0) or (t > SCREENHEIGHT * 2) or (t < -32000.0) then
       begin
         if ds.use_double then
           spryscale := Trunc(ds.scale_dbl + (dc_x - ds.x1) * rw_scalestep_dbl)
