@@ -1731,7 +1731,7 @@ const
      oldlocation: nil;
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 0;
+     defaultivalue: 2;
      defaultbvalue: false;
      _type: tInteger),
 

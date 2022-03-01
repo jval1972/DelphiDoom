@@ -3599,7 +3599,7 @@ object Form1: TForm1
           ImageIndex = 1
           object NoSoundCheckBox: TCheckBox
             Left = 16
-            Top = 136
+            Top = 144
             Width = 97
             Height = 17
             Caption = 'No Sound'
@@ -3607,7 +3607,7 @@ object Form1: TForm1
           end
           object NoMusicCheckBox: TCheckBox
             Left = 16
-            Top = 160
+            Top = 168
             Width = 97
             Height = 17
             Caption = 'No Music'
@@ -3617,13 +3617,14 @@ object Form1: TForm1
             Left = 8
             Top = 16
             Width = 185
-            Height = 105
+            Height = 113
             Caption = ' Midi playback options '
             ItemIndex = 0
             Items.Strings = (
-              'Default/No change'
+              'No change'
               'Legacy (No volume control)'
-              'Modern')
+              'Modern'
+              'Internal (Default)')
             TabOrder = 0
           end
         end

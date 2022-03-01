@@ -151,6 +151,7 @@ uses
   i_itmusic,
   i_mikplay,
   i_tmp,
+  libm2m,
   s_sound,
   {$IFNDEF DLL}
   xmi_lib,
@@ -255,13 +256,20 @@ const
 // GetSongLength
 //
 //==============================================================================
-function GetSongLength(data: PByteArray): integer;
+function GetSongLength(data: PByteArray; datasize: integer): integer;
 var
   done: boolean;
   events: integer;
   header: Pmusheader_t;
   time: boolean;
   i: integer;
+
+  function _inc_i: boolean;
+  begin
+    inc(i);
+    result := i <= datasize;
+  end;
+
 begin
   header := Pmusheader_t(data);
   i := header.scoreStart;
@@ -272,18 +280,22 @@ begin
   begin
     if data[i] and $80 <> 0 then
       time := true;
-    inc(i);
+    if not _inc_i then Break;
     case _SHR(data[i - 1], 4) and 7 of
       1:
         begin
           if data[i] and $80 <> 0 then
-            inc(i);
-          inc(i);
+            if not _inc_i then Break;
+          if not _inc_i then Break;
         end;
       0,
       2,
-      3: inc(i);
-      4: inc(i, 2);
+      3: if not _inc_i then Break;
+      4:
+        begin
+          if not _inc_i then Break;
+          if not _inc_i then Break;
+        end;
     else
       done := true;
     end;
@@ -291,8 +303,8 @@ begin
     if time then
     begin
       while data[i] and $80 <> 0 do
-        inc(i);
-      inc(i);
+        if not _inc_i then Break;
+      if not _inc_i then Break;
       time := false;
     end;
   end;
@@ -304,7 +316,7 @@ end;
 // I_MusToMidi
 //
 //==============================================================================
-function I_MusToMidi(MusData: PByteArray; MidiEvents: PMidiEvent_tArray): boolean;
+function I_MusToMidi(MusData: PByteArray; MusDataSize: integer; MidiEvents: PMidiEvent_tArray): boolean;
 var
   header: Pmusheader_t;
   score: PByteArray;
@@ -318,6 +330,13 @@ var
   count: integer;
   i: integer;
 begin
+  // Check if it is a midi file
+  if PLongWord(MusData)^ = MThd then
+  begin
+    result := false;
+    exit;
+  end;
+
   header := Pmusheader_t(MusData);
   result := header.ID = MUSMAGIC;
   if not result then
@@ -326,7 +345,7 @@ begin
     exit;
   end;
 
-  count := GetSongLength(MusData);
+  count := GetSongLength(MusData, MusDataSize);
   score := PByteArray(@MusData[header.scoreStart]);
   event := @MidiEvents[0];
 
@@ -440,6 +459,72 @@ begin
       inc(spos);
     end;
   end;
+end;
+
+//==============================================================================
+//
+// I_MidToMus
+//
+// Avoid problems with some midi files by convering them to mus
+//
+//==============================================================================
+function I_MidToMus(MidData: PByteArray; MidDataSize: integer; song: Psonginfo_t): boolean;
+const
+  MAXOUTBUFFERSIZE = $40000;
+var
+  outbuffer: pointer;
+  outbuffersize: integer;
+  oldnumevents: integer;
+begin
+  if snd_uselegacymidiplayer <> 2 then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if PLongWord(MidData)^ <> MThd then
+  begin
+    result := false;
+    exit;
+  end;
+
+  outbuffer := mallocz(MAXOUTBUFFERSIZE);
+
+  outbuffersize := 0;
+  if _convertm2m(MidData, MidDataSize, outbuffer, @outbuffersize) <> 0 then
+  begin
+    memfree(outbuffer, MAXOUTBUFFERSIZE);
+    result := false;
+    exit;
+  end;
+
+  if (PLongWord(outbuffer)^ <> MUSMAGIC) or (outbuffersize < 4) then
+  begin
+    memfree(outbuffer, MAXOUTBUFFERSIZE);
+    result := false;
+    exit;
+  end;
+
+  oldnumevents := song.numevents;
+  song.numevents := GetSongLength(PByteArray(outbuffer), outbuffersize);
+  song.nextevent := 0;
+  Z_Free(song.midievents);
+  Z_Free(song.originalmidievents);
+  song.midievents := Z_Malloc(song.numevents * SizeOf(MidiEvent_t), PU_STATIC, nil);
+  song.originalmidievents := Z_Malloc(song.numevents * SizeOf(MidiEvent_t), PU_STATIC, nil);
+
+  result := I_MusToMidi(outbuffer, outbuffersize, song.MidiEvents);
+  if not result then
+  begin
+    song.numevents := oldnumevents;
+    song.nextevent := 0;
+    Z_Free(song.midievents);
+    Z_Free(song.originalmidievents);
+    song.midievents := Z_Malloc(song.numevents * SizeOf(MidiEvent_t), PU_STATIC, nil);
+    song.originalmidievents := Z_Malloc(song.numevents * SizeOf(MidiEvent_t), PU_STATIC, nil);
+  end;
+
+  memfree(outbuffer, MAXOUTBUFFERSIZE);
 end;
 
 //==============================================================================
@@ -789,7 +874,7 @@ var
   b: boolean;
 begin
   song := Z_Malloc(SizeOf(songinfo_t), PU_STATIC, nil);
-  song.numevents := GetSongLength(PByteArray(data));
+  song.numevents := GetSongLength(PByteArray(data), size);
   song.nextevent := 0;
   song.midievents := Z_Malloc(song.numevents * SizeOf(MidiEvent_t), PU_STATIC, nil);
   song.originalmidievents := Z_Malloc(song.numevents * SizeOf(MidiEvent_t), PU_STATIC, nil);
@@ -854,7 +939,7 @@ begin
     I_SetMusicVolumeMidi(snd_MusicVolume);
   end
   {$ENDIF}
-  else if I_MusToMidi(PByteArray(data), song.midievents) then
+  else if I_MidToMus(data, size, song) or I_MusToMidi(data, size, song.midievents) then
   begin
     setmusvolume := -1; // Force music update
     memcpy(song.originalmidievents, song.midievents, song.numevents * SizeOf(MidiEvent_t));

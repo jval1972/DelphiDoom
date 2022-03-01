@@ -386,6 +386,7 @@ uses
   i_s3mmusic in 'Base\i_s3mmusic.pas',
   mikmod in 'Base\mikmod.pas',
   libs3m in 'AUDIOLIB\libs3m.pas',
+  libm2m in 'AUDIOLIB\libm2m.pas',
   c_lib in 'C_LIB\c_lib.pas',
   scanf in 'C_LIB\scanf.pas',
   scanf_c in 'C_LIB\scanf_c.pas',

@@ -117,7 +117,7 @@ procedure I_ProcessMidi;
 function _mciGetErrorString(const code: LongWord): string;
 
 var
-  snd_uselegacymidiplayer: boolean = false;
+  snd_uselegacymidiplayer: integer = 2;
 
 implementation
 
@@ -210,10 +210,12 @@ end;
 procedure I_InitMidi;
 begin
   if M_CheckParm('-uselegacymidiplayer') > 0 then
-    snd_uselegacymidiplayer := true;
+    snd_uselegacymidiplayer := 1;
   if M_CheckParm('-nouselegacymidiplayer') > 0 then
-    snd_uselegacymidiplayer := false;
-  uselegacymidiplayer := snd_uselegacymidiplayer;
+    snd_uselegacymidiplayer := 0;
+  if M_CheckParm('-internalmidiplayer') > 0 then
+    snd_uselegacymidiplayer := 2;
+  uselegacymidiplayer := snd_uselegacymidiplayer = 1;
   if uselegacymidiplayer then
   begin
     printf('Using legacy midi playback'#13#10);

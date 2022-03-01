@@ -744,7 +744,9 @@ begin
   if MidiRadioGroup.ItemIndex = 1 then
     AddCmd('-uselegacymidiplayer')
   else if MidiRadioGroup.ItemIndex = 2 then
-    AddCmd('-nouselegacymidiplayer');
+    AddCmd('-nouselegacymidiplayer')
+  else if MidiRadioGroup.ItemIndex = 3 then
+    AddCmd('-internalmidiplayer');
 
   if NoSoundCheckBox.State = cbChecked then
     AddCmd('-nosound');

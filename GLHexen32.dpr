@@ -348,6 +348,7 @@ uses
   libogg in 'AUDIOLIB\libogg.pas',
   libsndfile in 'AUDIOLIB\libsndfile.pas',
   libvorbis in 'AUDIOLIB\libvorbis.pas',
+  libm2m in 'AUDIOLIB\libm2m.pas',
   c_lib in 'C_LIB\c_lib.pas',
   scanf in 'C_LIB\scanf.pas',
   scanf_c in 'C_LIB\scanf_c.pas',
