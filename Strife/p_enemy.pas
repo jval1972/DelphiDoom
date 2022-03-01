@@ -3273,11 +3273,11 @@ end;
 procedure A_XScream(actor: Pmobj_t);
 begin
   if actor.flags and MF_NOBLOOD <> 0 then
+  begin
     if actor.info.deathsound <> 0 then
-    begin
       A_DeathSound1(actor);
-      exit;
-    end;
+    exit;
+  end;
 
   S_StartSound(actor, Ord(sfx_slop));
 end;

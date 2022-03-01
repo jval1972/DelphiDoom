@@ -343,6 +343,7 @@ Added -uselegacymidiplayer & -nouselegacymidiplayer command line parameters.
 Added -internalmidiplayer command line parameter.
 Improved midi playback.
 Max light source distance increased from 2048px to 8192px in software rendering.
+Corrected logic in A_XScream() function.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
