@@ -200,9 +200,7 @@ end;
 //==============================================================================
 procedure A_PainSound1(actor: Pmobj_t);
 begin
-  if (actor.flags2 and MF2_BOSS <> 0) or
-     (actor.flags_ex and MF_EX_BOSS <> 0) or
-     (actor.flags2_ex and MF2_EX_FULLVOLPAIN <> 0) then
+  if actor.flags2_ex and MF2_EX_FULLVOLPAIN <> 0 then
     A_PainSound(actor, nil)
   else
     A_PainSound(actor, actor);
@@ -231,9 +229,7 @@ end;
 //==============================================================================
 procedure A_AttackSound1(actor: Pmobj_t);
 begin
-  if (actor.flags2 and MF2_BOSS <> 0) or
-     (actor.flags_ex and MF_EX_BOSS <> 0) or
-     (actor.flags2_ex and MF2_EX_FULLVOLATTACK <> 0) then
+  if actor.flags2_ex and MF2_EX_FULLVOLATTACK <> 0 then
     A_AttackSound(actor, nil)
   else
     A_AttackSound(actor, actor);
@@ -262,9 +258,7 @@ end;
 //==============================================================================
 procedure A_MeleeSound1(actor: Pmobj_t);
 begin
-  if (actor.flags2 and MF2_BOSS <> 0) or
-     (actor.flags_ex and MF_EX_BOSS <> 0) or
-     (actor.flags2_ex and MF2_EX_FULLVOLATTACK <> 0) then
+  if actor.flags2_ex and MF2_EX_FULLVOLATTACK <> 0 then
     A_MeleeSound(actor, nil)
   else
     A_MeleeSound(actor, actor);
@@ -324,9 +318,7 @@ end;
 //==============================================================================
 procedure A_ActiveSound1(actor: Pmobj_t);
 begin
-  if (actor.flags2 and MF2_BOSS <> 0) or
-     (actor.flags_ex and MF_EX_BOSS <> 0) or
-     (actor.flags2_ex and MF2_EX_FULLVOLACTIVE <> 0) then
+  if actor.flags2_ex and MF2_EX_FULLVOLACTIVE <> 0 then
     A_ActiveSound(actor, nil)
   else
     A_ActiveSound(actor, actor);
