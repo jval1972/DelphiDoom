@@ -348,6 +348,7 @@ Added option to use legacy midi playback (snd_uselegacymidiplayer default).
 Added -uselegacymidiplayer & -nouselegacymidiplayer command line parameters.
 Added -internalmidiplayer command line parameter.
 Improved midi playback.
+Max light source distance increased from 2048px to 8192px in software rendering.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

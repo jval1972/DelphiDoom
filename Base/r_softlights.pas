@@ -213,7 +213,7 @@ begin
 end;
 
 const
-  MAXLIGHTDISTANCE = 2048;
+  MAXLIGHTDISTANCE = 8192;
   MAXSQRLIGHTDISTANCE = MAXLIGHTDISTANCE * MAXLIGHTDISTANCE;
 
 //==============================================================================
