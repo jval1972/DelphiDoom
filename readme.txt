@@ -34,16 +34,20 @@ Features:
  - OpenGL support with md2 models and dynamic lightmaps
  - External hi-res textures
  - Voxels
- - mp3 & midi music
+ - mp3, midi, mod, s3m, it, xm, xmi, cmf and sop music files
  - 3d middle Floors (currently one per sector)
  - Slopes
+ - UDMF map format
+ - UMAPINFO support
+ - MBF21 support
  - Advanced script engine (PascalScript) to customize levels and actors
+ - ACS script
  - Custom actor definition (ACTORDEF lumps)
  - Console to set environment variables and executing commands
  - Automap rotation and overlay
  - Textured automap
  - Support for up to 256 logical CPUs in software rendering mode
- - WAV files inside wad
+ - wav, flac and ogg sound effects inside wad
  - Almost all BOOM features
  - Limit removing engine
  - Support v5 GL-Nodes
