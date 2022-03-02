@@ -5273,7 +5273,7 @@ end;
 // WriteProcVars
 //
 //==============================================================================
-procedure WriteProcVars(Func:TPSInternalProcedure; t: TPSList);
+procedure WriteProcVars(Func: TPSInternalProcedure; t: TPSList);
 var
   l: Longint;
   v: PIFPSProcVar;
@@ -16357,7 +16357,7 @@ end;
 //==============================================================================
 procedure TPSValueVar.RecDelete(I: Cardinal);
 var
-  rr :TPSSubItem;
+  rr: TPSSubItem;
 begin
   rr := FRecItems[i];
   FRecItems.Delete(I);

@@ -310,7 +310,7 @@ begin
   proclist.Add('function LogN(const Base, X: Extended): Extended;', @MDLS_LogN);
   proclist.Add('function IntPower(const Base: Extended; const Exponent: Integer): Extended;', @MDLS_IntPower);
   proclist.Add('function Power(const Base, Exponent: Extended): Extended;', @MDLS_Power);
-  proclist.Add('function Ceil(const X: Extended):Integer;', @MDLS_Ceil);
+  proclist.Add('function Ceil(const X: Extended): Integer;', @MDLS_Ceil);
   proclist.Add('function Floor(const X: Extended): Integer;', @MDLS_Floor);
   //--- model drawing functions (OpenGL wrapper)
   proclist.Add('procedure glBegin(const mode: GLenum);', @MDLS_glBegin);

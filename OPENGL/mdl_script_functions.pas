@@ -384,7 +384,7 @@ function MDLS_Power(const Base, Exponent: Extended): Extended;
 // MDLS_Ceil
 //
 //==============================================================================
-function MDLS_Ceil(const X: Extended):Integer;
+function MDLS_Ceil(const X: Extended): Integer;
 
 //==============================================================================
 //

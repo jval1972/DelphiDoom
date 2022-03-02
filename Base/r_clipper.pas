@@ -2673,7 +2673,7 @@ end;
 // LocMinListSort
 //
 //==============================================================================
-function LocMinListSort(item1, item2:Pointer): Integer;
+function LocMinListSort(item1, item2: Pointer): Integer;
 var
   y: cInt;
 begin
