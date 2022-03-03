@@ -1,3 +1,5 @@
+Added -pistolstart command line parameter.
+
 Version 2.0.7 build 730 - (20220302)
 -----------------------
 Fixed flags in A_ChangeVelocity() ACTORDEF function.

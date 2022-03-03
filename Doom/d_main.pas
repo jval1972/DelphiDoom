@@ -2166,6 +2166,7 @@ begin
   devparm := M_CheckParm('-devparm') > 0;
   hackshareware := M_CheckParm('-hackshareware') > 0;
   debugmode := M_CheckParm('-debugmode') > 0;
+  pistolstart := M_CheckParm('-pistolstart') > 0;
 
   SUC_Progress(6);
 
