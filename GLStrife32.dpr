@@ -200,7 +200,7 @@ uses
   p_saveg in 'Strife\p_saveg.pas',
   p_setup in 'Strife\p_setup.pas',
   p_sight in 'Strife\p_sight.pas',
-  p_sounds in 'Strife\p_sounds.pas',
+  p_sounds in 'Base\p_sounds.pas',
   p_spec in 'Strife\p_spec.pas',
   p_switch in 'Strife\p_switch.pas',
   p_telept in 'Strife\p_telept.pas',

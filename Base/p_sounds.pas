@@ -134,9 +134,37 @@ procedure A_RipSound1(actor: Pmobj_t);
 implementation
 
 uses
+  {$IFDEF DOOM_OR_STRIFE}
   info_h,
+  {$ENDIF}
   p_common,
   s_sound;
+
+//==============================================================================
+//
+// P_IsBossFV
+//
+//==============================================================================
+function P_IsBossFV(const actor: Pmobj_t): boolean;
+begin
+  if {$IFDEF DOOM}
+     (actor._type = Ord(MT_SPIDER)) or
+     (actor._type = Ord(MT_CYBORG)) or
+     {$ENDIF}
+     {$IFDEF HERETIC_OR_HEXEN}
+     (actor.flags2 and MF2_BOSS <> 0) or
+     {$ENDIF}
+     {$IFDEF STRIFE}
+     (actor._type = Ord(MT_ENTITY)) or
+     (actor._type = Ord(MT_INQUISITOR)) or
+     {$ENDIF}
+     (actor.flags_ex and MF_EX_BOSS <> 0) then
+  begin
+    result := true;
+    exit;
+  end;
+  result := false;
+end;
 
 //==============================================================================
 //
@@ -168,9 +196,7 @@ end;
 //==============================================================================
 procedure A_SeeSound1(actor: Pmobj_t);
 begin
-  if (actor._type = Ord(MT_SPIDER)) or
-     (actor._type = Ord(MT_CYBORG)) or
-     (actor.flags_ex and MF_EX_BOSS <> 0) or
+  if P_IsBossFV(actor) or
      (actor.flags2_ex and MF2_EX_FULLVOLSEE <> 0) then
     A_SeeSound(actor, nil)
   else
@@ -287,9 +313,7 @@ end;
 //==============================================================================
 procedure A_DeathSound1(actor: Pmobj_t);
 begin
-  if (actor._type = Ord(MT_SPIDER)) or
-     (actor._type = Ord(MT_CYBORG)) or
-     (actor.flags_ex and MF_EX_BOSS <> 0) or
+  if P_IsBossFV(actor) or
      (actor.flags2_ex and MF2_EX_FULLVOLDEATH <> 0) then
     A_DeathSound(actor, nil)
   else

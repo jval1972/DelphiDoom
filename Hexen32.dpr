@@ -191,7 +191,7 @@ uses
   p_pspr_h in 'Hexen\p_pspr_h.pas',
   p_setup in 'Hexen\p_setup.pas',
   p_sight in 'Hexen\p_sight.pas',
-  p_sounds in 'Hexen\p_sounds.pas',
+  p_sounds in 'Base\p_sounds.pas',
   p_spec in 'Hexen\p_spec.pas',
   p_switch in 'Hexen\p_switch.pas',
   p_terrain in 'Hexen\p_terrain.pas',

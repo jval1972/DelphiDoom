@@ -207,7 +207,7 @@ uses
   p_scroll in 'Doom\p_scroll.pas',
   p_setup in 'Doom\p_setup.pas',
   p_sight in 'Doom\p_sight.pas',
-  p_sounds in 'Doom\p_sounds.pas',
+  p_sounds in 'Base\p_sounds.pas',
   p_spec in 'Doom\p_spec.pas',
   p_switch in 'Doom\p_switch.pas',
   p_telept in 'Doom\p_telept.pas',
