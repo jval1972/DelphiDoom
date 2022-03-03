@@ -100,7 +100,7 @@ Conditionals=HERETIC;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=
+RunParams=-wandstart
 HostApplication=
 Launcher=
 UseLauncher=0

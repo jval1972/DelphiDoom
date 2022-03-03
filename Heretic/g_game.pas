@@ -408,6 +408,7 @@ var
 
 var
   secretexit: boolean;
+  wandstart: boolean;
 
 implementation
 
@@ -1464,6 +1465,24 @@ begin
     if playeringame[i] and (players[i].playerstate = PST_DEAD) then
       players[i].playerstate := PST_REBORN;
     ZeroMemory(@players[i].frags, SizeOf(players[i].frags));
+  end;
+
+  // automatic wand start when advancing from one level to the next
+  if wandstart then
+  begin
+    if not demorecording and not demoplayback and not netgame then
+      G_PlayerReborn(0)
+    else if (demoplayback or netdemo) and not singledemo then
+    begin
+      // no-op - silently ignore pistolstart when playing demo from the
+      // demo reel
+    end
+    else
+    begin
+      if demo_p = nil then
+        demorecording := false;
+      I_Error('The -wandstart option is not supported for demos and'#13#10' network play.');
+    end;
   end;
 
   PS_NewMap;

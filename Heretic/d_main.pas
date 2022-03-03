@@ -1896,6 +1896,7 @@ begin
   respawnparm := M_CheckParm('-respawn') > 0;
   fastparm := M_CheckParm('-fast') > 0;
   devparm := M_CheckParm('-devparm') > 0;
+  wandstart := M_CheckParm('-wandstart') > 0;
 
   SUC_Progress(6);
 
