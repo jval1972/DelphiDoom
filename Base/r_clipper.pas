@@ -2702,7 +2702,7 @@ begin
   //multiple times on the same polygon sets.
 {$IFDEF USEGENERICS}
     FLocMinList.Sort(TComparer<PLocalMinimum>.Construct(
-      function (const Item1, Item2 : PLocalMinimum) : integer
+      function (const Item1, Item2 : PLocalMinimum): integer
       var
         y: cInt;
       begin

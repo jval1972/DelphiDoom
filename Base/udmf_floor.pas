@@ -651,7 +651,7 @@ var
 procedure QueueStairSector(sec: Psector_t; _type: integer; height: integer);
 begin
   if (QueueTail + 1) mod STAIR_QUEUE_SIZE = QueueHead then
-    I_Error('BuildStairs():  Too many branches located.');
+    I_Error('BuildStairs(): Too many branches located.');
 
   StairQueue[QueueTail].sector := sec;
   StairQueue[QueueTail]._type := _type;

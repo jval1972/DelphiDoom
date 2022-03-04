@@ -1261,7 +1261,7 @@ end;
 // SwapRGBData
 //
 //==============================================================================
-procedure SwapRGBData(data : Pointer; Size: Integer); assembler;
+procedure SwapRGBData(data: Pointer; Size: Integer); assembler;
 asm
   mov ebx, eax
   mov ecx, size

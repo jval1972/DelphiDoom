@@ -405,7 +405,7 @@ begin
     end
     else
     begin
-      I_Error('EV_RotatePoly():  Invalid polyobj num: %d', [polyNum]);
+      I_Error('EV_RotatePoly(): Invalid polyobj num: %d', [polyNum]);
     end;
     direction := -direction;
     pe.speed := _SHR(args[1] * direction * (ANG90 div 64), 3);

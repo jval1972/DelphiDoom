@@ -14287,20 +14287,20 @@ begin
     OrgName := 'count';
     aType := FindBaseType(btS32);
   end;
-  AddFunction('Function StrGet(var S : String; I : Integer) : Char;');
-  AddFunction('Function StrGet2(S : String; I : Integer) : Char;');
-  AddFunction('procedure StrSet(c : Char; I : Integer; var s : String);');
+  AddFunction('Function StrGet(var S: String; I: Integer): Char;');
+  AddFunction('Function StrGet2(S: String; I: Integer): Char;');
+  AddFunction('procedure StrSet(c: Char; I: Integer; var s: String);');
   {$IFNDEF PS_NOWIDESTRING}
-  AddFunction('Function WStrGet(var S : AnyString; I : Integer) : WideChar;');
-  AddFunction('procedure WStrSet(c : AnyString; I : Integer; var s : AnyString);');
+  AddFunction('Function WStrGet(var S : AnyString; I: Integer): WideChar;');
+  AddFunction('procedure WStrSet(c : AnyString; I: Integer; var s: AnyString);');
   {$ENDIF}
-  AddDelphiFunction('Function VarArrayGet(var S : Variant; I : Integer) : Variant;');
-  AddDelphiFunction('procedure VarArraySet(c : Variant; I : Integer; var s : Variant);');
-  AddFunction('Function AnsiUppercase(s : String) : String;');
-  AddFunction('Function AnsiLowercase(s : String) : String;');
-  AddFunction('Function Uppercase(s : AnyString) : AnyString;');
-  AddFunction('Function Lowercase(s : AnyString) : AnyString;');
-  AddFunction('Function Trim(s : AnyString) : AnyString;');
+  AddDelphiFunction('Function VarArrayGet(var S: Variant; I: Integer): Variant;');
+  AddDelphiFunction('procedure VarArraySet(c: Variant; I: Integer; var s: Variant);');
+  AddFunction('Function AnsiUppercase(s: String): String;');
+  AddFunction('Function AnsiLowercase(s: String): String;');
+  AddFunction('Function Uppercase(s: AnyString): AnyString;');
+  AddFunction('Function Lowercase(s: AnyString): AnyString;');
+  AddFunction('Function Trim(s: AnyString): AnyString;');
   AddFunction('function Length: Integer;').Decl.AddParam.OrgName := 's';
   with AddFunction('procedure SetLength;').Decl do
   begin
@@ -14364,21 +14364,21 @@ begin
       Mode := pmIn;
     end;
   end;
-  AddFunction('Function Sin(e : Extended) : Extended;');
-  AddFunction('Function Cos(e : Extended) : Extended;');
-  AddFunction('Function Sqrt(e : Extended) : Extended;');
-  AddFunction('Function Round(e : Extended) : Longint;');
-  AddFunction('Function Trunc(e : Extended) : Longint;');
-  AddFunction('Function Int(e : Extended) : Extended;');
-  AddFunction('Function Pi : Extended;');
-  AddFunction('Function Abs(e : Extended) : Extended;');
+  AddFunction('Function Sin(e: Extended): Extended;');
+  AddFunction('Function Cos(e: Extended): Extended;');
+  AddFunction('Function Sqrt(e: Extended): Extended;');
+  AddFunction('Function Round(e: Extended): Longint;');
+  AddFunction('Function Trunc(e: Extended): Longint;');
+  AddFunction('Function Int(e: Extended): Extended;');
+  AddFunction('Function Pi: Extended;');
+  AddFunction('Function Abs(e: Extended): Extended;');
   AddFunction('function StrToFloat(s: String): Extended;');
-  AddFunction('Function FloatToStr(e : Extended) : String;');
-  AddFunction('Function Padl(s : AnyString;I : longInt) : AnyString;');
-  AddFunction('Function Padr(s : AnyString;I : longInt) : AnyString;');
-  AddFunction('Function Padz(s : AnyString;I : longInt) : AnyString;');
-  AddFunction('Function Replicate(c : char;I : longInt) : String;');
-  AddFunction('Function StringOfChar(c : char;I : longInt) : String;');
+  AddFunction('Function FloatToStr(e : Extended): String;');
+  AddFunction('Function Padl(s: AnyString; I: longInt): AnyString;');
+  AddFunction('Function Padr(s: AnyString; I: longInt): AnyString;');
+  AddFunction('Function Padz(s: AnyString; I: longInt): AnyString;');
+  AddFunction('Function Replicate(c: char; I: longInt): String;');
+  AddFunction('Function StringOfChar(c: char; I: longInt): String;');
   AddTypeS('TVarType', 'Word');
   AddConstantN('varEmpty', 'Word').Value.tu16 := varempty;
   AddConstantN('varNull', 'Word').Value.tu16 := varnull;

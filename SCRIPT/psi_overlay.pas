@@ -2591,15 +2591,15 @@ begin
   begin
     RegisterMethod('Constructor Create');
     RegisterMethod('Procedure Clear');
-    RegisterMethod('Procedure DrawPatch( const ticks : Integer; const patchname : string; const x, y : Integer)');
-    RegisterMethod('Procedure DrawPatchStretched( const ticks : Integer; const patchname : string; const x1, y1, x2, y2 : Integer)');
-    RegisterMethod('Procedure DrawPixel( const ticks : Integer; const red, green, blue : byte; const x, y : Integer)');
-    RegisterMethod('Procedure DrawRect( const ticks : Integer; const red, green, blue : byte; const x1, y1, x2, y2 : Integer)');
-    RegisterMethod('Procedure DrawLine( const ticks : Integer; const red, green, blue : byte; const x1, y1, x2, y2 : Integer)');
-    RegisterMethod('Procedure DrawText( const ticks : Integer; const txt : string; const align : Integer; const x, y : Integer)');
-    RegisterMethod('Procedure DrawLeftText( const ticks : Integer; const txt : string; const x, y : Integer)');
-    RegisterMethod('Procedure DrawRightText( const ticks : Integer; const txt : string; const x, y : Integer)');
-    RegisterMethod('Procedure DrawCenterText( const ticks : Integer; const txt : string; const x, y : Integer)');
+    RegisterMethod('Procedure DrawPatch( const ticks: Integer; const patchname: string; const x, y: Integer)');
+    RegisterMethod('Procedure DrawPatchStretched( const ticks: Integer; const patchname: string; const x1, y1, x2, y2: Integer)');
+    RegisterMethod('Procedure DrawPixel( const ticks: Integer; const red, green, blue: byte; const x, y: Integer)');
+    RegisterMethod('Procedure DrawRect( const ticks: Integer; const red, green, blue: byte; const x1, y1, x2, y2: Integer)');
+    RegisterMethod('Procedure DrawLine( const ticks: Integer; const red, green, blue: byte; const x1, y1, x2, y2: Integer)');
+    RegisterMethod('Procedure DrawText( const ticks: Integer; const txt: string; const align: Integer; const x, y: Integer)');
+    RegisterMethod('Procedure DrawLeftText( const ticks: Integer; const txt: string; const x, y: Integer)');
+    RegisterMethod('Procedure DrawRightText( const ticks: Integer; const txt: string; const x, y: Integer)');
+    RegisterMethod('Procedure DrawCenterText( const ticks: Integer; const txt: string; const x, y: Integer)');
   end;
   AddImportedClassVariable(CL, 'Overlay', '!TOverlay');
 end;

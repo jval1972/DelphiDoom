@@ -52,9 +52,9 @@ implementation
 type
   T160BitDigest = record
     case integer of
-      0 : (Longs : array[0..4] of LongWord);
-      1 : (Words : array[0..9] of Word);
-      2 : (Bytes : array[0..19] of Byte);
+      0: (Longs: array[0..4] of LongWord);
+      1: (Words: array[0..9] of Word);
+      2: (Bytes: array[0..19] of Byte);
     end;
   P160BitDigest = ^T160BitDigest;
 

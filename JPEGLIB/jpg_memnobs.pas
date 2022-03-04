@@ -112,8 +112,8 @@ procedure jpeg_mem_term (cinfo : j_common_ptr);
 // jpeg_get_small 
 //
 //==============================================================================
-function jpeg_get_small (cinfo : j_common_ptr;
-                         sizeofobject : size_t) : pointer;
+function jpeg_get_small (cinfo: j_common_ptr;
+                         sizeofobject: size_t): pointer;
 
 {GLOBAL}
 {object is a reserved word in Borland Pascal }
@@ -123,9 +123,9 @@ function jpeg_get_small (cinfo : j_common_ptr;
 // jpeg_free_small 
 //
 //==============================================================================
-procedure jpeg_free_small (cinfo : j_common_ptr;
-                           an_object : pointer;
-                           sizeofobject : size_t);
+procedure jpeg_free_small (cinfo: j_common_ptr;
+                           an_object: pointer;
+                           sizeofobject: size_t);
 
 { These two functions are used to allocate and release large chunks of
   memory (up to the total free space designated by jpeg_mem_available).
@@ -143,8 +143,8 @@ procedure jpeg_free_small (cinfo : j_common_ptr;
 // jpeg_get_large 
 //
 //==============================================================================
-function jpeg_get_large (cinfo : j_common_ptr;
-                         sizeofobject : size_t) : voidp; {far}
+function jpeg_get_large (cinfo: j_common_ptr;
+                         sizeofobject: size_t) : voidp; {far}
 
 {GLOBAL}
 
@@ -153,9 +153,9 @@ function jpeg_get_large (cinfo : j_common_ptr;
 // jpeg_free_large 
 //
 //==============================================================================
-procedure jpeg_free_large (cinfo : j_common_ptr;
-                          {var?} an_object : voidp; {FAR}
-                          sizeofobject : size_t);
+procedure jpeg_free_large (cinfo: j_common_ptr;
+                          {var?} an_object: voidp; {FAR}
+                          sizeofobject: size_t);
 
 { This routine computes the total memory space available for allocation.
   It's impossible to do this in a portable way; our current solution is
@@ -204,8 +204,8 @@ uses
 // jpeg_get_small 
 //
 //==============================================================================
-function jpeg_get_small (cinfo : j_common_ptr;
-                         sizeofobject : size_t) : pointer;
+function jpeg_get_small (cinfo: j_common_ptr;
+                         sizeofobject: size_t) : pointer;
 var
   p : pointer;
 begin
@@ -221,9 +221,9 @@ end;
 // jpeg_free_small 
 //
 //==============================================================================
-procedure jpeg_free_small (cinfo : j_common_ptr;
-                           an_object : pointer;
-                           sizeofobject : size_t);
+procedure jpeg_free_small (cinfo: j_common_ptr;
+                           an_object: pointer;
+                           sizeofobject: size_t);
 begin
   FreeMem(an_object, sizeofobject);
 end;
@@ -243,7 +243,7 @@ end;
 //
 //==============================================================================
 function jpeg_get_large (cinfo : j_common_ptr;
-                         sizeofobject : size_t) : voidp; {far}
+                         sizeofobject: size_t) : voidp; {far}
 var
   p : pointer;
 begin
@@ -258,9 +258,9 @@ end;
 // jpeg_free_large 
 //
 //==============================================================================
-procedure jpeg_free_large (cinfo : j_common_ptr;
-                          {var?} an_object : voidp; {FAR}
-                          sizeofobject : size_t);
+procedure jpeg_free_large (cinfo: j_common_ptr;
+                          {var?} an_object: voidp; {FAR}
+                          sizeofobject: size_t);
 begin
   Freemem(an_object, sizeofobject);
 end;

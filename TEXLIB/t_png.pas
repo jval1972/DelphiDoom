@@ -3304,8 +3304,8 @@ begin
     {R, G, B values for each pixel}
     COLOR_RGB:
       case Header.BitDepth of
-        8:  CopyProc := CopyInterlacedRGB8;
-       16:  CopyProc := CopyInterlacedRGB16;
+        8: CopyProc := CopyInterlacedRGB8;
+       16: CopyProc := CopyInterlacedRGB16;
       end {case Header.BitDepth};
     {Palette}
     COLOR_PALETTE, COLOR_GRAYSCALE:
@@ -3323,14 +3323,14 @@ begin
     {RGB followed by alpha}
     COLOR_RGBALPHA:
       case Header.BitDepth of
-        8:  CopyProc := CopyInterlacedRGBAlpha8;
-       16:  CopyProc := CopyInterlacedRGBAlpha16;
+        8: CopyProc := CopyInterlacedRGBAlpha8;
+       16: CopyProc := CopyInterlacedRGBAlpha16;
       end;
     {Grayscale followed by alpha}
     COLOR_GRAYSCALEALPHA:
       case Header.BitDepth of
-        8:  CopyProc := CopyInterlacedGrayscaleAlpha8;
-       16:  CopyProc := CopyInterlacedGrayscaleAlpha16;
+        8: CopyProc := CopyInterlacedGrayscaleAlpha8;
+       16: CopyProc := CopyInterlacedGrayscaleAlpha16;
       end;
   end {case Header.ColorType};
 
@@ -3771,8 +3771,10 @@ begin
 
   {Call special methods for the different interlace methods}
   case Owner.InterlaceMethod of
-    imNone:  DecodeNonInterlaced(stream, ZLIBStream, Size, crcfile);
-    imAdam7: DecodeInterlacedAdam7(stream, ZLIBStream, size, crcfile);
+    imNone:
+      DecodeNonInterlaced(stream, ZLIBStream, Size, crcfile);
+    imAdam7:
+      DecodeInterlacedAdam7(stream, ZLIBStream, size, crcfile);
   end;
 
   {Free memory}
@@ -4153,8 +4155,8 @@ begin
     {Grayscale images followed by an alpha}
     COLOR_GRAYSCALEALPHA:
       case Header.BitDepth of
-        8:  CopyProc := EncodeNonInterlacedGrayscaleAlpha8;
-       16:  CopyProc := EncodeNonInterlacedGrayscaleAlpha16;
+        8: CopyProc := EncodeNonInterlacedGrayscaleAlpha8;
+       16: CopyProc := EncodeNonInterlacedGrayscaleAlpha16;
       end;
   end {case Header.ColorType};
 
