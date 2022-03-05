@@ -675,11 +675,6 @@ begin
   // Use different light tables
   //   for horizontal / vertical / diagonal. Diagonal?
   // OPTIMIZE: get rid of LIGHTSEGSHIFT globally
-  if ds.use_double then
-  begin
-    R_DoRenderThickSideRange1_DBL(ds, x1, x2);
-    Exit;
-  end;
 
   mid := ds.midsec;
   midside := ds.midside; //@sides[mid.midline.sidenum[0]];
@@ -834,11 +829,6 @@ begin
   // Use different light tables
   //   for horizontal / vertical / diagonal. Diagonal?
   // OPTIMIZE: get rid of LIGHTSEGSHIFT globally
-  if ds.use_double then
-  begin
-    R_DoRenderThickSideRange2_DBL(ds, x1, x2);
-    Exit;
-  end;
 
   mid := ds.midsec;
   midside := ds.midside; //@sides[mid.midline.sidenum[0]];
@@ -1042,9 +1032,19 @@ begin
     exit;
 
   if ds.midsiderange.count = 1 then
-    R_DoRenderThickSideRange1(ds, x1, x2)
+  begin
+    if ds.use_double then
+      R_DoRenderThickSideRange1_DBL(ds, x1, x2)
+    else
+      R_DoRenderThickSideRange1(ds, x1, x2)
+  end
   else if ds.midsiderange.count = 2 then
-    R_DoRenderThickSideRange2(ds, x1, x2);
+  begin
+    if ds.use_double then
+      R_DoRenderThickSideRange2_DBL(ds, x1, x2)
+    else
+      R_DoRenderThickSideRange2(ds, x1, x2);
+  end;
 end;
 
 type
