@@ -135,7 +135,7 @@ function R_PointToAngle(x: fixed_t; y: fixed_t): angle_t;
 // R_PointToAngleEx
 //
 //==============================================================================
-function R_PointToAngleEx(const x: fixed_t; const y: fixed_t): angle_t;
+function R_PointToAngleEx(x: fixed_t; y: fixed_t): angle_t;
 
 //==============================================================================
 //
@@ -1051,7 +1051,103 @@ end;
 // R_PointToAngleEx
 //
 //==============================================================================
-function R_PointToAngleEx(const x: fixed_t; const y: fixed_t): angle_t;
+function R_PointToAngleEx(x: fixed_t; y: fixed_t): angle_t;
+begin
+  x := x - viewx;
+  y := y - viewy;
+
+  if (x = 0) and (y = 0) then
+  begin
+    result := 0;
+    exit;
+  end;
+
+  if x >= 0 then
+  begin
+    // x >=0
+    if y >= 0 then
+    begin
+      // y>= 0
+      if x > y then
+      begin
+        // octant 0
+        result := tantoangle_ex[SlopeDivEx(y, x)];
+        exit;
+      end
+      else
+      begin
+        // octant 1
+        result := ANG90 - 1 - tantoangle_ex[SlopeDivEx(x, y)];
+        exit;
+      end;
+    end
+    else
+    begin
+      // y<0
+      y := -y;
+      if x > y then
+      begin
+        // octant 8
+        result := -tantoangle_ex[SlopeDivEx(y, x)];
+        exit;
+      end
+      else
+      begin
+        // octant 7
+        result := ANG270 + tantoangle_ex[SlopeDivEx(x, y)];
+        exit;
+      end;
+    end;
+  end
+  else
+  begin
+    // x<0
+    x := -x;
+    if y >= 0 then
+    begin
+      // y>= 0
+      if x > y then
+      begin
+        // octant 3
+        result := ANG180 - 1 - tantoangle_ex[SlopeDivEx(y, x)];
+        exit;
+      end
+      else
+      begin
+        // octant 2
+        result := ANG90 + tantoangle_ex[SlopeDivEx(x, y)];
+        exit;
+      end;
+    end
+    else
+    begin
+      // y<0
+      y := -y;
+      if x > y then
+      begin
+        // octant 4
+        result := ANG180 + tantoangle_ex[SlopeDivEx(y, x)];
+        exit;
+      end
+      else
+      begin
+        // octant 5
+        result := ANG270 - 1 - tantoangle_ex[SlopeDivEx(x, y)];
+        exit;
+      end;
+    end;
+  end;
+
+  result := 0;
+end;
+
+//==============================================================================
+//
+// R_PointToAngleDbl
+// JVAL: very slow, do not use
+//
+//==============================================================================
+function R_PointToAngleDbl(const x: fixed_t; const y: fixed_t): angle_t;
 var
   xx, yy: fixed_t;
 begin
