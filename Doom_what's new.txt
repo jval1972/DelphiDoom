@@ -1,4 +1,5 @@
 Added -pistolstart command line parameter.
+Prepeare drawseg list in separate thread in software rendering.
 
 Version 2.0.7 build 730 - (20220302)
 -----------------------
