@@ -204,9 +204,6 @@ begin
 end;
 
 var
-  fu8_64a, fu8_64b, fu8_64c, fu8_64d, fu8_64e, fu8_64f, fu8_64g: TDThread;
-
-var
   allocscreensize: integer;
 
 //==============================================================================
@@ -216,18 +213,6 @@ var
 //==============================================================================
 procedure I_ShutDownGraphics;
 begin
-  fu8_64a.Free;
-  fu8_64b.Free;
-  fu8_64c.Free;
-  if fu8_64d <> nil then
-    fu8_64d.Free;
-  if fu8_64e <> nil then
-    fu8_64e.Free;
-  if fu8_64f <> nil then
-    fu8_64f.Free;
-  if fu8_64g <> nil then
-    fu8_64g.Free;
-
   I_ClearInterface(IInterface(g_pDDScreen));
   I_ClearInterface(IInterface(g_pDDSPrimary));
   I_ClearInterface(IInterface(g_pDD));
@@ -416,7 +401,6 @@ end;
 //==============================================================================
 procedure I_BlitBuffer;
 var
-  h1: integer;
   parms1, parms2: finishupdateparms_t;
   p1, p2, p3, p4, p5, p6, p7, p8: finishupdate8param_t;
 begin
@@ -446,9 +430,10 @@ begin
           p1.finish := (SCREENWIDTH * SCREENHEIGHT div 2) and not 3;
           p2.start := p1.finish + 1;
           p2.finish := SCREENWIDTH * SCREENHEIGHT - 1;
-          fu8_64a.Activate(@p1);
-          I_FinishUpdate8_64a(@p2);
-          fu8_64a.Wait;
+          MT_Execute(
+            @I_FinishUpdate8_64a, @p1,
+            @I_FinishUpdate8_64a, @p2
+          );
         end
         else if I_GetNumCPUs <= 4 then
         begin
@@ -458,15 +443,11 @@ begin
           p2.finish := (2 * SCREENWIDTH * SCREENHEIGHT div 3) and not 3;
           p3.start := p2.finish + 1;
           p3.finish := SCREENWIDTH * SCREENHEIGHT - 1;
-          fu8_64a.Activate(@p1);
-          fu8_64b.Activate(@p2);
-          I_FinishUpdate8_64a(@p3);
-          while not fu8_64a.CheckJobDone do
-          begin
-            fu8_64b.CheckJobDone;
-            I_Sleep(0);
-          end;
-          fu8_64b.Wait;
+          MT_Execute(
+            @I_FinishUpdate8_64a, @p1,
+            @I_FinishUpdate8_64a, @p2,
+            @I_FinishUpdate8_64a, @p3
+          );
         end
         else if I_GetNumCPUs <= 6 then
         begin
@@ -478,18 +459,12 @@ begin
           p3.finish := (3 * SCREENWIDTH * SCREENHEIGHT div 4) and not 3;
           p4.start := p3.finish + 1;
           p4.finish := SCREENWIDTH * SCREENHEIGHT - 1;
-          fu8_64a.Activate(@p1);
-          fu8_64b.Activate(@p2);
-          fu8_64c.Activate(@p3);
-          I_FinishUpdate8_64a(@p4);
-          while not fu8_64a.CheckJobDone do
-          begin
-            fu8_64b.CheckJobDone;
-            fu8_64c.CheckJobDone;
-            I_Sleep(0);
-          end;
-          fu8_64b.Wait;
-          fu8_64c.Wait;
+          MT_Execute(
+            @I_FinishUpdate8_64a, @p1,
+            @I_FinishUpdate8_64a, @p2,
+            @I_FinishUpdate8_64a, @p3,
+            @I_FinishUpdate8_64a, @p4
+          );
         end
         else
         begin
@@ -509,30 +484,16 @@ begin
           p7.finish := (7 * SCREENWIDTH * SCREENHEIGHT div 8) and not 3;
           p8.start := p7.finish + 1;
           p8.finish := SCREENWIDTH * SCREENHEIGHT - 1;
-          fu8_64a.Activate(@p1);
-          fu8_64b.Activate(@p2);
-          fu8_64c.Activate(@p3);
-          fu8_64d.Activate(@p4);
-          fu8_64e.Activate(@p5);
-          fu8_64f.Activate(@p6);
-          fu8_64g.Activate(@p7);
-          I_FinishUpdate8_64a(@p8);
-          while not fu8_64a.CheckJobDone do
-          begin
-            fu8_64b.CheckJobDone;
-            fu8_64c.CheckJobDone;
-            fu8_64d.CheckJobDone;
-            fu8_64e.CheckJobDone;
-            fu8_64f.CheckJobDone;
-            fu8_64g.CheckJobDone;
-            I_Sleep(0);
-          end;
-          fu8_64b.Wait;
-          fu8_64c.Wait;
-          fu8_64d.Wait;
-          fu8_64e.Wait;
-          fu8_64f.Wait;
-          fu8_64g.Wait;
+          MT_Execute(
+            @I_FinishUpdate8_64a, @p1,
+            @I_FinishUpdate8_64a, @p2,
+            @I_FinishUpdate8_64a, @p3,
+            @I_FinishUpdate8_64a, @p4,
+            @I_FinishUpdate8_64a, @p5,
+            @I_FinishUpdate8_64a, @p6,
+            @I_FinishUpdate8_64a, @p7,
+            @I_FinishUpdate8_64a, @p8
+          );
         end
       end
       else
@@ -546,9 +507,10 @@ begin
         parms1.stop := SCREENWIDTH * SCREENHEIGHT div 2;
         parms2.start := parms1.stop + 1;
         parms2.stop := SCREENWIDTH * SCREENHEIGHT - 1;
-        h1 := I_CreateProcess(@I_Thr_FinishUpdate8, @parms2, false);
-        I_FinishUpdate8(@parms1);
-        I_WaitForProcess(h1, 1000);
+        MT_Execute(
+          @I_Thr_FinishUpdate8, @parms1,
+          @I_Thr_FinishUpdate8, @parms2
+        );
       end
       else
       begin
@@ -758,23 +720,6 @@ begin
 
   I_EnumDisplayModes;
 
-  fu8_64a := TDThread.Create(I_FinishUpdate8_64a);
-  fu8_64b := TDThread.Create(I_FinishUpdate8_64a);
-  fu8_64c := TDThread.Create(I_FinishUpdate8_64a);
-  if I_GetNumCPUs > 6 then
-  begin
-    fu8_64d := TDThread.Create(I_FinishUpdate8_64a);
-    fu8_64e := TDThread.Create(I_FinishUpdate8_64a);
-    fu8_64f := TDThread.Create(I_FinishUpdate8_64a);
-    fu8_64g := TDThread.Create(I_FinishUpdate8_64a);
-  end
-  else
-  begin
-    fu8_64d := nil;
-    fu8_64e := nil;
-    fu8_64f := nil;
-    fu8_64g := nil;
-  end;
 ///////////////////////////////////////////////////////////////////////////
 // Create the main DirectDraw object
 ///////////////////////////////////////////////////////////////////////////
