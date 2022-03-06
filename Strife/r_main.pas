@@ -2692,6 +2692,7 @@ end;
 var
   task_clearplanes: integer = -1;
   task_8bitlights: integer = -1;
+  task_drawseglists: integer = -1;
 
 //==============================================================================
 //
@@ -2727,7 +2728,8 @@ begin
 
   R_RenderMultiThreadWalls8;
 
-  R_SetUpDrawSegLists;
+  task_drawseglists := MT_ScheduleTask(@R_SetUpDrawSegLists);
+  MT_ExecutePendingTask(task_drawseglists);
 
   R_DrawPlanes;
 
@@ -2740,6 +2742,7 @@ begin
   R_RenderMultiThreadFFloors8;
 
   MT_WaitTask(task_8bitlights);
+  MT_WaitTask(task_drawseglists);
   R_DrawMasked_MultiThread;
 
   // Check for new console commands.
@@ -2789,7 +2792,8 @@ begin
 
   R_RenderMultiThreadWalls32;
 
-  R_SetUpDrawSegLists;
+  task_drawseglists := MT_ScheduleTask(@R_SetUpDrawSegLists);
+  MT_ExecutePendingTask(task_drawseglists);
 
   R_DrawPlanes;
 
@@ -2801,6 +2805,7 @@ begin
 
   R_RenderMultiThreadFFloors32;
 
+  MT_WaitTask(task_drawseglists);
   R_DrawMasked_MultiThread;
 
   // Check for new console commands.
