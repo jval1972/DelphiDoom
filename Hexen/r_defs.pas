@@ -493,6 +493,8 @@ type
 {$IFNDEF OPENGL}
     midvis: Pvisplane3d_t;
     midsiderange: midsiderange_t;
+    // JVAL: 20220306 - New field, precalculates (::silhouette = 0) and (::maskedtexturecol = nil) and (::thicksidecol = nil)
+    maskedquery: boolean;
 {$ENDIF}
   end;
   Pdrawseg_t = ^drawseg_t;

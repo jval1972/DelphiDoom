@@ -4482,6 +4482,7 @@ end;
 const
   NUM_DRAWSEGS_SLICES = 4;
   NUM_DRAWSEGS_SLICES2 = 8;
+  NUM_DRAWSEGS_SLICES3 = 32;
   MANY_DRAWSEGS = 2048;
 
 type
@@ -4505,6 +4506,10 @@ var
   s2ds_p: array [0..NUM_DRAWSEGS_SLICES2 - 1] of integer;
   ds2_slices: array[0..NUM_DRAWSEGS_SLICES2 - 1] of ds_slice_t;
   ds2_range: integer;
+  s3drawsegs: array[0..NUM_DRAWSEGS_SLICES3 - 1] of array[0..MAXDRAWSEGS - 1] of Pdrawseg_t;
+  s3ds_p: array [0..NUM_DRAWSEGS_SLICES3 - 1] of integer;
+  ds3_slices: array[0..NUM_DRAWSEGS_SLICES3 - 1] of ds_slice_t;
+  ds3_range: integer;
 
 //==============================================================================
 //
@@ -4515,6 +4520,11 @@ procedure R_SetDrawSegToLists(const pds: Pdrawseg_t);
 var
   i: integer;
 begin
+  // JVAL: 20220306 - New field, precalculates (::silhouette = 0) and (::maskedtexturecol = nil) and (::thicksidecol = nil)
+  pds.maskedquery := (pds.silhouette = 0) and (pds.maskedtexturecol = nil) and (pds.thicksidecol = nil);
+  if pds.maskedquery then
+    exit; // JVAL: nothing to do
+
 // Right screen list
   if pds.x2 >= centerx then
   begin
@@ -4554,6 +4564,19 @@ begin
           inc(s2ds_p[i]);
         end;
     end;
+
+  if ds3_range > 0 then
+    for i := 0 to NUM_DRAWSEGS_SLICES3 - 1 do
+    begin
+      if pds.x1 <= ds3_slices[i].finish then
+        if pds.x2 >= ds3_slices[i].start then
+        begin
+        // Found a small list
+        // The pds drawseg is a part of small list
+          s3drawsegs[i][s3ds_p[i]] := pds;
+          inc(s3ds_p[i]);
+        end;
+    end;
 end;
 
 //==============================================================================
@@ -4580,9 +4603,10 @@ begin
     ds_slices[i].finish := ds_slices[i + 1].start - 1;
   ds_slices[NUM_DRAWSEGS_SLICES - 1].finish := viewwidth;
 
-// Create the ds2_slices ranges
+// Create the ds2_slices & ds3_slices ranges
   if ds_p > MANY_DRAWSEGS then
   begin
+    //ds2_slices
     for i := 0 to NUM_DRAWSEGS_SLICES2 - 1 do
       s2ds_p[i] := 0;
     ds2_range := viewwidth div NUM_DRAWSEGS_SLICES2;
@@ -4592,9 +4616,22 @@ begin
     for i := 0 to NUM_DRAWSEGS_SLICES2 - 2 do
       ds2_slices[i].finish := ds2_slices[i + 1].start - 1;
     ds2_slices[NUM_DRAWSEGS_SLICES2 - 1].finish := viewwidth;
+    //ds3_slices
+    for i := 0 to NUM_DRAWSEGS_SLICES3 - 1 do
+      s3ds_p[i] := 0;
+    ds3_range := viewwidth div (NUM_DRAWSEGS_SLICES3 div 2);
+    ds3_slices[0].start := 0;
+    for i := 1 to NUM_DRAWSEGS_SLICES3 - 1 do
+      ds3_slices[i].start := (ds3_range div 2) * i;
+    for i := 0 to NUM_DRAWSEGS_SLICES3 - 2 do
+      ds3_slices[i].finish := ds3_slices[i].start + ds3_range;
+    ds3_slices[NUM_DRAWSEGS_SLICES3 - 1].finish := viewwidth;
   end
   else
+  begin
     ds2_range := -1;
+    ds3_range := -1;
+  end;
 
 // Generate the drawseg lists
   for i := 0 to ds_p - 1 do
@@ -4620,6 +4657,7 @@ procedure R_GetDrawsegsForRange(x1, x2: integer; var fdrawsegs: Pdrawsegsbuffer_
 var
   i: integer;
   tmp: integer;
+  dx: integer;
 begin
   if x2 < x1 then
   begin
@@ -4628,7 +4666,24 @@ begin
     x1 := tmp;
   end;
 
-  if x2 - x1 <= ds2_range then // Quickly decide the posibility of fiting in a small list
+  dx := x2 - x1;
+
+  if dx <= ds3_range then // Quickly decide the posibility of fiting in a small list
+  begin
+    for i := 0 to NUM_DRAWSEGS_SLICES3 - 1 do
+    begin
+      // Check if we have a hit in a small list
+      if x1 >= ds3_slices[i].start then
+        if x2 <= ds3_slices[i].finish then
+        begin // Found a small list
+          fdrawsegs := @s3drawsegs[i];
+          fcnt := s3ds_p[i];
+          exit;
+        end;
+    end;
+  end;
+
+  if dx <= ds2_range then // Quickly decide the posibility of fiting in a small list
   begin
     for i := 0 to NUM_DRAWSEGS_SLICES2 - 1 do
     begin
@@ -4643,7 +4698,7 @@ begin
     end;
   end;
 
-  if x2 - x1 <= ds_range then // Quickly decide the posibility of fiting in a small list
+  if dx <= ds_range then // Quickly decide the posibility of fiting in a small list
   begin
     for i := 0 to NUM_DRAWSEGS_SLICES - 1 do
     begin
