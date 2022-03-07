@@ -381,7 +381,7 @@ begin
           s := lines[i].sidenum[0];
           P_AddScroller(sc_side, -sides[s].textureoffset,
                         sides[s].rowoffset, -1, s, accel);
-       end;
+        end;
 
      1024, // special 255 with tag control
      1025,
@@ -407,7 +407,6 @@ begin
                 P_AddScroller(sc_side, dx, dy, control, lines[s].sidenum[0], accel);
           end;
         end;
-
     end;
 
   end;
