@@ -3,6 +3,7 @@ Prepeare drawseg list in separate thread in software rendering.
 Use general purpose threads in 8 bit software rendering blit.
 Speed optimizations in R_PointToAngleEx().
 Speed optimizations of big maps in software rendering.
+Fixed misspelled of "joystick" in the menus.
 
 Version 2.0.7 build 730 - (20220302)
 -----------------------

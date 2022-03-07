@@ -6773,7 +6773,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '!Use joystic';
+  pmi.name := '!Use joystick';
   pmi.cmd := 'use_joystick';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @usejoystick;
