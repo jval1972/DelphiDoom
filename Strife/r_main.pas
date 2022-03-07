@@ -1005,10 +1005,10 @@ end;
 
 //==============================================================================
 //
-// R_PointToAngleEx
+// R_PointToAngleEx1
 //
 //==============================================================================
-function R_PointToAngleEx(x: fixed_t; y: fixed_t): angle_t;
+function R_PointToAngleEx1(x: fixed_t; y: fixed_t): angle_t;
 begin
   x := x - viewx;
   y := y - viewy;
@@ -1096,6 +1096,30 @@ begin
   end;
 
   result := 0;
+end;
+
+var
+  pta_x, pta_y: fixed_t;
+  pta_ret: angle_t;
+
+//==============================================================================
+//
+// R_PointToAngleEx
+//
+//==============================================================================
+function R_PointToAngleEx(x: fixed_t; y: fixed_t): angle_t;
+begin
+  if x = pta_x then
+    if y = pta_y then
+    begin
+      Result := pta_ret;
+      Exit;
+    end;
+
+  result := R_PointToAngleEx1(x, y);
+  pta_x := x;
+  pta_y := y;
+  pta_ret := Result;
 end;
 
 //==============================================================================
