@@ -1206,10 +1206,12 @@ begin
   begin
     while dc_x <= vis.x2 do
     begin
-      texturecolumn := LongWord(frac) shr FRACBITS;
-
-      column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
-      dmcproc(column, dbscale, vis.mo, baseclip, vis.renderflags);
+      if solidcolumns[dc_x] < dbscale then
+      begin
+        texturecolumn := LongWord(frac) shr FRACBITS;
+        column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
+        dmcproc(column, dbscale, vis.mo, baseclip, vis.renderflags);
+      end;
       frac := frac + xiscale;
       inc(dc_x);
     end;
@@ -2227,6 +2229,7 @@ var
   x: integer;
   sx1: integer;
   sx2: integer;
+  totalclip: boolean;
   r1: integer;
   r2: integer;
   scale: fixed_t;
@@ -2250,6 +2253,20 @@ begin
 
   sx1 := spr.x1;
   sx2 := spr.x2;
+
+  totalclip := true;
+  for x := sx1 to sx2 do
+  begin
+    if solidcolumns[x] < spr.scale then
+    begin
+      totalclip := false;
+      break;
+    end;
+  end;
+
+  if totalclip then
+    exit;
+
   size := sx2 - sx1 + 1;
   memsetsi(@clipbot[sx1], - 2, size);
   memsetsi(@cliptop[sx1], - 2, size);

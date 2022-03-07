@@ -2865,6 +2865,7 @@ begin
   // Clear buffers.
   R_ClearClipSegs;
   R_ClearDrawSegs;
+  R_ClearSolidColumns;
   R_ClearPlanes;
   R_Wait3DLookup;
   R_Fake3DAdjustPlanes(player);
@@ -2929,6 +2930,7 @@ begin
   // Clear buffers.
   R_ClearClipSegs;
   R_ClearDrawSegs;
+  R_ClearSolidColumns;
   R_ClearPlanes;
   R_Wait3DLookup;
   R_Fake3DAdjustPlanes(player);
@@ -3000,6 +3002,7 @@ begin
 {$IFNDEF OPENGL}
   R_ClearClipSegs;
   R_ClearDrawSegs;
+  R_ClearSolidColumns;
 {$ENDIF}
   R_ClearPlanes;
 {$IFNDEF OPENGL}

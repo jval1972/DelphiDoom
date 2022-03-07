@@ -35,6 +35,7 @@ interface
 
 uses
   d_delphi,
+  doomdef,
   m_fixed,
   r_defs;
 
@@ -135,11 +136,15 @@ var
 //==============================================================================
 procedure R_SetDrawSegFunctions;
 
+var
+  solidcolumns: array[0..MAXWIDTH - 1] of fixed_t;
+
+procedure R_ClearSolidColumns;
+
 implementation
 
 uses
   doomtype,
-  doomdef,
   p_setup,
   r_bsp,
   r_column,
@@ -4730,6 +4735,11 @@ begin
 // No fit, use the entire drawseg list :)
   fdrawsegs := @drawsegs;
   fcnt := ds_p;
+end;
+
+procedure R_ClearSolidColumns;
+begin
+  memseti(@solidcolumns, 0, SCREENWIDTH);
 end;
 
 end.

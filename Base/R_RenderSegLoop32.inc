@@ -220,6 +220,11 @@ begin
     // draw the wall tiers
     if midtexture <> 0 then
     begin
+      {$IFDEF USEDOUBLE}
+      solidcolumns[rwx] := round(rw_scale_dbl);
+      {$ELSE}
+      solidcolumns[rwx] := rw_scale;
+      {$ENDIF}
       // single sided line
       dc_texturemid := rw_midtexturemid;
       dc_height := rw_midtextureheight;
