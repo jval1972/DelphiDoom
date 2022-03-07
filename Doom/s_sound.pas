@@ -263,7 +263,6 @@ const
   NORM_PRIORITY = 64;
   NORM_SEP = 128;
 
-  S_PITCH_PERTURB = 1;
   S_STEREO_SWING = 96 * $10000;
 
 type
