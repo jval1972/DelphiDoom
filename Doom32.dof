@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=
+RunParams=oldbinfiles\Hellbnd.wad oldbinfiles\HBFM29.wad
 HostApplication=
 Launcher=
 UseLauncher=0
