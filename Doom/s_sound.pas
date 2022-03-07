@@ -1239,9 +1239,20 @@ begin
     cnum := 0;
     while cnum < numChannels do
     begin
-      if channels[cnum].sfxinfo.priority >= sfxinfo.priority then
+      if channels[cnum].sfxinfo.priority > sfxinfo.priority then
         break;
       inc(cnum);
+    end;
+
+    if cnum = numChannels then
+    begin
+      cnum := 0;
+      while cnum < numChannels do
+      begin
+        if channels[cnum].sfxinfo.priority = sfxinfo.priority then
+          break;
+        inc(cnum);
+      end;
     end;
 
     if cnum = numChannels then
