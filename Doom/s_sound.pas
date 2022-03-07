@@ -1136,6 +1136,7 @@ begin
     result := true;
     exit;
   end;
+
   // calculate the distance to sound origin
   //  and clip it if necessary
   adx := abs(listener.x - source.x);
