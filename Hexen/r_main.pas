@@ -2849,10 +2849,10 @@ begin
 
   R_SortVisSpritesMT;
 
-  R_RenderMultiThreadWalls8;
-
   task_drawseglists := MT_ScheduleTask(@R_SetUpDrawSegLists);
   MT_ExecutePendingTask(task_drawseglists);
+
+  R_RenderMultiThreadWalls8;
 
   R_DrawPlanes;
 
@@ -2913,10 +2913,10 @@ begin
 
   R_SortVisSpritesMT;
 
-  R_RenderMultiThreadWalls32;
-
   task_drawseglists := MT_ScheduleTask(@R_SetUpDrawSegLists);
   MT_ExecutePendingTask(task_drawseglists);
+
+  R_RenderMultiThreadWalls32;
 
   R_DrawPlanes;
 
