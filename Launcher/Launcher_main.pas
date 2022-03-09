@@ -802,8 +802,9 @@ begin
     AddCmd(IntToStr(KeyboardModeRadioGroup.ItemIndex - 1));
   end;
 
+  result := cmd;
   if Trim(AdditionalParametersEdit.Text) <> '' then
-    result := cmd + ' ' + Trim(AdditionalParametersEdit.Text);
+    result := result + ' ' + Trim(AdditionalParametersEdit.Text);
 end;
 
 procedure TForm1.RunDelphiDoomClick(Sender: TObject);
