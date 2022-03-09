@@ -2241,13 +2241,6 @@ var
   fds_p: integer;
   fdrawsegs: Pdrawsegsbuffer_t;
 begin
-  // JVAL voxel support
-  if spr.voxelflag <> 0 then
-  begin
-    R_DrawVoxel(spr);
-    exit;
-  end;
-
   sx1 := spr.x1;
   sx2 := spr.x2;
   size := sx2 - sx1 + 1;
@@ -2593,6 +2586,7 @@ end;
 procedure R_DoDrawMasked;
 var
   pds: Pdrawseg_t;
+  spr: Pvissprite_t;
   i: integer;
 begin
   if vissprite_p > 0 then
@@ -2604,15 +2598,25 @@ begin
       // 32bit color
       for i := 0 to vissprite_p - 1 do
       begin
-        if vissprites[i].mobjflags_ex and MF_EX_LIGHT <> 0 then
-          R_DrawSpriteLight(vissprites[i]);
-        R_DrawSprite(vissprites[i]);
+        spr := vissprites[i];
+        if spr.mobjflags_ex and MF_EX_LIGHT <> 0 then
+          R_DrawSpriteLight(spr);
+        if spr.voxelflag <> 0 then
+          R_DrawVoxel(spr)
+        else
+          R_DrawSprite(spr);
       end;
     end
     else
     begin
       for i := 0 to vissprite_p - 1 do
-        R_DrawSprite(vissprites[i]);
+      begin
+        spr := vissprites[i];
+        if spr.voxelflag <> 0 then
+          R_DrawVoxel(spr)
+        else
+          R_DrawSprite(spr);
+      end;
     end;
   end;
 
