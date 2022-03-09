@@ -2515,6 +2515,11 @@ begin
 
   viewz := player.viewz;
 
+  // JVAL: 20220309 - Reset R_PointToAngleEx
+  pta_x := 0;
+  pta_y := 0;
+  pta_ret := 0;
+
   R_AdjustTeleportZoom(player);
   R_AdjustChaseCamera;
   R_AdjustGlobalEarthQuake(player);
