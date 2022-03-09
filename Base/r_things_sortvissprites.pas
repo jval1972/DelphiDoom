@@ -91,7 +91,7 @@ function getvissortscale(const vis: Pvissprite_t): integer;
 begin
   result := vis.scale;
   {$IFDEF HEXEN}
-  if vis.mobjflags2 and MF2_DROPPED <> 0 then
+  if vis.mo.flags2 and MF2_DROPPED <> 0 then
   {$ELSE}
   if vis.mobjflags and MF_DROPPED <> 0 then
   {$ENDIF}

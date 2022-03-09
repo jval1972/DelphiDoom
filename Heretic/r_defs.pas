@@ -325,6 +325,7 @@ const
 const
   // Vissprite render flags
   VSF_TRANSPARENCY = 1;
+  VSF_VOXEL = 2;
 
 //
 // A SubSector.
@@ -561,9 +562,7 @@ type
     texturemid: fixed_t;
     {$IFNDEF OPENGL}
     texturemid2: fixed_t; // JVAL For light boost
-    voxelflag: integer;   // JVAL voxel support
-    vx1: integer;
-    vx2: integer;
+    vx1, vx2: integer;  // JVAL voxel support
     ceilingz: fixed_t;    // JVAL 3d Floors
     {$ENDIF}
     patch: integer;
@@ -575,9 +574,7 @@ type
     renderflags: LongWord;
 {$ENDIF}
     mobjflags: integer;
-    mobjflags2: integer;
     mobjflags_ex: integer;
-    mobjflags2_ex: integer;
     mo: Pmobj_t;
 {$IFDEF OPENGL}
     flip: boolean;

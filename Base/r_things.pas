@@ -1728,11 +1728,7 @@ begin
   // store information in a vissprite
   vis := R_NewVisSprite;
   vis.mobjflags := thing.flags;
-  {$IFDEF HERETIC_OR_HEXEN}
-  vis.mobjflags2 := thing.flags2;
-  {$ENDIF}
   vis.mobjflags_ex := thing.flags_ex or (thing.state.flags_ex and MF_EX_STATE_MASK); // JVAL: extended flags passed to vis
-  vis.mobjflags2_ex := thing.flags2_ex; // JVAL: extended flags passed to vis
   vis.mo := thing;
   vis.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
   vis.infoscale := infoscale;
@@ -1755,7 +1751,10 @@ begin
   {$IFDEF DOOM_OR_STRIFE}
   vis.heightsec := heightsec;
   {$ENDIF}
-  vis.voxelflag := voxelflag;  // JVAL voxel support
+  if voxelflag <> 0 then
+    vis.renderflags := VSF_VOXEL  // JVAL voxel support
+  else
+    vis.renderflags := 0;
   vis.gx := thing.x;
   vis.gy := thing.y;
   vis.gz := thing.z;
@@ -1875,13 +1874,12 @@ begin
     vis.colormap := sprlights[index]; // JVAL: 3d Floors
   end;
 
-  vis.renderflags := 0;
   if (vis.colormap = nil) or
      {$IFDEF HEXEN}(vis.mobjflags and (MF_SHADOW or MF_ALTSHADOW) <> 0) or {$ENDIF}
      {$IFDEF STRIFE}(vis.mobjflags and MF_SHADOW <> 0) or {$ENDIF}
      (usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle in [mrs_translucent, mrs_add, mrs_subtract])) or
      (usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0)) then
-    vis.renderflags := VSF_TRANSPARENCY;
+    vis.renderflags := vis.renderflags or VSF_TRANSPARENCY;
 {$ENDIF}
 
 {$IFDEF OPENGL}
@@ -2062,11 +2060,7 @@ begin
   // store information in a vissprite
   vis := @avis;
   vis.mobjflags := 0;
-{$IFDEF HERETIC_OR_HEXEN}
-  vis.mobjflags2 := 0;
-{$ENDIF}
   vis.mobjflags_ex := 0;
-  vis.mobjflags2_ex := 0;
   vis.mo := viewplayer.mo;
   vis.texturemid := (BASEYCENTER * FRACUNIT) - (psp.sy - spritetopoffset[lump]);
   if viewplayer.mo <> nil then
@@ -2216,6 +2210,8 @@ end;
 // R_DrawSprite
 //
 //==============================================================================
+var
+  tot, miss: integer;
 procedure R_DrawSprite(spr: Pvissprite_t);
 var
   ds: Pdrawseg_t;
@@ -2241,6 +2237,8 @@ begin
   size := sx2 - sx1 + 1;
   memsetsi(@clipbot[sx1], - 2, size);
   memsetsi(@cliptop[sx1], - 2, size);
+  tot := 0;
+  miss := 0;
 
   R_GetDrawsegsForVissprite(spr, fdrawsegs, fds_p);
 
@@ -2249,11 +2247,13 @@ begin
   //  is the clip seg.
   for i := fds_p - 1 downto 0 do
   begin
+    Inc(tot);
     ds := fdrawsegs[i];
     // determine if the drawseg obscures the sprite
     if (ds.x1 > sx2) or (ds.x2 < sx1) or ds.maskedquery then
     begin
       // does not cover sprite
+      Inc(miss);
       continue;
     end;
 
@@ -2286,6 +2286,9 @@ begin
       if ds.maskedtexturecol <> nil then
         R_RenderMaskedSegRange(ds, r1, r2);
       // seg is behind sprite
+      if ds.thicksidecol = nil then
+        if ds.maskedtexturecol = nil then
+          Inc(miss);
       continue;
     end;
 
@@ -2596,7 +2599,7 @@ begin
         spr := vissprites[i];
         if spr.mobjflags_ex and MF_EX_LIGHT <> 0 then
           R_DrawSpriteLight(spr);
-        if spr.voxelflag <> 0 then
+        if spr.renderflags and VSF_VOXEL <> 0 then
           R_DrawVoxel(spr)
         else
           R_DrawSprite(spr);
@@ -2607,7 +2610,7 @@ begin
       for i := 0 to vissprite_p - 1 do
       begin
         spr := vissprites[i];
-        if spr.voxelflag <> 0 then
+        if spr.renderflags and VSF_VOXEL <> 0 then
           R_DrawVoxel(spr)
         else
           R_DrawSprite(spr);

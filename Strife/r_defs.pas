@@ -379,6 +379,7 @@ const
 const
   // Vissprite render flags
   VSF_TRANSPARENCY = 1;
+  VSF_VOXEL = 2;
 
 //
 // A SubSector.
@@ -616,8 +617,7 @@ type
     {$IFNDEF OPENGL}
     texturemid2: fixed_t; // JVAL For light boost
     heightsec: integer;   // killough 3/27/98: height sector for underwater/fake ceiling support
-    voxelflag: integer;   // JVAL voxel support (1 for sprites, 0 for skipped spites (only light), 1.... for voxels
-    vx1, vx2: integer;
+    vx1, vx2: integer;  // JVAL voxel support
     ceilingz: fixed_t;    // JVAL 3d Floors
     {$ENDIF}
     patch: integer;
@@ -630,7 +630,6 @@ type
 {$ENDIF}
     mobjflags: LongWord;
     mobjflags_ex: LongWord;
-    mobjflags2_ex: LongWord;
     mo: Pmobj_t;
 {$IFDEF OPENGL}
     flip: boolean;
