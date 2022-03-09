@@ -607,6 +607,7 @@ begin
       break;
     end;
 
+  cmd := '';
   if check then
   begin
     AddCmd('-lfile');
