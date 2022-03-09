@@ -100,7 +100,7 @@ Conditionals=HEXEN;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Hexen\
 UsePackages=0
 [Parameters]
-RunParams=hexen_test2.wad
+RunParams=
 HostApplication=
 Launcher=
 UseLauncher=0

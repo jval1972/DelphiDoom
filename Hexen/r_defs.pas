@@ -281,6 +281,10 @@ type
 
     // JVAL: 20220209 - UDMF support
     moreids: moreids_t;
+
+    {$IFNDEF OPENGL}
+    rendervalidcount: integer;  // JVAL: 20220309 - Speed optimization
+    {$ENDIF}
   end;
   PPline_t = ^Pline_t;
   line_tArray = packed array[0..$FFFF] of line_t;
@@ -290,6 +294,7 @@ const
   // Line rendering flags
   LRF_ISOLATED = 1;
   LRF_SLOPED = 4; // JVAL: Slopes
+  LRF_IGNOREPASS = 8; // JVAL: 20220309 - Speed optimization
 
 const
   // Sidedef flags

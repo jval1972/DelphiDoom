@@ -102,6 +102,7 @@ uses
   p_setup,
   p_slopes, // JVAL: Slopes
   {$IFNDEF OPENGL}
+  p_tick,
   r_segs,
   r_3dfloors, // JVAL: 3d Floors
   r_slopes,   // JVAL: Slopes
@@ -635,6 +636,39 @@ begin
     ((backsector.ceilingpic <> skyflatnum) or
      (frontsector.ceilingpic <> skyflatnum));
 end;
+
+//==============================================================================
+//
+// R_RecalcLineIgnorePassFlag
+//
+//==============================================================================
+procedure R_RecalcLineIgnorePassFlag(const l: Pline_t; const bsec, fsec: Psector_t);
+begin
+  l.rendervalidcount := leveltime;
+  if (bsec.ceilingpic = fsec.ceilingpic) and
+     (bsec.floorpic = fsec.floorpic) and
+     (bsec.lightlevel = fsec.lightlevel) and
+     (bsec.floorangle = fsec.floorangle) and
+     (bsec.flooranglex = fsec.flooranglex) and
+     (bsec.floorangley = fsec.floorangley) and
+     (bsec.ceilingangle = fsec.ceilingangle) and
+     (bsec.ceilinganglex = fsec.ceilinganglex) and
+     (bsec.ceilingangley = fsec.ceilingangley) and
+     // killough 3/7/98: Take flats offsets into account
+     (bsec.floor_xoffs = fsec.floor_xoffs) and
+     (bsec.floor_yoffs = fsec.floor_yoffs) and
+     (bsec.ceiling_xoffs = fsec.ceiling_xoffs) and
+     (bsec.ceiling_yoffs = fsec.ceiling_yoffs) and
+      // killough 4/16/98: consider altered lighting
+     (bsec.floorlightsec = fsec.floorlightsec) and
+     (bsec.ceilinglightsec = fsec.ceilinglightsec) and
+     (bsec.midsec = fsec.midsec) then // JVAL: 3d Floors
+  begin
+    l.renderflags := l.renderflags or LRF_IGNOREPASS;
+    exit;
+  end;
+  l.renderflags := l.renderflags and not LRF_IGNOREPASS;
+end;
 {$ENDIF}
 
 //==============================================================================
@@ -652,6 +686,7 @@ var
   tspan: angle_t;
   clipangle2: angle_t;
   sd: Pside_t;
+  ln: Pline_t;
 {$ENDIF}
   angle1: angle_t;
   angle2: angle_t;
@@ -799,27 +834,14 @@ begin
   // Identical floor and ceiling on both sides,
   // identical light levels on both sides,
   // and no middle texture.
-  if (backsector.ceilingpic = frontsector.ceilingpic) and
-     (backsector.floorpic = frontsector.floorpic) and
-     (backsector.lightlevel = frontsector.lightlevel) and
-     (backsector.floorangle = frontsector.floorangle) and
-     (backsector.flooranglex = frontsector.flooranglex) and
-     (backsector.floorangley = frontsector.floorangley) and
-     (backsector.ceilingangle = frontsector.ceilingangle) and
-     (backsector.ceilinganglex = frontsector.ceilinganglex) and
-     (backsector.ceilingangley = frontsector.ceilingangley) and
-     (curline.sidedef.midtexture = 0) and
-     // killough 3/7/98: Take flats offsets into account
-     (backsector.floor_xoffs = frontsector.floor_xoffs) and
-     (backsector.floor_yoffs = frontsector.floor_yoffs) and
-     (backsector.ceiling_xoffs = frontsector.ceiling_xoffs) and
-     (backsector.ceiling_yoffs = frontsector.ceiling_yoffs) and
-      // killough 4/16/98: consider altered lighting
-     (backsector.floorlightsec = frontsector.floorlightsec) and
-     (backsector.ceilinglightsec = frontsector.ceilinglightsec) and
-     (backsector.midsec = frontsector.midsec) then // JVAL: 3d Floors
-
-    exit;
+  if sd.midtexture = 0 then
+  begin
+    ln := line.linedef;
+    if ln.rendervalidcount <> leveltime then
+      R_RecalcLineIgnorePassFlag(ln, backsector, frontsector);
+    if ln.renderflags and LRF_IGNOREPASS <> 0 then
+      exit;
+  end;
 
   R_ClipPassWallSegment(x1, x2 - 1);
 {$ENDIF}
