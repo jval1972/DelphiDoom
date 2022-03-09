@@ -1766,22 +1766,22 @@ begin
     begin
       if pds.midsec <> nil then
       begin
-        f_RenderSegLoop_3dFloors_Vis_SO(pds); // version 205
+        f_RenderSegLoop_3dFloors_Vis_SO(pds); // version 207
       end
       else
       begin
-        f_RenderSegLoop_Vis_SO(pds); // version 205
+        f_RenderSegLoop_Vis_SO(pds); // version 207
       end;
     end
     else
     begin
       if pds.midsec <> nil then
       begin
-        f_RenderSegLoop_3dFloors_SO(pds); // version 205
+        f_RenderSegLoop_3dFloors_SO(pds); // version 207
       end
       else
       begin
-        f_RenderSegLoop_SO; // version 205
+        f_RenderSegLoop_SO; // version 207
       end;
     end;
   end
