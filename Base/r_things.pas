@@ -1809,15 +1809,10 @@ begin
     if thing.ceilingz < vis.ceilingz then
       vis.ceilingz := thing.ceilingz;
 
-    vis.drawn := false;
-
     midn := Psubsector_t(thing.subsector).sector.midsec;
     if midn >= 0 then
     begin
       mid := @sectors[midn];
-      if ((vis.gz >= mid.ceilingheight) and (viewz < mid.ceilingheight)) or
-         ((vis.ceilingz <= mid.floorheight) and (viewz > mid.floorheight)) then
-           vis.drawn := true;
       if vis.gz < mid.floorheight then
         sprlights := spritelights2;
     end;

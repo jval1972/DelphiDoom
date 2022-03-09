@@ -564,7 +564,6 @@ type
     voxelflag: integer;   // JVAL voxel support
     vx1: integer;
     vx2: integer;
-    drawn: Boolean;       // JVAL 3d Floors
     ceilingz: fixed_t;    // JVAL 3d Floors
     {$ENDIF}
     patch: integer;
