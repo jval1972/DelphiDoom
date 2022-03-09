@@ -669,6 +669,9 @@ begin
   entry.mapname := '';
 
   sc.GetString;
+  if sc._String = '_ENDBLOCK' then
+    sc.GetString;
+
   if sc._Finished then
   begin
     result := false;
