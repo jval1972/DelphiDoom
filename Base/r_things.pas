@@ -2389,7 +2389,7 @@ begin
     end
     else if silhouette = 3 then
     begin
-      item.operation := CACHE_OP_SIL2;
+      item.operation := CACHE_OP_SIL3;
       Inc(cache.cachesize);
       continue;
     end;
