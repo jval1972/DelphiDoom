@@ -193,6 +193,40 @@ var
 var
   domaskedzbuffer: boolean;
 
+{$IFNDEF OPENGL}
+const
+  SPRITECACHESIZE = 8192 * 1024;
+
+var
+  spritecache: array[0..SPRITECACHESIZE - 1] of Byte;
+  spritecachepos: integer;
+  maskedpreparesignal: boolean;
+
+const
+  CACHE_OP_THICK = 1;
+  CACHE_OP_MASKED = 2;
+  CACHE_OP_THICK_AND_MASKED = 3;
+  CACHE_OP_SIL1 = 4;
+  CACHE_OP_SIL2 = 5;
+  CACHE_OP_SIL3 = 6;
+
+type
+  visspritecacheitem_t = record
+    ds: Pdrawseg_t;
+    r1, r2: integer;
+    operation: integer;
+  end;
+  Pvisspritecacheitem_t = ^visspritecacheitem_t;
+
+  visspritecache_t = record
+    fds_p: integer;
+    fdrawsegs: Pdrawsegsbuffer_t;
+    cachesize: integer;
+    cache: array[0..0] of visspritecacheitem_t;
+  end;
+  Pvisspritecache_t = ^visspritecache_t;
+{$ENDIF}
+
 implementation
 
 uses
@@ -2226,39 +2260,6 @@ begin
 end;
 
 {$IFNDEF OPENGL}
-
-const
-  SPRITECACHESIZE = 8192 * 1024;
-
-var
-  spritecache: array[0..SPRITECACHESIZE - 1] of Byte;
-  spritecachepos: integer;
-  maskedpreparesignal: boolean;
-
-const
-  CACHE_OP_THICK = 1;
-  CACHE_OP_MASKED = 2;
-  CACHE_OP_THICK_AND_MASKED = 3;
-  CACHE_OP_SIL1 = 4;
-  CACHE_OP_SIL2 = 5;
-  CACHE_OP_SIL3 = 6;
-
-type
-  visspritecacheitem_t = record
-    ds: Pdrawseg_t;
-    r1, r2: integer;
-    operation: integer;
-  end;
-  Pvisspritecacheitem_t = ^visspritecacheitem_t;
-
-  visspritecache_t = record
-    fds_p: integer;
-    fdrawsegs: Pdrawsegsbuffer_t;
-    cachesize: integer;
-    cache: array[0..0] of visspritecacheitem_t;
-  end;
-  Pvisspritecache_t = ^visspritecache_t;
-
 //==============================================================================
 //
 // R_SignalPrepareMasked;
@@ -2291,13 +2292,22 @@ begin
     exit;
   end;
 
-  sx1 := spr.x1;
-  sx2 := spr.x2;
-
   cache := @spritecache[spritecachepos];
   spr.cache := cache;
-  R_GetDrawsegsForVissprite(spr, cache.fdrawsegs, cache.fds_p);
   cache.cachesize := 0;
+
+  if spr.renderflags and VSF_VOXEL <> 0 then
+  begin
+    sx1 := spr.vx1;
+    sx2 := spr.vx2;
+  end
+  else
+  begin
+    sx1 := spr.x1;
+    sx2 := spr.x2;
+  end;
+
+  R_GetDrawsegsForRange(sx1, sx2, cache.fdrawsegs, cache.fds_p);
 
   // Scan drawsegs from end to start for obscuring segs.
   // The first drawseg that has a greater scale
@@ -2401,16 +2411,6 @@ end;
 
 //==============================================================================
 //
-// R_PrepareVoxel
-//
-//==============================================================================
-function R_PrepareVoxel(const spr: Pvissprite_t): boolean;
-begin
-  Result := True;
-end;
-
-//==============================================================================
-//
 // R_PrepareLight
 //
 //==============================================================================
@@ -2439,19 +2439,12 @@ begin
     spr := vissprites[i];
     if dolight then
       if spr.mobjflags_ex and MF_EX_LIGHT <> 0 then
-      begin
-        if not R_PrepareLight(spr) then Break;
-      end;
-    if spr.renderflags and VSF_VOXEL <> 0 then
-    begin
-      if not R_PrepareVoxel(spr) then Break;
-    end
-    else
-    begin
-      if not R_PrepareSprite(spr) then Break;
-    end;
+        if not R_PrepareLight(spr) then
+          Break;
+    if not R_PrepareSprite(spr) then
+      Break;
     if maskedpreparesignal then
-      break;
+      Break;
   end;
 end;
 
