@@ -3,7 +3,7 @@ Use general purpose threads in 8 bit software rendering blit.
 Speed optimizations in R_PointToAngleEx().
 Speed optimizations of big maps in software rendering.
 Fixed misspelled of "joystick" in the menus.
-Better multithreading scaling in software mode (prepare sprites).
+Better multithreading scaling in software mode (prepare clipping info for sprites & voxels).
 
 Version 2.0.7 build 730 - (20220302)
 -----------------------

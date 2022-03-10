@@ -6,7 +6,7 @@ Speed optimizations of big maps in software rendering.
 Fixed misspelled of "joystick" in the menus.
 Improved priority logic for sound channel selection.
 Fixed UMAPINFO possible warning message when parsing multi-strings.
-Better multithreading scaling in software mode (prepare sprites).
+Better multithreading scaling in software mode (prepare clipping info for sprites & voxels).
 
 Version 2.0.7 build 730 - (20220302)
 -----------------------
