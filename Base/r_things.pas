@@ -1482,6 +1482,7 @@ var
   flip: boolean;
   vis: Pvissprite_t;
   ang: angle_t;
+  sec: Psector_t;
 {$IFDEF OPENGL}
   checksides: boolean;
   modelflag: integer;
@@ -1687,11 +1688,12 @@ begin
 {$ENDIF}
   if x2 < x1 then
     exit; // SOS
+  sec := Psubsector_t(thing.subsector).sector;
 {$IFNDEF OPENGL}
   scaledtop := FixedMul(spritetopoffset[lump] + thing.spriteDY, infoscale);
   gzt := thing.z + scaledtop;
   {$IFDEF DOOM_OR_STRIFE}
-  heightsec := Psubsector_t(thing.subsector).sector.heightsec;
+  heightsec := sec.heightsec;
 
   if heightsec <> -1 then   // only clip things which are in special sectors
   begin
@@ -1761,8 +1763,7 @@ begin
   vis.gzt := gzt;
   // foot clipping
   {$IFDEF HERETIC}
-  if (thing.flags2 and MF2_FEETARECLIPPED <> 0) and (thing.z <=
-    Psubsector_t(thing.subsector).sector.floorheight) then  // SOS 3d floors
+  if (thing.flags2 and MF2_FEETARECLIPPED <> 0) and (thing.z <= sec.floorheight) then
     vis.footclip := 10 * FRACUNIT
   else
     vis.footclip := 0;
@@ -1808,7 +1809,7 @@ begin
     if thing.ceilingz < vis.ceilingz then
       vis.ceilingz := thing.ceilingz;
 
-    midn := Psubsector_t(thing.subsector).sector.midsec;
+    midn := sec.midsec;
     if midn >= 0 then
     begin
       mid := @sectors[midn];
@@ -1838,7 +1839,7 @@ begin
 {$ENDIF}
   vis.patch := lump;
 
-  vis.fog := Psubsector_t(thing.subsector).sector.renderflags and SRF_FOG <> 0; // JVAL: Mars fog sectors
+  vis.fog := sec.renderflags and SRF_FOG <> 0; // JVAL: Mars fog sectors
 
 {$IFNDEF OPENGL}  // JVAL: 3d Floors
   // get light level
