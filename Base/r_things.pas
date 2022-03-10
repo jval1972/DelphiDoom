@@ -488,6 +488,9 @@ begin
   end;
 end;
 
+var
+  negosize: Integer = 0;
+
 //==============================================================================
 //
 // GAME FUNCTIONS
@@ -499,8 +502,12 @@ procedure R_InitNegoArray;
 var
   i: integer;
 begin
-  for i := 0 to SCREENWIDTH - 1 do
-    negonearray[i] := -1;
+  if negosize < SCREENWIDTH then
+  begin
+    for i := negosize to SCREENWIDTH - 1 do
+      negonearray[i] := -1;
+    negosize := SCREENWIDTH;
+  end;
 end;
 
 var
