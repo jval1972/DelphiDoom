@@ -562,7 +562,7 @@ type
     texturemid: fixed_t;
     {$IFNDEF OPENGL}
     texturemid2: fixed_t; // JVAL For light boost
-    vx1, vx2: integer;  // JVAL voxel support
+    vx1, vx2: integer;    // JVAL voxel support
     ceilingz: fixed_t;    // JVAL 3d Floors
     {$ENDIF}
     patch: integer;

@@ -617,7 +617,7 @@ type
     {$IFNDEF OPENGL}
     texturemid2: fixed_t; // JVAL For light boost
     heightsec: integer;   // killough 3/27/98: height sector for underwater/fake ceiling support
-    vx1, vx2: integer;  // JVAL voxel support
+    vx1, vx2: integer;    // JVAL voxel support
     ceilingz: fixed_t;    // JVAL 3d Floors
     {$ENDIF}
     patch: integer;
