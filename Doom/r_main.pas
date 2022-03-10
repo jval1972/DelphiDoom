@@ -2879,6 +2879,13 @@ var
   task_8bitlights: integer = -1;
   task_drawseglists: integer = -1;
 
+procedure R_SpriteStuffMT;
+begin
+  R_SortVisSprites;
+  R_SetUpDrawSegLists;
+  R_PrepareMaked;
+end;
+
 //==============================================================================
 //
 // R_DoRenderPlayerView8_MultiThread
@@ -2911,7 +2918,7 @@ begin
 
   R_SortVisSpritesMT;
 
-  task_drawseglists := MT_ScheduleTask(@R_SetUpDrawSegLists);
+  task_drawseglists := MT_ScheduleTask(@R_SpriteStuffMT);
   MT_ExecutePendingTask(task_drawseglists);
 
   R_RenderMultiThreadWalls8;
@@ -2975,7 +2982,7 @@ begin
 
   R_SortVisSpritesMT;
 
-  task_drawseglists := MT_ScheduleTask(@R_SetUpDrawSegLists);
+  task_drawseglists := MT_ScheduleTask(@R_SpriteStuffMT);
   MT_ExecutePendingTask(task_drawseglists);
 
   R_RenderMultiThreadWalls32;

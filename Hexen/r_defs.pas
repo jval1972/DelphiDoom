@@ -559,6 +559,7 @@ type
     texturemid2: fixed_t; // JVAL For light boost
     vx1, vx2: integer;    // JVAL voxel support
     ceilingz: fixed_t;    // JVAL 3d Floors
+    cache: Pointer;
     {$ENDIF}
     patch: integer;
 
