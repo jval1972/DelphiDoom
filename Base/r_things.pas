@@ -1806,6 +1806,7 @@ begin
   {$ENDIF}
   {$IFNDEF OPENGL}
   vis.cache := nil;
+  vis.lightcache := nil;
   {$IFDEF DOOM_OR_STRIFE}
   vis.heightsec := heightsec;
   {$ENDIF}
@@ -2275,10 +2276,11 @@ end;
 // R_PrepareSprite
 //
 //==============================================================================
-function R_PrepareSprite(const spr: Pvissprite_t): boolean;
+function R_PrepareSprite(const spr: Pvissprite_t; const islight: Boolean = False): boolean;
 var
   sx1: integer;
   sx2: integer;
+  x: integer;
   cache: Pvisspritecache_t;
   item: Pvisspritecacheitem_t;
   ds: Pdrawseg_t;
@@ -2293,10 +2295,30 @@ begin
   end;
 
   cache := @spritecache[spritecachepos];
-  spr.cache := cache;
+  if islight then
+    spr.lightcache := cache
+  else
+    spr.cache := cache;
+
   cache.cachesize := 0;
 
-  if spr.renderflags and VSF_VOXEL <> 0 then
+  if islight then
+  begin
+    x := (spr.x2 - spr.x1) div 2;
+    sx1 := spr.x1 - x;
+    sx2 := spr.x2 + x;
+    if sx1 < 0 then
+      sx1 := 0;
+    if sx2 >= viewwidth then
+      sx2 := viewwidth - 1;
+
+    if sx2 < sx1 then
+    begin
+      Result := True;
+      exit; // SOS
+    end;
+  end
+  else if spr.renderflags and VSF_VOXEL <> 0 then
   begin
     sx1 := spr.vx1;
     sx2 := spr.vx2;
@@ -2411,16 +2433,6 @@ end;
 
 //==============================================================================
 //
-// R_PrepareLight
-//
-//==============================================================================
-function R_PrepareLight(const spr: Pvissprite_t): boolean;
-begin
-  Result := True;
-end;
-
-//==============================================================================
-//
 // R_PrepareMaked
 //
 //==============================================================================
@@ -2439,7 +2451,7 @@ begin
     spr := vissprites[i];
     if dolight then
       if spr.mobjflags_ex and MF_EX_LIGHT <> 0 then
-        if not R_PrepareLight(spr) then
+        if not R_PrepareSprite(spr, True) then
           Break;
     if not R_PrepareSprite(spr) then
       Break;
@@ -2718,6 +2730,8 @@ var
   x: integer;
   r1: integer;
   r2: integer;
+  cache: Pvisspritecache_t;
+  item: Pvisspritecacheitem_t;
   scale: fixed_t;
   lowscale: fixed_t;
   silhouette: integer;
@@ -2742,7 +2756,59 @@ begin
   memsetsi(@clipbot[x1], - 2, size);
   memsetsi(@cliptop[x1], - 2, size);
 
-  R_GetDrawsegsForRange(x1, x2, fdrawsegs, fds_p);
+  if spr.lightcache <> nil then
+  begin
+    cache := spr.lightcache;
+    for i := 0 to cache.cachesize - 1 do
+    begin
+      item := @cache.cache[i];
+      case item.operation of
+        CACHE_OP_THICK:
+          begin
+            R_RenderThickSideRange(item.ds, item.r1, item.r2);
+          end;
+        CACHE_OP_MASKED:
+          begin
+            R_RenderMaskedSegRange(item.ds, item.r1, item.r2);
+          end;
+        CACHE_OP_THICK_AND_MASKED:
+          begin
+            R_RenderThickSideRange(item.ds, item.r1, item.r2);
+            R_RenderMaskedSegRange(item.ds, item.r1, item.r2);
+          end;
+        CACHE_OP_SIL1:
+          begin
+            ds := item.ds;
+            for x := item.r1 to item.r2 do
+              if clipbot[x] = -2 then
+                clipbot[x] := ds.sprbottomclip[x];
+          end;
+        CACHE_OP_SIL2:
+          begin
+            ds := item.ds;
+            for x := item.r1 to item.r2 do
+              if cliptop[x] = -2 then
+                cliptop[x] := ds.sprtopclip[x];
+          end;
+        CACHE_OP_SIL3:
+          begin
+            ds := item.ds;
+            for x := item.r1 to item.r2 do
+            begin
+              if clipbot[x] = -2 then
+                clipbot[x] := ds.sprbottomclip[x];
+              if cliptop[x] = -2 then
+                cliptop[x] := ds.sprtopclip[x];
+            end;
+          end;
+      end;
+    end;
+    fdrawsegs := cache.fdrawsegs;
+    fds_p := cache.fds_p;
+  end
+  else
+    R_GetDrawsegsForRange(x1, x2, fdrawsegs, fds_p);
+
   // Scan drawsegs from end to start for obscuring segs.
   // The first drawseg that has a greater scale
   //  is the clip seg.
