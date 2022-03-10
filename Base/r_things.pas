@@ -110,10 +110,17 @@ procedure R_DrawMasked_MultiThread;
 
 //==============================================================================
 //
-// R_PrepareMaked
+// R_PrepareMasked
 //
 //==============================================================================
-procedure R_PrepareMaked;
+procedure R_PrepareMasked;
+
+//==============================================================================
+//
+// R_SignalPrepareMasked
+//
+//==============================================================================
+procedure R_SignalPrepareMasked;
 {$ENDIF}
 
 //==============================================================================
@@ -2226,6 +2233,7 @@ const
 var
   spritecache: array[0..SPRITECACHESIZE - 1] of Byte;
   spritecachepos: integer;
+  maskedpreparesignal: boolean;
 
 const
   CACHE_OP_THICK = 1;
@@ -2250,6 +2258,16 @@ type
     cache: array[0..0] of visspritecacheitem_t;
   end;
   Pvisspritecache_t = ^visspritecache_t;
+
+//==============================================================================
+//
+// R_SignalPrepareMasked;
+//
+//==============================================================================
+procedure R_SignalPrepareMasked;
+begin
+  maskedpreparesignal := true;
+end;
 
 //==============================================================================
 //
@@ -2406,13 +2424,14 @@ end;
 // R_PrepareMaked
 //
 //==============================================================================
-procedure R_PrepareMaked;
+procedure R_PrepareMasked;
 var
   i: integer;
   spr: Pvissprite_t;
   dolight: Boolean;
 begin
   spritecachepos := 0;
+  maskedpreparesignal := false;
   dolight := (uselightboost and (videomode = vm32bit) and (fixedcolormapnum <> INVERSECOLORMAP)) or
        (uselightboostgodmode and (videomode = vm32bit) and (fixedcolormapnum = INVERSECOLORMAP));
   for i := 0 to vissprite_p - 1 do
@@ -2431,6 +2450,8 @@ begin
     begin
       if not R_PrepareSprite(spr) then Break;
     end;
+    if maskedpreparesignal then
+      break;
   end;
 end;
 
