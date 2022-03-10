@@ -183,7 +183,6 @@ uses
   i_system,
   doomstat,
   am_map,
-  dstrings,
   d_englsh,
   d_player,
   g_game,
