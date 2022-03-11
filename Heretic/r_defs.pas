@@ -565,6 +565,7 @@ type
     vx1, vx2: integer;    // JVAL voxel support
     ceilingz: fixed_t;    // JVAL 3d Floors
     cache: Pointer;
+    lightcache: Pointer;
     {$ENDIF}
     patch: integer;
 
