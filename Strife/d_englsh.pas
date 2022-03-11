@@ -102,7 +102,7 @@ var
 
   NETEND: string =
     'you can''t end a netgame!' + #13#10;
-  SENDGAME : string =
+  SENDGAME: string =
     'are you sure you want' + #13#10 + 'to end the game?' + #13#10;
 
   DOSY: string =

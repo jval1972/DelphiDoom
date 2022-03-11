@@ -585,7 +585,8 @@ end;
 // on earth is this function placed here?
 //
 // JVAL: changed to P_SoundNumForDoor
-///
+//
+//==============================================================================
 procedure P_SoundNumForDoor(door: Pvldoor_t);
 var
   i: integer;
