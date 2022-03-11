@@ -1127,6 +1127,7 @@ var
   // channel number to use
   cnum: integer;
   c: Pchannel_t;
+  listener: pointer;
 begin
   // Find an open channel
   cnum := 0;
@@ -1162,6 +1163,21 @@ begin
         if channels[cnum].sfxinfo.priority = sfxinfo.priority then
           break;
         inc(cnum);
+      end;
+    end;
+
+    if cnum = numChannels then
+    begin
+      listener := players[consoleplayer].mo;
+      if (origin = listener) or (origin = nil) then
+      begin
+        cnum := 0;
+        while cnum < numChannels do
+        begin
+          if (channels[cnum].origin <> nil) and (channels[cnum].origin <> listener) then
+            break;
+          inc(cnum);
+        end;
       end;
     end;
 
