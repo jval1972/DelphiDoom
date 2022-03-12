@@ -7,6 +7,7 @@ Better multithreading scaling in software mode (prepare clipping info for sprite
 Fixed crosshair drawing in OpenGL mode.
 Added support for tall patches in PNG format.
 More robust uncapped framerate.
+Speed optimizations to the OpenGL rendering.
 
 Version 2.0.7 build 730 - (20220302)
 -----------------------

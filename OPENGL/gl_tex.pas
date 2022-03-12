@@ -1344,6 +1344,14 @@ begin
       result.buffer_width := result.tex_width;
       result.buffer_height := result.tex_height;
     end;
+    if result.buffer_width <> 0 then
+      result.inv_buffer_width := 1.0 / result.buffer_width
+    else
+      result.inv_buffer_width := 0.0;
+    if result.buffer_height <> 0 then
+      result.inv_buffer_height := 1.0 / result.buffer_height
+    else
+      result.inv_buffer_height := 0.0;
     result.buffer_size := result.buffer_width * result.buffer_height * 4;
     result.heightscale := result.height / result.tex_height;
     if result.realtexwidth > result.buffer_width then
@@ -1497,6 +1505,14 @@ begin
     result.height := gl_i_min(result.realtexheight, result.tex_height);
     result.buffer_width := result.tex_width;
     result.buffer_height := result.tex_height;
+    if result.buffer_width <> 0 then
+      result.inv_buffer_width := 1.0 / result.buffer_width
+    else
+      result.inv_buffer_width := 0.0;
+    if result.buffer_height <> 0 then
+      result.inv_buffer_height := 1.0 / result.buffer_height
+    else
+      result.inv_buffer_height := 0.0;
     result.buffer_size := result.buffer_width * result.buffer_height * 4;
     result.heightscale := result.height / result.tex_height;
     if unload then
@@ -1655,6 +1671,14 @@ begin
       result.buffer_width := result.tex_width;
       result.buffer_height := result.tex_height;
     end;
+    if result.buffer_width <> 0 then
+      result.inv_buffer_width := 1.0 / result.buffer_width
+    else
+      result.inv_buffer_width := 0.0;
+    if result.buffer_height <> 0 then
+      result.inv_buffer_height := 1.0 / result.buffer_height
+    else
+      result.inv_buffer_height := 0.0;
     result.buffer_size := result.buffer_width * result.buffer_height * 4;
     result.heightscale := result.height / result.tex_height;
     if result.realtexwidth > result.buffer_width then

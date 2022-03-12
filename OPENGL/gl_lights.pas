@@ -83,6 +83,14 @@ begin
     lighttexture.height := LIGHTBOOSTSIZE;
     lighttexture.buffer_width := LIGHTBOOSTSIZE;
     lighttexture.buffer_height := LIGHTBOOSTSIZE;
+    if lighttexture.buffer_width <> 0 then
+      lighttexture.inv_buffer_width := 1.0 / lighttexture.buffer_width
+    else
+      lighttexture.inv_buffer_width := 0.0;
+    if lighttexture.buffer_height <> 0 then
+      lighttexture.inv_buffer_height := 1.0 / lighttexture.buffer_height
+    else
+      lighttexture.inv_buffer_height := 0.0;
     lighttexture.buffer_size := LIGHTBOOSTSIZE * LIGHTBOOSTSIZE * SizeOf(LongWord);
     lighttexture.textype := GLDT_LIGHT;
     glGenTextures(1, @lighttexture.glTexID[Ord(CR_DEFAULT)]);

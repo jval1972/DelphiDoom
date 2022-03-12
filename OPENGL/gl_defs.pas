@@ -31,6 +31,7 @@ unit gl_defs;
 interface
 
 uses
+  d_delphi,
   doomdef,
   dglOpenGL,
   m_fixed,
@@ -59,6 +60,7 @@ type
     realtexwidth, realtexheight: integer;
     texturescale: single;
     buffer_width, buffer_height: integer;
+    inv_buffer_width, inv_buffer_height: float;
     buffer_size: integer;
     heightscale: single;
     glTexID: array[0..CR_INVUL] of integer;
