@@ -1068,11 +1068,11 @@ begin
   numflats := lastflat - firstflat + 1;
 
   // Create translation table for global animation.
-  flats := PflatPArray(Z_Malloc(numflats * SizeOf(pointer), PU_STATIC, nil));
+  flats := Z_Malloc(numflats * SizeOf(pointer), PU_STATIC, nil);
 
   for i := 0 to numflats - 1 do
   begin
-    flat := Pflat_t(Z_Malloc(SizeOf(flat_t), PU_STATIC, nil));
+    flat := Z_Malloc(SizeOf(flat_t), PU_STATIC, nil);
     flat.name := W_GetNameForNum(firstflat + i);
     flat.translation := i;
     flat.lump := W_GetNumForName(flat.name);
