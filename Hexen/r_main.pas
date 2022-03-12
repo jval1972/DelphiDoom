@@ -2502,12 +2502,6 @@ begin
 {$ENDIF}
   printf(#13#10 + 'R_ShutDownInterpolation');
   R_ResetInterpolationBuffer;
-  printf(#13#10 + 'R_ShutDownSprites');
-  R_ShutDownSprites;
-{$IFDEF OPENGL}
-  printf(#13#10 + 'R_ShutDownOpenGL');
-  R_ShutDownOpenGL;
-{$ENDIF}
 {$IFNDEF OPENGL}
   printf(#13#10 + 'R_FreeTransparency8Tables');
   R_FreeTransparency8Tables;
@@ -2525,6 +2519,12 @@ begin
   R_ShutDownFlatsCache8;
   printf(#13#10 + 'R_ShutDownFlatsCache32');
   R_ShutDownFlatsCache32;
+{$ENDIF}
+  printf(#13#10 + 'R_ShutDownSprites');
+  R_ShutDownSprites;
+  printf(#13#10 + 'R_FreeMemory');
+  R_FreeMemory;
+{$IFNDEF OPENGL}
   printf(#13#10 + 'R_VoxelsDone');
   R_VoxelsDone;
   printf(#13#10 + 'R_ShutDownDepthBuffer'); // JVAL: 3d Floors
@@ -2534,8 +2534,10 @@ begin
   printf(#13#10 + 'R_DynamicLightsDone');
   R_DynamicLightsDone;
 {$ENDIF}
-  printf(#13#10 + 'W_ShutDownSprites'); // JVAL: Images as sprites
-  W_ShutDownSprites; // JVAL: Images as sprites
+{$IFDEF OPENGL}
+  printf(#13#10 + 'R_ShutDownOpenGL');
+  R_ShutDownOpenGL;
+{$ENDIF}
   printf(#13#10);
 end;
 
