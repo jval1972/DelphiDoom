@@ -680,8 +680,11 @@ function I_MemoryStallHack: boolean;
 begin
   if (SCREENWIDTH = 1024) or (SCREENWIDTH = 1152) or (SCREENWIDTH = 1280) then
   begin
-    dec(SCREENWIDTH, 2);
-    stallhack := true;
+    if fixstallhack then
+    begin
+      dec(SCREENWIDTH, 2);
+      stallhack := true;
+    end;
   end
   else
     stallhack := false;
