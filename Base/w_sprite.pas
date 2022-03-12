@@ -198,6 +198,7 @@ var
   i: integer;
   col: PLongWordArray;
   w, h: integer;
+  lastdelta: integer;
 
   procedure flashcolumnend;
   begin
@@ -209,10 +210,41 @@ var
   procedure flashcolumndata;
   var
     bb: byte;
+    realdelta: integer;
+    restdelta: integer;
   begin
     if columndata.Count > 0 then
     begin
-      column.topdelta := y - columndata.Count;
+      realdelta := y - columndata.Count;
+      if realdelta >= 254 then
+      begin
+        if lastdelta < 254 then
+        begin
+          restdelta := realdelta - 254;
+          column.topdelta := 254;
+          column.length := 0;
+          m.Write(column, SizeOf(column_t));
+          bb := 0;
+          m.Write(bb, SizeOf(bb));
+          m.Write(bb, SizeOf(bb));
+        end
+        else
+          restdelta := realdelta - lastdelta;
+        while restdelta >= 255 do
+        begin
+          restdelta := restdelta - 254;
+          column.topdelta := 254;
+          column.length := 0;
+          m.Write(column, SizeOf(column_t));
+          bb := 0;
+          m.Write(bb, SizeOf(bb));
+          m.Write(bb, SizeOf(bb));
+        end;
+        column.topdelta := restdelta;
+      end
+      else
+        column.topdelta := y - columndata.Count;
+      lastdelta := realdelta;
       column.length := columndata.Count;
       m.Write(column, SizeOf(column_t));
       bb := 0;
@@ -245,6 +277,7 @@ begin
       columnofs.Add(m.Position + SizeOf(patchheader_t) + w * SizeOf(integer));
       columndata.FastClear;
       tex.GetColumn32(x, h, col);
+      lastdelta := -1;
       for y := 0 to h - 1 do
       begin
         c := col[y];
@@ -253,6 +286,8 @@ begin
           flashcolumndata;
           continue;
         end;
+        if columndata.Count = 128 then
+          flashcolumndata;
         columndata.Add(V_FindAproxColorIndex(default_palette, c))
       end;
       flashcolumndata;

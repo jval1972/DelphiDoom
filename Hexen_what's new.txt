@@ -5,6 +5,7 @@ Speed optimizations of big maps in software rendering.
 Fixed misspelled of "joystick" in the menus.
 Better multithreading scaling in software mode (prepare clipping info for sprites & voxels).
 Fixed crosshair drawing in OpenGL mode.
+Added support for tall patches in PNG format.
 
 Version 2.0.7 build 730 - (20220302)
 -----------------------
