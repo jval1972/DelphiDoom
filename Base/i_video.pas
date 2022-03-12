@@ -130,6 +130,8 @@ var
   g_pDD: IDirectDraw7 = nil; // DirectDraw object
   g_pDDSPrimary: IDirectDrawSurface7 = nil;// DirectDraw primary surface
   g_pDDScreen: IDirectDrawSurface7 = nil;   // DirectDraw surface
+  g_pDDScreen8: IDirectDrawSurface7 = nil;  // DirectDraw surface
+  g_pDDPalette: IDirectDrawPalette = nil;
 
 var
   bpp: integer;
@@ -214,6 +216,8 @@ var
 procedure I_ShutDownGraphics;
 begin
   I_ClearInterface(IInterface(g_pDDScreen));
+  I_ClearInterface(IInterface(g_pDDScreen8));
+  I_ClearInterface(IInterface(g_pDDPalette));
   I_ClearInterface(IInterface(g_pDDSPrimary));
   I_ClearInterface(IInterface(g_pDD));
   I_EnableAltTab;
@@ -246,6 +250,7 @@ var
   idx: twobytes_t;
   pitem: twolongwords_t;
   i, j: integer;
+  dpal: IDirectDrawPalette;
 begin
   for i := 0 to 255 do
   begin
@@ -258,6 +263,9 @@ begin
       curpal64[PWord(@idx)^] := PInt64(@pitem)^;
     end;
   end;
+
+  g_pDDScreen8.GetPalette(dpal);
+  dpal.SetEntries(DDPCAPS_8BIT or DDPCAPS_ALLOW256, 0, 256, @curpal[0]);
 end;
 
 //==============================================================================
@@ -419,7 +427,7 @@ begin
     // if bpp = 32 <- we don't do nothing, directly drawing was performed
   end
   else
-  begin
+  begin Exit;
     if bpp = 32 then
     begin
       if usemultithread then
@@ -533,6 +541,7 @@ var
   stretch: boolean;
   surfacelost: boolean;
   i: integer;
+  surf: IDirectDrawSurface7;
 begin
   I_BlitBuffer;
 
@@ -547,6 +556,11 @@ begin
 
   r_blitmultiplier := GetIntegerInRange(r_blitmultiplier, 1, 4);
 
+  if videomode = vm32bit then
+    surf := g_pDDScreen
+  else
+    surf := g_pDDScreen8;
+
   if stretch then
   begin
     destrect.Left := 0;
@@ -557,9 +571,9 @@ begin
     for i := 0 to r_blitmultiplier - 1 do
     begin
       if r_bltasync then
-        surfacelost := g_pDDSPrimary.Blt(destrect, g_pDDScreen, srcrect, DDBLT_ASYNC, PDDBltFX(0)^) = DDERR_SURFACELOST
+        surfacelost := g_pDDSPrimary.Blt(destrect, surf, srcrect, DDBLT_ASYNC, PDDBltFX(0)^) = DDERR_SURFACELOST
       else
-        surfacelost := g_pDDSPrimary.Blt(destrect, g_pDDScreen, srcrect, DDBLT_WAIT, PDDBltFX(0)^) = DDERR_SURFACELOST;
+        surfacelost := g_pDDSPrimary.Blt(destrect, surf, srcrect, DDBLT_WAIT, PDDBltFX(0)^) = DDERR_SURFACELOST;
 
       if surfacelost then
       begin
@@ -573,9 +587,9 @@ begin
     for i := 0 to r_blitmultiplier - 1 do
     begin
       if r_bltasync then
-        surfacelost := g_pDDSPrimary.BltFast(0, 0, g_pDDScreen, srcrect, DDBLTFAST_DONOTWAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST
+        surfacelost := g_pDDSPrimary.BltFast(0, 0, surf, srcrect, DDBLTFAST_DONOTWAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST
       else
-        surfacelost := g_pDDSPrimary.BltFast(0, 0, g_pDDScreen, srcrect, DDBLTFAST_WAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST;
+        surfacelost := g_pDDSPrimary.BltFast(0, 0, surf, srcrect, DDBLTFAST_WAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST;
 
       if surfacelost then
       begin
@@ -839,6 +853,32 @@ begin
   if hres <> DD_OK then
     I_ErrorInitGraphics('CreateSurface');
 
+  ZeroMemory(@ddsd, SizeOf(ddsd));
+  ZeroMemory(@ddsd.ddpfPixelFormat, SizeOf(ddsd.ddpfPixelFormat));
+
+  ddsd.ddpfPixelFormat.dwSize := SizeOf(ddsd.ddpfPixelFormat);
+  ddsd.ddpfPixelFormat.dwRGBBitCount := 8;
+  ddsd.ddpfPixelFormat.dwFlags := DDPF_RGB or DDPF_PALETTEINDEXED8;
+
+  ddsd.dwSize := SizeOf(ddsd);
+  ddsd.dwFlags := DDSD_WIDTH or DDSD_HEIGHT or DDSD_LPSURFACE or
+                  DDSD_PITCH or DDSD_PIXELFORMAT or DDSD_CAPS;
+  ddsd.ddsCaps.dwCaps := DDSCAPS_TEXTURE or DDSCAPS_SYSTEMMEMORY;
+  ddsd.lpSurface := @screens[SCN_FG][0];
+  ddsd.lPitch := SCREENWIDTH;
+  ddsd.dwWidth := SCREENWIDTH;
+  ddsd.dwHeight := SCREENHEIGHT;
+
+  hres := g_pDD.CreateSurface(ddsd, g_pDDScreen8, nil);
+  if hres <> DD_OK then
+    I_ErrorInitGraphics('CreateSurface');
+
+  hres := g_pDD.CreatePalette(DDPCAPS_8BIT or DDPCAPS_ALLOW256, @curpal[0], g_pDDPalette, nil);
+  if hres <> DD_OK then
+    I_ErrorInitGraphics('CreatePalette');
+
+  g_pDDScreen8.SetPalette(g_pDDPalette);
+
   dpi := I_GetWindowDPI(hMainWnd);
 end;
 
@@ -979,7 +1019,7 @@ begin
   else if bpp = 16 then
   begin
     ddsd.lPitch := 2 * SCREENWIDTH;
-    if screen16 <> nil then
+    if screen16 = nil then
       screen16 := malloc(SCREENWIDTH * SCREENHEIGHT * 2);
     I_Warning('I_ChangeFullScreen(): using 16 bit color depth desktop in non fullscreen mode reduces performance'#13#10);
   end
@@ -994,6 +1034,32 @@ begin
   hres := g_pDD.CreateSurface(ddsd, g_pDDScreen, nil);
   if hres <> DD_OK then
     I_Error('I_ChangeFullScreen(): CreateSurface failed');
+
+  ZeroMemory(@ddsd, SizeOf(ddsd));
+  ZeroMemory(@ddsd.ddpfPixelFormat, SizeOf(ddsd.ddpfPixelFormat));
+
+  ddsd.ddpfPixelFormat.dwSize := SizeOf(ddsd.ddpfPixelFormat);
+  ddsd.ddpfPixelFormat.dwRGBBitCount := 8;
+  ddsd.ddpfPixelFormat.dwFlags := DDPF_RGB or DDPF_PALETTEINDEXED8;
+
+  ddsd.dwSize := SizeOf(ddsd);
+  ddsd.dwFlags := DDSD_WIDTH or DDSD_HEIGHT or DDSD_LPSURFACE or
+                  DDSD_PITCH or DDSD_PIXELFORMAT or DDSD_CAPS;
+  ddsd.ddsCaps.dwCaps := DDSCAPS_OFFSCREENPLAIN or DDSCAPS_SYSTEMMEMORY;
+  ddsd.lpSurface := @screens[SCN_FG][0];
+  ddsd.lPitch := SCREENWIDTH;
+  ddsd.dwWidth := SCREENWIDTH;
+  ddsd.dwHeight := SCREENHEIGHT;
+
+  hres := g_pDD.CreateSurface(ddsd, g_pDDScreen8, nil);
+  if hres <> DD_OK then
+    I_Error('I_ChangeFullScreen(): CreateSurface failed');
+
+  hres := g_pDD.CreatePalette(DDPCAPS_8BIT, @curpal[0], g_pDDPalette, nil);
+  if hres <> DD_OK then
+    I_Error('I_ChangeFullScreen(): CreatePalette failed');
+
+  g_pDDScreen8.SetPalette(g_pDDPalette);
 
   dpi := I_GetWindowDPI(hMainWnd);
 end;
