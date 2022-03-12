@@ -979,7 +979,7 @@ begin
   else if bpp = 16 then
   begin
     ddsd.lPitch := 2 * SCREENWIDTH;
-    if screen16 <> nil then
+    if screen16 = nil then
       screen16 := malloc(SCREENWIDTH * SCREENHEIGHT * 2);
     I_Warning('I_ChangeFullScreen(): using 16 bit color depth desktop in non fullscreen mode reduces performance'#13#10);
   end
