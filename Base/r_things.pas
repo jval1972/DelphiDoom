@@ -1644,7 +1644,7 @@ begin
       if wrong_frames.IndexOf(thing.info.name) < 0 then
       begin
         wrong_frames.Add(thing.info.name);
-        I_Warning('R_ProjectSprite(): Sprite for "%s" has is missing frame ' + Chr(Ord('A') + frm) + '.'#13#10, [thing.info.name]);
+        I_Warning('R_ProjectSprite(): Sprite for "%s" is missing frame ' + Chr(Ord('A') + frm) + '.'#13#10, [thing.info.name]);
       end;
       sprdef := @sprites[Ord(SPR_TNT1)];
       sprframe := @sprdef.spriteframes[0];
