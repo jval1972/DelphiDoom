@@ -164,12 +164,20 @@ type
     realsize: integer;
     items: Piitem_tArray;
   end;
+  Pistruct_t = ^istruct_t;
 
 const
   IGROWSTEP = 256;
+  NUMISTRUCTS = 6;
+  IDS_PLAYER = 0;
+  IDS_SECTOR1 = 1;
+  IDS_SECTOR2 = 1;
+  IDS_SECTOR3 = 1;
+  IDS_LINES = 4;
+  IDS_POLYS = 5;
 
 var
-  istruct: istruct_t;
+  istructs: array[0..NUMISTRUCTS - 1] of istruct_t;
   imobjs: array[0..$FFFF] of Pmobj_t;
   numismobjs: integer;
 
@@ -229,10 +237,15 @@ end;
 //
 //==============================================================================
 procedure R_InitInterpolations;
+var
+  i: integer;
 begin
-  istruct.numitems := 0;
-  istruct.realsize := 0;
-  istruct.items := nil;
+  for i := 0 to NUMISTRUCTS - 1 do
+  begin
+    istructs[i].numitems := 0;
+    istructs[i].realsize := 0;
+    istructs[i].items := nil;
+  end;
   MT_ZeroMemory(@imobjs, SizeOf(imobjs));
   numismobjs := 0;
   C_AddCmd('interpolate, interpolation, setinterpolation, r_interpolate', @CmdInterpolate);
@@ -245,10 +258,15 @@ end;
 //
 //==============================================================================
 procedure R_ResetInterpolationBuffer;
+var
+  i: integer;
 begin
-  memfree(pointer(istruct.items), istruct.realsize * SizeOf(iitem_t));
-  istruct.numitems := 0;
-  istruct.realsize := 0;
+  for i := 0 to NUMISTRUCTS - 1 do
+  begin
+    memfree(pointer(istructs[i].items), istructs[i].realsize * SizeOf(iitem_t));
+    istructs[i].numitems := 0;
+    istructs[i].realsize := 0;
+  end;
   numismobjs := 0;
 end;
 
@@ -442,7 +460,7 @@ end;
 // R_AddInterpolationItem
 //
 //==============================================================================
-procedure R_AddInterpolationItem(const addr: pointer; const typ: itype);
+procedure R_AddInterpolationItem(const addr: pointer; const typ: itype; const istruct: Pistruct_t);
 var
   newrealsize: integer;
   pi: Piitem_t;
@@ -558,21 +576,22 @@ begin
   {$ENDIF}
   prevtic := gametic;
   interpolationcount := counts;
-  istruct.numitems := 0;
+  for i := 0 to NUMISTRUCTS - 1 do
+    istructs[i].numitems := 0;
   numismobjs := 0;
 
   // Interpolate player
   player := @players[displayplayer];
   if player <> nil then
   begin
-    R_AddInterpolationItem(@player.lookdir, iinteger);
-    R_AddInterpolationItem(@player.lookdir16, iinteger); // JVAL Smooth Look Up/Down
-    R_AddInterpolationItem(@player.lookdir2, ibyte);
+    R_AddInterpolationItem(@player.lookdir, iinteger, @istructs[IDS_PLAYER]);
+    R_AddInterpolationItem(@player.lookdir16, iinteger, @istructs[IDS_PLAYER]); // JVAL Smooth Look Up/Down
+    R_AddInterpolationItem(@player.lookdir2, ibyte, @istructs[IDS_PLAYER]);
     sec := R_PointInSubsector(viewx, viewy).sector;
     if sec.renderflags and SRF_NO_INTERPOLATE = 0 then
-      R_AddInterpolationItem(@player.viewz, iinteger);
-    R_AddInterpolationItem(@player.teleporttics, iinteger);
-    R_AddInterpolationItem(@player.quaketics, iinteger);
+      R_AddInterpolationItem(@player.viewz, iinteger, @istructs[IDS_SECTOR1]);
+    R_AddInterpolationItem(@player.teleporttics, iinteger, @istructs[IDS_PLAYER]);
+    R_AddInterpolationItem(@player.quaketics, iinteger, @istructs[IDS_PLAYER]);
   end;
 
   // Interpolate Sectors
@@ -584,39 +603,39 @@ begin
       begin
         // JVAL: 20220107 - Auto fix instant moving sectors
         //  See also: https://www.doomworld.com/forum/topic/110185-eternity-uncapped-framerate-issue/?tab=comments#comment-2044505
-        R_AddInterpolationItem(@sec.floorheight, iinteger2);
-        R_AddInterpolationItem(@sec.ceilingheight, iinteger2);
-        R_AddInterpolationItem(@sec.lightlevel, ismallint);
+        R_AddInterpolationItem(@sec.floorheight, iinteger2, @istructs[IDS_SECTOR1]);
+        R_AddInterpolationItem(@sec.ceilingheight, iinteger2, @istructs[IDS_SECTOR1]);
+        R_AddInterpolationItem(@sec.lightlevel, ismallint, @istructs[IDS_SECTOR2]);
         {$IFDEF DOOM_OR_STRIFE}
         // JVAL: 30/9/2009
         // JVAL: 9/11/2015 Added strife offsets
-        R_AddInterpolationItem(@sec.floor_xoffs, iinteger2);
-        R_AddInterpolationItem(@sec.floor_yoffs, iinteger2);
-        R_AddInterpolationItem(@sec.ceiling_xoffs, iinteger2);
-        R_AddInterpolationItem(@sec.ceiling_yoffs, iinteger2);
+        R_AddInterpolationItem(@sec.floor_xoffs, iinteger2, @istructs[IDS_SECTOR2]);
+        R_AddInterpolationItem(@sec.floor_yoffs, iinteger2, @istructs[IDS_SECTOR2]);
+        R_AddInterpolationItem(@sec.ceiling_xoffs, iinteger2, @istructs[IDS_SECTOR2]);
+        R_AddInterpolationItem(@sec.ceiling_yoffs, iinteger2, @istructs[IDS_SECTOR2]);
         {$ENDIF}
         if sec.renderflags and SRF_INTERPOLATE_ROTATE <> 0 then
         begin
-          R_AddInterpolationItem(@sec.floorangle, iangle);
-          R_AddInterpolationItem(@sec.flooranglex, iinteger);
-          R_AddInterpolationItem(@sec.floorangley, iinteger);
-          R_AddInterpolationItem(@sec.ceilingangle, iangle);
-          R_AddInterpolationItem(@sec.ceilinganglex, iinteger);
-          R_AddInterpolationItem(@sec.ceilingangley, iinteger);
+          R_AddInterpolationItem(@sec.floorangle, iangle, @istructs[IDS_SECTOR1]);
+          R_AddInterpolationItem(@sec.flooranglex, iinteger, @istructs[IDS_SECTOR2]);
+          R_AddInterpolationItem(@sec.floorangley, iinteger, @istructs[IDS_SECTOR3]);
+          R_AddInterpolationItem(@sec.ceilingangle, iangle, @istructs[IDS_SECTOR1]);
+          R_AddInterpolationItem(@sec.ceilinganglex, iinteger, @istructs[IDS_SECTOR2]);
+          R_AddInterpolationItem(@sec.ceilingangley, iinteger, @istructs[IDS_SECTOR3]);
         end;
         if sec.renderflags and SRF_INTERPOLATE_FLOORSLOPE <> 0 then
         begin
-          R_AddInterpolationItem(@sec.fa, ifloat);
-          R_AddInterpolationItem(@sec.fb, ifloat);
-          R_AddInterpolationItem(@sec.fd, ifloat);
-          R_AddInterpolationItem(@sec.fic, ifloat);
+          R_AddInterpolationItem(@sec.fa, ifloat, @istructs[IDS_SECTOR2]);
+          R_AddInterpolationItem(@sec.fb, ifloat, @istructs[IDS_SECTOR2]);
+          R_AddInterpolationItem(@sec.fd, ifloat, @istructs[IDS_SECTOR2]);
+          R_AddInterpolationItem(@sec.fic, ifloat, @istructs[IDS_SECTOR2]);
         end;
         if sec.renderflags and SRF_INTERPOLATE_CEILINGSLOPE <> 0 then
         begin
-          R_AddInterpolationItem(@sec.ca, ifloat);
-          R_AddInterpolationItem(@sec.cb, ifloat);
-          R_AddInterpolationItem(@sec.cd, ifloat);
-          R_AddInterpolationItem(@sec.cic, ifloat);
+          R_AddInterpolationItem(@sec.ca, ifloat, @istructs[IDS_SECTOR3]);
+          R_AddInterpolationItem(@sec.cb, ifloat, @istructs[IDS_SECTOR3]);
+          R_AddInterpolationItem(@sec.cd, ifloat, @istructs[IDS_SECTOR3]);
+          R_AddInterpolationItem(@sec.cic, ifloat, @istructs[IDS_SECTOR3]);
         end;
       end;
     inc(sec);
@@ -626,8 +645,8 @@ begin
   begin
     for i := 0 to Ord(NUMPSPRITES) - 1 do
     begin
-      R_AddInterpolationItem(@player.psprites[i].sx, iinteger);
-      R_AddInterpolationItem(@player.psprites[i].sy, iinteger);
+      R_AddInterpolationItem(@player.psprites[i].sx, iinteger, @istructs[IDS_PLAYER]);
+      R_AddInterpolationItem(@player.psprites[i].sy, iinteger, @istructs[IDS_PLAYER]);
     end;
   end;
 
@@ -642,8 +661,8 @@ begin
         if li.sidenum[j] > -1 then
         begin
           si := @sides[li.sidenum[j]];
-          R_AddInterpolationItem(@si.textureoffset, iinteger2);
-          R_AddInterpolationItem(@si.rowoffset, iinteger2);
+          R_AddInterpolationItem(@si.textureoffset, iinteger2, @istructs[IDS_LINES]);
+          R_AddInterpolationItem(@si.rowoffset, iinteger2, @istructs[IDS_LINES]);
         end;
       end;
     inc(li);
@@ -658,9 +677,9 @@ begin
         begin
           if (@Ppolyevent_t(polyobjs[i].specialdata).thinker._function.acp1 = @TH_MovePoly) or
              ((@Ppolydoor_t(polyobjs[i].specialdata).thinker._function.acp1 = @TH_PolyDoor) and (Ppolydoor_t(polyobjs[i].specialdata)._type = PODOOR_SLIDE)) then
-            R_AddInterpolationItem(@polyobjs[i], ipolymove)
+            R_AddInterpolationItem(@polyobjs[i], ipolymove, @istructs[IDS_POLYS])
           else
-            R_AddInterpolationItem(@polyobjs[i], ipolyrotate);
+            R_AddInterpolationItem(@polyobjs[i], ipolyrotate, @istructs[IDS_POLYS]);
           storedpolyinterpolations := true;
         end;
 
@@ -677,7 +696,7 @@ begin
     // JVAL: 20200105 - Interpolate only mobjs that the renderer touched
       if (Pmobj_t(th).rendervalidcount = rendervalidcount) or (Pmobj_t(th).player <> nil) then
         if Pmobj_t(th).flags3_ex and MF3_EX_NORENDERINTERPOLATION = 0 then
-          R_AddInterpolationItem(th, imobj);
+          R_AddInterpolationItem(th, imobj, nil);
     th := th.next;
   end;
   {$IFDEF DEBUG}
@@ -720,25 +739,30 @@ end;
 //==============================================================================
 function R_RestoreInterpolationData_thr1(p: pointer): integer; stdcall;
 var
-  i: integer;
+  i, j: integer;
+  istruct: Pistruct_t;
   pi: Piitem_t;
   r: mt_range_p;
 begin
   r := mt_range_p(p);
-  pi := @istruct.items[r.start];
-  for i := r.start to r.finish do
+  for j := r.start to r.finish do
   begin
-    case pi._type of
-      iinteger: PInteger(pi.address)^ := pi.inext;
-      iinteger2: PInteger(pi.address)^ := pi.inext2;
-      ismallint: PSmallInt(pi.address)^ := pi.sinext;
-      ibyte: PByte(pi.address)^ := pi.bnext;
-      iangle: Pangle_t(pi.address)^ := pi.anext;
-      ifloat: Pfloat(pi.address)^ := pi.fnext;
-      ipolyrotate: R_RestoreInterpolationPolyRotate(Ppolyobj_t(pi.address));
-      ipolymove: R_RestoreInterpolationPolyMove(Ppolyobj_t(pi.address));
+    istruct := @istructs[j];
+    pi := @istruct.items[0];
+    for i := 0 to istruct.numitems - 1 do
+    begin
+      case pi._type of
+        iinteger: PInteger(pi.address)^ := pi.inext;
+        iinteger2: PInteger(pi.address)^ := pi.inext2;
+        ismallint: PSmallInt(pi.address)^ := pi.sinext;
+        ibyte: PByte(pi.address)^ := pi.bnext;
+        iangle: Pangle_t(pi.address)^ := pi.anext;
+        ifloat: Pfloat(pi.address)^ := pi.fnext;
+        ipolyrotate: R_RestoreInterpolationPolyRotate(Ppolyobj_t(pi.address));
+        ipolymove: R_RestoreInterpolationPolyMove(Ppolyobj_t(pi.address));
+      end;
+      inc(pi);
     end;
-    inc(pi);
   end;
   result := 0;
 end;
@@ -771,24 +795,29 @@ end;
 //==============================================================================
 procedure R_RestoreInterpolationData_Single_Thread;
 var
-  i: integer;
+  i, j: integer;
+  istruct: Pistruct_t;
   pi: Piitem_t;
   mo: Pmobj_t;
 begin
-  pi := @istruct.items[0];
-  for i := 0 to istruct.numitems - 1 do
+  for j := 0 to NUMISTRUCTS - 1 do
   begin
-    case pi._type of
-      iinteger: PInteger(pi.address)^ := pi.inext;
-      iinteger2: PInteger(pi.address)^ := pi.inext2;
-      ismallint: PSmallInt(pi.address)^ := pi.sinext;
-      ibyte: PByte(pi.address)^ := pi.bnext;
-      iangle: Pangle_t(pi.address)^ := pi.anext;
-      ifloat: Pfloat(pi.address)^ := pi.fnext;
-      ipolyrotate: R_RestoreInterpolationPolyRotate(Ppolyobj_t(pi.address));
-      ipolymove: R_RestoreInterpolationPolyMove(Ppolyobj_t(pi.address));
+    istruct := @istructs[j];
+    pi := @istruct.items[0];
+    for i := 0 to istruct.numitems - 1 do
+    begin
+      case pi._type of
+        iinteger: PInteger(pi.address)^ := pi.inext;
+        iinteger2: PInteger(pi.address)^ := pi.inext2;
+        ismallint: PSmallInt(pi.address)^ := pi.sinext;
+        ibyte: PByte(pi.address)^ := pi.bnext;
+        iangle: Pangle_t(pi.address)^ := pi.anext;
+        ifloat: Pfloat(pi.address)^ := pi.fnext;
+        ipolyrotate: R_RestoreInterpolationPolyRotate(Ppolyobj_t(pi.address));
+        ipolymove: R_RestoreInterpolationPolyMove(Ppolyobj_t(pi.address));
+      end;
+      inc(pi);
     end;
-    inc(pi);
   end;
 
   for i := 0 to numismobjs - 1 do
@@ -814,8 +843,8 @@ begin
   if not interpolatepolyobjs then
     exit;
 
-  pi := @istruct.items[0];
-  for i := 0 to istruct.numitems - 1 do
+  pi := @istructs[IDS_POLYS].items[0];
+  for i := 0 to istructs[IDS_POLYS].numitems - 1 do
   begin
     case pi._type of
       ipolyrotate: R_RestoreInterpolationPolyRotate(Ppolyobj_t(pi.address));
@@ -827,6 +856,20 @@ end;
 
 //==============================================================================
 //
+// R_TotalInterpolationItems
+//
+//==============================================================================
+function R_TotalInterpolationItems: integer;
+var
+  i: integer;
+begin
+  result := numismobjs;
+  for i := 0 to NUMISTRUCTS - 1 do
+    result := result + istructs[i].numitems;
+end;
+
+//==============================================================================
+//
 // R_RestoreInterpolationData
 //
 //==============================================================================
@@ -834,14 +877,14 @@ procedure R_RestoreInterpolationData;
 var
   r1, r2, r3: mt_range_t;
 begin
-  if usemultithread and (I_GetNumCPUs >=4) and (istruct.numitems + numismobjs >= 4096) then
+  if usemultithread and (I_GetNumCPUs >= 4) and (R_TotalInterpolationItems > 1024) then
   begin
-    r1.start := 0;
-    r1.finish := istruct.numitems div 3;
-    r2.start := r1.finish + 1;
-    r2.finish := r1.finish * 2;
-    r3.start := r2.finish + 1;
-    r3.finish := istruct.numitems - 1;
+    r1.start := IDS_PLAYER;
+    r1.finish := IDS_SECTOR1;
+    r2.start := IDS_SECTOR2;
+    r2.finish := IDS_SECTOR3;
+    r3.start := IDS_LINES;
+    r3.finish := IDS_POLYS;
     MT_Execute4(
       @R_RestoreInterpolationData_thr1, @r1,
       @R_RestoreInterpolationData_thr1, @r2,
@@ -860,26 +903,31 @@ end;
 //==============================================================================
 function R_DoInterpolate_thr1(p: pointer): integer; stdcall;
 var
-  pi, pi2: Piitem_t;
+  i, j: integer;
+  istruct: Pistruct_t;
+  pi: Piitem_t;
 begin
-  pi := @istruct.items[mt_range_p(p).start];
-  pi2 := @istruct.items[mt_range_p(p).finish];
-  while integer(pi) <= integer(pi2) do
+  for j := 0 to NUMISTRUCTS - 1 do
   begin
-    if pi.address = pi.lastaddress then
+    istruct := @istructs[j];
+    pi := @istruct.items[0];
+    for i := 0 to istruct.numitems - 1 do
     begin
-      case pi._type of
-        iinteger: R_InterpolationCalcI(pi, ticfrac);
-        iinteger2: R_InterpolationCalcI2(pi, ticfrac);
-        ismallint: R_InterpolationCalcSI(pi, ticfrac);
-        ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
-        iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
-        ifloat: R_InterpolationCalcF(pi, ticfrac);
-        ipolyrotate: R_InterpolationCalcPolyRotation(pi, ticfrac);
-        ipolymove: R_InterpolationCalcPolyMove(pi, ticfrac);
+      if pi.address = pi.lastaddress then
+      begin
+        case pi._type of
+          iinteger: R_InterpolationCalcI(pi, ticfrac);
+          iinteger2: R_InterpolationCalcI2(pi, ticfrac);
+          ismallint: R_InterpolationCalcSI(pi, ticfrac);
+          ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
+          iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
+          ifloat: R_InterpolationCalcF(pi, ticfrac);
+          ipolyrotate: R_InterpolationCalcPolyRotation(pi, ticfrac);
+          ipolymove: R_InterpolationCalcPolyMove(pi, ticfrac);
+        end;
       end;
+      inc(pi);
     end;
-    inc(pi);
   end;
   result := 0;
 end;
@@ -918,7 +966,8 @@ var
 //==============================================================================
 function R_Interpolate: boolean;
 var
-  i: integer;
+  i, j: integer;
+  istruct: Pistruct_t;
   pi: Piitem_t;
   fractime: fixed_t;
   mo: Pmobj_t;
@@ -951,14 +1000,14 @@ begin
   else
   begin
     result := true;
-    if usemultithread and (I_GetNumCPUs >=4) and (istruct.numitems + numismobjs >= 4096) then
+    if usemultithread and (I_GetNumCPUs >= 4) and (R_TotalInterpolationItems > 1024) then
     begin
-      r1.start := 0;
-      r1.finish := istruct.numitems div 3;
-      r2.start := r1.finish + 1;
-      r2.finish := r1.finish * 2;
-      r3.start := r2.finish + 1;
-      r3.finish := istruct.numitems - 1;
+      r1.start := IDS_PLAYER;
+      r1.finish := IDS_SECTOR1;
+      r2.start := IDS_SECTOR2;
+      r2.finish := IDS_SECTOR3;
+      r3.start := IDS_LINES;
+      r3.finish := IDS_POLYS;
       MT_Execute4(
         @R_DoInterpolate_thr1, @r1,
         @R_DoInterpolate_thr1, @r2,
@@ -968,22 +1017,26 @@ begin
     end
     else
     begin
-      pi := @istruct.items[0];
-      for i := 0 to istruct.numitems - 1 do
+      for j := 0 to NUMISTRUCTS - 1 do
       begin
-        if pi.address = pi.lastaddress then
+        istruct := @istructs[j];
+        pi := @istruct.items[0];
+        for i := 0 to istruct.numitems - 1 do
         begin
-          case pi._type of
-            iinteger: R_InterpolationCalcI(pi, ticfrac);
-            iinteger2: R_InterpolationCalcI2(pi, ticfrac);
-            ismallint: R_InterpolationCalcSI(pi, ticfrac);
-            ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
-            iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
-            ifloat: R_InterpolationCalcF(pi, ticfrac);
-            ipolyrotate: R_InterpolationCalcPolyRotation(pi, ticfrac);
+          if pi.address = pi.lastaddress then
+          begin
+            case pi._type of
+              iinteger: R_InterpolationCalcI(pi, ticfrac);
+              iinteger2: R_InterpolationCalcI2(pi, ticfrac);
+              ismallint: R_InterpolationCalcSI(pi, ticfrac);
+              ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
+              iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
+              ifloat: R_InterpolationCalcF(pi, ticfrac);
+              ipolyrotate: R_InterpolationCalcPolyRotation(pi, ticfrac);
+            end;
           end;
+          inc(pi);
         end;
-        inc(pi);
       end;
       for i := 0 to numismobjs - 1 do
       begin
