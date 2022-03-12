@@ -93,6 +93,13 @@ procedure R_InitData;
 
 //==============================================================================
 //
+// R_FreeMemory
+//
+//==============================================================================
+procedure R_FreeMemory;
+
+//==============================================================================
+//
 // R_PrecacheLevel
 //
 //==============================================================================
@@ -922,16 +929,16 @@ begin
 
   numtextures := numtextures1 + numtextures2 + numtextures3;
 
-  textures := Z_Malloc(numtextures * SizeOf(Ptexture_t), PU_STATIC, nil);
-  texturecolumnlump := Z_Malloc(numtextures * SizeOf(PSmallIntArray), PU_STATIC, nil);
-  texturecolumnofs := Z_Malloc(numtextures * SizeOf(PIntegerArray), PU_STATIC, nil);
-  texturecomposite := Z_Malloc(numtextures * SizeOf(PByteArray), PU_STATIC, nil);
-  texturecompositesize := Z_Malloc(numtextures * SizeOf(integer), PU_STATIC, nil);
-  texturewidth := Z_Malloc(numtextures * SizeOf(integer), PU_STATIC, nil);
-  textureheight := Z_Malloc(numtextures * SizeOf(fixed_t), PU_STATIC, nil);
+  textures := mallocz(numtextures * SizeOf(Ptexture_t));
+  texturecolumnlump := mallocz(numtextures * SizeOf(PSmallIntArray));
+  texturecolumnofs := mallocz(numtextures * SizeOf(PIntegerArray));
+  texturecomposite := mallocz(numtextures * SizeOf(PByteArray));
+  texturecompositesize := mallocz(numtextures * SizeOf(integer));
+  texturewidth := mallocz(numtextures * SizeOf(integer));
+  textureheight := mallocz(numtextures * SizeOf(fixed_t));
 // JVAL: 20200112 - For tall textures
-  texturecolumnheight := Z_Malloc(numtextures * SizeOf(integer), PU_STATIC, nil);
-  texturecolumnheightfrac := Z_Malloc(numtextures * SizeOf(integer), PU_STATIC, nil);
+  texturecolumnheight := mallocz(numtextures * SizeOf(integer));
+  texturecolumnheightfrac := mallocz(numtextures * SizeOf(integer));
 
   for i := 0 to numtextures - 1 do
   begin
@@ -957,10 +964,7 @@ begin
 
     mtexture := Pmaptexture_t(integer(maptex) + offset);
 
-    textures[i] :=
-      Z_Malloc(
-        SizeOf(texture_t) + SizeOf(texpatch_t) * (mtexture.patchcount - 1),
-          PU_STATIC, nil);
+    textures[i] := malloc(SizeOf(texture_t) + SizeOf(texpatch_t) * (mtexture.patchcount - 1));
     texture := textures[i];
 
     texture.width := mtexture.width;
@@ -997,8 +1001,8 @@ begin
       inc(mpatch);
       inc(patch);
     end;
-    texturecolumnlump[i] := Z_Malloc(texture.width * SizeOf(texturecolumnlump[0][0]), PU_STATIC, nil);
-    texturecolumnofs[i] := Z_Malloc(texture.width * SizeOf(texturecolumnofs[0][0]), PU_STATIC, nil);
+    texturecolumnlump[i] := malloc(texture.width * SizeOf(texturecolumnlump[0][0]));
+    texturecolumnofs[i] := malloc(texture.width * SizeOf(texturecolumnofs[0][0]));
 
     texturewidth[i] := texture.width;
     textureheight[i] := texture.height * FRACUNIT;
@@ -1024,7 +1028,7 @@ begin
     R_GenerateLookup(i);
 
   // Create translation table for global animation.
-  texturetranslation := Z_Malloc((numtextures + 1) * SizeOf(integer), PU_STATIC, nil);
+  texturetranslation := malloc((numtextures + 1) * SizeOf(integer));
 
   for i := 0 to numtextures - 1 do
     texturetranslation[i] := i;
@@ -1053,11 +1057,11 @@ begin
   numflats := lastflat - firstflat + 1;
 
   // Create translation table for global animation.
-  flats := Z_Malloc(numflats * SizeOf(pointer), PU_STATIC, nil);
+  flats := mallocz(numflats * SizeOf(pointer));
 
   for i := 0 to numflats - 1 do
   begin
-    flat := Z_Malloc(SizeOf(flat_t), PU_STATIC, nil);
+    flat := malloc(SizeOf(flat_t));
     flat.name := W_GetNameForNum(firstflat + i);
     flat.translation := i;
     flat.lump := W_GetNumForName(flat.name);
@@ -1117,10 +1121,10 @@ begin
   end;
   W_InitSprites; // JVAL: Images as sprites
   numspritelumps := lastspritelump - firstspritelump + 1;
-  spritewidth := Z_Malloc(numspritelumps * SizeOf(fixed_t), PU_STATIC, nil);
-  spriteoffset := Z_Malloc(numspritelumps * SizeOf(fixed_t), PU_STATIC, nil);
-  spritetopoffset := Z_Malloc(numspritelumps * SizeOf(fixed_t), PU_STATIC, nil);
-  spritepresent := Z_Malloc(numspritelumps * SizeOf(boolean), PU_STATIC, nil);
+  spritewidth := malloc(numspritelumps * SizeOf(fixed_t));
+  spriteoffset := malloc(numspritelumps * SizeOf(fixed_t));
+  spritetopoffset := malloc(numspritelumps * SizeOf(fixed_t));
+  spritepresent := malloc(numspritelumps * SizeOf(boolean));
 
   in_loop := true;
 
@@ -1145,6 +1149,100 @@ begin
       Z_ChangeTag(patch, PU_CACHE);
     end;
   end;
+end;
+
+//==============================================================================
+// R_SafeFreeMemory
+//
+// R_FreeMemory
+// JVAL: Free memory allocated without using zone
+//
+//==============================================================================
+procedure R_SafeFreeMemory;
+var
+  i: integer;
+begin
+// textures
+  for i := 0 to numtextures - 1 do
+    if textures[i] <> nil then
+    begin
+      memfree(pointer(texturecolumnlump[i]), textures[i].width * SizeOf(texturecolumnlump[0][0]));
+      memfree(pointer(texturecolumnofs[i]), textures[i].width * SizeOf(texturecolumnofs[0][0]));
+      memfree(pointer(textures[i]), SizeOf(texture_t) + SizeOf(texpatch_t) * (textures[i].patchcount - 1));
+    end;
+
+  memfree(pointer(textures), numtextures * SizeOf(Ptexture_t));
+  memfree(pointer(texturecolumnlump), numtextures * SizeOf(PSmallIntArray));
+  memfree(pointer(texturecolumnofs), numtextures * SizeOf(PIntegerArray));
+  memfree(pointer(texturecomposite), numtextures * SizeOf(PByteArray));
+  memfree(pointer(texturecompositesize), numtextures * SizeOf(integer));
+  memfree(pointer(texturewidth), numtextures * SizeOf(integer));
+  memfree(pointer(textureheight), numtextures * SizeOf(fixed_t));
+// JVAL: 20200112 - For tall textures
+  memfree(pointer(texturecolumnheight), numtextures * SizeOf(integer));
+  memfree(pointer(texturecolumnheightfrac), numtextures * SizeOf(integer));
+  memfree(pointer(texturetranslation), (numtextures + 1) * SizeOf(integer));
+
+// flats
+  if flats <> nil then
+    for i := 0 to numflats - 1 do
+      memfree(pointer(flats[i]), SizeOf(flat_t));
+  memfree(pointer(flats), numflats * SizeOf(pointer));
+
+// sprites
+  memfree(pointer(spritewidth), numspritelumps * SizeOf(fixed_t));
+  memfree(pointer(spriteoffset), numspritelumps * SizeOf(fixed_t));
+  memfree(pointer(spritetopoffset), numspritelumps * SizeOf(fixed_t));
+  memfree(pointer(spritepresent), numspritelumps * SizeOf(boolean));
+
+end;
+
+//==============================================================================
+//
+// R_FreeMemory
+//
+//==============================================================================
+procedure R_FreeMemory;
+var
+  i: integer;
+begin
+  if in_i_error then
+  begin
+    R_SafeFreeMemory;
+    exit;
+  end;
+// textures
+  for i := 0 to numtextures - 1 do
+  begin
+    memfree(pointer(texturecolumnlump[i]), textures[i].width * SizeOf(texturecolumnlump[0][0]));
+    memfree(pointer(texturecolumnofs[i]), textures[i].width * SizeOf(texturecolumnofs[0][0]));
+    memfree(pointer(textures[i]), SizeOf(texture_t) + SizeOf(texpatch_t) * (textures[i].patchcount - 1));
+  end;
+
+  memfree(pointer(textures), numtextures * SizeOf(Ptexture_t));
+  memfree(pointer(texturecolumnlump), numtextures * SizeOf(PSmallIntArray));
+  memfree(pointer(texturecolumnofs), numtextures * SizeOf(PIntegerArray));
+  memfree(pointer(texturecomposite), numtextures * SizeOf(PByteArray));
+  memfree(pointer(texturecompositesize), numtextures * SizeOf(integer));
+  memfree(pointer(texturewidth), numtextures * SizeOf(integer));
+  memfree(pointer(textureheight), numtextures * SizeOf(fixed_t));
+// JVAL: 20200112 - For tall textures
+  memfree(pointer(texturecolumnheight), numtextures * SizeOf(integer));
+  memfree(pointer(texturecolumnheightfrac), numtextures * SizeOf(integer));
+  memfree(pointer(texturetranslation), (numtextures + 1) * SizeOf(integer));
+
+// flats
+  for i := 0 to numflats - 1 do
+    memfree(pointer(flats[i]), SizeOf(flat_t));
+  memfree(pointer(flats), numflats * SizeOf(pointer));
+
+// sprites
+  memfree(pointer(spritewidth), numspritelumps * SizeOf(fixed_t));
+  memfree(pointer(spriteoffset), numspritelumps * SizeOf(fixed_t));
+  memfree(pointer(spritetopoffset), numspritelumps * SizeOf(fixed_t));
+  memfree(pointer(spritepresent), numspritelumps * SizeOf(boolean));
+
+  W_ShutDownSprites; // JVAL: Images as sprites
 end;
 
 //==============================================================================
@@ -1272,10 +1370,10 @@ begin
 
     // JVAL: Found a flat outside F_START, F_END
     result := numflats;
+    realloc(pointer(flats), numflats * SizeOf(pointer), (numflats + 1) * SizeOf(pointer));
     inc(numflats);
-    flats := Z_ReAlloc(flats, numflats * SizeOf(pointer), PU_STATIC, nil);
 
-    flats[result] := Z_Malloc(SizeOf(flat_t), PU_STATIC, nil);
+    flats[result] := malloc(SizeOf(flat_t));
     flats[result].name := W_GetNameForNum(i);
     flats[result].translation := result;
     flats[result].lump := i;
@@ -1330,10 +1428,10 @@ begin
 
     // JVAL: Found a flat outside F_START, F_END
     result := numflats;
+    realloc(pointer(flats), numflats * SizeOf(pointer), (numflats + 1) * SizeOf(pointer));
     inc(numflats);
-    flats := Z_ReAlloc(flats, numflats * SizeOf(pointer), PU_STATIC, nil);
 
-    flats[result] := Z_Malloc(SizeOf(flat_t), PU_STATIC, nil);
+    flats[result] := malloc(SizeOf(flat_t));
     flats[result].name := W_GetNameForNum(i);
     flats[result].translation := result;
     flats[result].lump := i;
@@ -1507,7 +1605,9 @@ var
   texturememory: integer;
   spritememory: integer;
   allocmemory: integer;
+{$IFNDEF OPENGL}
   flat: pointer;
+{$ENDIF}
   sd: Pside_t;
 begin
   printf('R_PrecacheLevel()'#13#10);
@@ -1529,12 +1629,15 @@ begin
   begin
     if flatpresent[i] <> 0 then
     begin
-      flat := W_CacheLumpNum(R_GetLumpForFlat(i), PU_STATIC);
-{$IFNDEF OPENGL}
+      lump := R_GetLumpForFlat(i);
+{$IFDEF OPENGL}
+      W_CacheLumpNum(lump, PU_CACHE);
+{$ELSE}
+      flat := W_CacheLumpNum(lump, PU_STATIC);
       R_ReadDS32Cache(i);
-{$ENDIF}
       Z_ChangeTag(flat, PU_CACHE);
-      flatmemory := flatmemory + 64 * 64;
+{$ENDIF}
+      flatmemory := flatmemory + lumpinfo[lump].size;
     end;
   end;
 
