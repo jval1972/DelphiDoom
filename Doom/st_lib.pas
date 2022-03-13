@@ -437,8 +437,8 @@ end;
 procedure STlib_initBinIcon(b: Pst_binicon_t; x, y: integer; i: Ppatch_t;
   val: PBoolean; _on: PBoolean);
 begin
-  b.x  := x;
-  b.y  := y;
+  b.x := x;
+  b.y := y;
   b.oldval := false;
   b.val := val;
   b._on := _on;
