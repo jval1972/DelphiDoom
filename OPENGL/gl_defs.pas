@@ -58,11 +58,11 @@ type
     leftoffset, topoffset: integer;
     tex_width, tex_height: integer;
     realtexwidth, realtexheight: integer;
-    texturescale: single;
+    texturescale: float;
     buffer_width, buffer_height: integer;
     inv_buffer_width, inv_buffer_height: float;
     buffer_size: integer;
-    heightscale: single;
+    heightscale: float;
     glTexID: array[0..CR_INVUL] of integer;
     glRippleTexID: array[0..31] of integer;
     textype: GLTexType;
