@@ -314,6 +314,7 @@ var
   texturecolumn: integer;
   t: double;
   texturemid_dbl: double;
+  spryscale_dbl: double;
 {$IFDEF DOOM_OR_STRIFE}
   tempsec: sector_t;
 {$ENDIF}
@@ -496,8 +497,9 @@ begin
       sprtopscreen := FixedInt64(t); }
 
      //t -> double (delphidoom)
-      t := centery - texturemid_dbl * (spryscale / FRACUNIT);
-      if (t + (textureheight[texnum] / FRACUNIT) * (spryscale / FRACUNIT) < 0) or (t > SCREENHEIGHT * 2) or (t < -32000.0) then
+      spryscale_dbl := spryscale / FRACUNIT;
+      t := centery - texturemid_dbl * spryscale_dbl;
+      if (t + (textureheight[texnum] / FRACUNIT) * spryscale_dbl < 0) or (t > SCREENHEIGHT * 2) or (t < -32000.0) then
       begin
         if ds.use_double then
           spryscale := Trunc(ds.scale_dbl + (dc_x - ds.x1) * rw_scalestep_dbl)
