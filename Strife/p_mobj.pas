@@ -1023,9 +1023,7 @@ begin
 
     // haleyjd [STRIFE]: NOTDMATCH things don't respawn
     if mobj.flags and MF_NOTDMATCH <> 0 then
-    begin
       exit;
-    end;
 
     P_NightmareRespawn(mobj);
   end;

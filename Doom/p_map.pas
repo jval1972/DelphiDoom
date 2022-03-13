@@ -727,11 +727,25 @@ end;
 
 //==============================================================================
 //
-// JVAL: 20200308 - New function
-// P_ThingsInSameZ
+// JVAL: 20220313 - New function
+// P_ThingHeightOffsZ
 //
 //==============================================================================
-function P_ThingsInSameZ(const A, B: Pmobj_t): boolean;
+function P_ThingHeightOffsZ(const mo: Pmobj_t): fixed_t;
+begin
+  if mo.flags and MF_SPAWNCEILING <> 0 then
+    result := mo.height
+  else
+    result := 0;
+end;
+
+//==============================================================================
+//
+// JVAL: 20200308 - New function
+// P_ThingsInSameZ206
+//
+//==============================================================================
+function P_ThingsInSameZ206(const A, B: Pmobj_t): boolean;
 var
   Az1, Az2, Bz1, Bz2: fixed_t;
 begin
@@ -764,6 +778,52 @@ begin
     IsIntegerInRange(Az2, Bz1, Bz2) or
     IsIntegerInRange(Bz1, Az1, Az2) or
     IsIntegerInRange(Bz2, Az1, Az2);
+end;
+
+//==============================================================================
+//
+// P_ThingsInSameZ
+//
+//==============================================================================
+function P_ThingsInSameZ(const A, B: Pmobj_t): boolean;
+var
+  Az1, Az2, Bz1, Bz2: fixed_t;
+begin
+  if G_PlayingEngineVersion < VERSION207 then
+  begin
+    result := P_ThingsInSameZ206(A, B);
+    exit;
+  end;
+
+  Az1 := A.z - P_ThingHeightOffsZ(A);
+  if Az1 < A.floorz then
+    Az1 := A.floorz;
+  Az2 := Az1 + A.height;
+  if Az2 > A.ceilingz then
+  begin
+    Az2 := A.ceilingz;
+    Az1 := Az2 - A.height;
+    if Az1 < A.floorz then
+      Az1 := A.floorz;
+  end;
+
+  Bz1 := B.z - P_ThingHeightOffsZ(B);
+  if Bz1 < B.floorz then
+    Bz1 := B.floorz;
+  Bz2 := Bz1 + B.height;
+  if Bz2 > B.ceilingz then
+  begin
+    Bz2 := B.ceilingz;
+    Bz1 := Bz2 - B.height;
+    if Bz1 < B.floorz then
+      Bz1 := B.floorz;
+  end;
+
+  result :=
+    IsIntegerInRange(Az1, Bz1 + 1, Bz2 - 1) or
+    IsIntegerInRange(Az2, Bz1 + 1, Bz2 - 1) or
+    IsIntegerInRange(Bz1, Az1 + 1, Az2 - 1) or
+    IsIntegerInRange(Bz2, Az1 + 1, Az2 - 1);
 end;
 
 type

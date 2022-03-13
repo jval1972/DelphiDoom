@@ -667,7 +667,7 @@ begin
     begin
       dist := P_AproxDistance(mo.x - mo.target.x, mo.y - mo.target.y);
 
-      delta := (mo.target.z + _SHR1(mo.height)) - mo.z; // JVAL is it right ???
+      delta := (mo.target.z + _SHR1(mo.height)) - mo.z;
 
       if (delta < 0) and (dist < -(delta * 3)) then
         mo.z := mo.z - P_FloatSpeed(mo)
@@ -792,7 +792,7 @@ begin
         grav := grav div 2;
 
     if mo.momz = 0 then
-      mo.momz := - grav * 2
+      mo.momz := -grav * 2
     else
       mo.momz := mo.momz - grav;
 
@@ -921,6 +921,7 @@ end;
 procedure P_MobjThinker(mobj: Pmobj_t);
 var
   onmo: Pmobj_t;
+  pl: Pplayer_t;
 begin
   // JVAL: Clear just spawned flag
   mobj.flags4_ex := mobj.flags4_ex and not MF4_EX_JUSTAPPEARED;
@@ -950,12 +951,13 @@ begin
         P_ZMovement(mobj)
       else
       begin
-        if (mobj.player <> nil) and (mobj.momz < 0) then
+        pl := mobj.player;
+        if (pl <> nil) and (mobj.momz < 0) then
         begin
           mobj.flags2_ex := mobj.flags2_ex or MF2_EX_ONMOBJ;
           mobj.momz := 0;
         end;
-        if (mobj.player <> nil) and (onmo.player <> nil) then
+        if (pl <> nil) and (onmo.player <> nil) then
         begin
           mobj.momx := onmo.momx;
           mobj.momy := onmo.momy;
@@ -968,6 +970,21 @@ begin
               Pplayer_t(onmo.player).deltaviewheight := (PVIEWHEIGHT - Pplayer_t(onmo.player).viewheight) div 8;
             end;
             onmo.z := onmo.floorz;
+          end;
+        end
+        else if (pl <> nil) and (G_PlayingEngineVersion >= VERSION207) then
+        begin
+          if onmo.z + onmo.height - mobj.z <= 24 * FRACUNIT then
+          begin
+            pl.viewheight := pl.viewheight - onmo.z + onmo.height - mobj.z;
+            pl.deltaviewheight := _SHR3(PVIEWHEIGHT - pl.viewheight);
+            mobj.z := onmo.z + onmo.height;
+            mobj.flags2_ex := mobj.flags2_ex or MF2_EX_ONMOBJ;
+            mobj.momz := 0;
+          end
+          else
+          begin // hit the bottom of the blocking mobj
+            mobj.momz := 0;
           end;
         end;
       end;
@@ -1004,9 +1021,7 @@ begin
     mobj.movecount := mobj.movecount + 1;
 
     if mobj.movecount < 12 * TICRATE then
-    begin
       exit;
-    end;
 
     if leveltime and 31 <> 0 then
       exit;
@@ -1159,7 +1174,7 @@ begin
     if space > 48 * FRACUNIT then
     begin
       space := space - 40 * FRACUNIT;
-      mobj.z := FixedMul(space, N_Random * 256) + mobj.floorz + 40 * FRACUNIT
+      mobj.z := FixedMul(space, N_Random * 256) + mobj.floorz + 40 * FRACUNIT;
     end
     else
       mobj.z := mobj.floorz

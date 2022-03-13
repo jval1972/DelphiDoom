@@ -1039,11 +1039,7 @@ end;
 
 //==============================================================================
 //
-//===============
-//
 // P_ZMovement
-//
-//===============
 //
 //==============================================================================
 procedure P_ZMovement(mo: Pmobj_t);
@@ -1320,11 +1316,9 @@ begin
   end;
 end;
 
-//----------------------------------------------------------------------------
+//==============================================================================
 //
 // PROC P_BlasterMobjThinker
-//
-//----------------------------------------------------------------------------
 //
 //==============================================================================
 procedure P_BlasterMobjThinker(mobj: Pmobj_t);
@@ -1546,9 +1540,7 @@ begin
       end;
     end
     else
-    begin
       P_ZMovement(mobj);
-    end;
 
     if P_ThinkerIsRemoved(@mobj.thinker) then
       exit; // mobj was removed
@@ -1697,9 +1689,7 @@ begin
   if z = ONFLOORZ then
     mobj.z := mobj.floorz
   else if z = ONCEILINGZ then
-  begin
-    mobj.z := mobj.ceilingz - mobj.info.height;
-  end
+    mobj.z := mobj.ceilingz - mobj.info.height
   else if z = FLOATRANDZ then
   begin
     space := mobj.ceilingz - mobj.info.height - mobj.floorz;
