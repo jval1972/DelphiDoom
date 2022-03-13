@@ -225,6 +225,13 @@ type
     cache: array[0..0] of visspritecacheitem_t;
   end;
   Pvisspritecache_t = ^visspritecache_t;
+
+//==============================================================================
+//
+// R_ExecuteSpriteCache
+//
+//==============================================================================
+procedure R_ExecuteSpriteCache(const cache: Pvisspritecache_t);
 {$ENDIF}
 
 implementation
@@ -2433,6 +2440,64 @@ end;
 
 //==============================================================================
 //
+// R_ExecuteSpriteCache
+//
+//==============================================================================
+procedure R_ExecuteSpriteCache(const cache: Pvisspritecache_t);
+var
+  i: integer;
+  ds: Pdrawseg_t;
+  x: integer;
+  item: Pvisspritecacheitem_t;
+begin
+  for i := 0 to cache.cachesize - 1 do
+  begin
+    item := @cache.cache[i];
+    case item.operation of
+      CACHE_OP_THICK:
+        begin
+          R_RenderThickSideRange(item.ds, item.r1, item.r2);
+        end;
+      CACHE_OP_MASKED:
+        begin
+          R_RenderMaskedSegRange(item.ds, item.r1, item.r2);
+        end;
+      CACHE_OP_THICK_AND_MASKED:
+        begin
+          R_RenderThickSideRange(item.ds, item.r1, item.r2);
+          R_RenderMaskedSegRange(item.ds, item.r1, item.r2);
+        end;
+      CACHE_OP_SIL1:
+        begin
+          ds := item.ds;
+          for x := item.r1 to item.r2 do
+            if clipbot[x] = -2 then
+              clipbot[x] := ds.sprbottomclip[x];
+        end;
+      CACHE_OP_SIL2:
+        begin
+          ds := item.ds;
+          for x := item.r1 to item.r2 do
+            if cliptop[x] = -2 then
+              cliptop[x] := ds.sprtopclip[x];
+        end;
+      CACHE_OP_SIL3:
+        begin
+          ds := item.ds;
+          for x := item.r1 to item.r2 do
+          begin
+            if clipbot[x] = -2 then
+              clipbot[x] := ds.sprbottomclip[x];
+            if cliptop[x] = -2 then
+              cliptop[x] := ds.sprtopclip[x];
+          end;
+        end;
+    end;
+  end;
+end;
+
+//==============================================================================
+//
 // R_PrepareMaked
 //
 //==============================================================================
@@ -2478,7 +2543,6 @@ var
   silhouette: integer;
   i: integer;
   cache: Pvisspritecache_t;
-  item: Pvisspritecacheitem_t;
   size: integer;
   {$IFDEF DOOM_OR_STRIFE}
   h, mh: fixed_t;
@@ -2496,50 +2560,7 @@ begin
   if spr.cache <> nil then
   begin
     cache := spr.cache;
-    for i := 0 to cache.cachesize - 1 do
-    begin
-      item := @cache.cache[i];
-      case item.operation of
-        CACHE_OP_THICK:
-          begin
-            R_RenderThickSideRange(item.ds, item.r1, item.r2);
-          end;
-        CACHE_OP_MASKED:
-          begin
-            R_RenderMaskedSegRange(item.ds, item.r1, item.r2);
-          end;
-        CACHE_OP_THICK_AND_MASKED:
-          begin
-            R_RenderThickSideRange(item.ds, item.r1, item.r2);
-            R_RenderMaskedSegRange(item.ds, item.r1, item.r2);
-          end;
-        CACHE_OP_SIL1:
-          begin
-            ds := item.ds;
-            for x := item.r1 to item.r2 do
-              if clipbot[x] = -2 then
-                clipbot[x] := ds.sprbottomclip[x];
-          end;
-        CACHE_OP_SIL2:
-          begin
-            ds := item.ds;
-            for x := item.r1 to item.r2 do
-              if cliptop[x] = -2 then
-                cliptop[x] := ds.sprtopclip[x];
-          end;
-        CACHE_OP_SIL3:
-          begin
-            ds := item.ds;
-            for x := item.r1 to item.r2 do
-            begin
-              if clipbot[x] = -2 then
-                clipbot[x] := ds.sprbottomclip[x];
-              if cliptop[x] = -2 then
-                cliptop[x] := ds.sprtopclip[x];
-            end;
-          end;
-      end;
-    end;
+    R_ExecuteSpriteCache(cache);
     fdrawsegs := cache.fdrawsegs;
     fds_p := cache.fds_p;
   end
@@ -2731,7 +2752,6 @@ var
   r1: integer;
   r2: integer;
   cache: Pvisspritecache_t;
-  item: Pvisspritecacheitem_t;
   scale: fixed_t;
   lowscale: fixed_t;
   silhouette: integer;
@@ -2759,50 +2779,7 @@ begin
   if spr.lightcache <> nil then
   begin
     cache := spr.lightcache;
-    for i := 0 to cache.cachesize - 1 do
-    begin
-      item := @cache.cache[i];
-      case item.operation of
-        CACHE_OP_THICK:
-          begin
-            R_RenderThickSideRange(item.ds, item.r1, item.r2);
-          end;
-        CACHE_OP_MASKED:
-          begin
-            R_RenderMaskedSegRange(item.ds, item.r1, item.r2);
-          end;
-        CACHE_OP_THICK_AND_MASKED:
-          begin
-            R_RenderThickSideRange(item.ds, item.r1, item.r2);
-            R_RenderMaskedSegRange(item.ds, item.r1, item.r2);
-          end;
-        CACHE_OP_SIL1:
-          begin
-            ds := item.ds;
-            for x := item.r1 to item.r2 do
-              if clipbot[x] = -2 then
-                clipbot[x] := ds.sprbottomclip[x];
-          end;
-        CACHE_OP_SIL2:
-          begin
-            ds := item.ds;
-            for x := item.r1 to item.r2 do
-              if cliptop[x] = -2 then
-                cliptop[x] := ds.sprtopclip[x];
-          end;
-        CACHE_OP_SIL3:
-          begin
-            ds := item.ds;
-            for x := item.r1 to item.r2 do
-            begin
-              if clipbot[x] = -2 then
-                clipbot[x] := ds.sprbottomclip[x];
-              if cliptop[x] = -2 then
-                cliptop[x] := ds.sprtopclip[x];
-            end;
-          end;
-      end;
-    end;
+    R_ExecuteSpriteCache(cache);
     fdrawsegs := cache.fdrawsegs;
     fds_p := cache.fds_p;
   end
