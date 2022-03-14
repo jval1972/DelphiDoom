@@ -1986,6 +1986,13 @@ begin
     key_weapon5 := Ord('6');
     key_weapon6 := Ord('7');
     key_weapon7 := Ord('8');
+    AM_GOBIGKEY := Ord('o');
+    AM_FOLLOWKEY := Ord('f');
+    AM_GRIDKEY := Ord('g');
+    AM_ROTATEKEY := Ord('r');
+    AM_TEXTUREDAUTOMAP := Ord('t');
+    AM_MARKKEY := Ord('m');
+    AM_CLEARMARKKEY := Ord('c');
   end
   else if mode = 1 then
   begin
@@ -2021,6 +2028,13 @@ begin
     key_weapon5 := Ord('6');
     key_weapon6 := Ord('7');
     key_weapon7 := Ord('8');
+    AM_GOBIGKEY := Ord('o');
+    AM_FOLLOWKEY := Ord('f');
+    AM_GRIDKEY := Ord('g');
+    AM_ROTATEKEY := Ord('r');
+    AM_TEXTUREDAUTOMAP := Ord('t');
+    AM_MARKKEY := Ord('m');
+    AM_CLEARMARKKEY := Ord('c');
   end
   else if mode = 2 then
   begin
@@ -2056,6 +2070,13 @@ begin
     key_weapon5 := Ord('6');
     key_weapon6 := Ord('7');
     key_weapon7 := Ord('8');
+    AM_GOBIGKEY := Ord('o');
+    AM_FOLLOWKEY := Ord('l');
+    AM_GRIDKEY := Ord('g');
+    AM_ROTATEKEY := Ord('r');
+    AM_TEXTUREDAUTOMAP := Ord('t');
+    AM_MARKKEY := Ord('m');
+    AM_CLEARMARKKEY := Ord('c');
   end;
 end;
 
