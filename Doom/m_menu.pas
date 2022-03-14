@@ -6994,7 +6994,7 @@ begin
 //KeyBindingsDef1
   KeyBindingsDef1.numitems := Ord(kb_lookup); // # of menu items
   KeyBindingsDef1.prevMenu := @ControlsDef; // previous menu
-  KeyBindingsDef1.leftMenu := @KeyBindingsDef3; // left menu
+  KeyBindingsDef1.leftMenu := @KeyBindingsDef4; // left menu
   KeyBindingsDef1.rightMenu := @KeyBindingsDef2; // right menu
   KeyBindingsDef1.menuitems := Pmenuitem_tArray(@KeyBindingsMenu1);  // menu items
   KeyBindingsDef1.drawproc := @M_DrawBindings1;  // draw routine
