@@ -194,7 +194,7 @@ var
 
 const
   MIN_NUMCHANNELS = 8;
-  MAX_NUMCHANNELS = 32;
+  MAX_NUMCHANNELS = 64;
 
 //==============================================================================
 //

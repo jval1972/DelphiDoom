@@ -12,6 +12,7 @@ Added support for tall patches in PNG format.
 More robust uncapped framerate.
 Speed optimizations to the OpenGL rendering.
 Fixed to 3d colissions of actors moving up or down other actors.
+Default sound channels raised to 32, maximum sound channels raised to 64.
 
 Version 2.0.7 build 730 - (20220302)
 -----------------------
