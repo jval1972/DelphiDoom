@@ -94,14 +94,17 @@ const
   AM_ZOOMINKEY2 = '+';
   AM_ZOOMOUTKEY = '-';
   AM_TONGLEKEY = KEY_TAB;
-  AM_GOBIGKEY = '0';
-  AM_FOLLOWKEY = 'f';
-  AM_GRIDKEY = 'g';
-  AM_ROTATEKEY = 'r';
-  AM_TEXTUREDAUTOMAP = 't';
-  AM_MARKKEY = 'm';
-  AM_CLEARMARKKEY = 'c';
 
+var
+  AM_GOBIGKEY: integer = Ord('o');
+  AM_FOLLOWKEY: integer = Ord('f');
+  AM_GRIDKEY: integer = Ord('g');
+  AM_ROTATEKEY: integer = Ord('r');
+  AM_TEXTUREDAUTOMAP: integer = Ord('t');
+  AM_MARKKEY: integer = Ord('m');
+  AM_CLEARMARKKEY: integer = Ord('c');
+
+const
   AM_NUMMARKPOINTS = 10;
 
 // scale on entry
@@ -988,7 +991,9 @@ begin
               AM_Stop;
           end;
         end;
-      Ord(AM_GOBIGKEY):
+      else
+      begin
+        if ev.data1 = AM_GOBIGKEY then
         begin
           bigstate := not bigstate;
           if bigstate then
@@ -998,8 +1003,8 @@ begin
           end
           else
             AM_restoreScaleAndLoc;
-        end;
-      Ord(AM_FOLLOWKEY):
+        end
+        else if ev.data1 = AM_FOLLOWKEY then
         begin
           followplayer := not followplayer;
           f_oldloc.x := MAXINT;
@@ -1007,45 +1012,44 @@ begin
             plr._message := AMSTR_FOLLOWON
           else
             plr._message := AMSTR_FOLLOWOFF;
-        end;
-      Ord(AM_GRIDKEY):
+        end
+        else if ev.data1 = AM_GRIDKEY then
         begin
           automapgrid := not automapgrid;
           if automapgrid then
             plr._message := AMSTR_GRIDON
           else
             plr._message := AMSTR_GRIDOFF;
-        end;
-      Ord(AM_ROTATEKEY):
+        end
+        else if ev.data1 = AM_ROTATEKEY then
         begin
           allowautomaprotate := not allowautomaprotate;
           if allowautomaprotate then
             plr._message := AMSTR_ROTATEON
           else
             plr._message := AMSTR_ROTATEOFF;
-        end;
-      Ord(AM_TEXTUREDAUTOMAP):
+        end
+        else if ev.data1 = AM_TEXTUREDAUTOMAP then
         begin
           texturedautomap := not texturedautomap;
           if texturedautomap then
             plr._message := 'TEXTURED AUTOMAP ON'
           else
             plr._message := 'TEXTURED AUTOMAP OFF';
-        end;
-      Ord(AM_MARKKEY):
+        end
+        else if ev.data1 = AM_MARKKEY then
         begin
           sprintf(_message, '%s %d', [AMSTR_MARKEDSPOT, markpointnum]);
           plr._message := _message;
           AM_addMark;
-        end;
-      Ord(AM_CLEARMARKKEY):
+        end
+        else if ev.data1 = AM_CLEARMARKKEY then
         begin
           AM_clearMarks;
           plr._message := AMSTR_MARKSCLEARED;
         end
-      else
-      begin
-        result := false;
+        else
+          result := false;
       end;
     end;
   end
