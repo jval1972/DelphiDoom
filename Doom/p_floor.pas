@@ -828,9 +828,8 @@ begin
 end;
 
 //==============================================================================
-// EV_DoDonut2
 //
-// EV_DoDonut()
+// EV_DoDonut2
 //
 // Handle donut function: lower pillar, raise surrounding pool, both to height,
 // texture and type of the sector surrounding the pool.
