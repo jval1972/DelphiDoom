@@ -1374,6 +1374,7 @@ type
     kb_use,
     kb_strafe,
     kb_speed,
+
     kb_lookup,
     kb_lookdown,
     kb_lookcenter,
@@ -1388,6 +1389,7 @@ type
     kb_invleft,
     kb_invright,
     kb_invquery,
+
     kb_weapon0,
     kb_weapon1,
     kb_weapon2,
@@ -1398,6 +1400,15 @@ type
     kb_weapon7,
     kb_weapon8,
     kb_weapon9,
+
+    kb_am_gobigkey,
+    kb_am_followkey,
+    kb_am_gridkey,
+    kb_am_rotatekey,
+    kb_am_texturedautomap,
+    kb_am_markkey,
+    kb_am_clearmarkkey,
+
     kb_end
   );
 
@@ -1408,12 +1419,14 @@ var
   KeyBindingsDef2: menu_t;
   KeyBindingsMenu3: array[0..Ord(kb_weapon0) - Ord(kb_usehealth) - 1] of menuitem_t;
   KeyBindingsDef3: menu_t;
-  KeyBindingsMenu4: array[0..Ord(kb_end) - Ord(kb_weapon0) - 1] of menuitem_t;
+  KeyBindingsMenu4: array[0..Ord(kb_am_gobigkey) - Ord(kb_weapon0) - 1] of menuitem_t;
   KeyBindingsDef4: menu_t;
+  KeyBindingsMenu5: array[0..Ord(kb_end) - Ord(kb_am_gobigkey) - 1] of menuitem_t;
+  KeyBindingsDef5: menu_t;
 
 type
   bindinginfo_t = record
-    text: string[21];
+    text: string[22];
     pkey: PInteger;
   end;
 
@@ -1431,11 +1444,13 @@ const
     (text: 'Use'; pkey: @key_use),
     (text: 'Strafe'; pkey: @key_strafe),
     (text: 'Run'; pkey: @key_speed),
+
     (text: 'Look up'; pkey: @key_lookup),
     (text: 'Look down'; pkey: @key_lookdown),
     (text: 'Look center'; pkey: @key_lookcenter),
     (text: 'Look left'; pkey: @key_lookleft),
     (text: 'Look right'; pkey: @key_lookright),
+
     (text: 'Use health'; pkey: @key_usehealth),
     (text: 'Mission objectives'; pkey: @key_mission),
     (text: 'Weapon/ammo stats'; pkey: @key_invpop),
@@ -1445,6 +1460,7 @@ const
     (text: 'Inventory scroll up'; pkey: @key_invleft),
     (text: 'Inventory scroll down'; pkey: @key_invright),
     (text: 'Query inventory'; pkey: @key_invquery),
+
     (text: 'Punch Dagger'; pkey: @key_weapon0),
     (text: 'Crossbow'; pkey: @key_weapon1),
     (text: 'Assault Gun'; pkey: @key_weapon2),
@@ -1454,7 +1470,15 @@ const
     (text: 'Mauler'; pkey: @key_weapon6),
     (text: 'The Sigil'; pkey: @key_weapon7),
     (text: 'Crossbow (2)'; pkey: @key_weapon8),
-    (text: 'Grenade launcher (2)'; pkey: @key_weapon9)
+    (text: 'Grenade launcher (2)'; pkey: @key_weapon9),
+
+    (text: 'Automap max zoom'; pkey: @AM_GOBIGKEY),
+    (text: 'Automap follow on/off'; pkey: @AM_FOLLOWKEY),
+    (text: 'Automap grid on/off'; pkey: @AM_GRIDKEY),
+    (text: 'Automap rotate on/off'; pkey: @AM_ROTATEKEY),
+    (text: 'Automap texture on/off'; pkey: @AM_TEXTUREDAUTOMAP),
+    (text: 'Automap add mark'; pkey: @AM_MARKKEY),
+    (text: 'Automap clear mark'; pkey: @AM_CLEARMARKKEY)
   );
 
 var
@@ -1635,7 +1659,17 @@ end;
 //==============================================================================
 procedure M_DrawBindings4;
 begin
-  M_DrawBindings(KeyBindingsDef4, Ord(kb_weapon0), Ord(kb_end));
+  M_DrawBindings(KeyBindingsDef4, Ord(kb_weapon0), Ord(kb_am_gobigkey));
+end;
+
+//==============================================================================
+//
+// M_DrawBindings5
+//
+//==============================================================================
+procedure M_DrawBindings5;
+begin
+  M_DrawBindings(KeyBindingsDef5, Ord(kb_am_gobigkey), Ord(kb_end));
 end;
 
 //==============================================================================
@@ -1690,9 +1724,23 @@ procedure M_KeyBindingSelect4(choice: integer);
 begin
   bindkeyEnter := true;
 
-  bindkeySlot := Ord(kb_usehealth) + choice;
+  bindkeySlot := Ord(kb_weapon0) + choice;
 
   saveOldkey := KeyBindingsInfo[Ord(kb_weapon0) + choice].pkey^;
+end;
+
+//==============================================================================
+//
+// M_KeyBindingSelect5
+//
+//==============================================================================
+procedure M_KeyBindingSelect5(choice: integer);
+begin
+  bindkeyEnter := true;
+
+  bindkeySlot := Ord(kb_am_gobigkey) + choice;
+
+  saveOldkey := KeyBindingsInfo[Ord(kb_am_gobigkey) + choice].pkey^;
 end;
 
 type
@@ -2230,6 +2278,13 @@ begin
     key_invleft := KEY_INS;
     key_invright := KEY_DELETE;
     key_invquery := Ord('q');
+    AM_GOBIGKEY := Ord('o');
+    AM_FOLLOWKEY := Ord('f');
+    AM_GRIDKEY := Ord('g');
+    AM_ROTATEKEY := Ord('r');
+    AM_TEXTUREDAUTOMAP := Ord('t');
+    AM_MARKKEY := Ord('m');
+    AM_CLEARMARKKEY := Ord('c');
   end
   else if mode = 1 then
   begin
@@ -2261,6 +2316,13 @@ begin
     key_invleft := KEY_INS;
     key_invright := KEY_DELETE;
     key_invquery := Ord('q');
+    AM_GOBIGKEY := Ord('o');
+    AM_FOLLOWKEY := Ord('f');
+    AM_GRIDKEY := Ord('g');
+    AM_ROTATEKEY := Ord('r');
+    AM_TEXTUREDAUTOMAP := Ord('t');
+    AM_MARKKEY := Ord('m');
+    AM_CLEARMARKKEY := Ord('c');
   end
   else if mode = 2 then
   begin
@@ -2292,6 +2354,13 @@ begin
     key_invleft := KEY_INS;
     key_invright := KEY_DELETE;
     key_invquery := Ord('q');
+    AM_GOBIGKEY := Ord('o');
+    AM_FOLLOWKEY := Ord('l');
+    AM_GRIDKEY := Ord('g');
+    AM_ROTATEKEY := Ord('r');
+    AM_TEXTUREDAUTOMAP := Ord('t');
+    AM_MARKKEY := Ord('m');
+    AM_CLEARMARKKEY := Ord('c');
   end;
 end;
 
@@ -2329,7 +2398,14 @@ begin
      (key_invend = KEY_END) and
      (key_invleft = KEY_INS) and
      (key_invright = KEY_DELETE) and
-     (key_invquery = Ord('q')) then
+     (key_invquery = Ord('q')) and
+     (AM_GOBIGKEY = Ord('o')) and
+     (AM_FOLLOWKEY = Ord('f')) and
+     (AM_GRIDKEY = Ord('g')) and
+     (AM_ROTATEKEY = Ord('r')) and
+     (AM_TEXTUREDAUTOMAP = Ord('t')) and
+     (AM_MARKKEY = Ord('m')) and
+     (AM_CLEARMARKKEY = Ord('c')) then
   begin
     result := 0;
     exit;
@@ -2362,7 +2438,14 @@ begin
      (key_invend = KEY_END) and
      (key_invleft = KEY_INS) and
      (key_invright = KEY_DELETE) and
-     (key_invquery = Ord('q')) then
+     (key_invquery = Ord('q')) and
+     (AM_GOBIGKEY = Ord('o')) and
+     (AM_FOLLOWKEY = Ord('f')) and
+     (AM_GRIDKEY = Ord('g')) and
+     (AM_ROTATEKEY = Ord('r')) and
+     (AM_TEXTUREDAUTOMAP = Ord('t')) and
+     (AM_MARKKEY = Ord('m')) and
+     (AM_CLEARMARKKEY = Ord('c')) then
   begin
     result := 1;
     exit;
@@ -2395,7 +2478,14 @@ begin
      (key_invend = KEY_END) and
      (key_invleft = KEY_INS) and
      (key_invright = KEY_DELETE) and
-     (key_invquery = Ord('q')) then
+     (key_invquery = Ord('q')) and
+     (AM_GOBIGKEY = Ord('o')) and
+     (AM_FOLLOWKEY = Ord('l')) and
+     (AM_GRIDKEY = Ord('g')) and
+     (AM_ROTATEKEY = Ord('r')) and
+     (AM_TEXTUREDAUTOMAP = Ord('t')) and
+     (AM_MARKKEY = Ord('m')) and
+     (AM_CLEARMARKKEY = Ord('c')) then
   begin
     result := 2;
     exit;
@@ -6969,7 +7059,7 @@ begin
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindingsMenu4
   pmi := @KeyBindingsMenu4[0];
-  for i := 0 to Ord(kb_end) - Ord(kb_weapon0) - 1 do
+  for i := 0 to Ord(kb_am_gobigkey) - Ord(kb_weapon0) - 1 do
   begin
     pmi.status := 1;
     pmi.name := '!' + KeyBindingsInfo[Ord(kb_weapon0) + i].text + ': ';
@@ -6982,10 +7072,12 @@ begin
 
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindingsDef4
-  KeyBindingsDef4.numitems := Ord(kb_end) - Ord(kb_weapon0); // # of menu items
+  KeyBindingsDef4.numitems := Ord(kb_am_gobigkey) - Ord(kb_weapon0); // # of menu items
   KeyBindingsDef4.prevMenu := @ControlsDef; // previous menu
   KeyBindingsDef4.leftmenu := @KeyBindingsDef3; // left menu
   KeyBindingsDef4.lefttext := '<< prev';
+  KeyBindingsDef3.rightmenu := @KeyBindingsDef5; // left menu
+  KeyBindingsDef3.righttext := 'next >>';
   KeyBindingsDef4.menuitems := Pmenuitem_tArray(@KeyBindingsMenu4);  // menu items
   KeyBindingsDef4.drawproc := @M_DrawBindings4;  // draw routine
   KeyBindingsDef4.x := 32;
@@ -6993,6 +7085,34 @@ begin
   KeyBindingsDef4.lastOn := 0; // last item user was on in menu
   KeyBindingsDef4.itemheight := LINEHEIGHT2;
   KeyBindingsDef4.texturebk := true;
+
+////////////////////////////////////////////////////////////////////////////////
+//KeyBindingsMenu5
+  pmi := @KeyBindingsMenu5[0];
+  for i := 0 to Ord(kb_end) - Ord(kb_am_gobigkey) - 1 do
+  begin
+    pmi.status := 1;
+    pmi.name := '!' + KeyBindingsInfo[Ord(kb_am_gobigkey) + i].text + ': ';
+    pmi.cmd := '';
+    pmi.routine := @M_KeyBindingSelect5;
+    pmi.pBoolVal := nil;
+    pmi.alphaKey := Chr(Ord('1') + i);
+    inc(pmi);
+  end;
+
+////////////////////////////////////////////////////////////////////////////////
+//KeyBindingsDef5
+  KeyBindingsDef5.numitems := Ord(kb_end) - Ord(kb_am_gobigkey); // # of menu items
+  KeyBindingsDef5.prevMenu := @ControlsDef; // previous menu
+  KeyBindingsDef5.leftmenu := @KeyBindingsDef4; // left menu
+  KeyBindingsDef5.lefttext := '<< prev';
+  KeyBindingsDef5.menuitems := Pmenuitem_tArray(@KeyBindingsMenu5);  // menu items
+  KeyBindingsDef5.drawproc := @M_DrawBindings5;  // draw routine
+  KeyBindingsDef5.x := 32;
+  KeyBindingsDef5.y := 48; // x,y of menu
+  KeyBindingsDef5.lastOn := 0; // last item user was on in menu
+  KeyBindingsDef5.itemheight := LINEHEIGHT2;
+  KeyBindingsDef5.texturebk := true;
 
 ////////////////////////////////////////////////////////////////////////////////
 //LoadMenu

@@ -175,7 +175,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 220;
+  NUMDEFAULTS = 227;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -1529,6 +1529,69 @@ const
      setable: DFS_NEVER;
      defaultsvalue: '';
      defaultivalue: Ord('q');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_am_gobigkey';
+     location: @AM_GOBIGKEY;
+     oldlocation: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('0');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_am_followkey';
+     location: @AM_FOLLOWKEY;
+     oldlocation: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('f');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_am_gridkey';
+     location: @AM_GRIDKEY;
+     oldlocation: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('g');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_am_rotatekey';
+     location: @AM_ROTATEKEY;
+     oldlocation: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('r');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_am_texturedautomap';
+     location: @AM_TEXTUREDAUTOMAP;
+     oldlocation: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('t');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_am_markkey';
+     location: @AM_MARKKEY;
+     oldlocation: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('m');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_am_clearmarkkey';
+     location: @AM_CLEARMARKKEY;
+     oldlocation: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('c');
      defaultbvalue: false;
      _type: tInteger),
 
