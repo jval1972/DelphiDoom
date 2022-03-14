@@ -371,7 +371,7 @@ Version 2.0.6 build 729 - (20211011)
 -----------------------
 Allow MODELDEF declarations without texture.
 Added MOD, S3M, IT & XM track music format support.
-Shows a I_DevWarning if sound channel can not be found.
+Shows an I_DevWarning if sound channel can not be found.
 Fixed potential doublicate mobj key while loading saved game.
 Overlay functions as mobj codepointers:
   - A_OverlayClear;
@@ -690,7 +690,7 @@ Fixed problems with A_SpawnItem & A_SpawnItemEx actordef functions.
 Added A_ScaleVelocity & A_ChangeVelocity ACTORDEF functions.
 Added FloatRandom function in parameters of ACTORDEF functions. Usage is FloatRandom(1.5, 2.5) <-- return a float value between 1.5 and 2.5.
 Bug fix: Players can now spawned on 3d floors when the "On middle Floor" flag is set.
-Bug fix: Solve issue with A_SpawnItem & A_SpawnItemEx in sectors with 3d floors.
+Bug fix: Solved issue with A_SpawnItem & A_SpawnItemEx in sectors with 3d floors.
 Eliminated problems with voxel frames without a corresponding sprite in the wad.
 Fixed problem with KVX voxels in software rendering mode.
 Eliminated problems with transparent drawing when the software renderer activates dephtbuffer (3d floors).
@@ -785,7 +785,7 @@ We can use PG_UP & PG_DOWN keys in the console to view the previous messages.
 Added A_RandomGoto & A_ResetHealth ACTORDEF functions.
 
 Version 2.0.4 build 719 - (19/9/2019)
--------------
+-----------------------
 OpenGL models rendered from external DLL.
 Removed the "Draw sky" command from the OpenGL menu. (gl_drawsky console variable still exists)
 External PNG textures fixes and loading optimization - fixed problems with later DHTP.
@@ -799,12 +799,12 @@ Better support for dehacked strings.
 When the -dontsavedefaults is passed to the command line parameters, the defaults file (Strife32.ini) will not be saved.
 
 Version 2.0.4 build 718 - (13/10/2018)
--------------
+-----------------------
 Paraller vissprite sorting using separate thread.
 Fixed rare bug that could crash the engine. The error could occur if multithreading mode was enabled and total spans had never exceeded the number of active threads for flat drawing.
 
 Version 2.0.4 build 717 - (20/9/2018)
--------------
+-----------------------
 CODEPTR keyword in BEX files will recornize ACTORDEF actions with custom parameters.
 Fixed bug in A_SubtractCustomParam and A_SubtractTargetCustomParam ACTORDEF functions.
 ACTORDEF functions can now access mobj custom params using the appropriate keywords:
@@ -832,7 +832,7 @@ ACTORDEF functions can now access world and map variables using the appropriate 
   -WorldFloat (for world float variables)
 
 Version 2.0.4 build 715 - (18/2/2018)
--------------
+-----------------------
 Corrected demo recording bug. Problem was more likely appeared in version 2.0.3.704.
 16 and 32 angles in sprites.
 Midi files will not freeze the game input when restarted.
@@ -844,7 +844,7 @@ Will read PNG sprites inside WADs, support for "grAb" PNG chunk to determine off
 Will also read BMP (bitmaps) sprites inside WADs. 
 
 Version 2.0.4 build 714 - (22/1/2018)
------------
+-----------------------
 Interpolate sector flag can be controled within PascalScript.
 Fixed accuracy of status bar drawing in 8 bit display mode.
 Hires lookup tables are calculated using multiple threads if possible.
@@ -853,7 +853,7 @@ If infinite state cycles detected will exit with I_Error.
 Small fixes to the fake3d effect.
 
 Version 2.0.4 build 713 - (12/1/2018)
------------
+-----------------------
 Menu beautifications.
 Option to switch to ESDF keyboard movement.
 Added keyboardmovemode console command.
@@ -862,12 +862,12 @@ Speed optimizations to the software renderer on maps with big number of drawsegs
 Fixed small issues with the multithreaded dephbuffer calculation.
 
 Version 2.0.4 build 712 - (1/1/2018)
------------
+-----------------------
 Corrections to the screen DPI detection.
 Doombuilder configuration files are distributed with the binaries.
 
 Version 2.0.4 build 711 - (31/12/2017)
------------
+-----------------------
 Fixes to sky drawing (both software and OpenGL mode).
 Corrected z-fighting between corpse and dropped item (software renderer).
 Multithreading depthbuffer calculation for the software renderer.
@@ -876,12 +876,12 @@ Multithreading performance improvements in computers with 4 or more CPU threads 
 Screen DPI awareness when running in Windows 8.1 or greater.
 
 Version 2.0.4 build 710 - (23/12/2017)
------------
+-----------------------
 Automatically unset the TWO-SIDED flag for lines without backsector.
 Speed optimizations in things rendering (software renderer).
 
 Version 2.0.4 build 708 - (21/12/2017)
------------
+-----------------------
 Mobjs do not slip while descenting a slopped floor.
 Added line special 283, mobjs on tagged sectors will slip if descenting a slope.
 Added "Gravity" sector field (controlled by PascalScript).
@@ -907,20 +907,20 @@ Speed optimizations for the software renderer.
 Fixed tutti frutti bug for short textures.
 
 Version 2.0.3 build 707 - (12/12/2017)
------------
+-----------------------
 Fixed full screen title drawing problem when the width resolution was 1920 or 2560.
 
 Version 2.0.3 build 706 - (18/11/2017)
------------
+-----------------------
 Added new model formats (ddmodel & dmx) for the OpenGL version. These formats can be created with the DD_MODEL tool (https://sourceforge.net/projects/delphidoom-procedural-modeler/).
 
 Version 2.0.3 build 705 - (7/11/2017)
------------
+-----------------------
 Fixed music pitch problem (as mentioned by RTC_Marine at https://www.doomworld.com/forum/topic/92113-delphidoom-20/?do=findComment&comment=1700485)
 Hud drawing speed optimizations in 2560 x 1440 & 3840 x 2160 resolutions.
 
 Version 2.0.3 build 704 - (29/10/2017)
------------
+-----------------------
 PascalScript can now access DLLs from inside pk3 files. (or WAD files if using PK3ENTRY lump)
 Smooth freelooking. Now the engine does not ignore the slight variations in mouse movement (as suggested by  RTC_Marine - https://www.doomworld.com/forum/topic/92113-delphidoom-20/?do=findComment&comment=1700485) 
 Internal save/load version updated to version 2.03.
@@ -928,7 +928,7 @@ Added gl_no_glfinish_hack console variable to avoid with OpenGL slowdown on syst
 Will load configuration file (strife32.ini) of previous versions.
 
 Version 2.0.2 build 703 - (17/10/2017)
------------
+-----------------------
 Added PCX image external texture support.
 A_Gotoxxxxx functions evaluate small expresions in state parameter (addition & substraction of a constant value).
 Added AllMissiles method to "Actors" PascalScript variable.
@@ -974,18 +974,18 @@ Added PascalScript function "IsPrime()".
 Builds map nodes if missing.
 
 Version 2.0.2 build 702 - (30/8/2017)
------------
+-----------------------
 Fixed alpha channel in TGA screenshots.
 Added keepsavegamename console variable, when true (default) you do not have to re-ender the save game name when overwritting saves.
 The mouse sensitivity slider within menus can accept values up to 20.
 
 Version 2.0.1 build 701 - (28/12/2016)
------------
+-----------------------
 Fixed some glitches of the overlay drawer when screenblocks < 10.
 New PascalScript functions, mostly for retrieving information about mobjinfo.
 
 Version 2.0.1 build 700 - (22/12/2016)
------------
+-----------------------
 Places screenshots inside data\screenshots folder.
 Mirror screenshot to jpg format.
 General purpose multithreading utilities will use more than 2 logical CPUs if available.
@@ -1031,9 +1031,9 @@ Added A_GlobalEarthQuake mobj function.
 Corrected voxel scale in software rendering mode. 
 
 Version 1.1.6 build 605 - (29/8/2016)
------------
+-----------------------
 Fixes to the textured automap.
 
 Version 1.1.5 build 600 - (31/12/2015)
------------
+-----------------------
 First official release.

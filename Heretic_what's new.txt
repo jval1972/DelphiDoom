@@ -380,7 +380,7 @@ Version 2.0.6 build 729 - (20211011)
 -----------------------
 Allow MODELDEF declarations without texture.
 Added MOD, S3M, IT & XM track music format support.
-Shows a I_DevWarning if sound channel can not be found.
+Shows an I_DevWarning if sound channel can not be found.
 Fixed potential doublicate mobj key while loading saved game.
 Overlay functions as mobj codepointers:
   - A_OverlayClear;
@@ -701,7 +701,7 @@ Fixed problems with A_SpawnItem & A_SpawnItemEx actordef functions.
 Added A_ScaleVelocity & A_ChangeVelocity ACTORDEF functions.
 Added FloatRandom function in parameters of ACTORDEF functions. Usage is FloatRandom(1.5, 2.5) <-- return a float value between 1.5 and 2.5.
 Bug fix: Players can now spawned on 3d floors when the "On middle Floor" flag is set.
-Bug fix: Solve issue with A_SpawnItem & A_SpawnItemEx in sectors with 3d floors.
+Bug fix: Solved issue with A_SpawnItem & A_SpawnItemEx in sectors with 3d floors.
 Eliminated problems with voxel frames without a corresponding sprite in the wad.
 Fixed problem with KVX voxels in software rendering mode.
 Eliminated problems with transparent drawing when the software renderer activates dephtbuffer (3d floors).
