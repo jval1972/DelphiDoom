@@ -7087,6 +7087,7 @@ begin
   KeyBindingsDef4.lastOn := 0; // last item user was on in menu
   KeyBindingsDef4.itemheight := LINEHEIGHT2;
   KeyBindingsDef4.texturebk := true;
+
 ////////////////////////////////////////////////////////////////////////////////
 //LoadMenu
   pmi := @LoadMenu[0];
