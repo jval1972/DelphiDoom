@@ -704,7 +704,7 @@ procedure R_InitDepthBuffer;
 var
   i: integer;
 begin
-  dbsize := SCREENWIDTH * (SCREENHEIGHT + 20) * SizeOf(LongWord) and not (4095);
+  dbsize := (SCREENWIDTH * (SCREENHEIGHT + 20) * SizeOf(LongWord) + $10000) and not (4095);
   for i := 0 to NUMDEPTHBUFFERS - 1 do
   begin
     depthbuffer[i] := mallocA(dbsize, $10000, depthbuffertmp[i]); // JVAL: Memory padding may increase performance until 4%
