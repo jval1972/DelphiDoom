@@ -81,9 +81,11 @@ uses
 function ThreadWorker(p: Pointer): integer; stdcall;
 var
   th: TDThread;
+  status: integer;
 begin
   result := 0;
   th := Pthreadinfo_t(p).thread;
+  status := THR_IDLE;
   while true do
   begin
     while (th.fstatus = THR_IDLE) and not th.fterminated do
@@ -98,6 +100,8 @@ begin
     if th.fterminated then
       exit;
     th.fstatus := THR_IDLE;
+    if Assigned(WaitOnAddress_func) then
+      WaitOnAddress_func(@th.fstatus, @status, 4, 0);
   end;
 end;
 

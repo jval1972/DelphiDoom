@@ -393,6 +393,12 @@ function I_SetDPIAwareness: boolean;
 //==============================================================================
 function I_GetWindowDPI(const h: THandle): integer;
 
+type
+  waitonaddress_t = function (Addr: pointer; CompareAddr: pointer; AddrSize: LongWord; dwMilliseconds: LongWord): boolean; stdcall;
+
+var
+  WaitOnAddress_func: waitonaddress_t = nil;
+
 implementation
 
 uses
@@ -607,6 +613,8 @@ begin
   I_CmdUseMMX;
 end;
 
+var
+  dllsync: THandle;
 //==============================================================================
 //
 // I_Init
@@ -622,6 +630,10 @@ begin
   I_InitMusic;
   printf('I_InitInput: Initializing Input Devices.'#13#10);
   I_InitInput;
+
+  dllsync := LoadLibrary('API-MS-Win-Core-Synch-l1-2-0.dll');
+  if dllsync > 0 then
+    WaitOnAddress_func := GetProcAddress(dllsync, 'WaitOnAddress');
 
   C_AddCmd('usemmx, mmx', @I_CmdUseMMX);
 end;
