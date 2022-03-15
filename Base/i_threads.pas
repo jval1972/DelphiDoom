@@ -52,6 +52,7 @@ type
     fstatus: integer;
     fterminated: boolean;
     frunning: boolean;
+    fwaitforframe: boolean;
   public
     constructor Create(const func: threadfunc_t = nil);
     destructor Destroy; override;
@@ -60,6 +61,7 @@ type
     procedure Wait;
     function CheckJobDone: Boolean;
     function IsIdle: Boolean;
+    property waitforframe: Boolean read fwaitforframe write fwaitforframe;
   end;
 
 const
@@ -98,6 +100,8 @@ begin
     if th.fterminated then
       exit;
     th.fstatus := THR_IDLE;
+    if th.fwaitforframe then
+      I_Sleep(1);
   end;
 end;
 
@@ -113,6 +117,7 @@ begin
   fparms := nil;
   fstatus := THR_IDLE;
   frunning := false;
+  fwaitforframe := false;
   info.thread := Self;
   fid := I_CreateProcess(@ThreadWorker, @info, true);
   suspended := true;

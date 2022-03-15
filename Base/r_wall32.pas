@@ -672,7 +672,10 @@ begin
 
   default_numwallrenderingthreads_32bit := numwallthreads32;
   for i := 0 to numwallthreads32 - 1 do
+  begin
     wallthreads32[i] := TDThread.Create(@_wall_thread_worker32);
+    wallthreads32[i].waitforframe := true;
+  end;
 end;
 
 //==============================================================================
@@ -747,7 +750,10 @@ begin
   if newnumthreads <> numwallthreads32 then
   begin
     for i := numwallthreads32 to newnumthreads - 1 do
+    begin
       wallthreads32[i] := TDThread.Create(@_wall_thread_worker32);
+      wallthreads32[i].waitforframe := true;
+    end;
     for i := newnumthreads to numwallthreads32 - 1 do
       wallthreads32[i].Free;
     numwallthreads32 := newnumthreads;

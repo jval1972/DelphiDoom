@@ -634,7 +634,10 @@ begin
 
   default_numwallrenderingthreads_8bit := numwallthreads8;
   for i := 0 to numwallthreads8 - 1 do
+  begin
     wallthreads8[i] := TDThread.Create(@_wall_thread_worker8);
+    wallthreads8[i].waitforframe := true;
+  end;
 end;
 
 //==============================================================================
@@ -709,7 +712,10 @@ begin
   if newnumthreads <> numwallthreads8 then
   begin
     for i := numwallthreads8 to newnumthreads - 1 do
+    begin
       wallthreads8[i] := TDThread.Create(@_wall_thread_worker8);
+      wallthreads8[i].waitforframe := true;
+    end;
     for i := newnumthreads to numwallthreads8 - 1 do
       wallthreads8[i].Free;
     numwallthreads8 := newnumthreads;
