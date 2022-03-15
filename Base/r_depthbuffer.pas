@@ -171,8 +171,7 @@ uses
   r_draw,
   r_column,
   r_batchcolumn,
-  r_span,
-  v_data;
+  r_span;
 
 const
   NUMDEPTHBUFFERS = 1;
