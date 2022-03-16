@@ -450,6 +450,7 @@ uses
   p_setup,
    // JVAL: 3d floors
   {$IFNDEF OPENGL}
+  i_threads,
   i_video,
   i_system,
   {$ENDIF}
@@ -2906,6 +2907,9 @@ begin
   R_Fake3DAdjustPlanes(player);
   R_ClearSprites;
 
+  // Check for completed thread tasks
+  TestActiveThreads;
+
   // check for new console commands.
   NetUpdate;
 
@@ -2913,6 +2917,9 @@ begin
 
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
+
+  // Check for completed thread tasks
+  TestActiveThreads;
 
   R_ProjectAdditionalThings;
 
@@ -2925,11 +2932,17 @@ begin
 
   R_DrawPlanes;
 
+  // Check for completed thread tasks
+  TestActiveThreads;
+
   R_RenderMultiThreadFlats8;
 
   R_WaitWallsCache8;
 
   R_DrawFFloorsMultiThread;  // JVAL: 3d Floors
+
+  // Check for completed thread tasks
+  TestActiveThreads;
 
   R_RenderMultiThreadFFloors8;
 
@@ -2937,6 +2950,9 @@ begin
   R_SignalPrepareMasked;
   MT_WaitTask(task_maskedstuff);
   R_DrawMasked_MultiThread;
+
+  // Check for completed thread tasks
+  TestActiveThreads;
 
   // Check for new console commands.
   NetUpdate;
@@ -2971,6 +2987,9 @@ begin
   R_Fake3DAdjustPlanes(player);
   R_ClearSprites;
 
+  // Check for completed thread tasks
+  TestActiveThreads;
+
   // check for new console commands.
   NetUpdate;
 
@@ -2978,6 +2997,9 @@ begin
 
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
+
+  // Check for completed thread tasks
+  TestActiveThreads;
 
   R_ProjectAdditionalThings;
 
@@ -2990,17 +3012,26 @@ begin
 
   R_DrawPlanes;
 
+  // Check for completed thread tasks
+  TestActiveThreads;
+
   R_RenderMultiThreadFlats32;
 
   R_WaitWallsCache32;
 
   R_DrawFFloorsMultiThread;  // JVAL: 3d Floors
 
+  // Check for completed thread tasks
+  TestActiveThreads;
+
   R_RenderMultiThreadFFloors32;
 
   R_SignalPrepareMasked;
   MT_WaitTask(task_maskedstuff);
   R_DrawMasked_MultiThread;
+
+  // Check for completed thread tasks
+  TestActiveThreads;
 
   // Check for new console commands.
   NetUpdate;
