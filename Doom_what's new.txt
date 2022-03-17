@@ -1,3 +1,5 @@
+Version 2.0.7 build 731 - (20220317)
+-----------------------
 Added -pistolstart command line parameter.
 Prepeare drawseg list in separate thread in software rendering.
 Use general purpose threads in 8 bit software rendering blit.

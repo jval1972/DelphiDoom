@@ -1,9 +1,41 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiDoom: A modified and improved DOOM engine for Windows
+//  DelphiDoom is a source port of the game Doom and it is
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2022 by Jim Valavanis
+//
+//------------------------------------------------------------------------------
+//
+//  DelphiHeretic is a source port of the game Heretic and it is
+//  based on original Linux Doom as published by "id Software", on
+//  Heretic source as published by "Raven" software and DelphiDoom
+//  as published by Jim Valavanis.
+//  Copyright (C) 2004-2022 by Jim Valavanis
+//
+//------------------------------------------------------------------------------
+//
+//  DelphiHexen is a source port of the game Hexen and it is
+//  based on original Linux Doom as published by "id Software", on
+//  Hexen source as published by "Raven" software and DelphiDoom
+//  as published by Jim Valavanis.
+//  Copyright (C) 2004-2022 by Jim Valavanis
+//
+//------------------------------------------------------------------------------
+//
+//  DelphiStrife is a source port of the game Strife.
+//
+//  Based on:
+//    - Linux Doom by "id Software"
+//    - Chocolate Strife by "Simon Howard"
+//    - DelphiDoom by "Jim Valavanis"
+//
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
+//  Copyright (C) 2004-2022 by Jim Valavanis
+//
+//------------------------------------------------------------------------------
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -24,11 +56,12 @@
 //  Site  : https://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
-Latest version Downloads: https://sourceforge.net/projects/delphidoom/files/DelphiDoom%202.0.6/
+Latest version Downloads: https://sourceforge.net/projects/delphidoom/files/DelphiDoom%202.0.7/
 
 General
 -------
-This is the recreation of the games Doom, Heretic, Hexen and Strife to the Delphi programming language. 
+Source ports of the games Doom, Heretic, Hexen and Strife. 
+
 Features: 
  - Advanced 32 bit color software renderer
  - OpenGL support with md2 models and dynamic lightmaps
