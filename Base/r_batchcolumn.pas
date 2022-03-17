@@ -2138,7 +2138,7 @@ begin
     b2 := c2 shr 16;
     fr2 := (3 * (FRACUNIT div 4)) * r2;
     fg2 := (3 * (FRACUNIT div 4)) * g2;
-    fb2 := (3 * (FRACUNIT div 4))  * b2;
+    fb2 := (3 * (FRACUNIT div 4)) * b2;
 
     cnt := num_batch_columns;
     while cnt > 0 do
