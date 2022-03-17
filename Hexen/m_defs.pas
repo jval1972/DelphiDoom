@@ -48,6 +48,7 @@ uses
   i_midi,
   i_music,
   i_sound,
+  i_threads,
 {$IFDEF OPENGL}
   gl_main,
   gl_defs,
@@ -166,7 +167,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 211;
+  NUMDEFAULTS = 212;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -1977,6 +1978,15 @@ const
      defaultsvalue: '';
      defaultivalue: 0;
      defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'dotestactivethreads';
+     location: @dotestactivethreads;
+     oldlocation: nil;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
      _type: tBoolean),
 
     (name: 'force_numwallrenderingthreads_8bit';
