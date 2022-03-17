@@ -602,7 +602,8 @@ begin
                LongWord(picnum)) * 3 +
                LongWord(height div FRACUNIT) +
                LongWord(height and (FRACUNIT - 1));
-  result := result + LongWord(slopeSID + 1) * 7;  // JVAL: Slopes
+  if slopeSID <> -1 then
+    result := result + LongWord(slopeSID + 1) * 7;  // JVAL: Slopes
   if angle <> 0 then
   begin
     result := result + angle; // JVAL: 20200221 - Texture angle
