@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=2
 MinorVer=0
 Release=7
-Build=731
+Build=732
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=DelphiHexen Script DLL
-FileVersion=2.0.7.731
+FileVersion=2.0.7.732
 InternalName=ddc_hexen
 LegalCopyright=Copyright 2016-2022, Jim Valavanis
 LegalTrademarks=Copyright 2016-2022, Jim Valavanis
