@@ -1027,9 +1027,6 @@ end;
 //==============================================================================
 function R_PointToAngleEx1(x: fixed_t; y: fixed_t): angle_t;
 begin
-  x := x - viewx;
-  y := y - viewy;
-
   if (x = 0) and (y = 0) then
   begin
     result := 0;
@@ -1126,6 +1123,9 @@ var
 //==============================================================================
 function R_PointToAngleEx(x: fixed_t; y: fixed_t): angle_t;
 begin
+  x := x - viewx;
+  y := y - viewy;
+
   if x = pta_x then
     if y = pta_y then
     begin

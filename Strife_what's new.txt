@@ -1,3 +1,5 @@
+Fixed seg rendering in lines from (0, 0) point.
+
 Version 2.0.7 build 731 - (20220317)
 -----------------------
 Prepeare drawseg list in separate thread in software rendering.
