@@ -793,6 +793,7 @@ var
   unionl: integer;
   unionh: integer;
   x: integer;
+  pi: PInteger;
 begin
   if start < pl.minx then
   begin
@@ -817,6 +818,16 @@ begin
   end;
 
   x := intrl;
+  pi := @pl.top[x];
+  while x < intrh do
+  begin
+    if pi^ = iVISEND then
+      inc(x, 2)
+    else
+      break;
+    inc(pi);
+  end;
+
   while x <= intrh do
   begin
     if pl.top[x] <> VISEND then
