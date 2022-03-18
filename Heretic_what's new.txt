@@ -1,3 +1,5 @@
+Version 2.0.7 build 732 - (20220318)
+-----------------------
 Fixed seg rendering in lines from (0, 0) point.
 
 Version 2.0.7 build 731 - (20220317)
