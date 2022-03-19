@@ -2790,6 +2790,8 @@ begin
     z := ONCEILINGZ
   else if mobjinfo[mobjno].flags2 and MF2_SPAWNFLOAT <> 0 then
     z := ONFLOATZ
+  else if mobjinfo[mobjno].flags_ex and MF_EX_SPAWNFLOAT <> 0 then
+    z := ONFLOATZ
   else
     z := ONFLOORZ;
 
