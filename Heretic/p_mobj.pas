@@ -1110,7 +1110,7 @@ begin
       if onmo = nil then
       begin
         P_ZMovement(mobj);
-        mobj.flags2_ex := mobj.flags2_ex and not MF2_EX_ONMOBJ;
+        mobj.flags2_ex := mobj.flags2_ex and not MF2_ONMOBJ;
       end
       else
       begin
