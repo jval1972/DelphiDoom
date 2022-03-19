@@ -1,4 +1,5 @@
 Small optimizations to plane rendering (software mode).
+Fixed missiles not exploding in lower textures with sky ceiling.
 
 Version 2.0.7 build 732 - (20220318)
 -----------------------

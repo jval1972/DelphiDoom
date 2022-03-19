@@ -529,8 +529,11 @@ begin
           // Hack to prevent missiles exploding
           // against the sky.
           // Does not handle sky floors.
-          P_RemoveMobj(mo);
-          exit;
+          if (G_PlayingEngineVersion < VERSION207) or (mo.z > ceilingline.backsector.ceilingheight) then
+          begin
+            P_RemoveMobj(mo);
+            exit;
+          end;
         end;
         P_ExplodeMissile(mo);
       end
