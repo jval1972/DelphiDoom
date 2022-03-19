@@ -471,7 +471,7 @@ begin
   l := TDStringList.Create;
   l.LoadFromFile(srcpath);
   if l.Count = 0 then
-    I_Warning('M_ReadMisObj(): Can not load mission objective');
+    I_Warning('M_ReadMisObj(): Can not load mission objective'#13#10);
   mission_objective := l.Text;
   l.Free;
 end;
