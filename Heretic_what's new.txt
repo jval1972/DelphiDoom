@@ -2,6 +2,7 @@ Small optimizations to plane rendering (software mode).
 Fixed to 3d gameplay collisions.
 Check MF_EX_SPAWNFLOAT flag on summon command.
 Speed optimizations to transparent sprite rendering.
+Small speed optimizations to renderstyle Add & Subtract in 8 bit color mode.
 
 Version 2.0.7 build 732 - (20220318)
 -----------------------

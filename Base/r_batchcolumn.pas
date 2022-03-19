@@ -2296,12 +2296,12 @@ var
   count: integer;
   dest: PByte;
   b: byte;
-  u: integer;
   frac: fixed_t;
   fracstep: fixed_t;
   fraclimit: fixed_t;
   swidth: integer;
   cnt: integer;
+  tbl: PByteArray;
 begin
   count := dc_yh - dc_yl;
 
@@ -2330,11 +2330,11 @@ begin
   //  using a lighting/special effects LUT.
 
     b := dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
-    u := b shl 8;
+    tbl := @curadd8table[b shl 8];
     cnt := num_batch_columns;
     while cnt > 0 do
     begin
-      dest^ := curadd8table[dest^ + u];
+      dest^ := tbl[dest^];
       inc(dest);
       dec(cnt);
     end;
@@ -2437,12 +2437,12 @@ var
   count: integer;
   dest: PByte;
   b: byte;
-  u: integer;
   frac: fixed_t;
   fracstep: fixed_t;
   fraclimit: fixed_t;
   swidth: integer;
   cnt: integer;
+  tbl: PByteArray;
 begin
   count := dc_yh - dc_yl;
 
@@ -2471,11 +2471,11 @@ begin
   //  using a lighting/special effects LUT.
 
     b := dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
-    u := b shl 8;
+    tbl := @cursubtract8table[b shl 8];
     cnt := num_batch_columns;
     while cnt > 0 do
     begin
-      dest^ := cursubtract8table[dest^ + u];
+      dest^ := tbl[dest^];
       inc(dest);
       dec(cnt);
     end;

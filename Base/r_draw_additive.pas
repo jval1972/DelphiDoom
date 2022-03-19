@@ -215,12 +215,23 @@ begin
   // Inner loop that does the actual texture mapping,
   //  e.g. a DDA-lile scaling.
   // This is as fast as it gets.
+  while frac < fraclimit do
+  begin
+  // Re-map color indices from wall texture column
+  //  using a lighting/special effects LUT.
+    dest^ := curadd8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := curadd8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+  end;
   while frac <= fraclimit do
   begin
   // Re-map color indices from wall texture column
   //  using a lighting/special effects LUT.
     dest^ := curadd8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
-
     inc(dest, swidth);
     inc(frac, fracstep);
   end;
