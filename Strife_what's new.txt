@@ -1,4 +1,5 @@
 Small optimizations to plane rendering (software mode).
+Speed optimizations to transparent sprite rendering.
 
 Version 2.0.7 build 732 - (20220318)
 -----------------------

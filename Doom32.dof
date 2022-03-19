@@ -84,7 +84,7 @@ MapFile=3
 OutputObjs=0
 ConsoleApp=1
 DebugInfo=1
-RemoteSymbols=1
+RemoteSymbols=0
 MinStackSize=16384
 MaxStackSize=4194304
 ImageBase=8388608
@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=oldbinfiles\Hellbnd.wad oldbinfiles\HBFM29.wad
+RunParams=RDDVOX-0.41.7_b.zip RDVXTEST41.zip
 HostApplication=
 Launcher=
 UseLauncher=0

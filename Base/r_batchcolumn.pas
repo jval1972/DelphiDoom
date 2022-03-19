@@ -1658,7 +1658,7 @@ end;
 procedure R_DrawColumnAverageHi_Batch;
 var
   count: integer;
-  destl: PLongWord;
+  destb: PByte;
   frac: fixed_t;
   fracstep: fixed_t;
   swidth: integer;
@@ -1666,8 +1666,8 @@ var
 
 // For inline color averaging
   r1, g1, b1: byte;
-  r2, g2, b2: byte;
-  c3, c4, r, g, b: LongWord;
+  c3: LongWord;
+  rr, gg, bb: PByteArray;
 
 begin
   count := dc_yh - dc_yl;
@@ -1675,7 +1675,7 @@ begin
   if count < 0 then
     exit;
 
-  destl := @((ylookupl[dc_yl]^)[columnofs[dc_x]]);
+  destb := @((ylookupl[dc_yl]^)[columnofs[dc_x]]);
 
   fracstep := dc_iscale;
   frac := dc_texturemid + (dc_yl - centery) * fracstep;
@@ -1691,23 +1691,24 @@ begin
     r1 := c3;
     g1 := c3 shr 8;
     b1 := c3 shr 16;
+    rr := @average_byte[r1];
+    gg := @average_byte[g1];
+    bb := @average_byte[b1];
 
     cnt := num_batch_columns;
     while cnt > 0 do
     begin
-      c4 := destl^;
-      r2 := c4;
-      g2 := c4 shr 8;
-      b2 := c4 shr 16;
-      r := (r1 + r2) shr 1;
-      g := (g1 + g2) shr 1;
-      b := (b1 + b2) shr 1;
-      destl^ := r + g shl 8 + b shl 16;
-      inc(destl);
+      destb^ := rr[destb^];
+      Inc(destb);
+      destb^ := gg[destb^];
+      Inc(destb);
+      destb^ := bb[destb^];
+      Inc(destb, 2);
+
       dec(cnt);
     end;
 
-    destl := PLongWord(integer(destl) + swidth);
+    destb := PByte(integer(destb) + swidth);
     inc(frac, fracstep);
     dec(count);
   end;
