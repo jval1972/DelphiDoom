@@ -515,7 +515,6 @@ uses
   r_translations,
   v_data,
   sb_bar,
-  w_sprite,
   z_zone;
 
 var

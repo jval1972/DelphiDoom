@@ -68,7 +68,6 @@ uses
 {$IFDEF DEBUG}
   i_system,
 {$ENDIF}
-  i_threads,
   m_fixed,
   p_mobj_h,
   r_defs,

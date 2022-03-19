@@ -127,12 +127,10 @@ const // Strife Original Sprite Names
 implementation
 
 uses
-  i_system,
   p_enemy,
   p_gender,
   p_pspr,
   p_mobj_h,
-  p_extra,
   p_spec,
   info_common,
   info_export,

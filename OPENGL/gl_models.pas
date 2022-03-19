@@ -39,7 +39,6 @@ uses
   d_delphi,
   m_fixed,
   dglOpenGL,
-  gl_types,
   mdl_base;
 
 var
@@ -159,17 +158,14 @@ const
 implementation
 
 uses
-  doomdef,
   c_cmds,
   d_main,
-  g_game,
   i_system,
   info,
   mdl_md2,
   mdl_ddmodel,
   mdl_dllmodel,
   gl_tex,
-  gl_defs,
   sc_engine,
   sc_tokens,
   sc_states,

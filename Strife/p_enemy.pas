@@ -816,7 +816,6 @@ uses
   p_doors,
   p_spec,
   p_inter,
-  p_pspr,
   p_sounds,
   p_dialog,
   p_terrain,

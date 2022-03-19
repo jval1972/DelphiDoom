@@ -283,7 +283,9 @@ implementation
 
 uses
   am_map,
+  {$IFDEF STRIFE}
   hu_stuff,
+  {$ENDIF}
   r_draw,
   v_data,
   v_video;

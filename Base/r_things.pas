@@ -241,7 +241,6 @@ uses
   {$IFDEF HEXEN}
   d_player,
   {$ENDIF}
-  g_game,
   info_h,
   i_system,
 {$IFDEF OPENGL}

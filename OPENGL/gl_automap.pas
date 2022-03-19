@@ -95,9 +95,7 @@ uses
   tables,
   gl_defs,
   gl_tex,
-  gl_render,
-  v_data,
-  v_video;
+  gl_render;
 
 const
   GL_AM_QUAD = 0;

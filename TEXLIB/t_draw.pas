@@ -70,7 +70,9 @@ uses
   r_mmx,
   t_main,
   v_video,
+  {$IFDEF OPENGL}
   v_data,
+  {$ENDIF}
   w_wad;
 
 type

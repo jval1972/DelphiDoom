@@ -74,8 +74,6 @@ uses
   r_hires,
   r_lights,
   r_intrpl,
-  r_plane,
-  vx_base,
 {$IFNDEF OPENGL}
   r_fake3d,
   r_slopes, // JVAL: Slopes

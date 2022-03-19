@@ -35,7 +35,6 @@ interface
 
 uses
   d_delphi,
-  gl_types,
   mdl_base,
   m_smartpointerlist,
   ps_dll;
@@ -72,10 +71,8 @@ implementation
 uses
   Windows,
   dglOpenGL,
-  doomdef,
   gl_defs,
-  i_system,
-  w_pak;
+  i_system;
 
 //==============================================================================
 //

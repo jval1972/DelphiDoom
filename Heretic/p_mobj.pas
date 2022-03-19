@@ -278,7 +278,6 @@ uses
   p_tick,
   p_pspr,
   p_setup,
-  p_extra,
   p_common,
   p_ambient,
   p_enemy,

@@ -32,9 +32,7 @@ unit f_finale;
 interface
 
 uses
-  doomtype,
-  d_event,
-  info_h;
+  d_event;
 
 //==============================================================================
 // F_Responder

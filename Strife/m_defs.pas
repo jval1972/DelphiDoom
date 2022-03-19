@@ -47,7 +47,6 @@ uses
   hu_stuff,
   p_mobj_h,
   p_terrain,
-  p_enemy,
   p_setup,
   p_user,
   p_adjust,
@@ -84,7 +83,6 @@ uses
   r_hires,
   r_lights,
   r_intrpl,
-  vx_base,
 {$IFNDEF OPENGL}
   r_fake3d,
   r_slopes, // JVAL: Slopes
