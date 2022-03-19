@@ -375,7 +375,7 @@ begin
   mo.momy := 0;
   mo.momz := 0;
 
-  P_SetMobjState(mo, statenum_t(mobjinfo[Ord(mo._type)].deathstate));
+  P_SetMobjState(mo, statenum_t(mo.info.deathstate));
 
   mo.tics := mo.tics - (P_Random and 3);
 
