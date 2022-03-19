@@ -1,4 +1,5 @@
 Small optimizations to plane rendering (software mode).
+Fixed to 3d gameplay collisions.
 
 Version 2.0.7 build 732 - (20220318)
 -----------------------

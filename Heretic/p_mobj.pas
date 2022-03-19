@@ -1110,7 +1110,10 @@ begin
     begin
       onmo := P_CheckOnmobj(mobj);
       if onmo = nil then
-        P_ZMovement(mobj)
+      begin
+        P_ZMovement(mobj);
+        mobj.flags2_ex := mobj.flags2_ex and not MF2_EX_ONMOBJ;
+      end
       else
       begin
         pl := mobj.player;
