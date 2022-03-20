@@ -437,6 +437,7 @@ function _wall_thread_worker32(parms: Pwallthreadparms32_t): integer; stdcall;
 var
   i: integer;
   walls: Pbatchwallrenderinfo32_t;
+  nwalls: integer;
   {$IFNDEF OPTIMIZE_FOR_SIZE}
   w_height: integer;
   {$ENDIF}
@@ -444,16 +445,17 @@ begin
   for i := parms.start to parms.stop do
   begin
     walls := @wallcache[i];
+    nwalls := walls.numwalls;
     {$IFNDEF OPTIMIZE_FOR_SIZE}
     w_height := walls.dc_height;
     if w_height = 128 then
     begin
-      case walls.numwalls of
-        MAXBATCHWALLS:
-          begin
-            R_DrawBatchColumnHi8_128(walls);
-            walls.numwalls := 0;
-          end;
+      if nwalls = MAXBATCHWALLS then
+      begin
+        R_DrawBatchColumnHi8_128(walls);
+        walls.numwalls := 0;
+      end
+      else case nwalls of
         7:
           begin
             R_DrawBatchColumnHi7_128(walls);
@@ -493,12 +495,12 @@ begin
     end
     else if w_height = 256 then
     begin
-      case walls.numwalls of
-        MAXBATCHWALLS:
-          begin
-            R_DrawBatchColumnHi8_256(walls);
-            walls.numwalls := 0;
-          end;
+      if nwalls = MAXBATCHWALLS then
+      begin
+        R_DrawBatchColumnHi8_256(walls);
+        walls.numwalls := 0;
+      end
+      else case nwalls of
         7:
           begin
             R_DrawBatchColumnHi7_256(walls);
@@ -538,12 +540,12 @@ begin
     end
     else if w_height = 512 then
     begin
-      case walls.numwalls of
-        MAXBATCHWALLS:
-          begin
-            R_DrawBatchColumnHi8_512(walls);
-            walls.numwalls := 0;
-          end;
+      if nwalls = MAXBATCHWALLS then
+      begin
+        R_DrawBatchColumnHi8_512(walls);
+        walls.numwalls := 0;
+      end
+      else case nwalls of
         7:
           begin
             R_DrawBatchColumnHi7_512(walls);
@@ -583,12 +585,12 @@ begin
     end
     else {$ENDIF}
     begin
-      case walls.numwalls of
-        MAXBATCHWALLS:
-          begin
-            R_DrawBatchColumnHi8_TC(walls);
-            walls.numwalls := 0;
-          end;
+      if nwalls = MAXBATCHWALLS then
+      begin
+        R_DrawBatchColumnHi8_TC(walls);
+        walls.numwalls := 0;
+      end
+      else case nwalls of
         7:
           begin
             R_DrawBatchColumnHi7_TC(walls);
