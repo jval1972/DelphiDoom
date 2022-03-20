@@ -24,19 +24,6 @@
 {$ENDIF}
 
 {$IFNDEF NO_INLINE_LOOPS}
-  while count >= 32 do
-  begin
-    {$I R_DrawSpanMedium_Loop4.inc}
-    {$I R_DrawSpanMedium_Loop4.inc}
-    {$I R_DrawSpanMedium_Loop4.inc}
-    {$I R_DrawSpanMedium_Loop4.inc}
-    {$I R_DrawSpanMedium_Loop4.inc}
-    {$I R_DrawSpanMedium_Loop4.inc}
-    {$I R_DrawSpanMedium_Loop4.inc}
-    {$I R_DrawSpanMedium_Loop4.inc}
-    count := count - 32;
-  end;
-
   while count >= 4 do
   begin
     {$I R_DrawSpanMedium_Loop4.inc}

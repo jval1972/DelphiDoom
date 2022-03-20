@@ -23,27 +23,6 @@
     ystep := ds_ystep * 8;
 {$ENDIF}
 {$IFNDEF NO_INLINE_LOOPS}
-    while count >= 16 do
-    begin
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      {$I R_DrawSpanNormalFog_Loop.inc}
-      count := count - 16;
-    end;
-
     while count >= 4 do
     begin
       {$I R_DrawSpanNormalFog_Loop.inc}
