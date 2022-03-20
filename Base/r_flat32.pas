@@ -241,6 +241,9 @@ begin
   end;
 end;
 
+var
+  R: array[0..MAXFLATRENDERINGTHREADS32 - 1] of mt_range_t; // JVAL: 20220320 - Made global
+
 //==============================================================================
 //
 // R_RenderMultiThreadFlats32
@@ -248,7 +251,7 @@ end;
 //==============================================================================
 procedure R_RenderMultiThreadFlats32;
 var
-  R: array[0..MAXFLATRENDERINGTHREADS32 - 1] of mt_range_t;
+  step: float;
   numthreads: integer;
   i: integer;
 begin
@@ -287,9 +290,10 @@ begin
     exit;
   end;
 
+  step := flatcachesize32 / numthreads;
   R[0].start := 0;
   for i := 1 to numthreads - 1 do
-    R[i].start := Round((flatcachesize32 / numthreads) * i);
+    R[i].start := Round(step * i);
   for i := 0 to numthreads - 2 do
     R[i].finish := R[i + 1].start - 1;
   R[numthreads - 1].finish := flatcachesize32 - 1;
@@ -510,7 +514,6 @@ end;
 //==============================================================================
 procedure R_RenderMultiThreadFFloors32;
 var
-  R: array[0..MAXFLATRENDERINGTHREADS32 - 1] of mt_range_t;
   numthreads: integer;
   i: integer;
   step: float;
