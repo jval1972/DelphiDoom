@@ -494,6 +494,7 @@ var
   R: array[0..MAXFLATRENDERINGTHREADS8 - 1] of mt_range_t;
   numthreads: integer;
   i: integer;
+  step: float;
 begin
   if flatcachesize8 = 0 then
     exit;
@@ -530,9 +531,10 @@ begin
     exit;
   end;
 
+  step := viewheight / numthreads;
   R[0].start := 0;
   for i := 1 to numthreads - 1 do
-    R[i].start := Round((viewheight / numthreads) * i);
+    R[i].start := Round(step * i);
   for i := 0 to numthreads - 2 do
     R[i].finish := R[i + 1].start - 1;
   R[numthreads - 1].finish := viewheight - 1;

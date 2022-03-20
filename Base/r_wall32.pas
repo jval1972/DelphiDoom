@@ -719,6 +719,7 @@ procedure R_RenderMultiThreadWalls32;
 var
   i: integer;
   newnumthreads: integer;
+  step: float;
 begin
   if force_numwallrenderingthreads_32bit > 0 then
   begin
@@ -753,9 +754,10 @@ begin
     numwallthreads32 := newnumthreads;
   end;
 
+  step := wallcachesize / numwallthreads32;
   parms[0].start := 0;
   for i := 1 to numwallthreads32 - 1 do
-    parms[i].start := Round((wallcachesize / numwallthreads32) * i);
+    parms[i].start := Round(step * i);
   for i := 0 to numwallthreads32 - 2 do
     parms[i].stop := parms[i + 1].start - 1;
   parms[numwallthreads32 - 1].stop := wallcachesize - 1;

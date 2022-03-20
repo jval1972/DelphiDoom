@@ -681,6 +681,7 @@ procedure R_RenderMultiThreadWalls8;
 var
   i: integer;
   newnumthreads: integer;
+  step: float;
 begin
   if force_numwallrenderingthreads_8bit > 0 then
   begin
@@ -715,9 +716,10 @@ begin
     numwallthreads8 := newnumthreads;
   end;
 
+  step := wallcachesize / numwallthreads8;
   parms[0].start := 0;
   for i := 1 to numwallthreads8 - 1 do
-    parms[i].start := Round((wallcachesize / numwallthreads8) * i);
+    parms[i].start := Round(step * i);
   for i := 0 to numwallthreads8 - 2 do
     parms[i].stop := parms[i + 1].start - 1;
   parms[numwallthreads8 - 1].stop := wallcachesize - 1;
