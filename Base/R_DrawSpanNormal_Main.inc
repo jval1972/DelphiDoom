@@ -25,10 +25,7 @@
 {$IFNDEF NO_INLINE_LOOPS}
     while count >= 4 do
     begin
-      {$I R_DrawSpanNormal_Loop.inc}
-      {$I R_DrawSpanNormal_Loop.inc}
-      {$I R_DrawSpanNormal_Loop.inc}
-      {$I R_DrawSpanNormal_Loop.inc}
+      {$I R_DrawSpanNormal_Loop4.inc}
       count := count - 4;
     end;
 
