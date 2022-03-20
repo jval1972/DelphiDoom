@@ -16,7 +16,9 @@ var
   dest: PByte;
   frac1, frac2, frac3, frac4, frac5, frac6, frac7, frac8: fixed_t;
   fracstep1, fracstep2, fracstep3, fracstep4, fracstep5, fracstep6, fracstep7, fracstep8: fixed_t;
+  {$IFDEF LEGACY_BLIT}
   swidth: integer;
+  {$ENDIF}
   swidth2: integer;
 
   dc_source1: PByteArray;
@@ -43,7 +45,9 @@ var
   min_yh, max_yl: integer;
   max_yh, min_yl: integer;
 
+  {$IFDEF LEGACY_BLIT}
   buf: eightbytes_t;
+  {$ENDIF}
 {$IFDEF WALL8_TC}
   mod_height: LongWord;
 {$ENDIF}
@@ -139,12 +143,17 @@ begin
   dc_source8 := w.dc_source;
   dc_colormap8 := w.dc_colormap;
 
+  {$IFDEF LEGACY_BLIT}
   swidth := SCREENWIDTH - (MAXBATCHWALLS - 1);
   swidth2 := SCREENWIDTH - (MAXBATCHWALLS - 4);
+  {$ELSE}
+  swidth2 := SCREENWIDTH;
+  {$ENDIF}
 
   ypos := min_yl;
   while ypos < max_yl do
   begin
+    {$IFDEF LEGACY_BLIT}
     w := @walls.walls[0];
     if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
       dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
@@ -201,11 +210,66 @@ begin
     inc(frac8, fracstep8);
 
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[4] := dc_colormap5[dc_source5[(LongWord(frac5) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac5, fracstep5);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[5] := dc_colormap6[dc_source6[(LongWord(frac6) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac6, fracstep6);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[6] := dc_colormap7[dc_source7[(LongWord(frac7) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac7, fracstep7);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[7] := dc_colormap8[dc_source8[(LongWord(frac8) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac8, fracstep8);
+
+    dest := PByte(integer(dest) + swidth2);
+
+    {$ENDIF}
     inc(ypos);
   end;
 
   while ypos <= min_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac1, fracstep1);
@@ -242,11 +306,49 @@ begin
     PLongWord(dest)^ := PLongWord(@buf)^;
     dest := PByte(integer(dest) + swidth2);
 
+    {$ELSE}
+
+    PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+
+    PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+
+    PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+
+    PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+
+    PByteArray(dest)[4] := dc_colormap5[dc_source5[(LongWord(frac5) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac5, fracstep5);
+
+    PByteArray(dest)[5] := dc_colormap6[dc_source6[(LongWord(frac6) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac6, fracstep6);
+
+    PByteArray(dest)[6] := dc_colormap7[dc_source7[(LongWord(frac7) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac7, fracstep7);
+
+    PByteArray(dest)[7] := dc_colormap8[dc_source8[(LongWord(frac8) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac8, fracstep8);
+
+    dest := PByte(integer(dest) + swidth2);
+    {$ENDIF}
+
     inc(ypos);
   end;
 
   while ypos <= max_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     w := @walls.walls[0];
     if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
       dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
@@ -303,6 +405,60 @@ begin
     inc(frac8, fracstep8);
 
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[4] := dc_colormap5[dc_source5[(LongWord(frac5) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac5, fracstep5);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[5] := dc_colormap6[dc_source6[(LongWord(frac6) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac6, fracstep6);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[6] := dc_colormap7[dc_source7[(LongWord(frac7) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac7, fracstep7);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[7] := dc_colormap8[dc_source8[(LongWord(frac8) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac8, fracstep8);
+
+    dest := PByte(integer(dest) + swidth2);
+
+    {$ENDIF}
     inc(ypos);
   end;
 
@@ -350,8 +506,10 @@ var
   min_yh, max_yl: integer;
   max_yh, min_yl: integer;
 
+  {$IFDEF LEGACY_BLIT}
   buf: fourbytes_t;
   buf2: twobytes_t;
+  {$ENDIF}
 {$IFDEF WALL8_TC}
   mod_height: LongWord;
 {$ENDIF}
@@ -441,11 +599,16 @@ begin
   dc_source7 := w.dc_source;
   dc_colormap7 := w.dc_colormap;
 
+  {$IFDEF LEGACY_BLIT}
   swidth := SCREENWIDTH - 6;
+  {$ELSE}
+  swidth := SCREENWIDTH;
+  {$ENDIF}
 
   ypos := min_yl;
   while ypos < max_yl do
   begin
+    {$IFDEF LEGACY_BLIT}
     w := @walls.walls[0];
     if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
       dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
@@ -495,11 +658,61 @@ begin
     inc(frac7, fracstep7);
 
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[4] := dc_colormap5[dc_source5[(LongWord(frac5) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac5, fracstep5);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[5] := dc_colormap6[dc_source6[(LongWord(frac6) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac6, fracstep6);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[6] := dc_colormap7[dc_source7[(LongWord(frac7) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac7, fracstep7);
+
+    dest := PByte(integer(dest) + swidth);
+
+    {$ENDIF}
+
     inc(ypos);
   end;
 
   while ypos <= min_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac1, fracstep1);
@@ -532,6 +745,38 @@ begin
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac7, fracstep7);
 
+    {$ELSE}
+
+    PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+
+    PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+
+    PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+
+    PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+
+    PByteArray(dest)[4] := dc_colormap5[dc_source5[(LongWord(frac5) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac5, fracstep5);
+
+    PByteArray(dest)[5] := dc_colormap6[dc_source6[(LongWord(frac6) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac6, fracstep6);
+
+    PByteArray(dest)[6] := dc_colormap7[dc_source7[(LongWord(frac7) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac7, fracstep7);
+
+    {$ENDIF}
+
     dest := PByte(integer(dest) + swidth);
     inc(ypos);
 
@@ -539,6 +784,7 @@ begin
 
   while ypos <= max_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     w := @walls.walls[0];
     if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
       dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
@@ -587,6 +833,52 @@ begin
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac7, fracstep7);
 
+    {$ELSE}
+
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[4] := dc_colormap5[dc_source5[(LongWord(frac5) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac5, fracstep5);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[5] := dc_colormap6[dc_source6[(LongWord(frac6) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac6, fracstep6);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[6] := dc_colormap7[dc_source7[(LongWord(frac7) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac7, fracstep7);
+
+    {$ENDIF}
+
     dest := PByte(integer(dest) + swidth);
     inc(ypos);
   end;
@@ -611,7 +903,9 @@ var
   dest: PByte;
   frac1, frac2, frac3, frac4, frac5, frac6: fixed_t;
   fracstep1, fracstep2, fracstep3, fracstep4, fracstep5, fracstep6: fixed_t;
+  {$IFDEF LEGACY_BLIT}
   swidth: integer;
+  {$ENDIF}
   swidth2: integer;
 
   dc_source1: PByteArray;
@@ -634,8 +928,10 @@ var
   min_yh, max_yl: integer;
   max_yh, min_yl: integer;
 
+  {$IFDEF LEGACY_BLIT}
   buf: fourbytes_t;
   buf2: twobytes_t;
+  {$ENDIF}
 {$IFDEF WALL8_TC}
   mod_height: LongWord;
 {$ENDIF}
@@ -719,12 +1015,17 @@ begin
   dc_source6 := w.dc_source;
   dc_colormap6 := w.dc_colormap;
 
+  {$IFDEF LEGACY_BLIT}
   swidth := SCREENWIDTH - 5;
   swidth2 := SCREENWIDTH - 4;
+  {$ELSE}
+  swidth2 := SCREENWIDTH;
+  {$ENDIF}
 
   ypos := min_yl;
   while ypos < max_yl do
   begin
+    {$IFDEF LEGACY_BLIT}
     w := @walls.walls[0];
     if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
       dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
@@ -767,11 +1068,54 @@ begin
     inc(frac6, fracstep6);
 
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[4] := dc_colormap5[dc_source5[(LongWord(frac5) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac5, fracstep5);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[5] := dc_colormap6[dc_source6[(LongWord(frac6) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac6, fracstep6);
+
+    dest := PByte(integer(dest) + swidth2);
+
+    {$ENDIF}
     inc(ypos);
   end;
 
   while ypos <= min_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac1, fracstep1);
@@ -800,12 +1144,43 @@ begin
     PWord(dest)^ := PWord(@buf2)^;
 
     dest := PByte(integer(dest) + swidth2);
-    inc(ypos);
 
+    {$ELSE}
+
+    PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+
+    PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+
+    PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+
+    PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+
+    PByteArray(dest)[4] := dc_colormap5[dc_source5[(LongWord(frac5) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac5, fracstep5);
+
+    PByteArray(dest)[5] := dc_colormap6[dc_source6[(LongWord(frac6) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac6, fracstep6);
+
+    dest := PByte(integer(dest) + swidth2);
+
+    {$ENDIF}
+
+    inc(ypos);
   end;
 
   while ypos <= max_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     w := @walls.walls[0];
     if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
       dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
@@ -848,6 +1223,49 @@ begin
     inc(frac6, fracstep6);
 
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[4] := dc_colormap5[dc_source5[(LongWord(frac5) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac5, fracstep5);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[5] := dc_colormap6[dc_source6[(LongWord(frac6) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac6, fracstep6);
+
+    dest := PByte(integer(dest) + swidth2);
+
+    {$ENDIF}
+
     inc(ypos);
   end;
 
@@ -891,7 +1309,9 @@ var
   min_yh, max_yl: integer;
   max_yh, min_yl: integer;
 
+  {$IFDEF LEGACY_BLIT}
   buf: fourbytes_t;
+  {$ENDIF}
 {$IFDEF WALL8_TC}
   mod_height: LongWord;
 {$ENDIF}
@@ -969,11 +1389,16 @@ begin
   dc_source5 := w.dc_source;
   dc_colormap5 := w.dc_colormap;
 
+  {$IFDEF LEGACY_BLIT}
   swidth := SCREENWIDTH - 4;
+  {$ELSE}
+  swidth := SCREENWIDTH;
+  {$ENDIF}
 
   ypos := min_yl;
   while ypos < max_yl do
   begin
+    {$IFDEF LEGACY_BLIT}
     w := @walls.walls[0];
     if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
       dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
@@ -1009,11 +1434,49 @@ begin
     inc(frac5, fracstep5);
 
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[4] := dc_colormap5[dc_source5[(LongWord(frac5) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac5, fracstep5);
+
+    dest := PByte(integer(dest) + swidth);
+
+    {$ENDIF}
+
     inc(ypos);
   end;
 
   while ypos <= min_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac1, fracstep1);
@@ -1037,12 +1500,38 @@ begin
     inc(frac5, fracstep5);
 
     dest := PByte(integer(dest) + swidth);
-    inc(ypos);
 
+    {$ELSE}
+
+    PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+
+    PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+
+    PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+
+    PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+
+    PByteArray(dest)[4] := dc_colormap5[dc_source5[(LongWord(frac5) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac5, fracstep5);
+
+    dest := PByte(integer(dest) + swidth);
+
+    {$ENDIF}
+    inc(ypos);
   end;
 
   while ypos <= max_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     w := @walls.walls[0];
     if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
       dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
@@ -1078,6 +1567,42 @@ begin
     inc(frac5, fracstep5);
 
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[4] := dc_colormap5[dc_source5[(LongWord(frac5) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac5, fracstep5);
+
+    dest := PByte(integer(dest) + swidth);
+
+    {$ENDIF}
     inc(ypos);
   end;
 
@@ -1119,7 +1644,9 @@ var
   min_yh, max_yl: integer;
   max_yh, min_yl: integer;
 
+  {$IFDEF LEGACY_BLIT}
   buf: fourbytes_t;
+  {$ENDIF}
 {$IFDEF WALL8_TC}
   mod_height: LongWord;
 {$ENDIF}
@@ -1191,11 +1718,16 @@ begin
   dc_source4 := w.dc_source;
   dc_colormap4 := w.dc_colormap;
 
+  {$IFDEF LEGACY_BLIT}
   swidth := SCREENWIDTH - 3;
+  {$ELSE}
+  swidth := SCREENWIDTH;
+  {$ENDIF}
 
   ypos := min_yl;
   while ypos < max_yl do
   begin
+    {$IFDEF LEGACY_BLIT}
     w := @walls.walls[0];
     if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
       dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
@@ -1222,12 +1754,44 @@ begin
       dest^ := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac4, fracstep4);
+
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+
+    dest := PByte(integer(dest) + swidth);
+
+    {$ENDIF}
     inc(ypos);
   end;
 
   while ypos <= min_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac1, fracstep1);
@@ -1244,13 +1808,37 @@ begin
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac4, fracstep4);
     PLongWord(dest)^ := PLongWord(@buf)^;
-    inc(dest, SCREENWIDTH);
-    inc(ypos);
 
+    inc(dest, SCREENWIDTH);
+
+    {$ELSE}
+
+    PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+
+    PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+
+    PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+
+    PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+
+    inc(dest, swidth);
+
+    {$ENDIF}
+
+    inc(ypos);
   end;
 
   while ypos <= max_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     w := @walls.walls[0];
     if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
       dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
@@ -1277,7 +1865,38 @@ begin
       dest^ := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac4, fracstep4);
+
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[3] := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac4, fracstep4);
+
+    dest := PByte(integer(dest) + swidth);
+
+    {$ENDIF}
     inc(ypos);
   end;
 
@@ -1317,7 +1936,9 @@ var
   min_yh, max_yl: integer;
   max_yh, min_yl: integer;
 
+  {$IFDEF LEGACY_BLIT}
   buf: twobytes_t;
+  {$ENDIF}
 {$IFDEF WALL8_TC}
   mod_height: LongWord;
 {$ENDIF}
@@ -1383,11 +2004,16 @@ begin
   dc_source3 := w.dc_source;
   dc_colormap3 := w.dc_colormap;
 
+  {$IFDEF LEGACY_BLIT}
   swidth := SCREENWIDTH - 2;
+  {$ELSE}
+  swidth := SCREENWIDTH;
+  {$ENDIF}
 
   ypos := min_yl;
   while ypos < max_yl do
   begin
+    {$IFDEF LEGACY_BLIT}
     w := @walls.walls[0];
     if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
       dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
@@ -1409,11 +2035,37 @@ begin
     inc(frac3, fracstep3);
 
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+
+    dest := PByte(integer(dest) + swidth);
+
+    {$ENDIF}
+
     inc(ypos);
   end;
 
   while ypos < min_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac1, fracstep1);
@@ -1445,12 +2097,45 @@ begin
     inc(frac3, fracstep3);
 
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+
+    PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+
+    PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+
+    dest := PByte(integer(dest) + swidth);
+
+    PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+
+    PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+
+    PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+
+    dest := PByte(integer(dest) + swidth);
+
+    {$ENDIF}
 
     inc(ypos, 2);
   end;
 
   while ypos <= min_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac1, fracstep1);
@@ -1466,11 +2151,30 @@ begin
     inc(frac3, fracstep3);
 
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+
+    PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+
+    PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+
+    dest := PByte(integer(dest) + swidth);
+
+    {$ENDIF}
     inc(ypos);
   end;
 
   while ypos <= max_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     w := @walls.walls[0];
     if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
       dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
@@ -1491,6 +2195,30 @@ begin
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac3, fracstep3);
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[2] := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac3, fracstep3);
+    dest := PByte(integer(dest) + swidth);
+
+    {$ENDIF}
+
     inc(ypos);
   end;
 end;
@@ -1526,7 +2254,9 @@ var
   min_yh, max_yl: integer;
   max_yh, min_yl: integer;
 
+  {$IFDEF LEGACY_BLIT}
   buf: twobytes_t;
+  {$ENDIF}
 {$IFDEF WALL8_TC}
   mod_height: LongWord;
 {$ENDIF}
@@ -1583,11 +2313,16 @@ begin
   dc_source2 := w.dc_source;
   dc_colormap2 := w.dc_colormap;
 
+  {$IFDEF LEGACY_BLIT}
   swidth := SCREENWIDTH - 1;
+  {$ELSE}
+  swidth := SCREENWIDTH;
+  {$ENDIF}
 
   ypos := min_yl;
   while ypos < max_yl do
   begin
+    {$IFDEF LEGACY_BLIT}
     w := @walls.walls[0];
     if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
       dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
@@ -1601,11 +2336,30 @@ begin
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac2, fracstep2);
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+    dest := PByte(integer(dest) + swidth);
+
+    {$ENDIF}
+
     inc(ypos);
   end;
 
   while ypos < min_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac1, fracstep1);
@@ -1627,12 +2381,37 @@ begin
 
     PWord(dest)^ := PWord(@buf)^;
     inc(dest, SCREENWIDTH);
+
+    {$ELSE}
+
+    PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+
+    PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+
+    inc(dest, swidth);
+
+    PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+
+    PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+
+    inc(dest, swidth);
+
+    {$ENDIF}
 
     inc(ypos, 2);
   end;
 
   while ypos <= min_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac1, fracstep1);
@@ -1643,12 +2422,28 @@ begin
 
     PWord(dest)^ := PWord(@buf)^;
     inc(dest, SCREENWIDTH);
+
+    {$ELSE}
+
+    PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+
+    PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+
+    inc(dest, swidth);
+
+    {$ENDIF}
+
     inc(ypos);
   end;
 
 
   while ypos <= max_yh do
   begin
+    {$IFDEF LEGACY_BLIT}
     w := @walls.walls[0];
     if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
       dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
@@ -1662,6 +2457,24 @@ begin
         {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
     inc(frac2, fracstep2);
     dest := PByte(integer(dest) + swidth);
+
+    {$ELSE}
+
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[0] := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac1, fracstep1);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      PByteArray(dest)[1] := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS)
+        {$IFDEF WALL8_TC}mod mod_height{$ELSE}and {$IFDEF WALL8_128}127{$ENDIF}{$IFDEF WALL8_256}255{$ENDIF}{$IFDEF WALL8_512}511{$ENDIF}{$ENDIF}]];
+    inc(frac2, fracstep2);
+    dest := PByte(integer(dest) + swidth);
+
+    {$ENDIF}
+
     inc(ypos);
   end;
 
