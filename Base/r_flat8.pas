@@ -1019,7 +1019,6 @@ var
   count: integer;
   i: integer;
   spot: integer;
-  fb: fourbytes_t;
 begin
   ds_source := Pflatrenderinfo8_t(fi).ds_source;
   ds_colormap := Pflatrenderinfo8_t(fi).ds_colormap;
@@ -1066,7 +1065,6 @@ var
   i: integer;
   spot: integer;
   rpl: PIntegerArray;
-  fb: fourbytes_t;
 begin
   ds_source := Pflatrenderinfo8_t(fi).ds_source;
   ds_colormap := Pflatrenderinfo8_t(fi).ds_colormap;

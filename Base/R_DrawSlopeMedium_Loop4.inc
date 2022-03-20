@@ -68,7 +68,7 @@
 {$ENDIF}
     // Lookup pixel from flat texture tile,
     //  re-index using light/colormap.
-    fb.byte1 := ds_colormap[ds_source[spot]];
+    PByteArray(dest)[0] := ds_colormap[ds_source[spot]];
 
     // Next step in u,v.
     xfrac := xfrac + xstep;
@@ -146,7 +146,7 @@
 {$ENDIF}
     // Lookup pixel from flat texture tile,
     //  re-index using light/colormap.
-    fb.byte2 := ds_colormap[ds_source[spot]];
+    PByteArray(dest)[1] := ds_colormap[ds_source[spot]];
 
     // Next step in u,v.
     xfrac := xfrac + xstep;
@@ -222,7 +222,7 @@
 {$ENDIF}
     // Lookup pixel from flat texture tile,
     //  re-index using light/colormap.
-    fb.byte3 := ds_colormap[ds_source[spot]];
+    PByteArray(dest)[2] := ds_colormap[ds_source[spot]];
 
     // Next step in u,v.
     xfrac := xfrac + xstep;
@@ -298,8 +298,8 @@
 {$ENDIF}
     // Lookup pixel from flat texture tile,
     //  re-index using light/colormap.
-    fb.byte4 := ds_colormap[ds_source[spot]];
-    PLongWord(dest)^ := PLongWord(@fb)^;
+    PByteArray(dest)[3] := ds_colormap[ds_source[spot]];
+
     inc(dest, 4);
 
     // Next step in u,v.
