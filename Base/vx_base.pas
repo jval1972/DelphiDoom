@@ -247,6 +247,7 @@ begin
   tokens.Add('ANGLEOFFSET');                  //  9
   tokens.Add('DROPPEDSPIN');                  // 10
   tokens.Add('PLACEDSPIN');                   // 11
+  tokens.Add('SPIN');                         // 12
 
   if devparm then
   begin
@@ -327,6 +328,12 @@ begin
              11:  // PLACEDDSPIN
                 begin
                   sc.MustGetInteger;
+                  voxelitem.placedspin := sc._Integer;
+                end;
+             12:  // SPIN
+                begin
+                  sc.MustGetInteger;
+                  voxelitem.droppedspin := sc._Integer;
                   voxelitem.placedspin := sc._Integer;
                 end;
               6:  // Replace
