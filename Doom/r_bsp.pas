@@ -692,14 +692,6 @@ var
   angle2: angle_t;
   span: angle_t;
 begin
-{$IFNDEF OPENGL}
-  sd := line.sidedef;
-  line.specialoffsets :=
-    (sd.toptextureoffset <> 0) or
-    (sd.midtextureoffset <> 0) or
-    (sd.bottomtextureoffset <> 0);
-{$ENDIF}
-
   curline := line;
 
   // OPTIMIZE: quickly reject orthogonal back sides.
@@ -782,6 +774,12 @@ begin
   // Does not cross a pixel?
   if x1 >= x2 then
     exit;
+
+  sd := line.sidedef;
+  line.specialoffsets :=
+    (sd.toptextureoffset <> 0) or
+    (sd.midtextureoffset <> 0) or
+    (sd.bottomtextureoffset <> 0);
 
   backsector := line.backsector;
 
