@@ -514,9 +514,9 @@ end;
 //==============================================================================
 procedure R_RenderMultiThreadFFloors32;
 var
+  step: float;
   numthreads: integer;
   i: integer;
-  step: float;
 begin
   if flatcachesize32 = 0 then
     exit;
