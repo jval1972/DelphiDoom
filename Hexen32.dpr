@@ -203,7 +203,7 @@ uses
   r_cache_main in 'Base\r_cache_main.pas',
   r_cache_walls in 'Base\r_cache_walls.pas',
   r_cache_flats in 'Base\r_cache_flats.pas',
-  r_col_al in 'Hexen\r_col_al.pas',
+  r_draw_alpha in 'Base\r_draw_alpha.pas',
   r_col_av in 'Hexen\r_col_av.pas',
   r_col_fog in 'Hexen\r_col_fog.pas',
   r_col_fz in 'Hexen\r_col_fz.pas',

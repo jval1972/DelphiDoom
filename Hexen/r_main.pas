@@ -527,7 +527,7 @@ uses
   r_col_sk,
   r_col_fz,
   r_col_av,
-  r_col_al,
+  r_draw_alpha,
   r_col_tr,
   r_col_fog,
   r_col_ms_fog,

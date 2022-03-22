@@ -17,7 +17,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -26,14 +26,17 @@
 
 {$I Doom32.inc}
 
-unit r_col_al;
+unit r_draw_alpha;
 
 interface
 
-//==============================================================================
-// R_DrawColumnAlphaLowest
 //
 // Alpha column drawers (transparency effects)
+//
+
+//==============================================================================
+//
+// R_DrawColumnAlphaLowest
 //
 //==============================================================================
 procedure R_DrawColumnAlphaLowest;
@@ -180,7 +183,7 @@ begin
   count := (dc_yh - dc_yl) mod 3;
   for i := 0 to count do
   begin
-    dest^ := curtrans8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]]shl 8)];
+    dest^ := curtrans8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
     inc(dest, swidth);
 
     inc(frac, dc_iscale);
@@ -331,7 +334,19 @@ begin
   begin
     c1 := destl^;
     c2 := dc_colormap32[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
-    {$I R_ColorAverageCL.inc}
+
+    // Color averaging
+    r1 := c1;
+    g1 := c1 shr 8;
+    b1 := c1 shr 16;
+    r2 := c2;
+    g2 := c2 shr 8;
+    b2 := c2 shr 16;
+
+    r := ((r2 * cfrac2) + (r1 * factor1)) shr FRACBITS;
+    g := ((g2 * cfrac2) + (g1 * factor1)) shr FRACBITS;
+    b := ((b2 * cfrac2) + (b1 * factor1)) and $FF0000;
+
     destl^ := r + g shl 8 + b;
 
     destl := PLongWord(integer(destl) + swidth);

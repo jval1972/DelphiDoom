@@ -253,7 +253,19 @@ begin
   begin
     c1 := destl^;
     c2 := dc_colormap32[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
-    {$I R_ColorAverageCL.inc}
+
+    // Color averaging
+    r1 := c1;
+    g1 := c1 shr 8;
+    b1 := c1 shr 16;
+    r2 := c2;
+    g2 := c2 shr 8;
+    b2 := c2 shr 16;
+
+    r := ((r2 * cfrac2) + (r1 * factor1)) shr FRACBITS;
+    g := ((g2 * cfrac2) + (g1 * factor1)) shr FRACBITS;
+    b := ((b2 * cfrac2) + (b1 * factor1)) and $FF0000;
+
     destl^ := r + g shl 8 + b;
 
     destl := PLongWord(integer(destl) + swidth);
@@ -305,7 +317,19 @@ begin
   begin
     c1 := destl^;
     c2 := dc_colormap32[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
-    {$I R_ColorAverageCL.inc}
+
+    // Color averaging
+    r1 := c1;
+    g1 := c1 shr 8;
+    b1 := c1 shr 16;
+    r2 := c2;
+    g2 := c2 shr 8;
+    b2 := c2 shr 16;
+
+    r := ((r2 * cfrac2) + (r1 * factor1)) shr FRACBITS;
+    g := ((g2 * cfrac2) + (g1 * factor1)) shr FRACBITS;
+    b := ((b2 * cfrac2) + (b1 * factor1)) and $FF0000;
+
     destl^ := r + g shl 8 + b;
 
     destl := PLongWord(integer(destl) + swidth);
@@ -357,7 +381,19 @@ begin
   begin
     c1 := destl^;
     c2 := dc_colormap32[dc_translation[dc_source[(LongWord(frac) shr FRACBITS) and 127]]];
-    {$I R_ColorAverageCL.inc}
+
+    // Color averaging
+    r1 := c1;
+    g1 := c1 shr 8;
+    b1 := c1 shr 16;
+    r2 := c2;
+    g2 := c2 shr 8;
+    b2 := c2 shr 16;
+
+    r := ((r2 * cfrac2) + (r1 * factor1)) shr FRACBITS;
+    g := ((g2 * cfrac2) + (g1 * factor1)) shr FRACBITS;
+    b := ((b2 * cfrac2) + (b1 * factor1)) and $FF0000;
+
     destl^ := r + g shl 8 + b;
 
     destl := PLongWord(integer(destl) + swidth);
