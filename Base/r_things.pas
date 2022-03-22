@@ -2936,6 +2936,7 @@ var
   pds: Pdrawseg_t;
   spr: Pvissprite_t;
   i: integer;
+  restsprites: integer;
 begin
   if vissprite_p > 0 then
   begin
@@ -2949,6 +2950,32 @@ begin
         spr := vissprites[i];
         if spr.mobjflags_ex and MF_EX_LIGHT <> 0 then
           R_DrawSpriteLight(spr);
+        if spr.renderflags and VSF_VOXEL <> 0 then
+          R_DrawVoxel(spr)
+        else
+          R_DrawSprite(spr);
+      end;
+    end
+    else if depthbufferactive then
+    begin
+      restsprites := 0;
+      for i := vissprite_p - 1 downto 0 do
+      begin
+        spr := vissprites[i];
+        if spr.renderflags and VSF_TRANSPARENCY <> 0 then
+        begin
+          restsprites := i + 1;
+          Break;
+        end
+        else if spr.renderflags and VSF_VOXEL <> 0 then
+          R_DrawVoxel(spr)
+        else
+          R_DrawSprite(spr);
+      end;
+
+      for i := 0 to restsprites - 1 do
+      begin
+        spr := vissprites[i];
         if spr.renderflags and VSF_VOXEL <> 0 then
           R_DrawVoxel(spr)
         else

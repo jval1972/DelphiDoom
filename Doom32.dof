@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=RDDVOX-0.41.7_b.zip RDVXTEST41.zip
+RunParams=ladder_map01.wad
 HostApplication=
 Launcher=
 UseLauncher=0
