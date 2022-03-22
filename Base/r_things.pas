@@ -1212,7 +1212,10 @@ begin
   begin
     dc_alpha := vismo.alpha;
     curadd8table := R_GetAdditive8table(dc_alpha);
-    colfunc := addcolfunc;
+    if vis.scale > FRACUNIT then
+      colfunc := addcolfunc_smallstep
+    else
+      colfunc := addcolfunc;
     spritefunc_mt := addcolfunc_mt;
     batchcolfunc := batchaddcolfunc;
     batchspritefunc_mt := batchaddcolfunc_mt;

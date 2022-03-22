@@ -109,23 +109,28 @@ type
   twobytes_t = packed record
     byte1, byte2: byte;
   end;
+  Ptwobytes_t = ^twobytes_t;
 
   fourbytes_t = packed record
     byte1, byte2, byte3, byte4: byte;
   end;
+  Pfourbytes_t = ^fourbytes_t;
 
   eightbytes_t = packed record
     byte1, byte2, byte3, byte4: byte;
     byte5, byte6, byte7, byte8: byte;
   end;
+  Peightbytes_t = ^eightbytes_t;
 
   twointegers_t = packed record
     int1, int2: integer;
   end;
+  Ptwointegers_t = ^twointegers_t;
 
   twolongwords_t = packed record
     longword1, longword2: LongWord;
   end;
+  Ptwolongwords_t = ^twolongwords_t;
 
   TOutProc = procedure (const s: string);
 

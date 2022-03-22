@@ -59,6 +59,13 @@ procedure R_DrawColumnAddMedium;
 //==============================================================================
 procedure R_DrawColumnAddHi;
 
+//==============================================================================
+//
+// R_DrawColumnAddHi_SmallStep
+//
+//==============================================================================
+procedure R_DrawColumnAddHi_SmallStep;
+
 implementation
 
 uses
@@ -67,6 +74,7 @@ uses
   m_fixed,
   r_column,
   r_draw,
+  r_precalc,
   r_trans8,
   r_main;
 
@@ -275,7 +283,116 @@ begin
   addfactor := dc_alpha;
 
   fraclimit := frac + fracstep * count;
+
   while frac < fraclimit do
+  begin
+    c1 := destl^;
+    c2 := dc_colormap32[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+
+    // Color averaging
+    r1 := c1;
+    g1 := c1 shr 8;
+    b1 := c1 shr 16;
+    r2 := c2;
+    g2 := c2 shr 8;
+    b2 := c2 shr 16;
+    if addfactor < FRACUNIT then
+    begin
+      r2 := (r2 * addfactor) shr FRACBITS;
+      g2 := (g2 * addfactor) shr FRACBITS;
+      b2 := (b2 * addfactor) shr FRACBITS;
+    end;
+
+    r := r2 + r1;
+    if r > 255 then
+      r := 255;
+    g := g2 + g1;
+    if g > 255 then
+      g := 255;
+    b := b2 + b1;
+    if b > 255 then
+      b := 255;
+
+    destl^ := r + g shl 8 + b shl 16;
+
+    destl := PLongWord(integer(destl) + swidth);
+    inc(frac, fracstep);
+  end;
+end;
+
+var
+  addbuf: array[0..255] of LongWord;
+
+//==============================================================================
+//
+// R_DrawColumnAddHi_SmallStep
+//
+//==============================================================================
+procedure R_DrawColumnAddHi_SmallStep;
+var
+  count: integer;
+  destl: PLongWord;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  swidth: integer;
+  addfactor: fixed_t;
+
+// For inline color averaging
+  r1, g1, b1: byte;
+  r2, g2, b2: byte;
+  c1, c2, r, g, b: LongWord;
+  pb: PByte;
+  pl, pl2: PLongWord;
+begin
+  count := dc_yh - dc_yl;
+
+  if count < 0 then
+    exit;
+
+  destl := @((ylookupl[dc_yl]^)[columnofs[dc_x]]);
+
+  fracstep := dc_iscale;
+  frac := dc_texturemid + (dc_yl - centery) * fracstep;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  swidth := SCREENWIDTH32PITCH;
+
+  addfactor := dc_alpha;
+
+  fraclimit := frac + fracstep * count;
+
+  if (frac > 0) and (fraclimit < 256 * FRACUNIT) then
+  begin
+    pl := @addbuf[LongWord(frac) shr FRACBITS];
+    pl2 := @addbuf[LongWord(fraclimit) shr FRACBITS + 1];
+    pb := @dc_source[LongWord(frac) shr FRACBITS];
+    while pl <> pl2 do
+    begin
+      pl^ := dc_colormap32[pb^];
+      if addfactor < FRACUNIT then
+      begin
+        PByteArray(pl)[0] := (PByteArray(pl)[0] * addfactor) shr FRACBITS;
+        PByteArray(pl)[1] := (PByteArray(pl)[1] * addfactor) shr FRACBITS;
+        PByteArray(pl)[2] := (PByteArray(pl)[2] * addfactor) shr FRACBITS;
+      end;
+      Inc(pl);
+      Inc(pb);
+    end;
+    while frac < fraclimit do
+    begin
+      pl := @addbuf[LongWord(frac) shr FRACBITS];
+      PByteArray(destl)[0] := add32_c[PByteArray(pl)[0] + PByteArray(destl)[0]];
+      PByteArray(destl)[1] := add32_c[PByteArray(pl)[1] + PByteArray(destl)[1]];
+      PByteArray(destl)[2] := add32_c[PByteArray(pl)[2] + PByteArray(destl)[2]];
+
+      destl := PLongWord(integer(destl) + swidth);
+      inc(frac, fracstep);
+    end;
+  end
+  else while frac < fraclimit do
   begin
     c1 := destl^;
     c2 := dc_colormap32[dc_source[(LongWord(frac) shr FRACBITS) and 127]];

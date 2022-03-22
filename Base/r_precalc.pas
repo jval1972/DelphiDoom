@@ -83,6 +83,7 @@ var
   average_r: array[0..511] of LongWord;
   average_g: array[0..511] of LongWord;
   average_b: array[0..511] of LongWord;
+  add32_c: array[0..511] of Byte;
 
 implementation
 
@@ -165,6 +166,10 @@ begin
     average_r[i] := i div 2;
     average_g[i] := (i div 2) shl 8;
     average_b[i] := (i div 2) shl 16;
+    if i > 255 then
+      add32_c[i] := 255
+    else
+      add32_c[i] := i;
   end;
 
 end;

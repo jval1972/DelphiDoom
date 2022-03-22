@@ -266,6 +266,7 @@ var
   averagecolfunc: PProcedure;
   alphacolfunc: PProcedure;
   addcolfunc: PProcedure;
+  addcolfunc_smallstep: PProcedure;
   subtractcolfunc: PProcedure;
   maskedcolfunc: PProcedure;
   maskedcolfunc2: PProcedure; // For hi res textures
@@ -1504,6 +1505,7 @@ begin
         averagecolfunc := R_DrawColumnLowest;
         alphacolfunc := R_DrawColumnAlphaMedium;
         addcolfunc := R_DrawColumnAddLowest;
+        addcolfunc_smallstep := R_DrawColumnAddLowest;
         batchaddcolfunc := R_DrawColumnAddMedium_Batch;
         subtractcolfunc := R_DrawColumnSubtractLowest;
         batchsubtractcolfunc := R_DrawColumnSubtractMedium_Batch;
@@ -1599,6 +1601,7 @@ begin
         averagecolfunc := R_DrawColumnLow;
         alphacolfunc := R_DrawColumnAlphaMedium;
         addcolfunc := R_DrawColumnAddLow;
+        addcolfunc_smallstep := R_DrawColumnAddLow;
         batchaddcolfunc := R_DrawColumnAddMedium_Batch;
         subtractcolfunc := R_DrawColumnSubtractLow;
         batchsubtractcolfunc := R_DrawColumnSubtractMedium_Batch;
@@ -1694,6 +1697,7 @@ begin
         averagecolfunc := R_DrawColumnMedium;
         alphacolfunc := R_DrawColumnAlphaMedium;
         addcolfunc := R_DrawColumnAddMedium;
+        addcolfunc_smallstep := R_DrawColumnAddMedium;
         batchaddcolfunc := R_DrawColumnAddMedium_Batch;
         subtractcolfunc := R_DrawColumnSubtractMedium;
         batchsubtractcolfunc := R_DrawColumnSubtractMedium_Batch;
@@ -1803,6 +1807,7 @@ begin
         averagecolfunc := R_DrawColumnAverageHi;
         alphacolfunc := R_DrawColumnAlphaHi;
         addcolfunc := R_DrawColumnAddHi;
+        addcolfunc_smallstep := R_DrawColumnAddHi_SmallStep;
         subtractcolfunc := R_DrawColumnSubtractHi;
 
         if LevelUseFog then
@@ -1924,6 +1929,7 @@ begin
         averagecolfunc := R_DrawColumnAverageHi;
         alphacolfunc := R_DrawColumnAlphaHi;
         addcolfunc := R_DrawColumnAddHi;
+        addcolfunc_smallstep := R_DrawColumnAddHi_SmallStep;
         subtractcolfunc := R_DrawColumnSubtractHi;
 
         if LevelUseFog then
@@ -2043,6 +2049,7 @@ begin
         transcolfunc := R_DrawTranslatedColumnHi;
         averagecolfunc := R_DrawColumnAverageUltra;
         addcolfunc := R_DrawColumnAddHi;
+        addcolfunc_smallstep := R_DrawColumnAddHi_SmallStep;
         subtractcolfunc := R_DrawColumnSubtractHi;
         alphacolfunc := R_DrawColumnAlphaHi;
         if LevelUseFog then

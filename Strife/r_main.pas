@@ -266,6 +266,7 @@ var
   averagecolfunc: PProcedure;
   alphacolfunc: PProcedure;
   addcolfunc: PProcedure;
+  addcolfunc_smallstep: PProcedure;
   subtractcolfunc: PProcedure;
   maskedcolfunc: PProcedure;
   maskedcolfunc2: PProcedure; // For hi res textures
@@ -1506,6 +1507,7 @@ begin
           batchtalphacolfunc := R_DrawColumnAlphaMedium_Batch;
         end;
         addcolfunc := R_DrawColumnAddLowest;
+        addcolfunc_smallstep := R_DrawColumnAddLowest;
         batchaddcolfunc := R_DrawColumnAddMedium_Batch;
         subtractcolfunc := R_DrawColumnSubtractLowest;
         batchsubtractcolfunc := R_DrawColumnSubtractMedium_Batch;
@@ -1617,6 +1619,7 @@ begin
           batchtalphacolfunc := R_DrawColumnAlphaMedium_Batch;
         end;
         addcolfunc := R_DrawColumnAddLow;
+        addcolfunc_smallstep := R_DrawColumnAddLow;
         batchaddcolfunc := R_DrawColumnAddMedium_Batch;
         subtractcolfunc := R_DrawColumnSubtractLow;
         batchsubtractcolfunc := R_DrawColumnSubtractMedium_Batch;
@@ -1728,6 +1731,7 @@ begin
           batchtalphacolfunc := R_DrawColumnAlphaMedium_Batch;
         end;
         addcolfunc := R_DrawColumnAddMedium;
+        addcolfunc_smallstep := R_DrawColumnAddMedium;
         batchaddcolfunc := R_DrawColumnAddMedium_Batch;
         subtractcolfunc := R_DrawColumnSubtractMedium;
         batchsubtractcolfunc := R_DrawColumnSubtractMedium_Batch;
@@ -1828,6 +1832,7 @@ begin
         averagecolfunc := R_DrawColumnAverageHi;
         alphacolfunc := R_DrawColumnAlphaHi;
         addcolfunc := R_DrawColumnAddHi;
+        addcolfunc_smallstep := R_DrawColumnAddHi_SmallStep;
         subtractcolfunc := R_DrawColumnSubtractHi;
         maskedcolfunc := R_DrawMaskedColumnNormal;
         maskedcolfunc2 := R_DrawMaskedColumnHi32;
@@ -1925,6 +1930,7 @@ begin
         averagecolfunc := R_DrawColumnAverageHi;
         alphacolfunc := R_DrawColumnAlphaHi;
         addcolfunc := R_DrawColumnAddHi;
+        addcolfunc_smallstep := R_DrawColumnAddHi_SmallStep;
         subtractcolfunc := R_DrawColumnSubtractHi;
         maskedcolfunc := R_DrawMaskedColumnHi;
         maskedcolfunc2 := R_DrawMaskedColumnHi32;
@@ -2021,6 +2027,7 @@ begin
         transcolfunc := R_DrawTranslatedColumnHi;
         averagecolfunc := R_DrawColumnAverageUltra;
         addcolfunc := R_DrawColumnAddHi;
+        addcolfunc_smallstep := R_DrawColumnAddHi_SmallStep;
         subtractcolfunc := R_DrawColumnSubtractHi;
         alphacolfunc := R_DrawColumnAlphaHi;
         maskedcolfunc := R_DrawMaskedColumnHi;
