@@ -51,6 +51,7 @@ type
     dc_alpha: integer;
     dc_fog: boolean;  // JVAL: Mars fog sectors
     num_batch_columns: integer;
+    dc_colormap: PByteArray;
     dc_colormap32: PLongWordArray;
     proc: spritefunc_t;
   end;
@@ -72,10 +73,124 @@ function R_SpriteAddMTInfo: Pspriterenderinfo_t;
 procedure R_SpriteRenderMT;
 
 //==============================================================================
-// R_DrawMaskedColumnNormalMT
 //
-////////////////////////////////////////////////////////////////////////////////
+// R_DrawColumnLowestMT
+//
+//==============================================================================
+procedure R_DrawColumnLowestMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnLowMT
+//
+//==============================================================================
+procedure R_DrawColumnLowMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnMediumMT
+//
+//==============================================================================
+procedure R_DrawColumnMediumMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnAddLowestMT
+//
+//==============================================================================
+procedure R_DrawColumnAddLowestMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnAddLowMT
+//
+//==============================================================================
+procedure R_DrawColumnAddLowMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnAddMediumMT
+//
+//==============================================================================
+procedure R_DrawColumnAddMediumMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnAddHiMT
+//
+//==============================================================================
+procedure R_DrawColumnAddHiMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnAddHi_SmallStepMT
+//
+//==============================================================================
+procedure R_DrawColumnAddHi_SmallStepMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnSubtractLowestMT
+//
+//==============================================================================
+procedure R_DrawColumnSubtractLowestMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnSubtractLowMT
+//
+//==============================================================================
+procedure R_DrawColumnSubtractLowMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnSubtractMediumMT
+//
+//==============================================================================
+procedure R_DrawColumnSubtractMediumMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnSubtractHiMT
+//
+//==============================================================================
+procedure R_DrawColumnSubtractHiMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnAverageLowestMT
+//
+//==============================================================================
+procedure R_DrawColumnAverageLowestMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnAverageLowMT
+//
+//==============================================================================
+procedure R_DrawColumnAverageLowMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnAverageMediumMT
+//
+//==============================================================================
+procedure R_DrawColumnAverageMediumMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnAverageHiMT
+//
+//==============================================================================
+procedure R_DrawColumnAverageHiMT(p: Pspriterenderinfo_t);
+
+//
 // Normal functions
+//
+
+//==============================================================================
+//
+// R_DrawMaskedColumnNormalMT
 //
 //==============================================================================
 procedure R_DrawMaskedColumnNormalMT(p: Pspriterenderinfo_t);
@@ -97,7 +212,6 @@ procedure R_DrawColumnLow_BatchMT(p: Pspriterenderinfo_t);
 //
 //==============================================================================
 procedure R_DrawColumnMedium_BatchMT(p: Pspriterenderinfo_t);
-{$IFDEF DOOM_OR_STRIFE}
 
 //==============================================================================
 //
@@ -105,7 +219,6 @@ procedure R_DrawColumnMedium_BatchMT(p: Pspriterenderinfo_t);
 //
 //==============================================================================
 procedure R_DrawColumnAlphaMedium_BatchMT(p: Pspriterenderinfo_t);
-{$ENDIF}
 
 //==============================================================================
 //
@@ -128,6 +241,20 @@ procedure R_DrawColumnSubtractMedium_BatchMT(p: Pspriterenderinfo_t);
 //
 //==============================================================================
 procedure R_DrawColumnHi_BatchMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnAverageMedium_BatchMT
+//
+//==============================================================================
+procedure R_DrawColumnAverageMedium_BatchMT(p: Pspriterenderinfo_t);
+
+//==============================================================================
+//
+// R_DrawColumnAverageHi_BatchMT
+//
+//==============================================================================
+procedure R_DrawColumnAverageHi_BatchMT(p: Pspriterenderinfo_t);
 
 //==============================================================================
 //
@@ -168,10 +295,1043 @@ uses
   z_zone;
 
 //==============================================================================
-// R_DrawMaskedColumnNormalMT
 //
-////////////////////////////////////////////////////////////////////////////////
+// R_DrawColumnLowestMT
+//
+//==============================================================================
+procedure R_DrawColumnLowestMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  i: integer;
+  dest: PByte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  swidth: integer;
+  buf: twobytes_t;
+begin
+  if odd(p.dc_x) then
+    exit;
+
+  count := (p.dc_yh - p.dc_yl) div 3;
+
+  if count < 0 then
+    exit;
+
+  dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  frac := p.dc_texturemid + (p.dc_yl - centery) * p.dc_iscale;
+  fracstep := 3 * p.dc_iscale;
+  swidth := SCREENWIDTH;
+
+  for i := 0 to count - 1 do
+  begin
+    buf.byte1 := p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    buf.byte2 := buf.byte1;
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    inc(frac, fracstep);
+  end;
+
+  count := (p.dc_yh - p.dc_yl) mod 3;
+  for i := 0 to count do
+  begin
+    buf.byte1 := p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    buf.byte2 := buf.byte1;
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    inc(frac, p.dc_iscale);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnLowMT
+//
+//==============================================================================
+procedure R_DrawColumnLowMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  i: integer;
+  dest: PByte;
+  bdest: byte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  swidth: integer;
+begin
+  count := (p.dc_yh - p.dc_yl) div 3;
+
+  if count < 0 then
+    exit;
+
+  dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  frac := p.dc_texturemid + (p.dc_yl - centery) * p.dc_iscale;
+  fracstep := 3 * p.dc_iscale;
+  swidth := SCREENWIDTH;
+
+  for i := 0 to count - 1 do
+  begin
+    bdest := p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    inc(frac, fracstep);
+  end;
+
+  count := (p.dc_yh - p.dc_yl) mod 3;
+  for i := 0 to count do
+  begin
+    dest^ := p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+
+    inc(frac, p.dc_iscale);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnMediumMT
+//
+//==============================================================================
+procedure R_DrawColumnMediumMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  dest: PByte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  fraclimit2: fixed_t;
+  swidth: integer;
+  dc_local: PByteArray;
+begin
+  count := p.dc_yh - p.dc_yl;
+
+  // Zero length, column does not exceed a pixel.
+  if count < 0 then
+    exit;
+
+  // Framebuffer destination address.
+  // Use ylookup LUT to avoid multiply with ScreenWidth.
+  // Use columnofs LUT for subwindows?
+  dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  // Determine scaling,
+  //  which is the only mapping to be done.
+  fracstep := p.dc_iscale;
+  frac := p.dc_texturemid + (p.dc_yl - centery) * fracstep;
+  fraclimit := frac + count * fracstep;
+  fraclimit2 := frac + (count - 16) * fracstep;
+  swidth := SCREENWIDTH;
+  dc_local := p.dc_source;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  while frac <= fraclimit2 do
+  begin
+  // Re-map color indices from wall texture column
+  //  using a lighting/special effects LUT.
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+  end;
+
+  while frac <= fraclimit do
+  begin
+  // Re-map color indices from wall texture column
+  //  using a lighting/special effects LUT.
+    dest^ := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+
+    inc(dest, swidth);
+    inc(frac, fracstep);
+  end;
+end;
+
+//
+// RenderStyle Add
+//
+
+//==============================================================================
+//
+// R_DrawColumnAddLowestMT
+//
+//==============================================================================
+procedure R_DrawColumnAddLowestMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  i: integer;
+  dest: PByte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  swidth: integer;
+  buf: twobytes_t;
+begin
+  if odd(p.dc_x) then
+    exit;
+
+  count := (p.dc_yh - p.dc_yl) div 3;
+
+  if count < 0 then
+    exit;
+
+  dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  frac := dc_texturemid + (p.dc_yl - centery) * p.dc_iscale;
+  fracstep := 3 * p.dc_iscale;
+  swidth := SCREENWIDTH;
+
+  for i := 0 to count - 1 do
+  begin
+    buf.byte1 := curadd8table[dest^ + (p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    buf.byte2 := buf.byte1;
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    inc(frac, fracstep);
+  end;
+
+  count := (p.dc_yh - p.dc_yl) mod 3;
+  for i := 0 to count do
+  begin
+    buf.byte1 := curadd8table[dest^ + (p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    buf.byte2 := buf.byte1;
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    inc(frac, p.dc_iscale);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnAddLowMT
+//
+//==============================================================================
+procedure R_DrawColumnAddLowMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  i: integer;
+  dest: PByte;
+  bdest: byte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  swidth: integer;
+begin
+  count := (p.dc_yh - p.dc_yl) div 3;
+
+  if count < 0 then
+    exit;
+
+  dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  frac := dc_texturemid + (p.dc_yl - centery) * p.dc_iscale;
+  fracstep := 3 * p.dc_iscale;
+  swidth := SCREENWIDTH;
+
+  for i := 0 to count - 1 do
+  begin
+    bdest := curadd8table[dest^ + (p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    inc(frac, fracstep);
+  end;
+
+  count := (p.dc_yh - p.dc_yl) mod 3;
+  for i := 0 to count do
+  begin
+    dest^ := curadd8table[dest^ + (p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    inc(dest, swidth);
+
+    inc(frac, p.dc_iscale);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnAddMediumMT
+//
+//==============================================================================
+procedure R_DrawColumnAddMediumMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  dest: PByte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  swidth: integer;
+begin
+  count := p.dc_yh - p.dc_yl;
+
+  // Zero length, column does not exceed a pixel.
+  if count < 0 then
+    exit;
+
+  // Framebuffer destination address.
+  // Use ylookup LUT to avoid multiply with ScreenWidth.
+  // Use columnofs LUT for subwindows?
+  dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  // Determine scaling,
+  //  which is the only mapping to be done.
+  fracstep := p.dc_iscale;
+  frac := dc_texturemid + (p.dc_yl - centery) * fracstep;
+  fraclimit := frac + count * fracstep;
+  swidth := SCREENWIDTH;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  while frac < fraclimit do
+  begin
+  // Re-map color indices from wall texture column
+  //  using a lighting/special effects LUT.
+    dest^ := curadd8table[dest^ + (p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := curadd8table[dest^ + (p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+  end;
+  while frac <= fraclimit do
+  begin
+  // Re-map color indices from wall texture column
+  //  using a lighting/special effects LUT.
+    dest^ := curadd8table[dest^ + (p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnAddHiMT
+//
+//==============================================================================
+procedure R_DrawColumnAddHiMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  destl: PLongWord;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  swidth: integer;
+  addfactor: fixed_t;
+
+// For inline color averaging
+  r1, g1, b1: byte;
+  r2, g2, b2: byte;
+  c1, c2, r, g, b: LongWord;
+begin
+  count := p.dc_yh - p.dc_yl;
+
+  if count < 0 then
+    exit;
+
+  destl := @((ylookupl[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  fracstep := p.dc_iscale;
+  frac := dc_texturemid + (p.dc_yl - centery) * fracstep;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  swidth := SCREENWIDTH32PITCH;
+
+  addfactor := p.dc_alpha;
+
+  fraclimit := frac + fracstep * count;
+
+  while frac < fraclimit do
+  begin
+    c1 := destl^;
+    c2 := p.dc_colormap32[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+
+    // Color averaging
+    r1 := c1;
+    g1 := c1 shr 8;
+    b1 := c1 shr 16;
+    r2 := c2;
+    g2 := c2 shr 8;
+    b2 := c2 shr 16;
+    if addfactor < FRACUNIT then
+    begin
+      r2 := (r2 * addfactor) shr FRACBITS;
+      g2 := (g2 * addfactor) shr FRACBITS;
+      b2 := (b2 * addfactor) shr FRACBITS;
+    end;
+
+    r := r2 + r1;
+    if r > 255 then
+      r := 255;
+    g := g2 + g1;
+    if g > 255 then
+      g := 255;
+    b := b2 + b1;
+    if b > 255 then
+      b := 255;
+
+    destl^ := r + g shl 8 + b shl 16;
+
+    destl := PLongWord(integer(destl) + swidth);
+    inc(frac, fracstep);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnAddHi_SmallStepMT
+//
+//==============================================================================
+procedure R_DrawColumnAddHi_SmallStepMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  destl: PLongWord;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  swidth: integer;
+  addfactor: fixed_t;
+// For inline color averaging
+  r1, g1, b1: byte;
+  r2, g2, b2: byte;
+  c1, c2, r, g, b: LongWord;
+  pb: PByte;
+  pl, pl2: PLongWord;
+  addbuf32: array[0..255] of LongWord;
+begin
+  count := p.dc_yh - p.dc_yl;
+
+  if count < 0 then
+    exit;
+
+  destl := @((ylookupl[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  fracstep := p.dc_iscale;
+  frac := dc_texturemid + (p.dc_yl - centery) * fracstep;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  swidth := SCREENWIDTH32PITCH;
+
+  addfactor := p.dc_alpha;
+
+  fraclimit := frac + fracstep * count;
+
+  if (frac > 0) and (fraclimit < 256 * FRACUNIT) then
+  begin
+    pl := @addbuf32[LongWord(frac) shr FRACBITS];
+    pl2 := @addbuf32[LongWord(fraclimit) shr FRACBITS + 1];
+    pb := @p.dc_source[LongWord(frac) shr FRACBITS];
+    while pl <> pl2 do
+    begin
+      pl^ := p.dc_colormap32[pb^];
+      if addfactor < FRACUNIT then
+      begin
+        PByteArray(pl)[0] := (PByteArray(pl)[0] * addfactor) shr FRACBITS;
+        PByteArray(pl)[1] := (PByteArray(pl)[1] * addfactor) shr FRACBITS;
+        PByteArray(pl)[2] := (PByteArray(pl)[2] * addfactor) shr FRACBITS;
+      end;
+      Inc(pl);
+      Inc(pb);
+    end;
+    while frac < fraclimit do
+    begin
+      pl := @addbuf32[LongWord(frac) shr FRACBITS];
+      PByteArray(destl)[0] := add32_c[PByteArray(pl)[0] + PByteArray(destl)[0]];
+      PByteArray(destl)[1] := add32_c[PByteArray(pl)[1] + PByteArray(destl)[1]];
+      PByteArray(destl)[2] := add32_c[PByteArray(pl)[2] + PByteArray(destl)[2]];
+
+      destl := PLongWord(integer(destl) + swidth);
+      inc(frac, fracstep);
+    end;
+  end
+  else while frac < fraclimit do
+  begin
+    c1 := destl^;
+    c2 := p.dc_colormap32[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+
+    // Color averaging
+    r1 := c1;
+    g1 := c1 shr 8;
+    b1 := c1 shr 16;
+    r2 := c2;
+    g2 := c2 shr 8;
+    b2 := c2 shr 16;
+    if addfactor < FRACUNIT then
+    begin
+      r2 := (r2 * addfactor) shr FRACBITS;
+      g2 := (g2 * addfactor) shr FRACBITS;
+      b2 := (b2 * addfactor) shr FRACBITS;
+    end;
+
+    r := r2 + r1;
+    if r > 255 then
+      r := 255;
+    g := g2 + g1;
+    if g > 255 then
+      g := 255;
+    b := b2 + b1;
+    if b > 255 then
+      b := 255;
+
+    destl^ := r + g shl 8 + b shl 16;
+
+    destl := PLongWord(integer(destl) + swidth);
+    inc(frac, fracstep);
+  end;
+end;
+
+//
+// Renderstyle subtract
+//
+
+//==============================================================================
+//
+// R_DrawColumnSubtractLowestMT
+//
+//==============================================================================
+procedure R_DrawColumnSubtractLowestMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  i: integer;
+  dest: PByte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  swidth: integer;
+  buf: twobytes_t;
+begin
+  if odd(p.dc_x) then
+    exit;
+
+  count := (p.dc_yh - p.dc_yl) div 3;
+
+  if count < 0 then
+    exit;
+
+  dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  frac := p.dc_texturemid + (p.dc_yl - centery) * p.dc_iscale;
+  fracstep := 3 * p.dc_iscale;
+  swidth := SCREENWIDTH;
+
+  for i := 0 to count - 1 do
+  begin
+    buf.byte1 := cursubtract8table[dest^ + (p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    buf.byte2 := buf.byte1;
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    inc(frac, fracstep);
+  end;
+
+  count := (p.dc_yh - p.dc_yl) mod 3;
+  for i := 0 to count do
+  begin
+    buf.byte1 := cursubtract8table[dest^ + (p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    buf.byte2 := buf.byte1;
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    inc(frac, p.dc_iscale);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnSubtractLowMT
+//
+//==============================================================================
+procedure R_DrawColumnSubtractLowMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  i: integer;
+  dest: PByte;
+  bdest: byte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  swidth: integer;
+begin
+  count := (p.dc_yh - p.dc_yl) div 3;
+
+  if count < 0 then
+    exit;
+
+  dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  frac := p.dc_texturemid + (p.dc_yl - centery) * p.dc_iscale;
+  fracstep := 3 * p.dc_iscale;
+  swidth := SCREENWIDTH;
+
+  for i := 0 to count - 1 do
+  begin
+    bdest := cursubtract8table[dest^ + (p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    inc(frac, fracstep);
+  end;
+
+  count := (p.dc_yh - p.dc_yl) mod 3;
+  for i := 0 to count do
+  begin
+    dest^ := cursubtract8table[dest^ + (p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    inc(dest, swidth);
+
+    inc(frac, p.dc_iscale);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnSubtractMediumMT
+//
+//==============================================================================
+procedure R_DrawColumnSubtractMediumMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  dest: PByte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  swidth: integer;
+begin
+  count := p.dc_yh - p.dc_yl;
+
+  // Zero length, column does not exceed a pixel.
+  if count < 0 then
+    exit;
+
+  // Framebuffer destination address.
+  // Use ylookup LUT to avoid multiply with ScreenWidth.
+  // Use columnofs LUT for subwindows?
+  dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  // Determine scaling,
+  //  which is the only mapping to be done.
+  fracstep := p.dc_iscale;
+  frac := p.dc_texturemid + (p.dc_yl - centery) * fracstep;
+  fraclimit := frac + count * fracstep;
+  swidth := SCREENWIDTH;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  while frac < fraclimit do
+  begin
+  // Re-map color indices from wall texture column
+  //  using a lighting/special effects LUT.
+    dest^ := cursubtract8table[dest^ + (p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := cursubtract8table[dest^ + (p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+  end;
+  while frac <= fraclimit do
+  begin
+  // Re-map color indices from wall texture column
+  //  using a lighting/special effects LUT.
+    dest^ := cursubtract8table[dest^ + (p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnSubtractHiMT
+//
+//==============================================================================
+procedure R_DrawColumnSubtractHiMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  destl: PLongWord;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  swidth: integer;
+  subfactor: fixed_t;
+
+// For inline color averaging
+  r1, g1, b1: byte;
+  r2, g2, b2: byte;
+  c1, c2, r, g, b: LongWord;
+begin
+  count := p.dc_yh - p.dc_yl;
+
+  if count < 0 then
+    exit;
+
+  destl := @((ylookupl[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  fracstep := p.dc_iscale;
+  frac := p.dc_texturemid + (p.dc_yl - centery) * fracstep;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  swidth := SCREENWIDTH32PITCH;
+
+  subfactor := p.dc_alpha;
+
+  fraclimit := frac + fracstep * count;
+  while frac < fraclimit do
+  begin
+    c1 := destl^;
+    c2 := p.dc_colormap32[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+
+    // Color averaging
+    r1 := c1;
+    g1 := c1 shr 8;
+    b1 := c1 shr 16;
+    r2 := c2;
+    g2 := c2 shr 8;
+    b2 := c2 shr 16;
+    if subfactor < FRACUNIT then
+    begin
+      r2 := (r2 * subfactor) shr FRACBITS;
+      g2 := (g2 * subfactor) shr FRACBITS;
+      b2 := (b2 * subfactor) shr FRACBITS;
+    end;
+
+    if r2 > r1 then
+      r := 0
+    else
+      r := r1 - r2;
+    if g2 > g1 then
+      g := 0
+    else
+      g := g1 - g2;
+    if b2 > b1 then
+      b := 0
+    else
+      b := b1 - b2;
+
+    destl^ := r + g shl 8 + b shl 16;
+
+    destl := PLongWord(integer(destl) + swidth);
+    inc(frac, fracstep);
+  end;
+end;
+
+//
+// Average
+//
+
+//==============================================================================
+//
+// R_DrawColumnAverageLowestMT
+//
+//==============================================================================
+procedure R_DrawColumnAverageLowestMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  i: integer;
+  dest: PByte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  swidth: integer;
+  buf: twobytes_t;
+begin
+  if odd(p.dc_x) then
+    exit;
+
+  count := (p.dc_yh - p.dc_yl) div 3;
+
+  if count < 0 then
+    exit;
+
+  dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  frac := p.dc_texturemid + (p.dc_yl - centery) * p.dc_iscale;
+  fracstep := 3 * p.dc_iscale;
+  swidth := SCREENWIDTH;
+
+  for i := 0 to count - 1 do
+  begin
+    buf.byte1 := averagetrans8table[(dest^ shl 8) + p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]]];
+    buf.byte2 := buf.byte1;
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    inc(frac, fracstep);
+  end;
+
+  count := (p.dc_yh - p.dc_yl) mod 3;
+  for i := 0 to count do
+  begin
+    buf.byte1 := averagetrans8table[(dest^ shl 8) + p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]]];
+    buf.byte2 := buf.byte1;
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    inc(frac, p.dc_iscale);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnAverageLowMT
+//
+//==============================================================================
+procedure R_DrawColumnAverageLowMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  i: integer;
+  dest: PByte;
+  bdest: byte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  swidth: integer;
+begin
+  count := (p.dc_yh - p.dc_yl) div 3;
+
+  if count < 0 then
+    exit;
+
+  dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  frac := p.dc_texturemid + (p.dc_yl - centery) * p.dc_iscale;
+  fracstep := 3 * p.dc_iscale;
+  swidth := SCREENWIDTH;
+
+  for i := 0 to count - 1 do
+  begin
+    bdest := averagetrans8table[(dest^ shl 8) + p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]]];
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    inc(frac, fracstep);
+  end;
+
+  count := (p.dc_yh - p.dc_yl) mod 3;
+  for i := 0 to count do
+  begin
+    dest^ := averagetrans8table[(dest^ shl 8) + p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]]];
+    inc(dest, swidth);
+
+    inc(frac, p.dc_iscale);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnAverageMediumMT
+//
+//==============================================================================
+procedure R_DrawColumnAverageMediumMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  dest: PByte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  swidth: integer;
+begin
+  count := p.dc_yh - p.dc_yl;
+
+  // Zero length, column does not exceed a pixel.
+  if count < 0 then
+    exit;
+
+  // Framebuffer destination address.
+  // Use ylookup LUT to avoid multiply with ScreenWidth.
+  // Use columnofs LUT for subwindows?
+  dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  // Determine scaling,
+  //  which is the only mapping to be done.
+  fracstep := p.dc_iscale;
+  frac := p.dc_texturemid + (p.dc_yl - centery) * fracstep;
+  fraclimit := frac + count * fracstep;
+  swidth := SCREENWIDTH;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  while frac <= fraclimit do
+  begin
+  // Re-map color indices from wall texture column
+  //  using a lighting/special effects LUT.
+    dest^ := averagetrans8table[(dest^ shl 8) + p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]]];
+
+    inc(dest, swidth);
+    inc(frac, fracstep);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnAverageHiMT
+//
+//==============================================================================
+procedure R_DrawColumnAverageHiMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  destb: PByte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  swidth: integer;
+  src: PByteArray;
+begin
+  count := p.dc_yh - p.dc_yl;
+
+  if count < 0 then
+    exit;
+
+  destb := @((ylookupl[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  fracstep := p.dc_iscale;
+  frac := p.dc_texturemid + (p.dc_yl - centery) * fracstep;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  swidth := SCREENWIDTH32PITCH;
+
+  while count >= 0 do
+  begin
+    src := @p.dc_colormap32[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+
+    PByteArray(destb)[0] := average_byte[src[0] + PByteArray(destb)[0]];
+    PByteArray(destb)[1] := average_byte[src[1] + PByteArray(destb)[1]];
+    PByteArray(destb)[2] := average_byte[src[2] + PByteArray(destb)[2]];
+
+    destb := PByte(integer(destb) + swidth);
+    inc(frac, fracstep);
+    dec(count);
+  end;
+end;
+
+//
 // Normal functions
+//
+
+//==============================================================================
+//
+// R_DrawMaskedColumnNormalMT
 //
 //==============================================================================
 procedure R_DrawMaskedColumnNormalMT(p: Pspriterenderinfo_t);
@@ -1130,8 +2290,6 @@ begin
   end;
 end;
 
-{$IFDEF DOOM_OR_STRIFE}
-
 //==============================================================================
 //
 // R_DrawColumnAlphaMedium_BatchMT
@@ -1189,7 +2347,6 @@ begin
     inc(frac, fracstep);
   end;
 end;
-{$ENDIF}
 
 //==============================================================================
 //
@@ -1480,6 +2637,125 @@ begin
         dec(count);
       end;
     end;
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnAverageMedium_BatchMT
+//
+//==============================================================================
+procedure R_DrawColumnAverageMedium_BatchMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  dest: PByte;
+  b: byte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  swidth: integer;
+  cnt: integer;
+  tbl: PByteArray;
+begin
+  count := p.dc_yh - p.dc_yl;
+
+  // Zero length, column does not exceed a pixel.
+  if count < 0 then
+    exit;
+
+  // Framebuffer destination address.
+  // Use ylookup LUT to avoid multiply with ScreenWidth.
+  // Use columnofs LUT for subwindows?
+  dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  // Determine scaling,
+  //  which is the only mapping to be done.
+  fracstep := p.dc_iscale;
+  frac := p.dc_texturemid + (p.dc_yl - centery) * fracstep;
+  fraclimit := frac + count * fracstep;
+  swidth := SCREENWIDTH - p.num_batch_columns;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  while frac <= fraclimit do
+  begin
+  // Re-map color indices from wall texture column
+  //  using a lighting/special effects LUT.
+
+    b := p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    tbl := @averagetrans8table[b shl 8];
+    cnt := p.num_batch_columns;
+    while cnt > 0 do
+    begin
+      dest^ := tbl[dest^];
+      inc(dest);
+      dec(cnt);
+    end;
+
+    inc(dest, swidth);
+    inc(frac, fracstep);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnAverageHi_BatchMT
+//
+//==============================================================================
+procedure R_DrawColumnAverageHi_BatchMT(p: Pspriterenderinfo_t);
+var
+  count: integer;
+  destb: PByte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  swidth: integer;
+  deststop: PByte;
+
+// For inline color averaging
+  r1, g1, b1: byte;
+  c3: LongWord;
+  rr, gg, bb: PByteArray;
+
+begin
+  count := p.dc_yh - p.dc_yl;
+
+  if count < 0 then
+    exit;
+
+  destb := @((ylookupl[p.dc_yl]^)[columnofs[p.dc_x]]);
+
+  fracstep := p.dc_iscale;
+  frac := p.dc_texturemid + (p.dc_yl - centery) * fracstep;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  swidth := SCREENWIDTH32PITCH - p.num_batch_columns * SizeOf(LongWord);
+
+  while count >= 0 do
+  begin
+    c3 := p.dc_colormap32[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    r1 := c3;
+    g1 := c3 shr 8;
+    b1 := c3 shr 16;
+    rr := @average_byte[r1];
+    gg := @average_byte[g1];
+    bb := @average_byte[b1];
+
+    deststop := destb;
+    inc(deststop, 4 * p.num_batch_columns);
+    while destb <> deststop do
+    begin
+      PByteArray(destb)[0] := rr[PByteArray(destb)[0]];
+      PByteArray(destb)[1] := gg[PByteArray(destb)[1]];
+      PByteArray(destb)[2] := bb[PByteArray(destb)[2]];
+      Inc(destb, 4);
+    end;
+
+    destb := PByte(integer(destb) + swidth);
+    inc(frac, fracstep);
+    dec(count);
   end;
 end;
 

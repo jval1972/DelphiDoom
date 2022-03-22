@@ -30,10 +30,13 @@ unit r_col_al;
 
 interface
 
-//==============================================================================
-// R_DrawColumnAlphaLowest
 //
 // Alpha column drawers (transparency effects)
+//
+
+//==============================================================================
+//
+// R_DrawColumnAlphaLowest
 //
 //==============================================================================
 procedure R_DrawColumnAlphaLowest;

@@ -901,6 +901,7 @@ begin
   parms.dc_alpha := dc_alpha;
   parms.dc_fog := dc_fog; // JVAL: Mars fog sectors
   parms.num_batch_columns := num_batch_columns;
+  parms.dc_colormap := dc_colormap;
   parms.dc_colormap32 := dc_colormap32;
   parms.proc := spritefunc_mt;
 end;
@@ -921,6 +922,7 @@ begin
   parms.dc_alpha := dc_alpha;
   parms.dc_fog := dc_fog; // JVAL: Mars fog sectors
   parms.num_batch_columns := num_batch_columns;
+  parms.dc_colormap := dc_colormap;
   parms.dc_colormap32 := dc_colormap32;
   parms.proc := batchspritefunc_mt;
 end;
@@ -996,6 +998,11 @@ begin
   end;
 
   dc_texturemid := basetexturemid;
+end;
+
+procedure _add_sprite_task;
+begin
+  R_FillSpriteInfo_MT(R_SpriteAddMTInfo);
 end;
 
 //==============================================================================
@@ -1213,10 +1220,15 @@ begin
     dc_alpha := vismo.alpha;
     curadd8table := R_GetAdditive8table(dc_alpha);
     if vis.scale > FRACUNIT then
-      colfunc := addcolfunc_smallstep
+    begin
+      colfunc := addcolfunc_smallstep;
+      spritefunc_mt := addcolfunc_smallstep_mt;
+    end
     else
+    begin
       colfunc := addcolfunc;
-    spritefunc_mt := addcolfunc_mt;
+      spritefunc_mt := addcolfunc_mt;
+    end;
     batchcolfunc := batchaddcolfunc;
     batchspritefunc_mt := batchaddcolfunc_mt;
   end
@@ -1232,7 +1244,9 @@ begin
   else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0) then
   begin
     colfunc := averagecolfunc;
+    spritefunc_mt := averagecolfunc_mt;
     batchcolfunc := batchtaveragecolfunc;
+    batchspritefunc_mt := batchtaveragecolfunc_mt;
   end
   else
   begin

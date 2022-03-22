@@ -89,6 +89,7 @@ const
 var
   forcecolormaps: boolean;
   useclassicfuzzeffect: boolean;
+  diher8bittransparency: boolean;
 
 //==============================================================================
 // R_ApplyColormap
@@ -248,13 +249,16 @@ var
   // JVAL: Multithreading sprite funcs
   basebatchcolfunc_mt: spritefunc_t;
   batchcolfunc_mt: spritefunc_t;
+  batchtaveragecolfunc_mt: spritefunc_t;
   batchtalphacolfunc_mt: spritefunc_t;
   batchaddcolfunc_mt: spritefunc_t;
   batchsubtractcolfunc_mt: spritefunc_t;
   maskedcolfunc_mt: spritefunc_t;
   colfunc_mt: spritefunc_t;
+  averagecolfunc_mt: spritefunc_t;
   alphacolfunc_mt: spritefunc_t;
   addcolfunc_mt: spritefunc_t;
+  addcolfunc_smallstep_mt: spritefunc_t;
   subtractcolfunc_mt: spritefunc_t;
 
   colfunc: PProcedure;
@@ -1467,33 +1471,40 @@ begin
         batchbluelightcolfunc := nil;
         batchyellowlightcolfunc := nil;
         batchtranscolfunc := R_DrawTranslatedColumn_Batch;
-        batchtaveragecolfunc := nil;
-        batchtalphacolfunc := nil;
 
         if usemultithread then
         begin
           basebatchcolfunc_mt := R_DrawColumnLow_BatchMT;
           batchcolfunc_mt := R_DrawColumnLow_BatchMT;
-          batchtalphacolfunc_mt := nil;
+          batchtaveragecolfunc_mt := R_DrawColumnAverageMedium_BatchMT;
+          if diher8bittransparency then
+            batchtalphacolfunc_mt := nil
+          else
+            batchtalphacolfunc_mt := R_DrawColumnAlphaMedium_BatchMT;
           batchaddcolfunc_mt := R_DrawColumnAddMedium_BatchMT;
           batchsubtractcolfunc_mt := R_DrawColumnSubtractMedium_BatchMT;
-          maskedcolfunc_mt := nil;
+          maskedcolfunc_mt := R_DrawColumnLowestMT;
           colfunc_mt := nil;
+          averagecolfunc_mt := R_DrawColumnAverageLowestMT;
           alphacolfunc_mt := nil;
-          addcolfunc_mt := nil;
-          subtractcolfunc_mt := nil;
+          addcolfunc_mt := R_DrawColumnAddLowestMT;
+          addcolfunc_smallstep_mt := R_DrawColumnAddLowestMT;
+          subtractcolfunc_mt := R_DrawColumnSubtractLowestMT;
         end
         else
         begin
           basebatchcolfunc_mt := nil;
           batchcolfunc_mt := nil;
+          batchtaveragecolfunc_mt := nil;
           batchtalphacolfunc_mt := nil;
           batchaddcolfunc_mt := nil;
           batchsubtractcolfunc_mt := nil;
           maskedcolfunc_mt := nil;
           colfunc_mt := nil;
+          averagecolfunc_mt := nil;
           alphacolfunc_mt := nil;
           addcolfunc_mt := nil;
+          addcolfunc_smallstep_mt := nil;
           subtractcolfunc_mt := nil;
         end;
 
@@ -1502,8 +1513,20 @@ begin
         basewallcolfunc := R_DrawColumnLowest;
         tallwallcolfunc := R_DrawTallColumnLowest;
         transcolfunc := R_DrawTranslatedColumn;
-        averagecolfunc := R_DrawColumnLowest;
-        alphacolfunc := R_DrawColumnAlphaMedium;
+        if diher8bittransparency then
+        begin
+          averagecolfunc := R_DrawColumnAlphaMediumDiher;
+          alphacolfunc := R_DrawColumnAlphaMediumDiher;
+          batchtaveragecolfunc := nil;
+          batchtalphacolfunc := nil;
+        end
+        else
+        begin
+          averagecolfunc := R_DrawColumnAverageLowest;
+          alphacolfunc := R_DrawColumnAlphaLowest;
+          batchtaveragecolfunc := R_DrawColumnAverageMedium_Batch;
+          batchtalphacolfunc := R_DrawColumnAlphaMedium_Batch;
+        end;
         addcolfunc := R_DrawColumnAddLowest;
         addcolfunc_smallstep := R_DrawColumnAddLowest;
         batchaddcolfunc := R_DrawColumnAddMedium_Batch;
@@ -1563,33 +1586,40 @@ begin
         batchbluelightcolfunc := nil;
         batchyellowlightcolfunc := nil;
         batchtranscolfunc := R_DrawTranslatedColumn_Batch;
-        batchtaveragecolfunc := nil;
-        batchtalphacolfunc := nil;
 
         if usemultithread then
         begin
           basebatchcolfunc_mt := R_DrawColumnLow_BatchMT;
           batchcolfunc_mt := R_DrawColumnLow_BatchMT;
-          batchtalphacolfunc_mt := nil;
+          batchtaveragecolfunc_mt := R_DrawColumnAverageMedium_BatchMT;
+          if diher8bittransparency then
+            batchtalphacolfunc_mt := nil
+          else
+            batchtalphacolfunc_mt := R_DrawColumnAlphaMedium_BatchMT;
           batchaddcolfunc_mt := R_DrawColumnAddMedium_BatchMT;
           batchsubtractcolfunc_mt := R_DrawColumnSubtractMedium_BatchMT;
-          maskedcolfunc_mt := nil;
+          maskedcolfunc_mt := R_DrawColumnLowMT;
           colfunc_mt := nil;
+          averagecolfunc_mt := R_DrawColumnAverageLowMT;
           alphacolfunc_mt := nil;
-          addcolfunc_mt := nil;
-          subtractcolfunc_mt := nil;
+          addcolfunc_mt := R_DrawColumnAddLowMT;
+          addcolfunc_smallstep_mt := R_DrawColumnAddLowMT;
+          subtractcolfunc_mt := R_DrawColumnSubtractLowMT;
         end
         else
         begin
           basebatchcolfunc_mt := nil;
           batchcolfunc_mt := nil;
+          batchtaveragecolfunc_mt := nil;
           batchtalphacolfunc_mt := nil;
           batchaddcolfunc_mt := nil;
           batchsubtractcolfunc_mt := nil;
           maskedcolfunc_mt := nil;
           colfunc_mt := nil;
+          averagecolfunc_mt := nil;
           alphacolfunc_mt := nil;
           addcolfunc_mt := nil;
+          addcolfunc_smallstep_mt := nil;
           subtractcolfunc_mt := nil;
         end;
 
@@ -1598,8 +1628,20 @@ begin
         basewallcolfunc := R_DrawColumnLow;
         tallwallcolfunc := R_DrawTallColumnLow;
         transcolfunc := R_DrawTranslatedColumn;
-        averagecolfunc := R_DrawColumnLow;
-        alphacolfunc := R_DrawColumnAlphaMedium;
+        if diher8bittransparency then
+        begin
+          averagecolfunc := R_DrawColumnAlphaMediumDiher;
+          alphacolfunc := R_DrawColumnAlphaMediumDiher;
+          batchtaveragecolfunc := nil;
+          batchtalphacolfunc := nil;
+        end
+        else
+        begin
+          averagecolfunc := R_DrawColumnAverageLow;
+          alphacolfunc := R_DrawColumnAlphaLow;
+          batchtaveragecolfunc := R_DrawColumnAverageMedium_Batch;
+          batchtalphacolfunc := R_DrawColumnAlphaMedium_Batch;
+        end;
         addcolfunc := R_DrawColumnAddLow;
         addcolfunc_smallstep := R_DrawColumnAddLow;
         batchaddcolfunc := R_DrawColumnAddMedium_Batch;
@@ -1659,33 +1701,40 @@ begin
         batchbluelightcolfunc := nil;
         batchyellowlightcolfunc := nil;
         batchtranscolfunc := R_DrawTranslatedColumn_Batch;
-        batchtaveragecolfunc := nil;
-        batchtalphacolfunc := nil;
 
         if usemultithread then
         begin
           basebatchcolfunc_mt := R_DrawColumnMedium_BatchMT;
           batchcolfunc_mt := R_DrawColumnMedium_BatchMT;
-          batchtalphacolfunc_mt := nil;
+          batchtaveragecolfunc_mt := R_DrawColumnAverageMedium_BatchMT;
+          if diher8bittransparency then
+            batchtalphacolfunc_mt := nil
+          else
+            batchtalphacolfunc_mt := R_DrawColumnAlphaMedium_BatchMT;
           batchaddcolfunc_mt := R_DrawColumnAddMedium_BatchMT;
           batchsubtractcolfunc_mt := R_DrawColumnSubtractMedium_BatchMT;
-          maskedcolfunc_mt := nil;
+          maskedcolfunc_mt := R_DrawColumnMediumMT;
           colfunc_mt := nil;
+          averagecolfunc_mt := R_DrawColumnAverageMediumMT;
           alphacolfunc_mt := nil;
-          addcolfunc_mt := nil;
-          subtractcolfunc_mt := nil;
+          addcolfunc_mt := R_DrawColumnAddMediumMT;
+          addcolfunc_smallstep_mt := R_DrawColumnAddMediumMT;
+          subtractcolfunc_mt := R_DrawColumnSubtractMediumMT;
         end
         else
         begin
           basebatchcolfunc_mt := nil;
           batchcolfunc_mt := nil;
+          batchtaveragecolfunc_mt := nil;
           batchtalphacolfunc_mt := nil;
           batchaddcolfunc_mt := nil;
           batchsubtractcolfunc_mt := nil;
           maskedcolfunc_mt := nil;
           colfunc_mt := nil;
+          averagecolfunc_mt := nil;
           alphacolfunc_mt := nil;
           addcolfunc_mt := nil;
+          addcolfunc_smallstep_mt := nil;
           subtractcolfunc_mt := nil;
         end;
 
@@ -1694,8 +1743,20 @@ begin
         basewallcolfunc := R_DrawColumnMedium;
         tallwallcolfunc := R_DrawTallColumnMedium;
         transcolfunc := R_DrawTranslatedColumn;
-        averagecolfunc := R_DrawColumnMedium;
-        alphacolfunc := R_DrawColumnAlphaMedium;
+        if diher8bittransparency then
+        begin
+          averagecolfunc := R_DrawColumnAlphaMediumDiher;
+          alphacolfunc := R_DrawColumnAlphaMediumDiher;
+          batchtaveragecolfunc := nil;
+          batchtalphacolfunc := nil;
+        end
+        else
+        begin
+          averagecolfunc := R_DrawColumnAverageMedium;
+          alphacolfunc := R_DrawColumnAlphaMedium;
+          batchtaveragecolfunc := R_DrawColumnAverageMedium_Batch;
+          batchtalphacolfunc := R_DrawColumnAlphaMedium_Batch;
+        end;
         addcolfunc := R_DrawColumnAddMedium;
         addcolfunc_smallstep := R_DrawColumnAddMedium;
         batchaddcolfunc := R_DrawColumnAddMedium_Batch;
@@ -1762,26 +1823,32 @@ begin
         begin
           basebatchcolfunc_mt := R_DrawColumnHi_BatchMT;
           batchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchtaveragecolfunc_mt := R_DrawColumnAverageHi_BatchMT;
           batchtalphacolfunc_mt := R_DrawColumnAlphaHi_BatchMT;
           batchaddcolfunc_mt := R_DrawColumnAddHi_BatchMT;
           batchsubtractcolfunc_mt := R_DrawColumnSubtractHi_BatchMT;
           maskedcolfunc_mt := R_DrawMaskedColumnNormalMT;
           colfunc_mt := nil;
+          averagecolfunc_mt := R_DrawColumnAverageHiMT;
           alphacolfunc_mt := nil;
-          addcolfunc_mt := nil;
-          subtractcolfunc_mt := nil;
+          addcolfunc_mt := R_DrawColumnAddHiMT;
+          addcolfunc_smallstep_mt := R_DrawColumnAddHi_SmallStepMT;
+          subtractcolfunc_mt := R_DrawColumnSubtractHiMT;
         end
         else
         begin
           basebatchcolfunc_mt := nil;
           batchcolfunc_mt := nil;
+          batchtaveragecolfunc_mt := nil;
           batchtalphacolfunc_mt := nil;
           batchaddcolfunc_mt := nil;
           batchsubtractcolfunc_mt := nil;
           maskedcolfunc_mt := nil;
           colfunc_mt := nil;
+          averagecolfunc_mt := nil;
           alphacolfunc_mt := nil;
           addcolfunc_mt := nil;
+          addcolfunc_smallstep_mt := nil;
           subtractcolfunc_mt := nil;
         end;
 
@@ -1884,26 +1951,32 @@ begin
         begin
           basebatchcolfunc_mt := R_DrawColumnHi_BatchMT;
           batchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchtaveragecolfunc_mt := R_DrawColumnAverageHi_BatchMT;
           batchtalphacolfunc_mt := R_DrawColumnAlphaHi_BatchMT;
           batchaddcolfunc_mt := R_DrawColumnAddHi_BatchMT;
           batchsubtractcolfunc_mt := R_DrawColumnSubtractHi_BatchMT;
           maskedcolfunc_mt := nil;
           colfunc_mt := nil;
+          averagecolfunc_mt := R_DrawColumnAverageHiMT;
           alphacolfunc_mt := nil;
-          addcolfunc_mt := nil;
-          subtractcolfunc_mt := nil;
+          addcolfunc_mt := R_DrawColumnAddHiMT;
+          addcolfunc_smallstep_mt := R_DrawColumnAddHi_SmallStepMT;
+          subtractcolfunc_mt := R_DrawColumnSubtractHiMT;
         end
         else
         begin
           basebatchcolfunc_mt := nil;
           batchcolfunc_mt := nil;
+          batchtaveragecolfunc_mt := nil;
           batchtalphacolfunc_mt := nil;
           batchaddcolfunc_mt := nil;
           batchsubtractcolfunc_mt := nil;
           maskedcolfunc_mt := nil;
           colfunc_mt := nil;
+          averagecolfunc_mt := nil;
           alphacolfunc_mt := nil;
           addcolfunc_mt := nil;
+          addcolfunc_smallstep_mt := nil;
           subtractcolfunc_mt := nil;
         end;
 
@@ -2005,26 +2078,32 @@ begin
         begin
           basebatchcolfunc_mt := R_DrawColumnHi_BatchMT;
           batchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchtaveragecolfunc_mt := R_DrawColumnAverageHi_BatchMT;
           batchtalphacolfunc_mt := R_DrawColumnAlphaHi_BatchMT;
           batchaddcolfunc_mt := R_DrawColumnAddHi_BatchMT;
           batchsubtractcolfunc_mt := R_DrawColumnSubtractHi_BatchMT;
           maskedcolfunc_mt := nil;
           colfunc_mt := nil;
+          averagecolfunc_mt := R_DrawColumnAverageHiMT;
           alphacolfunc_mt := nil;
-          addcolfunc_mt := nil;
-          subtractcolfunc_mt := nil;
+          addcolfunc_mt := R_DrawColumnAddHiMT;
+          addcolfunc_smallstep_mt := R_DrawColumnAddHi_SmallStepMT;
+          subtractcolfunc_mt := R_DrawColumnSubtractHiMT;
         end
         else
         begin
           basebatchcolfunc_mt := nil;
           batchcolfunc_mt := nil;
+          batchtaveragecolfunc_mt := nil;
           batchtalphacolfunc_mt := nil;
           batchaddcolfunc_mt := nil;
           batchsubtractcolfunc_mt := nil;
           maskedcolfunc_mt := nil;
           colfunc_mt := nil;
+          averagecolfunc_mt := nil;
           alphacolfunc_mt := nil;
           addcolfunc_mt := nil;
+          addcolfunc_smallstep_mt := nil;
           subtractcolfunc_mt := nil;
         end;
 
@@ -2347,6 +2426,32 @@ end;
 
 //==============================================================================
 //
+// R_CmdDiher8bitTransparency
+//
+//==============================================================================
+procedure R_CmdDiher8bitTransparency(const parm1: string = '');
+var
+  newdih: boolean;
+begin
+  if parm1 = '' then
+  begin
+    printf('Current setting: diher8bittransparency = %s.'#13#10, [truefalseStrings[diher8bittransparency]]);
+    exit;
+  end;
+
+  newdih := C_BoolEval(parm1, diher8bittransparency);
+  if newdih <> diher8bittransparency then
+  begin
+    diher8bittransparency := newdih;
+{$IFNDEF OPENGL}
+    R_SetRenderingFunctions;
+{$ENDIF}
+  end;
+  R_CmdDiher8bitTransparency;
+end;
+
+//==============================================================================
+//
 // R_CmdScreenWidth
 //
 //==============================================================================
@@ -2484,6 +2589,7 @@ begin
   C_AddCmd('32bittexturepaletteeffects, use32bittexturepaletteeffects', @R_Cmd32bittexturepaletteeffects);
   C_AddCmd('useexternaltextures', @R_CmdUseExternalTextures);
   C_AddCmd('useclassicfuzzeffect', @R_CmdUseClassicFuzzEffect);
+  C_AddCmd('diher8bittransparency', @R_CmdDiher8bitTransparency);
   C_AddCmd('lightboostfactor', @R_CmdLightBoostFactor);
   C_AddCmd('screenwidth', @R_CmdScreenWidth);
   C_AddCmd('screenheight', @R_CmdScreenHeight);

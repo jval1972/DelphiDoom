@@ -31,13 +31,37 @@ unit r_col_al;
 
 interface
 
-//==============================================================================
-// R_DrawColumnAlphaMedium
 //
 // Alpha column drawers (transparency effects)
 //
+
+//==============================================================================
+//
+// R_DrawColumnAlphaLowest
+//
+//==============================================================================
+procedure R_DrawColumnAlphaLowest;
+
+//==============================================================================
+//
+// R_DrawColumnAlphaLow
+//
+//==============================================================================
+procedure R_DrawColumnAlphaLow;
+
+//==============================================================================
+//
+// R_DrawColumnAlphaMedium
+//
 //==============================================================================
 procedure R_DrawColumnAlphaMedium;
+
+//==============================================================================
+//
+// R_DrawColumnAlphaMediumDiher
+//
+//==============================================================================
+procedure R_DrawColumnAlphaMediumDiher;
 
 //==============================================================================
 //
@@ -54,15 +78,172 @@ uses
   m_fixed,
   r_draw,
   r_main,
-  r_column;
+  r_column,
+  r_trans8;
 
 //==============================================================================
-// R_DrawColumnAlphaMedium
 //
-// In 8 bit mode we diher, regardless of dc_alpha value
+// R_DrawColumnAlphaLowest
+//
+//==============================================================================
+procedure R_DrawColumnAlphaLowest;
+var
+  count: integer;
+  i: integer;
+  dest: PByte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  swidth: integer;
+  buf: twobytes_t;
+begin
+  if odd(dc_x) then
+    exit;
+
+  count := (dc_yh - dc_yl) div 3;
+
+  if count < 0 then
+    exit;
+
+  dest := @((ylookup[dc_yl]^)[columnofs[dc_x]]);
+
+  frac := dc_texturemid + (dc_yl - centery) * dc_iscale;
+  fracstep := 3 * dc_iscale;
+  swidth := SCREENWIDTH;
+
+  for i := 0 to count - 1 do
+  begin
+    buf.byte1 := curtrans8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    buf.byte2 := buf.byte1;
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    inc(frac, fracstep);
+  end;
+
+  count := (dc_yh - dc_yl) mod 3;
+  for i := 0 to count do
+  begin
+    buf.byte1 := curtrans8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    buf.byte2 := buf.byte1;
+    PWord(dest)^ := Word(buf);
+    inc(dest, swidth);
+
+    inc(frac, dc_iscale);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnAlphaLow
+//
+//==============================================================================
+procedure R_DrawColumnAlphaLow;
+var
+  count: integer;
+  i: integer;
+  dest: PByte;
+  bdest: byte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  swidth: integer;
+begin
+  count := (dc_yh - dc_yl) div 3;
+
+  if count < 0 then
+    exit;
+
+  dest := @((ylookup[dc_yl]^)[columnofs[dc_x]]);
+
+  frac := dc_texturemid + (dc_yl - centery) * dc_iscale;
+  fracstep := 3 * dc_iscale;
+  swidth := SCREENWIDTH;
+
+  for i := 0 to count - 1 do
+  begin
+    bdest := curtrans8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    dest^ := bdest;
+    inc(dest, swidth);
+
+    inc(frac, fracstep);
+  end;
+
+  count := (dc_yh - dc_yl) mod 3;
+  for i := 0 to count do
+  begin
+    dest^ := curtrans8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+    inc(dest, swidth);
+
+    inc(frac, dc_iscale);
+  end;
+end;
+
+//==============================================================================
+//
+// R_DrawColumnAlphaMedium
 //
 //==============================================================================
 procedure R_DrawColumnAlphaMedium;
+var
+  count: integer;
+  dest: PByte;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  swidth: integer;
+begin
+  count := dc_yh - dc_yl;
+
+  // Zero length, column does not exceed a pixel.
+  if count < 0 then
+    exit;
+
+  // Framebuffer destination address.
+  // Use ylookup LUT to avoid multiply with ScreenWidth.
+  // Use columnofs LUT for subwindows?
+  dest := @((ylookup[dc_yl]^)[columnofs[dc_x]]);
+
+  // Determine scaling,
+  //  which is the only mapping to be done.
+  fracstep := dc_iscale;
+  frac := dc_texturemid + (dc_yl - centery) * fracstep;
+  fraclimit := frac + count * fracstep;
+  swidth := SCREENWIDTH;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  while frac <= fraclimit do
+  begin
+  // Re-map color indices from wall texture column
+  //  using a lighting/special effects LUT.
+    dest^ := curtrans8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
+
+    inc(dest, swidth);
+    inc(frac, fracstep);
+  end;
+end;
+
+//==============================================================================
+// R_DrawColumnAlphaMediumDiher
+//
+// 8 bit mode diher drawing, regardless of dc_alpha value
+//
+//==============================================================================
+procedure R_DrawColumnAlphaMediumDiher;
 var
   count: integer;
   dest: PByte;

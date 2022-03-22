@@ -4,6 +4,8 @@ Check MF_EX_SPAWNFLOAT flag on summon command.
 Speed optimizations to transparent sprite rendering.
 Small speed optimizations to renderstyle Add & Subtract in 8 bit color mode.
 Added SPIN field in VOXELDEF lumps, it compines DROPPEDSPIN & PLACEDSPIN behavior.
+Added diher8bittransparency console variable.
+Better transparency manipulation in 8 bit color software rendering.
 
 Version 2.0.7 build 732 - (20220318)
 -----------------------

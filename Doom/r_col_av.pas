@@ -30,10 +30,13 @@ unit r_col_av;
 
 interface
 
-//==============================================================================
-// R_DrawColumnAverageLowest
 //
 // Average column drawers (transparency effects)
+//
+
+//==============================================================================
+//
+// R_DrawColumnAverageLowest
 //
 //==============================================================================
 procedure R_DrawColumnAverageLowest;
