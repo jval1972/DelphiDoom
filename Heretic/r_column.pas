@@ -402,7 +402,7 @@ var
   swidth: integer;
 
   r1, g1, b1: byte;
-  c, c1, r, g, b: LongWord;
+  c: LongWord;
   lfactor: integer;
   lspot: integer;
   ldest: LongWord;
