@@ -1096,7 +1096,7 @@ end;
 //  mfloorclip and mceilingclip should also be set.
 //
 const
-  MIN_SPRITE_SIZE_MT = 64;
+  MIN_SPRITE_SIZE_MT = 256;
 
 //==============================================================================
 //
