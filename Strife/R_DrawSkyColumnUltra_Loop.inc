@@ -3,7 +3,7 @@
     spot := (LongWord(frac) shr FRACBITS) and and_mask;
     c1 := dc_source32[spot];
     c2 := dc_source32[spot + 1];
-    {$I R_ColorAverage.inc}
+    {$I ..\Base\R_ColorAverage.inc}
     destl^ := r + g shl 8 + b;
 
     destl := PLongWord(integer(destl) + swidth);

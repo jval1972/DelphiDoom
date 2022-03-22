@@ -509,7 +509,7 @@ uses
   r_col_ms,
   r_col_sk,
   r_col_fz,
-  r_col_av,
+  r_draw_average,
   r_draw_alpha,
   r_col_tr,
   r_draw_additive,
