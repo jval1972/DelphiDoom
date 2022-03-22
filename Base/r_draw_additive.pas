@@ -321,7 +321,7 @@ begin
 end;
 
 var
-  addbuf: array[0..255] of LongWord;
+  addbuf32: array[0..255] of LongWord;
 
 //==============================================================================
 //
@@ -366,8 +366,8 @@ begin
 
   if (frac > 0) and (fraclimit < 256 * FRACUNIT) then
   begin
-    pl := @addbuf[LongWord(frac) shr FRACBITS];
-    pl2 := @addbuf[LongWord(fraclimit) shr FRACBITS + 1];
+    pl := @addbuf32[LongWord(frac) shr FRACBITS];
+    pl2 := @addbuf32[LongWord(fraclimit) shr FRACBITS + 1];
     pb := @dc_source[LongWord(frac) shr FRACBITS];
     while pl <> pl2 do
     begin
@@ -383,7 +383,7 @@ begin
     end;
     while frac < fraclimit do
     begin
-      pl := @addbuf[LongWord(frac) shr FRACBITS];
+      pl := @addbuf32[LongWord(frac) shr FRACBITS];
       PByteArray(destl)[0] := add32_c[PByteArray(pl)[0] + PByteArray(destl)[0]];
       PByteArray(destl)[1] := add32_c[PByteArray(pl)[1] + PByteArray(destl)[1]];
       PByteArray(destl)[2] := add32_c[PByteArray(pl)[2] + PByteArray(destl)[2]];
