@@ -1662,7 +1662,7 @@ var
   frac: fixed_t;
   fracstep: fixed_t;
   swidth: integer;
-  cnt: integer;
+  deststop: PByte;
 
 // For inline color averaging
   r1, g1, b1: byte;
@@ -1695,17 +1695,14 @@ begin
     gg := @average_byte[g1];
     bb := @average_byte[b1];
 
-    cnt := num_batch_columns;
-    while cnt > 0 do
+    deststop := destb;
+    inc(deststop, 4 * num_batch_columns);
+    while destb <> deststop do
     begin
-      destb^ := rr[destb^];
-      Inc(destb);
-      destb^ := gg[destb^];
-      Inc(destb);
-      destb^ := bb[destb^];
-      Inc(destb, 2);
-
-      dec(cnt);
+      PByteArray(destb)[0] := rr[PByteArray(destb)[0]];
+      PByteArray(destb)[1] := gg[PByteArray(destb)[1]];
+      PByteArray(destb)[2] := bb[PByteArray(destb)[2]];
+      Inc(destb, 4);
     end;
 
     destb := PByte(integer(destb) + swidth);
