@@ -2087,9 +2087,9 @@ begin
             if depthbufferactive then
             begin
               if renderflags and VSF_TRANSPARENCY <> 0 then
-                R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, depth)
+                R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, scaley0)
               else
-                R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, depth)
+                R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, scaley0)
             end
             else
               batchcolfunc;
@@ -2135,9 +2135,9 @@ begin
               if depthbufferactive then
               begin
                 if renderflags and VSF_TRANSPARENCY <> 0 then
-                  R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, depth)
+                  R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, scaley0)
                 else
-                  R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, depth)
+                  R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, scaley0)
               end
               else
                 batchcolfunc;
@@ -2165,9 +2165,9 @@ begin
             if depthbufferactive then
             begin
               if renderflags and VSF_TRANSPARENCY <> 0 then
-                R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, depth)
+                R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, scaley0)
               else
-                R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, depth)
+                R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, scaley0)
             end
             else
               batchcolfunc;
