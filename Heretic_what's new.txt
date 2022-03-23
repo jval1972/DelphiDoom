@@ -8,6 +8,7 @@ Added diher8bittransparency console variable.
 Better transparency manipulation in 8 bit color software rendering.
 If depthbuffer is active will draw sprites from front to back to avoid overdraw.
 Fixed some voxel glitches for voxels on a 3d floors.
+Speed optimizations to slope software rendering.
 
 Version 2.0.7 build 732 - (20220318)
 -----------------------
