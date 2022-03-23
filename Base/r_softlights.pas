@@ -1354,8 +1354,9 @@ var
 begin
   vis := psl.vis;
   w := 2 * psl.l.radius * lightwidthfactor / DEFLIGHTWIDTHFACTOR;
-  frac := trunc(vis.startfrac * LIGHTTEXTURESIZE / w);
   fracstep := trunc(vis.xiscale * LIGHTTEXTURESIZE / w);
+  frac := trunc(vis.startfrac * LIGHTTEXTURESIZE / w) + fracstep * threadid;
+  fracstep := fracstep * numlthreads;
   spryscale := trunc(vis.scale * w / LIGHTTEXTURESIZE);
   lcolumn := @lcolumns[threadid];
   lcolumn.lightsourcex := psl.x;
@@ -1363,7 +1364,7 @@ begin
   lcolumn.lightplanez := psl.z - viewz;
   lcolumn.lightsourcemo := psl.mo;
   lcolumn.dl_iscale := FixedDivEx(FRACUNIT, spryscale);
-  lcolumn.dl_fracstep := FixedDivEx(FRACUNIT, spryscale); //trunc(vis.scale * w / LIGHTTEXTURESIZE));
+  lcolumn.dl_fracstep := FixedDivEx(FRACUNIT, spryscale);
   lcolumn.dl_scale := vis.scale;
   ltopscreen := centeryfrac - FixedMul(vis.texturemid, vis.scale);
 
@@ -1376,33 +1377,30 @@ begin
   lcolumn.g := (vis.color32 shr 8) and $FF;
   lcolumn.b := vis.color32 and $FF;
 
-  lcolumn.dl_x := vis.x1;
+  lcolumn.dl_x := vis.x1 + threadid;
 
   while lcolumn.dl_x <= vis.x2 do
   begin
-    if lcolumn.dl_x mod numlthreads = threadid then
-    begin
-      texturecolumn := (LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1);
-      ltopdelta := lightexturelookup[texturecolumn].topdelta;
-      llength := lightexturelookup[texturecolumn].length;
-      lcolumn.dl_source32 := @lighttexture[texturecolumn * LIGHTTEXTURESIZE + ltopdelta];
-      topscreen := ltopscreen + int64(spryscale) * int64(ltopdelta);
-      bottomscreen := topscreen + int64(spryscale) * int64(llength);
+    texturecolumn := (LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1);
+    ltopdelta := lightexturelookup[texturecolumn].topdelta;
+    llength := lightexturelookup[texturecolumn].length;
+    lcolumn.dl_source32 := @lighttexture[texturecolumn * LIGHTTEXTURESIZE + ltopdelta];
+    topscreen := ltopscreen + int64(spryscale) * int64(ltopdelta);
+    bottomscreen := topscreen + int64(spryscale) * int64(llength);
 
-      lcolumn.dl_yl := FixedInt64(topscreen + (FRACUNIT - 1));
-      lcolumn.dl_yh := FixedInt64(bottomscreen - 1);
-      lcolumn.centery := lcolumn.dl_yl div 2 + lcolumn.dl_yh div 2;
-      lcolumn.dl_texturemid := (centery - lcolumn.dl_yl) * lcolumn.dl_iscale;
+    lcolumn.dl_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+    lcolumn.dl_yh := FixedInt64(bottomscreen - 1);
+    lcolumn.centery := lcolumn.dl_yl div 2 + lcolumn.dl_yh div 2;
+    lcolumn.dl_texturemid := (centery - lcolumn.dl_yl) * lcolumn.dl_iscale;
 
-      if lcolumn.dl_yh >= viewheight then
-        lcolumn.dl_yh := viewheight - 1;
-      if lcolumn.dl_yl < 0 then
-        lcolumn.dl_yl := 0;
+    if lcolumn.dl_yh >= viewheight then
+      lcolumn.dl_yh := viewheight - 1;
+    if lcolumn.dl_yl < 0 then
+      lcolumn.dl_yl := 0;
 
-      drawcolumnlightmap(lcolumn);
-    end;
+    drawcolumnlightmap(lcolumn);
     frac := frac + fracstep;
-    inc(lcolumn.dl_x);
+    inc(lcolumn.dl_x, numlthreads);
   end;
 end;
 
