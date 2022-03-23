@@ -1794,8 +1794,13 @@ begin
     {$ENDIF}
 
     mscale := mip.mipscale;
-    // Obtain sorted back to front column list
-    mipcols := mip.columnssortorder[rot];
+
+    if depthbufferactive then
+      // Obtain sorted front to back column list
+      mipcols := mip.columnssortorder[(rot + 4) and 7]
+    else
+      // Obtain sorted back to front column list
+      mipcols := mip.columnssortorder[rot];
 
     floorz := thing.floorz;
     ceilz := thing.ceilingz;
