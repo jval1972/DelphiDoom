@@ -194,7 +194,7 @@ var
   destl: PLongWord;
 begin
   destl := @((ylookupdb[curbuffer][ds_y]^)[columnofs[ds_x1]]);
-  memseti(destl, db_distance, ds_x2 - ds_x1 + 1);
+  FillDWord(destl, ds_x2 - ds_x1 + 1, db_distance);
 end;
 
 type
@@ -270,7 +270,7 @@ begin
   begin
     info := @dbspancacheinfo[i];
     if (info.y >= p.start) and (info.y <= p.finish) then
-      memseti(info.destl, info.distance, info.len);
+      FillDWord(info.destl, info.len, info.distance);
   end;
   result := 0;
 end;
