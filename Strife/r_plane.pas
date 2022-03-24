@@ -515,9 +515,9 @@ begin
   cc.sm1 := -1;
   cc.sm2 := -1;
   vv := PInteger(@ff)^;
-  memseti(@floorclip, vv, viewwidth div 2);
+  FillDWord(@floorclip, viewwidth div 2, vv);
   vv := PInteger(@cc)^;
-  memseti(@ceilingclip, vv, viewwidth div 2);
+  FillDWord(@ceilingclip, viewwidth div 2, vv);
 
   if Odd(viewwidth) then // JVAL: This shouldn't happen
   begin
