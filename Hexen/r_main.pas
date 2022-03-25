@@ -63,6 +63,7 @@ const
 
   MAXLIGHTSCALE = 48;
   LIGHTSCALESHIFT = 12;
+  LIGHTSCALEUNIT = 1 shl LIGHTSCALESHIFT;
   HLL_MAXLIGHTSCALE = MAXLIGHTSCALE * 64;
 
   MAXLIGHTZ = 128;
@@ -353,6 +354,7 @@ type
 var
   fog_zlight: zlight_t;
   zlight: zlight_t;
+  renderlightscale: integer;
 
 var
   zlightlevels: array[0..LIGHTLEVELS - 1, 0..HLL_MAXLIGHTZ - 1] of fixed_t;
@@ -2730,6 +2732,7 @@ begin
   shiftangle := player.lookdir2;
   viewangle := player.mo.angle + shiftangle * DIR256TOANGLEUNIT + viewangleoffset;
   extralight := player.extralight;
+  renderlightscale := (SCREENWIDTH * LIGHTSCALEUNIT) div 320;
 
   viewz := player.viewz;
 

@@ -154,7 +154,8 @@ begin
       {$IFDEF USEDOUBLE}
       index := _SHR(Round(rw_scale_dbl * 320 / SCREENWIDTH), LIGHTSCALESHIFT);
       {$ELSE}
-      index := _SHR(rw_scale * 320 div SCREENWIDTH, LIGHTSCALESHIFT);
+      // Old code: index := _SHR(rw_scale * 320 div SCREENWIDTH, LIGHTSCALESHIFT);
+      index := rw_scale div renderlightscale;
       {$ENDIF}
 
       if index >= MAXLIGHTSCALE then
@@ -172,7 +173,7 @@ begin
       end;
 {$ENDIF}
 
-      if (not forcecolormaps) and (fixedcolormap = nil) then
+      if not forcecolormaps and (fixedcolormap = nil) then
       begin
         {$IFDEF USEDOUBLE}
         index := Round(rw_scale_dbl * 320 / (1 shl (HLL_LIGHTSCALESHIFT + 2)) / SCREENWIDTH);
