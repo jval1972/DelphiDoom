@@ -217,45 +217,36 @@ end;
 
 //==============================================================================
 //
-// R_FlashWallColumns32
+// R_RenderWall32
 //
 //==============================================================================
-procedure R_FlashWallColumns32(const idx: PInteger);
+procedure R_RenderWall32(walls: Pbatchwallrenderinfo32_t);
 var
+  nwalls: integer;
   w: Pwallrenderinfo32_t;
-  walls: Pbatchwallrenderinfo32_t;
   i: integer;
   {$IFNDEF OPTIMIZE_FOR_SIZE}
   w_height: integer;
   {$ENDIF}
 begin
-  walls := @wallcache[idx^];
-  if walls.numwalls = 0 then
-    exit;
-
-  if usemultithread then
-  begin
-    R_AddWallsToCache32(idx);
-    exit;
-  end;
-
+  nwalls := walls.numwalls;
   {$IFNDEF OPTIMIZE_FOR_SIZE}
   w_height := walls.dc_height;
   {$ENDIF}
-  case walls.numwalls of
-    MAXBATCHWALLS:
-      begin
-        {$IFNDEF OPTIMIZE_FOR_SIZE}
-        if w_height = 128 then
-          R_DrawBatchColumnHi8_128(walls)
-        else if w_height = 256 then
-          R_DrawBatchColumnHi8_256(walls)
-        else if w_height = 512 then
-          R_DrawBatchColumnHi8_512(walls)
-        else {$ENDIF}
-          R_DrawBatchColumnHi8_TC(walls);
-        walls.numwalls := 0;
-      end;
+  if nwalls = MAXBATCHWALLS then
+  begin
+    {$IFNDEF OPTIMIZE_FOR_SIZE}
+    if w_height = 128 then
+      R_DrawBatchColumnHi8_128(walls)
+    else if w_height = 256 then
+      R_DrawBatchColumnHi8_256(walls)
+    else if w_height = 512 then
+      R_DrawBatchColumnHi8_512(walls)
+    else {$ENDIF}
+      R_DrawBatchColumnHi8_TC(walls);
+    walls.numwalls := 0;
+  end
+  else case nwalls of
     7:
       begin
         {$IFNDEF OPTIMIZE_FOR_SIZE}
@@ -359,6 +350,27 @@ begin
     end;
   end;
 end;
+//==============================================================================
+//
+// R_FlashWallColumns32
+//
+//==============================================================================
+procedure R_FlashWallColumns32(const idx: PInteger);
+var
+  walls: Pbatchwallrenderinfo32_t;
+begin
+  walls := @wallcache[idx^];
+  if walls.numwalls = 0 then
+    exit;
+
+  if usemultithread then
+  begin
+    R_AddWallsToCache32(idx);
+    exit;
+  end;
+
+  R_RenderWall32(walls);
+end;
 
 //==============================================================================
 //
@@ -423,10 +435,11 @@ var
   numwallthreads32: Integer = 0;
 
 type
+  Pwallthreadparms32_t = ^wallthreadparms32_t;
   wallthreadparms32_t = record
     start, stop: integer;
+    next: Pwallthreadparms32_t;
   end;
-  Pwallthreadparms32_t = ^wallthreadparms32_t;
 
 //==============================================================================
 //
@@ -435,200 +448,32 @@ type
 //==============================================================================
 function _wall_thread_worker32(parms: Pwallthreadparms32_t): integer; stdcall;
 var
+  start, stop, part: integer;
   i: integer;
-  walls: Pbatchwallrenderinfo32_t;
-  nwalls: integer;
-  {$IFNDEF OPTIMIZE_FOR_SIZE}
-  w_height: integer;
-  {$ENDIF}
 begin
-  for i := parms.start to parms.stop do
+  while parms.start <= parms.stop do
   begin
-    walls := @wallcache[i];
-    nwalls := walls.numwalls;
-    {$IFNDEF OPTIMIZE_FOR_SIZE}
-    w_height := walls.dc_height;
-    if w_height = 128 then
-    begin
-      if nwalls = MAXBATCHWALLS then
-      begin
-        R_DrawBatchColumnHi8_128(walls);
-        walls.numwalls := 0;
-      end
-      else case nwalls of
-        7:
-          begin
-            R_DrawBatchColumnHi7_128(walls);
-            walls.numwalls := 0;
-          end;
-        6:
-          begin
-            R_DrawBatchColumnHi6_128(walls);
-            walls.numwalls := 0;
-          end;
-        5:
-          begin
-            R_DrawBatchColumnHi5_128(walls);
-            walls.numwalls := 0;
-          end;
-        4:
-          begin
-            R_DrawBatchColumnHi4_128(walls);
-            walls.numwalls := 0;
-          end;
-        3:
-          begin
-            R_DrawBatchColumnHi3_128(walls);
-            walls.numwalls := 0;
-          end;
-        2:
-          begin
-            R_DrawBatchColumnHi2_128(walls);
-            walls.numwalls := 0;
-          end;
-        1:
-          begin
-            R_DrawBatchColumnHi1_128(walls);
-            walls.numwalls := 0;
-          end;
-      end;
-    end
-    else if w_height = 256 then
-    begin
-      if nwalls = MAXBATCHWALLS then
-      begin
-        R_DrawBatchColumnHi8_256(walls);
-        walls.numwalls := 0;
-      end
-      else case nwalls of
-        7:
-          begin
-            R_DrawBatchColumnHi7_256(walls);
-            walls.numwalls := 0;
-          end;
-        6:
-          begin
-            R_DrawBatchColumnHi6_256(walls);
-            walls.numwalls := 0;
-          end;
-        5:
-          begin
-            R_DrawBatchColumnHi5_256(walls);
-            walls.numwalls := 0;
-          end;
-        4:
-          begin
-            R_DrawBatchColumnHi4_256(walls);
-            walls.numwalls := 0;
-          end;
-        3:
-          begin
-            R_DrawBatchColumnHi3_256(walls);
-            walls.numwalls := 0;
-          end;
-        2:
-          begin
-            R_DrawBatchColumnHi2_256(walls);
-            walls.numwalls := 0;
-          end;
-        1:
-          begin
-            R_DrawBatchColumnHi1_256(walls);
-            walls.numwalls := 0;
-          end;
-      end;
-    end
-    else if w_height = 512 then
-    begin
-      if nwalls = MAXBATCHWALLS then
-      begin
-        R_DrawBatchColumnHi8_512(walls);
-        walls.numwalls := 0;
-      end
-      else case nwalls of
-        7:
-          begin
-            R_DrawBatchColumnHi7_512(walls);
-            walls.numwalls := 0;
-          end;
-        6:
-          begin
-            R_DrawBatchColumnHi6_512(walls);
-            walls.numwalls := 0;
-          end;
-        5:
-          begin
-            R_DrawBatchColumnHi5_512(walls);
-            walls.numwalls := 0;
-          end;
-        4:
-          begin
-            R_DrawBatchColumnHi4_512(walls);
-            walls.numwalls := 0;
-          end;
-        3:
-          begin
-            R_DrawBatchColumnHi3_512(walls);
-            walls.numwalls := 0;
-          end;
-        2:
-          begin
-            R_DrawBatchColumnHi2_512(walls);
-            walls.numwalls := 0;
-          end;
-        1:
-          begin
-            R_DrawBatchColumnHi1_512(walls);
-            walls.numwalls := 0;
-          end;
-      end;
-    end
-    else {$ENDIF}
-    begin
-      if nwalls = MAXBATCHWALLS then
-      begin
-        R_DrawBatchColumnHi8_TC(walls);
-        walls.numwalls := 0;
-      end
-      else case nwalls of
-        7:
-          begin
-            R_DrawBatchColumnHi7_TC(walls);
-            walls.numwalls := 0;
-          end;
-        6:
-          begin
-            R_DrawBatchColumnHi6_TC(walls);
-            walls.numwalls := 0;
-          end;
-        5:
-          begin
-            R_DrawBatchColumnHi5_TC(walls);
-            walls.numwalls := 0;
-          end;
-        4:
-          begin
-            R_DrawBatchColumnHi4_TC(walls);
-            walls.numwalls := 0;
-          end;
-        3:
-          begin
-            R_DrawBatchColumnHi3_TC(walls);
-            walls.numwalls := 0;
-          end;
-        2:
-          begin
-            R_DrawBatchColumnHi2_TC(walls);
-            walls.numwalls := 0;
-          end;
-        1:
-          begin
-            R_DrawBatchColumnHi1_TC(walls);
-            walls.numwalls := 0;
-          end;
-      end;
-    end
+    R_RenderWall32(@wallcache[parms.start]);
+    Inc(parms.start);
   end;
+
+  while true do
+  begin
+    parms := parms.next;
+    start := parms.start;
+    stop := parms.stop;
+    part := (stop - start) div 2;
+    if part > 2 then
+    begin
+      parms.stop := parms.stop - part;
+      start := parms.stop + 1;
+      for i := start to stop do
+        R_RenderWall32(@wallcache[i]);
+    end
+    else if part < 1 then
+      Break;
+  end;
+
   result := 0;
 end;
 
@@ -763,6 +608,10 @@ begin
   for i := 0 to numwallthreads32 - 2 do
     parms[i].stop := parms[i + 1].start - 1;
   parms[numwallthreads32 - 1].stop := wallcachesize - 1;
+
+  for i := 0 to numwallthreads32 - 2 do
+    parms[i].next := @parms[i + 1];
+  parms[numwallthreads32 - 1].next := @parms[0];
 
   for i := 0 to numwallthreads32 - 1 do
     if parms[i].start <= parms[i].stop then
