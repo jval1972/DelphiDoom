@@ -125,6 +125,7 @@ uses
   doomdef,
   i_system,
   i_threads,
+  mt_utils,
   r_column,
   r_tallcolumn,
   r_draw,
@@ -161,7 +162,65 @@ uses
 var
   wallcache: Pbatchwallrenderinfo8_tArray;
   wallcachesize: integer;
+  oldwallcachesize: integer;
   wallcacherealsize: integer;
+
+type
+  wallthreadparms8_t = record
+    start, stop: integer;
+    {$IFDEF DEBUG}
+    curr: integer;
+    {$ENDIF}
+  end;
+  Pwallthreadparms8_t = ^wallthreadparms8_t;
+
+// Task scheduling
+// While rendering the bsp, the engine will spawn tasks to render
+// walls in a separate thread before the bsp ends. After ending the bsp traverse
+// it will render the remaining walls using multiple threads.
+const
+  TASK_WALL_SIZE = 32;
+  TASK_THRESHOLD = 256;
+  MAX_TASKS = 4;
+
+type
+  walltaskinfo_t = record
+    id: integer;
+    nwalls: integer;
+    {$IFDEF DEBUG}
+    taskno: integer;
+    {$ENDIF}
+    params: wallthreadparms8_t;
+  end;
+  Pwalltaskinfo_t = ^walltaskinfo_t;
+
+var
+  wtasks: array[0..MAX_TASKS - 1] of walltaskinfo_t;
+  numwtasks: integer;
+
+//==============================================================================
+//
+// R_WaitWallsTasks8
+// Waits for tasks to terminate
+//
+//==============================================================================
+procedure R_WaitWallsTasks8;
+var
+  t: integer;
+begin
+  for t := 0 to MinI(numwtasks, MAX_TASKS) - 1 do
+    if wtasks[t].id >= 0 then
+    begin
+      MT_WaitTask(wtasks[t].id);
+      wtasks[t].id := -1;
+      wtasks[t].nwalls := 0;
+      {$IFDEF DEBUG}
+      wtasks[t].taskno := -1;
+      {$ENDIF}
+      wtasks[t].params.start := 0;
+      wtasks[t].params.stop := 0;
+    end;
+end;
 
 //==============================================================================
 //
@@ -172,19 +231,94 @@ procedure R_GrowWallsCache8;
 begin
   if wallcachesize >= wallcacherealsize then
   begin
-    realloc(Pointer(wallcache), wallcacherealsize * SizeOf(batchwallrenderinfo8_t), (64 + wallcacherealsize) * SizeOf(batchwallrenderinfo8_t));
-    wallcacherealsize := wallcacherealsize + 64;
+    // JVAL: 20220325 - Wait for pending tasks to complete before re-allocating
+    if usemultithread then
+      R_WaitWallsTasks8;
+    realloc(Pointer(wallcache), wallcacherealsize * SizeOf(batchwallrenderinfo8_t), (TASK_WALL_SIZE + wallcacherealsize) * SizeOf(batchwallrenderinfo8_t));
+    wallcacherealsize := wallcacherealsize + TASK_WALL_SIZE;
   end;
 end;
 
 //==============================================================================
 //
-// R_AddWallsToCache8
+// R_TaskExecute8
 //
 //==============================================================================
+procedure R_TaskExecute8(const parm: pointer); forward;
+
+//==============================================================================
+//
+// R_AddWallsToCache8
+//                 
+//==============================================================================
 procedure R_AddWallsToCache8(const idx: PInteger);
+var
+  id: integer;
+  freetask: integer;
 begin
   R_GrowWallsCache8;
+                      //if False then
+  if wallcachesize and (TASK_WALL_SIZE - 1) = 0 then
+    if oldwallcachesize > TASK_THRESHOLD then
+      if wallcachesize + 6 < wallcacherealsize then
+      begin
+        freetask := numwtasks;
+{        if freetask >= MAX_TASKS then
+        begin
+          freetask := 0;
+          while freetask < MAX_TASKS do
+          begin
+            if MT_CheckPendingTask(wtasks[freetask].id) then
+            begin
+              MT_WaitTask(wtasks[freetask].id);
+              Break;
+            end;
+            Inc(freetask);
+          end;
+        end;}
+        if freetask < MAX_TASKS then
+        begin
+          wtasks[freetask].nwalls := wallcachesize;
+          {$IFDEF DEBUG}
+          wtasks[freetask].taskno := numwtasks + 1;
+          {$ENDIF}
+          wtasks[freetask].params.start := numwtasks * TASK_WALL_SIZE;
+          {$IFDEF DEBUG}
+          wtasks[freetask].params.curr := wtasks[freetask].params.start;
+          {$ENDIF}
+          wtasks[freetask].params.stop := (numwtasks + 1) * TASK_WALL_SIZE - 1;
+          id := MT_TryScheduleTask(R_TaskExecute8, @wtasks[freetask]);
+          if id >= 0 then
+          begin
+            wtasks[freetask].id := id;
+            MT_ExecutePendingTask(id);
+            Inc(numwtasks);
+            // Normal drawing
+            midwalls8 := wallcachesize + 0;
+            lowerwalls8 := wallcachesize + 1;
+            upperwalls8 := wallcachesize + 2;
+            // JVAL: 3d Floors
+            midwalls8b := wallcachesize + 3;
+            lowerwalls8b := wallcachesize + 4;
+            upperwalls8b := wallcachesize + 5;
+            wallcache[midwalls8].numwalls := 0;
+            wallcache[lowerwalls8].numwalls := 0;
+            wallcache[upperwalls8].numwalls := 0;
+            wallcache[midwalls8b].numwalls := 0;
+            wallcache[lowerwalls8b].numwalls := 0;
+            wallcache[upperwalls8b].numwalls := 0;
+            Inc(wallcachesize, 6);
+            {$IFDEF DEBUG}
+            printf('numwtasks=%d'#13#10, [numwtasks]);
+            for id := 0 to MAX_TASKS - 1 do
+              printf('id=%2d, taskno=%2d, nwalls=%4d, curr=%4d, (%4d,%4d)'#13#10, [wtasks[id].id, wtasks[id].taskno, wtasks[id].nwalls, wtasks[id].params.curr, wtasks[id].params.start, wtasks[id].params.stop]);
+            printf(#13#10);
+            {$ENDIF}
+            exit;
+          end;
+        end;
+      end;
+
   idx^ := wallcachesize;
   wallcache[wallcachesize].numwalls := 0;
   inc(wallcachesize);
@@ -383,12 +517,6 @@ var
   wallthreads8: array[0..MAXWALLTHREADS8 - 1] of TDThread;
   numwallthreads8: Integer = 0;
 
-type
-  wallthreadparms8_t = record
-    start, stop: integer;
-  end;
-  Pwallthreadparms8_t = ^wallthreadparms8_t;
-
 //==============================================================================
 //
 // _wall_thread_worker8
@@ -405,6 +533,9 @@ var
 begin
   for i := parms.start to parms.stop do
   begin
+    {$IFDEF DEBUG}
+    parms.curr := i;
+    {$ENDIF}
     walls := @wallcache[i];
     nwalls := walls.numwalls;
     {$IFNDEF OPTIMIZE_FOR_SIZE}
@@ -590,7 +721,20 @@ begin
       end;
     end;
   end;
+  {$IFDEF DEBUG}
+  parms.curr := parms.stop + 1;
+  {$ENDIF}
   result := 0;
+end;
+
+//==============================================================================
+//
+// R_TaskExecute8
+//
+//==============================================================================
+procedure R_TaskExecute8(const parm: pointer);
+begin
+  _wall_thread_worker8(@Pwalltaskinfo_t(parm).params);
 end;
 
 var
@@ -606,7 +750,11 @@ var
   i: integer;
 begin
   wallcache := nil;
+  oldwallcachesize := 0;
   wallcachesize := 0;
+  numwtasks := 0;
+  for i := 0 to MAX_TASKS - 1 do
+    wtasks[i].id := -1;
   wallcacherealsize := 0;
   R_GrowWallsCache8;
   midwalls8 := 0;
@@ -660,7 +808,15 @@ end;
 //
 //==============================================================================
 procedure R_ClearWallsCache8;
+var
+  i: integer;
 begin
+  // JVAL: 20220324 - Scheduling stuff
+  numwtasks := 0;
+  for i := 0 to MAX_TASKS - 1 do
+    wtasks[i].id := -1;
+  oldwallcachesize := wallcachesize;
+  // Normal drawing
   midwalls8 := 0;
   lowerwalls8 := 1;
   upperwalls8 := 2;
@@ -684,6 +840,7 @@ var
   i: integer;
   newnumthreads: integer;
   step: float;
+  offs: integer;
 begin
   if force_numwallrenderingthreads_8bit > 0 then
   begin
@@ -718,17 +875,27 @@ begin
     numwallthreads8 := newnumthreads;
   end;
 
-  step := wallcachesize / numwallthreads8;
-  parms[0].start := 0;
+  offs := numwtasks * TASK_WALL_SIZE;
+  step := (wallcachesize - offs) / numwallthreads8;
+  parms[0].start := offs;
   for i := 1 to numwallthreads8 - 1 do
-    parms[i].start := Round(step * i);
+    parms[i].start := Round(step * i) + offs;
   for i := 0 to numwallthreads8 - 2 do
     parms[i].stop := parms[i + 1].start - 1;
   parms[numwallthreads8 - 1].stop := wallcachesize - 1;
 
+  {$IFDEF DEBUG}
+  for i := 0 to numwallthreads8 - 1 do
+    parms[i].curr := parms[i].start;
+  {$ENDIF}
+
   for i := 0 to numwallthreads8 - 1 do
     if parms[i].start <= parms[i].stop then
       wallthreads8[i].Activate(@parms[i]);
+
+  for i := 0 to MinI(numwtasks, MAX_TASKS) - 1 do
+    if wtasks[i].id >= 0 then
+      MT_CheckPendingTask(wtasks[i].id);
 end;
 
 //==============================================================================
@@ -759,6 +926,8 @@ var
   end;
 
 begin
+  R_WaitWallsTasks8;
+
   doneid := 0;
   while not _alldone do
     I_Sleep(0);

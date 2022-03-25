@@ -97,12 +97,18 @@ begin
       I_Sleep(0);
     end;
     if th.fterminated then
+    begin
+//      ExitThread(0);
       exit;
+    end;
     th.frunning := true;
     th.ffunc(th.fparms);
     th.frunning := false;
     if th.fterminated then
+    begin
+//      ExitThread(0);
       exit;
+    end;
     th.fstatus := THR_IDLE;
   end;
 end;

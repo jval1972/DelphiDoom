@@ -234,13 +234,37 @@ type
 procedure MT_Iterate(const func: threadfunc_t; const data: pointer;
   const nthreads: integer = 0);
 
-//==============================================================================
-// MT_ScheduleTask
 //
 // Background tasks
 //
+
 //==============================================================================
-function MT_ScheduleTask(const proc: PProcedure): integer;
+//
+// MT_ScheduleTask
+//
+//==============================================================================
+function MT_ScheduleTask(const proc: PProcedure): integer; overload;
+
+//==============================================================================
+//
+// MT_ScheduleTask
+//
+//==============================================================================
+function MT_ScheduleTask(const proc: PPointerParmProcedure; const parm: pointer): integer; overload;
+
+//==============================================================================
+//
+// MT_TryScheduleTask
+//
+//==============================================================================
+function MT_TryScheduleTask(const proc: PProcedure): integer; overload;
+
+//==============================================================================
+//
+// MT_TryScheduleTask
+//
+//==============================================================================
+function MT_TryScheduleTask(const proc: PPointerParmProcedure; const parm: pointer): integer; overload;
 
 //==============================================================================
 //
@@ -248,6 +272,13 @@ function MT_ScheduleTask(const proc: PProcedure): integer;
 //
 //==============================================================================
 procedure MT_ExecutePendingTask(const id: integer);
+
+//==============================================================================
+//
+// MT_CheckPendingTask
+//
+//==============================================================================
+function MT_CheckPendingTask(const id: integer): boolean;
 
 //==============================================================================
 //
@@ -1306,7 +1337,13 @@ end;
 type
   taskinfo_t = record
     id: integer;
-    proc: PProcedure;
+    parm: pointer;
+    nparms: integer;
+    proc: record
+    case integer of
+      0: (proc0: PProcedure);
+      1: (proc1: PPointerParmProcedure);
+    end;
   end;
   Ptaskinfo_t = ^taskinfo_t;
 
@@ -1323,10 +1360,14 @@ var
   pt: Ptaskinfo_t;
 begin
   pt := p;
-  pt.proc;
+  if pt.nparms = 0 then
+    pt.proc.proc0
+  else if pt.nparms = 1 then
+    pt.proc.proc1(pt.parm);
   result := pt.id;
   pt.id := -1;
-  pt.proc := nil;
+  pt.proc.proc0 := nil;
+  pt.proc.proc1 := nil;
 end;
 
 //==============================================================================
@@ -1335,18 +1376,66 @@ end;
 //
 //==============================================================================
 function MT_ScheduleTask(const proc: PProcedure): integer;
+begin
+  result := MT_TryScheduleTask(proc);
+  if result < 0 then
+    proc;
+end;
+
+//==============================================================================
+//
+// MT_ScheduleTask
+//
+//==============================================================================
+function MT_ScheduleTask(const proc: PPointerParmProcedure; const parm: pointer): integer;
+begin
+  result := MT_TryScheduleTask(proc, parm);
+  if result < 0 then
+    proc(parm);
+end;
+
+//==============================================================================
+//
+// MT_TryScheduleTask
+//
+//==============================================================================
+function MT_TryScheduleTask(const proc: PProcedure): integer;
 var
   i: integer;
 begin
   for i := 0 to NUMTASKTHREADS - 1 do
-    if not Assigned(tasks[i].proc) then
+    if not Assigned(tasks[i].proc.proc0) then
     begin
       tasks[i].id := i;
-      tasks[i].proc := proc;
+      tasks[i].parm := nil;
+      tasks[i].nparms := 0;
+      tasks[i].proc.proc0 := proc;
       result := i;
       exit;
     end;
-  proc;
+  result := -1;
+end;
+
+//==============================================================================
+//
+// MT_TryScheduleTask
+//
+//==============================================================================
+function MT_TryScheduleTask(const proc: PPointerParmProcedure; const parm: pointer): integer;
+var
+  i: integer;
+begin
+  for i := 0 to NUMTASKTHREADS - 1 do
+    if not Assigned(tasks[i].proc.proc0) then
+    begin
+      task_threads[i].Wait;
+      tasks[i].id := i;
+      tasks[i].parm := parm;
+      tasks[i].nparms := 1;
+      tasks[i].proc.proc1 := proc;
+      result := i;
+      exit;
+    end;
   result := -1;
 end;
 
@@ -1357,8 +1446,20 @@ end;
 //==============================================================================
 procedure MT_ExecutePendingTask(const id: integer);
 begin
-  if Assigned(tasks[id].proc) then
+  if Assigned(tasks[id].proc.proc0) then
     task_threads[id].Activate(_execute_task, @tasks[id]);
+end;
+
+//==============================================================================
+//
+// MT_CheckPendingTask
+//
+//==============================================================================
+function MT_CheckPendingTask(const id: integer): boolean;
+begin
+  result := task_threads[id].CheckJobDone;
+  if not Assigned(tasks[id].proc.proc0) then
+    result := true; // No job
 end;
 
 //==============================================================================
@@ -1371,7 +1472,7 @@ var
   i: integer;
 begin
   for i := 0 to NUMTASKTHREADS - 1 do
-    if Assigned(tasks[i].proc) then
+    if Assigned(tasks[i].proc.proc0) then
       task_threads[i].Activate(_execute_task, @tasks[i]);
 end;
 
@@ -1384,7 +1485,7 @@ procedure MT_WaitTask(const id: integer);
 begin
   if (id < 0) or (id >= NUMTASKTHREADS) then
     exit;
-  if Assigned(tasks[id].proc) then
+//  if Assigned(tasks[id].proc.proc0) then
     task_threads[id].Wait;
 end;
 
@@ -1398,7 +1499,7 @@ var
   i: integer;
 begin
   for i := 0 to NUMTASKTHREADS - 1 do
-    if Assigned(tasks[i].proc) then
+//    if Assigned(tasks[i].proc.proc0) then
       task_threads[i].Wait;
 end;
 
