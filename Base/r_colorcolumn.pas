@@ -1378,6 +1378,63 @@ const
 var
   R_DrawColorColumnHi_bcTable: array[1..R_DrawColorColumnHi_bc_cnt] of DrawColorColumnHi_bc_proc;
 
+procedure R_DrawColorColumnHi_bc_len(const count: integer; const len: integer);
+var
+  destl: PLongWord;
+  ldest: LongWord;
+  c: LongWord;
+  cnt: integer;
+  swidth: integer;
+  lfactor: integer;
+  r1, g1, b1: byte;
+  bf_r: PIntegerArray;
+  bf_g: PIntegerArray;
+  bf_b: PIntegerArray;
+  pal: PLongWordArray;
+begin
+  {$IFDEF DOOM_OR_STRIFE}
+  if customcolormap <> nil then
+    pal := @cvideopal
+  else
+  {$ENDIF}
+    pal := @curpal;
+
+  destl := @((ylookupl[dc_yl]^)[columnofs[dc_x]]);
+  swidth := SCREENWIDTH32PITCH;
+
+  lfactor := dc_lightlevel;
+  if lfactor >= 0 then
+  begin
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
+    c := pal[dc_color];
+    ldest := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
+
+    cnt := count;
+    while cnt > 0 do
+    begin
+      FillDWord(destl, len, ldest);
+      destl := PLongWord(integer(destl) + swidth);
+      dec(cnt);
+    end;
+  end
+  else
+  begin
+    c := pal[dc_color];
+    r1 := c;
+    g1 := c shr 8;
+    b1 := c shr 16;
+    ldest := precal32_ic[r1 + g1 + b1];
+
+    cnt := count;
+    while cnt > 0 do
+    begin
+      FillDWord(destl, len, ldest);
+      destl := PLongWord(integer(destl) + swidth);
+      dec(cnt);
+    end;
+  end;
+end;
+
 {$ENDIF}
 
 //==============================================================================
@@ -1408,11 +1465,13 @@ begin
 
 {$IFNDEF OPTIMIZE_FOR_SIZE}
   if num_batch_columns > 0 then
+  begin
     if num_batch_columns <= R_DrawColorColumnHi_bc_cnt then
-    begin
-      R_DrawColorColumnHi_bcTable[num_batch_columns](count + 1);
-      exit;
-    end;
+      R_DrawColorColumnHi_bcTable[num_batch_columns](count + 1)
+    else
+      R_DrawColorColumnHi_bc_len(count + 1, num_batch_columns);
+    exit;
+  end;
 
   if count = 0 then
   begin
