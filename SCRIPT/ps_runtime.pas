@@ -14052,7 +14052,7 @@ begin
         btSet:
           begin
             ltemp := 0;
-            move(Byte(n.Dta^), ltemp, TPSTypeRec_Set(n.aType).aByteSize);
+            Move(Byte(n.Dta^), ltemp, TPSTypeRec_Set(n.aType).aByteSize);
             SetOrdProp(TObject(FSelf), PPropInfo(p.Ext1), ltemp);
           end;
         btChar,
@@ -14136,7 +14136,7 @@ begin
         btSet:
           begin
             ltemp := GetOrdProp(TObject(FSelf), PPropInfo(p.Ext1));
-            move(ltemp, Byte(n.Dta^), TPSTypeRec_Set(n.aType).aByteSize);
+            Move(ltemp, Byte(n.Dta^), TPSTypeRec_Set(n.aType).aByteSize);
           end;
         btU8:
           TbtU8(n.Dta^) := GetOrdProp(TObject(FSelf), p.Ext1);
