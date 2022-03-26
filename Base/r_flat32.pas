@@ -223,26 +223,63 @@ end;
 const
   MAXFLATRENDERINGTHREADS32 = 16;
 
+type
+  Pflatthreadparams32_t = ^flatthreadparams32_t;
+  flatthreadparams32_t = record
+    start, stop: integer;
+    next: Pflatthreadparams32_t;
+  end;
+
+var
+  R: array[0..MAXFLATRENDERINGTHREADS32 - 1] of flatthreadparams32_t; // JVAL: 20220320 - Made global
+
+
 //==============================================================================
 //
 // _flat_thread_worker32
 //
 //==============================================================================
-procedure _flat_thread_worker32(const p: pointer); stdcall;
+function _flat_thread_worker32(parms: Pflatthreadparams32_t): integer; stdcall;
 var
-  item1, item2: Pflatrenderinfo32_t;
+  item: Pflatrenderinfo32_t;
+  start, stop, part: integer;
+  i: integer;
 begin
-  item1 := @flatcache32[mt_range_p(p).start];
-  item2 := @flatcache32[mt_range_p(p).finish];
-  while integer(item1) <= integer(item2) do
+  while parms.start <= parms.stop do
   begin
-    item1.func(item1);
-    inc(item1);
+    item := @flatcache32[parms.start];
+    item.func(item);
+    Inc(parms.start);
   end;
-end;
 
-var
-  R: array[0..MAXFLATRENDERINGTHREADS32 - 1] of mt_range_t; // JVAL: 20220320 - Made global
+  if parms = @R[0] then
+  begin
+    Result := 0;
+    Exit;
+  end;
+
+  while true do
+  begin
+    parms := parms.next;
+    start := parms.start;
+    stop := parms.stop;
+    part := (stop - start) div 2;
+    if part > 2 then
+    begin
+      parms.stop := parms.stop - part;
+      start := parms.stop + 1;
+      for i := start to stop do
+      begin
+        item := @flatcache32[i];
+        item.func(item);
+      end;
+    end
+    else if part < 1 then
+      Break;
+  end;
+
+  result := 0;
+end;
 
 //==============================================================================
 //
@@ -284,7 +321,8 @@ begin
   if flatcachesize32 < numthreads then
   begin
     R[0].start := 0;
-    R[0].finish := flatcachesize32 - 1;
+    R[0].stop := flatcachesize32 - 1;
+    R[0].next := @R[0];
     _flat_thread_worker32(@R[0]);
     flatcachesize32 := 0;
     exit;
@@ -295,8 +333,12 @@ begin
   for i := 1 to numthreads - 1 do
     R[i].start := Round(step * i);
   for i := 0 to numthreads - 2 do
-    R[i].finish := R[i + 1].start - 1;
-  R[numthreads - 1].finish := flatcachesize32 - 1;
+    R[i].stop := R[i + 1].start - 1;
+  R[numthreads - 1].stop := flatcachesize32 - 1;
+
+  for i := 0 to numthreads - 2 do
+    R[i].next := @R[i + 1];
+  R[numthreads - 1].next := @R[0];
 
   case numthreads of
    2:
@@ -489,15 +531,15 @@ end;
 // _flat3D_thread_worker32
 //
 //==============================================================================
-procedure _flat3D_thread_worker32(const p: pointer); stdcall;
+function _flat3D_thread_worker32(parms: Pflatthreadparams32_t): integer; stdcall;
 var
   item1, item2: Pflatrenderinfo32_t;
   start, finish: integer;
 begin
   item1 := @flatcache32[0];
   item2 := @flatcache32[flatcachesize32 - 1];
-  start := mt_range_p(p).start;
-  finish := mt_range_p(p).finish;
+  start := parms.start;
+  finish := parms.stop;
   while integer(item1) <= integer(item2) do
   begin
     if item1.ds_y >= start then
@@ -505,6 +547,8 @@ begin
         item1.func(item1);
     inc(item1);
   end;
+
+  Result := 0;
 end;
 
 //==============================================================================
@@ -547,7 +591,8 @@ begin
   if viewheight < numthreads then
   begin
     R[0].start := 0;
-    R[0].finish := viewheight - 1;
+    R[0].stop := viewheight - 1;
+    R[0].next := @R[0];
     _flat3D_thread_worker32(@R[0]);
     flatcachesize32 := 0;
     exit;
@@ -558,8 +603,12 @@ begin
   for i := 1 to numthreads - 1 do
     R[i].start := Round(step * i);
   for i := 0 to numthreads - 2 do
-    R[i].finish := R[i + 1].start - 1;
-  R[numthreads - 1].finish := viewheight - 1;
+    R[i].stop := R[i + 1].start - 1;
+  R[numthreads - 1].stop := viewheight - 1;
+
+  for i := 0 to numthreads - 2 do
+    R[i].next := @R[i + 1];
+  R[numthreads - 1].next := @R[0];
 
   case numthreads of
    2:
