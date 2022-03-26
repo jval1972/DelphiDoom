@@ -360,6 +360,150 @@ var
 //
 {$IFNDEF OPENGL}
 
+var
+  solidcol: packed array[0..MAXWIDTH - 1] of Byte;
+
+function R_SearchSolidCol0(offs, len: Integer): Integer;
+var
+  i: integer;
+  stop: integer;
+begin
+  i := offs;
+  stop := (offs + len) and not 3;
+
+  while i < stop do
+  begin
+    if PLongWord(@solidcol[i])^ = $01010101 then
+      Inc(i, 4)
+    else
+    begin
+      if solidcol[i] = 0 then
+      begin
+        Result := i;
+        exit;
+      end;
+      Inc(i);
+      if i = stop then
+        break;
+      if solidcol[i] = 0 then
+      begin
+        Result := i;
+        exit;
+      end;
+      Inc(i);
+      if i = stop then
+        break;
+      if solidcol[i] = 0 then
+      begin
+        Result := i;
+        exit;
+      end;
+      if i = stop then
+        break;
+      Result := i + 1;
+      exit;
+    end;
+  end;
+
+  stop := (offs + len);
+
+  while i < stop do
+  begin
+    if solidcol[i] = 0 then
+    begin
+      Result := i;
+      exit;
+    end;
+    Inc(i);
+  end;
+
+  result := -1;
+end;
+
+function R_SearchSolidCol1(offs, len: Integer): Integer;
+var
+  i: integer;
+  stop: integer;
+begin
+  i := offs;
+  stop := (offs + len) and not 3;
+
+  while i < stop do
+  begin
+    if PLongWord(@solidcol[i])^ = 0 then
+      Inc(i, 4)
+    else
+    begin
+      if solidcol[i] = 1 then
+      begin
+        Result := i;
+        exit;
+      end;
+      Inc(i);
+      if i = stop then
+        break;
+      if solidcol[i] = 1 then
+      begin
+        Result := i;
+        exit;
+      end;
+      Inc(i);
+      if i = stop then
+        break;
+      if solidcol[i] = 1 then
+      begin
+        Result := i;
+        exit;
+      end;
+      if i = stop then
+        break;
+      Result := i + 1;
+      exit;
+    end;
+  end;
+
+  stop := (offs + len);
+
+  while i < stop do
+  begin
+    if solidcol[i] = 1 then
+    begin
+      Result := i;
+      exit;
+    end;
+    Inc(i);
+  end;
+
+  result := -1;
+end;
+
+procedure R_ClipWallSegment(first, last: integer; const solid: boolean);
+var
+  p, dest: integer;
+begin
+  while first < last do
+  begin
+    if solidcol[first] <> 0 then
+    begin
+      first := R_SearchSolidCol0(first, last - first);
+      if first < 0 then
+        exit; // All solid
+    end
+    else
+    begin
+      p := R_SearchSolidCol1(first, last - first);
+      if p < 0 then
+        dest := last
+      else
+        dest := p;
+      R_StoreWallRange(first, dest - 1);
+      if solid then
+        FillChar(solidcol[first], dest - first, 1);
+      first := dest;
+    end;
+  end;
+end;
+
 //==============================================================================
 //
 // R_ClipSolidWallSegment
@@ -524,6 +668,7 @@ begin
   newend.first := viewwidth;
   newend.last := $7fffffff;
   inc(newend);
+  ZeroMemory(@solidcol, SCREENWIDTH);
 end;
 
 var
@@ -798,6 +943,7 @@ begin
   if (backsector.renderflags and SRF_SLOPED <> 0) or
      (frontsector.renderflags and SRF_SLOPED <> 0) then
   begin
+//    R_ClipWallSegment(x1, x2, false);
     R_ClipPassWallSegment(x1, x2 - 1);
     exit;
   end;
@@ -806,6 +952,7 @@ begin
   if (backsector.ceilingheight <= frontsector.floorheight) or
      (backsector.floorheight >= frontsector.ceilingheight) then
   begin
+//    R_ClipWallSegment(x1, x2, true);
     R_ClipSolidWallSegment(x1, x2 - 1);
     exit;
   end;
@@ -815,6 +962,7 @@ begin
   doorclosed := R_DoorClosed;
   if doorclosed then
   begin
+//    R_ClipWallSegment(x1, x2, true);
     R_ClipSolidWallSegment(x1, x2 - 1);
     exit;
   end;
@@ -823,6 +971,7 @@ begin
   if (backsector.ceilingheight <> frontsector.ceilingheight) or
      (backsector.floorheight <> frontsector.floorheight) then
   begin
+//    R_ClipWallSegment(x1, x2, false);
     R_ClipPassWallSegment(x1, x2 - 1);
     exit;
   end;
@@ -841,6 +990,7 @@ begin
       exit;
   end;
 
+//  R_ClipWallSegment(x1, x2, false);
   R_ClipPassWallSegment(x1, x2 - 1);
 {$ENDIF}
 end;
