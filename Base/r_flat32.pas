@@ -228,7 +228,7 @@ const
 // _flat_thread_worker32
 //
 //==============================================================================
-procedure _flat_thread_worker32(const p: pointer) stdcall;
+procedure _flat_thread_worker32(const p: pointer); stdcall;
 var
   item1, item2: Pflatrenderinfo32_t;
 begin
@@ -489,7 +489,7 @@ end;
 // _flat3D_thread_worker32
 //
 //==============================================================================
-procedure _flat3D_thread_worker32(const p: pointer) stdcall;
+procedure _flat3D_thread_worker32(const p: pointer); stdcall;
 var
   item1, item2: Pflatrenderinfo32_t;
   start, finish: integer;

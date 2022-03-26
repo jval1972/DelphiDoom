@@ -156,7 +156,7 @@ var
 //
 //==============================================================================
 procedure WaveOutProc(hWaveOut: HWAVEOUT; uMsg: UINT;
-  dwInstance, dwParam1, dwParam2: DWORD) stdcall;
+  dwInstance, dwParam1, dwParam2: DWORD); stdcall;
 begin
   if uMsg = WOM_DONE then
     ReleaseSemaphore(Semaphore, 1, nil);
