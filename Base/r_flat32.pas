@@ -234,7 +234,6 @@ type
 var
   R: array[0..MAXFLATRENDERINGTHREADS32 - 1] of flatthreadparams32_t; // JVAL: 20220320 - Made global
 
-
 //==============================================================================
 //
 // _flat_thread_worker32
