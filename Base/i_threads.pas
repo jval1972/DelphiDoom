@@ -72,6 +72,12 @@ var
 
 procedure TestActiveThreads;
 
+function ThreadInc(var x: Integer): Integer;
+
+function ThreadDec(var x: Integer): Integer;
+
+function ThreadSet(var x: Integer; const newvalue: Integer): Integer;
+
 implementation
 
 uses
@@ -236,6 +242,21 @@ begin
     th := threadpool.Pointers[i];
     th.CheckJobDone;
   end;
+end;
+
+function ThreadInc(var x: Integer): Integer;
+begin
+  Result := InterlockedIncrement(x);
+end;
+
+function ThreadDec(var x: Integer): Integer;
+begin
+  Result := InterlockedDecrement(x);
+end;
+
+function ThreadSet(var x: Integer; const newvalue: Integer): Integer;
+begin
+  Result := InterlockedExchange(x, newvalue);
 end;
 
 initialization

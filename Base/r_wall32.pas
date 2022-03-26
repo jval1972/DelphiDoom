@@ -454,7 +454,7 @@ begin
   while parms.start <= parms.stop do
   begin
     R_RenderWall32(@wallcache[parms.start]);
-    Inc(parms.start);
+    ThreadInc(parms.start);
   end;
 
   while true do
@@ -465,7 +465,7 @@ begin
     part := (stop - start) div 2;
     if part > 2 then
     begin
-      parms.stop := parms.stop - part;
+      ThreadSet(parms.stop, parms.stop - part);
       start := parms.stop + 1;
       for i := start to stop do
         R_RenderWall32(@wallcache[i]);

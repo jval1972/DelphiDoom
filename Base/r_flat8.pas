@@ -120,6 +120,7 @@ implementation
 
 uses
   i_system,
+  i_threads,
   mt_utils,
   r_draw,
   r_main,
@@ -229,7 +230,7 @@ begin
   begin
     item := @flatcache8[parms.start];
     item.func(item);
-    Inc(parms.start);
+    ThreadInc(parms.start);
   end;
 
   if parms = @R[0] then
@@ -246,7 +247,7 @@ begin
     part := (stop - start) div 2;
     if part > 2 then
     begin
-      parms.stop := parms.stop - part;
+      ThreadSet(parms.stop, parms.stop - part);
       start := parms.stop + 1;
       for i := start to stop do
       begin
