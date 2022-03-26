@@ -110,6 +110,13 @@ var
 //==============================================================================
 procedure R_DrawSpanNormalMT(const fi: pointer);
 
+type
+  Pflatthreadparams32_t = ^flatthreadparams32_t;
+  flatthreadparams32_t = record
+    start, stop: integer;
+    next: Pflatthreadparams32_t;
+  end;
+
 implementation
 
 uses
@@ -222,13 +229,6 @@ end;
 
 const
   MAXFLATRENDERINGTHREADS32 = 16;
-
-type
-  Pflatthreadparams32_t = ^flatthreadparams32_t;
-  flatthreadparams32_t = record
-    start, stop: integer;
-    next: Pflatthreadparams32_t;
-  end;
 
 var
   R: array[0..MAXFLATRENDERINGTHREADS32 - 1] of flatthreadparams32_t; // JVAL: 20220320 - Made global

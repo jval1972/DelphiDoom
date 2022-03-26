@@ -434,7 +434,8 @@ uses
   udmf_lights in 'Base\udmf_lights.pas',
   v_palettes in 'Base\v_palettes.pas',
   p_easywind in 'Base\p_easywind.pas',
-  psi_map in 'SCRIPT\psi_map.pas';
+  psi_map in 'SCRIPT\psi_map.pas',
+  r_render in 'Base\r_render.pas';
 
 var
   Saved8087CW: Word;

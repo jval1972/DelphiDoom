@@ -481,6 +481,7 @@ uses
   {$IFNDEF OPENGL}
   r_cache_main,
   r_fake3d,
+  r_render,
   r_trans8,
   r_voxels,
   r_3dfloors, // JVAL: 3d Floors
@@ -2463,6 +2464,8 @@ begin
 {$IFNDEF OPENGL}
   printf('R_InitVoxels'#13#10);
   R_InitVoxels;
+  printf('R_InitMultiThreadRender'#13#10);
+  R_InitMultiThreadRender;
   printf('R_InitWallsCache8'#13#10);
   R_InitWallsCache8;
   printf('R_InitWallsCache32'#13#10);
@@ -2541,6 +2544,8 @@ begin
   R_ShutDownFlatsCache8;
   printf(#13#10 + 'R_ShutDownFlatsCache32');
   R_ShutDownFlatsCache32;
+  printf(#13#10 + 'R_ShutDownMultiThreadRender');
+  R_ShutDownMultiThreadRender;
 {$ENDIF}
   printf(#13#10 + 'R_ShutDownSprites');
   R_ShutDownSprites;

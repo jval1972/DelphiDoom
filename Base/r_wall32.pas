@@ -36,6 +36,7 @@ interface
 uses
   d_delphi,
   m_fixed,
+  mt_utils,
   r_cache_walls;
 
 type
@@ -97,17 +98,10 @@ procedure R_ClearWallsCache32;
 
 //==============================================================================
 //
-// R_RenderMultiThreadWalls32
+// R_RenderMultiThreadWallParams32
 //
 //==============================================================================
-procedure R_RenderMultiThreadWalls32;
-
-//==============================================================================
-//
-// R_WaitWallsCache32
-//
-//==============================================================================
-procedure R_WaitWallsCache32;
+procedure R_RenderMultiThreadWallParams32(const parms: mt_linkedrange_pa);
 
 var
   midwalls32: integer;
@@ -117,9 +111,6 @@ var
   midwalls32b: integer;
   lowerwalls32b: integer;
   upperwalls32b: integer;
-
-var
-  force_numwallrenderingthreads_32bit: integer = 0;
 
 implementation
 
@@ -134,6 +125,7 @@ uses
   r_tallcolumn,
   r_draw,
   r_precalc,
+  r_render,
   r_main;
 
 {$IFNDEF OPTIMIZE_FOR_SIZE}
@@ -165,9 +157,9 @@ uses
 {$I R_Wall32_BatchFuncs.inc}
 
 var
-  wallcache: Pbatchwallrenderinfo32_tArray;
-  wallcachesize: integer;
-  wallcacherealsize: integer;
+  wallcache32: Pbatchwallrenderinfo32_tArray;
+  wallcachesize32: integer;
+  wallcacherealsize32: integer;
 
 //==============================================================================
 //
@@ -176,10 +168,10 @@ var
 //==============================================================================
 procedure R_GrowWallsCache32;
 begin
-  if wallcachesize >= wallcacherealsize then
+  if wallcachesize32 >= wallcacherealsize32 then
   begin
-    realloc(Pointer(wallcache), wallcacherealsize * SizeOf(batchwallrenderinfo32_t), (64 + wallcacherealsize) * SizeOf(batchwallrenderinfo32_t));
-    wallcacherealsize := wallcacherealsize + 64;
+    realloc(Pointer(wallcache32), wallcacherealsize32 * SizeOf(batchwallrenderinfo32_t), (64 + wallcacherealsize32) * SizeOf(batchwallrenderinfo32_t));
+    wallcacherealsize32 := wallcacherealsize32 + 64;
   end;
 end;
 
@@ -191,9 +183,9 @@ end;
 procedure R_AddWallsToCache32(const idx: PInteger);
 begin
   R_GrowWallsCache32;
-  idx^ := wallcachesize;
-  wallcache[wallcachesize].numwalls := 0;
-  inc(wallcachesize);
+  idx^ := wallcachesize32;
+  wallcache32[wallcachesize32].numwalls := 0;
+  inc(wallcachesize32);
 end;
 
 //==============================================================================
@@ -359,7 +351,7 @@ procedure R_FlashWallColumns32(const idx: PInteger);
 var
   walls: Pbatchwallrenderinfo32_t;
 begin
-  walls := @wallcache[idx^];
+  walls := @wallcache32[idx^];
   if walls.numwalls = 0 then
     exit;
 
@@ -384,14 +376,14 @@ var
   nwalls: integer;
   w_height: integer;
 begin
-  walls := @wallcache[idx^];
+  walls := @wallcache32[idx^];
   nwalls := walls.numwalls;
   w_height := dc_height;
   if nwalls > 0 then
     if (walls.walls[nwalls - 1].dc_x + 1 <> dc_x) or (walls.dc_height <> w_height) then
     begin
       R_FlashWallColumns32(idx);
-      walls := @wallcache[idx^];
+      walls := @wallcache32[idx^];
       nwalls := 0;
     end;
 
@@ -427,33 +419,19 @@ begin
   end;
 end;
 
-const
-  MAXWALLTHREADS32 = 256;
-
-var
-  wallthreads32: array[0..MAXWALLTHREADS32 - 1] of TDThread;
-  numwallthreads32: Integer = 0;
-
-type
-  Pwallthreadparms32_t = ^wallthreadparms32_t;
-  wallthreadparms32_t = record
-    start, stop: integer;
-    next: Pwallthreadparms32_t;
-  end;
-
 //==============================================================================
 //
 // _wall_thread_worker32
 //
 //==============================================================================
-function _wall_thread_worker32(parms: Pwallthreadparms32_t): integer; stdcall;
+function _wall_thread_worker32(parms: mt_linkedrange_p): integer; stdcall;
 var
   start, stop, part: integer;
   i: integer;
 begin
   while parms.start <= parms.stop do
   begin
-    R_RenderWall32(@wallcache[parms.start]);
+    R_RenderWall32(@wallcache32[parms.start]);
     Inc(parms.start);
   end;
 
@@ -468,7 +446,7 @@ begin
       parms.stop := parms.stop - part;
       start := parms.stop + 1;
       for i := start to stop do
-        R_RenderWall32(@wallcache[i]);
+        R_RenderWall32(@wallcache32[i]);
     end
     else if part < 1 then
       Break;
@@ -476,9 +454,6 @@ begin
 
   result := 0;
 end;
-
-var
-  default_numwallrenderingthreads_32bit: integer = 0;
 
 //==============================================================================
 //
@@ -489,9 +464,9 @@ procedure R_InitWallsCache32;
 var
   i: integer;
 begin
-  wallcache := nil;
-  wallcachesize := 0;
-  wallcacherealsize := 0;
+  wallcache32 := nil;
+  wallcachesize32 := 0;
+  wallcacherealsize32 := 0;
   R_GrowWallsCache32;
   midwalls32 := 0;
   lowerwalls32 := 1;
@@ -499,27 +474,13 @@ begin
   midwalls32b := 3;
   lowerwalls32b := 4;
   upperwalls32b := 5;
-  wallcache[midwalls32].numwalls := 0;
-  wallcache[lowerwalls32].numwalls := 0;
-  wallcache[upperwalls32].numwalls := 0;
-  wallcache[midwalls32b].numwalls := 0;
-  wallcache[lowerwalls32b].numwalls := 0;
-  wallcache[upperwalls32b].numwalls := 0;
-  wallcachesize := 6;
-
-  if force_numwallrenderingthreads_32bit > 0 then
-    numwallthreads32 := force_numwallrenderingthreads_32bit
-  else
-    numwallthreads32 := I_GetNumCPUs - 1;
-
-  if numwallthreads32 < 1 then
-    numwallthreads32 := 1
-  else if numwallthreads32 > MAXWALLTHREADS32 then
-    numwallthreads32 := MAXWALLTHREADS32;
-
-  default_numwallrenderingthreads_32bit := numwallthreads32;
-  for i := 0 to numwallthreads32 - 1 do
-    wallthreads32[i] := TDThread.Create(@_wall_thread_worker32);
+  wallcache32[midwalls32].numwalls := 0;
+  wallcache32[lowerwalls32].numwalls := 0;
+  wallcache32[upperwalls32].numwalls := 0;
+  wallcache32[midwalls32b].numwalls := 0;
+  wallcache32[lowerwalls32b].numwalls := 0;
+  wallcache32[upperwalls32b].numwalls := 0;
+  wallcachesize32 := 6;
 end;
 
 //==============================================================================
@@ -528,13 +489,8 @@ end;
 //
 //==============================================================================
 procedure R_ShutDownWallsCache32;
-var
-  i: integer;
 begin
-  for i := 0 to numwallthreads32 - 1 do
-    wallthreads32[i].Free;
-
-  memfree(Pointer(wallcache), wallcacherealsize * SizeOf(batchwallrenderinfo32_t));
+  memfree(Pointer(wallcache32), wallcacherealsize32 * SizeOf(batchwallrenderinfo32_t));
 end;
 
 //==============================================================================
@@ -551,104 +507,26 @@ begin
   midwalls32b := 3;
   lowerwalls32b := 4;
   upperwalls32b := 5;
-  wallcachesize := 6;
+  wallcachesize32 := 6;
 end;
 
-var
-  parms: array[0..MAXWALLTHREADS32 - 1] of wallthreadparms32_t;
-
 //==============================================================================
 //
-// R_RenderMultiThreadWalls32
+// R_RenderMultiThreadWallParams32
 //
 //==============================================================================
-procedure R_RenderMultiThreadWalls32;
+procedure R_RenderMultiThreadWallParams32(const parms: mt_linkedrange_pa);
 var
   i: integer;
-  newnumthreads: integer;
   step: float;
 begin
-  if force_numwallrenderingthreads_32bit > 0 then
-  begin
-    if force_numwallrenderingthreads_32bit <> numwallthreads32 then
-    begin
-      newnumthreads := force_numwallrenderingthreads_32bit;
-      if newnumthreads > MAXWALLTHREADS32 then
-      begin
-        newnumthreads := MAXWALLTHREADS32;
-        force_numwallrenderingthreads_32bit := MAXWALLTHREADS32;
-      end;
-    end
-    else
-      newnumthreads := numwallthreads32;
-  end
-  else
-    newnumthreads := default_numwallrenderingthreads_32bit;
-
-  if newnumthreads <= 0 then
-  begin
-    newnumthreads := I_GetNumCPUs - 1;
-    if newnumthreads <= 0 then
-      newnumthreads := 1;
-  end;
-
-  if newnumthreads <> numwallthreads32 then
-  begin
-    for i := numwallthreads32 to newnumthreads - 1 do
-      wallthreads32[i] := TDThread.Create(@_wall_thread_worker32);
-    for i := newnumthreads to numwallthreads32 - 1 do
-      wallthreads32[i].Free;
-    numwallthreads32 := newnumthreads;
-  end;
-
-  step := wallcachesize / numwallthreads32;
+  step := wallcachesize32 / numrenderingthreads;
   parms[0].start := 0;
-  for i := 1 to numwallthreads32 - 1 do
+  for i := 1 to numrenderingthreads - 1 do
     parms[i].start := Round(step * i);
-  for i := 0 to numwallthreads32 - 2 do
+  for i := 0 to numrenderingthreads - 2 do
     parms[i].stop := parms[i + 1].start - 1;
-  parms[numwallthreads32 - 1].stop := wallcachesize - 1;
-
-  for i := 0 to numwallthreads32 - 2 do
-    parms[i].next := @parms[i + 1];
-  parms[numwallthreads32 - 1].next := @parms[0];
-
-  for i := 0 to numwallthreads32 - 1 do
-    if parms[i].start <= parms[i].stop then
-      wallthreads32[i].Activate(@parms[i]);
-end;
-
-//==============================================================================
-//
-// R_WaitWallsCache32
-//
-//==============================================================================
-procedure R_WaitWallsCache32;
-var
-  doneid: integer;
-
-  function _alldone: boolean;
-  var
-    i: integer;
-    ret: boolean;
-  begin
-    result := true;
-    for i := doneid to numwallthreads32 - 1 do
-    begin
-      ret := wallthreads32[i].CheckJobDone;
-      result := ret and result;
-      if not result then
-      begin
-        doneid := i;
-        exit;
-      end;
-    end;
-  end;
-
-begin
-  doneid := 0;
-  while not _alldone do
-    I_Sleep(0);
+  parms[numrenderingthreads - 1].stop := wallcachesize32 - 1;
 end;
 
 end.

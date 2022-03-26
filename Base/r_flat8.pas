@@ -116,6 +116,13 @@ procedure R_DrawSpanMediumMT(const fi: pointer);
 //==============================================================================
 procedure R_DrawSpanMedium_RippleMT(const fi: pointer);
 
+type
+  Pflatthreadparams8_t = ^flatthreadparams8_t;
+  flatthreadparams8_t = record
+    start, stop: integer;
+    next: Pflatthreadparams8_t;
+  end;
+
 implementation
 
 uses
@@ -203,13 +210,6 @@ end;
 
 const
   MAXFLATRENDERINGTHREADS8 = 16;
-
-type
-  Pflatthreadparams8_t = ^flatthreadparams8_t;
-  flatthreadparams8_t = record
-    start, stop: integer;
-    next: Pflatthreadparams8_t;
-  end;
 
 var
   R: array[0..MAXFLATRENDERINGTHREADS8 - 1] of flatthreadparams8_t; // JVAL: 20220320 - Made global

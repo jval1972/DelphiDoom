@@ -745,7 +745,7 @@ var
   r: mt_range_p;
 begin
   r := mt_range_p(p);
-  for j := r.start to r.finish do
+  for j := r.start to r.stop do
   begin
     istruct := @istructs[j];
     pi := @istruct.items[0];
@@ -880,11 +880,11 @@ begin
   if usemultithread and (I_GetNumCPUs >= 4) and (R_TotalInterpolationItems > 1024) then
   begin
     r1.start := IDS_PLAYER;
-    r1.finish := IDS_SECTOR1;
+    r1.stop := IDS_SECTOR1;
     r2.start := IDS_SECTOR2;
-    r2.finish := IDS_SECTOR3;
+    r2.stop := IDS_SECTOR3;
     r3.start := IDS_LINES;
-    r3.finish := IDS_POLYS;
+    r3.stop := IDS_POLYS;
     MT_Execute4(
       @R_RestoreInterpolationData_thr1, @r1,
       @R_RestoreInterpolationData_thr1, @r2,
@@ -1003,11 +1003,11 @@ begin
     if usemultithread and (I_GetNumCPUs >= 4) and (R_TotalInterpolationItems > 1024) then
     begin
       r1.start := IDS_PLAYER;
-      r1.finish := IDS_SECTOR1;
+      r1.stop := IDS_SECTOR1;
       r2.start := IDS_SECTOR2;
-      r2.finish := IDS_SECTOR3;
+      r2.stop := IDS_SECTOR3;
       r3.start := IDS_LINES;
-      r3.finish := IDS_POLYS;
+      r3.stop := IDS_POLYS;
       MT_Execute4(
         @R_DoInterpolate_thr1, @r1,
         @R_DoInterpolate_thr1, @r2,

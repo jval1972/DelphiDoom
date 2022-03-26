@@ -212,19 +212,27 @@ procedure MT_Execute16(
   );
 
 type
+  mt_range_p = ^mt_range_t;
   mt_range_t = record
-    start, finish: integer;
+    start, stop: integer;
   end;
 
-  mt_range_p = ^mt_range_t;
+type
+  mt_linkedrange_p = ^mt_linkedrange_t;
+  mt_linkedrange_t = record
+    start, stop: integer;
+    next: mt_linkedrange_p;
+  end;
+  mt_linkedrange_a = array[0..$FF] of mt_linkedrange_t;
+  mt_linkedrange_pa = ^mt_linkedrange_a;
 
 type
+  iterator_p = ^iterator_t;
   iterator_t = record
     idx: integer;
     numidxs: integer;
     data: pointer;
   end;
-  iterator_p = ^iterator_t;
 
 //==============================================================================
 //

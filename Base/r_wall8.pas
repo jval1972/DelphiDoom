@@ -36,6 +36,7 @@ interface
 uses
   d_delphi,
   m_fixed,
+  mt_utils,
   r_cache_walls;
 
 type
@@ -95,17 +96,10 @@ procedure R_ClearWallsCache8;
 
 //==============================================================================
 //
-// R_RenderMultiThreadWalls8
+// R_RenderMultiThreadWallParams8
 //
 //==============================================================================
-procedure R_RenderMultiThreadWalls8;
-
-//==============================================================================
-//
-// R_WaitWallsCache8
-//
-//==============================================================================
-procedure R_WaitWallsCache8;
+procedure R_RenderMultiThreadWallParams8(const parms: mt_linkedrange_pa);
 
 var
   midwalls8: integer;
@@ -116,9 +110,6 @@ var
   lowerwalls8b: integer;
   upperwalls8b: integer;
 
-var
-  force_numwallrenderingthreads_8bit: integer = 0;
-
 implementation
 
 uses
@@ -128,6 +119,7 @@ uses
   r_column,
   r_tallcolumn,
   r_draw,
+  r_render,
   r_main;
 
 {$IFNDEF OPTIMIZE_FOR_SIZE}
@@ -159,9 +151,9 @@ uses
 {$I R_Wall8_BatchFuncs.inc}
 
 var
-  wallcache: Pbatchwallrenderinfo8_tArray;
-  wallcachesize: integer;
-  wallcacherealsize: integer;
+  wallcache8: Pbatchwallrenderinfo8_tArray;
+  wallcachesize8: integer;
+  wallcacherealsize8: integer;
 
 //==============================================================================
 //
@@ -170,10 +162,10 @@ var
 //==============================================================================
 procedure R_GrowWallsCache8;
 begin
-  if wallcachesize >= wallcacherealsize then
+  if wallcachesize8 >= wallcacherealsize8 then
   begin
-    realloc(Pointer(wallcache), wallcacherealsize * SizeOf(batchwallrenderinfo8_t), (64 + wallcacherealsize) * SizeOf(batchwallrenderinfo8_t));
-    wallcacherealsize := wallcacherealsize + 64;
+    realloc(Pointer(wallcache8), wallcacherealsize8 * SizeOf(batchwallrenderinfo8_t), (64 + wallcacherealsize8) * SizeOf(batchwallrenderinfo8_t));
+    wallcacherealsize8 := wallcacherealsize8 + 64;
   end;
 end;
 
@@ -185,9 +177,9 @@ end;
 procedure R_AddWallsToCache8(const idx: PInteger);
 begin
   R_GrowWallsCache8;
-  idx^ := wallcachesize;
-  wallcache[wallcachesize].numwalls := 0;
-  inc(wallcachesize);
+  idx^ := wallcachesize8;
+  wallcache8[wallcachesize8].numwalls := 0;
+  inc(wallcachesize8);
 end;
 
 //==============================================================================
@@ -396,7 +388,7 @@ procedure R_FlashWallColumns8(const idx: PInteger);
 var
   walls: Pbatchwallrenderinfo8_t;
 begin
-  walls := @wallcache[idx^];
+  walls := @wallcache8[idx^];
   if walls.numwalls = 0 then
     exit;
 
@@ -421,14 +413,14 @@ var
   nwalls: integer;
   w_height: integer;
 begin
-  walls := @wallcache[idx^];
+  walls := @wallcache8[idx^];
   nwalls := walls.numwalls;
   w_height := dc_height;
   if nwalls > 0 then
     if (walls.walls[nwalls - 1].dc_x + 1 <> dc_x) or (walls.dc_height <> w_height) then
     begin
       R_FlashWallColumns8(idx);
-      walls := @wallcache[idx^];
+      walls := @wallcache8[idx^];
       nwalls := 0;
     end;
 
@@ -462,33 +454,19 @@ begin
   end;
 end;
 
-const
-  MAXWALLTHREADS8 = 256;
-
-var
-  wallthreads8: array[0..MAXWALLTHREADS8 - 1] of TDThread;
-  numwallthreads8: Integer = 0;
-
-type
-  Pwallthreadparms8_t = ^wallthreadparms8_t;
-  wallthreadparms8_t = record
-    start, stop: integer;
-    next: Pwallthreadparms8_t;
-  end;
-
 //==============================================================================
 //
 // _wall_thread_worker8
 //
 //==============================================================================
-function _wall_thread_worker8(parms: Pwallthreadparms8_t): integer; stdcall;
+function _wall_thread_worker8(parms: mt_linkedrange_p): integer; stdcall;
 var
   start, stop, part: integer;
   i: integer;
 begin
   while parms.start <= parms.stop do
   begin
-    R_RenderWall8(@wallcache[parms.start]);
+    R_RenderWall8(@wallcache8[parms.start]);
     Inc(parms.start);
   end;
 
@@ -503,7 +481,7 @@ begin
       parms.stop := parms.stop - part;
       start := parms.stop + 1;
       for i := start to stop do
-        R_RenderWall8(@wallcache[i]);
+        R_RenderWall8(@wallcache8[i]);
     end
     else if part < 1 then
       Break;
@@ -511,9 +489,6 @@ begin
 
   result := 0;
 end;
-
-var
-  default_numwallrenderingthreads_8bit: integer = 0;
 
 //==============================================================================
 //
@@ -524,9 +499,9 @@ procedure R_InitWallsCache8;
 var
   i: integer;
 begin
-  wallcache := nil;
-  wallcachesize := 0;
-  wallcacherealsize := 0;
+  wallcache8 := nil;
+  wallcachesize8 := 0;
+  wallcacherealsize8 := 0;
   R_GrowWallsCache8;
   midwalls8 := 0;
   lowerwalls8 := 1;
@@ -535,27 +510,14 @@ begin
   midwalls8b := 3;
   lowerwalls8b := 4;
   upperwalls8b := 5;
-  wallcache[midwalls8].numwalls := 0;
-  wallcache[lowerwalls8].numwalls := 0;
-  wallcache[upperwalls8].numwalls := 0;
-  wallcache[midwalls8b].numwalls := 0;
-  wallcache[lowerwalls8b].numwalls := 0;
-  wallcache[upperwalls8b].numwalls := 0;
-  wallcachesize := 6;
 
-  if force_numwallrenderingthreads_8bit > 0 then
-    numwallthreads8 := force_numwallrenderingthreads_8bit
-  else
-    numwallthreads8 := I_GetNumCPUs - 1;
-
-  if numwallthreads8 < 1 then
-    numwallthreads8 := 1
-  else if numwallthreads8 > MAXWALLTHREADS8 then
-    numwallthreads8 := MAXWALLTHREADS8;
-
-  default_numwallrenderingthreads_8bit := numwallthreads8;
-  for i := 0 to numwallthreads8 - 1 do
-    wallthreads8[i] := TDThread.Create(@_wall_thread_worker8);
+  wallcache8[midwalls8].numwalls := 0;
+  wallcache8[lowerwalls8].numwalls := 0;
+  wallcache8[upperwalls8].numwalls := 0;
+  wallcache8[midwalls8b].numwalls := 0;
+  wallcache8[lowerwalls8b].numwalls := 0;
+  wallcache8[upperwalls8b].numwalls := 0;
+  wallcachesize8 := 6;
 end;
 
 //==============================================================================
@@ -567,10 +529,7 @@ procedure R_ShutDownWallsCache8;
 var
   i: integer;
 begin
-  for i := 0 to numwallthreads8 - 1 do
-    wallthreads8[i].Free;
-
-  memfree(Pointer(wallcache), wallcacherealsize * SizeOf(batchwallrenderinfo8_t));
+  memfree(Pointer(wallcache8), wallcacherealsize8 * SizeOf(batchwallrenderinfo8_t));
 end;
 
 //==============================================================================
@@ -587,104 +546,26 @@ begin
   midwalls8b := 3;
   lowerwalls8b := 4;
   upperwalls8b := 5;
-  wallcachesize := 6;
+  wallcachesize8 := 6;
 end;
-
-var
-  parms: array[0..MAXWALLTHREADS8 - 1] of wallthreadparms8_t;
 
 //==============================================================================
 //
 // R_RenderMultiThreadWalls8
 //
 //==============================================================================
-procedure R_RenderMultiThreadWalls8;
+procedure R_RenderMultiThreadWallParams8(const parms: mt_linkedrange_pa);
 var
   i: integer;
-  newnumthreads: integer;
   step: float;
 begin
-  if force_numwallrenderingthreads_8bit > 0 then
-  begin
-    if force_numwallrenderingthreads_8bit <> numwallthreads8 then
-    begin
-      newnumthreads := force_numwallrenderingthreads_8bit;
-      if newnumthreads > MAXWALLTHREADS8 then
-      begin
-        newnumthreads := MAXWALLTHREADS8;
-        force_numwallrenderingthreads_8bit := MAXWALLTHREADS8;
-      end;
-    end
-    else
-      newnumthreads := numwallthreads8;
-  end
-  else
-    newnumthreads := default_numwallrenderingthreads_8bit;
-
-  if newnumthreads <= 0 then
-  begin
-    newnumthreads := I_GetNumCPUs - 1;
-    if newnumthreads <= 0 then
-      newnumthreads := 1;
-  end;
-
-  if newnumthreads <> numwallthreads8 then
-  begin
-    for i := numwallthreads8 to newnumthreads - 1 do
-      wallthreads8[i] := TDThread.Create(@_wall_thread_worker8);
-    for i := newnumthreads to numwallthreads8 - 1 do
-      wallthreads8[i].Free;
-    numwallthreads8 := newnumthreads;
-  end;
-
-  step := wallcachesize / numwallthreads8;
+  step := wallcachesize8 / numrenderingthreads;
   parms[0].start := 0;
-  for i := 1 to numwallthreads8 - 1 do
+  for i := 1 to numrenderingthreads - 1 do
     parms[i].start := Round(step * i);
-  for i := 0 to numwallthreads8 - 2 do
+  for i := 0 to numrenderingthreads - 2 do
     parms[i].stop := parms[i + 1].start - 1;
-  parms[numwallthreads8 - 1].stop := wallcachesize - 1;
-
-  for i := 0 to numwallthreads8 - 2 do
-    parms[i].next := @parms[i + 1];
-  parms[numwallthreads8 - 1].next := @parms[0];
-
-  for i := 0 to numwallthreads8 - 1 do
-    if parms[i].start <= parms[i].stop then
-      wallthreads8[i].Activate(@parms[i]);
-end;
-
-//==============================================================================
-//
-// R_WaitWallsCache8
-//
-//==============================================================================
-procedure R_WaitWallsCache8;
-var
-  doneid: integer;
-
-  function _alldone: boolean;
-  var
-    i: integer;
-    ret: boolean;
-  begin
-    result := true;
-    for i := doneid to numwallthreads8 - 1 do
-    begin
-      ret := wallthreads8[i].CheckJobDone;
-      result := ret and result;
-      if not result then
-      begin
-        doneid := i;
-        exit;
-      end;
-    end;
-  end;
-
-begin
-  doneid := 0;
-  while not _alldone do
-    I_Sleep(0);
+  parms[numrenderingthreads - 1].stop := wallcachesize8 - 1;
 end;
 
 end.

@@ -62,8 +62,7 @@ uses
 {$ELSE}
   i_video,
   r_batchcolumn,
-  r_wall8,
-  r_wall32,
+  r_render,
   r_scale,
   r_voxels,
   r_softlights,
@@ -108,8 +107,7 @@ var
   soft_SCREENHEIGHT: integer;
   usefake3d: boolean;
   optimizedthingsrendering: boolean;
-  force_numwallrenderingthreads_8bit: integer;
-  force_numwallrenderingthreads_32bit: integer;
+  force_numrenderingthreads: integer;
   precisescalefromglobalangle: boolean;
   preciseslopedrawing: boolean; // JVAL: Slopes
   r_drawvoxels: boolean;
@@ -2079,17 +2077,8 @@ const
      defaultbvalue: true;
      _type: tBoolean),
 
-    (name: 'force_numwallrenderingthreads_8bit';
-     location: @force_numwallrenderingthreads_8bit;
-     oldlocation: nil;
-     setable: DFS_ALWAYS;
-     defaultsvalue: '';
-     defaultivalue: 0;
-     defaultbvalue: false;
-     _type: tInteger),
-
-    (name: 'force_numwallrenderingthreads_32bit';
-     location: @force_numwallrenderingthreads_32bit;
+    (name: 'force_numrenderingthreads';
+     location: @force_numrenderingthreads;
      oldlocation: nil;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
