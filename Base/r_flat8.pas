@@ -233,6 +233,7 @@ begin
     ThreadInc(parms.start);
   end;
 
+  // No further operations in main thread
   if parms = @R[0] then
   begin
     Result := 0;
