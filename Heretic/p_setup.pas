@@ -460,6 +460,9 @@ begin
     ss.floorvisslope := -1;
     ss.ceilingvisslope := -1;
 {$ENDIF}
+    // JVAL: 20220327 - Group sectors to interpolate groups
+    ss.interpolate_group := i mod NUM_SECTOR_INTERPOLATE_GROUPS;
+
     ss.iSectorID := i; // JVAL: 3d Floors
     inc(ms);
     inc(ss);

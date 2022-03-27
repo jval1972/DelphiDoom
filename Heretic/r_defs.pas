@@ -189,6 +189,7 @@ type
     rendervalidcount: integer;
     windthrust: integer;
     windangle: angle_t;
+    interpolate_group: integer; // JVAL: 20220327 - Interpolation group
   end;
   sector_tArray = packed array[0..$FFFF] of sector_t;
   Psector_tArray = ^sector_tArray;

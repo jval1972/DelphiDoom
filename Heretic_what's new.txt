@@ -11,6 +11,7 @@ Fixed some voxel glitches for voxels on a 3d floors.
 Speed optimizations to slope software rendering.
 Small optimizations to software depthbuffer.
 Optimizations to multithreading walls software rendering.
+Uncapped framerate scales better in multi-core CPUs.
 
 Version 2.0.7 build 732 - (20220318)
 -----------------------

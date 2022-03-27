@@ -488,6 +488,9 @@ begin
     // killough 4/11/98 sector used to get ceiling lighting:
     ss.ceilinglightsec := -1;
 
+    // JVAL: 20220327 - Group sectors to interpolate groups
+    ss.interpolate_group := i mod NUM_SECTOR_INTERPOLATE_GROUPS;
+
     ss.iSectorID := i; // JVAL: 3d Floors
     inc(ms);
     inc(ss);

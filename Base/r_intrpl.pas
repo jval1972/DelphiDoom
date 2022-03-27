@@ -103,6 +103,9 @@ var
   storedpolyinterpolations: boolean;
   ticfrac: fixed_t;
 
+const
+  NUM_SECTOR_INTERPOLATE_GROUPS = 4;
+
 implementation
 
 uses
@@ -171,8 +174,8 @@ const
   NUMISTRUCTS = 6;
   IDS_PLAYER = 0;
   IDS_SECTOR1 = 1;
-  IDS_SECTOR2 = 1;
-  IDS_SECTOR3 = 1;
+  IDS_SECTOR2 = 2;
+  IDS_SECTOR3 = 3;
   IDS_LINES = 4;
   IDS_POLYS = 5;
 
@@ -563,6 +566,7 @@ var
   li: Pline_t;
   si: PSide_t;
   i, j: integer;
+  istruct: Pistruct_t;
   player: Pplayer_t;
   th: Pthinker_t;
 begin
@@ -587,11 +591,11 @@ begin
     R_AddInterpolationItem(@player.lookdir, iinteger, @istructs[IDS_PLAYER]);
     R_AddInterpolationItem(@player.lookdir16, iinteger, @istructs[IDS_PLAYER]); // JVAL Smooth Look Up/Down
     R_AddInterpolationItem(@player.lookdir2, ibyte, @istructs[IDS_PLAYER]);
-    sec := R_PointInSubsector(viewx, viewy).sector;
-    if sec.renderflags and SRF_NO_INTERPOLATE = 0 then
-      R_AddInterpolationItem(@player.viewz, iinteger, @istructs[IDS_SECTOR1]);
     R_AddInterpolationItem(@player.teleporttics, iinteger, @istructs[IDS_PLAYER]);
     R_AddInterpolationItem(@player.quaketics, iinteger, @istructs[IDS_PLAYER]);
+    sec := R_PointInSubsector(viewx, viewy).sector;
+    if sec.renderflags and SRF_NO_INTERPOLATE = 0 then
+      R_AddInterpolationItem(@player.viewz, iinteger, @istructs[sec.interpolate_group]);
   end;
 
   // Interpolate Sectors
@@ -601,41 +605,42 @@ begin
     if sec.rendervalidcount = rendervalidcount then
       if sec.renderflags and SRF_NO_INTERPOLATE = 0 then
       begin
+        istruct := @istructs[sec.interpolate_group];
         // JVAL: 20220107 - Auto fix instant moving sectors
         //  See also: https://www.doomworld.com/forum/topic/110185-eternity-uncapped-framerate-issue/?tab=comments#comment-2044505
-        R_AddInterpolationItem(@sec.floorheight, iinteger2, @istructs[IDS_SECTOR1]);
-        R_AddInterpolationItem(@sec.ceilingheight, iinteger2, @istructs[IDS_SECTOR1]);
-        R_AddInterpolationItem(@sec.lightlevel, ismallint, @istructs[IDS_SECTOR2]);
+        R_AddInterpolationItem(@sec.floorheight, iinteger2, istruct);
+        R_AddInterpolationItem(@sec.ceilingheight, iinteger2, istruct);
+        R_AddInterpolationItem(@sec.lightlevel, ismallint, istruct);
         {$IFDEF DOOM_OR_STRIFE}
         // JVAL: 30/9/2009
         // JVAL: 9/11/2015 Added strife offsets
-        R_AddInterpolationItem(@sec.floor_xoffs, iinteger2, @istructs[IDS_SECTOR2]);
-        R_AddInterpolationItem(@sec.floor_yoffs, iinteger2, @istructs[IDS_SECTOR2]);
-        R_AddInterpolationItem(@sec.ceiling_xoffs, iinteger2, @istructs[IDS_SECTOR2]);
-        R_AddInterpolationItem(@sec.ceiling_yoffs, iinteger2, @istructs[IDS_SECTOR2]);
+        R_AddInterpolationItem(@sec.floor_xoffs, iinteger2, istruct);
+        R_AddInterpolationItem(@sec.floor_yoffs, iinteger2, istruct);
+        R_AddInterpolationItem(@sec.ceiling_xoffs, iinteger2, istruct);
+        R_AddInterpolationItem(@sec.ceiling_yoffs, iinteger2, istruct);
         {$ENDIF}
         if sec.renderflags and SRF_INTERPOLATE_ROTATE <> 0 then
         begin
-          R_AddInterpolationItem(@sec.floorangle, iangle, @istructs[IDS_SECTOR1]);
-          R_AddInterpolationItem(@sec.flooranglex, iinteger, @istructs[IDS_SECTOR2]);
-          R_AddInterpolationItem(@sec.floorangley, iinteger, @istructs[IDS_SECTOR3]);
-          R_AddInterpolationItem(@sec.ceilingangle, iangle, @istructs[IDS_SECTOR1]);
-          R_AddInterpolationItem(@sec.ceilinganglex, iinteger, @istructs[IDS_SECTOR2]);
-          R_AddInterpolationItem(@sec.ceilingangley, iinteger, @istructs[IDS_SECTOR3]);
+          R_AddInterpolationItem(@sec.floorangle, iangle, istruct);
+          R_AddInterpolationItem(@sec.flooranglex, iinteger, istruct);
+          R_AddInterpolationItem(@sec.floorangley, iinteger, istruct);
+          R_AddInterpolationItem(@sec.ceilingangle, iangle, istruct);
+          R_AddInterpolationItem(@sec.ceilinganglex, iinteger, istruct);
+          R_AddInterpolationItem(@sec.ceilingangley, iinteger, istruct);
         end;
         if sec.renderflags and SRF_INTERPOLATE_FLOORSLOPE <> 0 then
         begin
-          R_AddInterpolationItem(@sec.fa, ifloat, @istructs[IDS_SECTOR2]);
-          R_AddInterpolationItem(@sec.fb, ifloat, @istructs[IDS_SECTOR2]);
-          R_AddInterpolationItem(@sec.fd, ifloat, @istructs[IDS_SECTOR2]);
-          R_AddInterpolationItem(@sec.fic, ifloat, @istructs[IDS_SECTOR2]);
+          R_AddInterpolationItem(@sec.fa, ifloat, istruct);
+          R_AddInterpolationItem(@sec.fb, ifloat, istruct);
+          R_AddInterpolationItem(@sec.fd, ifloat, istruct);
+          R_AddInterpolationItem(@sec.fic, ifloat, istruct);
         end;
         if sec.renderflags and SRF_INTERPOLATE_CEILINGSLOPE <> 0 then
         begin
-          R_AddInterpolationItem(@sec.ca, ifloat, @istructs[IDS_SECTOR3]);
-          R_AddInterpolationItem(@sec.cb, ifloat, @istructs[IDS_SECTOR3]);
-          R_AddInterpolationItem(@sec.cd, ifloat, @istructs[IDS_SECTOR3]);
-          R_AddInterpolationItem(@sec.cic, ifloat, @istructs[IDS_SECTOR3]);
+          R_AddInterpolationItem(@sec.ca, ifloat, istruct);
+          R_AddInterpolationItem(@sec.cb, ifloat, istruct);
+          R_AddInterpolationItem(@sec.cd, ifloat, istruct);
+          R_AddInterpolationItem(@sec.cic, ifloat, istruct);
         end;
       end;
     inc(sec);
