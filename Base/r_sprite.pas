@@ -3044,9 +3044,12 @@ function _sprite_render_thr(p: pointer): integer; stdcall;
 var
   i: integer;
 begin
-  for i := 0 to numspritejobs - 1 do
-    if i mod numspritethreads = PInteger(p)^ then
-      spritejobs[i].proc(@spritejobs[i]);
+  i := PInteger(p)^;
+  while i < numspritejobs do
+  begin
+    spritejobs[i].proc(@spritejobs[i]);
+    Inc(i, numspritethreads);
+  end;
   result := 0;
 end;
 
