@@ -284,7 +284,7 @@ var
 
 // JVAL: General purpose threads
 const
-  MAXGPTHREADS = 256;
+  MAXGPTHREADS = 16;
 
 var
   numgpthreads: integer;
