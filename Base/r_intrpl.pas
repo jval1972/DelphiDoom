@@ -98,6 +98,7 @@ var
   interpolateprecise: boolean = true;
   interpolateoncapped: boolean = false;
   interpolatepolyobjs: boolean = true;
+  interpolatereducelag: boolean = false;
   interpolationstarttime: fixed_t = 0;
   didinterpolations: boolean;
   storedpolyinterpolations: boolean;
@@ -992,6 +993,8 @@ begin
   {$IFDEF DEBUG}
   I_Warning('R_Interpolate(): fractime = %5.3f, gametic = %d'#13#10, [fractime / FRACUNIT, gametic]);
   {$ENDIF}
+  if interpolatereducelag then
+    ticfrac := FRACUNIT div 2 + ticfrac div 2;
   if ticfrac > FRACUNIT then
   begin
   // JVAL

@@ -10,6 +10,7 @@ Speed optimizations to slope software rendering.
 Small optimizations to software depthbuffer.
 Optimization to multithreading walls software rendering.
 Uncapped framerate scales better in multi-core CPUs.
+Added interpolatereducelag console variable. When set, it will try to reduce lag. Default is "false".
 
 Version 2.0.7 build 732 - (20220318)
 -----------------------

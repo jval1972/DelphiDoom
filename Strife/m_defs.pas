@@ -174,7 +174,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 228;
+  NUMDEFAULTS = 229;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -276,6 +276,15 @@ const
      defaultsvalue: '';
      defaultivalue: 1;
      defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'interpolatereducelag';
+     location: @interpolatereducelag;
+     oldlocation: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'fixstallhack';
