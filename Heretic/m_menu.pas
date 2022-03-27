@@ -1071,11 +1071,10 @@ type
 {$IFNDEF OPENGL}
     od_lightmap,
 {$ENDIF}
+    od_uncapped,
 {$IFNDEF OPENGL}
     od_bltasync,
 {$ENDIF}
-    od_interpolate,
-    od_interpolateoncapped,
 {$IFNDEF OPENGL}
     od_usefake3d,
 {$ENDIF}
@@ -1148,6 +1147,20 @@ var
   OptionsLightmapMenu: array[0..Ord(ol_lightmap_end) - 1] of menuitem_t;
   OptionsLightmapDef: menu_t;
 {$ENDIF}
+
+type
+  optionsuncappedframerate_e = (
+    ou_interpolate,
+    ou_interpolateoncapped,
+    ou_interpolateprecise,
+    ou_interpolatereducelag,
+    ou_interpolatepolyobjs,
+    ou_uncapped_end
+  );
+
+var
+  OptionsUncappedFrameRateMenu: array[0..Ord(ou_uncapped_end) - 1] of menuitem_t;
+  OptionsUncappedFrameRateDef: menu_t;
 
 // DISPLAY 32 BIT RENDERING MENU
 type
@@ -2615,6 +2628,16 @@ end;
 
 //==============================================================================
 //
+// M_OptionsDisplayUncappedFrameRate
+//
+//==============================================================================
+procedure M_OptionsDisplayUncappedFrameRate(choice: integer);
+begin
+  M_SetupNextMenu(@OptionsUncappedFrameRateDef);
+end;
+
+//==============================================================================
+//
 // M_ChangeCameraXY
 //
 //==============================================================================
@@ -3338,6 +3361,16 @@ begin
     OptionsLightmapDef.x, OptionsLightmapDef.y + OptionsLightmapDef.itemheight * (Ord(ol_lightwidthfactor) + 1), 21, lightwidthfactor, MAXLIGHTWIDTHFACTOR + 1);
 end;
 {$ENDIF}
+
+//==============================================================================
+//
+// M_DrawOptionsUncappedFrameRate
+//
+//==============================================================================
+procedure M_DrawOptionsUncappedFrameRate;
+begin
+  M_DrawDisplayOptions;
+end;
 
 //==============================================================================
 //
@@ -5726,6 +5759,14 @@ begin
   pmi.alphaKey := 'l';
   {$ENDIF}
 
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Uncapped framerate...';
+  pmi.cmd := '';
+  pmi.routine := @M_OptionsDisplayUncappedFrameRate;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'u';
+
   {$IFNDEF OPENGL}
   inc(pmi);
   pmi.status := 1;
@@ -5735,22 +5776,6 @@ begin
   pmi.pBoolVal := @r_bltasync;
   pmi.alphaKey := 'a';
   {$ENDIF}
-
-  inc(pmi);
-  pmi.status := 1;
-  pmi.name := '!Uncapped framerate';
-  pmi.cmd := 'interpolate';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @interpolate;
-  pmi.alphaKey := 'u';
-
-  inc(pmi);
-  pmi.status := 1;
-  pmi.name := '!Interpolate on capped';
-  pmi.cmd := 'interpolateoncapped';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @interpolateoncapped;
-  pmi.alphaKey := 'i';
 
 {$IFNDEF OPENGL}
   inc(pmi);
@@ -6056,6 +6081,59 @@ begin
   OptionsLightmapDef.itemheight := LINEHEIGHT2;
   OptionsLightmapDef.texturebk := true;
 {$ENDIF}
+////////////////////////////////////////////////////////////////////////////////
+//OptionsUncappedFrameRateMenu
+  pmi := @OptionsUncappedFrameRateMenu[0];
+
+  pmi.status := 1;
+  pmi.name := '!Uncapped framerate';
+  pmi.cmd := 'interpolate';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @interpolate;
+  pmi.alphaKey := 'u';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Interpolate on capped';
+  pmi.cmd := 'interpolateoncapped';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @interpolateoncapped;
+  pmi.alphaKey := 'i';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Precise timing';
+  pmi.cmd := 'interpolateprecise';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @interpolateprecise;
+  pmi.alphaKey := 'p';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Reduce lag';
+  pmi.cmd := 'interpolatereducelag';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @interpolatereducelag;
+  pmi.alphaKey := 'r';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Interpolate polyobjs';
+  pmi.cmd := 'interpolatepolyobjs';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @interpolatepolyobjs;
+  pmi.alphaKey := 'o';
+////////////////////////////////////////////////////////////////////////////////
+//OptionsUncappedFrameRateDef
+  OptionsUncappedFrameRateDef.numitems := Ord(ou_uncapped_end); // # of menu items
+  OptionsUncappedFrameRateDef.prevMenu := @OptionsDisplayAdvancedDef; // previous menu
+  OptionsUncappedFrameRateDef.menuitems := Pmenuitem_tArray(@OptionsUncappedFrameRateMenu);  // menu items
+  OptionsUncappedFrameRateDef.drawproc := @M_DrawOptionsUncappedFrameRate;  // draw routine
+  OptionsUncappedFrameRateDef.x := 32;
+  OptionsUncappedFrameRateDef.y := 68; // x,y of menu
+  OptionsUncappedFrameRateDef.lastOn := 0; // last item user was on in menu
+  OptionsUncappedFrameRateDef.itemheight := LINEHEIGHT2;
+  OptionsUncappedFrameRateDef.texturebk := true;
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplay32bitMenu
   pmi := @OptionsDisplay32bitMenu[0];
