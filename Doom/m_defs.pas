@@ -257,7 +257,7 @@ const
     (name: 'interpolateoncapped';
      location: @interpolateoncapped;
      oldlocation: nil;
-     setable: DFS_NEVER;
+     setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;
      defaultbvalue: true;
@@ -266,7 +266,7 @@ const
     (name: 'interpolatepolyobjs';
      location: @interpolatepolyobjs;
      oldlocation: nil;
-     setable: DFS_NEVER;
+     setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;
      defaultbvalue: true;
@@ -275,7 +275,7 @@ const
     (name: 'interpolatereducelag';
      location: @interpolatereducelag;
      oldlocation: nil;
-     setable: DFS_NEVER;
+     setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;
      defaultbvalue: false;
