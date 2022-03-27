@@ -231,7 +231,7 @@ type
 // R_ExecuteSpriteCache
 //
 //==============================================================================
-procedure R_ExecuteSpriteCache(const cache: Pvisspritecache_t);
+procedure R_ExecuteSpriteCache(const cache: Pvisspritecache_t; const domask: boolean);
 {$ENDIF}
 
 implementation
@@ -2463,7 +2463,7 @@ end;
 // R_ExecuteSpriteCache
 //
 //==============================================================================
-procedure R_ExecuteSpriteCache(const cache: Pvisspritecache_t);
+procedure R_ExecuteSpriteCache(const cache: Pvisspritecache_t; const domask: boolean);
 var
   i: integer;
   ds: Pdrawseg_t;
@@ -2476,15 +2476,19 @@ begin
     case item.operation of
       CACHE_OP_THICK:
         begin
+          if domask then
           R_RenderThickSideRange(item.ds, item.r1, item.r2);
         end;
       CACHE_OP_MASKED:
         begin
+          if domask then
           R_RenderMaskedSegRange(item.ds, item.r1, item.r2);
         end;
       CACHE_OP_THICK_AND_MASKED:
         begin
+          if domask then
           R_RenderThickSideRange(item.ds, item.r1, item.r2);
+          if domask then
           R_RenderMaskedSegRange(item.ds, item.r1, item.r2);
         end;
       CACHE_OP_SIL1:
@@ -2580,7 +2584,7 @@ begin
   if spr.cache <> nil then
   begin
     cache := spr.cache;
-    R_ExecuteSpriteCache(cache);
+    R_ExecuteSpriteCache(cache, not depthbufferactive or (spr.renderflags and VSF_TRANSPARENCY <> 0));
     fdrawsegs := cache.fdrawsegs;
     fds_p := cache.fds_p;
   end
@@ -2624,10 +2628,13 @@ begin
        ((lowscale < spr.scale) and not R_PointOnSegSide(spr.gx, spr.gy, ds.curline)) then
     begin
       // masked mid texture?
-      if ds.thicksidecol <> nil then        // JVAL: 3d Floors
-        R_RenderThickSideRange(ds, r1, r2); // JVAL: 3d Floors
-      if ds.maskedtexturecol <> nil then
-        R_RenderMaskedSegRange(ds, r1, r2);
+      if not depthbufferactive or (spr.renderflags and VSF_TRANSPARENCY <> 0) then
+      begin
+        if ds.thicksidecol <> nil then        // JVAL: 3d Floors
+          R_RenderThickSideRange(ds, r1, r2); // JVAL: 3d Floors
+        if ds.maskedtexturecol <> nil then
+          R_RenderMaskedSegRange(ds, r1, r2);
+      end;
       // seg is behind sprite
       continue;
     end;
@@ -2799,7 +2806,7 @@ begin
   if spr.lightcache <> nil then
   begin
     cache := spr.lightcache;
-    R_ExecuteSpriteCache(cache);
+    R_ExecuteSpriteCache(cache, true);
     fdrawsegs := cache.fdrawsegs;
     fds_p := cache.fds_p;
   end

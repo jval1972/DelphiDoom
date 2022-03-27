@@ -2234,7 +2234,7 @@ begin
   if vis.cache <> nil then
   begin
     cache := vis.cache;
-    R_ExecuteSpriteCache(cache);
+    R_ExecuteSpriteCache(cache, not depthbufferactive or (vis.renderflags and VSF_TRANSPARENCY <> 0));
     fdrawsegs := cache.fdrawsegs;
     fds_p := cache.fds_p;
   end
