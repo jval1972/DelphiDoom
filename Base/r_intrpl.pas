@@ -587,17 +587,20 @@ begin
 
   // Interpolate player
   player := @players[displayplayer];
-  if player <> nil then
+
+  R_AddInterpolationItem(@player.lookdir, iinteger, @istructs[IDS_PLAYER]);
+  R_AddInterpolationItem(@player.lookdir16, iinteger, @istructs[IDS_PLAYER]); // JVAL Smooth Look Up/Down
+  R_AddInterpolationItem(@player.lookdir2, ibyte, @istructs[IDS_PLAYER]);
+  R_AddInterpolationItem(@player.teleporttics, iinteger, @istructs[IDS_PLAYER]);
+  R_AddInterpolationItem(@player.quaketics, iinteger, @istructs[IDS_PLAYER]);
+  for i := 0 to Ord(NUMPSPRITES) - 1 do
   begin
-    R_AddInterpolationItem(@player.lookdir, iinteger, @istructs[IDS_PLAYER]);
-    R_AddInterpolationItem(@player.lookdir16, iinteger, @istructs[IDS_PLAYER]); // JVAL Smooth Look Up/Down
-    R_AddInterpolationItem(@player.lookdir2, ibyte, @istructs[IDS_PLAYER]);
-    R_AddInterpolationItem(@player.teleporttics, iinteger, @istructs[IDS_PLAYER]);
-    R_AddInterpolationItem(@player.quaketics, iinteger, @istructs[IDS_PLAYER]);
-    sec := R_PointInSubsector(viewx, viewy).sector;
-    if sec.renderflags and SRF_NO_INTERPOLATE = 0 then
-      R_AddInterpolationItem(@player.viewz, iinteger, @istructs[sec.interpolate_group]);
+    R_AddInterpolationItem(@player.psprites[i].sx, iinteger, @istructs[IDS_PLAYER]);
+    R_AddInterpolationItem(@player.psprites[i].sy, iinteger, @istructs[IDS_PLAYER]);
   end;
+  sec := R_PointInSubsector(viewx, viewy).sector;
+  if sec.renderflags and SRF_NO_INTERPOLATE = 0 then
+    R_AddInterpolationItem(@player.viewz, iinteger, @istructs[sec.interpolate_group]);
 
   // Interpolate Sectors
   sec := @sectors[0];
@@ -645,15 +648,6 @@ begin
         end;
       end;
     inc(sec);
-  end;
-
-  if player <> nil then
-  begin
-    for i := 0 to Ord(NUMPSPRITES) - 1 do
-    begin
-      R_AddInterpolationItem(@player.psprites[i].sx, iinteger, @istructs[IDS_PLAYER]);
-      R_AddInterpolationItem(@player.psprites[i].sy, iinteger, @istructs[IDS_PLAYER]);
-    end;
   end;
 
   // Interpolate Lines
