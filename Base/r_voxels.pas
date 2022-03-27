@@ -97,6 +97,7 @@ uses
   r_things,
   r_segs,
   r_segs2,
+  r_sprite,
   r_column,
   r_batchcolumn,
   r_colorcolumn,
@@ -2521,6 +2522,9 @@ begin
       break;
     end;
   end;
+
+  if usemultithread then
+    R_SpriteWaitMT;
 
   R_DrawThingVoxels(vis.mo, depth, vis.renderflags);
 end;

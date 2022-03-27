@@ -1096,7 +1096,7 @@ end;
 //  mfloorclip and mceilingclip should also be set.
 //
 const
-  MIN_SPRITE_SIZE_MT = 64;
+  MIN_SPRITE_SIZE_MT = 8;
 
 //==============================================================================
 //
@@ -1277,7 +1277,10 @@ begin
   xiscale := vis.xiscale;
   dc_x := vis.x1;
 
-  do_mt := usemultithread and (vis.x2 - vis.x1 > MIN_SPRITE_SIZE_MT);
+  if usemultithread and not playerweapon then
+    R_SpriteWaitMT;
+
+  do_mt := usemultithread and not playerweapon and (vis.x2 - vis.x1 > MIN_SPRITE_SIZE_MT);
 
   if do_mt and Assigned(spritefunc_mt) then
     dmcproc := @R_DrawMaskedColumnMT
@@ -1423,6 +1426,9 @@ begin
     lightcolfunc := whitelightcolfunc;
     batchlightcolfunc := batchwhitelightcolfunc;
   end;
+
+  if usemultithread then
+    R_SpriteWaitMT;
 
   dc_x := x1;
   if depthbufferactive or (fracstep > FRACUNIT div 2) or not optimizedthingsrendering or not Assigned(batchlightcolfunc) then
@@ -2931,9 +2937,8 @@ end;
 // R_DrawMasked
 //
 //==============================================================================
-procedure R_DoDrawMasked;
+function R_DoDrawMaskedMain(p: Pointer): integer; stdcall;
 var
-  pds: Pdrawseg_t;
   spr: Pvissprite_t;
   i: integer;
   restsprites: integer;
@@ -2995,6 +3000,15 @@ begin
     end;
   end;
 
+  if usemultithread then
+    R_SpriteStopMT;
+end;
+
+procedure R_DoDrawMaskedFinished;
+var
+  pds: Pdrawseg_t;
+  i: integer;
+begin
   // render any remaining masked mid textures
   // colfunc := maskedcolfunc; // JVAL: 3d Floors
   for i := ds_p - 1 downto 0 do
@@ -3007,6 +3021,18 @@ begin
   end;
 
   R_StopDepthBuffer;  // JVAL: 3d Floors
+end;
+
+procedure R_DoDrawMasked_SingleThread;
+begin
+  R_DoDrawMaskedMain(nil);
+  R_DoDrawMaskedFinished;
+end;
+
+procedure R_DoDrawMasked_MultiThread;
+begin
+  R_SpritesStartMT(@R_DoDrawMaskedMain);
+  R_DoDrawMaskedFinished;
 end;
 
 //==============================================================================
@@ -3026,16 +3052,16 @@ begin
       // Draw lights - First pass - only world
       R_DrawLightsSingleThread(lp_solid);
       domaskedzbuffer := r_lightmaponmasked;
-      R_DoDrawMasked;
+      R_DoDrawMasked_SingleThread;
       // Draw lights - Second pass - masked
       if r_lightmaponmasked then
         R_DrawLightsSingleThread(lp_masked);
     end
     else
-      R_DoDrawMasked;
+      R_DoDrawMasked_SingleThread;
   end
   else
-    R_DoDrawMasked;
+    R_DoDrawMasked_SingleThread;
 end;
 
 //==============================================================================
@@ -3054,16 +3080,16 @@ begin
       // Draw lights - First pass - only world
       R_DrawLightsMultiThread(lp_solid);
       domaskedzbuffer := r_lightmaponmasked;
-      R_DoDrawMasked;
+      R_DoDrawMasked_MultiThread;
       // Draw lights - Second pass - masked
       if r_lightmaponmasked then
         R_DrawLightsMultiThread(lp_masked);
     end
     else
-      R_DoDrawMasked;
+      R_DoDrawMasked_MultiThread;
   end
   else
-    R_DoDrawMasked;
+    R_DoDrawMasked_MultiThread;
 end;
 {$ENDIF}
 

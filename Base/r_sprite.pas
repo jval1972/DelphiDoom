@@ -35,6 +35,7 @@ interface
 
 uses
   d_delphi,
+  i_threads,
   r_trans8;
 
 type
@@ -71,6 +72,10 @@ function R_SpriteAddMTInfo: Pspriterenderinfo_t;
 //
 //==============================================================================
 procedure R_SpriteRenderMT;
+
+procedure R_SpriteWaitMT;
+procedure R_SpritesStartMT(const mainproc: threadfunc_t);
+procedure R_SpriteStopMT;
 
 //==============================================================================
 //
@@ -3040,7 +3045,7 @@ var
 // _sprite_render_thr
 //
 //==============================================================================
-function _sprite_render_thr(p: pointer): integer; stdcall;
+function _sprite_render_thr1(p: pointer): integer; stdcall;
 var
   i: integer;
 begin
@@ -3058,7 +3063,7 @@ end;
 // R_SpriteRenderMT
 //
 //==============================================================================
-procedure R_SpriteRenderMT;
+procedure R_SpriteRenderMT1;
 var
   ncpus: integer;
 begin
@@ -3073,175 +3078,477 @@ begin
     numspritethreads := ncpus;
 
   case numspritethreads of
-    1: _sprite_render_thr(@SPRIDS[0]);
+    1: _sprite_render_thr1(@SPRIDS[0]);
     2: MT_Execute(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1]
+        @_sprite_render_thr1, @SPRIDS[0],
+        @_sprite_render_thr1, @SPRIDS[1]
         );
     3: MT_Execute(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1],
-        @_sprite_render_thr, @SPRIDS[2]
+        @_sprite_render_thr1, @SPRIDS[0],
+        @_sprite_render_thr1, @SPRIDS[1],
+        @_sprite_render_thr1, @SPRIDS[2]
         );
     4: MT_Execute4(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1],
-        @_sprite_render_thr, @SPRIDS[2],
-        @_sprite_render_thr, @SPRIDS[3]
+        @_sprite_render_thr1 , @SPRIDS[0],
+        @_sprite_render_thr1 , @SPRIDS[1],
+        @_sprite_render_thr1 , @SPRIDS[2],
+        @_sprite_render_thr1 , @SPRIDS[3]
         );
     5: MT_Execute(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1],
-        @_sprite_render_thr, @SPRIDS[2],
-        @_sprite_render_thr, @SPRIDS[3],
-        @_sprite_render_thr, @SPRIDS[4]
+        @_sprite_render_thr1 , @SPRIDS[0],
+        @_sprite_render_thr1 , @SPRIDS[1],
+        @_sprite_render_thr1 , @SPRIDS[2],
+        @_sprite_render_thr1 , @SPRIDS[3],
+        @_sprite_render_thr1 , @SPRIDS[4]
         );
     6: MT_Execute6(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1],
-        @_sprite_render_thr, @SPRIDS[2],
-        @_sprite_render_thr, @SPRIDS[3],
-        @_sprite_render_thr, @SPRIDS[4],
-        @_sprite_render_thr, @SPRIDS[5]
+        @_sprite_render_thr1 , @SPRIDS[0],
+        @_sprite_render_thr1 , @SPRIDS[1],
+        @_sprite_render_thr1 , @SPRIDS[2],
+        @_sprite_render_thr1 , @SPRIDS[3],
+        @_sprite_render_thr1 , @SPRIDS[4],
+        @_sprite_render_thr1 , @SPRIDS[5]
         );
     7: MT_Execute(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1],
-        @_sprite_render_thr, @SPRIDS[2],
-        @_sprite_render_thr, @SPRIDS[3],
-        @_sprite_render_thr, @SPRIDS[4],
-        @_sprite_render_thr, @SPRIDS[5],
-        @_sprite_render_thr, @SPRIDS[6]
+        @_sprite_render_thr1 , @SPRIDS[0],
+        @_sprite_render_thr1 , @SPRIDS[1],
+        @_sprite_render_thr1 , @SPRIDS[2],
+        @_sprite_render_thr1 , @SPRIDS[3],
+        @_sprite_render_thr1 , @SPRIDS[4],
+        @_sprite_render_thr1 , @SPRIDS[5],
+        @_sprite_render_thr1 , @SPRIDS[6]
         );
     8: MT_Execute8(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1],
-        @_sprite_render_thr, @SPRIDS[2],
-        @_sprite_render_thr, @SPRIDS[3],
-        @_sprite_render_thr, @SPRIDS[4],
-        @_sprite_render_thr, @SPRIDS[5],
-        @_sprite_render_thr, @SPRIDS[6],
-        @_sprite_render_thr, @SPRIDS[7]
+        @_sprite_render_thr1 , @SPRIDS[0],
+        @_sprite_render_thr1 , @SPRIDS[1],
+        @_sprite_render_thr1 , @SPRIDS[2],
+        @_sprite_render_thr1 , @SPRIDS[3],
+        @_sprite_render_thr1 , @SPRIDS[4],
+        @_sprite_render_thr1 , @SPRIDS[5],
+        @_sprite_render_thr1 , @SPRIDS[6],
+        @_sprite_render_thr1 , @SPRIDS[7]
         );
     9: MT_Execute(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1],
-        @_sprite_render_thr, @SPRIDS[2],
-        @_sprite_render_thr, @SPRIDS[3],
-        @_sprite_render_thr, @SPRIDS[4],
-        @_sprite_render_thr, @SPRIDS[5],
-        @_sprite_render_thr, @SPRIDS[6],
-        @_sprite_render_thr, @SPRIDS[7],
-        @_sprite_render_thr, @SPRIDS[8]
+        @_sprite_render_thr1 , @SPRIDS[0],
+        @_sprite_render_thr1 , @SPRIDS[1],
+        @_sprite_render_thr1 , @SPRIDS[2],
+        @_sprite_render_thr1 , @SPRIDS[3],
+        @_sprite_render_thr1 , @SPRIDS[4],
+        @_sprite_render_thr1 , @SPRIDS[5],
+        @_sprite_render_thr1 , @SPRIDS[6],
+        @_sprite_render_thr1 , @SPRIDS[7],
+        @_sprite_render_thr1 , @SPRIDS[8]
         );
    10: MT_Execute(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1],
-        @_sprite_render_thr, @SPRIDS[2],
-        @_sprite_render_thr, @SPRIDS[3],
-        @_sprite_render_thr, @SPRIDS[4],
-        @_sprite_render_thr, @SPRIDS[5],
-        @_sprite_render_thr, @SPRIDS[6],
-        @_sprite_render_thr, @SPRIDS[7],
-        @_sprite_render_thr, @SPRIDS[8],
-        @_sprite_render_thr, @SPRIDS[9]
+        @_sprite_render_thr1 , @SPRIDS[0],
+        @_sprite_render_thr1 , @SPRIDS[1],
+        @_sprite_render_thr1 , @SPRIDS[2],
+        @_sprite_render_thr1 , @SPRIDS[3],
+        @_sprite_render_thr1 , @SPRIDS[4],
+        @_sprite_render_thr1 , @SPRIDS[5],
+        @_sprite_render_thr1 , @SPRIDS[6],
+        @_sprite_render_thr1 , @SPRIDS[7],
+        @_sprite_render_thr1 , @SPRIDS[8],
+        @_sprite_render_thr1 , @SPRIDS[9]
         );
    11: MT_Execute(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1],
-        @_sprite_render_thr, @SPRIDS[2],
-        @_sprite_render_thr, @SPRIDS[3],
-        @_sprite_render_thr, @SPRIDS[4],
-        @_sprite_render_thr, @SPRIDS[5],
-        @_sprite_render_thr, @SPRIDS[6],
-        @_sprite_render_thr, @SPRIDS[7],
-        @_sprite_render_thr, @SPRIDS[8],
-        @_sprite_render_thr, @SPRIDS[9],
-        @_sprite_render_thr, @SPRIDS[10]
+        @_sprite_render_thr1 , @SPRIDS[0],
+        @_sprite_render_thr1 , @SPRIDS[1],
+        @_sprite_render_thr1 , @SPRIDS[2],
+        @_sprite_render_thr1 , @SPRIDS[3],
+        @_sprite_render_thr1 , @SPRIDS[4],
+        @_sprite_render_thr1 , @SPRIDS[5],
+        @_sprite_render_thr1 , @SPRIDS[6],
+        @_sprite_render_thr1 , @SPRIDS[7],
+        @_sprite_render_thr1 , @SPRIDS[8],
+        @_sprite_render_thr1 , @SPRIDS[9],
+        @_sprite_render_thr1 , @SPRIDS[10]
         );
    12: MT_Execute12(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1],
-        @_sprite_render_thr, @SPRIDS[2],
-        @_sprite_render_thr, @SPRIDS[3],
-        @_sprite_render_thr, @SPRIDS[4],
-        @_sprite_render_thr, @SPRIDS[5],
-        @_sprite_render_thr, @SPRIDS[6],
-        @_sprite_render_thr, @SPRIDS[7],
-        @_sprite_render_thr, @SPRIDS[8],
-        @_sprite_render_thr, @SPRIDS[9],
-        @_sprite_render_thr, @SPRIDS[10],
-        @_sprite_render_thr, @SPRIDS[11]
+        @_sprite_render_thr1 , @SPRIDS[0],
+        @_sprite_render_thr1 , @SPRIDS[1],
+        @_sprite_render_thr1 , @SPRIDS[2],
+        @_sprite_render_thr1 , @SPRIDS[3],
+        @_sprite_render_thr1 , @SPRIDS[4],
+        @_sprite_render_thr1 , @SPRIDS[5],
+        @_sprite_render_thr1 , @SPRIDS[6],
+        @_sprite_render_thr1 , @SPRIDS[7],
+        @_sprite_render_thr1 , @SPRIDS[8],
+        @_sprite_render_thr1 , @SPRIDS[9],
+        @_sprite_render_thr1 , @SPRIDS[10],
+        @_sprite_render_thr1 , @SPRIDS[11]
         );
    13: MT_Execute(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1],
-        @_sprite_render_thr, @SPRIDS[2],
-        @_sprite_render_thr, @SPRIDS[3],
-        @_sprite_render_thr, @SPRIDS[4],
-        @_sprite_render_thr, @SPRIDS[5],
-        @_sprite_render_thr, @SPRIDS[6],
-        @_sprite_render_thr, @SPRIDS[7],
-        @_sprite_render_thr, @SPRIDS[8],
-        @_sprite_render_thr, @SPRIDS[9],
-        @_sprite_render_thr, @SPRIDS[10],
-        @_sprite_render_thr, @SPRIDS[11],
-        @_sprite_render_thr, @SPRIDS[12]
+        @_sprite_render_thr1 , @SPRIDS[0],
+        @_sprite_render_thr1 , @SPRIDS[1],
+        @_sprite_render_thr1 , @SPRIDS[2],
+        @_sprite_render_thr1 , @SPRIDS[3],
+        @_sprite_render_thr1 , @SPRIDS[4],
+        @_sprite_render_thr1 , @SPRIDS[5],
+        @_sprite_render_thr1 , @SPRIDS[6],
+        @_sprite_render_thr1 , @SPRIDS[7],
+        @_sprite_render_thr1 , @SPRIDS[8],
+        @_sprite_render_thr1 , @SPRIDS[9],
+        @_sprite_render_thr1 , @SPRIDS[10],
+        @_sprite_render_thr1 , @SPRIDS[11],
+        @_sprite_render_thr1 , @SPRIDS[12]
         );
    14: MT_Execute(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1],
-        @_sprite_render_thr, @SPRIDS[2],
-        @_sprite_render_thr, @SPRIDS[3],
-        @_sprite_render_thr, @SPRIDS[4],
-        @_sprite_render_thr, @SPRIDS[5],
-        @_sprite_render_thr, @SPRIDS[6],
-        @_sprite_render_thr, @SPRIDS[7],
-        @_sprite_render_thr, @SPRIDS[8],
-        @_sprite_render_thr, @SPRIDS[9],
-        @_sprite_render_thr, @SPRIDS[10],
-        @_sprite_render_thr, @SPRIDS[11],
-        @_sprite_render_thr, @SPRIDS[12],
-        @_sprite_render_thr, @SPRIDS[13]
+        @_sprite_render_thr1 , @SPRIDS[0],
+        @_sprite_render_thr1 , @SPRIDS[1],
+        @_sprite_render_thr1 , @SPRIDS[2],
+        @_sprite_render_thr1 , @SPRIDS[3],
+        @_sprite_render_thr1 , @SPRIDS[4],
+        @_sprite_render_thr1 , @SPRIDS[5],
+        @_sprite_render_thr1 , @SPRIDS[6],
+        @_sprite_render_thr1 , @SPRIDS[7],
+        @_sprite_render_thr1 , @SPRIDS[8],
+        @_sprite_render_thr1 , @SPRIDS[9],
+        @_sprite_render_thr1 , @SPRIDS[10],
+        @_sprite_render_thr1 , @SPRIDS[11],
+        @_sprite_render_thr1 , @SPRIDS[12],
+        @_sprite_render_thr1 , @SPRIDS[13]
         );
    15: MT_Execute(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1],
-        @_sprite_render_thr, @SPRIDS[2],
-        @_sprite_render_thr, @SPRIDS[3],
-        @_sprite_render_thr, @SPRIDS[4],
-        @_sprite_render_thr, @SPRIDS[5],
-        @_sprite_render_thr, @SPRIDS[6],
-        @_sprite_render_thr, @SPRIDS[7],
-        @_sprite_render_thr, @SPRIDS[8],
-        @_sprite_render_thr, @SPRIDS[9],
-        @_sprite_render_thr, @SPRIDS[10],
-        @_sprite_render_thr, @SPRIDS[11],
-        @_sprite_render_thr, @SPRIDS[12],
-        @_sprite_render_thr, @SPRIDS[13],
-        @_sprite_render_thr, @SPRIDS[14]
+        @_sprite_render_thr1 , @SPRIDS[0],
+        @_sprite_render_thr1 , @SPRIDS[1],
+        @_sprite_render_thr1 , @SPRIDS[2],
+        @_sprite_render_thr1 , @SPRIDS[3],
+        @_sprite_render_thr1 , @SPRIDS[4],
+        @_sprite_render_thr1 , @SPRIDS[5],
+        @_sprite_render_thr1 , @SPRIDS[6],
+        @_sprite_render_thr1 , @SPRIDS[7],
+        @_sprite_render_thr1 , @SPRIDS[8],
+        @_sprite_render_thr1 , @SPRIDS[9],
+        @_sprite_render_thr1 , @SPRIDS[10],
+        @_sprite_render_thr1 , @SPRIDS[11],
+        @_sprite_render_thr1 , @SPRIDS[12],
+        @_sprite_render_thr1 , @SPRIDS[13],
+        @_sprite_render_thr1 , @SPRIDS[14]
         );
   else MT_Execute16(
-        @_sprite_render_thr, @SPRIDS[0],
-        @_sprite_render_thr, @SPRIDS[1],
-        @_sprite_render_thr, @SPRIDS[2],
-        @_sprite_render_thr, @SPRIDS[3],
-        @_sprite_render_thr, @SPRIDS[4],
-        @_sprite_render_thr, @SPRIDS[5],
-        @_sprite_render_thr, @SPRIDS[6],
-        @_sprite_render_thr, @SPRIDS[7],
-        @_sprite_render_thr, @SPRIDS[8],
-        @_sprite_render_thr, @SPRIDS[9],
-        @_sprite_render_thr, @SPRIDS[10],
-        @_sprite_render_thr, @SPRIDS[11],
-        @_sprite_render_thr, @SPRIDS[12],
-        @_sprite_render_thr, @SPRIDS[13],
-        @_sprite_render_thr, @SPRIDS[14],
-        @_sprite_render_thr, @SPRIDS[15]
+        @_sprite_render_thr1 , @SPRIDS[0],
+        @_sprite_render_thr1 , @SPRIDS[1],
+        @_sprite_render_thr1 , @SPRIDS[2],
+        @_sprite_render_thr1 , @SPRIDS[3],
+        @_sprite_render_thr1 , @SPRIDS[4],
+        @_sprite_render_thr1 , @SPRIDS[5],
+        @_sprite_render_thr1 , @SPRIDS[6],
+        @_sprite_render_thr1 , @SPRIDS[7],
+        @_sprite_render_thr1 , @SPRIDS[8],
+        @_sprite_render_thr1 , @SPRIDS[9],
+        @_sprite_render_thr1 , @SPRIDS[10],
+        @_sprite_render_thr1 , @SPRIDS[11],
+        @_sprite_render_thr1 , @SPRIDS[12],
+        @_sprite_render_thr1 , @SPRIDS[13],
+        @_sprite_render_thr1 , @SPRIDS[14],
+        @_sprite_render_thr1 , @SPRIDS[15]
         );
   end;
 
   numspritejobs := 0;
 end;
+
+type
+  spritethreadinfo_t = record
+    id: Integer;
+    status: Integer;
+  end;
+  Pspritethreadinfo_t = ^spritethreadinfo_t;
+
+const
+  SPRST_FINISHED = 0;
+  SPRST_RUNNING = 1;
+  SPRST_WAITING = 2;
+
+var
+  SPRINFO: array[0..MAXSPRITETHREADS - 1] of spritethreadinfo_t;
+
+//==============================================================================
+//
+// _sprite_render_thr
+//
+//==============================================================================
+function _sprite_render_thr(p: pointer): integer; stdcall;
+var
+  pinf: Pspritethreadinfo_t;
+  i: integer;
+begin
+  pinf := p;
+
+  while True do
+  begin
+    while pinf.status = SPRST_WAITING do
+    begin
+      I_Sleep(0);
+    end;
+
+   if pinf.status = SPRST_FINISHED then
+   begin
+     Result := 0;
+     Exit;
+   end;
+
+    i := pinf.id;
+    while i < numspritejobs do
+    begin
+      spritejobs[i].proc(@spritejobs[i]);
+      Inc(i, numspritethreads);
+    end;
+
+    ThreadSet(pinf.status, SPRST_WAITING);
+  end;
+end;
+
+procedure R_SpriteRenderMT;
+var
+  i, nthreads: Integer;
+begin
+  if numspritejobs = 0 then
+    exit;
+
+  nthreads := numspritejobs;
+  if nthreads > numspritethreads then
+    nthreads := numspritethreads;
+
+  for i := 0 to nthreads - 1 do
+    ThreadSet(SPRINFO[i].status, SPRST_RUNNING);
+end;
+
+procedure R_SpriteWaitMT;
+var
+  i: Integer;
+  ret: Boolean;
+begin
+  while True do
+  begin
+    ret := True;
+    for i := 0 to numspritethreads - 1 do
+      if SPRINFO[i].status = SPRST_RUNNING then
+      begin
+        ret := false;
+        Break;
+      end;
+    if ret then
+      Break;
+    I_Sleep(0);
+  end;
+  numspritejobs := 0;
+end;
+
+procedure R_SpritesStartMT(const mainproc: threadfunc_t);
+var
+  i: integer;
+begin
+  numspritethreads := I_GetNumCPUs - 1;
+
+  if numspritethreads > MAXSPRITETHREADS then
+    numspritethreads := MAXSPRITETHREADS
+  else if numspritethreads < 1 then
+    numspritethreads := 1;
+
+  for i := 0 to numspritethreads - 1 do
+  begin
+    SPRINFO[i].id := i;
+    SPRINFO[i].status := SPRST_WAITING;
+  end;
+
+  case numspritethreads of
+    1: MT_Execute(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0]
+        );
+    2: MT_Execute(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1]
+        );
+    3: MT_Execute4(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1],
+        @_sprite_render_thr, @SPRINFO[2]
+        );
+    4: MT_Execute(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1],
+        @_sprite_render_thr, @SPRINFO[2],
+        @_sprite_render_thr, @SPRINFO[3]
+        );
+    5: MT_Execute6(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1],
+        @_sprite_render_thr, @SPRINFO[2],
+        @_sprite_render_thr, @SPRINFO[3],
+        @_sprite_render_thr, @SPRINFO[4]
+        );
+    6: MT_Execute(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1],
+        @_sprite_render_thr, @SPRINFO[2],
+        @_sprite_render_thr, @SPRINFO[3],
+        @_sprite_render_thr, @SPRINFO[4],
+        @_sprite_render_thr, @SPRINFO[5]
+        );
+    7: MT_Execute8(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1],
+        @_sprite_render_thr, @SPRINFO[2],
+        @_sprite_render_thr, @SPRINFO[3],
+        @_sprite_render_thr, @SPRINFO[4],
+        @_sprite_render_thr, @SPRINFO[5],
+        @_sprite_render_thr, @SPRINFO[6]
+        );
+    8: MT_Execute(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1],
+        @_sprite_render_thr, @SPRINFO[2],
+        @_sprite_render_thr, @SPRINFO[3],
+        @_sprite_render_thr, @SPRINFO[4],
+        @_sprite_render_thr, @SPRINFO[5],
+        @_sprite_render_thr, @SPRINFO[6],
+        @_sprite_render_thr, @SPRINFO[7]
+        );
+    9: MT_Execute(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1],
+        @_sprite_render_thr, @SPRINFO[2],
+        @_sprite_render_thr, @SPRINFO[3],
+        @_sprite_render_thr, @SPRINFO[4],
+        @_sprite_render_thr, @SPRINFO[5],
+        @_sprite_render_thr, @SPRINFO[6],
+        @_sprite_render_thr, @SPRINFO[7],
+        @_sprite_render_thr, @SPRINFO[8]
+        );
+   10: MT_Execute(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1],
+        @_sprite_render_thr, @SPRINFO[2],
+        @_sprite_render_thr, @SPRINFO[3],
+        @_sprite_render_thr, @SPRINFO[4],
+        @_sprite_render_thr, @SPRINFO[5],
+        @_sprite_render_thr, @SPRINFO[6],
+        @_sprite_render_thr, @SPRINFO[7],
+        @_sprite_render_thr, @SPRINFO[8],
+        @_sprite_render_thr, @SPRINFO[9]
+        );
+   11: MT_Execute12(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1],
+        @_sprite_render_thr, @SPRINFO[2],
+        @_sprite_render_thr, @SPRINFO[3],
+        @_sprite_render_thr, @SPRINFO[4],
+        @_sprite_render_thr, @SPRINFO[5],
+        @_sprite_render_thr, @SPRINFO[6],
+        @_sprite_render_thr, @SPRINFO[7],
+        @_sprite_render_thr, @SPRINFO[8],
+        @_sprite_render_thr, @SPRINFO[9],
+        @_sprite_render_thr, @SPRINFO[10]
+        );
+   12: MT_Execute(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1],
+        @_sprite_render_thr, @SPRINFO[2],
+        @_sprite_render_thr, @SPRINFO[3],
+        @_sprite_render_thr, @SPRINFO[4],
+        @_sprite_render_thr, @SPRINFO[5],
+        @_sprite_render_thr, @SPRINFO[6],
+        @_sprite_render_thr, @SPRINFO[7],
+        @_sprite_render_thr, @SPRINFO[8],
+        @_sprite_render_thr, @SPRINFO[9],
+        @_sprite_render_thr, @SPRINFO[10],
+        @_sprite_render_thr, @SPRINFO[11]
+        );
+   13: MT_Execute(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1],
+        @_sprite_render_thr, @SPRINFO[2],
+        @_sprite_render_thr, @SPRINFO[3],
+        @_sprite_render_thr, @SPRINFO[4],
+        @_sprite_render_thr, @SPRINFO[5],
+        @_sprite_render_thr, @SPRINFO[6],
+        @_sprite_render_thr, @SPRINFO[7],
+        @_sprite_render_thr, @SPRINFO[8],
+        @_sprite_render_thr, @SPRINFO[9],
+        @_sprite_render_thr, @SPRINFO[10],
+        @_sprite_render_thr, @SPRINFO[11],
+        @_sprite_render_thr, @SPRINFO[12]
+        );
+   14: MT_Execute(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1],
+        @_sprite_render_thr, @SPRINFO[2],
+        @_sprite_render_thr, @SPRINFO[3],
+        @_sprite_render_thr, @SPRINFO[4],
+        @_sprite_render_thr, @SPRINFO[5],
+        @_sprite_render_thr, @SPRINFO[6],
+        @_sprite_render_thr, @SPRINFO[7],
+        @_sprite_render_thr, @SPRINFO[8],
+        @_sprite_render_thr, @SPRINFO[9],
+        @_sprite_render_thr, @SPRINFO[10],
+        @_sprite_render_thr, @SPRINFO[11],
+        @_sprite_render_thr, @SPRINFO[12],
+        @_sprite_render_thr, @SPRINFO[13]
+        );
+   15: MT_Execute16(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1],
+        @_sprite_render_thr, @SPRINFO[2],
+        @_sprite_render_thr, @SPRINFO[3],
+        @_sprite_render_thr, @SPRINFO[4],
+        @_sprite_render_thr, @SPRINFO[5],
+        @_sprite_render_thr, @SPRINFO[6],
+        @_sprite_render_thr, @SPRINFO[7],
+        @_sprite_render_thr, @SPRINFO[8],
+        @_sprite_render_thr, @SPRINFO[9],
+        @_sprite_render_thr, @SPRINFO[10],
+        @_sprite_render_thr, @SPRINFO[11],
+        @_sprite_render_thr, @SPRINFO[12],
+        @_sprite_render_thr, @SPRINFO[13],
+        @_sprite_render_thr, @SPRINFO[14]
+        );
+  else MT_Execute(
+        @mainproc, nil,
+        @_sprite_render_thr, @SPRINFO[0],
+        @_sprite_render_thr, @SPRINFO[1],
+        @_sprite_render_thr, @SPRINFO[2],
+        @_sprite_render_thr, @SPRINFO[3],
+        @_sprite_render_thr, @SPRINFO[4],
+        @_sprite_render_thr, @SPRINFO[5],
+        @_sprite_render_thr, @SPRINFO[6],
+        @_sprite_render_thr, @SPRINFO[7],
+        @_sprite_render_thr, @SPRINFO[8],
+        @_sprite_render_thr, @SPRINFO[9],
+        @_sprite_render_thr, @SPRINFO[10],
+        @_sprite_render_thr, @SPRINFO[11],
+        @_sprite_render_thr, @SPRINFO[12],
+        @_sprite_render_thr, @SPRINFO[13],
+        @_sprite_render_thr, @SPRINFO[14],
+        @_sprite_render_thr, @SPRINFO[15]
+        );
+  end;
+end;
+
+procedure R_SpriteStopMT;
+var
+  i: Integer;
+begin
+  R_SpriteWaitMT;
+  for i := 0 to numspritethreads - 1 do
+    ThreadSet(SPRINFO[i].status, SPRST_FINISHED);
+end;
+
 
 end.
