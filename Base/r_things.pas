@@ -901,6 +901,7 @@ begin
   parms.dc_alpha := dc_alpha;
   parms.dc_fog := dc_fog; // JVAL: Mars fog sectors
   parms.num_batch_columns := num_batch_columns;
+  parms.dc_lightlevel := dc_lightlevel;
   parms.dc_colormap := dc_colormap;
   parms.dc_colormap32 := dc_colormap32;
   parms.proc := spritefunc_mt;
@@ -922,6 +923,7 @@ begin
   parms.dc_alpha := dc_alpha;
   parms.dc_fog := dc_fog; // JVAL: Mars fog sectors
   parms.num_batch_columns := num_batch_columns;
+  parms.dc_lightlevel := dc_lightlevel;
   parms.dc_colormap := dc_colormap;
   parms.dc_colormap32 := dc_colormap32;
   parms.proc := batchspritefunc_mt;
@@ -3002,6 +3004,8 @@ begin
 
   if usemultithread then
     R_SpriteStopMT;
+
+  Result := 0;
 end;
 
 procedure R_DoDrawMaskedFinished;
