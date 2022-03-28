@@ -324,6 +324,7 @@ begin
   newend.first := viewwidth;
   newend.last := $7fffffff;
   inc(newend);
+  ZeroMemory(@solidcol, SCREENWIDTH);
 end;
 {$ENDIF}
 
