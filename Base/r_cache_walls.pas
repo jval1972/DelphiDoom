@@ -248,6 +248,7 @@ var
   r2, g2, b2: byte;
   r, g, b: LongWord;
   c: LongWord;
+  inf: Pdc32cacheinfo_t;
 {$IFDEF DOOM_OR_STRIFE}
   dihertable: Pdihertable_t;
 {$ENDIF}
@@ -275,13 +276,14 @@ begin
   UID := R_GetUID(rtex, rcol, dc_texturemod);
   index := 0;
   cachemiss := true;
-  if dc32cache[hash] <> nil then
+  inf := dc32cache[hash];
+  if inf <> nil then
   begin
-    while dc32cache[hash][index] <> nil do
+    while inf[index] <> nil do
     begin
-      if dc32cache[hash][index].UID = $FFFFFFFF then
+      if inf[index].UID = $FFFFFFFF then
         break;
-      cachemiss := dc32cache[hash][index].UID <> UID;
+      cachemiss := inf[index].UID <> UID;
       if not cachemiss then
         break;
       if index = MAXEQUALHASH - 1 then
@@ -557,6 +559,7 @@ var
   pdc32: Pdc32_t;
 {$ENDIF}
   src1, src2: PByte;
+  inf: Pdc32cacheinfo_t;
   tbl: Phiresmodtable_t;
   cachemiss: boolean;
   UID: LongWord;
@@ -570,13 +573,14 @@ begin
   UID := R_GetUID(rtex, rcol, dc_mod);
   index := 0;
   cachemiss := true;
-  if dc32cache[hash] <> nil then
+  inf := dc32cache[hash];
+  if inf <> nil then
   begin
-    while dc32cache[hash][index] <> nil do
+    while inf[index] <> nil do
     begin
-      if dc32cache[hash][index].UID = $FFFFFFFF then
+      if inf[index].UID = $FFFFFFFF then
         break;
-      cachemiss := dc32cache[hash][index].UID <> UID;
+      cachemiss := inf[index].UID <> UID;
       if not cachemiss then
         break;
       if index = MAXEQUALHASH - 1 then
