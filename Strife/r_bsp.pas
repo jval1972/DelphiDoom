@@ -45,6 +45,7 @@ uses
   d_delphi,
   r_defs;
 
+{$IFNDEF OPENGL}
 //==============================================================================
 // R_ClearClipSegs
 //
@@ -52,6 +53,8 @@ uses
 //
 //==============================================================================
 procedure R_ClearClipSegs;
+
+{$ENDIF}
 
 //==============================================================================
 //
@@ -108,24 +111,24 @@ uses
   m_bbox,
   p_setup,
   p_slopes, // JVAL: Slopes
-  {$IFNDEF OPENGL}
-  p_tick,
-  r_segs,
-  r_3dfloors, // JVAL: 3d Floors
-  r_slopes,   // JVAL: Slopes
-  {$ENDIF}
-  r_main,
-  r_plane,
-  r_things,
-  r_draw,
-  r_sky
-  {$IFDEF OPENGL},
+  {$IFDEF OPENGL}
   doomtype,
   r_data,
   r_visplanes,
   gl_render, // JVAL OPENGL
   gl_clipper, // JVAL OPENGL
-  gl_defs{$ENDIF}; // JVAL OPENGL
+  gl_defs, // JVAL OPENGL
+  {$ELSE}
+  p_tick,
+  r_segs,
+  r_3dfloors, // JVAL: 3d Floors
+  r_slopes,   // JVAL: Slopes
+  r_draw,
+  {$ENDIF}
+  r_main,
+  r_plane,
+  r_things,
+  r_sky;
 
 //==============================================================================
 // R_FakeFlat
@@ -355,21 +358,19 @@ type
 const
   MAXSEGS = MAXWIDTH div 2 + 1;
 
+{$IFNDEF OPENGL}
 var
 // newend is one past the last valid seg
   newend: Pcliprange_t;
   solidsegs: array[0..MAXSEGS - 1] of cliprange_t;
 
-// R_ClipSolidWallSegment
-// Does handle solid walls,
-//  e.g. single sided LineDefs (middle texture)
-//  that entirely block the view.
-//
-{$IFNDEF OPENGL}
-
 //==============================================================================
 //
 // R_ClipSolidWallSegment
+//
+// Does handle solid walls,
+//  e.g. single sided LineDefs (middle texture)
+//  that entirely block the view.
 //
 //==============================================================================
 procedure R_ClipSolidWallSegment(first, last: integer);
@@ -466,6 +467,7 @@ end;
 //==============================================================================
 //
 // R_ClipPassWallSegment
+//
 // Clips the given range of columns,
 //  but does not includes it in the clip list.
 // Does handle windows,
@@ -515,7 +517,6 @@ begin
   // There is a fragment after *next.
   R_StoreWallRange(start.last + 1, last);
 end;
-{$ENDIF}
 
 //==============================================================================
 //
@@ -532,6 +533,7 @@ begin
   newend.last := $7fffffff;
   inc(newend);
 end;
+{$ENDIF}
 
 var
   ftempsec: sector_t;     // killough 3/8/98: ceiling/water hack
