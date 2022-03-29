@@ -1513,16 +1513,16 @@ begin
   dcos := dviewcos;
   dsin := dviewsin;
 
-  tz := tr_x * dcos + tr_y * dsin;
+  tz := 1.0 / (tr_x * dcos + tr_y * dsin);
 
-  z := projection / tz;
-  xscale := projection / FRACUNIT / tz;
+  z := projection * tz;
+  xscale := z / FRACUNIT;
 
   tx := tr_x * dsin - tr_y * dcos;
 
   x1 := centerx + tx * xscale;
 
-  yscale := projectiony / FRACUNIT / tz;
+  yscale := projectiony / FRACUNIT * tz;
   y1 := centery - tr_z * yscale;
 
   x := x1;
