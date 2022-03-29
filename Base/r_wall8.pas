@@ -164,14 +164,12 @@ var
   wallcacherealsize: integer;
 
 var
-  wallstart: integer;
   wallwait: integer;
 
 const
   WALL_RUNNING = 1;
   WALL_PAUSED = 2;
-  WALL_PAUSED_NOTIFIED = 3;
-  WALL_INTERUPTED = 4;
+  WALL_INTERUPTED = 3;
 
 const
   MAXWALLTHREADS8 = 256;
@@ -201,13 +199,12 @@ begin
   begin
     if usemultithread then
     begin
-      ThreadSet(wallwait, WALL_INTERUPTED);
-      while wallwait = WALL_INTERUPTED do
+      if wallwait <> 0 then
       begin
-        if wallthreads8[0] = nil then
-          break;
-        if wallthreads8[0].IsIdle then
-          break;
+        wallwait := WALL_INTERUPTED;
+        if wallthreads8[0] <> nil then
+          wallthreads8[0].Wait;
+        wallwait := 0;
       end;
     end;
     realloc(Pointer(wallcache), wallcacherealsize * SizeOf(batchwallrenderinfo8_t), (64 + wallcacherealsize) * SizeOf(batchwallrenderinfo8_t));
@@ -441,11 +438,12 @@ begin
   if usemultithread then
   begin
     R_AddWallsToCache8(idx);
-    if idx^ > 20 then
-    begin
-      parms[0].stop := 0;
-      wallthreads8[0].Activate(@parms[0]);
-    end;
+    if wallwait = 0 then
+      if idx^ >= 7 then
+      begin
+        wallwait := WALL_RUNNING;
+        wallthreads8[0].Activate(nil);
+      end;
     exit;
   end;
 
@@ -546,32 +544,34 @@ end;
 // _wall_thread_worker8_0
 //
 //==============================================================================
-function _wall_thread_worker8_0(parms: Pwallthreadparms8_t): integer; stdcall;
+function _wall_thread_worker8_0(p: pointer): integer; stdcall;
+var
+  wallstart: integer;
 begin
   wallstart := 0;
-  ThreadSet(wallwait, WALL_RUNNING);
   while wallwait = WALL_RUNNING do
   begin
     if wallstart < wallcachesize then
     begin
       if wallcache[wallstart].numwalls = 8 then
-        R_RenderWall8(@wallcache[wallstart]);
+        R_RenderWall8(@wallcache[wallstart])
+      else if wallcache[wallstart].numwalls <> 0 then
+      begin
+        if midwalls8 <> wallstart then
+          if lowerwalls8 <> wallstart then
+            if upperwalls8 <> wallstart then
+              if midwalls8b <> wallstart then
+                if lowerwalls8b <> wallstart then
+                  if upperwalls8b <> wallstart then
+                    R_RenderWall8(@wallcache[wallstart])
+      end;
       Inc(wallstart);
     end
     else
       wallstart := 0;
-    if parms.stop <> 0 then
-      Break;
   end;
 
-  ThreadSet(wallwait, WALL_PAUSED);
-
-  while wallwait <> 0 do
-  begin
-    ThreadSet(wallwait, WALL_PAUSED_NOTIFIED);
-  end;
-
-  Result := _wall_thread_worker8(parms);
+  Result := 0;
 end;
 
 var
@@ -608,10 +608,10 @@ begin
   if force_numwallrenderingthreads_8bit > 0 then
     numwallthreads8 := force_numwallrenderingthreads_8bit
   else
-    numwallthreads8 := I_GetNumCPUs - 1;
+    numwallthreads8 := I_GetNumCPUs;
 
-  if numwallthreads8 < 1 then
-    numwallthreads8 := 1
+  if numwallthreads8 < 2 then
+    numwallthreads8 := 2
   else if numwallthreads8 > MAXWALLTHREADS8 then
     numwallthreads8 := MAXWALLTHREADS8;
 
@@ -663,6 +663,7 @@ var
   i: integer;
   newnumthreads: integer;
   step: float;
+  start: Integer;
 begin
   if force_numwallrenderingthreads_8bit > 0 then
   begin
@@ -683,10 +684,10 @@ begin
 
   if newnumthreads <= 0 then
   begin
-    newnumthreads := I_GetNumCPUs - 1;
-    if newnumthreads <= 0 then
-      newnumthreads := 1;
+    newnumthreads := I_GetNumCPUs;
   end;
+  if newnumthreads < 2 then
+    newnumthreads := 2;
 
   if newnumthreads <> numwallthreads8 then
   begin
@@ -697,35 +698,41 @@ begin
     numwallthreads8 := newnumthreads;
   end;
 
-  ThreadSet(wallwait, WALL_PAUSED);
-
-  step := (wallcachesize) / numwallthreads8;
-  parms[0].start := 0;
-  for i := 1 to numwallthreads8 - 1 do
-    parms[i].start := Round(step * i);
-  for i := 0 to numwallthreads8 - 2 do
-    parms[i].stop := parms[i + 1].start - 1;
-  parms[numwallthreads8 - 1].stop := wallcachesize - 1;
-
-  for i := 0 to numwallthreads8 - 2 do
-    parms[i].next := @parms[i + 1];
-  parms[numwallthreads8 - 1].next := @parms[0];
-
-  if wallthreads8[0].IsIdle then
+  if wallwait <> 0 then
   begin
-    if parms[0].start <= parms[0].stop then
-      wallthreads8[0].Activate(@parms[0]);
-  end
-  else
-  begin
-    repeat until wallwait = WALL_PAUSED_NOTIFIED;
-    ThreadSet(wallwait, 0);
-    wallthreads8[0].CheckJobDone;
+    wallwait := WALL_PAUSED;
+    wallthreads8[0].Wait;
+    wallwait := 0;
   end;
 
-  for i := 1 to numwallthreads8 - 1 do
-    if parms[i].start <= parms[i].stop then
-      wallthreads8[i].Activate(@parms[i]);
+  start := 0;
+  while start < wallcachesize do
+  begin
+    if wallcache[start].numwalls = 0 then
+      Inc(start)
+    else
+      Break;
+  end;
+
+
+  if start < wallcachesize then
+  begin
+    step := (wallcachesize - start) / (numwallthreads8 - 1);
+    parms[1].start := start;
+    for i := 2 to numwallthreads8 - 1 do
+      parms[i].start := start + Round(step * i);
+    for i := 1 to numwallthreads8 - 2 do
+      parms[i].stop := parms[i + 1].start - 1;
+    parms[numwallthreads8 - 1].stop := wallcachesize - 1;
+
+    for i := 1 to numwallthreads8 - 2 do
+      parms[i].next := @parms[i + 1];
+    parms[numwallthreads8 - 1].next := @parms[1];
+
+    for i := 1 to numwallthreads8 - 1 do
+      if parms[i].start <= parms[i].stop then
+        wallthreads8[i].Activate(@parms[i]);
+  end;
 end;
 
 //==============================================================================
@@ -756,7 +763,7 @@ var
   end;
 
 begin
-  doneid := 0;
+  doneid := 1;
   while not _alldone do
     I_Sleep(0);
 end;
