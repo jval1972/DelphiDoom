@@ -4911,7 +4911,8 @@ end;
 //==============================================================================
 constructor TPNGObject.CreateBlank(ColorType, BitDepth: Cardinal;
   cx, cy: Integer);
-var NewIHDR: TChunkIHDR;
+var
+  NewIHDR: TChunkIHDR;
 begin
   {Calls creator}
   Create;
@@ -5222,6 +5223,7 @@ type
   {Access to pixels}
   TPixelLine = array[Word] of TRGBQuad;
   pPixelLine = ^TPixelLine;
+
 const
   {Structure used to create the bitmap}
   BitmapInfoHeader: TBitmapInfoHeader =
