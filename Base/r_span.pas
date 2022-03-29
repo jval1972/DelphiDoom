@@ -76,6 +76,8 @@ var
   ds_cosine: float;   // JVAL: 20200225 - Texture angle
   ds_viewsine: float;     // JVAL: 20200225 - Texture angle
   ds_viewcosine: float;   // JVAL: 20200225 - Texture angle
+  ds_tviewx: fixed_t; // JVAL: 20220329 - Texture angle
+  ds_tviewy: fixed_t; // JVAL: 20220329 - Texture angle
 
 // start of a 64*64 tile image
   ds_source: PByteArray;

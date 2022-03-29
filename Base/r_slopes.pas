@@ -645,8 +645,6 @@ var
   yfrac2: fixed_t;
   cnt: integer;
   pviewsin, pviewcos: float;
-  tcos, tsin: float;
-  tviewx, tviewy: fixed_t;
 begin
   if y >= viewheight then
     exit;
@@ -699,12 +697,6 @@ begin
   ds_x1 := x1;
   cnt := 0;
 
-  tsin := ds_sine;
-  tcos := ds_cosine;
-
-  tviewx := Round((viewx - ds_anglex) * tcos - (viewy - ds_angley) * tsin) + ds_anglex;
-  tviewy := Round((viewx - ds_anglex) * tsin + (viewy - ds_angley) * tcos) + ds_angley;
-
   // JVAL: 20200430 - For slope lightmap
   yslopey := slyslope[y];
 
@@ -728,9 +720,9 @@ begin
       len := FixedMul(distance, distscale[x]);
       angle := (viewangle + xtoviewangle[x] - ds_angle) shr FRACBITS;
 
-      xfrac1 := tviewx + FixedMul(fixedcosine[angle], len)
+      xfrac1 := ds_tviewx + FixedMul(fixedcosine[angle], len)
       {$IFDEF DOOM_OR_STRIFE} + xoffs{$ENDIF} {$IFDEF HEXEN} + ds_xoffset{$ENDIF};
-      yfrac1 := -tviewy - FixedMul(fixedsine[angle], len)
+      yfrac1 := -ds_tviewy - FixedMul(fixedsine[angle], len)
       {$IFDEF DOOM_OR_STRIFE} + yoffs{$ENDIF} {$IFDEF HEXEN} + ds_yoffset{$ENDIF};
 
       if x = x1 then
@@ -881,6 +873,8 @@ begin
     ds_cosine := cos(ds_angle * ANGLE_T_TO_RAD);  // JVAL: 20200225 - Texture angle
     ds_viewsine := sin((viewangle - ds_angle) * ANGLE_T_TO_RAD);    // JVAL: 20200225 - Texture angle
     ds_viewcosine := cos((viewangle - ds_angle) * ANGLE_T_TO_RAD);  // JVAL: 20200225 - Texture angle
+    ds_tviewx := Round((viewx - ds_anglex) * ds_cosine - (viewy - ds_angley) * ds_sine) + ds_anglex;
+    ds_tviewy := Round((viewx - ds_anglex) * ds_sine + (viewy - ds_angley) * ds_cosine) + ds_angley;
     // Slope with angle
     for x := pl.minx to stop do
     begin
