@@ -204,7 +204,7 @@ type
   seg_ap3 = array[0..2] of Pseg_t;
 
 var
-  pla: angle_t;
+  pla, pla2: angle_t;
   plx, ply: fixed_t;
   amsin, amcos: fixed_t;
   f_mx: integer;
@@ -472,7 +472,8 @@ begin
   for i := 0 to 2 do
   begin
     if allowautomaprotate then
-      AM_rotate(@t[i].x, @t[i].y, ANG90 - plr.mo.angle, plr.mo.x div FRACTOMAPUNIT, plr.mo.y div FRACTOMAPUNIT);
+//      AM_rotate(@t[i].x, @t[i].y, ANG90 - plr.mo.angle, plr.mo.x div FRACTOMAPUNIT, plr.mo.y div FRACTOMAPUNIT);
+      AM_rotate(@t[i].x, @t[i].y, pla2, plx, ply);
     t[i].x := CXMTOF(t[i].x);
     t[i].y := CYMTOF(t[i].y);
   end;
@@ -823,6 +824,7 @@ var
 begin
   Inc(amvalidcount);
   pla := plr.mo.angle - ANG90;
+  pla2 := ANG90 - plr.mo.angle;
   plx := plr.mo.x div FRACTOMAPUNIT;
   ply := plr.mo.y div FRACTOMAPUNIT;
   amsin := fixedsine[pla shr FRACBITS];
