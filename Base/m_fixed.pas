@@ -547,7 +547,11 @@ begin
     else if ret > MAXINT - 1 then
       result := MAXINT
     else
-      result := Round(ret);
+    begin
+      // http://stereopsis.com/sree/fpu2006.html - Fast round double
+      ret := ret + 6755399441055744.0;
+      result := PInteger(@ret)^;
+    end;
   end;
 end;
 
