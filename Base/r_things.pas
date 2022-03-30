@@ -1430,7 +1430,7 @@ begin
     while dc_x <= x2 do
     begin
       texturecolumn := LongWord(frac) shr FRACBITS;
-      if IsIntegerInRange(texturecolumn, 0, LIGHTBOOSTSIZE - 1) then
+      if LongWord(texturecolumn) < LIGHTBOOSTSIZE then
       begin
         ltopdelta := lighboostlookup[texturecolumn].topdelta;
         llength := lighboostlookup[texturecolumn].length;
@@ -1486,7 +1486,7 @@ begin
         save_dc_x := last_dc_x;
         last_dc_x := dc_x;
 
-        if IsIntegerInRange(texturecolumn, 0, LIGHTBOOSTSIZE - 1) then
+        if LongWord(texturecolumn) < LIGHTBOOSTSIZE then
         begin
           ltopdelta := lighboostlookup[texturecolumn].topdelta;
           llength := lighboostlookup[texturecolumn].length;

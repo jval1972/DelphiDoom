@@ -450,8 +450,8 @@ begin
 
   last_pal_index := cur_pal_index;
   last_gamma := usegamma;
-  if IsIntegerInRange(last_pal_index, 0, numapproxcolorstructitem - 1) then
-    if IsIntegerInRange(last_gamma, 0, GAMMASIZE - 1) then
+  if LongWord(last_pal_index) < numapproxcolorstructitem then
+    if LongWord(last_gamma) < GAMMASIZE then
     begin
       approxcolorindexarray := @approxcolorstruct[last_pal_index].table[usegamma];
       exit;
