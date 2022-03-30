@@ -472,7 +472,6 @@ begin
   for i := 0 to 2 do
   begin
     if allowautomaprotate then
-//      AM_rotate(@t[i].x, @t[i].y, ANG90 - plr.mo.angle, plr.mo.x div FRACTOMAPUNIT, plr.mo.y div FRACTOMAPUNIT);
       AM_rotate(@t[i].x, @t[i].y, pla2, plx, ply);
     t[i].x := CXMTOF(t[i].x);
     t[i].y := CYMTOF(t[i].y);
