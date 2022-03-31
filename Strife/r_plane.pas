@@ -1049,7 +1049,7 @@ begin
             end;
             dc_x := x;
             R_GetDCs(skytexture, angle);
-            // Sky is allways drawn full bright,
+            // Sky is always drawn full bright,
             //  i.e. colormaps[0] is used.
             //  Because of this hack, sky is not affected
             //  by INVUL inverse mapping.
