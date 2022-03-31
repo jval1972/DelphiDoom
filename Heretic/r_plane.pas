@@ -863,14 +863,18 @@ begin
   begin
   // JVAL 9/7/05
     if t1 < viewheight then
-      func(t1, spanstart[t1], x1);
+      func(t1, spanstart[t1], x1)
+    else
+      Break;
     inc(t1);
   end;
   while (b1 > b2) and (b1 >= t1) do
   begin
   // JVAL 9/7/05
-    if (b1 >= 0) and (b1 < viewheight) then
-      func(b1, spanstart[b1], x1);
+    if LongWord(b1) < LongWord(viewheight) then
+      func(b1, spanstart[b1], x1)
+    else
+      Break;
     dec(b1);
   end;
 
@@ -880,14 +884,18 @@ begin
   begin
   // JVAL 9/7/05
     if t2 < viewheight then
-      spanstart[t2] := x;
+      spanstart[t2] := x
+    else
+      Break;
     inc(t2);
   end;
   while (b2 > b1) and (b2 >= t2) do
   begin
   // JVAL 9/7/05
-    if (b2 >= 0) and (b2 < viewheight) then
-      spanstart[b2] := x;
+    if LongWord(b2) < LongWord(viewheight) then
+      spanstart[b2] := x
+    else
+      Break;
     dec(b2);
   end;
 end;
