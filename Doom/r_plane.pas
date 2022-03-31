@@ -1050,8 +1050,8 @@ begin
               end;
               dc_x := x;
               R_ReadDC32Cache(skytexture1, angle);
-            // JVAL
-            //  Store columns to buffer
+              // JVAL
+              //  Store columns to buffer
               R_StoreSkyColumn32;
             end;
           end;
