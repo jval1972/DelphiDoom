@@ -2276,6 +2276,7 @@ begin
         r2 := vis.vx2
       else
         r2 := ds.x2;
+
       // masked mid texture?
       if ds.thicksidecol <> nil then        // JVAL: 3d Floors
         R_RenderThickSideRange(ds, r1, r2); // JVAL: 3d Floors
@@ -2293,7 +2294,7 @@ begin
       r2 := vis.vx2
     else
       r2 := ds.x2;
-    
+
     // clip this piece of the sprite
     silhouette := ds.silhouette;
 
