@@ -387,8 +387,6 @@ var
   slope: double;
   dy: float; // JVAL: from E.E.
   pviewsin, pviewcos: float;
-  tcos, tsin: float;
-  tviewx, tviewy: fixed_t;
 begin
   if x2 - x1 < 0 then
     exit;
@@ -419,14 +417,8 @@ begin
   ds_xstep := round(pviewsin * slope);
   ds_ystep := round(pviewcos * slope);
 
-  tsin := ds_sine;
-  tcos := ds_cosine;
-
-  tviewx := Round((viewx - ds_anglex) * tcos - (viewy - ds_angley) * tsin) + ds_anglex;
-  tviewy := Round((viewx - ds_anglex) * tsin + (viewy - ds_angley) * tcos) + ds_angley;
-
-  ds_xfrac :=  tviewx + xoffs + round(pviewcos * distance) + (x1 - centerx) * ds_xstep;
-  ds_yfrac := -tviewy + yoffs - round(pviewsin * distance) + (x1 - centerx) * ds_ystep;
+  ds_xfrac :=  ds_tviewx + xoffs + round(pviewcos * distance) + (x1 - centerx) * ds_xstep;
+  ds_yfrac := -ds_tviewy + yoffs - round(pviewsin * distance) + (x1 - centerx) * ds_ystep;
 
   if fixedcolormap <> nil then
   begin
@@ -1126,6 +1118,8 @@ begin
     ds_cosine := cos(ds_angle * ANGLE_T_TO_RAD);  // JVAL: 20200225 - Texture angle
     ds_viewsine := sin((viewangle - ds_angle) * ANGLE_T_TO_RAD);    // JVAL: 20200225 - Texture angle
     ds_viewcosine := cos((viewangle - ds_angle) * ANGLE_T_TO_RAD);  // JVAL: 20200225 - Texture angle
+    ds_tviewx := Round((viewx - ds_anglex) * ds_cosine - (viewy - ds_angley) * ds_sine) + ds_anglex;
+    ds_tviewy := Round((viewx - ds_anglex) * ds_sine + (viewy - ds_angley) * ds_cosine) + ds_angley;
     for x := pl.minx to stop do
     begin
       R_MakeSpans(x, pl.top[x - 1], pl.bottom[x - 1], pl.top[x], pl.bottom[x], @R_MapPlaneAngle);
