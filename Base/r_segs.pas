@@ -1260,7 +1260,6 @@ end;
 //
 //==============================================================================
 procedure R_StoreWallRange(start: integer; stop: integer);
-//procedure R_StoreWallRange(const start: integer; const stop: integer);
 var
   vtop: fixed_t;
   lightnum: integer;
