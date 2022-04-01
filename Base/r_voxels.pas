@@ -2070,6 +2070,7 @@ begin
 
         dc_color := col.dc_color;
         dc_source := @dc_color;
+        dc_source32 := @dc_color32;
 
         if vx_localsimpleclip then
         begin
