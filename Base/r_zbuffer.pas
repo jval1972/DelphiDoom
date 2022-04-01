@@ -359,7 +359,7 @@ begin
     I_Warning('R_DrawBatchMaskedColumnToZBuffer(): dc_yh=%d < dc_yl=%d'#13#10, [dc_yh, dc_yl]);
 {$ENDIF}
 
-  for i := dc_x to dc_x + num_batch_columns - 1 do
+  for i := dc_x to dc_x + num_batch_columns do
   begin
     item := R_NewZBufferItem(@Zcolumns[i]);
 
@@ -471,7 +471,7 @@ begin
     I_Warning('R_DrawBatchVoxelColumnToZBuffer(): dc_yh=%d < dc_yl=%d'#13#10, [dc_yh, dc_yl]);
 {$ENDIF}
 
-  for i := dc_x to dc_x + num_batch_columns - 1 do
+  for i := dc_x to dc_x + num_batch_columns do
   begin
     Z := @Zcolumns[i];
     if Z.numitems > 0 then
@@ -480,6 +480,7 @@ begin
       if item.seg = nil then
         if item.mo = mo then
           if depth = item.depth then
+          begin
             if dc_yl <= item.stop + 1 then
               if dc_yl >= item.start then
               begin
@@ -488,6 +489,40 @@ begin
                 item.stop := dc_yh;
                 Continue;
               end;
+            if dc_yh >= item.start - 1 then
+              if dc_yh <= item.stop then
+              begin
+                if dc_yl >= item.start then
+                  Continue;
+                item.start := dc_yl;
+                Continue;
+              end;
+          end;
+    end;
+    if Z.numitems > 1 then
+    begin
+      item := @Z.items[Z.numitems - 2];
+      if item.seg = nil then
+        if item.mo = mo then
+          if depth = item.depth then
+          begin
+            if dc_yl <= item.stop + 1 then
+              if dc_yl >= item.start then
+              begin
+                if dc_yh <= item.stop then
+                  Continue;
+                item.stop := dc_yh;
+                Continue;
+              end;
+            if dc_yh >= item.start - 1 then
+              if dc_yh <= item.stop then
+              begin
+                if dc_yl >= item.start then
+                  Continue;
+                item.start := dc_yl;
+                Continue;
+              end;
+          end;
     end;
 
     item := R_NewZBufferItem(Z);
