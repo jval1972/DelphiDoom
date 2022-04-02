@@ -552,7 +552,7 @@ begin
 
   dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
 
-  frac := dc_texturemid + (p.dc_yl - centery) * p.dc_iscale;
+  frac := p.dc_texturemid + (p.dc_yl - centery) * p.dc_iscale;
   fracstep := 3 * p.dc_iscale;
   swidth := SCREENWIDTH;
 
@@ -607,7 +607,7 @@ begin
 
   dest := @((ylookup[p.dc_yl]^)[columnofs[p.dc_x]]);
 
-  frac := dc_texturemid + (p.dc_yl - centery) * p.dc_iscale;
+  frac := p.dc_texturemid + (p.dc_yl - centery) * p.dc_iscale;
   fracstep := 3 * p.dc_iscale;
   swidth := SCREENWIDTH;
 
@@ -665,7 +665,7 @@ begin
   // Determine scaling,
   //  which is the only mapping to be done.
   fracstep := p.dc_iscale;
-  frac := dc_texturemid + (p.dc_yl - centery) * fracstep;
+  frac := p.dc_texturemid + (p.dc_yl - centery) * fracstep;
   fraclimit := frac + count * fracstep;
   swidth := SCREENWIDTH;
 
@@ -722,7 +722,7 @@ begin
   destl := @((ylookupl[p.dc_yl]^)[columnofs[p.dc_x]]);
 
   fracstep := p.dc_iscale;
-  frac := dc_texturemid + (p.dc_yl - centery) * fracstep;
+  frac := p.dc_texturemid + (p.dc_yl - centery) * fracstep;
 
   // Inner loop that does the actual texture mapping,
   //  e.g. a DDA-lile scaling.
@@ -799,7 +799,7 @@ begin
   destl := @((ylookupl[p.dc_yl]^)[columnofs[p.dc_x]]);
 
   fracstep := p.dc_iscale;
-  frac := dc_texturemid + (p.dc_yl - centery) * fracstep;
+  frac := p.dc_texturemid + (p.dc_yl - centery) * fracstep;
 
   // Inner loop that does the actual texture mapping,
   //  e.g. a DDA-lile scaling.
@@ -1433,7 +1433,7 @@ begin
 
   for i := 0 to count - 1 do
   begin
-    bdest := dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
 
     cnt := p.num_batch_columns;
     while cnt > 0 do
@@ -1468,7 +1468,7 @@ begin
   count := (p.dc_yh - p.dc_yl) mod 3;
   for i := 0 to count do
   begin
-    bdest := dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
 
     cnt := p.num_batch_columns;
     while cnt > 0 do
@@ -1540,7 +1540,7 @@ begin
       begin
       // Re-map color indices from wall texture column
       //  using a lighting/special effects LUT.
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1552,7 +1552,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1564,7 +1564,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1576,7 +1576,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1588,7 +1588,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1600,7 +1600,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1612,7 +1612,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1624,7 +1624,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1636,7 +1636,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1648,7 +1648,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1660,7 +1660,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1672,7 +1672,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1684,7 +1684,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1696,7 +1696,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1708,7 +1708,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1720,7 +1720,7 @@ begin
         inc(dest, swidth);
         inc(frac, fracstep);
 
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1737,7 +1737,7 @@ begin
       begin
       // Re-map color indices from wall texture column
       //  using a lighting/special effects LUT.
-        bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+        bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
         ldest := precal8_tolong[bdest];
         cnt := num_iters;
         while cnt > 0 do
@@ -1757,7 +1757,7 @@ begin
     begin
     // Re-map color indices from wall texture column
     //  using a lighting/special effects LUT.
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -1776,7 +1776,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -1795,7 +1795,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -1814,7 +1814,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -1833,7 +1833,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -1852,7 +1852,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -1871,7 +1871,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -1890,7 +1890,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -1909,7 +1909,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -1928,7 +1928,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -1947,7 +1947,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -1966,7 +1966,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -1985,7 +1985,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -2004,7 +2004,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -2023,7 +2023,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -2042,7 +2042,7 @@ begin
       inc(dest, swidth);
       inc(frac, fracstep);
 
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -2066,7 +2066,7 @@ begin
     begin
     // Re-map color indices from wall texture column
     //  using a lighting/special effects LUT.
-      bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+      bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
       ldest := precal8_tolong[bdest];
       cnt := num_iters;
       while cnt > 0 do
@@ -2096,7 +2096,7 @@ begin
   begin
   // Re-map color indices from wall texture column
   //  using a lighting/special effects LUT.
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2107,7 +2107,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2118,7 +2118,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2129,7 +2129,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2140,7 +2140,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2151,7 +2151,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2162,7 +2162,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2173,7 +2173,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2184,7 +2184,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2195,7 +2195,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2206,7 +2206,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2217,7 +2217,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2228,7 +2228,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2239,7 +2239,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2250,7 +2250,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2261,7 +2261,7 @@ begin
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2277,7 +2277,7 @@ begin
   begin
   // Re-map color indices from wall texture column
   //  using a lighting/special effects LUT.
-    bdest := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := p.dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
     cnt := p.num_batch_columns;
     while cnt > 0 do
     begin
@@ -2333,7 +2333,7 @@ begin
   // Re-map color indices from wall texture column
   //  using a lighting/special effects LUT.
 
-    b := dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    b := p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
     u := b shl 8;
     cnt := p.num_batch_columns;
     while cnt > 0 do
@@ -2391,7 +2391,7 @@ begin
   // Re-map color indices from wall texture column
   //  using a lighting/special effects LUT.
 
-    b := dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    b := p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
     u := b shl 8;
     cnt := p.num_batch_columns;
     while cnt > 0 do
@@ -2449,7 +2449,7 @@ begin
   // Re-map color indices from wall texture column
   //  using a lighting/special effects LUT.
 
-    b := dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    b := p.dc_colormap[p.dc_source[(LongWord(frac) shr FRACBITS) and 127]];
     u := b shl 8;
     cnt := p.num_batch_columns;
     while cnt > 0 do
