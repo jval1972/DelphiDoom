@@ -477,12 +477,13 @@ begin
     Z := @Zcolumns[i];
 
     merged := false;
-    for j := Z.numitems - 1 downto Z.numitems - 5 do
+    for j := Z.numitems - 1 downto Z.numitems - 8 do
     begin
       if j < 0 then
         Break;
       item := @Z.items[j];
       if item.seg = nil then
+      begin
         if item.mo = mo then
         begin
           if depth = item.depth then
@@ -516,9 +517,21 @@ begin
                 Break;
               end;
           end
-          else if j < Z.numitems - 3 then
-            Break;
-        end;
+          else
+          begin
+            if dc_yl >= item.start then
+              if dc_yh <= item.stop then
+              begin
+                merged := True;
+                Break;
+              end;
+          end
+        end
+        else
+          Break;
+      end
+      else
+        Break;
     end;
 
     if merged then
