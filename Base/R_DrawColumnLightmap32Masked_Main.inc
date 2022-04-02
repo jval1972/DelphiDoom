@@ -13,7 +13,7 @@
     dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
     if dls <> 0 then
     begin
-      db := R_ZBufferAt(x, y);
+      db := R_ZBufferAtCache(x, y);
       if db.pass = 0 then
       begin
         inc(destb, pitch);

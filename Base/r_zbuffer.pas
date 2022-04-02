@@ -57,12 +57,15 @@ type
     items: Pzbufferitem_tArray;
     numitems: integer;
     numrealitems: integer;
+    numcacheditems: integer;
+    lock: integer;
   end;
   Pzbuffer_t = ^zbuffer_t;
 
 var
   Zspans: array[0..MAXHEIGHT] of zbuffer_t;
   Zcolumns: array[0..MAXWIDTH] of zbuffer_t;
+  Zcolumncache: array[0..MAXWIDTH] of packed array[0..MAXHEIGHT] of byte;
 
 //==============================================================================
 //
@@ -132,6 +135,13 @@ function R_ZBufferAt(const x, y: integer): Pzbufferitem_t;
 
 //==============================================================================
 //
+// R_ZBufferAtCache
+//
+//==============================================================================
+function R_ZBufferAtCache(const x, y: integer): Pzbufferitem_t;
+
+//==============================================================================
+//
 // R_InitZBuffer
 //
 //==============================================================================
@@ -165,6 +175,20 @@ procedure R_StopZBuffer;
 //==============================================================================
 procedure R_ClearZBuffer;
 
+//==============================================================================
+//
+// R_CacheZBuffer
+//
+//==============================================================================
+procedure R_CacheZBuffer;
+
+//==============================================================================
+//
+// R_SignalZBufferCache
+//
+//==============================================================================
+procedure R_SignalZBufferCache;
+
 var
   zbufferactive: boolean = true;
 
@@ -175,6 +199,7 @@ uses
   {$IFDEF DEBUG}
   i_system,
   {$ENDIF}
+  i_threads,
   c_cmds,
   m_fixed,
   r_batchcolumn,
@@ -193,11 +218,19 @@ function R_NewZBufferItem(const Z: Pzbuffer_t): Pzbufferitem_t;
 const
   GROWSTEP = 4;
 begin
-  if Z.numitems >= Z.numrealitems then
+  if Z.numitems < Z.numrealitems then
   begin
-    realloc(pointer(Z.items), Z.numrealitems * SizeOf(zbufferitem_t), (Z.numrealitems + GROWSTEP) * SizeOf(zbufferitem_t));
-    Z.numrealitems := Z.numrealitems + GROWSTEP;
+    result := @Z.items[Z.numitems];
+    inc(Z.numitems);
+    Exit;
   end;
+
+  repeat
+    repeat until Z.lock = 0;
+  until ThreadSet(Z.lock, 1) = 0;
+  realloc(pointer(Z.items), Z.numrealitems * SizeOf(zbufferitem_t), (Z.numrealitems + GROWSTEP) * SizeOf(zbufferitem_t));
+  Z.numrealitems := Z.numrealitems + GROWSTEP;
+  ThreadSet(Z.lock, 0);
   result := @Z.items[Z.numitems];
   inc(Z.numitems);
 end;
@@ -597,6 +630,63 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_ZBufferAtCache
+//
+//==============================================================================
+function R_ZBufferAtCache(const x, y: integer): Pzbufferitem_t;
+var
+  Z: Pzbuffer_t;
+  pi, pistop: Pzbufferitem_t;
+  maxdepth, depth: LongWord;
+begin
+  Z := @Zcolumns[x];
+  if Z.numcacheditems > 0 then
+  begin
+    pi := @Z.items[Zcolumncache[x][Z.numcacheditems]];
+    result := @Z.items[Zcolumncache[x][y]];
+    maxdepth := result.depth;
+  end
+  else
+  begin
+    result := @stubzitem;
+    maxdepth := 0;
+    pi := @Z.items[0];
+  end;
+  pistop := @Z.items[Z.numitems];
+  while pi <> pistop do
+  begin
+    if (y >= pi.start) and (y <= pi.stop) then
+    begin
+      depth := pi.depth;
+      if depth > maxdepth then
+      begin
+        result := pi;
+        maxdepth := depth;
+      end;
+    end;
+    inc(pi);
+  end;
+
+  Z := @Zspans[y];
+  pi := @Z.items[0];
+  pistop := @Z.items[Z.numitems];
+  while pi <> pistop do
+  begin
+    if (x >= pi.start) and (x <= pi.stop) then
+    begin
+      depth := pi.depth;
+      if depth > maxdepth then
+      begin
+        result := pi;
+        maxdepth := depth;
+      end;
+    end;
+    inc(pi);
+  end;
+end;
+
 var
   export_zbuffer: boolean = false;
   export_zbuffer_path: string;
@@ -734,6 +824,9 @@ begin
   R_ClearZBuffer;
 end;
 
+var
+  zchachesignal: Boolean = False;
+
 //==============================================================================
 //
 // R_ClearZBuffer
@@ -743,10 +836,64 @@ procedure R_ClearZBuffer;
 var
   i: integer;
 begin
+  zchachesignal := False;
+
   for i := 0 to viewwidth do
+  begin
     Zcolumns[i].numitems := 0;
+    if Zcolumns[i].numcacheditems > 0 then
+    begin
+      ZeroMemory(@Zcolumncache[i], SizeOf(Byte) * viewheight);
+      Zcolumns[i].numcacheditems := 0;
+    end;
+    Zcolumns[i].lock := 0;
+  end;
+
   for i := 0 to viewheight do
     Zspans[i].numitems := 0;
+end;
+
+//==============================================================================
+//
+// R_CacheZBuffer
+//
+//==============================================================================
+procedure R_CacheZBuffer;
+var
+  i, j: Integer;
+  start, stop: Integer;
+  Z: Pzbuffer_t;
+begin
+  while True do
+  begin
+    for i := 0 to viewwidth - 1 do
+    begin
+      Z := @Zcolumns[i];
+      start := Z.numcacheditems;
+      stop := MinI(Z.numitems - 3, 255);
+      for j := start to stop do
+      begin
+        repeat
+          repeat until Z.lock = 0;
+        until ThreadSet(Z.lock, 2) = 0;
+        FillChar(Zcolumncache[i][Z.items[j].start], Z.items[j].stop - Z.items[j].start + 1, j);
+        ThreadSet(Z.lock, 0);
+        Inc(Z.numcacheditems);
+      end;
+      if zchachesignal then
+        Exit;
+    end;
+  end;
+end;
+
+//==============================================================================
+//
+// R_SignalZBufferCache
+//
+//==============================================================================
+procedure R_SignalZBufferCache;
+begin
+  zchachesignal := True;
 end;
 
 end.

@@ -3066,7 +3066,9 @@ begin
     exit;
 
   numspritethreads := numspritejobs;
-  ncpus := I_GetNumCPUs;
+  ncpus := I_GetNumCPUs - 2;
+  if ncpus <= 0 then
+    ncpus := 1;
   if ncpus > MAXSPRITETHREADS then
     ncpus := MAXSPRITETHREADS;
   if numspritethreads > ncpus then

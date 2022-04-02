@@ -2116,6 +2116,12 @@ begin
 end;
 {$ENDIF}
 
+{$IFNDEF OPENGL}
+var
+  oldviewwidth: integer;
+  oldviewheight: Integer;
+{$ENDIF}
+
 //==============================================================================
 //
 // R_ExecuteSetViewSize
@@ -2135,6 +2141,11 @@ var
   startmaphi: integer;
 begin
   setsizeneeded := false;
+
+{$IFNDEF OPENGL}
+  oldviewwidth := viewwidth;
+  oldviewheight := viewheight;
+{$ENDIF}
 
   if setblocks > 10 then
   begin
@@ -2166,6 +2177,12 @@ begin
   centerx := viewwidth div 2;
   {$IFNDEF OPENGL}
   xfocallen := centerx / tan(fov * ANGLE_T_TO_RAD / 2); // JVAL: Slopes
+  if (oldviewwidth <> viewwidth) or (oldviewheight <> viewheight) then
+  begin
+    MT_WaitTasks;
+    if zbufferactive then
+      R_StopZBuffer;
+  end;
   {$ENDIF}
 
   centerxfrac := centerx * FRACUNIT;
@@ -2865,7 +2882,7 @@ begin
 end;
 
 var
-  task_clearplanes: integer = -1;
+  task_clear: integer = -1;
   task_8bitlights: integer = -1;
   task_maskedstuff: integer = -1;
 
@@ -2874,6 +2891,18 @@ begin
   R_SortVisSprites;
   R_SetUpDrawSegLists;
   R_PrepareMasked;
+end;
+
+//==============================================================================
+//
+// R_ClearRender
+//
+//==============================================================================
+procedure R_ClearRender;
+begin
+  R_InitializeVisplanes;
+  if zbufferactive then
+    R_StopZBuffer;
 end;
 
 //==============================================================================
@@ -2953,8 +2982,8 @@ begin
   // Check for new console commands.
   NetUpdate;
 
-  task_clearplanes := MT_ScheduleTask(@R_InitializeVisplanes);
-  MT_ExecutePendingTask(task_clearplanes);
+  task_clear := MT_ScheduleTask(@R_ClearRender);
+  MT_ExecutePendingTask(task_clear);
 end;
 
 //==============================================================================
@@ -3032,8 +3061,8 @@ begin
   // Check for new console commands.
   NetUpdate;
 
-  task_clearplanes := MT_ScheduleTask(@R_InitializeVisplanes);
-  MT_ExecutePendingTask(task_clearplanes);
+  task_clear := MT_ScheduleTask(@R_ClearRender);
+  MT_ExecutePendingTask(task_clear);
 end;
 {$ENDIF}
 
@@ -3112,8 +3141,8 @@ begin
   NetUpdate;
 
 {$IFNDEF OPENGL}
-  task_clearplanes := MT_ScheduleTask(@R_InitializeVisplanes);
-  MT_ExecutePendingTask(task_clearplanes);
+  task_clear := MT_ScheduleTask(@R_ClearRender);
+  MT_ExecutePendingTask(task_clear);
 {$ENDIF}
 end;
 
@@ -3128,7 +3157,7 @@ begin
   Inc(rendervalidcount);
 
 {$IFNDEF OPENGL}
-  MT_WaitTask(task_clearplanes);
+  MT_WaitTask(task_clear);
   zbufferactive := r_uselightmaps;
   R_SetDrawSegFunctions;  // version 205
   if usemultithread then
@@ -3141,10 +3170,6 @@ begin
   else
 {$ENDIF}
     R_DoRenderPlayerView_SingleThread(player);
-{$IFNDEF OPENGL}
-  if zbufferactive then
-    R_StopZBuffer;
-{$ENDIF}
   if mn_makescreenshot then
     MN_ScreenShotFromBlitBuffer;
 end;

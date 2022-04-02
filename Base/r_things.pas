@@ -257,6 +257,7 @@ uses
   r_main,
   p_setup,
 {$IFNDEF OPENGL}
+  mt_utils,
   r_sprite,
   r_segs,
   r_segs2,
@@ -1096,7 +1097,7 @@ end;
 //  mfloorclip and mceilingclip should also be set.
 //
 const
-  MIN_SPRITE_SIZE_MT = 64;
+  MIN_SPRITE_SIZE_MT = 256;
 
 //==============================================================================
 //
@@ -3071,6 +3072,8 @@ end;
 //
 //==============================================================================
 procedure R_DrawMasked_MultiThread;
+var
+  ztask: integer;
 begin
   domaskedzbuffer := false;
   if r_uselightmaps then
@@ -3081,10 +3084,18 @@ begin
       // Draw lights - First pass - only world
       R_DrawLightsMultiThread(lp_solid);
       domaskedzbuffer := r_lightmaponmasked;
-      R_DoDrawMasked;
-      // Draw lights - Second pass - masked
       if r_lightmaponmasked then
+      begin
+        ztask := MT_Scheduletask(@R_CacheZBuffer);
+        MT_ExecutePendingTask(ztask);
+        R_DoDrawMasked;
+        R_SignalZBufferCache;
+        MT_WaitTask(ztask);
+        // Draw lights - Second pass - masked
         R_DrawLightsMultiThread(lp_masked);
+      end
+      else
+        R_DoDrawMasked;
     end
     else
       R_DoDrawMasked;
