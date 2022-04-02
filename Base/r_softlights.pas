@@ -648,7 +648,7 @@ begin
   if count < 0 then
     exit;
 
-  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  frac := parms.dl_texturemid + (parms.dl_yl - parms.centery) * parms.dl_iscale;
   fracstep := parms.dl_fracstep;
 
   dbmin := parms.db_min;
@@ -769,7 +769,7 @@ begin
   if count < 0 then
     exit;
 
-  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  frac := parms.dl_texturemid + (parms.dl_yl - parms.centery) * parms.dl_iscale;
   fracstep := parms.dl_fracstep;
 
   dbmin := parms.db_min;
@@ -891,7 +891,7 @@ begin
   if count < 0 then
     exit;
 
-  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  frac := parms.dl_texturemid + (parms.dl_yl - parms.centery) * parms.dl_iscale;
   fracstep := parms.dl_fracstep;
 
   dbmin := parms.db_min;
@@ -1015,7 +1015,7 @@ begin
   if count < 0 then
     exit;
 
-  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  frac := parms.dl_texturemid + (parms.dl_yl - parms.centery) * parms.dl_iscale;
   fracstep := parms.dl_fracstep;
 
   dbmin := parms.db_min;
@@ -1129,7 +1129,7 @@ begin
   if count < 0 then
     exit;
 
-  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  frac := parms.dl_texturemid + (parms.dl_yl - parms.centery) * parms.dl_iscale;
   fracstep := parms.dl_fracstep;
 
   dbmin := parms.db_min;
@@ -1244,7 +1244,7 @@ begin
   if count < 0 then
     exit;
 
-  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  frac := parms.dl_texturemid + (parms.dl_yl - parms.centery) * parms.dl_iscale;
   fracstep := parms.dl_fracstep;
 
   dbmin := parms.db_min;
@@ -1391,7 +1391,7 @@ begin
     lcolumn.dl_yl := FixedInt64(topscreen + (FRACUNIT - 1));
     lcolumn.dl_yh := FixedInt64(bottomscreen - 1);
     lcolumn.centery := lcolumn.dl_yl div 2 + lcolumn.dl_yh div 2;
-    lcolumn.dl_texturemid := (centery - lcolumn.dl_yl) * lcolumn.dl_iscale;
+    lcolumn.dl_texturemid := (lcolumn.centery - lcolumn.dl_yl) * lcolumn.dl_iscale;
 
     if lcolumn.dl_yh >= viewheight then
       lcolumn.dl_yh := viewheight - 1;
