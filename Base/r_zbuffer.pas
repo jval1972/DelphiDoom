@@ -458,7 +458,8 @@ procedure R_DrawBatchVoxelColumnToZBuffer(const depth: LongWord; const mo: Pmobj
 var
   Z: Pzbuffer_t;
   item: Pzbufferitem_t;
-  i: integer;
+  i, j: integer;
+  merged: boolean;
 begin
 {$IFDEF DEBUG}
   if not IsIntegerInRange(dc_x, 0, viewwidth - 1) then
@@ -474,56 +475,54 @@ begin
   for i := dc_x to dc_x + num_batch_columns do
   begin
     Z := @Zcolumns[i];
-    if Z.numitems > 0 then
+
+    merged := false;
+    for j := Z.numitems - 1 downto Z.numitems - 5 do
     begin
-      item := @Z.items[Z.numitems - 1];
+      if j < 0 then
+        Break;
+      item := @Z.items[j];
       if item.seg = nil then
         if item.mo = mo then
+        begin
           if depth = item.depth then
           begin
             if dc_yl <= item.stop + 1 then
               if dc_yl >= item.start then
               begin
-                if dc_yh <= item.stop then
-                  Continue;
-                item.stop := dc_yh;
-                Continue;
+                if dc_yh > item.stop then
+                  item.stop := dc_yh;
+                merged := True;
+                Break;
               end;
             if dc_yh >= item.start - 1 then
               if dc_yh <= item.stop then
               begin
-                if dc_yl >= item.start then
-                  Continue;
-                item.start := dc_yl;
-                Continue;
+                if dc_yl < item.start then
+                  item.start := dc_yl;
+                merged := True;
+                Break;
               end;
           end;
-    end;
-    if Z.numitems > 1 then
-    begin
-      item := @Z.items[Z.numitems - 2];
-      if item.seg = nil then
-        if item.mo = mo then
-          if depth = item.depth then
+          if depth >= item.depth then
           begin
-            if dc_yl <= item.stop + 1 then
-              if dc_yl >= item.start then
+            if dc_yl <= item.start then
+              if dc_yh >= item.stop then
               begin
-                if dc_yh <= item.stop then
-                  Continue;
-                item.stop := dc_yh;
-                Continue;
-              end;
-            if dc_yh >= item.start - 1 then
-              if dc_yh <= item.stop then
-              begin
-                if dc_yl >= item.start then
-                  Continue;
                 item.start := dc_yl;
-                Continue;
+                item.stop := dc_yh;
+                item.depth := depth;
+                merged := True;
+                Break;
               end;
-          end;
+          end
+          else if j < Z.numitems - 3 then
+            Break;
+        end;
     end;
+
+    if merged then
+      Continue;
 
     item := R_NewZBufferItem(Z);
 
