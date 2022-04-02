@@ -895,14 +895,14 @@ begin
   parms.dc_x := dc_x;
   parms.dc_yh := dc_yh;
   parms.dc_yl := dc_yl;
-  parms.dc_iscale := dc_iscale;
+//  parms.dc_iscale := dc_iscale;
   parms.dc_texturemid := dc_texturemid;
   parms.dc_source := dc_source;
-  parms.dc_alpha := dc_alpha;
-  parms.dc_fog := dc_fog; // JVAL: Mars fog sectors
+//  parms.dc_alpha := dc_alpha;
+//  parms.dc_fog := dc_fog; // JVAL: Mars fog sectors
   parms.num_batch_columns := num_batch_columns;
-  parms.dc_colormap := dc_colormap;
-  parms.dc_colormap32 := dc_colormap32;
+//  parms.dc_colormap := dc_colormap;
+//  parms.dc_colormap32 := dc_colormap32;
   parms.proc := spritefunc_mt;
 end;
 
@@ -916,14 +916,14 @@ begin
   parms.dc_x := dc_x;
   parms.dc_yh := dc_yh;
   parms.dc_yl := dc_yl;
-  parms.dc_iscale := dc_iscale;
+//  parms.dc_iscale := dc_iscale;
   parms.dc_texturemid := dc_texturemid;
   parms.dc_source := dc_source;
-  parms.dc_alpha := dc_alpha;
-  parms.dc_fog := dc_fog; // JVAL: Mars fog sectors
+//  parms.dc_alpha := dc_alpha;
+//  parms.dc_fog := dc_fog; // JVAL: Mars fog sectors
   parms.num_batch_columns := num_batch_columns;
-  parms.dc_colormap := dc_colormap;
-  parms.dc_colormap32 := dc_colormap32;
+//  parms.dc_colormap := dc_colormap;
+//  parms.dc_colormap32 := dc_colormap32;
   parms.proc := batchspritefunc_mt;
 end;
 
