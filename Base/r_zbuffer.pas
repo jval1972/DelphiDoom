@@ -64,6 +64,14 @@ var
   Zspans: array[0..MAXHEIGHT] of zbuffer_t;
   Zcolumns: array[0..MAXWIDTH] of zbuffer_t;
 
+type
+  zcolumnhelper_t = record
+    indexes: packed array[0..255] of byte;
+    size: integer;
+    nextindex: integer;
+  end;
+  Pzcolumnhelper_t = ^zcolumnhelper_t;
+
 //==============================================================================
 //
 // R_DrawSpanToZBuffer
@@ -164,6 +172,20 @@ procedure R_StopZBuffer;
 //
 //==============================================================================
 procedure R_ClearZBuffer;
+
+//==============================================================================
+//
+// R_CreateZBufferHelper
+//
+//==============================================================================
+procedure R_CreateZBufferHelper(const dbmax: LongWord; const x: integer; const helper: Pzcolumnhelper_t);
+
+//==============================================================================
+//
+// R_ZBufferHelperAt
+//
+//==============================================================================
+function R_ZBufferHelperAt(const x, y: integer; const helper: Pzcolumnhelper_t): Pzbufferitem_t;
 
 var
   zbufferactive: boolean = true;
@@ -759,6 +781,108 @@ begin
     Zcolumns[i].numitems := 0;
   for i := 0 to viewheight do
     Zspans[i].numitems := 0;
+end;
+
+//==============================================================================
+//
+// R_CreateZBufferHelper
+//
+//==============================================================================
+procedure R_CreateZBufferHelper(const dbmax: LongWord; const x: integer; const helper: Pzcolumnhelper_t);
+var
+  i: integer;
+  Z: Pzbuffer_t;
+  depth: LongWord;
+begin
+  helper.size := 0;
+  helper.nextindex := -1;
+
+  Z := @Zcolumns[x];
+  for i := 0 to Z.numitems - 1 do
+  begin
+    depth := Z.items[i].depth;
+    if depth <= dbmax then
+    begin
+      if helper.size < 256 then
+      begin
+        helper.indexes[helper.size] := i;
+        Inc(helper.size);
+      end
+      else
+      begin
+        helper.nextindex := i;
+        Exit;
+      end;
+    end;
+  end;
+end;
+
+//==============================================================================
+//
+// R_ZBufferHelperAt
+//
+//==============================================================================
+function R_ZBufferHelperAt(const x, y: integer; const helper: Pzcolumnhelper_t): Pzbufferitem_t;
+var
+  Z: Pzbuffer_t;
+  i: integer;
+  pi, pistop: Pzbufferitem_t;
+  maxdepth, depth: LongWord;
+begin
+  result := @stubzitem;
+  maxdepth := 0;
+
+  Z := @Zcolumns[x];
+
+  for i := 0 to helper.size - 1 do
+  begin
+    pi := @Z.items[helper.indexes[i]];
+    if (y >= pi.start) and (y <= pi.stop) then
+    begin
+      depth := pi.depth;
+      if depth > maxdepth then
+      begin
+        result := pi;
+        maxdepth := depth;
+      end;
+    end;
+  end;
+
+  if helper.nextindex >= 0 then
+  begin
+    pi := @Z.items[helper.nextindex];
+    pistop := @Z.items[Z.numitems];
+    while pi <> pistop do
+    begin
+      if (y >= pi.start) and (y <= pi.stop) then
+      begin
+        depth := pi.depth;
+        if depth > maxdepth then
+        begin
+          result := pi;
+          maxdepth := depth;
+        end;
+      end;
+      inc(pi);
+    end;
+  end;
+
+  Z := @Zspans[y];
+  pi := @Z.items[0];
+  pistop := @Z.items[Z.numitems];
+  while pi <> pistop do
+  begin
+    if (x >= pi.start) and (x <= pi.stop) then
+    begin
+      depth := pi.depth;
+      if depth > maxdepth then
+      begin
+        result := pi;
+        maxdepth := depth;
+      end;
+    end;
+    inc(pi);
+  end;
 end;
 
 end.

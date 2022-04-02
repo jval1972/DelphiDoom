@@ -885,6 +885,7 @@ var
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
   tblflags: Byte;
   okself: Boolean;
+  helper: zcolumnhelper_t;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
@@ -915,6 +916,8 @@ begin
     okself := parms.lightsourcemo.flags4_ex and MF4_EX_SELFAPPLYINGLIGHT <> 0
   else
     okself := False;
+
+  R_CreateZBufferHelper(dbmax, x, @helper);
 
   tbl_r := precalc32op1A[parms.r];
   tbl_g := precalc32op1A[parms.g];

@@ -5,7 +5,8 @@
     dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
     if dls <> 0 then
     begin
-      db := R_ZBufferAt(x, y);
+      db := R_ZBufferHelperAt(x, y, @helper);
+//      db := R_ZBufferAt(x, y);
       if db.pass = 0 then
       begin
         inc(dest, pitch);
