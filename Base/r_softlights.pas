@@ -665,8 +665,6 @@ var
   dest: PByte;
   source32: PLongWordArray;
   pitch: integer;
-  r1, g1, b1: LongWord;
-  r, g, b: LongWord;
   c: LongWord;
   rr, gg, bb: integer;
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
@@ -685,9 +683,6 @@ begin
   dbrange := dbmax - dbmin;
   dbdmin := parms.db_dmin;
   dbdmax := parms.db_dmax;
-  r := parms.r;
-  g := parms.g;
-  b := parms.b;
   x := parms.dl_x;
   scale := parms.dl_scale;
   seg := nil;
@@ -786,8 +781,6 @@ var
   dest: PByte;
   source32: PLongWordArray;
   pitch: integer;
-  r1, g1, b1: LongWord;
-  r, g, b: LongWord;
   c: LongWord;
   rr, gg, bb: integer;
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
@@ -807,9 +800,6 @@ begin
   dbrange := dbmax - dbmin;
   dbdmin := parms.db_dmin;
   dbdmax := parms.db_dmax;
-  r := parms.r;
-  g := parms.g;
-  b := parms.b;
   x := parms.dl_x;
   scale := parms.dl_scale;
   seg := nil;
@@ -908,8 +898,6 @@ var
   dest: PByte;
   source32: PLongWordArray;
   pitch: integer;
-  r1, g1, b1: LongWord;
-  r, g, b: LongWord;
   c: LongWord;
   rr, gg, bb: integer;
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
@@ -931,9 +919,6 @@ begin
   dbrange := dbmax - dbmin;
   dbdmin := parms.db_dmin;
   dbdmax := parms.db_dmax;
-  r := parms.r;
-  g := parms.g;
-  b := parms.b;
   x := parms.dl_x;
   scale := parms.dl_scale;
   seg := nil;
