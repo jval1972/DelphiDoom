@@ -624,7 +624,7 @@ var
   fastzbuf: fastzbuf_t;
   db: Pzbufferitem_t;
   depth: LongWord;
-  dbmin, dbmax: LongWord;
+  dbmin, dbmax, dbrange: LongWord;
   dbdmin, dbdmax: LongWord;
   factor: fixed_t;
   dfactor: fixed_t;
@@ -653,6 +653,7 @@ begin
 
   dbmin := parms.db_min;
   dbmax := parms.db_max;
+  dbrange := dbmax - dbmin;
   dbdmin := parms.db_dmin;
   dbdmax := parms.db_dmax;
   r := parms.r;
@@ -744,7 +745,7 @@ var
   fracstep: fixed_t;
   db: Pzbufferitem_t;
   depth: LongWord;
-  dbmin, dbmax: LongWord;
+  dbmin, dbmax, dbrange: LongWord;
   dbdmin, dbdmax: LongWord;
   factor: fixed_t;
   dfactor: fixed_t;
@@ -774,6 +775,7 @@ begin
 
   dbmin := parms.db_min;
   dbmax := parms.db_max;
+  dbrange := dbmax - dbmin;
   dbdmin := parms.db_dmin;
   dbdmax := parms.db_dmax;
   r := parms.r;
@@ -866,7 +868,7 @@ var
   fracstep: fixed_t;
   db: Pzbufferitem_t;
   depth: LongWord;
-  dbmin, dbmax: LongWord;
+  dbmin, dbmax, dbrange: LongWord;
   dbdmin, dbdmax: LongWord;
   factor: fixed_t;
   dfactor: fixed_t;
@@ -897,6 +899,7 @@ begin
 
   dbmin := parms.db_min;
   dbmax := parms.db_max;
+  dbrange := dbmax - dbmin;
   dbdmin := parms.db_dmin;
   dbdmax := parms.db_dmax;
   r := parms.r;
@@ -1025,7 +1028,7 @@ var
   fastzbuf: fastzbuf_t;
   db: Pzbufferitem_t;
   depth: LongWord;
-  dbmin, dbmax: LongWord;
+  dbmin, dbmax, dbrange: LongWord;
   dbdmin, dbdmax: LongWord;
   factor: fixed_t;
   dfactor: fixed_t;
@@ -1050,6 +1053,7 @@ begin
 
   dbmin := parms.db_min;
   dbmax := parms.db_max;
+  dbrange := dbmax - dbmin;
   dbdmin := parms.db_dmin;
   dbdmax := parms.db_dmax;
   x := parms.dl_x;
@@ -1138,7 +1142,7 @@ var
   fracstep: fixed_t;
   db: Pzbufferitem_t;
   depth: LongWord;
-  dbmin, dbmax: LongWord;
+  dbmin, dbmax, dbrange: LongWord;
   dbdmin, dbdmax: LongWord;
   factor: fixed_t;
   dfactor: fixed_t;
@@ -1164,6 +1168,7 @@ begin
 
   dbmin := parms.db_min;
   dbmax := parms.db_max;
+  dbrange := dbmax - dbmin;
   dbdmin := parms.db_dmin;
   dbdmax := parms.db_dmax;
   x := parms.dl_x;
@@ -1253,7 +1258,7 @@ var
   fracstep: fixed_t;
   db: Pzbufferitem_t;
   depth: LongWord;
-  dbmin, dbmax: LongWord;
+  dbmin, dbmax, dbrange: LongWord;
   dbdmin, dbdmax: LongWord;
   factor: fixed_t;
   dfactor: fixed_t;
@@ -1280,6 +1285,7 @@ begin
 
   dbmin := parms.db_min;
   dbmax := parms.db_max;
+  dbrange := dbmax - dbmin;
   dbdmin := parms.db_dmin;
   dbdmax := parms.db_dmax;
   x := parms.dl_x;

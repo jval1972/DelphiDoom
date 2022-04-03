@@ -19,7 +19,7 @@
     end;
 
     depth := db.depth;
-    if (okself or (db.mo <> parms.lightsourcemo)) and (depth >= dbmin) and (depth <= dbmax) then
+    if (okself or (db.mo <> parms.lightsourcemo)) and ((depth - dbmin) <= dbrange) then
     begin
       if seg <> db.seg then
       begin
@@ -37,9 +37,9 @@
         begin
           dfactor := depth - scale;
           if dfactor < 0 then
-            dfactor := FRACUNIT - FixedDiv(-dfactor, dbdmin)
+            dfactor := FRACUNIT - FixedDivLW(-dfactor, dbdmin)
           else
-            dfactor := FRACUNIT - FixedDiv(dfactor, dbdmax);
+            dfactor := FRACUNIT - FixedDivLW(dfactor, dbdmax);
         end;
 
         if dfactor > 0 then

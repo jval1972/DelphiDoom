@@ -16,7 +16,7 @@
     begin
       db := R_FastZBufferAt(x, y, @fastzbuf);
       depth := db.depth;
-      if (depth >= dbmin) and (depth <= dbmax) then
+      if (depth - dbmin) <= dbrange then
       begin
         if seg <> db.seg then
         begin
@@ -34,9 +34,9 @@
           begin
             dfactor := depth - scale;
             if dfactor < 0 then
-              dfactor := FRACUNIT - FixedDiv(-dfactor, dbdmin)
+              dfactor := FRACUNIT - FixedDivLW(-dfactor, dbdmin)
             else
-              dfactor := FRACUNIT - FixedDiv(dfactor, dbdmax);
+              dfactor := FRACUNIT - FixedDivLW(dfactor, dbdmax);
           end;
 
           if dfactor > 0 then

@@ -173,6 +173,13 @@ function FixedDiv_Positive(const a, b: fixed_t): fixed_t;
 
 //==============================================================================
 //
+// FixedDivLW
+//
+//==============================================================================
+function FixedDivLW(const a, b: LongWord): LongWord;
+
+//==============================================================================
+//
 // FixedDiv_fast
 //
 //==============================================================================
@@ -503,6 +510,33 @@ end;
 
 //==============================================================================
 //
+// FixedDivLW
+//
+//==============================================================================
+function FixedDivLW(const a, b: LongWord): LongWord; assembler;
+asm
+  push ebx
+  mov ebx, eax
+  shr ebx, $0e
+  cmp edx, ebx
+  jbe @@retmax
+  mov ebx, edx
+  cmp ebx, 0
+  jne @@loop1
+@@retmax:
+  mov eax, MAXINT
+  jmp @@exit
+@@loop1:
+  mov edx, eax
+  sal eax, 16
+  sar edx, 16
+  idiv ebx
+@@exit:
+  pop ebx
+end;
+
+//==============================================================================
+//
 // FixedDiv_fast
 //
 //==============================================================================
@@ -511,7 +545,7 @@ asm
   mov ebx, b
   cmp ebx, 0
   jne @@loop1
-  mov eax, MININT
+  mov eax, MAXINT
   jmp @@exit
 @@loop1:
   mov ebx, b
