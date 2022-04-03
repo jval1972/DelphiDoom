@@ -174,13 +174,6 @@ procedure R_ClearZBuffer;
 //==============================================================================
 procedure R_CreateZColumnCache(const dbmin: LongWord; const x: integer; const yl, yh: integer; const cache: Pzbuffercolumncache_t);
 
-//==============================================================================
-//
-// R_ZBufferAtCache
-//
-//==============================================================================
-function R_ZBufferAtCache(const x, y: integer; const cache: Pzbuffercolumncache_t): Pzbufferitem_t;
-
 var
   zbufferactive: boolean = true;
 
@@ -821,38 +814,6 @@ begin
     end;
   end;
 
-end;
-
-//==============================================================================
-//
-// R_ZBufferAtCache
-//
-//==============================================================================
-function R_ZBufferAtCache(const x, y: integer; const cache: Pzbuffercolumncache_t): Pzbufferitem_t;
-var
-  Z: Pzbuffer_t;
-  pi, pistop: Pzbufferitem_t;
-  maxdepth, depth: LongWord;
-begin
-  result := cache[y];
-{  maxdepth := result.depth;
-
-  Z := @Zspans[y];
-  pi := @Z.items[0];
-  pistop := @Z.items[Z.numitems];
-  while pi <> pistop do
-  begin
-    if (x >= pi.start) and (x <= pi.stop) then
-    begin
-      depth := pi.depth;
-      if depth > maxdepth then
-      begin
-        result := pi;
-        maxdepth := depth;
-      end;
-    end;
-    inc(pi);
-  end;  }
 end;
 
 end.

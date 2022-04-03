@@ -10,74 +10,70 @@
   {$ENDIF}
   for y := yl to yh do
   begin
-    dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
-//    if dls <> 0 then
+    db := cache[y];
+    if db.pass = 0 then
     begin
-//      db := R_ZBufferAt(x, y);
-//      db := R_ZBufferAtCache(x, y, @cache);
-      db := cache[y];
-      if db.pass = 0 then
+      inc(destb, pitch);
+      inc(frac, fracstep);
+      Continue;
+    end;
+
+    depth := db.depth;
+    if (okself or (db.mo <> parms.lightsourcemo)) and (depth >= dbmin) and (depth <= dbmax) then
+    begin
+      if seg <> db.seg then
       begin
-        inc(destb, pitch);
-        inc(frac, fracstep);
-        Continue;
+        sameseg := (seg = db.seg) and (seg <> nil);
+        seg := db.seg;
+        if seg <> nil then
+          skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg)
+        else
+          skip := false;
       end;
-      depth := db.depth;
-      if (okself or (db.mo <> parms.lightsourcemo)) and (depth >= dbmin) and (depth <= dbmax) then
+
+      if not skip then
       begin
-        if seg <> db.seg then
+        if not sameseg then
         begin
-          sameseg := (seg = db.seg) and (seg <> nil);
-          seg := db.seg;
-          if seg <> nil then
-            skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg)
+          dfactor := depth - scale;
+          if dfactor < 0 then
+            dfactor := FRACUNIT - FixedDiv(-dfactor, dbdmin)
           else
-            skip := false;
+            dfactor := FRACUNIT - FixedDiv(dfactor, dbdmax);
         end;
 
-        if not skip then
+        if dfactor > 0 then
         begin
-          if not sameseg then
+          factor := FixedMulDiv256(source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)], dfactor);
+
+          if factor > 0 then
           begin
-            dfactor := depth - scale;
-            if dfactor < 0 then
-              dfactor := FRACUNIT - FixedDiv(-dfactor, dbdmin)
-            else
-              dfactor := FRACUNIT - FixedDiv(dfactor, dbdmax);
+            {$IFDEF TBL_B}
+            destb^ := destb^ + (tbl_b[destb^] * factor) shr 16;
+            {$ENDIF}
+
+            {$IFDEF TBL_G}
+            inc(destb);
+            destb^ := destb^ + (tbl_g[destb^] * factor) shr 16;
+            {$ENDIF}
+
+            {$IFDEF TBL_R}
+            {$IFDEF TBL_G}
+            inc(destb);
+            {$ELSE}
+            inc(destb, 2);
+            {$ENDIF}
+            destb^ := destb^ + (tbl_r[destb^] * factor) shr 16;
+            {$ENDIF}
+
+            inc(destb, pitch1);
+            inc(frac, fracstep);
+            Continue;
           end;
 
-          if dfactor > 0 then
-          begin
-            factor := FixedMulDiv256(dls, dfactor);
-
-            if factor > 0 then
-            begin
-              {$IFDEF TBL_B}
-              destb^ := destb^ + (tbl_b[destb^] * factor) shr 16;
-              {$ENDIF}
-
-              {$IFDEF TBL_G}
-              inc(destb);
-              destb^ := destb^ + (tbl_g[destb^] * factor) shr 16;
-              {$ENDIF}
-
-              {$IFDEF TBL_R}
-              {$IFDEF TBL_G}
-              inc(destb);
-              {$ELSE}
-              inc(destb, 2);
-              {$ENDIF}
-              destb^ := destb^ + (tbl_r[destb^] * factor) shr 16;
-              {$ENDIF}
-
-              inc(destb, pitch1);
-              inc(frac, fracstep);
-              Continue;
-            end;
-
-          end;
         end;
       end;
+
     end;
     inc(destb, pitch);
     inc(frac, fracstep);

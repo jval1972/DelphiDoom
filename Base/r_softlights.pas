@@ -871,7 +871,6 @@ var
   factor: fixed_t;
   dfactor: fixed_t;
   scale: fixed_t;
-  dls: fixed_t;
   seg: Pseg_t;
   skip: boolean;
   sameseg: boolean;
@@ -1259,7 +1258,6 @@ var
   factor: fixed_t;
   dfactor: fixed_t;
   scale: fixed_t;
-  dls: fixed_t;
   seg: Pseg_t;
   skip: boolean;
   sameseg: boolean;

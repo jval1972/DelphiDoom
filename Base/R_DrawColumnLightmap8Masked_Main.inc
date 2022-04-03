@@ -2,75 +2,70 @@
   pitch := SCREENWIDTH;
   for y := yl to yh do
   begin
-    dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
-//    if dls <> 0 then
+    db := cache[y];
+    if db.pass = 0 then
     begin
-//      db := R_ZBufferAt(x, y);
-//      db := R_ZBufferAtCache(x, y, @cache);
-      db := cache[y];
-      if db.pass = 0 then
+      inc(dest, pitch);
+      inc(frac, fracstep);
+      Continue;
+    end;
+
+    depth := db.depth;
+    if (okself or (db.mo <> parms.lightsourcemo)) and (depth >= dbmin) and (depth <= dbmax) then
+    begin
+      if seg <> db.seg then
       begin
-        inc(dest, pitch);
-        inc(frac, fracstep);
-        Continue;
+        sameseg := (seg = db.seg) and (seg <> nil);
+        seg := db.seg;
+        if seg <> nil then
+          skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg)
+        else
+          skip := false;
       end;
-      depth := db.depth;
-      if (okself or (db.mo <> parms.lightsourcemo)) and (depth >= dbmin) and (depth <= dbmax) then
+
+      if not skip then
       begin
-        if seg <> db.seg then
+        if not sameseg then
         begin
-          sameseg := (seg = db.seg) and (seg <> nil);
-          seg := db.seg;
-          if seg <> nil then
-            skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg)
+          dfactor := depth - scale;
+          if dfactor < 0 then
+            dfactor := FRACUNIT - FixedDiv(-dfactor, dbdmin)
           else
-            skip := false;
+            dfactor := FRACUNIT - FixedDiv(dfactor, dbdmax);
         end;
 
-        if not skip then
+        if dfactor > 0 then
         begin
-          if not sameseg then
+          factor := FixedMulDiv256(source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)], dfactor);
+
+          if factor > 0 then
           begin
-            dfactor := depth - scale;
-            if dfactor < 0 then
-              dfactor := FRACUNIT - FixedDiv(-dfactor, dbdmin)
-            else
-              dfactor := FRACUNIT - FixedDiv(dfactor, dbdmax);
+            {$IFDEF DOOM_OR_STRIFE}
+            c := cvideopal[dest^];
+            {$ELSE}
+            c := curpal[dest^];
+            {$ENDIF}
+
+            rr := (c shr 16) and $FF;
+            {$IFDEF TBL_R}
+            rr := rr + (tbl_r[rr] * factor) shr 16;
+            {$ENDIF}
+            rr := rr shr FASTTABLESHIFT;
+
+            gg := (c shr 8) and $FF;
+            {$IFDEF TBL_G}
+            gg := gg + (tbl_g[gg] * factor) shr 16;
+            {$ENDIF}
+            gg := gg shr FASTTABLESHIFT;
+
+            bb := (c) and $FF;
+            {$IFDEF TBL_B}
+            bb := bb + (tbl_b[bb] * factor) shr 16;
+            {$ENDIF}
+            bb := bb shr FASTTABLESHIFT;
+
+            dest^ := approxcolorindexarray[rr shl (16 - FASTTABLESHIFT - FASTTABLESHIFT) + gg shl (8 - FASTTABLESHIFT) + bb];
           end;
-
-          if dfactor > 0 then
-          begin
-            factor := FixedMulDiv256(dls, dfactor);
-
-            if factor > 0 then
-            begin
-              {$IFDEF DOOM_OR_STRIFE}
-              c := cvideopal[dest^];
-              {$ELSE}
-              c := curpal[dest^];
-              {$ENDIF}
-
-              rr := (c shr 16) and $FF;
-              {$IFDEF TBL_R}
-              rr := rr + (tbl_r[rr] * factor) shr 16;
-              {$ENDIF}
-              rr := rr shr FASTTABLESHIFT;
-
-              gg := (c shr 8) and $FF;
-              {$IFDEF TBL_G}
-              gg := gg + (tbl_g[gg] * factor) shr 16;
-              {$ENDIF}
-              gg := gg shr FASTTABLESHIFT;
-
-              bb := (c) and $FF;
-              {$IFDEF TBL_B}
-              bb := bb + (tbl_b[bb] * factor) shr 16;
-              {$ENDIF}
-              bb := bb shr FASTTABLESHIFT;
-
-              dest^ := approxcolorindexarray[rr shl (16 - FASTTABLESHIFT - FASTTABLESHIFT) + gg shl (8 - FASTTABLESHIFT) + bb];
-            end;
-
 
         {  Slower code:
             factor := FixedMul(dls, dfactor);
@@ -82,9 +77,9 @@
               dest^ := R_FastApproxColorIndex(R_ColorLightAdd(curpal[dest^], r1, g1, b1));
             end; }
 
-          end;
         end;
       end;
+
     end;
     inc(dest, pitch);
     inc(frac, fracstep);
