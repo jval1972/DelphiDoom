@@ -1711,6 +1711,7 @@ var
   tmp_top, tmp_bottom: fixed_t;
   vprojection, vprojectiony: fixed_t;
   voxelinfscale: fixed_t;
+  needsscale: boolean;
   vx: integer;
   vx_localsimpleclip: boolean;
   vx_localceilingclip: fixed_t;
@@ -1764,6 +1765,7 @@ begin
 
     // scale y
     voxelinfscale := voxelinf.voxel.fscale;
+    needsscale := voxelinfscale <> FRACUNIT;
     vprojection := projection;
     vprojectiony := projectiony;
 
@@ -2021,8 +2023,16 @@ begin
       while col <> nil do
       begin
       // Any optimization inside here will give good fps boost
-        topz := t_z + FixedMul(col.fixedoffset, voxelinfscale);
-        bottomz := topz - FixedMul(col.fixedlength, voxelinfscale);
+        if needsscale then
+        begin
+          topz := t_z + FixedMul(col.fixedoffset, voxelinfscale);
+          bottomz := topz - FixedMul(col.fixedlength, voxelinfscale);
+        end
+        else
+        begin
+          topz := t_z + col.fixedoffset;
+          bottomz := topz - col.fixedlength;
+        end;
         if topz > ceilz then
           topz := ceilz;
         if bottomz < floorz then
