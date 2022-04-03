@@ -1,11 +1,13 @@
-  dest := @((ylookup[parms.dl_yl]^)[columnofs[x]]);
+  dest := @((ylookup[yl]^)[columnofs[x]]);
   pitch := SCREENWIDTH;
-  for y := parms.dl_yl to parms.dl_yh do
+  for y := yl to yh do
   begin
     dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
-    if dls <> 0 then
+//    if dls <> 0 then
     begin
-      db := R_ZBufferAt(x, y);
+//      db := R_ZBufferAt(x, y);
+//      db := R_ZBufferAtCache(x, y, @cache);
+      db := cache[y];
       if db.pass = 0 then
       begin
         inc(dest, pitch);

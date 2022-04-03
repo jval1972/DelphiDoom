@@ -52,6 +52,8 @@ type
   Pzbufferitem_t = ^zbufferitem_t;
   zbufferitem_tArray = array[0..$FF] of zbufferitem_t;
   Pzbufferitem_tArray = ^zbufferitem_tArray;
+  zbuffercolumncache_t = array[0..MAXHEIGHT] of Pzbufferitem_t;
+  Pzbuffercolumncache_t = ^zbuffercolumncache_t;
 
   zbuffer_t = record
     items: Pzbufferitem_tArray;
@@ -164,6 +166,20 @@ procedure R_StopZBuffer;
 //
 //==============================================================================
 procedure R_ClearZBuffer;
+
+//==============================================================================
+//
+// R_CreateZColumnCache
+//
+//==============================================================================
+procedure R_CreateZColumnCache(const dbmin: LongWord; const x: integer; const yl, yh: integer; const cache: Pzbuffercolumncache_t);
+
+//==============================================================================
+//
+// R_ZBufferAtCache
+//
+//==============================================================================
+function R_ZBufferAtCache(const x, y: integer; const cache: Pzbuffercolumncache_t): Pzbufferitem_t;
 
 var
   zbufferactive: boolean = true;
@@ -759,6 +775,84 @@ begin
     Zcolumns[i].numitems := 0;
   for i := 0 to viewheight do
     Zspans[i].numitems := 0;
+end;
+
+//==============================================================================
+//
+// R_CreateZColumnCache
+// JVAL: 20220403:
+//  Precache zbuffer column x from yl to yh
+//  This gives a huge boost when applying lightmap on masked
+//
+//==============================================================================
+procedure R_CreateZColumnCache(const dbmin: LongWord; const x: integer; const yl, yh: integer; const cache: Pzbuffercolumncache_t);
+var
+  Z: Pzbuffer_t;
+  pi, pistop: Pzbufferitem_t;
+  i: integer;
+begin
+  FillDWord(@cache[yl], yh - yl + 1, LongWord(@stubzitem));
+
+  Z := @Zcolumns[x];
+  pi := @Z.items[0];
+  pistop := @Z.items[Z.numitems];
+  while pi <> pistop do
+  begin
+    if pi.depth >= dbmin then
+      if (yl <= pi.stop) and (yh >= pi.start) then
+        for i := MaxI(yl, pi.start) to MinI(yh, pi.stop) do
+          if cache[i].depth < pi.depth then
+            cache[i] := pi;
+    inc(pi);
+  end;
+
+  for i := yh to yl do
+  begin
+    Z := @Zspans[i];
+    pi := @Z.items[0];
+    pistop := @Z.items[Z.numitems];
+    while pi <> pistop do
+    begin
+      if pi.depth >= dbmin then
+        if (x >= pi.start) and (x <= pi.stop) then
+          if cache[i].depth < pi.depth then
+            cache[i] := pi;
+      inc(pi);
+    end;
+  end;
+
+end;
+
+//==============================================================================
+//
+// R_ZBufferAtCache
+//
+//==============================================================================
+function R_ZBufferAtCache(const x, y: integer; const cache: Pzbuffercolumncache_t): Pzbufferitem_t;
+var
+  Z: Pzbuffer_t;
+  pi, pistop: Pzbufferitem_t;
+  maxdepth, depth: LongWord;
+begin
+  result := cache[y];
+{  maxdepth := result.depth;
+
+  Z := @Zspans[y];
+  pi := @Z.items[0];
+  pistop := @Z.items[Z.numitems];
+  while pi <> pistop do
+  begin
+    if (x >= pi.start) and (x <= pi.stop) then
+    begin
+      depth := pi.depth;
+      if depth > maxdepth then
+      begin
+        result := pi;
+        maxdepth := depth;
+      end;
+    end;
+    inc(pi);
+  end;  }
 end;
 
 end.
