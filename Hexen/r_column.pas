@@ -441,7 +441,7 @@ begin
       {$UNDEF MASKEDCOLUMN}
       {$UNDEF FOG}
       {$UNDEF SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end
     else
     begin
@@ -449,7 +449,7 @@ begin
       {$UNDEF MASKEDCOLUMN}
       {$UNDEF FOG}
       {$UNDEF SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end;
   end
   else
@@ -463,7 +463,7 @@ begin
       {$UNDEF MASKEDCOLUMN}
       {$UNDEF FOG}
       {$DEFINE SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end
     else
     begin
@@ -471,7 +471,7 @@ begin
       {$UNDEF MASKEDCOLUMN}
       {$UNDEF FOG}
       {$DEFINE SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end;
   end;
 end;
@@ -533,7 +533,7 @@ begin
     {$UNDEF MASKEDCOLUMN}
     {$UNDEF FOG}
     {$UNDEF SMALLSTEPOPTIMIZER}
-    {$I R_DrawColumnUltra.inc}
+    {$I ..\Base\R_DrawColumnUltra.inc}
   end
   else
   begin
@@ -541,7 +541,7 @@ begin
     {$UNDEF MASKEDCOLUMN}
     {$UNDEF FOG}
     {$UNDEF SMALLSTEPOPTIMIZER}
-    {$I R_DrawColumnUltra.inc}
+    {$I ..\Base\R_DrawColumnUltra.inc}
   end;
 end;
 

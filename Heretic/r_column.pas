@@ -440,14 +440,14 @@ begin
       {$UNDEF INVERSECOLORMAPS}
       {$UNDEF MASKEDCOLUMN}
       {$UNDEF SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end
     else
     begin
       {$DEFINE INVERSECOLORMAPS}
       {$UNDEF MASKEDCOLUMN}
       {$UNDEF SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end;
   end
   else
@@ -460,14 +460,14 @@ begin
       {$UNDEF INVERSECOLORMAPS}
       {$UNDEF MASKEDCOLUMN}
       {$DEFINE SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end
     else
     begin
       {$DEFINE INVERSECOLORMAPS}
       {$UNDEF MASKEDCOLUMN}
       {$DEFINE SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end;
   end;
 end;
@@ -527,13 +527,13 @@ begin
     R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);
     {$UNDEF INVERSECOLORMAPS}
     {$UNDEF MASKEDCOLUMN}
-    {$I R_DrawColumnUltra.inc}
+    {$I ..\Base\R_DrawColumnUltra.inc}
   end
   else
   begin
     {$DEFINE INVERSECOLORMAPS}
     {$UNDEF MASKEDCOLUMN}
-    {$I R_DrawColumnUltra.inc}
+    {$I ..\Base\R_DrawColumnUltra.inc}
   end;
 end;
 

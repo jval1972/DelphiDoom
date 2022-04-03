@@ -161,7 +161,7 @@ begin
   frac := dc_yl * fracstep + skytopy * FRACUNIT;
   swidth := SCREENWIDTH;
 
-  {$I R_DrawSkyColumnMedium.inc}
+  {$I ..\Base\R_DrawSkyColumnMedium.inc}
 end;
 
 //==============================================================================
@@ -197,7 +197,7 @@ begin
 
   swidth := SCREENWIDTH32PITCH;
 
-  {$I R_DrawSkyColumnHi.inc}
+  {$I ..\Base\R_DrawSkyColumnHi.inc}
 end;
 
 //==============================================================================

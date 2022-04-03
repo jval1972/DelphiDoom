@@ -112,7 +112,7 @@ begin
       {$UNDEF MASKEDCOLUMN}
       {$DEFINE FOG}
       {$UNDEF SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end
     else
     begin
@@ -120,7 +120,7 @@ begin
       {$UNDEF MASKEDCOLUMN}
       {$DEFINE FOG}
       {$UNDEF SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end;
   end
   else
@@ -134,7 +134,7 @@ begin
       {$UNDEF MASKEDCOLUMN}
       {$DEFINE FOG}
       {$DEFINE SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end
     else
     begin
@@ -142,7 +142,7 @@ begin
       {$UNDEF MASKEDCOLUMN}
       {$DEFINE FOG}
       {$DEFINE SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end;
   end;
 end;
@@ -203,14 +203,14 @@ begin
     {$UNDEF INVERSECOLORMAPS}
     {$UNDEF MASKEDCOLUMN}
     {$DEFINE FOG}
-    {$I R_DrawColumnUltra.inc}
+    {$I ..\Base\R_DrawColumnUltra.inc}
   end
   else
   begin
     {$DEFINE INVERSECOLORMAPS}
     {$UNDEF MASKEDCOLUMN}
     {$DEFINE FOG}
-    {$I R_DrawColumnUltra.inc}
+    {$I ..\Base\R_DrawColumnUltra.inc}
   end;
 end;
 

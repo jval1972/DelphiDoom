@@ -111,12 +111,12 @@ begin
   begin
     R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     {$UNDEF INVERSECOLORMAPS}
-    {$I R_DrawMaskedColumnNormal.inc}
+    {$I ..\Base\R_DrawMaskedColumnNormal.inc}
   end
   else
   begin
     {$DEFINE INVERSECOLORMAPS}
-    {$I R_DrawMaskedColumnNormal.inc}
+    {$I ..\Base\R_DrawMaskedColumnNormal.inc}
   end;
 end;
 
@@ -159,12 +159,12 @@ begin
   begin
     R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     {$UNDEF INVERSECOLORMAPS}
-    {$I R_DrawMaskedColumnHi.inc}
+    {$I ..\Base\R_DrawMaskedColumnHi.inc}
   end
   else
   begin
     {$DEFINE INVERSECOLORMAPS}
-    {$I R_DrawMaskedColumnHi.inc}
+    {$I ..\Base\R_DrawMaskedColumnHi.inc}
   end;
 end;
 
@@ -212,14 +212,14 @@ begin
     {$UNDEF INVERSECOLORMAPS}
     {$DEFINE MASKEDCOLUMN}
     {$UNDEF SMALLSTEPOPTIMIZER}
-    {$I R_DrawColumnHi.inc}
+    {$I ..\Base\R_DrawColumnHi.inc}
   end
   else
   begin
     {$DEFINE INVERSECOLORMAPS}
     {$DEFINE MASKEDCOLUMN}
     {$UNDEF SMALLSTEPOPTIMIZER}
-    {$I R_DrawColumnHi.inc}
+    {$I ..\Base\R_DrawColumnHi.inc}
   end;
 end;
 
@@ -271,13 +271,13 @@ begin
     R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     {$UNDEF INVERSECOLORMAPS}
     {$DEFINE MASKEDCOLUMN}
-    {$I R_DrawColumnUltra.inc}
+    {$I ..\Base\R_DrawColumnUltra.inc}
   end
   else
   begin
     {$DEFINE INVERSECOLORMAPS}
     {$DEFINE MASKEDCOLUMN}
-    {$I R_DrawColumnUltra.inc}
+    {$I ..\Base\R_DrawColumnUltra.inc}
   end;
 end;
 

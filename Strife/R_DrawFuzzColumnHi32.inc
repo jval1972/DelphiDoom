@@ -80,7 +80,7 @@ begin
     {$DEFINE INVERSECOLORMAPS}
     {$UNDEF MASKEDCOLUMN}
     {$UNDEF SMALLSTEPOPTIMIZER}
-    {$I R_DrawColumnHi.inc}
+    {$I ..\Base\R_DrawColumnHi.inc}
   end;
 end;
 

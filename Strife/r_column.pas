@@ -448,14 +448,14 @@ begin
       {$UNDEF INVERSECOLORMAPS}
       {$UNDEF MASKEDCOLUMN}
       {$UNDEF SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end
     else
     begin
       {$DEFINE INVERSECOLORMAPS}
       {$UNDEF MASKEDCOLUMN}
       {$UNDEF SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end;
   end
   else if fracstep > FRACUNIT div 6 then
@@ -468,14 +468,14 @@ begin
       {$UNDEF INVERSECOLORMAPS}
       {$UNDEF MASKEDCOLUMN}
       {$DEFINE SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end
     else
     begin
       {$DEFINE INVERSECOLORMAPS}
       {$UNDEF MASKEDCOLUMN}
       {$DEFINE SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I ..\Base\R_DrawColumnHi.inc}
     end;
   end
   else
@@ -562,13 +562,13 @@ begin
     R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);
     {$UNDEF INVERSECOLORMAPS}
     {$UNDEF MASKEDCOLUMN}
-    {$I R_DrawColumnUltra.inc}
+    {$I ..\Base\R_DrawColumnUltra.inc}
   end
   else
   begin
     {$DEFINE INVERSECOLORMAPS}
     {$UNDEF MASKEDCOLUMN}
-    {$I R_DrawColumnUltra.inc}
+    {$I ..\Base\R_DrawColumnUltra.inc}
   end;
 end;
 
