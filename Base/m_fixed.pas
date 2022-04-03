@@ -190,7 +190,7 @@ function FixedDivEx(const a, b: fixed_t): fixed_t;
 // FixedDiv2
 //
 //==============================================================================
-function FixedDiv2(const a, b: fixed_t): fixed_t;
+function FixedDiv2(const a, b: fixed_t): fixed_t; register;
 
 //==============================================================================
 //
@@ -560,7 +560,7 @@ end;
 // FixedDiv2
 //
 //==============================================================================
-function FixedDiv2(const a, b: fixed_t): fixed_t; assembler;
+function FixedDiv2(const a, b: fixed_t): fixed_t;  register; assembler;
 asm
   mov ebx, b
   mov edx, eax
