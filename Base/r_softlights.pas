@@ -1039,7 +1039,7 @@ var
   sameseg: boolean;
   destb: PByte;
   source32: PLongWordArray;
-  pitch, pitch1: integer;
+  pitch: integer;
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
   tblflags: Byte;
 begin
@@ -1153,7 +1153,7 @@ var
   sameseg: boolean;
   destb: PByte;
   source32: PLongWordArray;
-  pitch, pitch1: integer;
+  pitch: integer;
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
   tblflags: Byte;
   abslightplanez: Integer;
@@ -1268,7 +1268,7 @@ var
   sameseg: boolean;
   destb: PByte;
   source32: PLongWordArray;
-  pitch, pitch1: integer;
+  pitch: integer;
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
   tblflags: Byte;
   okself: Boolean;

@@ -1,13 +1,5 @@
   destb := @((ylookupl[parms.dl_yl]^)[columnofs[x]]);
   pitch := SCREENWIDTH * SizeOf(LongWord);
-  pitch1 := pitch;
-  {$IFDEF TBL_R}
-  pitch1 := pitch1 - 2;
-  {$ELSE}
-  {$IFDEF TBL_G}
-  pitch1 := pitch1 - 1;
-  {$ENDIF}
-  {$ENDIF}
   for y := parms.dl_yl to parms.dl_yh do
   begin
     dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
@@ -51,24 +43,12 @@
               {$IFDEF TBL_B}
               destb^ := destb^ + (tbl_b[destb^] * factor) shr 16;
               {$ENDIF}
-
               {$IFDEF TBL_G}
-              inc(destb);
-              destb^ := destb^ + (tbl_g[destb^] * factor) shr 16;
+              PByteArray(destb)[1] := PByteArray(destb)[1] + (tbl_g[PByteArray(destb)[1]] * factor) shr 16;
               {$ENDIF}
-
               {$IFDEF TBL_R}
-              {$IFDEF TBL_G}
-              inc(destb);
-              {$ELSE}
-              inc(destb, 2);
+              PByteArray(destb)[2] := PByteArray(destb)[2] + (tbl_r[PByteArray(destb)[2]] * factor) shr 16;
               {$ENDIF}
-              destb^ := destb^ + (tbl_r[destb^] * factor) shr 16;
-              {$ENDIF}
-
-              inc(destb, pitch1);
-              inc(frac, fracstep);
-              Continue;
             end;
 
           end;
