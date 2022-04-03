@@ -14,6 +14,7 @@ New menu for uncapped framerate (Options/Display/Advanced/Uncapped FrameRate).
 More efficient segs clipping to speedup rendering of huge maps.
 Added r_voxellightmapaccuracy console variable. Values are 0, 1 & 2 for low, normal & high accuracy. Default is 1.
 Speed optimization to the software rendering lightmap.
+Speed optimizations to voxel software rendering.
 
 Version 2.0.7 build 732 - (20220318)
 -----------------------
