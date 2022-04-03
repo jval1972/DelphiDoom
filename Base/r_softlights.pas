@@ -917,7 +917,7 @@ begin
   else
     okself := False;
 
-  R_CreateZBufferHelper(dbmax, x, @helper);
+  R_PrepareZBufferHelper(dbmin, x, parms.dl_yl, parms.dl_yh, @helper);
 
   tbl_r := precalc32op1A[parms.r];
   tbl_g := precalc32op1A[parms.g];
@@ -1222,7 +1222,7 @@ end;
 procedure R_DrawColumnLightmap32Masked(const parms: Plightparams_t);
 var
   count, x, y: integer;
-  frac: fixed_t;
+  frac, frac2: fixed_t;
   fracstep: fixed_t;
   db: Pzbufferitem_t;
   depth: LongWord;
@@ -1241,6 +1241,8 @@ var
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
   tblflags: Byte;
   okself: Boolean;
+  helper: zcolumnhelper_t;
+  yl, yh: integer;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
@@ -1268,6 +1270,37 @@ begin
     okself := parms.lightsourcemo.flags4_ex and MF4_EX_SELFAPPLYINGLIGHT <> 0
   else
     okself := False;
+
+  frac2 := frac + (parms.dl_yh - parms.dl_yl + 1) * fracstep;
+
+  yl := parms.dl_yh + 1;
+  for y := parms.dl_yl to parms.dl_yh do
+  begin
+    if source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)] = 0 then
+      inc(frac, fracstep)
+    else
+    begin
+      yl := y;
+      Break;
+    end;
+  end;
+
+  yh := yl - 1;
+  for y := parms.dl_yh downto yl + 1 do
+  begin
+    if source32[(LongWord(frac2) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)] = 0 then
+      dec(frac2, fracstep)
+    else
+    begin
+      yh := y;
+      Break;
+    end;
+  end;
+
+  if yh < yl then
+    exit;
+
+  R_PrepareZBufferHelper(dbmin, x, yl, yh, @helper);
 
   tbl_r := precalc32op1A[parms.r];
   tbl_g := precalc32op1A[parms.g];

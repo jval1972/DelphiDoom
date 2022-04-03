@@ -64,11 +64,18 @@ var
   Zspans: array[0..MAXHEIGHT] of zbuffer_t;
   Zcolumns: array[0..MAXWIDTH] of zbuffer_t;
 
+const
+  MAX_ZHELPER_INDEXES = 256;
+  MARK_ZHELPER = -2;
+
 type
   zcolumnhelper_t = record
-    indexes: packed array[0..255] of byte;
+    indexes: packed array[0..MAX_ZHELPER_INDEXES - 1] of Byte;
     size: integer;
     nextindex: integer;
+    dbmin: LongWord;
+    x: integer;
+    yl, yh: integer;
   end;
   Pzcolumnhelper_t = ^zcolumnhelper_t;
 
@@ -178,7 +185,14 @@ procedure R_ClearZBuffer;
 // R_CreateZBufferHelper
 //
 //==============================================================================
-procedure R_CreateZBufferHelper(const dbmax: LongWord; const x: integer; const helper: Pzcolumnhelper_t);
+procedure R_CreateZBufferHelper(const dbmin: LongWord; const x: integer; const yl, yh: integer; const helper: Pzcolumnhelper_t);
+
+//==============================================================================
+//
+// R_PrepareZBufferHelper
+//
+//==============================================================================
+procedure R_PrepareZBufferHelper(const dbmin: LongWord; const x: integer; const yl, yh: integer; const helper: Pzcolumnhelper_t);
 
 //==============================================================================
 //
@@ -788,7 +802,7 @@ end;
 // R_CreateZBufferHelper
 //
 //==============================================================================
-procedure R_CreateZBufferHelper(const dbmax: LongWord; const x: integer; const helper: Pzcolumnhelper_t);
+procedure R_CreateZBufferHelper(const dbmin: LongWord; const x: integer; const yl, yh: integer; const helper: Pzcolumnhelper_t);
 var
   i: integer;
   Z: Pzbuffer_t;
@@ -801,22 +815,37 @@ begin
   for i := 0 to Z.numitems - 1 do
   begin
     depth := Z.items[i].depth;
-    if depth <= dbmax then
-    begin
-      if helper.size < 256 then
-      begin
-        helper.indexes[helper.size] := i;
-        Inc(helper.size);
-      end
-      else
-      begin
-        helper.nextindex := i;
-        Exit;
-      end;
-    end;
+    if depth >= dbmin then
+      if yl <= Z.items[i].stop then
+        if yh >= Z.items[i].start then
+        begin
+          if helper.size < MAX_ZHELPER_INDEXES then
+          begin
+            helper.indexes[helper.size] := i;
+            Inc(helper.size);
+          end
+          else
+          begin
+            helper.nextindex := i;
+            Exit;
+          end;
+        end;
   end;
 end;
 
+//==============================================================================
+//
+// R_PrepareZBufferHelper
+//
+//==============================================================================
+procedure R_PrepareZBufferHelper(const dbmin: LongWord; const x: integer; const yl, yh: integer; const helper: Pzcolumnhelper_t);
+begin
+  helper.nextindex := MARK_ZHELPER;
+  helper.dbmin := dbmin;
+  helper.x := x;
+  helper.yl := yl;
+  helper.yh := yh;
+end;
 //==============================================================================
 //
 // R_ZBufferHelperAt
@@ -831,6 +860,9 @@ var
 begin
   result := @stubzitem;
   maxdepth := 0;
+
+  if helper.nextindex = MARK_ZHELPER then
+    R_CreateZBufferHelper(helper.dbmin, helper.x, y, helper.yh, helper);
 
   Z := @Zcolumns[x];
 

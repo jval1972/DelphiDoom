@@ -1,4 +1,4 @@
-  destb := @((ylookupl[parms.dl_yl]^)[columnofs[x]]);
+  destb := @((ylookupl[yl]^)[columnofs[x]]);
   pitch := SCREENWIDTH * SizeOf(LongWord);
   pitch1 := pitch;
   {$IFDEF TBL_R}
@@ -8,12 +8,13 @@
   pitch1 := pitch1 - 1;
   {$ENDIF}
   {$ENDIF}
-  for y := parms.dl_yl to parms.dl_yh do
+  for y := yl to yh do
   begin
     dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
     if dls <> 0 then
     begin
-      db := R_ZBufferAt(x, y);
+      db := R_ZBufferHelperAt(x, y, @helper);
+//      db := R_ZBufferAt(x, y);
       if db.pass = 0 then
       begin
         inc(destb, pitch);
