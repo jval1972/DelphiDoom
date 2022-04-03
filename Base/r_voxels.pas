@@ -2161,7 +2161,7 @@ begin
                 batchcolfunc;
 
               if dovoxelzbuffer then
-                R_DrawBatchVoxelColumnToZBuffer(scaleyz, thing);  // Use scaley0 instead of depth for better accuracy
+                R_DrawBatchVoxelColumnToZBuffer(scaleyz, thing);  // Use scaleyz instead of depth for better accuracy
             end;
 
             last_top := cur_top;
@@ -2191,7 +2191,7 @@ begin
               batchcolfunc;
 
             if dovoxelzbuffer then
-              R_DrawBatchVoxelColumnToZBuffer(scaleyz, thing);  // Use scaley0 instead of depth for better accuracy
+              R_DrawBatchVoxelColumnToZBuffer(scaleyz, thing);  // Use scaleyz instead of depth for better accuracy
           end;
         end;
 
