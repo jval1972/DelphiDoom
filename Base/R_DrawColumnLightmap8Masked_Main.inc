@@ -28,9 +28,9 @@
         begin
           dfactor := depth - scale;
           if dfactor < 0 then
-            dfactor := FRACUNIT - FixedDivLW(-dfactor, dbdmin)
+            dfactor := ASM_CalcFactor(-dfactor, dbdmin)
           else
-            dfactor := FRACUNIT - FixedDivLW(dfactor, dbdmax);
+            dfactor := ASM_CalcFactor(dfactor, dbdmax);
         end;
 
         if dfactor > 0 then

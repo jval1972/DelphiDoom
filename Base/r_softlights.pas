@@ -613,6 +613,35 @@ end;
 
 //==============================================================================
 //
+// ASM_CalcFactor
+//
+//==============================================================================
+function ASM_CalcFactor(const a, b: LongWord): LongWord; assembler;
+asm
+  push ebx
+  mov ebx, eax
+  shr ebx, $0e
+  cmp edx, ebx
+  jbe @@retmax
+  mov ebx, edx
+  cmp ebx, 0
+  jne @@loop1
+@@retmax:
+  mov eax, MAXINT
+  jmp @@exit
+@@loop1:
+  mov edx, eax
+  sal eax, 16
+  sar edx, 16
+  idiv ebx
+@@exit:
+  sub eax, FRACUNIT
+  neg eax
+  pop ebx
+end;
+
+//==============================================================================
+//
 // R_DrawColumnLightmap8
 //
 //==============================================================================
