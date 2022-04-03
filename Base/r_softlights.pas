@@ -1271,7 +1271,7 @@ begin
   else
     okself := False;
 
-  frac2 := frac + (parms.dl_yh - parms.dl_yl + 1) * fracstep;
+  frac2 := frac + (count + 1) * fracstep;
 
   yl := parms.dl_yh + 1;
   for y := parms.dl_yl to parms.dl_yh do
