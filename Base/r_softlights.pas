@@ -740,7 +740,7 @@ end;
 procedure R_DrawColumnLightmap8FF(const parms: Plightparams_t);
 var
   count, x, y: integer;
-  frac: fixed_t;
+  frac, frac2: fixed_t;
   fracstep: fixed_t;
   db: Pzbufferitem_t;
   depth: LongWord;
@@ -763,6 +763,8 @@ var
   tbl_r, tbl_g, tbl_b: precalc32op1_p;
   tblflags: Byte;
   abslightplanez: Integer;
+  yl, yh: integer;
+  cache: zbuffercolumncache_t;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
@@ -786,7 +788,38 @@ begin
   skip := false;
   sameseg := false;
   source32 := parms.dl_source32;
+
+  frac2 := frac + (count + 1) * fracstep;
+  yl := parms.dl_yh + 1;
+  for y := parms.dl_yl to parms.dl_yh do
+  begin
+    if source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)] = 0 then
+      inc(frac, fracstep)
+    else
+    begin
+      yl := y;
+      Break;
+    end;
+  end;
+  yh := yl - 1;
+  for y := parms.dl_yh downto yl + 1 do
+  begin
+    if source32[(LongWord(frac2) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)] = 0 then
+      dec(frac2, fracstep)
+    else
+    begin
+      yh := y;
+      Break;
+    end;
+  end;
+
+  if yh < yl then
+    exit;
+
+  R_CreateZColumnCache(dbmin, x, yl, yh, @cache);
+
   abslightplanez := abs(parms.lightplanez);
+
 
   tbl_r := precalc32op1A[parms.r];
   tbl_g := precalc32op1A[parms.g];

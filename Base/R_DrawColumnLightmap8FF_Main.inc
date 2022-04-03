@@ -2,10 +2,11 @@
   pitch := SCREENWIDTH;
   for y := parms.dl_yl to parms.dl_yh do
   begin
-    dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
-    if dls <> 0 then
+//    dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
+//    if dls <> 0 then
     begin
-      db := R_ZBufferAt(x, y);
+//      db := R_ZBufferAt(x, y);
+      db := cache[y];
       depth := db.depth;
       if (depth >= dbmin) and (depth <= dbmax) then
       begin
@@ -36,7 +37,8 @@
 
           if dfactor > 0 then
           begin
-            factor := FixedMulDiv256(dls, dfactor);
+//            factor := FixedMulDiv256(dls, dfactor);
+            factor := FixedMulDiv256(source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)], dfactor);
 
             if factor > 0 then
             begin
