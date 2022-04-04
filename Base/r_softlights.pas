@@ -614,6 +614,7 @@ end;
 //==============================================================================
 //
 // ASM_CalcFactor
+//  Calculate  FRACUNIT - FixedDivLW(a, b)
 //
 //==============================================================================
 function ASM_CalcFactor(const a, b: LongWord): LongWord; assembler;
