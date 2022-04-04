@@ -1525,7 +1525,7 @@ var
 
 type
   bindinginfo_t = record
-    text: string[21];
+    text: string[22];
     pkey: PInteger;
   end;
 
