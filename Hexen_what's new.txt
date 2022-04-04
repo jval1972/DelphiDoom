@@ -16,6 +16,7 @@ More efficient segs clipping to speedup rendering of huge maps.
 Added r_voxellightmapaccuracy console variable. Values are 0, 1 & 2 for low, normal & high accuracy. Default is 1.
 Speed optimization to the software rendering lightmap.
 Speed optimizations to voxel software rendering.
+Fixed spans with 256x256 size in fog levels.
 
 Version 2.0.7 build 732 - (20220318)
 -----------------------

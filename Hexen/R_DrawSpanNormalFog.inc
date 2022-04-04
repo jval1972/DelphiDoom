@@ -42,7 +42,7 @@
         {$UNDEF SCALE512x512}
         {$UNDEF SIZE64x64}
         {$DEFINE SIZE128x128}
-        {$UNDEF SIZE256x258}
+        {$UNDEF SIZE256x256}
         {$UNDEF SIZE512x512}
         {$UNDEF SIZE1024x1024}
         {$UNDEF SIZE2048x2048}
@@ -57,7 +57,7 @@
         {$UNDEF SCALE512x512}
         {$UNDEF SIZE64x64}
         {$UNDEF SIZE128x128}
-        {$DEFINE SIZE256x258}
+        {$DEFINE SIZE256x256}
         {$UNDEF SIZE512x512}
         {$UNDEF SIZE1024x1024}
         {$UNDEF SIZE2048x2048}
@@ -72,7 +72,7 @@
         {$UNDEF SCALE512x512}
         {$UNDEF SIZE64x64}
         {$UNDEF SIZE128x128}
-        {$UNDEF SIZE256x258}
+        {$UNDEF SIZE256x256}
         {$DEFINE SIZE512x512}
         {$UNDEF SIZE1024x1024}
         {$UNDEF SIZE2048x2048}
@@ -87,7 +87,7 @@
         {$UNDEF SCALE512x512}
         {$UNDEF SIZE64x64}
         {$UNDEF SIZE128x128}
-        {$UNDEF SIZE256x258}
+        {$UNDEF SIZE256x256}
         {$UNDEF SIZE512x512}
         {$DEFINE SIZE1024x1024}
         {$UNDEF SIZE2048x2048}
@@ -102,7 +102,7 @@
         {$UNDEF SCALE512x512}
         {$UNDEF SIZE64x64}
         {$UNDEF SIZE128x128}
-        {$UNDEF SIZE256x258}
+        {$UNDEF SIZE256x256}
         {$UNDEF SIZE512x512}
         {$UNDEF SIZE1024x1024}
         {$DEFINE SIZE2048x2048}
@@ -117,7 +117,7 @@
         {$UNDEF SCALE512x512}
         {$UNDEF SIZE64x64}
         {$UNDEF SIZE128x128}
-        {$UNDEF SIZE256x258}
+        {$UNDEF SIZE256x256}
         {$UNDEF SIZE512x512}
         {$UNDEF SIZE1024x1024}
         {$UNDEF SIZE2048x2048}
