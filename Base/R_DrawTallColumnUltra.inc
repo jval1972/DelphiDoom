@@ -1,6 +1,26 @@
   if fracstep < FRACUNIT then
   begin
 {$IFNDEF NO_INLINE_LOOPS}
+    while count >= 16 do
+    begin
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      {$I R_DrawTallColumnUltra_Loop.inc}
+      count := count - 16;
+    end;
     while count >= 4 do
     begin
       {$I R_DrawTallColumnUltra_Loop.inc}
@@ -26,6 +46,26 @@
   begin
   {$UNDEF SMALLSTEPOPTIMIZER}
 {$IFNDEF NO_INLINE_LOOPS}
+    while count >= 16 do
+    begin
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      {$I R_DrawTallColumnHi_Loop.inc}
+      count := count - 16;
+    end;
     while count >= 4 do
     begin
       {$I R_DrawTallColumnHi_Loop.inc}

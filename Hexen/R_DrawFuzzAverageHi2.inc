@@ -1,4 +1,24 @@
 {$IFNDEF NO_INLINE_LOOPS}
+  while count >= 16 do
+  begin
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    {$I R_DrawColumnFuzzHi_Loop2.inc}
+    count := count - 16;
+  end;
   while count >= 4 do
   begin
     {$I R_DrawColumnFuzzHi_Loop2.inc}
