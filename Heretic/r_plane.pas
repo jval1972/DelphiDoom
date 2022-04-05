@@ -182,6 +182,9 @@ var
   planezlight: PBytePArray;
   planeheight: fixed_t;
   planeheightz: fixed_t;
+
+// Speed up check
+  checkfake3dspanpresent: Boolean;
 {$ENDIF}
 
 {$IFNDEF OPENGL}
@@ -283,10 +286,9 @@ begin
   if y = centery then
     exit;
 
-  if usefake3d and zaxisshift then
-    if fake3dspanpresent <> nil then
-      if not fake3dspanpresent[y] then
-        Exit;
+  if checkfake3dspanpresent then
+    if not fake3dspanpresent[y] then
+      Exit;
 
   if planeheight <> cachedheight[y] then
   begin
@@ -388,10 +390,9 @@ begin
   if y = centery then
     exit;
 
-  if usefake3d and zaxisshift then
-    if fake3dspanpresent <> nil then
-      if not fake3dspanpresent[y] then
-        Exit;
+  if checkfake3dspanpresent then
+    if not fake3dspanpresent[y] then
+      Exit;
 
   distance := FixedMul(planeheight, yslope[y]);
 
@@ -917,6 +918,7 @@ var
   i: integer;
   pl: Pvisplane_t;
 begin
+  checkfake3dspanpresent := usefake3d and zaxisshift and (fake3dspanpresent <> nil);
   for i := 0 to lastvisplane - 1 do
   begin
     pl := @visplanes[i];
