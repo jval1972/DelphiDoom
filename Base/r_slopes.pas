@@ -329,10 +329,9 @@ begin
   if x2 - x1 < 0 then
     exit;
 
-  if usefake3d and zaxisshift then
-    if fake3dspanpresent <> nil then
-      if not fake3dspanpresent[y] then
-        Exit;
+  if checkfake3dspanpresent then
+    if not fake3dspanpresent[y] then
+      Exit;
 
   if y < visslope.miny then
     yidx := visslope.miny
@@ -475,10 +474,9 @@ begin
   if x2 - x1 < 0 then
     exit;
 
-  if usefake3d and zaxisshift then
-    if fake3dspanpresent <> nil then
-      if not fake3dspanpresent[y] then
-        Exit;
+  if checkfake3dspanpresent then
+    if not fake3dspanpresent[y] then
+      Exit;
 
   if y < visslope.miny then
     yidx := visslope.miny
@@ -652,10 +650,9 @@ begin
   if x2 - x1 < 0 then
     exit;
 
-  if usefake3d and zaxisshift then
-    if fake3dspanpresent <> nil then
-      if not fake3dspanpresent[y] then
-        Exit;
+  if checkfake3dspanpresent then
+    if not fake3dspanpresent[y] then
+      Exit;
 
   if y < visslope.miny then
     yidx := visslope.miny
