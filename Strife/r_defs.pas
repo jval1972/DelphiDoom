@@ -233,7 +233,38 @@ type
     rendervalidcount: integer;
     windthrust: integer;
     windangle: angle_t;
+
+    // Interpolate related stuff
     interpolate_group: integer; // JVAL: 20220327 - Interpolation group
+    intrplcnt: integer;
+    next_floorheight: fixed_t;
+    next_ceilingheight: fixed_t;
+    next_lightlevel: smallint;
+    next_floor_xoffs: fixed_t;
+    next_floor_yoffs: fixed_t;
+    next_ceiling_xoffs: fixed_t;
+    next_ceiling_yoffs: fixed_t;
+    next_floorangle: angle_t;
+    next_flooranglex: fixed_t;
+    next_floorangley: fixed_t;
+    next_ceilingangle: angle_t;
+    next_ceilinganglex: fixed_t;
+    next_ceilingangley: fixed_t;
+    next_fa, next_fb, next_fd, next_fic, next_ca, next_cb, next_cd, next_cic: float;
+    prev_floorheight: fixed_t;
+    prev_ceilingheight: fixed_t;
+    prev_lightlevel: smallint;
+    prev_floor_xoffs: fixed_t;
+    prev_floor_yoffs: fixed_t;
+    prev_ceiling_xoffs: fixed_t;
+    prev_ceiling_yoffs: fixed_t;
+    prev_floorangle: angle_t;
+    prev_flooranglex: fixed_t;
+    prev_floorangley: fixed_t;
+    prev_ceilingangle: angle_t;
+    prev_ceilinganglex: fixed_t;
+    prev_ceilingangley: fixed_t;
+    prev_fa, prev_fb, prev_fd, prev_fic, prev_ca, prev_cb, prev_cd, prev_cic: float;
   end;
   sector_tArray = packed array[0..$FFFF] of sector_t;
   Psector_tArray = ^sector_tArray;
