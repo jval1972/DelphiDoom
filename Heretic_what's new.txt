@@ -15,7 +15,7 @@ Uncapped framerate scales better in multi-core CPUs.
 Added interpolatereducelag console variable. When set, it will try to reduce lag. Default is "false".
 New menu for uncapped framerate (Options/Display/Advanced/Uncapped FrameRate).
 More efficient segs clipping to speedup rendering of huge maps.
-Added r_voxellightmapaccuracy console variable. Values are 0, 1 & 2 for low, normal & high accuracy. Default is 1.
+Added r_voxellightmapaccuracy console variable. Values are 0, 1 & 2 for low, normal & high accuracy. Default is 1. It can be set from the Lightmap menu.
 Speed optimization to the software rendering lightmap.
 Speed optimizations to voxel software rendering.
 Improved uncapped framerate integrity and performance.
