@@ -127,9 +127,10 @@ uses
   v_video;
 
 var
-  g_pDD: IDirectDraw7 = nil; // DirectDraw object
-  g_pDDSPrimary: IDirectDrawSurface7 = nil;// DirectDraw primary surface
+  g_pDD: IDirectDraw7 = nil;                // DirectDraw object
+  g_pDDSPrimary: IDirectDrawSurface7 = nil; // DirectDraw primary surface
   g_pDDScreen: IDirectDrawSurface7 = nil;   // DirectDraw surface
+  g_pDDClipper: IDirectDrawClipper = nil;   // Clipper
 
 var
   bpp: integer;
@@ -145,12 +146,84 @@ var
 
 //==============================================================================
 //
+// I_GetWindowClientOffset
+//
+//==============================================================================
+procedure I_GetWindowClientOffset(var dw, dh: integer);
+var
+  rw, rc: TRect;
+begin
+  GetClientRect(hMainWnd, rc);
+  GetWindowRect(hMainWnd, rw);
+  dw := (rw.Right - rw.Left) - (rc.Right - rc.Left);
+  dh := (rw.Bottom - rw.Top) - (rc.Bottom - rc.Top);
+end;
+
+//==============================================================================
+//
+// I_GetWindowOffset
+//
+//==============================================================================
+procedure I_GetWindowOffset(var dw, dh: integer);
+var
+  rw, rc: TRect;
+  border: integer;
+begin
+  GetClientRect(hMainWnd, rc);
+  GetWindowRect(hMainWnd, rw);
+  border := ((rw.Right - rw.Left) - (rc.Right - rc.Left)) div 2;
+  dw := rw.Right - rc.Right - border;
+  dh := rw.Bottom - rc.Bottom - border;
+end;
+
+//==============================================================================
+//
+// I_GetWindowPosition
+//
+//==============================================================================
+procedure I_GetWindowPosition(var dw, dh: integer);
+var
+  rw: TRect;
+begin
+  GetWindowRect(hMainWnd, rw);
+  dw := rw.Left;
+  dh := rw.Top;
+end;
+
+//==============================================================================
+//
 // I_RestoreWindowPos
 //
 //==============================================================================
 procedure I_RestoreWindowPos(const mode: integer);
+var
+  dw, dh: integer;
 begin
-  SetWindowPos(hMainWnd, HWND_TOP, 0, 0, WINDOWWIDTH, WINDOWHEIGHT, SWP_SHOWWINDOW)
+  if mode = FULLSCREEN_OFF then
+  begin
+    SetWindowLong(hMainWnd, GWL_STYLE, WINDOW_STYLE_W);
+    SetWindowPos(hMainWnd, HWND_TOP, windowxpos, windowypos, WINDOWWIDTH, WINDOWHEIGHT, SWP_SHOWWINDOW);
+    I_GetWindowClientOffset(dw, dh);
+    SetWindowPos(hMainWnd, HWND_TOP, windowxpos, windowypos, WINDOWWIDTH + dw, WINDOWHEIGHT + dh, SWP_SHOWWINDOW);
+  end
+  else
+  begin
+    SetWindowLong(hMainWnd, GWL_STYLE, WINDOW_STYLE_FS);
+    SetWindowPos(hMainWnd, HWND_TOP, 0, 0, WINDOWWIDTH, WINDOWHEIGHT, SWP_HIDEWINDOW);
+  end;
+end;
+
+//==============================================================================
+//
+// I_SetClipper
+//
+//==============================================================================
+procedure I_SetClipper(const mode: integer);
+begin
+  if mode = FULLSCREEN_OFF then
+    g_pDDSPrimary.SetClipper(g_pDDClipper)
+  else
+    g_pDDSPrimary.SetClipper(nil);
 end;
 
 //==============================================================================
@@ -216,6 +289,7 @@ begin
   I_ClearInterface(IInterface(g_pDDScreen));
   I_ClearInterface(IInterface(g_pDDSPrimary));
   I_ClearInterface(IInterface(g_pDD));
+  I_ClearInterface(IInterface(g_pDDClipper));
   I_EnableAltTab;
   I_ClearDisplayModes;
   memfree(oscreen, allocscreensize);
@@ -533,6 +607,7 @@ var
   stretch: boolean;
   surfacelost: boolean;
   i: integer;
+  dw, dh: integer;
 begin
   I_BlitBuffer;
 
@@ -547,12 +622,22 @@ begin
 
   r_blitmultiplier := GetIntegerInRange(r_blitmultiplier, 1, 4);
 
-  if stretch then
+  if stretch or (fullscreen = FULLSCREEN_OFF) then
   begin
     destrect.Left := 0;
     destrect.Top := 0;
     destrect.Right := WINDOWWIDTH;
     destrect.Bottom := WINDOWHEIGHT;
+
+    if fullscreen = FULLSCREEN_OFF then
+    begin
+      I_GetWindowPosition(windowxpos, windowypos);
+      I_GetWindowOffset(dw, dh);
+      Inc(destrect.Left, dw);
+      Inc(destrect.Right, dw);
+      Inc(destrect.Top, dh);
+      Inc(destrect.Bottom, dh);
+    end;
 
     for i := 0 to r_blitmultiplier - 1 do
     begin
@@ -730,6 +815,20 @@ begin
   if hres <> DD_OK then
     I_ErrorInitGraphics('DirectDrawCreateEx');
 
+///////////////////////////////////////////////////////////////////////////
+// Create the clipper using the DirectDraw object
+///////////////////////////////////////////////////////////////////////////
+  hres := g_pDD.CreateClipper(0, g_pDDClipper, nil);
+  if hres <> DD_OK then
+    I_ErrorInitGraphics('CreateClipper');
+
+///////////////////////////////////////////////////////////////////////////
+// Assign your window's HWND to the clipper
+///////////////////////////////////////////////////////////////////////////
+  hres := g_pDDClipper.SetHWnd(0, hMainWnd);
+  if hres <> DD_OK then
+    I_ErrorInitGraphics('g_pDDClipper.SetHWnd');
+
   fullscreen := fullscreen mod NUMFULLSCREEN_MODES;
 
   if fullscreen = FULLSCREEN_EXCLUSIVE then
@@ -842,6 +941,8 @@ begin
   if hres <> DD_OK then
     I_ErrorInitGraphics('CreateSurface');
 
+  I_SetClipper(fullscreen);
+
   dpi := I_GetWindowDPI(hMainWnd);
 end;
 
@@ -932,6 +1033,7 @@ begin
         g_pDD.SetCooperativeLevel(hMainWnd, DDSCL_EXCLUSIVE or DDSCL_FULLSCREEN)
       else
         g_pDD.SetCooperativeLevel(hMainWnd, DDSCL_NORMAL);
+      I_SetClipper(fullscreen);
       exit;
     end;
   end;
@@ -997,6 +1099,8 @@ begin
   hres := g_pDD.CreateSurface(ddsd, g_pDDScreen, nil);
   if hres <> DD_OK then
     I_Error('I_ChangeFullScreen(): CreateSurface failed');
+
+  I_SetClipper(fullscreen);
 
   dpi := I_GetWindowDPI(hMainWnd);
 end;

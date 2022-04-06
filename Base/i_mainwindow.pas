@@ -38,6 +38,8 @@ uses
 
 var
   hMainWnd: HWND = 0;
+  windowxpos: integer = 0;
+  windowypos: integer = 0;
 
 implementation
 
