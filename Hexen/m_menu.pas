@@ -3387,6 +3387,7 @@ begin
   lightmapcolorintensity := DEFLMCOLORSENSITIVITY;
   lightwidthfactor := DEFLIGHTWIDTHFACTOR;
   r_lightmaponmasked := true;
+  r_lightmaponemitters := false;
   r_lightmapfadeoutfunc := 0;
 end;
 
