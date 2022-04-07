@@ -61,7 +61,14 @@ procedure GL_ChangeFullScreen(const full: boolean);
 // GL_SetDisplayMode
 //
 //==============================================================================
-function GL_SetDisplayMode(const newwidth, newheight: integer): boolean;
+function GL_SetDisplayMode(const newwidth, newheight: integer; const force: boolean = false): boolean;
+
+//==============================================================================
+//
+// GL_NotifyDisplayMode
+//
+//==============================================================================
+procedure GL_NotifyDisplayMode;
 
 //==============================================================================
 //
@@ -143,6 +150,7 @@ uses
   doomdef,
   d_main,
   d_net,
+  d_notifications,
   g_game,
   hu_stuff,
   {$IFDEF DOOM}
@@ -186,8 +194,21 @@ var
 //
 //==============================================================================
 procedure I_RestoreWindowPos;
+var
+  dw, dh: integer;
 begin
-  SetWindowPos(hMainWnd, HWND_TOP, 0, 0, SCREENWIDTH, SCREENHEIGHT, SWP_SHOWWINDOW);
+  if not fullscreen then
+  begin
+    SetWindowLong(hMainWnd, GWL_STYLE, WINDOW_STYLE_W);
+    SetWindowPos(hMainWnd, HWND_TOP, windowxpos, windowypos, SCREENWIDTH, SCREENHEIGHT, SWP_SHOWWINDOW);
+    I_GetWindowClientOffset(dw, dh);
+    SetWindowPos(hMainWnd, HWND_TOP, windowxpos, windowypos, SCREENWIDTH + dw, SCREENHEIGHT + dh, SWP_SHOWWINDOW);
+  end
+  else
+  begin
+    SetWindowLong(hMainWnd, GWL_STYLE, WINDOW_STYLE_FS);
+    SetWindowPos(hMainWnd, HWND_TOP, 0, 0, SCREENWIDTH, SCREENHEIGHT, SWP_SHOWWINDOW); //SWP_HIDEWINDOW);
+  end;
 end;
 
 //==============================================================================
@@ -668,6 +689,9 @@ begin
 //    printf('I_StartUpdate(): fuck!');
 end;
 
+var
+  oldfullscreen: integer = -1;
+
 //==============================================================================
 //
 // I_FinishUpdate
@@ -682,6 +706,12 @@ var
 begin
   if (hMainWnd = 0) or (screens[SCN_FG] = nil) or (screen32 = nil) then
     exit;
+
+  if intval(fullscreen) <> oldfullscreen then
+  begin
+    D_NotifyGLDisplayMode;
+    oldfullscreen := intval(fullscreen);
+  end;
 
   {$IFNDEF HEXEN}
   if (gamestate = GS_ENDOOM) or enterendoom then
@@ -946,26 +976,25 @@ begin
     end;
   end;
 
-  dwStyle := WS_POPUP or        // Creates a popup window
-             WS_CLIPCHILDREN or // Doesn't draw within child windows
-             WS_CLIPSIBLINGS;   // Doesn't draw within sibling windows
-  dwExStyle := WS_EX_APPWINDOW;         // Top level window
+  dwStyle := 0;
+  dwExStyle := WINDOW_STYLE_FS;
 
-  ShowCursor(False);                    // Turn of the cursor (gets in the way)
+  ShowCursor(False);  // Turn of the cursor (gets in the way)
 
   // Attempt to create the actual window
   hMainWnd := CreateWindowEx(
-                          dwExStyle,      // Extended window styles
-                          WindowClass.lpszClassName,
-                          AppTitle,
-                          dwStyle,        // Window styles
-                          0, 0,           // Window position
-                          SCREENWIDTH,
-                          SCREENHEIGHT,
-                          0,              // No parent window
-                          0,              // No menu
-                          h_Instance,     // Instance
-                          nil);           // Pass nothing to WM_CREATE
+    dwExStyle,      // Extended window styles
+    WindowClass.lpszClassName,
+    AppTitle,
+    dwStyle,        // Window styles
+    0, 0,           // Window position
+    SCREENWIDTH,
+    SCREENHEIGHT,
+    0,              // No parent window
+    0,              // No menu
+    h_Instance,     // Instance
+    nil             // Pass nothing to WM_CREATE
+  );
 
   if hMainWnd = 0 then
   begin
@@ -1084,6 +1113,8 @@ begin
   set_hud := gl_linear_hud;
 
   glTexImage2D(GL_TEXTURE_2D, 0, 4, GLDRAWTEXWIDTH, GLDRAWTEXHEIGHT, 0, GL_BGRA, GL_UNSIGNED_BYTE, screen32);
+
+  GL_NotifyDisplayMode;
 end;
 
 //==============================================================================
@@ -1124,14 +1155,15 @@ end;
 // GL_SetDisplayMode
 //
 //==============================================================================
-function GL_SetDisplayMode(const newwidth, newheight: integer): boolean;
+function GL_SetDisplayMode(const newwidth, newheight: integer; const force: boolean = false): boolean;
 var
   nwidth, nheight: integer;
 begin
   result := false;
 
-  if (SCREENWIDTH = newwidth) and (SCREENHEIGHT = newheight) then
-    exit;
+  if not force then
+    if (SCREENWIDTH = newwidth) and (SCREENHEIGHT = newheight) then
+      exit;
 
   nwidth := newwidth and not 1;
   if nwidth > MAXWIDTH then
@@ -1148,7 +1180,7 @@ begin
   if nheight > nwidth then
     nheight := nwidth;
 
-  if (SCREENWIDTH <> nwidth) or (SCREENHEIGHT <> nheight) then
+  if force or (SCREENWIDTH <> nwidth) or (SCREENHEIGHT <> nheight) then
   begin
     MT_WaitTasks;           // Wait for running tasks to stop
     AM_Stop;                // Stop the aytomap
@@ -1168,6 +1200,20 @@ begin
     overlay.ReCalcOverlayLookUp;
     result := true;
   end;
+end;
+
+//==============================================================================
+//
+// GL_NotifyDisplayMode
+//
+//==============================================================================
+procedure GL_NotifyDisplayMode;
+begin
+  GL_ChangeFullScreen(fullscreen);
+
+  glResizeWnd;
+  glInit;
+  glViewport(0, 0, SCREENWIDTH, SCREENHEIGHT);
 end;
 
 //==============================================================================

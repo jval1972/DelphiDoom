@@ -39,10 +39,6 @@ interface
 uses
   Windows;
 
-const
-  WINDOW_STYLE_FS = (WS_OVERLAPPED);
-  WINDOW_STYLE_W = (WS_POPUPWINDOW or WS_TABSTOP or WS_VISIBLE or WS_SYSMENU or WS_CAPTION);
-
 //==============================================================================
 //
 // DoomMain
