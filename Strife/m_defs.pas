@@ -111,8 +111,10 @@ const
 var
 {$IFDEF OPENGL}
 // Stub variables
-  soft_SCREENWIDTH,
+  soft_SCREENWIDTH: integer;
   soft_SCREENHEIGHT: integer;
+  soft_windowxpos: integer;
+  soft_windowypos: integer;
   usefake3d: boolean;
   optimizedthingsrendering: boolean;
   force_numwallrenderingthreads_8bit: integer;
@@ -132,6 +134,8 @@ var
   r_lightmaponmasked: boolean = true;
   r_lightmaponemitters: boolean = false;
 {$ELSE}
+  gl_windowxpos: integer;
+  gl_windowypos: integer;
   tran_filter_pct: integer;
   use_fog: boolean;
   fog_density: integer;
@@ -176,7 +180,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 232;
+  NUMDEFAULTS = 234;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -217,6 +221,24 @@ const
      defaultbvalue: true;
      _type: tInteger),
 
+    (name: 'soft_windowxpos';
+     location: {$IFDEF OPENGL}@soft_windowxpos{$ELSE}@windowxpos{$ENDIF};
+     oldlocation: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tInteger),
+
+    (name: 'soft_windowypos';
+     location: {$IFDEF OPENGL}@soft_windowypos{$ELSE}@windowypos{$ENDIF};
+     oldlocation: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tInteger),
+
     (name: 'gl_screenwidth';
      location: @{$IFDEF OPENGL}SCREENWIDTH{$ELSE}gl_SCREENWIDTH{$ENDIF};
      oldlocation: nil;
@@ -244,8 +266,8 @@ const
      defaultbvalue: true;
      _type: tBoolean),
 
-    (name: 'windowxpos';
-     location: @windowxpos;
+    (name: 'gl_windowxpos';
+     location: {$IFDEF OPENGL}@windowxpos{$ELSE}@gl_windowxpos{$ENDIF};
      oldlocation: nil;
      setable: DFS_NEVER;
      defaultsvalue: '';
@@ -253,8 +275,8 @@ const
      defaultbvalue: true;
      _type: tInteger),
 
-    (name: 'windowypos';
-     location: @windowypos;
+    (name: 'gl_windowypos';
+     location: {$IFDEF OPENGL}@windowypos{$ELSE}@gl_windowypos{$ENDIF};
      oldlocation: nil;
      setable: DFS_NEVER;
      defaultsvalue: '';
