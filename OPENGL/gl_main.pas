@@ -946,7 +946,8 @@ begin
     style         := CS_HREDRAW or    // Redraws entire window if length changes
                      CS_VREDRAW or    // Redraws entire window if height changes
                      CS_OWNDC;        // Unique device context for the window
-    lpfnWndProc   := @WindowProc;        // Set the window procedure to our func WndProc
+    lpfnWndProc   := @WindowProc;     // Set the window procedure to our func WndProc
+    hbrBackground := GetStockObject(BLACK_BRUSH); // Black background
     hInstance     := h_Instance;
     hCursor       := LoadCursor(0, IDC_ARROW);
     lpszClassName := 'Doom32';
