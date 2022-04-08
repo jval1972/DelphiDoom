@@ -19,6 +19,7 @@ Speed optimizations to voxel software rendering.
 Fixed spans with 256x256 size in fog levels.
 Improved uncapped framerate integrity and performance.
 Proper windowed mode (Software & OpenGL).
+The player can choose to use CAPS LOCK for autorun.
 
 Version 2.0.7 build 732 - (20220318)
 -----------------------

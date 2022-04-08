@@ -1306,9 +1306,9 @@ const
      oldlocation: nil;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: 0;
+     defaultivalue: 2;
      defaultbvalue: false;
-     _type: tBoolean),
+     _type: tInteger),
 
     (name: 'Keyboard';
      location: nil;

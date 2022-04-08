@@ -402,7 +402,7 @@ type
   );
 
 var
-  autorunmode: boolean = false;
+  autorunmode: integer = 2;
   keepcheatsinplayerreborn: boolean = false;
   allowplayerjumps: boolean = true;
   allowplayercrouch: boolean = true;
@@ -456,8 +456,8 @@ uses
   f_finale,
   info_h,
   info,
-  m_rnd,
   i_system,
+  i_input,
 {$IFNDEF OPENGL}
   r_draw,
 {$ENDIF}
@@ -465,6 +465,7 @@ uses
   m_argv,
   m_misc,
   m_menu,
+  m_rnd,
   p_setup,
   p_saveg,
   p_tick,
@@ -686,7 +687,10 @@ begin
             (usemouse and mousebuttons[mousebstrafe]) or
             (usejoystick and joybuttons[joybstrafe]);
   speed := intval(gamekeydown[key_speed] or joybuttons[joybspeed]);
-  if autorunmode then
+  if autorunmode = 0 then
+  else if autorunmode = 1 then
+    speed := 1 - speed
+  else if I_GetCapsLock then
     speed := 1 - speed;
 
   _forward := 0;
@@ -1049,7 +1053,10 @@ begin
             (usemouse and mousebuttons[mousebstrafe]) or
             (usejoystick and joybuttons[joybstrafe]);
   speed := intval(gamekeydown[key_speed] or joybuttons[joybspeed]);
-  if autorunmode then
+  if autorunmode = 0 then
+  else if autorunmode = 1 then
+    speed := 1 - speed
+  else if I_GetCapsLock then
     speed := 1 - speed;
 
   _forward := 0;
