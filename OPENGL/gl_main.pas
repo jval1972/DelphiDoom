@@ -930,6 +930,7 @@ var
   PixelFormat: GLuint;         // Settings for the OpenGL rendering
   h_Instance: HINST;           // Current instance
   pfd: TPIXELFORMATDESCRIPTOR;  // Settings for the OpenGL window
+  caption: string;
 begin
   printf('GL_InitGraphics: Initializing OpenGL.'#13#10);
 
@@ -985,11 +986,13 @@ begin
 
   ShowCursor(False);  // Turn of the cursor (gets in the way)
 
+  caption := D_Version + ' - ' + D_VersionBuilt;
+
   // Attempt to create the actual window
   hMainWnd := CreateWindowEx(
     dwExStyle,      // Extended window styles
     WindowClass.lpszClassName,
-    AppTitle,
+    PAnsiChar(caption),
     dwStyle,        // Window styles
     0, 0,           // Window position
     SCREENWIDTH,
