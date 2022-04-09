@@ -500,10 +500,10 @@ begin
          FixedMul8(v1.dx, v2.dy);
 
   if den = 0 then
-    result := 0     // Parallel
+    result := 0 // Parallel
   else
   begin
-    num := FixedMul8(v1.x - v2.x, v1.dy)  +
+    num := FixedMul8(v1.x - v2.x, v1.dy) +
            FixedMul8(v2.y - v1.y, v1.dx);
     result := FixedDiv(num, den);
   end;
