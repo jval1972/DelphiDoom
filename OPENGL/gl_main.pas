@@ -207,7 +207,7 @@ begin
   else
   begin
     SetWindowLong(hMainWnd, GWL_STYLE, WINDOW_STYLE_FS);
-    SetWindowPos(hMainWnd, HWND_TOP, 0, 0, SCREENWIDTH, SCREENHEIGHT, SWP_SHOWWINDOW); //SWP_HIDEWINDOW);
+    SetWindowPos(hMainWnd, HWND_NOTOPMOST, 0, 0, SCREENWIDTH, SCREENHEIGHT, SWP_SHOWWINDOW);
   end;
 end;
 
