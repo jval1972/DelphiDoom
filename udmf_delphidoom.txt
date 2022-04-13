@@ -1,0 +1,158 @@
+===============================================================================
+Universal Doom Map Format DelphiDoom extensions
+
+
+    Copyright (c) 2022 Jim Valavanis.
+    Permission is granted to copy, distribute and/or modify this document
+    under the terms of the GNU Free Documentation License, Version 1.2
+    or any later version published by the Free Software Foundation;
+    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+    
+===============================================================================
+
+This document discusses only the additions DelphiDoom makes to the UDMF 
+specification.
+
+=======================================
+I. Grammar / Syntax
+=======================================
+
+    No changes.
+
+=======================================
+II. Implementation Semantics
+=======================================
+
+------------------------------------
+II.A : Storage and Retrieval of Data
+------------------------------------
+
+Any TEXTMAP lump in the described namespaces must be encoded in "ANSI Text" with
+8 bit encoding assuming all characters are in the bottom 127 values (ASCII).
+Characters with code number 128 or higher are not guaranteed to be processed 
+correctly and should be used only in comments.
+
+-----------------------------------
+II.B : Storage Within Archive Files
+-----------------------------------
+
+In addition to the base specification DelphiDoom recognizes the following lumps
+between the TEXTMAP and ENDMAP lumps:
+
+    BEHAVIOR = contains compiled ACS code
+    SCRIPT = contains ACS source code of the BEHAVIOR lump
+    SCRIPTS = as above
+
+    DelphiDoom will compile the ACS source code contained in SCIPT/SCRIPTS lump if 
+    the BEHAVIOR lump is missing. It will not compile the ACS script source code if 
+    the BEHAVIOR lump is presend.
+    
+--------------------------------
+II.C : Implementation Dependence
+--------------------------------
+
+DelphiDoom supports all namespaces defined in the base specification and adds 
+the following:
+
+    "DelphiDoom"
+    It uses Hexen type specials as well as BOOM line specials. Line specials 
+    from 300 to 999 are used for binary Doom format line specials (+300)
+
+    "DelphiHeretic"
+    It uses Hexen type specials. Line specials from 300 to 999 are used for 
+    binary Heretic format line specials (+300)
+
+    "DelphiHexen"
+    It uses Hexen type specials.
+
+    "DelphiStrife"
+    It uses Hexen type specials as well as BOOM line specials. Line specials 
+    from 300 to 999 are used for binary Strife format line specials (+300)
+
+
+=======================================
+III. Standardized Fields
+=======================================
+
+In addition to the standard fields, DelphiDoom defines the following:
+Note: All <bool> fields default to false unless mentioned otherwise.
+
+   vertex
+   {
+      zfloor = <float>;         // Floor height at this vertex. Only applies to triangular sectors
+      zceiling = <float>;       // Ceiling height at this vertex. Only applies to triangular sectors
+   }
+
+   linedef
+   {
+      triggerscripts = <bool>;    // Triggers PascalScipt
+      blocklandmonsters = <bool>; // Blocks land monsters (DelphiDoom & DelphiHeretic)
+      blockplayers = <bool>;      // Blocks players (DelphiDoom & DelphiHeretic)
+      noclipping = <bool>;        // Do not clip move
+      oldstyle = <bool>;          // Ignored (DelphiDoom, DelphiHeretic & DelphiStrife)
+      blockplayers = <bool>;      // Line blocks players' movement.
+      blockeverything = <bool>;   // Line blocks everything.
+      moreids = <string>;         // Additional line IDs, specified as a space separated list of numbers (e.g. "2 3 4 5")
+   }
+
+   sidedef
+   {
+      offsetx_top = <float>;    // X offset for upper texture, Default = 0.0.
+      offsety_top = <float>;    // y offset for upper texture, Default = 0.0.
+      offsetx_mid = <float>;    // X offset for mid texture, Default = 0.0.
+      offsety_mid = <float>;    // y offset for mid texture, Default = 0.0.
+      offsetx_bottom = <float>; // X offset for lower texture, Default = 0.0.
+      offsety_bottom = <float>; // y offset for lower texture, Default = 0.0.
+                                // When global texture offsets are used they will
+                                // be added on top of these values.
+      nofakecontrast = <bool>;  // Disables use of fake contrast on this sidedef.
+   }
+
+   sector
+   {
+      xpanningfloor = <float>;        // X texture offset of floor texture, Default = 0.0. (DelphiDoom & DelphiStrife)
+      ypanningfloor = <float>;        // Y texture offset of floor texture, Default = 0.0. (DelphiDoom & DelphiStrife)
+      xpanningceiling = <float>;      // X texture offset of ceiling texture, Default = 0.0. (DelphiDoom & DelphiStrife)
+      ypanningceiling = <float>;      // Y texture offset of ceiling texture, Default = 0.0. (DelphiDoom & DelphiStrife)
+      rotationfloor = <float>;        // Rotation of floor texture in degrees, Default = 0.0.
+      rotationfloorx = <float>;       // Floor rotation x pivot, Default = 0.0.
+      rotationfloory = <float>;       // Floor rotation y pivot, Default = 0.0.
+      rotationceiling = <float>;      // Rotation of ceiling texture in degrees, Default = 0.0.
+      rotationceilingx = <float>;     // Ceiling rotation x pivot, Default = 0.0.
+      rotationceilingy = <float>;     // Ceiling rotation y pivot, Default = 0.0.
+      ceilingplane_a = <float>;       // Define the plane equation for the sector's ceiling. Default is a horizontal plane at 'heightceiling'.
+      ceilingplane_b = <float>;       // 'heightceiling' will still be used to calculate texture alignment.
+      ceilingplane_c = <float>;       // The plane equation will only be used if all 4 values are given.
+      ceilingplane_d = <float>;
+      floorplane_a = <float>;         // Define the plane equation for the sector's floor. Default is a horizontal plane at 'heightfloor'.
+      floorplane_b = <float>;         // 'heightfloor' will still be used to calculate texture alignment.
+      floorplane_c = <float>;         // The plane equation will only be used if all 4 values are given.
+      floorplane_d = <float>;
+      gravity = <float>;              // Sector's gravity. Default is 1.0.
+      ripplefloor = <bool>;           // Sector's floor has ripple effect.
+      rippleceiling = <bool>;         // Sector's ceiling has ripple effect.
+      fog = <bool>;                   // Sector is rendered with the fog effect.
+      nojump = <bool>;                // Sector does not allow jumping, even if it is enabled.
+      nocrouch = <bool>;              // Sector does not allow crouching, even if it is enabled.
+      sound = <string>;               // Sound to play of the sector is a polyobj. (DelphiDoom, DelphiHeretic & DelphiStrife)
+      hidden = <bool>;                // If true this sector will not be drawn on the textured automap.
+      windthrust = <float>;           // Wind strength (wind speed is 1/32 * windthrust)
+      windangle = <float>;            // Wind angle in degrees (0-360).
+      moreids = <string>;             // Additional sector IDs/tags, specified as a space separated list of numbers (e.g. "2 3 4 5")
+   }
+
+   thing
+   {
+      onmiddlefloor = <bool>;         // If true the actor is spawned on the upper part of the 3d floor (if present)
+      notriggerscripts = <bool>;      // If true the actor does not trigger PascalScript
+      gravity = <float>;              // Set per-actor gravity. Positive values are multiplied with the class's property, 
+                                      // negative values are used as their absolute. Default = 1.0.
+      health = <int>;                 // Set per-actor health. Positive values are multiplied with the class's property,
+                                      // negative values are used as their absolute. Default = 1.
+   }
+
+** moreids field in linedefs and sectors may or may not work at the time of writing these specs.
+
+===============================================================================
+EOF
+===============================================================================
