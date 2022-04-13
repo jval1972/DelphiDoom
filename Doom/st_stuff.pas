@@ -1335,6 +1335,9 @@ begin
   dec(st_facecount);
 end;
 
+var
+  st_shotgun: integer;
+
 //==============================================================================
 //
 // ST_UpdateWidgets
@@ -1366,6 +1369,8 @@ begin
     if plyr.cards[i + 3] then
       keyboxes[i] := i + 3;
   end;
+
+  st_shotgun := plyr.weaponowned[Ord(wp_shotgun)] or plyr.weaponowned[Ord(wp_supershotgun)];
 
   // refresh everything if this is him coming back to life
   ST_UpdateFaceWidget;
@@ -1868,6 +1873,7 @@ end;
 procedure ST_CreateWidgets;
 var
   i: integer;
+  pnt: PInteger;
 begin
   // ready weapon ammo
   STlib_initNum(
@@ -1912,13 +1918,18 @@ begin
   // weapons owned
   for i := 0 to 5 do
   begin
+    if i = 1 then
+      pnt := @st_shotgun
+    else
+      pnt := @plyr.weaponowned[i + 1];
     STlib_initMultIcon(
       @w_arms[i],
       ST_ARMSX + (i mod 3) * ST_ARMSXSPACE,
       ST_ARMSY + (i div 3) * ST_ARMSYSPACE,
       @arms[i],
-      @plyr.weaponowned[i + 1],
-      @st_armson);
+      pnt,
+      @st_armson
+    );
   end;
 
   // frags sum

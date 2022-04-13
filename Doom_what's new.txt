@@ -20,6 +20,7 @@ Proper windowed mode (Software & OpenGL).
 The player can choose to use CAPS LOCK for autorun.
 Statusbar stretch in widescreen. 
 Added statusbarstretch console variable. It can be set from the Menu (Display/Advanced/Aspect Ratio).
+The statusbar highlights the number 3 if you have the super shotgun but not the shotgun.
 
 Version 2.0.7 build 732 - (20220318)
 -----------------------
