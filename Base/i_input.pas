@@ -236,16 +236,13 @@ begin
 end;
 
 //==============================================================================
-// I_InitInput
 //
-//-----------------------------------------------------------------------------
-// Name: CreateDInput()
-// Desc: Initialize the DirectInput variables using:
-//           DirectInputCreate
-//           IDirectInput::CreateDevice
-//           IDirectInputDevice::SetDataFormat
-//           IDirectInputDevice::SetCooperativeLevel
-//-----------------------------------------------------------------------------
+// I_InitInput
+// Initialize the DirectInput variables using:
+//   DirectInputCreate
+//   IDirectInput::CreateDevice
+//   IDirectInputDevice::SetDataFormat
+//   IDirectInputDevice::SetCooperativeLevel
 //
 //==============================================================================
 procedure I_InitInput;
@@ -336,10 +333,10 @@ begin
 
 end;
 
-//-----------------------------------------------------------------------------
-// Name: I_ShutDownInput
-// Desc: Terminate our usage of DirectInput
-//-----------------------------------------------------------------------------
+//==============================================================================
+//
+// I_ShutDownInput
+// Terminate our usage of DirectInput
 //
 //==============================================================================
 procedure I_ShutDownInput;
@@ -369,10 +366,10 @@ begin
   I_ShutDownMouse;
 end;
 
-//-----------------------------------------------------------------------------
-// Name: I_ProcessInput;
-// Desc: The game plays here. Read keyboard data and displaying it.
-//-----------------------------------------------------------------------------
+//==============================================================================
+//
+// I_ProcessInput
+// The game plays here. Read keyboard data and displaying it.
 //
 //==============================================================================
 procedure I_ProcessInput;
