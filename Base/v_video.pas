@@ -546,29 +546,45 @@ function V_FindAproxColorIndexExcluding(const pal: PLongWordArray; const c: Long
 //==============================================================================
 procedure V_FullScreenStretch;
 
+{$IFDEF DOOM}
+//==============================================================================
+//
+// V_StatusBarStretch
+//
+//==============================================================================
+procedure V_StatusBarStretch;
+{$ENDIF}
+
 var
   v_translation: PByteArray;
 
 var
   default_palette: PLongWordArray = nil;
   intermissionstretch: boolean = true;
+  statusbarstretch: boolean = true;
 
 implementation
 
 uses
   i_system,
+  am_map,
   mt_utils,
   psi_overlay,
   r_hires,
   r_precalc,
   r_data,
+  r_draw,
+  r_main,
   {$IFNDEF OPENGL}
   r_mmx,
   r_trans8,
   {$IFDEF DOOM_OR_STRIFE}
   r_colormaps,
-  st_stuff,
   {$ENDIF}
+  {$ENDIF}
+  {$IFDEF DOOM_OR_STRIFE}
+  st_lib,
+  st_stuff,
   {$ENDIF}
   r_flatinfo,
   r_aspect,
@@ -5153,6 +5169,143 @@ begin
     memfree(pointer(bufb), SCREENWIDTH * SizeOf(byte));
   end;
 end;
+{$ENDIF}
+
+
+{$IFDEF DOOM}
+{$IFDEF OPENGL}
+
+//==============================================================================
+//
+// V_StatusBarStretch
+//
+//==============================================================================
+procedure V_StatusBarStretch;
+var
+  x, y: integer;
+  pct: integer;
+  bufl, pl: PLongWordArray;
+  start, stop: integer;
+  l: integer;
+  w, h: integer;
+begin
+  if not statusbarstretch then
+    exit;
+
+  if wide_stbar <> 320 then
+    exit;
+
+  w := V_GetScreenWidth(SCN_FG);
+  h := V_GetScreenHeight(SCN_FG);
+
+  pct := round((1 - (4 / 3) / (w / h)) * 100);
+
+  if (pct <= 0) or (pct >= 100) or (screenblocks > 10) then
+     if not (amstate = am_only) then
+       exit;
+
+  l := ((pct div 2) * 320) div 100;
+  start := l * w div 320;
+  stop := w - start;
+
+  bufl := mallocz(w * SizeOf(LongWord));
+
+  for x := V_PreserveY(ST_Y) to SCREENHEIGHT - 1 do
+  begin
+    pl := @screen32[x * w];
+    for y := 0 to start - 1 do
+      bufl[y] := $FF000000;
+    for y := start to stop do
+      bufl[y] := pl[ibetween(w * (y - start) div (stop - start + 1), 0, w - 1)];
+    for y := stop + 1 to w - 1 do
+      bufl[y] := $FF000000;
+    memcpy(pl, bufl, w * SizeOf(LongWord));
+  end;
+
+  memfree(Pointer(bufl), w * SizeOf(LongWord));
+
+  if amstate <> am_only then
+  begin
+    V_CopyRect(0, 0, SCN_ST2, l, ST_HEIGHT, 0, ST_Y, SCN_FG, true);
+    V_CopyRect(320 - l, 0, SCN_ST2, l, ST_HEIGHT, 320 - l, ST_Y, SCN_FG, true);
+  end;
+end;
+
+{$ELSE}
+
+//==============================================================================
+//
+// V_StatusBarStretch
+//
+//==============================================================================
+procedure V_StatusBarStretch;
+var
+  x, y: integer;
+  pct: integer;
+  bufb, pb: PByteArray;
+  bufl, pl: PLongWordArray;
+  start, stop: integer;
+  l: integer;
+begin
+  if not statusbarstretch then
+    exit;
+
+  if wide_stbar <> 320 then
+    exit;
+
+  pct := round((1 - (4 / 3) / (SCREENWIDTH / SCREENHEIGHT)) * 100);
+
+  if (pct <= 0) or (pct >= 100) or (screenblocks > 10) then
+     if not (amstate = am_only) then
+       exit;
+
+  R_FillBackStatusbar;
+
+  l := ((pct div 2) * 320) div 100;
+  start := l * SCREENWIDTH div 320;
+  stop := SCREENWIDTH - start;
+
+  if videomode = vm32bit then
+  begin
+    bufl := mallocz(SCREENWIDTH * SizeOf(LongWord));
+
+    for x := V_PreserveY(ST_Y) to SCREENHEIGHT - 1 do
+    begin
+      pl := @screen32[x * SCREENWIDTH];
+      for y := start to stop do
+        bufl[y] := pl[ibetween(SCREENWIDTH * (y - start) div (stop - start + 1), 0, SCREENWIDTH - 1)];
+      memcpy(pl, bufl, SCREENWIDTH * SizeOf(LongWord));
+    end;
+
+    memfree(Pointer(bufl), SCREENWIDTH * SizeOf(LongWord));
+  end
+  else
+  begin
+    bufb := mallocz(SCREENWIDTH * SizeOf(byte));
+
+    for x := 0 to start - 1 do
+      bufb[x] := aprox_black;
+    for x := stop + 1 to SCREENWIDTH - 1 do
+      bufb[x] := aprox_black;
+
+    for x := V_PreserveY(ST_Y) to SCREENHEIGHT - 1 do
+    begin
+      pb := @screens[SCN_FG][x * SCREENWIDTH];
+      for y := start to stop do
+        bufb[y] := pb[ibetween(SCREENWIDTH * (y - start) div (stop - start + 1), 0, SCREENWIDTH - 1)];
+      memcpy(pb, bufb, SCREENWIDTH * SizeOf(byte));
+    end;
+
+    memfree(Pointer(bufb), SCREENWIDTH * SizeOf(byte));
+  end;
+
+  if amstate <> am_only then
+  begin
+    V_CopyRect(0, 0, SCN_ST2, l, ST_HEIGHT, 0, ST_Y, SCN_FG, true);
+    V_CopyRect(320 - l, 0, SCN_ST2, l, ST_HEIGHT, 320 - l, ST_Y, SCN_FG, true);
+  end;
+end;
+{$ENDIF}
 {$ENDIF}
 
 end.

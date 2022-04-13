@@ -66,6 +66,7 @@ const
 
 var
   needsbackscreen: boolean = false;
+  needsstatusbarback: boolean = true;
 
 const
   NUMCOLORMAPS = 32;

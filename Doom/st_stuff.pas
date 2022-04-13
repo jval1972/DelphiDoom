@@ -1652,6 +1652,7 @@ begin
       // Otherwise, update as little as possible
       else
         ST_DiffDraw;
+      V_StatusBarStretch;
     end;
   end
   else

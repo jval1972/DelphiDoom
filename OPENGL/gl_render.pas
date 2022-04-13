@@ -843,7 +843,10 @@ begin
   fV1 := 0;
   fU2 := 320 / gltexture.realtexwidth;
   {$IFDEF DOOM}
-  sbar := ST_HEIGHT;
+  if statusbarstretch then
+    sbar := 0
+  else
+    sbar := ST_HEIGHT;
   {$ENDIF}
   fV2 := (200{$IFDEF DOOM} - sbar{$ENDIF}) / gltexture.realtexheight;
   width := SCREENWIDTH;

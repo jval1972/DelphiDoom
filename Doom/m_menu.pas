@@ -856,6 +856,7 @@ type
     oda_excludewidescreenplayersprites,
     oda_forceaspectratio,
     oda_intermissionaspect,
+    oda_statusbaraspect,
     optdispaspect_end
   );
 
@@ -5938,6 +5939,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @intermissionstretch;
   pmi.alphaKey := 'i';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Statusbar resize';
+  pmi.cmd := 'statusbarstretch';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @statusbarstretch;
+  pmi.alphaKey := 's';
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAspectRatioDef

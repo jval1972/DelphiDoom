@@ -174,7 +174,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}226{$ELSE}228{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}227{$ELSE}229{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -613,6 +613,15 @@ const
 
     (name: 'intermissionstretch';
      location: @intermissionstretch;
+     oldlocation: nil;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'statusbarstretch';
+     location: @statusbarstretch;
      oldlocation: nil;
      setable: DFS_ALWAYS;
      defaultsvalue: '';

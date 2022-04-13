@@ -82,6 +82,15 @@ procedure R_InitTranslationTables;
 //==============================================================================
 procedure R_FillBackScreen;
 
+{$IFNDEF OPENGL}
+//==============================================================================
+//
+// R_FillBackStatusbar
+//
+//==============================================================================
+procedure R_FillBackStatusbar;
+{$ENDIF}
+
 //==============================================================================
 // R_DrawViewBorder
 //
@@ -174,6 +183,7 @@ uses
 {$ELSE}
   r_hires,
 {$ENDIF}
+  r_main,
 // State.
   doomstat,
   v_data;
@@ -326,8 +336,11 @@ var
 {$ENDIF}
   name: string;
 begin
-  if scaledviewwidth = SCREENWIDTH then
-    exit;
+  {$IFDEF OPENGL}
+  if not statusbarstretch then
+  {$ENDIF}
+    if scaledviewwidth = SCREENWIDTH then
+      exit;
 
   if gamemode = commercial then
     name := 'GRNROCK'   // DOOM II border patch.
@@ -422,6 +435,71 @@ begin
   R_VideoBlanc(SCN_BG, x, (V_GetScreenHeight(SCN_BG) - V_PreserveY(ST_Y)) * V_GetScreenWidth(SCN_BG));
 {$ENDIF}
 end;
+
+{$IFNDEF OPENGL}
+var
+  oldstatusbarfillblocks: integer = -1;
+
+//==============================================================================
+//
+// R_FillBackStatusbar
+//
+//==============================================================================
+procedure R_FillBackStatusbar;
+var
+  src: PByteArray;
+  dest: PByteArray;
+  x: integer;
+  y: integer;
+  patch: Ppatch_t;
+  name: string;
+begin
+  if (oldstatusbarfillblocks <> 10) <> (screenblocks <> 10) then
+  begin
+    oldstatusbarfillblocks := screenblocks;
+    needsstatusbarback := true;
+  end;
+
+  if not needsstatusbarback then
+    exit;
+
+  needsstatusbarback := false;
+
+  if gamemode = commercial then
+    name := 'GRNROCK'   // DOOM II border patch.
+  else
+    name := 'FLOOR7_2'; // DOOM border patch.
+
+  src := W_CacheLumpName(name, PU_STATIC);
+
+  dest := screens[SCN_ST2];
+
+  for y := 200 - ST_HEIGHT + 1 to 200 do
+  begin
+    for x := 0 to 320 div 64 - 1 do
+    begin
+      memcpy(dest, PByteArray(integer(src) + _SHL(y and 63, 6)), 64);
+      dest := @dest[64];
+    end;
+  end;
+
+  Z_ChangeTag(src, PU_CACHE);
+
+  if screenblocks = 10 then
+  begin
+    patch := W_CacheLumpName('brdr_b', PU_STATIC);
+    x := 0;
+    while x < 320 do
+    begin
+      V_DrawPatch(x, patch.topoffset, SCN_ST2, patch, false);
+      x := x + 8;
+    end;
+    Z_ChangeTag(patch, PU_CACHE);
+  end;
+
+  V_RemoveTransparency(SCN_ST2, 0, -1);
+end;
+{$ENDIF}
 
 //==============================================================================
 // R_VideoErase
