@@ -1292,12 +1292,6 @@ begin
   end;
 end;
 
-//----------------------------------------------------------------------------
-//
-// PROC P_RecursiveSound
-//
-//----------------------------------------------------------------------------
-
 var
   soundtarget: Pmobj_t;
 
@@ -2401,19 +2395,6 @@ begin
   actor.flags := actor.flags and not MF_ALTSHADOW;
 end;
 
-//----------------------------------------------------------------------------
-//
-// A_MinotaurRoam -
-//
-//
-//----------------------------------------------------------------------------
-
-//----------------------------------------------------------------------------
-//
-//  PROC A_MinotaurLook
-//
-// Look for enemy of player
-//----------------------------------------------------------------------------
 const
   MINOTAUR_LOOK_DIST = 16 * 54 * FRACUNIT;
 
@@ -2630,20 +2611,13 @@ begin
     P_DamageMobj(actor.target, actor, actor, HITDICE(4));
 end;
 
-//----------------------------------------------------------------------------
-//
-// PROC A_MinotaurDecide
-//
-// Choose a missile attack.
-//
-//----------------------------------------------------------------------------
-
 const
   MNTR_CHARGE_SPEED = 23 * FRACUNIT;
 
 //==============================================================================
 //
 // A_MinotaurDecide
+// Choose a missile attack.
 //
 //==============================================================================
 procedure A_MinotaurDecide(actor: Pmobj_t);
@@ -3198,12 +3172,6 @@ begin
     think := think.next;
   end;
 end;
-
-//----------------------------------------------------------------------------
-//
-// PROC A_AddPlayerCorpse
-//
-//----------------------------------------------------------------------------
 
 const
   BODYQUESIZE = 32;
@@ -5561,7 +5529,7 @@ begin
   begin
     mo.target := actor.target;
     mo.args[0] := 0;                  // CW
-    mo.special1 := actor.angle;          // Set angle
+    mo.special1 := actor.angle;       // Set angle
     P_SetMobjStateNF(mo, S_SORCFX2_ORBIT1);
   end;
 
