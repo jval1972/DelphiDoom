@@ -45,7 +45,8 @@ between the TEXTMAP and ENDMAP lumps:
 
     DelphiDoom will compile the ACS source code contained in SCIPT/SCRIPTS lump if 
     the BEHAVIOR lump is missing. It will not compile the ACS script source code if 
-    the BEHAVIOR lump is presend.
+    the BEHAVIOR lump is presend. Multiple SCRIPT/SCRIPTS lumps are not supported
+    and only the first one will be processed.
     
 --------------------------------
 II.C : Implementation Dependence
@@ -56,18 +57,18 @@ the following:
 
     "DelphiDoom"
     It uses Hexen type specials as well as BOOM line specials. Line specials 
-    from 300 to 999 are used for binary Doom format line specials (+300)
+    from 300 to 999 are used for binary Doom/DelphiDoom format line specials (+300)
 
     "DelphiHeretic"
     It uses Hexen type specials. Line specials from 300 to 999 are used for 
-    binary Heretic format line specials (+300)
+    binary Heretic/DelphiHeretic format line specials (+300)
 
     "DelphiHexen"
-    It uses Hexen type specials.
+    It uses Hexen/DelphiHexen type specials.
 
     "DelphiStrife"
     It uses Hexen type specials as well as BOOM line specials. Line specials 
-    from 300 to 999 are used for binary Strife format line specials (+300)
+    from 300 to 999 are used for binary Strife/DelphiStrife format line specials (+300)
 
 
 =======================================
