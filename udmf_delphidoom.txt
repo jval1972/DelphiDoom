@@ -88,11 +88,10 @@ Note: All <bool> fields default to false unless mentioned otherwise.
       triggerscripts = <bool>;    // Triggers PascalScipt
       blocklandmonsters = <bool>; // Blocks land monsters (DelphiDoom & DelphiHeretic)
       blockplayers = <bool>;      // Blocks players (DelphiDoom & DelphiHeretic)
-      noclipping = <bool>;        // Do not clip move
-      oldstyle = <bool>;          // Ignored (DelphiDoom, DelphiHeretic & DelphiStrife)
-      blockplayers = <bool>;      // Line blocks players' movement.
       blockeverything = <bool>;   // Line blocks everything.
-      moreids = <string>;         // Additional line IDs, specified as a space separated list of numbers (e.g. "2 3 4 5")
+      noclipping = <bool>;        // Do not clip movement
+      oldstyle = <bool>;          // Ignored (DelphiDoom, DelphiHeretic & DelphiStrife)
+      moreids = <string>;         // Additional line IDs, specified as a space or comma separated list of numbers (e.g. "2 3 4 5")
    }
 
    sidedef
@@ -129,16 +128,16 @@ Note: All <bool> fields default to false unless mentioned otherwise.
       floorplane_c = <float>;         // The plane equation will only be used if all 4 values are given.
       floorplane_d = <float>;
       gravity = <float>;              // Sector's gravity. Default is 1.0.
-      ripplefloor = <bool>;           // Sector's floor has ripple effect.
-      rippleceiling = <bool>;         // Sector's ceiling has ripple effect.
+      ripplefloor = <bool>;           // Sector's floor is rendered with the ripple effect.
+      rippleceiling = <bool>;         // Sector's ceiling is rendered with the ripple effect.
       fog = <bool>;                   // Sector is rendered with the fog effect.
       nojump = <bool>;                // Sector does not allow jumping, even if it is enabled.
       nocrouch = <bool>;              // Sector does not allow crouching, even if it is enabled.
-      sound = <string>;               // Sound to play of the sector is a polyobj. (DelphiDoom, DelphiHeretic & DelphiStrife)
+      sound = <string>;               // Sound to play when the sector moves (polyobj). (DelphiDoom, DelphiHeretic & DelphiStrife)
       hidden = <bool>;                // If true this sector will not be drawn on the textured automap.
       windthrust = <float>;           // Wind strength (wind speed is 1/32 * windthrust)
       windangle = <float>;            // Wind angle in degrees (0-360).
-      moreids = <string>;             // Additional sector IDs/tags, specified as a space separated list of numbers (e.g. "2 3 4 5")
+      moreids = <string>;             // Additional sector IDs/tags, specified as a space or comma separated list of numbers (e.g. "2 3 4 5")
    }
 
    thing
