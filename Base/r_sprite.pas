@@ -810,22 +810,31 @@ begin
 
   fraclimit := frac + fracstep * count;
 
-  if (frac > 0) and (fraclimit < 256 * FRACUNIT) then
+  if (frac >= 0) and (fraclimit < 256 * FRACUNIT) then
   begin
     pl := @addbuf32[LongWord(frac) shr FRACBITS];
     pl2 := @addbuf32[LongWord(fraclimit) shr FRACBITS + 1];
     pb := @p.dc_source[LongWord(frac) shr FRACBITS];
-    while pl <> pl2 do
+    if addfactor < FRACUNIT then
     begin
-      pl^ := {p.}dc_colormap32[pb^];
-      if addfactor < FRACUNIT then
+      while pl <> pl2 do
       begin
+        pl^ := {p.}dc_colormap32[pb^];
         PByteArray(pl)[0] := (PByteArray(pl)[0] * addfactor) shr FRACBITS;
         PByteArray(pl)[1] := (PByteArray(pl)[1] * addfactor) shr FRACBITS;
         PByteArray(pl)[2] := (PByteArray(pl)[2] * addfactor) shr FRACBITS;
+        Inc(pl);
+        Inc(pb);
       end;
-      Inc(pl);
-      Inc(pb);
+    end
+    else
+    begin
+      while pl <> pl2 do
+      begin
+        pl^ := {p.}dc_colormap32[pb^];
+        Inc(pl);
+        Inc(pb);
+      end;
     end;
     while frac < fraclimit do
     begin
