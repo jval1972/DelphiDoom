@@ -2057,8 +2057,15 @@ begin
         tr_topz := topz - viewz;
         tr_bottomz := bottomz - viewz;
 
-        top := FixedInt_FixedMul(tr_topz, scaleymin);
-        bottom := FixedInt_FixedMul(tr_bottomz, scaleymax);
+        if tr_topz > 0 then
+          top := FixedInt_FixedMul(tr_topz, scaleymax)
+        else
+          top := FixedInt_FixedMul(tr_topz, scaleymin);
+
+        if tr_bottomz > 0 then
+          bottom := FixedInt_FixedMul(tr_bottomz, scaleymin)
+        else
+          bottom := FixedInt_FixedMul(tr_bottomz, scaleymax);
 
         top := centery - top;
         bottom := centery - bottom;
