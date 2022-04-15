@@ -57,6 +57,9 @@ uses
   i_video,
   psi_overlay,
   r_main,
+  {$IFDEF DOOM}
+  r_defs,
+  {$ENDIF}
   r_depthbuffer,
   r_cache_main,
   r_slopes,
@@ -125,6 +128,9 @@ begin
 
   I_InitGraphics;          // Initialize graphics
 
+  {$IFDEF DOOM}
+  needsstatusbarback := True;
+  {$ENDIF}
   AM_Start;                // Start the automap
   C_AdjustScreenSize;      // Notify console for screen resolution change
   setsizeneeded := true;   // Set-up new SCREENWIDTH & SCREENHEIGHT
