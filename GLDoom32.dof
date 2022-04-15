@@ -100,7 +100,7 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=oldbinfiles\Hellbnd.wad
+RunParams=FrozenT.wad
 HostApplication=
 Launcher=
 UseLauncher=0

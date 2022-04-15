@@ -330,7 +330,7 @@ begin
         // JVAL Final adjustment of hi resolution textures
         twidth := (1 shl i) * ptex.width;
         theight := (1 shl i) * ptex.height;
-        while (twidth > MAXTEXTUREHEIGHT) or (theight > MAXTEXTUREHEIGHT) do
+        while ((twidth > MAXTEXTUREHEIGHT) or (theight > MAXTEXTUREHEIGHT)) and (i > 0) do
         begin
           dec(i);
           twidth := (1 shl i) * ptex.width;
