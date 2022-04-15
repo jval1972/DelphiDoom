@@ -2517,7 +2517,7 @@ begin
     inc(src);
     src^ := src^ shr 1;
     inc(src);
-    src^ := $80;
+    src^ := src^ or $80;
     inc(src);
     dec(cnt);
   end;

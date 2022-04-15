@@ -1,4 +1,5 @@
-Fixed problem in wide status bar when changing screen resolution.
+Fixed problem in wide status bar when changing screen resolution (software rendering).
+Fixed problem in wide status bar when the menu shades the background (OpenGL rendering).
 
 Version 2.0.7 build 733 - (20220414)
 -----------------------
