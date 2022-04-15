@@ -5635,7 +5635,7 @@ begin
 //  glCullFace(GL_BACK);
   // Walls
   // Sprites
-  if gld_drawinfo.num_sprites > 1000 then
+  if gld_drawinfo.num_sprites > 100 then
   begin
     for i := 0 to gld_drawinfo.num_sprites - 1 do
     begin

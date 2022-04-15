@@ -5216,7 +5216,7 @@ begin
     for y := 0 to start - 1 do
       bufl[y] := $FF000000;
     for y := start to stop do
-      bufl[y] := pl[ibetween(w * (y - start) div (stop - start + 1), 0, w - 1)];
+      bufl[y] := $FF000000 or pl[ibetween(w * (y - start) div (stop - start + 1), 0, w - 1)];
     for y := stop + 1 to w - 1 do
       bufl[y] := $FF000000;
     memcpy(pl, bufl, w * SizeOf(LongWord));
