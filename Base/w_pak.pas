@@ -264,6 +264,9 @@ function PAK_ReadAllFilesAsString(const filename: string): string;
 //==============================================================================
 procedure PAK_LoadPendingPaks;
 
+const
+  s_TEX_PATH = 'TEXTURES\';
+
 implementation
 
 uses
@@ -738,17 +741,17 @@ begin
         ZeroMemory(@b4, SizeOf(b4));
         BlockRead(F, b4, 128, N);
         if (b4[0] = 0) and (b4[1] = 0) and (b4[2] = 2) and (b4[3] = 0) then // TGA
-          AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.TGA', Fn)
+          AddEntry(wadlump.filepos, wadlump.size, s_TEX_PATH + wadlumpname + '.TGA', Fn)
         else if (b4[1] = $50) and (b4[2] = $4E) and (b4[3] = $47) then // PNG
-          AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.PNG', Fn)
+          AddEntry(wadlump.filepos, wadlump.size, s_TEX_PATH + wadlumpname + '.PNG', Fn)
         else if (b4[0] = $42) and (b4[1] = $4D) then // BMP
-          AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.BMP', Fn)
+          AddEntry(wadlump.filepos, wadlump.size, s_TEX_PATH + wadlumpname + '.BMP', Fn)
         else if (b4[6] = $4A) and (b4[7] = $46) and (b4[8] = $49) and (b4[9] = $46) then // JPEG
-          AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.JPG', Fn)
+          AddEntry(wadlump.filepos, wadlump.size, s_TEX_PATH + wadlumpname + '.JPG', Fn)
         else if (N >= 128) and T_IsValidPCXHeader(@b4) then // PCX detection
-          AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.PCX', Fn)
+          AddEntry(wadlump.filepos, wadlump.size, s_TEX_PATH + wadlumpname + '.PCX', Fn)
         else if (N >= 4) and T_IsValidPatchImage(f, wadlump.filepos, wadlump.size) then
-          AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.PATCH', Fn);
+          AddEntry(wadlump.filepos, wadlump.size, s_TEX_PATH + wadlumpname + '.PATCH', Fn);
 
         Seek(F, Ofs + (i + 1) * SizeOf(filelump_t));
       end;
