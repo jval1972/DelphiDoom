@@ -48,7 +48,7 @@ type
     forwardmove: shortint;  // *2048 for move
     sidemove: shortint;     // *2048 for move
     angleturn: smallint;    // <<16 for angle delta
-    consistancy: smallint;  // checks for net game
+    consistency: smallint;  // checks for net game
     chatchar: byte;
     buttons: byte;
 {$IFDEF STRIFE}
@@ -71,7 +71,7 @@ type
     forwardmove: shortint;  // *2048 for move
     sidemove: shortint;     // *2048 for move
     angleturn: smallint;    // <<16 for angle delta
-    consistancy: smallint;  // checks for net game
+    consistency: smallint;  // checks for net game
     chatchar: byte;
     buttons: byte;
 {$IFDEF STRIFE}

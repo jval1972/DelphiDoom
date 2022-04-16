@@ -38,7 +38,7 @@ uses
 
 {$IFDEF DEBUG}
 const
-  MCONSISTANCY = $FACEFADE;
+  MCONSISTENCY = $FACEFADE;
 {$ENDIF}
 
 type
@@ -47,7 +47,7 @@ type
     user: PPointer;
     tag: integer;
 {$IFDEF DEBUG}
-    consistancy: LongWord;
+    consistency: LongWord;
 {$ENDIF}
     index: integer;
   end;
@@ -119,8 +119,8 @@ end;
 function TMemManager.item2ptr(const id: integer): Pointer;
 begin
 {$IFDEF DEBUG}
-  if fitems[id].consistancy <> MCONSISTANCY then
-    I_Error('TMemManager.item2ptr(): Consistancy failed!');
+  if fitems[id].consistency <> MCONSISTENCY then
+    I_Error('TMemManager.item2ptr(): Consistency failed!');
 {$ENDIF}
   result := pointer(integer(fitems[id]) + SizeOf(memmanageritem_t));
 end;
@@ -134,8 +134,8 @@ function TMemManager.ptr2item(const ptr: Pointer): integer;
 begin
   result := Pmemmanageritem_t(Integer(ptr) - SizeOf(memmanageritem_t)).index;
 {$IFDEF DEBUG}
-  if Pmemmanageritem_t(Integer(ptr) - SizeOf(memmanageritem_t)).consistancy <> MCONSISTANCY then
-    I_Error('TMemManager.ptr2item(): Consistancy failed!');
+  if Pmemmanageritem_t(Integer(ptr) - SizeOf(memmanageritem_t)).consistency <> MCONSISTENCY then
+    I_Error('TMemManager.ptr2item(): Consistency failed!');
 {$ENDIF}
 end;
 
@@ -210,7 +210,7 @@ begin
   fitems[fnumitems].index := fnumitems;
   fitems[fnumitems].user := user;
 {$IFDEF DEBUG}
-  fitems[fnumitems].consistancy := MCONSISTANCY;
+  fitems[fnumitems].consistency := MCONSISTENCY;
 {$ENDIF}
   result := item2ptr(fnumitems);
   inc(fnumitems);
