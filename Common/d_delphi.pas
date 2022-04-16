@@ -835,6 +835,7 @@ type
     procedure Delete(Index: Integer); override;
     procedure Exchange(Index1, Index2: Integer); override;
     procedure Insert(Index: Integer; const S: string); override;
+    procedure Sort; virtual;
   end;
 
 //==============================================================================
@@ -5062,6 +5063,45 @@ procedure TDStringList.SetCapacity(NewCapacity: Integer);
 begin
   realloc(pointer(FList), FCapacity * SizeOf(TStringItem), NewCapacity * SizeOf(TStringItem));
   FCapacity := NewCapacity;
+end;
+
+//==============================================================================
+//
+// TDStringList.Sort
+//
+//==============================================================================
+procedure TDStringList.Sort;
+
+  procedure qsortSL(l, r: Integer);
+  var
+    i, j: integer;
+    d: string;
+  begin
+    repeat
+      i := l;
+      j := r;
+      d := fList[(l + r) shr 1].FString;
+      repeat
+        while fList[i].FString < d do
+          inc(i);
+        while fList[j].FString > d do
+          dec(j);
+        if i <= j then
+        begin
+          ExchangeItems(i, j);
+          inc(i);
+          dec(j);
+        end;
+      until i > j;
+      if l < j then
+        qsortSL(l, j);
+      l := i;
+    until i >= r;
+  end;
+
+begin
+  if FCount > 1 then
+    qsortSL(0, FCount - 1);
 end;
 
 //==============================================================================
