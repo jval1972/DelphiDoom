@@ -410,7 +410,8 @@ uses
   p_uactornames in 'Strife\p_uactornames.pas',
   v_palettes in 'Base\v_palettes.pas',
   p_easywind in 'Base\p_easywind.pas',
-  psi_map in 'SCRIPT\psi_map.pas';
+  psi_map in 'SCRIPT\psi_map.pas',
+  r_pk3textures in 'Base\r_pk3textures.pas';
 
 var
   Saved8087CW: Word;

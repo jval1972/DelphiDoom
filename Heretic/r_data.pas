@@ -222,6 +222,7 @@ uses
   r_things,
   r_bsp,
   r_hires,
+  r_pk3textures,
 {$IFNDEF OPENGL}
   r_column,
   r_tallcolumn,
@@ -825,6 +826,7 @@ var
   i: integer;
   j: integer;
   maptex: PIntegerArray;
+  maptex0: PIntegerArray;
   maptex1: PIntegerArray;
   maptex2: PIntegerArray;
   maptex3: PIntegerArray;
@@ -837,6 +839,7 @@ var
   maxoff: integer;
   maxoff2: integer;
   maxoff3: integer;
+  numtextures0: integer;
   numtextures1: integer;
   numtextures2: integer;
   numtextures3: integer;
@@ -1022,6 +1025,77 @@ begin
     Z_Free(maptex2);
   if maptex3 <> nil then
     Z_Free(maptex3);
+
+  if R_InitPK3Textures then
+  begin
+    // Load the map textures directly from PK3
+    maptex0 := W_CacheLumpName('TEXTURE0', PU_STATIC);
+    maptex := maptex0;
+    numtextures0 := maptex[0];
+
+    realloc(pointer(textures), numtextures * SizeOf(Ptexture_t), (numtextures0 + numtextures) * SizeOf(Ptexture_t));
+    realloc(pointer(texturecolumnlump), numtextures * SizeOf(PSmallIntArray), (numtextures0 + numtextures) * SizeOf(PSmallIntArray));
+    realloc(pointer(texturecolumnofs), numtextures * SizeOf(PIntegerArray), (numtextures0 + numtextures) * SizeOf(PIntegerArray));
+    realloc(pointer(texturecomposite), numtextures * SizeOf(PByteArray), (numtextures0 + numtextures) * SizeOf(PByteArray));
+    realloc(pointer(texturecompositesize), numtextures * SizeOf(integer), (numtextures0 + numtextures) * SizeOf(integer));
+    realloc(pointer(texturewidth), numtextures * SizeOf(integer), (numtextures0 + numtextures) * SizeOf(integer));
+    realloc(pointer(textureheight), numtextures * SizeOf(fixed_t), (numtextures0 + numtextures) * SizeOf(fixed_t));
+    // JVAL: 20200112 - For tall textures
+    realloc(pointer(texturecolumnheight), numtextures * SizeOf(integer), (numtextures0 + numtextures) * SizeOf(integer));
+    realloc(pointer(texturecolumnheightfrac), numtextures * SizeOf(integer), (numtextures0 + numtextures) * SizeOf(integer));
+
+    mtexture := Pmaptexture_t(integer(maptex) + SizeOf(integer));
+    for i := numtextures to numtextures0 + numtextures - 1 do
+    begin
+      textures[i] := malloc(SizeOf(texture_t) + SizeOf(texpatch_t));
+      texture := textures[i];
+
+      texture.width := mtexture.width;
+      texture.height := mtexture.height;
+      texture.patchcount := 1;
+      {$IFNDEF OPENGL}
+      texture.texture32 := nil;
+      {$ENDIF}
+
+      j := 0;
+      while j < 8 do
+      begin
+        if mtexture.name[j] = #0 then
+          break;
+        texture.name[j] := toupper(mtexture.name[j]);
+        inc(j);
+      end;
+      while j < 8 do
+      begin
+        texture.name[j] := #0;
+        inc(j);
+      end;
+
+      mpatch := @mtexture.patches[0];
+      patch := @texture.patches[0];
+
+      patch.originx := mpatch.originx;
+      patch.originy := mpatch.originy;
+      patch.patch := W_CheckNumForName(char8tostring(texture.name), TYPE_PATCH);
+
+      texturecolumnlump[i] := malloc(texture.width * SizeOf(texturecolumnlump[0][0]));
+      texturecolumnofs[i] := malloc(texture.width * SizeOf(texturecolumnofs[0][0]));
+
+      texturewidth[i] := texture.width;
+      textureheight[i] := texture.height * FRACUNIT;
+      // JVAL: 20200112 - For tall textures
+      texturecolumnheight[i] := texture.height;
+      if texturecolumnheight[i] < 128 then
+        texturecolumnheight[i] := 128;
+      texturecolumnheightfrac[i] := texturecolumnheight[i] * FRACUNIT;
+
+      inc(mtexture);
+    end;
+
+    numtextures := numtextures + numtextures0;
+
+    Z_Free(maptex0);
+  end;
 
   // Precalculate whatever possible.
   for i := 0 to numtextures - 1 do
