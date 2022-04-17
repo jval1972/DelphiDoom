@@ -302,7 +302,7 @@ begin
     begin
       mp.Seek(0, sFromBeginning);
       mp.Write(psize, SizeOf(integer));
-      wad.AddData('PNAMES0', mp.Memory, mp.Size);
+      wad.AddData('PNAMES0', mp.Memory, mp.Size); // Unused
       mp.Free;
 
       mt.Seek(0, sFromBeginning);

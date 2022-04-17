@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=-iwad doomu.wad TEXTURE_TEST1.WAD TEXTURE_TEST.ZIP
+RunParams=-iwad doom2.wad DBP37_AUGZEN.wad
 HostApplication=
 Launcher=
 UseLauncher=0
