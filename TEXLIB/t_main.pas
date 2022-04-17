@@ -180,7 +180,7 @@ type
 // T_LoadHiResTexture
 //
 //==============================================================================
-function T_LoadHiResTexture(const FileName: string): PTexture;
+function T_LoadHiResTexture(const FileName: string; const silent: boolean = False): PTexture;
 
 var
   TextureExtensions: TDStringList;
@@ -288,7 +288,7 @@ end;
 // Load external texture using the PAKFileSystem
 //
 //==============================================================================
-function T_LoadHiResTexture(const FileName: string): PTexture;
+function T_LoadHiResTexture(const FileName: string; const silent: boolean = False): PTexture;
 var
   i: integer;
   ext: string;
@@ -319,7 +319,8 @@ begin
       if strm.IOResult = 0 then
         if tm^.LoadFromStream(strm) then
         begin
-          printf('  Found external texture %s'#13#10, [tname]);
+          if not silent then
+            printf('  Found external texture %s'#13#10, [tname]);
           done := true;
         end;
       strm.Free;
