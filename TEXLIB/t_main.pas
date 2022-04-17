@@ -140,8 +140,10 @@ type
     function GetSize: integer;
     function HasPalette: boolean;
     procedure GetColumn32(col: integer; size: integer; dest: pointer);
+    procedure SetColumn32(col: integer; data: PLongWordArray);
     function GetPalettedColumn32(col: integer; size: integer; dest: pointer; APalColor: LongWord): boolean;
     procedure GetRow32(row: integer; size: integer; dest: pointer);
+    procedure SetRow32(row: integer; data: PLongWordArray);
     function GetPalettedRow32(row: integer; size: integer; dest: pointer; APalColor: LongWord): boolean;
     procedure AddColorOverlay(const color: LongWord);
     procedure ScaleTo(AWidth, AHeight: word);
@@ -653,6 +655,28 @@ end;
 
 //==============================================================================
 //
+// TTexture.SetColumn32
+//
+//==============================================================================
+procedure TTexture.SetColumn32(col: integer; data: PLongWordArray);
+var
+  i: integer;
+  src: PLongWordArray;
+begin
+  if col > FWidth then
+    Exit;
+
+  ConvertTo32bit;
+  src := pointer(integer(FData) + 4 + col * FBytesPerPixel);
+  for i := 0 to FHeight - 1 do
+  begin
+    src[0] := data[i];
+    src := @src[FWidth];
+  end;
+end;
+
+//==============================================================================
+//
 // TTexture.GetPalettedColumn32
 //
 //==============================================================================
@@ -759,6 +783,25 @@ begin
         end;
       end;
   end;
+end;
+
+//==============================================================================
+//
+// TTexture.SetRow32
+//
+//==============================================================================
+procedure TTexture.SetRow32(row: integer; data: PLongWordArray);
+var
+  i: integer;
+  src: PLongWordArray;
+begin
+  if row >= FHeight then
+    Exit;
+
+  ConvertTo32bit;
+  src := pointer(integer(FData) + 4 + row * FBytesPerPixel * FWidth);
+  for i := 0 to FWidth - 1 do
+    src[i] := data[i];
 end;
 
 //==============================================================================
