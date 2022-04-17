@@ -47,6 +47,7 @@ type
     procedure AddSeparator(const lumpname: string);
     procedure SaveToStream(const strm: TDStream);
     procedure SaveToFile(const fname: string);
+    function NumEntries: integer;
   end;
 
 //==============================================================================
@@ -201,6 +202,22 @@ begin
   finally
     fs.Free;
   end;
+end;
+
+//==============================================================================
+//
+// TWadWriter.NumEntries
+//
+//==============================================================================
+function TWadWriter.NumEntries: integer;
+begin
+  if lumps = nil then
+  begin
+    Result := 0;
+    Exit;
+  end;
+
+  Result := lumps.Count;
 end;
 
 //==============================================================================

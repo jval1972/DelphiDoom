@@ -128,6 +128,7 @@ type
     MaxEntries: Integer;
     PAKS: TDStringList;
     HashTable: PPakHashPArray;
+    fGlobalHash: LongWord;
     procedure Grow;
     procedure AddEntry(var H: FPakHead; const Pakn: string); overload;
     procedure AddEntry(var HD: FWADhead; const Pakn: string); overload;
@@ -156,6 +157,7 @@ type
     function PFileSize(var F: TPakFile): Integer;
     procedure PAddDirectory(const path: string);
     function PAddFile(const FileName: string): boolean;
+    property GlobalHash: LongWord read fGlobalHash;
   end;
 
   pakmode_t = (
@@ -264,6 +266,13 @@ function PAK_ReadAllFilesAsString(const filename: string): string;
 //==============================================================================
 procedure PAK_LoadPendingPaks;
 
+//==============================================================================
+//
+// PAK_GetGlobalHash
+//
+//==============================================================================
+function PAK_GetGlobalHash: LongWord;
+
 const
   s_TEX_PATH = 'TEXTURES\';
 
@@ -366,6 +375,7 @@ begin
   Entries := nil;
   NumEntries := 0;
   MaxEntries := 0;
+  fGlobalHash := 0;
 
   HashTable := mallocz(SizeOf(PPakHashArray));
 end;
@@ -564,6 +574,8 @@ procedure TPakManager.AddEntryToHashTable(const idx: integer);
 var
   hashidx: integer;
   parent: PPakHash;
+  pb: PByte;
+  i: integer;
 begin
   hashidx := HashToHashTableIndex(Entries[idx].Hash);
 
@@ -572,6 +584,16 @@ begin
   HashTable[hashidx] := malloc(SizeOf(TPakHash));
   HashTable[hashidx].index := idx;
   HashTable[hashidx].next := parent;
+
+  pb := @Entries[idx];
+  for i := 0 to Integer(@PPakEntry(nil).Hash) - 1 do
+  begin
+    if pb^ = 0 then
+      Inc(fGlobalHash)
+    else
+      fGlobalHash := ((fGlobalHash shl 7) or (fGlobalHash shr 25)) + pb^;
+    inc(pb);
+  end;
 end;
 
 //==============================================================================
@@ -1910,6 +1932,16 @@ begin
     list.Free;
   end;
   entries.Free;
+end;
+
+//==============================================================================
+//
+// PAK_GetGlobalHash
+//
+//==============================================================================
+function PAK_GetGlobalHash: LongWord;
+begin
+  Result := pakmanager.GlobalHash;
 end;
 
 initialization

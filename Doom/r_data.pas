@@ -626,6 +626,11 @@ begin
   for i := 0 to texture.patchcount - 1 do
   begin
     pat := patch.patch;
+    if (pat < 0) or (lumpinfo[pat].flags and (TYPE_PATCH or TYPE_SPRITE) = 0) then
+    begin
+      inc(patch);
+      Continue;
+    end;
     realpatch := W_CacheLumpNum(pat, PU_STATIC);
     x1 := patch.originx;
     x2 := x1 + realpatch.width;
