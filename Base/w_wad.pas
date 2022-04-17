@@ -1149,7 +1149,7 @@ begin
   begin
     dec(lump_p);
     if (lump_p.v1 = v1) and (lump_p.v2 = v2) then
-      if (flags = 0) or (lump_p.flags or flags <> 0) then
+      if (flags = 0) or (lump_p.flags and flags <> 0) then
       begin
         result := (integer(lump_p) - integer(lumpinfo)) div SizeOf(lumpinfo_t);
         exit;
