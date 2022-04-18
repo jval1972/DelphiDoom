@@ -260,6 +260,7 @@ uses
 {$ENDIF}
   t_material,
   t_patch,
+  t_flat,
   t_draw,
   r_hires,
   w_folders,
@@ -1884,6 +1885,7 @@ var
 {$ENDIF}
   tm_mat: TMaterialTextureManager;
   tm_patch: TPatchTextureManager;
+  tm_flat: TFlatTextureManager;
 
 //==============================================================================
 //
@@ -1906,6 +1908,7 @@ begin
   tm_bitmap.Create;
   tm_mat.Create;
   tm_patch.Create;
+  tm_flat.Create;
 
   T_InitDrawTextures;
 end;
@@ -1930,6 +1933,7 @@ begin
   tm_bitmap.Destroy;
   tm_mat.Destroy;
   tm_patch.Destroy;
+  tm_flat.Destroy;
 
   T_ShutDownDrawTextures;
 end;

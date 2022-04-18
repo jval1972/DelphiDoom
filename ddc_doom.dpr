@@ -433,7 +433,8 @@ uses
   v_palettes in 'Base\v_palettes.pas',
   p_easywind in 'Base\p_easywind.pas',
   psi_map in 'SCRIPT\psi_map.pas',
-  r_pk3textures in 'Base\r_pk3textures.pas';
+  r_pk3textures in 'Base\r_pk3textures.pas',
+  t_flat in 'TEXLIB\t_flat.pas';
 
 exports
   dd_compile_doom,
