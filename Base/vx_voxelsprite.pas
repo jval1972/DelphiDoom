@@ -260,6 +260,18 @@ begin
     strm := TPakStream.Create(vname, pm_directory, '', FOLDER_VOXELS);
   end;
   if strm.IOResult <> 0 then
+    if CharPos('.', vname) = 0 then
+    begin
+      s1 := vname + '.KVX';
+      strm.Free;
+      strm := TPakStream.Create(s1, pm_prefered, gamedirectories, FOLDER_VOXELS);
+      if strm.IOResult <> 0 then
+      begin
+        strm.Free;
+        strm := TPakStream.Create(s1, pm_directory, '', FOLDER_VOXELS);
+      end;
+    end;
+  if strm.IOResult <> 0 then
   begin
     strm.Free;
     s1 := fname(vname);

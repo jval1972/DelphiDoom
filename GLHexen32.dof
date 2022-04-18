@@ -100,7 +100,7 @@ Conditionals=HEXEN;OPENGL
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=
+RunParams=RZXVOX-0.1.2.zip
 HostApplication=
 Launcher=
 UseLauncher=0
