@@ -2907,7 +2907,7 @@ begin
             end;
           end
           else
-            I_Warning('SC_ActordefToDEH(): Replaces keyword point to an unknown mobj %s'#13#10, [sc._String]);
+            I_Warning('SC_ActordefToDEH(): Replaces keyword points to an unknown mobj %s'#13#10, [sc._String]);
           sc.GetString;
         end
         else if sc.MatchString('monster') or sc.MatchString('+monster') then
