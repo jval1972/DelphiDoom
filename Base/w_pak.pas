@@ -774,6 +774,8 @@ begin
           AddEntry(wadlump.filepos, wadlump.size, s_TEX_PATH + wadlumpname + '.PCX', Fn)
         else if (N >= 4) and T_IsValidPatchImage(f, wadlump.filepos, wadlump.size) then
           AddEntry(wadlump.filepos, wadlump.size, s_TEX_PATH + wadlumpname + '.PATCH', Fn);
+        else if T_IsValidFlatImage(f, wadlump.filepos, wadlump.size) then
+          AddEntry(wadlump.filepos, wadlump.size, s_TEX_PATH + wadlumpname + '.FLAT', Fn);
 
         Seek(F, Ofs + (i + 1) * SizeOf(filelump_t));
       end;
