@@ -614,6 +614,7 @@ var
   pkid: integer;
   Fn: string;
   inHIRES: boolean;
+  inTX: boolean;
   wadlump: filelump_t;
   b4: packed array[0..127] of byte;
   pk3lumps: TDStringList;
@@ -737,6 +738,7 @@ begin
     end;
     seek(F, Ofs);
     inHIRES := false;
+    inTX := false;
     pk3lumps := TDStringList.Create;
     for i := 0 to Nr - 1 do
     begin
@@ -757,7 +759,11 @@ begin
         inHIRES := True
       else if wadlumpname = 'HI_END' then
         inHIRES := False
-      else if inHIRES then
+      else if wadlumpname = 'TX_START' then
+        inTX := True
+      else if wadlumpname = 'TX_END' then
+        inTX := False
+      else if inHIRES or inTX then
       begin
         Seek(F, wadlump.filepos);
         ZeroMemory(@b4, SizeOf(b4));
