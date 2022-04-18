@@ -436,9 +436,100 @@ begin
         end;
 
       else
+        sprname := sc._String;
+        voxelpending := false;
+        nList := Info_FindStatesFromSprite(sprname);
+        if nList.Count = 0 then
         begin
           I_Warning('SC_ParseVoxelDefinition(): Unknown token "%s" at line %d'#13#10, [token, sc._Line]);
+        end
+        else
+        begin
+          sc.MustGetString;
+          voxelitem.name := sc._String;
+          voxelitem.offset := {$IFNDEF OPENGL}FloatToFixed({$ENDIF}0.0{$IFNDEF OPENGL}){$ENDIF};
+          voxelitem.scale := {$IFNDEF OPENGL}FloatToFixed({$ENDIF}1.0{$IFNDEF OPENGL}){$ENDIF};
+          voxelitem.angleoffset := 0;
+          voxelitem.droppedspin := 0;
+          voxelitem.placedspin := 0;
+          voxelitem.flags := 0;
+
+          voxelpending := true;
+          while sc.GetString do
+          begin
+            token := strupper(sc._String);
+            token_idx := tokens.IndexOfToken(token);
+            case token_idx of
+              2:  // Offset
+                begin
+                  sc.MustGetFloat;
+                  voxelitem.offset := {$IFNDEF OPENGL}FloatToFixed(MAP_COEFF * {$ENDIF}sc._Float{$IFNDEF OPENGL}){$ENDIF};
+                end;
+              3:  // Scale
+                begin
+                  sc.MustGetFloat;
+                  voxelitem.scale := {$IFNDEF OPENGL}FloatToFixed({$ENDIF}sc._Float{$IFNDEF OPENGL}){$ENDIF};
+                  if voxelitem.scale < {$IFNDEF OPENGL}FloatToFixed({$ENDIF}0.01{$IFNDEF OPENGL}){$ENDIF} then
+                    voxelitem.scale := {$IFNDEF OPENGL}FloatToFixed({$ENDIF}0.01{$IFNDEF OPENGL}){$ENDIF};
+                end;
+              8:  // CLIPPED
+                begin
+                  voxelitem.flags := voxelitem.flags or VX_FLG_CLIPPED;
+                end;
+              9:  // ANGLEOFFSET
+                begin
+                  sc.MustGetInteger;
+                  voxelitem.angleoffset := sc._Integer;
+                end;
+             10:  // DROPPEDSPIN
+                begin
+                  sc.MustGetInteger;
+                  voxelitem.droppedspin := sc._Integer;
+                end;
+             11:  // PLACEDDSPIN
+                begin
+                  sc.MustGetInteger;
+                  voxelitem.placedspin := sc._Integer;
+                end;
+             12:  // SPIN
+                begin
+                  sc.MustGetInteger;
+                  voxelitem.droppedspin := sc._Integer;
+                  voxelitem.placedspin := sc._Integer;
+                end;
+            else
+              vxidx := VX_AddVoxel(voxelitem);
+              voxelpending := false;
+
+              for i := 0 to nList.Count - 1 do
+              begin
+                ZeroMemory(@voxelstate, SizeOf(voxelstate_t));
+                voxelstate.state := nList.Numbers[i];
+                voxelstate.voxelidx := vxidx;
+                voxelstate.frame := 0;
+                VX_AddVoxelState(voxelstate);
+              end;
+
+              sc.UnGet;
+              break;
+            end;
+          end;
+          if voxelpending then
+          begin
+            vxidx := VX_AddVoxel(voxelitem);
+            voxelpending := false;
+
+            for i := 0 to nList.Count - 1 do
+            begin
+              ZeroMemory(@voxelstate, SizeOf(voxelstate_t));
+              voxelstate.state := nList.Numbers[i];
+              voxelstate.voxelidx := vxidx;
+              voxelstate.frame := 0;
+              VX_AddVoxelState(voxelstate);
+            end;
+          end;
         end;
+        nList.Free;
     end;
   end;
 
