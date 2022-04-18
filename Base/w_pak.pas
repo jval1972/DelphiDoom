@@ -282,6 +282,7 @@ uses
   i_system,
   t_pcx,
   t_patch,
+  t_flat,
   w_wad;
 
 {$IFNDEF FPC}
@@ -779,7 +780,7 @@ begin
         else if (N >= 128) and T_IsValidPCXHeader(@b4) then // PCX detection
           AddEntry(wadlump.filepos, wadlump.size, s_TEX_PATH + wadlumpname + '.PCX', Fn)
         else if (N >= 4) and T_IsValidPatchImage(f, wadlump.filepos, wadlump.size) then
-          AddEntry(wadlump.filepos, wadlump.size, s_TEX_PATH + wadlumpname + '.PATCH', Fn);
+          AddEntry(wadlump.filepos, wadlump.size, s_TEX_PATH + wadlumpname + '.PATCH', Fn)
         else if T_IsValidFlatImage(f, wadlump.filepos, wadlump.size) then
           AddEntry(wadlump.filepos, wadlump.size, s_TEX_PATH + wadlumpname + '.FLAT', Fn);
 
