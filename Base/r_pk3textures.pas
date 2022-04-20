@@ -41,6 +41,9 @@ interface
 //==============================================================================
 function R_InitPK3Textures: boolean;
 
+var
+  usepk3textures: boolean = false;
+
 implementation
 
 uses
@@ -409,6 +412,9 @@ var
   t: PTexture;
 begin
   Result := False;
+
+  if not usepk3textures then
+    Exit;
 
   t_names := TDStringList.Create;
   f_names := TDStringList.Create;

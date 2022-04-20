@@ -7,6 +7,7 @@ Load flats in HI_START/HI_END namespace.
 Support for TX_START/TX_END namespace.
 It will load KVX voxels even if the ".kvx" extension is not defined in VOXELDEF.
 Improved ZDoom compatiblility in VOXELDEF lumps.
+Added usepk3textures console variable. When true, it will load additional resources from pk3. Default is false.
 
 Version 2.0.7 build 733 - (20220414)
 -----------------------

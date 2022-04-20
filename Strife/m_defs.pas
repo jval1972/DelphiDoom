@@ -94,6 +94,7 @@ uses
   r_segs,
 {$ENDIF}
   r_dynlights,
+  r_pk3textures,
   s_sound,
   sc_actordef,
   t_main,
@@ -180,7 +181,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 234;
+  NUMDEFAULTS = 235;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -1071,6 +1072,15 @@ const
 
     (name: 'extremeflatfiltering';
      location: @extremeflatfiltering;
+     oldlocation: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'usepk3textures';
+     location: @usepk3textures;
      oldlocation: nil;
      setable: DFS_NEVER;
      defaultsvalue: '';
