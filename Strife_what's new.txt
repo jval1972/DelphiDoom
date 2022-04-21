@@ -14,6 +14,7 @@ Fixed dynamic lights problem with palette changes and gamma changes in 8 bit col
 Speed optimizations to PascalScript initialization.
 Speed optimizations to startup memo text output.
 Default value for drawcrosshair set to false.
+By default does not display the ENDTEXT screen.
 
 Version 2.0.7 build 733 - (20220414)
 -----------------------
