@@ -4,11 +4,11 @@ Corrections to external textures caching in software rendering mode.
 Virtual filesystem places hi-res textures in 'TEXTURES' directory.
 Wall textures can be loaded from pk3/zip filesystem without a TEXTUREx equivalent. They must be located inside "TEXTURES" folder.
 Fixed problem with lump reading when a namespace was required.
-Load flats in HI_START/HI_END namespace.
-Support for TX_START/TX_END namespace.
 It will load KVX voxels even if the ".kvx" extension is not defined in VOXELDEF.
 Improved ZDoom compatiblility in VOXELDEF lumps.
 Added usepk3textures console variable. When true, it will load additional resources from pk3. Default is false.
+Support for TX_START/TX_END namespace (if the usepk3textures console variable is set to true).
+Load flats in HI_START/HI_END namespace (if the usepk3textures console variable is set to true).
 
 Version 2.0.7 build 733 - (20220414)
 -----------------------
