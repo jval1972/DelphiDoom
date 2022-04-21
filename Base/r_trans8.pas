@@ -184,6 +184,11 @@ begin
   end;
 end;
 
+//==============================================================================
+//
+// R_MakeTrans8_thr
+//
+//==============================================================================
 function R_MakeTrans8_thr(pal: PByteArray): Integer; stdcall;
 var
   palL: array[0..255] of LongWord; // Longword palette indexes
@@ -217,6 +222,11 @@ begin
   Result := 0;
 end;
 
+//==============================================================================
+//
+// R_MakeAdd8_thr
+//
+//==============================================================================
 function R_MakeAdd8_thr(pal: PByteArray): Integer; stdcall;
 var
   palL: array[0..255] of LongWord; // Longword palette indexes
@@ -260,6 +270,11 @@ begin
   Result := 0;
 end;
 
+//==============================================================================
+//
+// R_MakeSub8_thr
+//
+//==============================================================================
 function R_MakeSub8_thr(pal: PByteArray): Integer; stdcall;
 var
   palL: array[0..255] of LongWord; // Longword palette indexes
@@ -310,6 +325,11 @@ type
   end;
   Papproxparms_t = ^approxparms_t;
 
+//==============================================================================
+//
+// R_MakeApprox_thr
+//
+//==============================================================================
 function R_MakeApprox_thr(parms: Papproxparms_t): Integer; stdcall;
 var
   pal: PByteArray;
