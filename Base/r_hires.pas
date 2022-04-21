@@ -705,15 +705,15 @@ begin
   g2 := c2 shr 8;
   b2 := c2 shr 16;
 
-  if r2 > r1 then
+  if r2 >= r1 then
     r := 0
   else
     r := r1 - r2;
-  if g2 > g1 then
+  if g2 >= g1 then
     g := 0
   else
     g := g1 - g2;
-  if b2 > b1 then
+  if b2 >= b1 then
     b := 0
   else
     b := b1 - b2;
