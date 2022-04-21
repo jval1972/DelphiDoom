@@ -59,6 +59,7 @@ const
 var
   endmsg: array[0..NUM_QUITMESSAGES] of string;
   startmsg: array[0..NUM_STARTUPMESSAGES - 1] of string;
+  vulgarquitmessages: boolean = false;
 
 implementation
 

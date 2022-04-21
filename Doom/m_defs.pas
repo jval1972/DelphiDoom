@@ -34,6 +34,7 @@ uses
   am_map,
   c_con,
   doomdef,
+  dstrings,
   d_englsh,
   d_main,
   g_game,
@@ -175,7 +176,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}228{$ELSE}230{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}229{$ELSE}231{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -1986,6 +1987,15 @@ const
      defaultivalue: 1;
      defaultbvalue: true;
      _type: tInteger),
+
+    (name: 'vulgarquitmessages';
+     location: @vulgarquitmessages;
+     oldlocation: nil;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: false;
+     _type: tBoolean),
 
     (name: 'show_obituaries';
      location: @show_obituaries;
