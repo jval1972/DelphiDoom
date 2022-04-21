@@ -349,7 +349,7 @@ const
      setable: DFS_NEVER;
      defaultsvalue: '';
      defaultivalue: 1;
-     defaultbvalue: true;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'usefake3d';
