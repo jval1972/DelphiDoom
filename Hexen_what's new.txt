@@ -9,6 +9,7 @@ Support for TX_START/TX_END namespace (if the usepk3textures console variable is
 Load flats in HI_START/HI_END namespace (if the usepk3textures console variable is set to true).
 Faster startup, by ommiting parsing the default and unedited GAMEDEF lump. Instead it uses the build-in info.
 8bit trasparency LUTs are calculated in multiple threads to speed-up startup.
+Fixed dynamic lights problem with palette changes and gamma changes in 8 bit color mode.
 
 Version 2.0.7 build 733 - (20220414)
 -----------------------

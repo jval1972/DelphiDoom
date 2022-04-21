@@ -57,7 +57,8 @@ type
   stdrawoptions_t = (stdo_no, stdo_small, stdo_full);
 
 var
-  st_palette: integer;
+  st_palette: integer = -1;
+  st_gamma: integer = -1;
 // lump number for PLAYPAL
   lu_palette: integer;
 
@@ -1166,9 +1167,10 @@ begin
   else
     palette := 0;
 
-  if palette <> st_palette then
+  if (palette <> st_palette) or (usegamma <> st_gamma) then
   begin
     st_palette := palette;
+    st_gamma := usegamma; 
     {$IFDEF OPENGL}
     gld_SetPalette(palette);
     {$ELSE}

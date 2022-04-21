@@ -135,7 +135,8 @@ uses
 
 type
   approxcolorstructitem_t = record
-    hash: LongWord;
+    hash: array[0..GAMMASIZE - 1] of LongWord;
+    palette: array[0..GAMMASIZE - 1] of array[0..255] of LongWord;
     table: array[0..GAMMASIZE - 1] of approxcolorindexarray_t;
   end;
   Papproxcolorstructitem_t = ^approxcolorstructitem_t;
@@ -234,13 +235,13 @@ begin
     for j := 0 to 255 do
     begin
       c1 := palL[j];
-      r := ((c1 and $FF) * i * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
+      r := ((c1 and $FF) * LongWord(i) * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
       if r > 255 then
         r := 255;
-      g := (((c1 shr 8) and $FF) * i * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
+      g := (((c1 shr 8) and $FF) * LongWord(i) * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
       if g > 255 then
         g := 255;
-      b := (((c1 shr 16) and $FF) * i * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
+      b := (((c1 shr 16) and $FF) * LongWord(i) * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
       if b > 255 then
         b := 255;
       c1 := r + g shl 8 + b shl 16;
@@ -277,13 +278,13 @@ begin
     for j := 0 to 255 do
     begin
       c1 := palL[j];
-      r := ((c1 and $FF) * i * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
+      r := ((c1 and $FF) * LongWord(i) * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
       if r > 255 then
         r := 255;
-      g := (((c1 shr 8) and $FF) * i * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
+      g := (((c1 shr 8) and $FF) * LongWord(i) * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
       if g > 255 then
         g := 255;
-      b := (((c1 shr 16) and $FF) * i * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
+      b := (((c1 shr 16) and $FF) * LongWord(i) * (FRACUNIT div NUMTRANS8TABLES)) div FRACUNIT;
       if b > 255 then
         b := 255;
       c1 := r + g shl 8 + b shl 16;
@@ -312,27 +313,24 @@ type
 function R_MakeApprox_thr(parms: Papproxparms_t): Integer; stdcall;
 var
   pal: PByteArray;
-  palL: array[0..255] of LongWord; // Longword palette indexes
-  i, j: integer;
+  i: integer;
+  gamma: integer;
   ptrans8: PByte;
   r, g, b: LongWord;
-  A: Papproxcolorindexarray_t;
 begin
   pal := parms.pal;
-  j := parms.id;
+  gamma := parms.id;
   for i := 0 to numapproxcolorstructitem - 1 do
   begin
-    R_ExpandPalette(@pal[i * 768], @palL, j);
-    approxcolorstruct[i].hash := R_GetPaletteHash(@palL);
+    R_ExpandPalette(@pal[i * 768], @approxcolorstruct[i].palette[gamma], gamma);
+    approxcolorstruct[i].hash[gamma] := R_GetPaletteHash(@approxcolorstruct[i].palette[gamma]);
 
-    A := @approxcolorstruct[i].table[j];
-
-    ptrans8 := @A[0];
+    ptrans8 := @approxcolorstruct[i].table[gamma];
     for r := 0 to FASTTABLECHANNEL - 1 do
       for g := 0 to FASTTABLECHANNEL - 1 do
         for b := 0 to FASTTABLECHANNEL - 1 do
         begin
-          ptrans8^ := V_FindAproxColorIndex(@palL,
+          ptrans8^ := V_FindAproxColorIndex(@approxcolorstruct[i].palette[gamma],
                           r shl (16 + FASTTABLESHIFT) + g shl (8 + FASTTABLESHIFT) + b shl FASTTABLESHIFT +
                           // extra parenthesis help the compiler to precalc the whole expresion below
                           (((1 shl FASTTABLESHIFT) shr 1) shl 16 + ((1 shl FASTTABLESHIFT) shr 1) shl 8 + ((1 shl FASTTABLESHIFT) shr 1))
@@ -398,8 +396,8 @@ begin
     R_MakeApprox_thr(@r5);
   end;
 
-  approxcolorindexarray := @approxcolorstruct[0].table[usegamma];
-  currpalettehash := approxcolorstruct[0].hash;
+  approxcolorindexarray := @approxcolorstruct[0].table[0];
+  currpalettehash := approxcolorstruct[0].hash[0];
 
   Z_ChangeTag(pal, PU_CACHE);
   trans8tablescalced := true;
@@ -516,8 +514,25 @@ end;
 var
   last8pal: array[0..255] of LongWord;
   overflowapproxcolorindexarray: approxcolorindexarray_t;
-  last_pal_index: integer;
-  last_gamma: integer;
+
+//==============================================================================
+//
+// R_PaletteEquals
+//
+//==============================================================================
+function R_PaletteEquals(const p1, p2: PLongWordArray): Boolean;
+var
+  i: integer;
+begin
+  for i := 0 to 255 do
+    if p1[i] <> p2[i] then
+    begin
+      Result := False;
+      Exit;
+    end;
+
+  Result := True;
+end;
 
 //==============================================================================
 //
@@ -535,22 +550,10 @@ begin
   if videomode = vm32bit then
     exit;
 
-  if (last_pal_index = cur_pal_index) and (last_gamma = usegamma) then
-    exit;
-
-  last_pal_index := cur_pal_index;
-  last_gamma := usegamma;
-  if LongWord(last_pal_index) < LongWord(numapproxcolorstructitem) then
-    if LongWord(last_gamma) < GAMMASIZE then
-    begin
-      approxcolorindexarray := @approxcolorstruct[last_pal_index].table[usegamma];
-      exit;
-    end;
-
   {$IFDEF DOOM_OR_STRIFE}
   pal := @cvideopal;
   {$ELSE}
-  pal := @videopal;
+  pal := @curpal;
   {$ENDIF}
 
   changed := -1;
@@ -570,11 +573,12 @@ begin
   currpalettehash := R_GetPaletteHash(pal);
 
   for i := 0 to numapproxcolorstructitem - 1 do
-    if currpalettehash = approxcolorstruct[i].hash then
-    begin
-      approxcolorindexarray := @approxcolorstruct[i].table;
-      exit;
-    end;
+    if currpalettehash = approxcolorstruct[i].hash[usegamma] then
+      if R_PaletteEquals(pal, @approxcolorstruct[i].palette[usegamma]) then
+      begin
+        approxcolorindexarray := @approxcolorstruct[i].table[usegamma];
+        exit;
+      end;
 
   approxcolorindexarray := @overflowapproxcolorindexarray;
 

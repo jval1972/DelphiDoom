@@ -52,6 +52,7 @@ type
 
 var
   st_palette: integer;
+  st_gamma: integer = -1;
 // lump number for PLAYPAL
   lu_palette: integer;
 
@@ -1468,9 +1469,10 @@ begin
     if (palette >= STARTREDPALS) and (palette < STARTREDPALS + NUMREDPALS) then
       palette := RADIATIONPAL;
 
-  if palette <> st_palette then
+  if (palette <> st_palette) or (usegamma <> st_gamma) then
   begin
     st_palette := palette;
+    st_gamma := usegamma;
     {$IFDEF OPENGL}
     gld_SetPalette(palette);
     {$ELSE}

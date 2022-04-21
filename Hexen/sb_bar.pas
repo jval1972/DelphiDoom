@@ -1444,6 +1444,7 @@ end;
 
 var
   sb_palette: integer = 0;
+  sb_gamma: integer = -1;
 
 //==============================================================================
 //
@@ -1503,9 +1504,10 @@ begin
   begin
     palette := 0;
   end;
-  if palette <> sb_palette then
+  if (palette <> sb_palette) or (usegamma <> sb_gamma) then
   begin
     sb_palette := palette;
+    sb_gamma := usegamma;
     {$IFDEF OPENGL}
     gld_SetPalette(palette);
     {$ELSE}
