@@ -3774,6 +3774,51 @@ begin
   M_CmdQuit;
 end;
 
+function M_SelectEndMessage: string;
+var
+  sl: TDStringList;
+begin
+  sl := TDStringList.Create;
+
+  if gamemission = doom then
+  begin
+    sl.Add(endmsg[0]);
+    sl.Add(endmsg[1]);
+    sl.Add(endmsg[2]);
+    sl.Add(endmsg[3]);
+    sl.Add(endmsg[4]);
+    sl.Add(endmsg[5]);
+    sl.Add(endmsg[6]);
+    sl.Add(endmsg[7]);
+  end
+  else
+  begin
+    sl.Add(endmsg[0]);
+    sl.Add(endmsg[8]);
+    sl.Add(endmsg[9]);
+    sl.Add(endmsg[10]);
+    sl.Add(endmsg[11]);
+    sl.Add(endmsg[12]);
+    sl.Add(endmsg[13]);
+    sl.Add(endmsg[14]);
+  end;
+
+  if vulgarquitmessages then
+  begin
+    sl.Add(endmsg[15]);
+    sl.Add(endmsg[16]);
+    sl.Add(endmsg[17]);
+    sl.Add(endmsg[18]);
+    sl.Add(endmsg[19]);
+    sl.Add(endmsg[20]);
+    sl.Add(endmsg[21]);
+  end;
+
+  Result := sl[gametic mod sl.Count];
+
+  sl.Free;
+end;
+
 //==============================================================================
 //
 // M_QuitDOOM
@@ -3786,7 +3831,7 @@ begin
   if language <> english then
     sprintf(endstring, '%s'#13#10#13#10 + DOSY, [endmsg[0]])
   else
-    sprintf(endstring,'%s'#13#10#13#10 + DOSY, [endmsg[(gametic mod (NUM_QUITMESSAGES - 2)) + 1]]);
+    sprintf(endstring,'%s'#13#10#13#10 + DOSY, [M_SelectEndMessage]);
 
   M_StartMessage(endstring, @M_QuitResponse, true);
 end;
