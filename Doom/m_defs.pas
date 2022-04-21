@@ -348,7 +348,7 @@ const
      oldlocation: nil;
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 1;
+     defaultivalue: 0;
      defaultbvalue: false;
      _type: tBoolean),
 
