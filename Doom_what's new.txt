@@ -9,6 +9,7 @@ Improved ZDoom compatiblility in VOXELDEF lumps.
 Added usepk3textures console variable. When true, it will load additional resources from pk3. Default is false.
 Support for TX_START/TX_END namespace (if the usepk3textures console variable is set to true).
 Load flats in HI_START/HI_END namespace (if the usepk3textures console variable is set to true).
+Faster startup, by ommiting parsing the default and unedited GAMEDEF lump. Instead it uses the build-in info.
 
 Version 2.0.7 build 733 - (20220414)
 -----------------------

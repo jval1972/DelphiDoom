@@ -221,6 +221,7 @@ uses
   f_finale,
   m_argv,
   m_base,
+  m_crc32,
   m_misc,
   m_menu,
   mt_utils,
@@ -2119,6 +2120,7 @@ var
   uext: string;
   err_shown: boolean;
   kparm: string;
+  lump: integer;
 begin
   SUC_Open;
   outproc := @SUC_Outproc;
@@ -2502,8 +2504,16 @@ begin
   DEH_Init;
 
   if M_CheckParm('-internalgamedef') = 0 then
-    if not DEH_ParseLumpName('GAMEDEF') then
+  begin
+    lump := W_CheckNumForName('GAMEDEF');
+    if lump >= 0 then
+    begin
+      if strupper(GetLumpCRC32(lump)) <> 'AA33FCB2' then
+        DEH_ParseLumpNum(lump);
+    end
+    else
       I_Warning('DEH_ParseLumpName(): GAMEDEF lump not found, using defaults.'#13#10);
+  end;
 
   if customgame in [cg_chex, cg_chex2] then
     if not DEH_ParseLumpName('CHEX.DEH') then

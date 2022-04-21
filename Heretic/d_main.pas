@@ -219,6 +219,7 @@ uses
   f_finale,
   m_argv,
   m_base,
+  m_crc32,
   m_misc,
   m_menu,
   mt_utils,
@@ -1851,6 +1852,7 @@ var
   uext: string;
   mb_min: integer; // minimum zone size
   kparm: string;
+  lump: integer;
 begin
   SUC_Open;
   outproc := @SUC_Outproc;
@@ -2170,8 +2172,16 @@ begin
   DEH_Init;
 
   if M_CheckParm('-internalgamedef') = 0 then
-    if not DEH_ParseLumpName('GAMEDEF') then
+  begin
+    lump := W_CheckNumForName('GAMEDEF');
+    if lump >= 0 then
+    begin
+      if strupper(GetLumpCRC32(lump)) <> '1468BDEC' then
+        DEH_ParseLumpNum(lump);
+    end
+    else
       I_Warning('DEH_ParseLumpName(): GAMEDEF lump not found, using defaults.'#13#10);
+  end;
 
   SUC_Progress(42);
 
