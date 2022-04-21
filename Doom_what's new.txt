@@ -19,6 +19,7 @@ Speed optimizations to startup memo text output.
 Default value for zaxisshift set to false.
 Default value for drawcrosshair set to false.
 By default does not display the ENDOOM screen.
+Default value for automaptraceplayer set to 0.
 
 Version 2.0.7 build 733 - (20220414)
 -----------------------
