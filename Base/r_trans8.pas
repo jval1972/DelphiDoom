@@ -115,6 +115,7 @@ type
 
 var
   approxcolorindexarray: Papproxcolorindexarray_t;
+  default_palette: array[0..255] of LongWord;
 
 //==============================================================================
 //
@@ -136,7 +137,7 @@ uses
 type
   approxcolorstructitem_t = record
     hash: LongWord;
-    table: array[0..GAMMASIZE - 1] of approxcolorindexarray_t;
+    table: approxcolorindexarray_t;
   end;
   Papproxcolorstructitem_t = ^approxcolorstructitem_t;
   approxcolorstructitem_tArray = array[0..$FF] of approxcolorstructitem_t;
@@ -156,7 +157,7 @@ function R_GetPaletteHash(const p: PLongWordArray): LongWord;
 var
   i: integer;
 begin
-  result := p[0];
+  result := p[0] and $FFFFFF;
   for i := 1 to 255 do
     result := result xor (p[i] and $FFFFFF);
 end;
@@ -166,7 +167,7 @@ end;
 // R_ExpandPalette
 //
 //==============================================================================
-procedure R_ExpandPalette(const inpal: PByteArray; const outpal: PLongWordArray; const gamma: integer);
+procedure R_ExpandPalette(const inpal: PByteArray; const outpal: PLongWordArray);
 var
   dest: PLongWord;
   src: PByteArray;
@@ -175,9 +176,9 @@ begin
   dest := @outpal[0];
   while src <> @inpal[256 * 3] do
   begin
-    dest^ := (LongWord(gammatable[gamma][src[0]]) shl 16) or
-             (LongWord(gammatable[gamma][src[1]]) shl 8) or
-             (LongWord(gammatable[gamma][src[2]]));
+    dest^ := (LongWord(src[0]) shl 16) or
+             (LongWord(src[1]) shl 8) or
+             (LongWord(src[2]));
     inc(dest);
     src := @src[3];
   end;
@@ -192,7 +193,7 @@ var
   c: LongWord;
   ptrans8: PByte;
 begin
-  R_ExpandPalette(pal, @palL, 0);
+  R_ExpandPalette(pal, @palL);
 
   for i := 0 to NUMTRANS8TABLES do
   begin
@@ -225,7 +226,7 @@ var
   ptrans8: PByte;
   r, g, b: LongWord;
 begin
-  R_ExpandPalette(pal, @palL, 0);
+  R_ExpandPalette(pal, @palL);
 
   for i := 0 to NUMTRANS8TABLES do
   begin
@@ -268,7 +269,7 @@ var
   ptrans8: PByte;
   r, g, b: LongWord;
 begin
-  R_ExpandPalette(pal, @palL, 0);
+  R_ExpandPalette(pal, @palL);
 
   for i := 0 to NUMTRANS8TABLES do
   begin
@@ -322,10 +323,10 @@ begin
   j := parms.id;
   for i := 0 to numapproxcolorstructitem - 1 do
   begin
-    R_ExpandPalette(@pal[i * 768], @palL, j);
+    R_ExpandPalette(@pal[i * 768], @palL);
     approxcolorstruct[i].hash := R_GetPaletteHash(@palL);
 
-    A := @approxcolorstruct[i].table[j];
+    A := @approxcolorstruct[i].table;
 
     ptrans8 := @A[0];
     for r := 0 to FASTTABLECHANNEL - 1 do
@@ -364,6 +365,7 @@ begin
   approxcolorstruct := mallocz(numapproxcolorstructitem * SizeOf(approxcolorstructitem_t));
 
   pal := W_CacheLumpNum(lump, PU_STATIC);
+  R_ExpandPalette(@pal[0], @default_palette);
   r1.pal := pal;
   r1.id := 0;
   r2.pal := pal;
@@ -398,7 +400,7 @@ begin
     R_MakeApprox_thr(@r5);
   end;
 
-  approxcolorindexarray := @approxcolorstruct[0].table[usegamma];
+  approxcolorindexarray := @approxcolorstruct[0].table;
   currpalettehash := approxcolorstruct[0].hash;
 
   Z_ChangeTag(pal, PU_CACHE);
@@ -517,7 +519,6 @@ var
   last8pal: array[0..255] of LongWord;
   overflowapproxcolorindexarray: approxcolorindexarray_t;
   last_pal_index: integer;
-  last_gamma: integer;
 
 //==============================================================================
 //
@@ -535,23 +536,17 @@ begin
   if videomode = vm32bit then
     exit;
 
-  if (last_pal_index = cur_pal_index) and (last_gamma = usegamma) then
+  if last_pal_index = cur_pal_index then
     exit;
 
   last_pal_index := cur_pal_index;
-  last_gamma := usegamma;
   if LongWord(last_pal_index) < LongWord(numapproxcolorstructitem) then
-    if LongWord(last_gamma) < GAMMASIZE then
-    begin
-      approxcolorindexarray := @approxcolorstruct[last_pal_index].table[usegamma];
-      exit;
-    end;
+  begin
+    approxcolorindexarray := @approxcolorstruct[last_pal_index].table;
+    exit;
+  end;
 
-  {$IFDEF DOOM_OR_STRIFE}
-  pal := @cvideopal;
-  {$ELSE}
-  pal := @videopal;
-  {$ENDIF}
+  pal := @default_palette;
 
   changed := -1;
   for i := 0 to 255 do

@@ -37,11 +37,7 @@
 
             if factor > 0 then
             begin
-              {$IFDEF DOOM_OR_STRIFE}
-              c := cvideopal[dest^];
-              {$ELSE}
-              c := curpal[dest^];
-              {$ENDIF}
+              c := default_palette[dest^];
 
               rr := (c shr 16) and $FF;
               {$IFDEF TBL_R}
