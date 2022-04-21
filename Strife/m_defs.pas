@@ -408,7 +408,7 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
-     defaultbvalue: true;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'shademenubackground';
