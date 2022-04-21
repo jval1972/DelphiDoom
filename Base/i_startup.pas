@@ -215,6 +215,8 @@ begin
 
   if suc_enabled then
   begin
+    StartUpConsoleForm.Memo1.Lines.BeginUpdate;
+
     if suc_wasdisabled then
     begin
       StartUpConsoleForm.Memo1.Lines.Text := stdoutbuffer.Text;
@@ -236,16 +238,16 @@ begin
       end;
     end;
 
+    StartUpConsoleForm.Memo1.Lines.EndUpdate;
+
     StartUpConsoleForm.Memo1.SelStart := Length(StartUpConsoleForm.Memo1.Lines.Text);
     StartUpConsoleForm.Memo1.SelLength := 0;
-    StartUpConsoleForm.Repaint;
   end
   else if not suc_wasdisabled then
   begin
     suc_wasdisabled := true;
     StartUpConsoleForm.Memo1.SelStart := Length(StartUpConsoleForm.Memo1.Lines.Text);
     StartUpConsoleForm.Memo1.SelLength := 0;
-    StartUpConsoleForm.Repaint;
   end;
 
 end;
