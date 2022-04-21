@@ -974,9 +974,12 @@ begin
     end;
 
     // states
-    lst := statenames.AllTokens;
+    lst := statenames.AllTokensWithIndex;
     for i := 0 to lst.Count - 1 do
-      Sender.AddConstant(lst[i], uT_integer).Value.ts32 := statenames.IndexOfToken(lst[i]);
+    begin
+      Sender.AddConstant(lst[i], uT_integer).Value.ts32 := (lst.Objects[i] as TInteger).intnum;
+      (lst.Objects[i] as TInteger).Free;
+    end;
     lst.Free;
 
     // mobj types
