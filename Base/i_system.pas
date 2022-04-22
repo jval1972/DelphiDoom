@@ -393,6 +393,13 @@ function I_SetDPIAwareness: boolean;
 //==============================================================================
 function I_GetWindowDPI(const h: THandle): integer;
 
+//==============================================================================
+//
+// I_GetTickCount
+//
+//==============================================================================
+function I_GetTickCount: LongWord;
+
 implementation
 
 uses
@@ -1348,6 +1355,17 @@ begin
     result := 96;
 
   FreeLibrary(dllinst);
+end;
+
+
+//==============================================================================
+//
+// I_GetTickCount
+//
+//==============================================================================
+function I_GetTickCount: LongWord;
+begin
+  Result := GetTickCount;
 end;
 
 initialization
