@@ -4640,7 +4640,7 @@ var
 procedure M_MenuShader;
 begin
   shademenubackground := shademenubackground mod 3;
-  if not wipedisplay and (shademenubackground >= 1) then
+  if not wipedisplay and ((shademenubackground = 1) or ((shademenubackground > 1) and not currentMenu.texturebk)) then
   begin
     if usemultithread then
     begin
@@ -4668,11 +4668,57 @@ end;
 // M_FinishUpdate
 //
 //==============================================================================
-procedure M_FinishUpdate(const height: integer);
+procedure M_FinishUpdate(const height: integer; const wide: boolean);
+var
+  srcx: integer;
+  srcy: integer;
+  srcw: integer;
+  srch: integer;
+  destx: integer;
+  desty: integer;
+  destw: integer;
+  desth: integer;
+  pct, l: integer;
+  w, h: integer;
 begin
   // JVAL
   // Menu is no longer drawn to primary surface,
   // Instead we use SCN_TMP and after the drawing we blit to primary surface
+  if wide and widescreensupport then
+  begin
+    while True do
+    begin
+      srcx := 0;
+      srcy := 0;
+      srcw := 320;
+      srch := height;
+
+      w := V_GetScreenWidth(SCN_FG);
+      h := V_GetScreenHeight(SCN_FG);
+
+      pct := round((1 - (4 / 3) / (w / h)) * 100);
+      if (pct <= 0) or (pct >= 100) then
+        Break;
+
+      l := ((pct div 2) * 320) div 100;
+      destx := l * w div 320;
+      desty := 0;
+      destw := w - 2 * destx;
+      desth := height * h div 200;
+      if inhelpscreens then
+      begin
+        V_CopyRectTransparentEx(srcx, srcy, SCN_TMP, srcw, 200, destx, desty, SCN_FG, destw, desth);
+        inhelpscreens := false;
+      end
+      else
+      begin
+        M_MenuShader;
+        V_CopyRectTransparentEx(srcx, srcy, SCN_TMP, srcw, srch, destx, desty, SCN_FG, destw, desth);
+      end;
+      Exit;
+    end;
+  end;
+
   if inhelpscreens then
   begin
     V_CopyRectTransparent(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
@@ -4775,17 +4821,20 @@ begin
       M_WriteText(x, y, str);
     end;
 
-    M_FinishUpdate(mheight);
+    M_FinishUpdate(mheight, true);
     exit;
   end;
 
   if not menuactive then
     exit;
 
-  MT_ZeroMemory(screens[SCN_TMP], 320 * 200);
-
   if (shademenubackground = 2) and currentMenu.texturebk then
+  begin
     M_DrawFlatBackground(menubackgroundflat);
+    M_FinishUpdate(200, false);
+  end;
+
+  MT_ZeroMemory(screens[SCN_TMP], 320 * 200);
 
   if Assigned(currentMenu.drawproc) then
     currentMenu.drawproc; // call Draw routine
@@ -4840,7 +4889,7 @@ begin
   else
     M_WriteWhiteText(x + ARROWXOFF, currentMenu.y + itemOn * currentMenu.itemheight, '-');
 
-  M_FinishUpdate(200);
+  M_FinishUpdate(200, true);
 end;
 
 //==============================================================================

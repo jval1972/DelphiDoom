@@ -167,6 +167,23 @@ procedure V_CopyRectTransparent(
 
 //==============================================================================
 //
+// V_CopyRectTransparentEx
+//
+//==============================================================================
+procedure V_CopyRectTransparentEx(
+  srcx: integer;
+  srcy: integer;
+  srcscrn: integer;
+  width: integer;
+  height: integer;
+  destx: integer;
+  desty: integer;
+  destscrn: integer;
+  destw: integer;
+  desth: integer);
+
+//==============================================================================
+//
 // V_CopyScreenTransparent
 //
 //==============================================================================
@@ -2488,6 +2505,401 @@ begin
       V_CopyRectTransparent32(srcx, srcy, srcscrn, width, height, destx, desty, preserve)
     else
       V_CopyRectTransparent8(srcx, srcy, srcscrn, width, height, destx, desty, destscrn, preserve);
+  end;
+end;
+
+//==============================================================================
+//
+// V_CopyRectTransparentEx8
+//
+//==============================================================================
+procedure V_CopyRectTransparentEx8(
+  srcx: integer;
+  srcy: integer;
+  srcscrn: integer;
+  width: integer;
+  height: integer;
+  destx: integer;
+  desty: integer;
+  destscrn: integer;
+  destw: integer;
+  desth: integer);
+var
+  src: PByteArray;
+  dest: PByteArray;
+  fracxstep: fixed_t;
+  fracystep: fixed_t;
+  fracx: fixed_t;
+  fracy: fixed_t;
+  col: integer;
+  row: integer;
+  srcb: byte;
+  swidth: integer;
+  dwidth: integer;
+begin
+  swidth := V_GetScreenWidth(srcscrn);
+  dwidth := V_GetScreenWidth(destscrn);
+  if (destw <> 0) and (desth <> 0) then
+  begin
+    fracy := srcy * FRACUNIT;
+    fracxstep := FRACUNIT * width div destw;
+    fracystep := FRACUNIT * height div desth;
+
+    for row := desty to desty + desth - 1 do
+    begin
+      fracx := 0;
+      dest := PByteArray(integer(screens[destscrn]) + dwidth * row + destx);
+      // Source is a 320 width screen
+      src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+      for col := 0 to destw - 1 do
+      begin
+        srcb := src[LongWord(fracx) shr FRACBITS];
+        if srcb <> 0 then
+          dest[col] := srcb;
+        fracx := fracx + fracxstep;
+      end;
+      fracy := fracy + fracystep;
+    end;
+  end;
+end;
+
+//==============================================================================
+//
+// V_CopyRectTransparentEx8_MT
+//
+//==============================================================================
+procedure V_CopyRectTransparentEx8_MT(
+  idx, numidxs: integer;
+  srcx: integer;
+  srcy: integer;
+  srcscrn: integer;
+  width: integer;
+  height: integer;
+  destx: integer;
+  desty: integer;
+  destscrn: integer;
+  destw: integer;
+  desth: integer);
+var
+  src: PByteArray;
+  dest: PByteArray;
+  fracxstep: fixed_t;
+  fracystep: fixed_t;
+  fracx: fixed_t;
+  fracy: fixed_t;
+  col: integer;
+  row: integer;
+  srcb: byte;
+  swidth: integer;
+  dwidth: integer;
+begin
+  swidth := V_GetScreenWidth(srcscrn);
+  dwidth := V_GetScreenWidth(destscrn);
+  if (destw <> 0) and (desth <> 0) then
+  begin
+    fracy := srcy * FRACUNIT;
+    fracxstep := FRACUNIT * width div destw;
+    fracystep := FRACUNIT * height div desth;
+
+    for row := desty to desty + desth - 1 do
+    begin
+      if row mod numidxs = idx then
+      begin
+        fracx := 0;
+        dest := PByteArray(integer(screens[destscrn]) + dwidth * row + destx);
+        // Source is a 320 width screen
+        src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+        for col := 0 to destw - 1 do
+        begin
+          srcb := src[LongWord(fracx) shr FRACBITS];
+          if srcb <> 0 then
+            dest[col] := srcb;
+          fracx := fracx + fracxstep;
+        end;
+      end;
+      fracy := fracy + fracystep;
+    end;
+  end;
+end;
+
+//==============================================================================
+//
+// V_CopyRectTransparentEx32
+//
+//==============================================================================
+procedure V_CopyRectTransparentEx32(
+  srcx: integer;
+  srcy: integer;
+  srcscrn: integer;
+  width: integer;
+  height: integer;
+  destx: integer;
+  desty: integer;
+  destw: integer;
+  desth: integer);
+var
+  src: PByteArray;
+  dest: PLongWordArray;
+  destw1: integer;
+  fracxstep: fixed_t;
+  fracxstep4: fixed_t;
+  fracystep: fixed_t;
+  fracx: fixed_t;
+  fracy: fixed_t;
+  col: integer;
+  row: integer;
+  swidth: integer;
+  dwidth: integer;
+  srcb: byte;
+  psrcl: PLongWord;
+begin
+  swidth := V_GetScreenWidth(srcscrn);
+  dwidth := V_GetScreenWidth(SCN_FG);
+  destw1 := destw and $3;
+  if (destw <> 0) and (desth <> 0) then
+  begin
+    fracxstep := FRACUNIT * width div destw;
+    fracystep := FRACUNIT * height div desth;
+    fracxstep4 := 4 * fracxstep;
+    fracy := srcy * FRACUNIT;
+
+    destw := destw - destw1;
+    for row := desty to desty + desth - 1 do
+    begin
+      fracx := 0;
+      dest := @screen32[dwidth * row + destx];
+      src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+      col := 0;
+      while col < destw do
+      begin
+        psrcl := @src[LongWord(fracx) shr FRACBITS];
+        if psrcl^ = 0 then
+        begin
+          inc(col, 4);
+          fracx := fracx + fracxstep4;
+        end
+        else
+        begin
+          srcb := PByte(psrcl)^;
+          if srcb <> 0 then
+            dest[col] := videopal[srcb];
+          inc(col);
+          fracx := fracx + fracxstep;
+        end;
+      end;
+
+      for col := destw to destw + destw1 - 1 do
+      begin
+        srcb := src[LongWord(fracx) shr FRACBITS];
+        if srcb <> 0 then
+          dest[col] := videopal[srcb];
+        fracx := fracx + fracxstep;
+      end;
+
+      fracy := fracy + fracystep;
+    end;
+  end;
+end;
+
+//==============================================================================
+//
+// V_CopyRectTransparentEx32_MT
+//
+//==============================================================================
+procedure V_CopyRectTransparentEx32_MT(
+  idx, numidxs: integer;
+  srcx: integer;
+  srcy: integer;
+  srcscrn: integer;
+  width: integer;
+  height: integer;
+  destx: integer;
+  desty: integer;
+  destw: integer;
+  desth: integer);
+var
+  src: PByteArray;
+  dest: PLongWordArray;
+  destw1: integer;
+  fracxstep: fixed_t;
+  fracxstep4: fixed_t;
+  fracystep: fixed_t;
+  fracx: fixed_t;
+  fracy: fixed_t;
+  col: integer;
+  row: integer;
+  swidth: integer;
+  dwidth: integer;
+  srcb: byte;
+  psrcl: PLongWord;
+begin
+  swidth := V_GetScreenWidth(srcscrn);
+  dwidth := V_GetScreenWidth(SCN_FG);
+  destw1 := destw and $3;
+  if (destw <> 0) and (desth <> 0) then
+  begin
+    fracxstep := FRACUNIT * width div destw;
+    fracystep := FRACUNIT * height div desth;
+    fracxstep4 := 4 * fracxstep;
+    fracy := srcy * FRACUNIT;
+
+    destw := destw - destw1;
+    for row := desty to desty + desth - 1 do
+    begin
+      if row mod numidxs = idx then
+      begin
+        fracx := 0;
+        dest := @screen32[dwidth * row + destx];
+        src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+        col := 0;
+        while col < destw do
+        begin
+          psrcl := @src[LongWord(fracx) shr FRACBITS];
+          if psrcl^ = 0 then
+          begin
+            inc(col, 4);
+            fracx := fracx + fracxstep4;
+          end
+          else
+          begin
+            srcb := PByte(psrcl)^;
+            if srcb <> 0 then
+              dest[col] := videopal[srcb];
+            inc(col);
+            fracx := fracx + fracxstep;
+          end;
+        end;
+
+        for col := destw to destw + destw1 - 1 do
+        begin
+          srcb := src[LongWord(fracx) shr FRACBITS];
+          if srcb <> 0 then
+            dest[col] := videopal[srcb];
+          fracx := fracx + fracxstep;
+        end;
+      end;
+
+      fracy := fracy + fracystep;
+    end;
+  end;
+end;
+
+type
+  th_copyrecttransparentex8_t = record
+    srcx: integer;
+    srcy: integer;
+    srcscrn: integer;
+    width: integer;
+    height: integer;
+    destx: integer;
+    desty: integer;
+    destscrn: integer;
+    destw: integer;
+    desth: integer;
+  end;
+  th_copyrecttransparentex8_p = ^th_copyrecttransparentex8_t;
+
+  th_copyrecttransparentex32_t = record
+    srcx: integer;
+    srcy: integer;
+    srcscrn: integer;
+    width: integer;
+    height: integer;
+    destx: integer;
+    desty: integer;
+    destw: integer;
+    desth: integer;
+  end;
+  th_copyrecttransparentex32_p = ^th_copyrecttransparentex32_t;
+
+//==============================================================================
+//
+// V_CopyRectTransparentEx8_thr
+//
+//==============================================================================
+function V_CopyRectTransparentEx8_thr(it: iterator_p): integer; stdcall;
+var
+  p8: th_copyrecttransparentex8_p;
+begin
+  p8 := it.data;
+  V_CopyRectTransparentEx8_MT(
+    it.idx, it.numidxs,
+    p8.srcx, p8.srcy, p8.srcscrn, p8.width, p8.height, p8.destx, p8.desty, p8.destscrn, p8.destw, p8.desth);
+  result := 0;
+end;
+
+//==============================================================================
+//
+// V_CopyRectTransparentEx32_thr
+//
+//==============================================================================
+function V_CopyRectTransparentEx32_thr(it: iterator_p): integer; stdcall;
+var
+  p32: th_copyrecttransparentex32_p;
+begin
+  p32 := it.data;
+  V_CopyRectTransparentEx32_MT(
+    it.idx, it.numidxs,
+    p32.srcx, p32.srcy, p32.srcscrn, p32.width, p32.height, p32.destx, p32.desty, p32.destw, p32.desth);
+  result := 0;
+end;
+
+//==============================================================================
+//
+// V_CopyRectTransparentEx
+//
+//==============================================================================
+procedure V_CopyRectTransparentEx(
+  srcx: integer;
+  srcy: integer;
+  srcscrn: integer;
+  width: integer;
+  height: integer;
+  destx: integer;
+  desty: integer;
+  destscrn: integer;
+  destw: integer;
+  desth: integer);
+var
+  r8: th_copyrecttransparentex8_t;
+  r32: th_copyrecttransparentex32_t;
+begin
+  if usemultithread then
+  begin
+    if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (destscrn = SCN_FG) then
+    begin
+      r32.srcx := srcx;
+      r32.srcy := srcy;
+      r32.srcscrn := srcscrn;
+      r32.width := width;
+      r32.height := height;
+      r32.destx := destx;
+      r32.desty := desty;
+      r32.destw := destw;
+      r32.desth := desth;
+      MT_Iterate(@V_CopyRectTransparentEx32_thr, @r32);
+    end
+    else
+    begin
+      r8.srcx := srcx;
+      r8.srcy := srcy;
+      r8.srcscrn := srcscrn;
+      r8.width := width;
+      r8.height := height;
+      r8.destx := destx;
+      r8.desty := desty;
+      r8.destscrn := destscrn;
+      r8.destw := destw;
+      r8.desth := desth;
+      MT_Iterate(@V_CopyRectTransparentEx8_thr, @r8);
+    end;
+  end
+  else
+  begin
+    if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (destscrn = SCN_FG) then
+      V_CopyRectTransparentEx32(srcx, srcy, srcscrn, width, height, destx, desty, destw, desth)
+    else
+      V_CopyRectTransparentEx8(srcx, srcy, srcscrn, width, height, destx, desty, destscrn, destw, desth);
   end;
 end;
 

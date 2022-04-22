@@ -17,6 +17,7 @@ Default value for automaptraceplayer set to 0.
 Load defaults before any other action to avoid some defaults not registering.
 Corrected games directory identification.
 Displays loading time at startup.
+Proper menu stretch in widescreen mode.
 
 Version 2.0.7 build 733 - (20220414)
 -----------------------
