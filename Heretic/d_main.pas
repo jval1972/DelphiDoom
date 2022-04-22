@@ -1500,10 +1500,10 @@ begin
   end;
   for i := wadfiles.Count - 1 downto 0 do
   begin
-    wad := strupper(fname(wadfiles[0]));
+    wad := strupper(fname(wadfiles[i]));
     if CharPos('.', wad) > 0 then
       wad := Copy(wad, 1, CharPos('.', wad) - 1);
-    if Pos(wad + ',', gamedirectorystring + ',') = 0 then
+    if Pos(',' + wad + ',', ',' + gamedirectorystring + ',') = 0 then
       gamedirectorystring := wad + ',' + gamedirectorystring;
   end;
 
