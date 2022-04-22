@@ -2152,6 +2152,9 @@ begin
 
   SUC_Progress(3);
 
+  printf('M_LoadDefaults: Load system defaults.'#13#10);
+  M_LoadDefaults;              // load before initing other systems
+
   D_AddSystemWAD; // Add system wad first
 
   SUC_Progress(4);
@@ -2363,9 +2366,6 @@ begin
   p := M_CheckParm('-avg');
   if (p <> 0) and (p <= myargc - 1) and (deathmatch <> 0) then
     printf('Austin Virtual Gaming: Levels will end after 20 minutes'#13#10);
-
-  printf('M_LoadDefaults: Load system defaults.'#13#10);
-  M_LoadDefaults;              // load before initing other systems
 
   D_WadsAutoLoad(wads_autoload);
   D_PaksAutoload(paks_autoload);
