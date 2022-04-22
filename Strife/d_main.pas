@@ -1310,8 +1310,6 @@ begin
   // voices
   voiceswad := D_FileInDoomPath('voices.wad');
 
-  basedefault := 'Strife32.ini';
-
   p := M_CheckParm('-mainwad');
   if p = 0 then
     p := M_CheckParm('-iwad');
@@ -1997,6 +1995,22 @@ end;
 
 //==============================================================================
 //
+// M_FindDefaultFile
+//
+//==============================================================================
+procedure M_FindDefaultFile;
+begin
+  if M_CheckParmCDROM then
+  begin
+    printf(D_CDROM);
+    basedefault := CD_WORKDIR + {$IFDEF FPC}'Strife32f.ini'{$ELSE}'Strife32.ini'{$ENDIF};
+  end
+  else
+    basedefault := {$IFDEF FPC}'Strife32f.ini'{$ELSE}'Strife32.ini'{$ENDIF};
+end;
+
+//==============================================================================
+//
 // D_DoomMain
 //
 //==============================================================================
@@ -2050,6 +2064,7 @@ begin
   SUC_Progress(3);
 
   printf('M_LoadDefaults: Load system defaults.'#13#10);
+  M_FindDefaultFile;
   M_LoadDefaults;              // load before initing other systems
 
   D_AddSystemWAD; // Add system wad first
@@ -2107,12 +2122,6 @@ begin
 
   if devparm then
     printf(D_DEVSTR);
-
-  if M_CheckParmCDROM then
-  begin
-    printf(D_CDROM);
-    basedefault := CD_WORKDIR + {$IFDEF FPC}'Strife32f.ini'{$ELSE}'Strife32.ini'{$ENDIF};
-  end;
 
   // turbo option
   p := M_CheckParm('-turbo');

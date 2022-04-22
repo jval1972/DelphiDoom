@@ -1171,8 +1171,6 @@ begin
   // Registered / extendedwad
   hereticwad := D_FileInDoomPath('heretic.wad');
 
-  basedefault := 'Heretic32.ini';
-
   p := M_CheckParm('-mainwad');
   if p = 0 then
     p := M_CheckParm('-iwad');
@@ -1836,6 +1834,22 @@ end;
 
 //==============================================================================
 //
+// M_FindDefaultFile
+//
+//==============================================================================
+procedure M_FindDefaultFile;
+begin
+  if M_CheckParmCDROM then
+  begin
+    printf(D_CDROM);
+    basedefault := CD_WORKDIR + 'Heretic32.ini';
+  end
+  else
+    basedefault := 'Heretic32.ini';
+end;
+
+//==============================================================================
+//
 // D_DoomMain
 //
 //==============================================================================
@@ -1888,6 +1902,7 @@ begin
   SUC_Progress(3);
 
   printf('M_LoadDefaults: Load system defaults.'#13#10);
+  M_FindDefaultFile;
   M_LoadDefaults;              // load before initing other systems
 
   D_AddSystemWAD; // Add system wad first
@@ -1928,12 +1943,6 @@ begin
 
   if devparm then
     printf(D_DEVSTR);
-
-  if M_CheckParmCDROM then
-  begin
-    printf(D_CDROM);
-    basedefault := CD_WORKDIR + 'Heretic32.ini';
-  end;
 
   // turbo option
   p := M_CheckParm('-turbo');

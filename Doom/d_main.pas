@@ -1245,8 +1245,6 @@ begin
   // French stuff.
   sprintf(doom2fwad, '%s\doom2f.wad', [doomwaddir]);
 
-  basedefault := {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
-
   p := M_CheckParm('-mainwad');
   if p = 0 then
     p := M_CheckParm('-iwad');
@@ -1272,7 +1270,6 @@ begin
     D_AddFile(DEVDATA + 'doom1.wad');
     D_AddFile(DEVMAPS + 'data_se/texture1.lmp');
     D_AddFile(DEVMAPS + 'data_se/pnames.lmp');
-    basedefault := DEVDATA + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
     exit;
   end;
 
@@ -1284,7 +1281,6 @@ begin
     D_AddFile(DEVMAPS + 'data_se/texture1.lmp');
     D_AddFile(DEVMAPS + 'data_se/texture2.lmp');
     D_AddFile(DEVMAPS + 'data_se/pnames.lmp');
-    basedefault := DEVDATA + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
     exit;
   end;
 
@@ -1296,7 +1292,6 @@ begin
 
     D_AddFile(DEVMAPS + 'cdata/texture1.lmp');
     D_AddFile(DEVMAPS + 'cdata/pnames.lmp');
-    basedefault := DEVDATA + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
     exit;
   end;
 
@@ -2102,6 +2097,23 @@ end;
 
 //==============================================================================
 //
+// M_FindDefaultFile
+//
+//==============================================================================
+procedure M_FindDefaultFile;
+begin
+  basedefault := {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
+  if (M_CheckParm('-shdev') > 0) or (M_CheckParm('-regdev') > 0) or (M_CheckParm('-comdev') > 0)then
+    basedefault := DEVDATA + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
+  if M_CheckParmCDROM then
+  begin
+    printf(D_CDROM);
+    basedefault := CD_WORKDIR + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
+  end;
+end;
+
+//==============================================================================
+//
 // D_DoomMain
 //
 //==============================================================================
@@ -2156,6 +2168,7 @@ begin
   SUC_Progress(3);
 
   printf('M_LoadDefaults: Load system defaults.'#13#10);
+  M_FindDefaultFile;
   M_LoadDefaults;              // load before initing other systems
 
   D_AddSystemWAD; // Add system wad first
@@ -2226,12 +2239,6 @@ begin
 
   if devparm then
     printf(D_DEVSTR);
-
-  if M_CheckParmCDROM then
-  begin
-    printf(D_CDROM);
-    basedefault := CD_WORKDIR + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
-  end;
 
   // turbo option
   p := M_CheckParm('-turbo');
