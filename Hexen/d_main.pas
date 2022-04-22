@@ -1515,17 +1515,17 @@ var
   wad: string;
 begin
   gamedirectorystring := 'HEXEN,HEXEN1';
+  if hexdd_pack then
+    gamedirectorystring := 'HEXDD,' + gamedirectorystring;
   for i := wadfiles.Count - 1 downto 0 do
   begin
     wad := strupper(fname(wadfiles[i]));
     if CharPos('.', wad) > 0 then
       wad := Copy(wad, 1, CharPos('.', wad) - 1);
-    if Pos(wad + ',', gamedirectorystring + ',') <> 1 then
+    if Pos(',' + wad + ',', ',' + gamedirectorystring + ',') = 0 then
       gamedirectorystring := wad + ',' + gamedirectorystring;
   end;
 
-  if hexdd_pack then
-    gamedirectorystring := 'HEXDD,' + gamedirectorystring;
   gamedirectories := PAK_GetDirectoryListFromString(gamedirectorystring);
   for i := 0 to gamedirectories.Count - 1 do
   begin
