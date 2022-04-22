@@ -337,20 +337,22 @@ var
   gamma: integer;
   ptrans8: PByte;
   r, g, b: LongWord;
+  palL: PLongWordArray;
 begin
   pal := parms.pal;
   gamma := parms.id;
   for i := 0 to numapproxcolorstructitem - 1 do
   begin
-    R_ExpandPalette(@pal[i * 768], @approxcolorstruct[i].palette[gamma], gamma);
-    approxcolorstruct[i].hash[gamma] := R_GetPaletteHash(@approxcolorstruct[i].palette[gamma]);
+    palL := @approxcolorstruct[i].palette[gamma];
+    R_ExpandPalette(@pal[i * 768], palL, gamma);
+    approxcolorstruct[i].hash[gamma] := R_GetPaletteHash(palL);
 
     ptrans8 := @approxcolorstruct[i].table[gamma];
     for r := 0 to FASTTABLECHANNEL - 1 do
       for g := 0 to FASTTABLECHANNEL - 1 do
         for b := 0 to FASTTABLECHANNEL - 1 do
         begin
-          ptrans8^ := V_FindAproxColorIndex(@approxcolorstruct[i].palette[gamma],
+          ptrans8^ := V_FindAproxColorIndex(palL,
                           r shl (16 + FASTTABLESHIFT) + g shl (8 + FASTTABLESHIFT) + b shl FASTTABLESHIFT +
                           // extra parenthesis help the compiler to precalc the whole expresion below
                           (((1 shl FASTTABLESHIFT) shr 1) shl 16 + ((1 shl FASTTABLESHIFT) shr 1) shl 8 + ((1 shl FASTTABLESHIFT) shr 1))
