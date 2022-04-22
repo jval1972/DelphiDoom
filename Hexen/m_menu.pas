@@ -4693,7 +4693,7 @@ begin
 end;
 
 var
-  trd_shade: TDThread;
+  threadmenushader: TDThread;
 
 //==============================================================================
 //
@@ -4708,14 +4708,14 @@ begin
     if usemultithread then
     begin
     // JVAL
-      trd_shade.Activate(nil);
+      threadmenushader.Activate(nil);
       {$IFDEF OPENGL}
       V_ShadeBackground(0, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) div 2);
       {$ELSE}
       V_ShadeScreen(SCN_FG, 0, SCREENWIDTH * SCREENHEIGHT div 2);
       {$ENDIF}
       // Wait for extra thread to terminate.
-      trd_shade.Wait;
+      threadmenushader.Wait;
     end
     else
       {$IFDEF OPENGL}
@@ -5241,7 +5241,7 @@ end;
 //==============================================================================
 procedure M_ShutDownMenus;
 begin
-  trd_shade.Free;
+  threadmenushader.Free;
   extrahelpscreens.Free;
 end;
 
@@ -5255,7 +5255,7 @@ var
   i: integer;
   pmi: Pmenuitem_t;
 begin
-  trd_shade := TDThread.Create(M_Thr_ShadeScreen);
+  threadmenushader := TDThread.Create(M_Thr_ShadeScreen);
 
 ////////////////////////////////////////////////////////////////////////////////
 //gammamsg
