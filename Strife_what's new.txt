@@ -17,6 +17,7 @@ Default value for drawcrosshair set to false.
 By default does not display the ENDTEXT screen.
 Default value for automaptraceplayer set to 0.
 Load defaults before any other action to avoid some defaults not registering.
+Displays loading time at startup.
 
 Version 2.0.7 build 733 - (20220414)
 -----------------------
