@@ -1698,7 +1698,7 @@ begin
     wad := gamedirectories[i];
     if wad <> '' then
       if wad[length(wad)] = '\' then
-        printf(' %s'#13#10, [gamedirectories[i]]);
+        printf(' %s'#13#10, [wad]);
   end;
 end;
 
