@@ -25,6 +25,7 @@ Displays loading time at startup.
 Proper menu stretch in widescreen mode.
 Glow light effects set off by default. Use LIGHTDEF instead.
 Added option to use mouse for player movement (back and forward). It can be accessed from the Menu ("Options/Contols/Y Mouse axis").
+Speed optimizations to ACTORDEF parsing.
 
 Version 2.0.7 build 733 - (20220414)
 -----------------------
