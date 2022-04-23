@@ -4519,7 +4519,7 @@ begin
   for result := 0 to GetCount - 1 do
   begin
     S := Get(result);
-    P := AnsiPos('=', S);
+    P := CharPos('=', S);
     if (P <> 0) and (AnsiCompareText(Copy(S, 1, P - 1), Name) = 0) then
       Exit;
   end;
