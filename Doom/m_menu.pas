@@ -1129,6 +1129,7 @@ type
     ctrl_usemouse,
     ctrl_invertmouselook,
     ctrl_invertmouseturn,
+    cttl_mousemove,
     cttl_mousesensitivity,
     ctrl_usejoystic,
     ctrl_autorun,
@@ -2063,6 +2064,7 @@ end;
 
 const
   mkeyboardmodes: array[0..3] of string = ('ARROWS', 'WASD', 'ESDF', 'CUSTOM');
+  mmouseyoptions: array[boolean] of string = ('FREE LOOK', 'PLAYER MOVE');
 
 //==============================================================================
 //
@@ -2407,6 +2409,9 @@ begin
   V_DrawPatch(108, 15, SCN_TMP, 'M_OPTTTL', false);
   V_DrawPatch(20, 48, SCN_TMP, 'MENU_CON', false);
 
+  ppos := M_WriteText(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(cttl_mousemove), 'Y mouse axis: ');
+  M_WriteWhiteText(ppos.x, ppos.y, mmouseyoptions[mousemove]);
+
   autorunmode := GetIntegerInRange(autorunmode, 0, 2);
   ppos := M_WriteText(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_autorun), 'Always run: ');
   M_WriteWhiteText(ppos.x, ppos.y, mautorunstrings[autorunmode]);
@@ -2481,6 +2486,16 @@ end;
 procedure M_OptionsSensitivity(choice: integer);
 begin
   M_SetupNextMenu(@SensitivityDef);
+end;
+
+//==============================================================================
+//
+// M_YMouseAxis
+//
+//==============================================================================
+procedure M_YMouseAxis(choice: integer);
+begin
+  mousemove := not mousemove;
 end;
 
 //==============================================================================
@@ -7013,6 +7028,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @invertmouseturn;
   pmi.alphaKey := 'i';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Y mouse axis';
+  pmi.cmd := '';
+  pmi.routine := @M_YMouseAxis;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'y';
 
   inc(pmi);
   pmi.status := 1;

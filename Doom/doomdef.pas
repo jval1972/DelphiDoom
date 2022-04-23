@@ -143,6 +143,7 @@ var
 
   fullscreen: {$IFDEF OPENGL}boolean{$ELSE}integer = 0{$ENDIF};
   zaxisshift: boolean = true;
+  mousemove: boolean = false;
 
 const
 // The maximum number of players, multiplayer/networking.

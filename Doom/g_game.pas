@@ -894,42 +894,49 @@ begin
   else
     cmd.angleturn := cmd.angleturn + imousex * $8;
 
-  if invertmouselook then
-    imousey := -mousey
-  else
-    imousey := mousey;
-
-  if usemouse then
+  if zaxisshift and not mousemove then
   begin
-    look := look + imousey div 16;
-    if imousey < 0 then
-    begin
-      if look < -4 then
-        look := -4;
-    end
-    else if imousey > 0 then
-    begin
-      if look > 4 then
-        look := 4;
-    end;
-
-    // JVAL Smooth Look Up/Down
-    if G_PlayingEngineVersion < VERSION203 then
-      look16 := 256 * look
+    if invertmouselook then
+      imousey := -mousey
     else
+      imousey := mousey;
+
+    if usemouse then
     begin
-      look16 := look16 + imousey * 16;
+      look := look + imousey div 16;
       if imousey < 0 then
       begin
-        if look16 < -4 * 256 then
-          look16 := -4 * 256;
+        if look < -4 then
+          look := -4;
       end
       else if imousey > 0 then
       begin
-        if look16 > 4 * 256 then
-          look16 := 4 * 256;
+        if look > 4 then
+          look := 4;
+      end;
+
+      // JVAL Smooth Look Up/Down
+      if G_PlayingEngineVersion < VERSION203 then
+        look16 := 256 * look
+      else
+      begin
+        look16 := look16 + imousey * 16;
+        if imousey < 0 then
+        begin
+          if look16 < -4 * 256 then
+            look16 := -4 * 256;
+        end
+        else if imousey > 0 then
+        begin
+          if look16 > 4 * 256 then
+            look16 := 4 * 256;
+        end;
       end;
     end;
+  end
+  else if mousemove and usemouse then
+  begin
+    _forward := _forward + mousey;
   end;
 
   // JVAL: For smooth mouse movement
