@@ -4409,7 +4409,7 @@ begin
   result := Get(Index);
   P := AnsiPos('=', result);
   if P <> 0 then
-    SetLength(result, P-1)
+    SetLength(result, P - 1)
   else
     SetLength(result, 0);
 end;
