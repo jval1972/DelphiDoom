@@ -4407,7 +4407,7 @@ var
   P: Integer;
 begin
   result := Get(Index);
-  P := AnsiPos('=', result);
+  P := CharPos('=', result);
   if P <> 0 then
     SetLength(result, P - 1)
   else
