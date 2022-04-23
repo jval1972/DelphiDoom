@@ -1484,8 +1484,18 @@ function readablestring(const s: string): string;
 //==============================================================================
 function CharPos(const ch: Char; const s: string): integer;
 
+//==============================================================================
+//
+// IsZeroes
+//
+//==============================================================================
 function IsZeroes(const p: Pointer; const size: integer): boolean;
 
+//==============================================================================
+//
+// FillDWord
+//
+//==============================================================================
 procedure FillDWord(const dest: Pointer; Count: Integer; Value: LongWord); assembler; register;
 
 implementation
@@ -6998,6 +7008,11 @@ begin
   result := 0;
 end;
 
+//==============================================================================
+//
+// IsZeroes
+//
+//==============================================================================
 function IsZeroes(const p: Pointer; const size: integer): boolean;
 var
   pb: PByteArray;
@@ -7013,6 +7028,11 @@ begin
   result := true;
 end;
 
+//==============================================================================
+//
+// FillDWord
+//
+//==============================================================================
 procedure FillDWord(const dest: Pointer; Count: Integer; Value: LongWord); assembler; register;
 asm
   push edi
