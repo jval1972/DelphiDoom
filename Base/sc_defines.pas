@@ -104,6 +104,7 @@ procedure SC_AddDefine(const adef: string);
 implementation
 
 uses
+  d_delphi,
   i_system;
 
 //==============================================================================
@@ -256,28 +257,6 @@ end;
 
 //==============================================================================
 //
-// splitstring
-//
-//==============================================================================
-procedure splitstring(const inp: string; var out1, out2: string; const splitter: string = ' ');
-var
-  p: integer;
-begin
-  p := Pos(splitter, inp);
-  if p = 0 then
-  begin
-    out1 := inp;
-    out2 := '';
-  end
-  else
-  begin
-    out1 := Trim(Copy(inp, 1, p - 1));
-    out2 := Trim(Copy(inp, p + 1, Length(inp) - p));
-  end;
-end;
-
-//==============================================================================
-//
 // TDefinesPreprocessor.Preprocess
 //
 //==============================================================================
@@ -321,7 +300,7 @@ begin
   begin
     line := sinp.Strings[i];
     stmp := UpperCase(Trim(line));
-    splitstring(stmp, s1, s2);
+    splitstring_ch(stmp, s1, s2);
     if s1 = '#DEFINE' then
     begin
       if s2 = '' then

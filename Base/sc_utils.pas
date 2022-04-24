@@ -172,10 +172,10 @@ var
       {$ENDIF}
       else if possible_directive and (Pos('#CVARFORCE ', str2) = 1) then
       begin
-        splitstring(str2, s1, s);
+        splitstring_ch(str2, s1, s);
         if s <> '' then
         begin
-          splitstring(s, s2, s3);
+          splitstring_ch(s, s2, s3);
           if s3 <> '' then
           begin
             if not M_ForceDefaultBoolean(s2, C_BoolEval(s3, True)) then
@@ -191,7 +191,7 @@ var
       end
       else if possible_directive and (Pos('#CREATEPALETTE', str2) = 1) then
       begin
-        splitstring(str2, s1, s);
+        splitstring_ch(str2, s1, s);
         if s1 <> '#CREATEPALETTE' then
           I_Warning('SC_Preprocess(): Unknown directive %s'#13#10, [s1])
         else
