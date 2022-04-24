@@ -166,7 +166,7 @@ begin
   for i := 0 to ArgCount - 1 do
   begin
     txt := ArgVector[i];
-    if Pos('-', txt) = 1 then
+    if Pos1('-', txt) then
     begin
       Delete(txt, 1, 1);
       if txt = '' then

@@ -88,7 +88,7 @@ begin
     check := fname(check);
     name := firstword_ch(check, '.');
     if Length(name) > 2 then
-      if Pos('DS', name) = 1 then
+      if Pos1('DS', name) then
         Delete(name, 1, 2);
     if Length(name) <= 8 then
       if s_names.IndexOf(name) < 0 then

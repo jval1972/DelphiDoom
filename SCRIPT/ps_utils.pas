@@ -497,6 +497,9 @@ function WideLowerCase(const S: WideString): WideString;
 
 implementation
 
+uses
+  d_delphi;
+
 {$IFDEF DELPHI3UP }
 resourceString
 {$ELSE }
@@ -1045,7 +1048,7 @@ function Fw(const S: TbtString): TbtString; //  First word
 var
   x: integer;
 begin
-  x := Pos(TbtString(' '), s);
+  x := CharPos(TbtChar(' '), s);
   if x > 0 then
     Result := Copy(S, 1, x - 1)
   else

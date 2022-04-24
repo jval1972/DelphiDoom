@@ -51,6 +51,7 @@ function UnloadProc(Caller: TPSExec; p: TPSExternalProcRec; Global, Stack: TPSSt
 implementation
 
 uses
+  d_delphi,
   ps_dll,
   {$IFDEF UNIX}
   Unix, baseunix, dynlibs, termio, sockets;
@@ -149,10 +150,10 @@ var
 begin
   s := p.Decl;
   Delete(s, 1, 4);
-  s2 := Copy(s, 1, Pos(TbtChar(#0), s) - 1);
+  s2 := Copy(s, 1, CharPos(TbtChar(#0), s) - 1);
   Delete(s, 1, Length(s2) + 1);
   h := makehash(s2);
-  s3 := Copy(s, 1, Pos(TbtChar(#0), s) - 1);
+  s3 := Copy(s, 1, CharPos(TbtChar(#0), s) - 1);
   Delete(s, 1, Length(s3) + 1);
   loadwithalteredsearchpath := bytebool(s[3]);
   i := 2147483647; // maxint
@@ -255,8 +256,8 @@ begin
     end;
   end;
   s := p.Decl;
-  Delete(S, 1, Pos(TbtChar(#0), s));
-  Delete(S, 1, Pos(TbtChar(#0), s));
+  Delete(S, 1, CharPos(TbtChar(#0), s));
+  Delete(S, 1, CharPos(TbtChar(#0), s));
   if Length(S) < 2 then
   begin
     Result := False;
@@ -318,8 +319,8 @@ begin
   if not ForceDelayLoad then
   begin
     s := p.Decl;
-    Delete(s, 1, Pos(TbtChar(#0), s));
-    Delete(s, 1, Pos(TbtChar(#0), s));
+    Delete(s, 1, CharPos(TbtChar(#0), s));
+    Delete(s, 1, CharPos(TbtChar(#0), s));
     DelayLoad := bytebool(s[2]);
   end
   else
@@ -369,7 +370,7 @@ begin
       Continue;
     s := (TPSExternalProcRec(pv).Decl);
     Delete(s, 1, 4);
-    if Copy(s, 1, Pos(TbtChar(#0), s) - 1) = sname then
+    if Copy(s, 1, CharPos(TbtChar(#0), s) - 1) = sname then
     begin
       TPSExternalProcRec(pv).Ext1 := nil;
     end;

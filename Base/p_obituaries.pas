@@ -104,7 +104,7 @@ begin
   if messagefmt = '' then
     exit;
 
-  if Pos('$OB_', strupper(messagefmt)) = 1 then
+  if Pos1('$OB_', strupper(messagefmt)) then
   begin
     lst := TDStringList.Create;
     try

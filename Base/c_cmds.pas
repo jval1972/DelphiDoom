@@ -154,7 +154,7 @@ begin
     exit;
   end;
 
-  if Pos(CMDSPLITSTR, name) = 0 then
+  if CharPos(CMDSPLITSTR, name) = 0 then
   begin
     CMDS[numcmds].name := strupper(name);
     CMDS[numcmds].command := proc;

@@ -726,9 +726,9 @@ begin
                   mobj_setflag := -1;
                   repeat
                     splitstring(token2, token3, token4, [' ', '|', ',', '+']);
-                    if Pos('MF2_', token3) = 1 then
+                    if Pos1('MF2_', token3) then
                       Delete(token3, 1, 4);
-                    if Pos('MBM21_', token3) = 1 then
+                    if Pos1('MBM21_', token3) then
                       Delete(token3, 1, 6);
                     if token3 <> '' then
                     begin

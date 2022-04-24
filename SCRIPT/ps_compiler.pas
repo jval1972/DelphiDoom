@@ -1363,6 +1363,7 @@ const
 implementation
 
 uses
+  d_delphi,
   {$IFDEF DELPHI5}
   ComObj,
   {$ENDIF}
@@ -1929,7 +1930,7 @@ begin
             Exit;
           end;
         end;
-        while Pos(TbtChar('|'), VNames) > 0 do
+        while CharPos(TbtChar('|'), VNames) > 0 do
         begin
           with DestDecl.AddParam do
           begin
@@ -1940,10 +1941,10 @@ begin
             DeclareRow := ERow;
             DeclareCol := ECol;
             Mode := modifier;
-            OrgName := Copy(VNames, 1, Pos(TbtChar('|'), VNames) - 1);
+            OrgName := Copy(VNames, 1, CharPos(TbtChar('|'), VNames) - 1);
             aType := VCType;
           end;
-          Delete(VNames, 1, Pos(TbtChar('|'), VNames));
+          Delete(VNames, 1, CharPos(TbtChar('|'), VNames));
         end;
         Parser.Next;
         if Parser.CurrTokenId = CSTI_CloseRound then
@@ -2312,15 +2313,15 @@ begin
           VCType := FindType(Parser.GetToken);
           if VCType = nil then
             raise EPSCompilerException.CreateFmt(RPS_UnableToRegisterFunction, [Name]);
-          while Pos(TbtChar('|'), VNames) > 0 do
+          while CharPos(TbtChar('|'), VNames) > 0 do
           begin
             with Decl.AddParam do
             begin
               Mode := modifier;
-              OrgName := Copy(VNames, 1, Pos(TbtChar('|'), VNames) - 1);
+              OrgName := Copy(VNames, 1, CharPos(TbtChar('|'), VNames) - 1);
               aType := VCType;
             end;
-            Delete(VNames, 1, Pos(TbtChar('|'), VNames));
+            Delete(VNames, 1, CharPos(TbtChar('|'), VNames));
           end;
           Parser.Next;
           if Parser.CurrTokenId = CSTI_CloseRound then
@@ -4189,15 +4190,15 @@ begin
             Result := nil;
             Exit;
           end;
-          while Pos(TbtChar('|'), VNames) > 0 do
+          while CharPos(TbtChar('|'), VNames) > 0 do
           begin
             with Decl.AddParam do
             begin
               Mode := modifier;
-              OrgName := Copy(VNames, 1, Pos(TbtChar('|'), VNames) - 1);
+              OrgName := Copy(VNames, 1, CharPos(TbtChar('|'), VNames) - 1);
               FType := VCType;
             end;
-            Delete(VNames, 1, Pos(TbtChar('|'), VNames));
+            Delete(VNames, 1, CharPos(TbtChar('|'), VNames));
           end;
           FParser.Next;
           if FParser.CurrTokenId = CSTI_CloseRound then
@@ -4609,9 +4610,9 @@ begin
         Exit;
       end; {if}
       FParser.Next;
-      while Pos(TbtChar('|'), s) > 0 do
+      while CharPos(TbtChar('|'), s) > 0 do
       begin
-        fieldorgname := Copy(s, 1, Pos(TbtChar('|'), s) - 1);
+        fieldorgname := Copy(s, 1, CharPos(TbtChar('|'), s) - 1);
         Delete(s, 1, Length(FieldOrgName) + 1);
         rvv := TPSRecordFieldTypeDef.Create;
         rvv.FieldOrgName := fieldorgname;
@@ -4857,14 +4858,14 @@ begin
     end;
   end;
   v := VarNames;
-  while Pos(TbtChar('|'), v) > 0 do
+  while CharPos(TbtChar('|'), v) > 0 do
   begin
-    if FastUpperCase(Copy(v, 1, Pos(TbtChar('|'), v) - 1)) = s then
+    if FastUpperCase(Copy(v, 1, CharPos(TbtChar('|'), v) - 1)) = s then
     begin
       Result := True;
       Exit;
     end;
-    Delete(v, 1, Pos(TbtChar('|'), v));
+    Delete(v, 1, CharPos(TbtChar('|'), v));
   end;
   for l := FConstants.Count - 1 downto 0 do
   begin
@@ -4953,10 +4954,10 @@ begin
     begin
       Exit;
     end;
-    while Pos(TbtChar('|'), VarName) > 0 do
+    while CharPos(TbtChar('|'), VarName) > 0 do
     begin
-      s := Copy(VarName, 1, Pos(TbtChar('|'), VarName) - 1);
-      Delete(VarName, 1, Pos(TbtChar('|'), VarName));
+      s := Copy(VarName, 1, CharPos(TbtChar('|'), VarName) - 1);
+      Delete(VarName, 1, CharPos(TbtChar('|'), VarName));
       if proc = nil then
       begin
         v := TPSVar.Create;
@@ -5232,14 +5233,14 @@ begin
       GRFW(u);
     end;
     u := FunctionParamNames;
-    while Pos(TbtChar('|'), u) > 0 do
+    while CharPos(TbtChar('|'), u) > 0 do
     begin
-      if Copy(u, 1, Pos(TbtChar('|'), u) - 1) = s then
+      if Copy(u, 1, CharPos(TbtChar('|'), u) - 1) = s then
       begin
         Result := True;
         Exit;
       end;
-      Delete(u, 1, Pos(TbtChar('|'), u));
+      Delete(u, 1, CharPos(TbtChar('|'), u));
     end;
     if Func = nil then
     begin
@@ -5497,11 +5498,11 @@ begin
           begin
             Exit;
           end;
-          while Pos(TbtChar('|'), FunctionParamNames) > 0 do
+          while CharPos(TbtChar('|'), FunctionParamNames) > 0 do
           begin
             with FunctionDecl.AddParam do
             begin
-              OrgName := Copy(FunctionParamNames, 1, Pos(TbtChar('|'), FunctionParamNames) - 1);
+              OrgName := Copy(FunctionParamNames, 1, CharPos(TbtChar('|'), FunctionParamNames) - 1);
               Mode := modifier;
               aType := FunctionTempType;
               {$IFDEF PS_USESSUPPORT}
@@ -5511,7 +5512,7 @@ begin
               DeclareRow := E2Row;
               DeclareCol := E2Col;
             end;
-            Delete(FunctionParamNames, 1, Pos(TbtChar('|'), FunctionParamNames));
+            Delete(FunctionParamNames, 1, CharPos(TbtChar('|'), FunctionParamNames));
           end;
           if FParser.CurrTokenId = CSTI_CloseRound then
             Break;

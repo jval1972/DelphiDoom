@@ -368,7 +368,7 @@ begin
     result := DEH_NextLine(s, str, counter);
     exit;
   end;
-  if Pos('//', trimmed) = 1 then // JVAL: Allow // as comments also
+  if Pos1('//', trimmed) then // JVAL: Allow // as comments also
   begin
     result := DEH_NextLine(s, str, counter);
     exit;
@@ -945,7 +945,7 @@ begin
       if CharPos('#', csstring) <> 1 then
         if Pos('//', csstring) < 1 then
         begin
-          if Pos('THING ', strupper(csstring)) = 1 then
+          if Pos1('THING ', strupper(csstring)) then
           begin
             if headstr = '' then
               headstr := '"id"'
@@ -1055,7 +1055,7 @@ begin
       if CharPos('#', strtrim(cs.Strings[i])) <> 1 then
         if Pos('//', strtrim(cs.Strings[i])) < 1 then
         begin
-          if Pos('FRAME ', strtrim(strupper(cs.Strings[i]))) = 1 then
+          if Pos1('FRAME ', strtrim(strupper(cs.Strings[i]))) then
           begin
             if headstr = '' then
               headstr := '"Name";"id"'
@@ -1079,7 +1079,7 @@ begin
     if strtrim(cs.Strings[i]) <> '' then
       if CharPos('#', strtrim(cs.Strings[i])) <> 1 then
         if Pos('//', strtrim(cs.Strings[i])) < 1 then
-          if Pos('FRAME ', strtrim(strupper(cs.Strings[i]))) <> 1 then
+          if not Pos1('FRAME ', strtrim(strupper(cs.Strings[i]))) then
           begin
             splitstring_ch(strtrim(cs.Strings[i]), s1, s2, '=');
             for j := 1 to length(s2) do
@@ -1247,9 +1247,9 @@ end;
 //==============================================================================
 function DEH_FixActionName(const act: string): string;
 begin
-  if Pos('A_', act) = 1 then
+  if Pos1('A_', act) then
     result := strupper(Copy(act, 3, Length(act) - 2))
-  else if Pos('a_', act) = 1 then
+  else if Pos1('a_', act) then
     result := strupper(Copy(act, 3, Length(act) - 2))
   else
     result := strupper(act);
@@ -1445,7 +1445,7 @@ begin
 
   stmp := strupper(str);
   {$IFNDEF HEXEN}
-  if Pos('AM_', stmp) <> 1 then
+  if not Pos1('AM_', stmp) then
     stmp := stmp + 'AM_';
   {$ENDIF}
 
@@ -1474,7 +1474,7 @@ begin
   end;
 
   stmp := strupper(str);
-  if Pos('WP_', stmp) <> 1 then
+  if not Pos1('WP_', stmp) then
     stmp := stmp + 'WP_';
 
   result := weapontype_tokens.IndexOf(stmp);
@@ -1495,7 +1495,7 @@ begin
 
   deh_actions[dehnumactions].action.acp1 := @acp1;
   aname := firstword(desc, [' ', ';', '(', '[', ':', #7, #9, #10, #13]);
-  if Pos('A_', strupper(aname)) = 1 then
+  if Pos1('A_', strupper(aname)) then
     Delete(aname, 1, 2);
   deh_actions[dehnumactions].originalname := aname;
   deh_actions[dehnumactions].name := strupper(aname);
@@ -1521,7 +1521,7 @@ begin
 
   deh_actions[dehnumactions].action.acp1 := @acp1;
   aname := firstword(desc, [' ', ';', '(', '[', ':', #7, #9, #10, #13]);
-  if Pos('A_', strupper(aname)) = 1 then
+  if Pos1('A_', strupper(aname)) then
     Delete(aname, 1, 2);
   deh_actions[dehnumactions].originalname := aname;
   deh_actions[dehnumactions].name := strupper(aname);
@@ -1559,7 +1559,7 @@ begin
   end;
 
   stmp := strupper(str);
-  if Pos('PCLASS_', stmp) <> 1 then
+  if not Pos1('PCLASS_', stmp) then
     stmp := stmp + 'PCLASS_';
 
   result := playerclass_tokens.IndexOf(stmp);

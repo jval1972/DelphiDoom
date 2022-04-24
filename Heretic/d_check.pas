@@ -88,8 +88,8 @@ begin
     begin
       if s[1] = 'E' then
         if s[3] = 'M' then
-          if Pos(s[2], sNUMS) > 0 then
-            if Pos(s[4], sNUMS) > 0 then
+          if CharPos(s[2], sNUMS) > 0 then
+            if CharPos(s[4], sNUMS) > 0 then
               inc(nummaps);
     end;
   end;

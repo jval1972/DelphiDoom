@@ -611,7 +611,7 @@ begin
     texture := textures[sides[line.sidenum[0]].toptexture];
     name := char8tostring(texture.name);
 
-    if Pos('DOR', name) <> 1 then
+    if not Pos1('DOR', name) then
       continue;
 
     while length(name) < 8 do

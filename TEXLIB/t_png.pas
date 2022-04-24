@@ -2077,10 +2077,10 @@ begin
   for i := 0 to len - 1 do
   begin
     c := p1^;
-    if Pos(c, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
-              'abcdefghijklmnopqrstuvwxyz' +
-              '0123456789' +
-              '~`!@#$%^&*()_-+=''"\|;:?/.>,<* []{}' + #13#10#7#10) = 0 then
+    if CharPos(c, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
+                  'abcdefghijklmnopqrstuvwxyz' +
+                  '0123456789' +
+                  '~`!@#$%^&*()_-+=''"\|;:?/.>,<* []{}' + #13#10#7#10) = 0 then
     begin
       Result := False;
       Exit;

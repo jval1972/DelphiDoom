@@ -46,6 +46,9 @@ procedure RegisterDll_Compiletime(cs: TPSPascalCompiler);
 
 implementation
 
+uses
+  d_delphi;
+
 //==============================================================================
 //
 // rpos
@@ -106,31 +109,31 @@ begin
   end;
   FuncName := Copy(FuncCC, 1, rpos('@', FuncCC) - 1) + #0;
   Delete(FuncCc, 1, Length(FuncName));
-  if Pos(TbtChar(' '), Funccc) <> 0 then
+  if CharPos(TbtChar(' '), Funccc) <> 0 then
   begin
     if FuncCC[1] = '"' then
     begin
       Delete(FuncCC, 1, 1);
-      FuncName := RemoveQuotes(Copy(FuncCC, 1, Pos(TbtChar('"'), FuncCC) - 1)) + #0 + FuncName;
-      Delete(FuncCC,1, Pos(TbtChar('"'), FuncCC));
+      FuncName := RemoveQuotes(Copy(FuncCC, 1, CharPos(TbtChar('"'), FuncCC) - 1)) + #0 + FuncName;
+      Delete(FuncCC,1, CharPos(TbtChar('"'), FuncCC));
       if (FuncCC <> '') and (FuncCC[1] = ' ') then
         Delete(FuncCC, 1, 1);
     end
     else
     begin
-      FuncName := Copy(FuncCc, 1, Pos(TbtChar(' '), FuncCC) - 1) + #0 + FuncName;
-      Delete(FuncCC, 1, Pos(TbtChar(' '), FuncCC));
+      FuncName := Copy(FuncCc, 1, CharPos(TbtChar(' '), FuncCC) - 1) + #0 + FuncName;
+      Delete(FuncCC, 1, CharPos(TbtChar(' '), FuncCC));
     end;
-    if Pos(TbtChar(' '), FuncCC) > 0 then
+    if CharPos(TbtChar(' '), FuncCC) > 0 then
     begin
-      s := Copy(FuncCC, Pos(TbtChar(' '), Funccc) + 1, MaxInt);
-      FuncCC := FastUpperCase(Copy(FuncCC, 1, Pos(TbtChar(' '), FuncCC) - 1));
-      Delete(FuncCC, Pos(TbtChar(' '), Funccc), MaxInt);
+      s := Copy(FuncCC, CharPos(TbtChar(' '), Funccc) + 1, MaxInt);
+      FuncCC := FastUpperCase(Copy(FuncCC, 1, CharPos(TbtChar(' '), FuncCC) - 1));
+      Delete(FuncCC, CharPos(TbtChar(' '), Funccc), MaxInt);
       repeat
-        if Pos(TbtChar(' '), s) > 0 then
+        if CharPos(TbtChar(' '), s) > 0 then
         begin
-          s2 := Copy(s, 1, Pos(TbtChar(' '), s) - 1);
-          Delete(s, 1, Pos(TbtChar(' '), s));
+          s2 := Copy(s, 1, CharPos(TbtChar(' '), s) - 1);
+          Delete(s, 1, CharPos(TbtChar(' '), s));
         end
         else
         begin

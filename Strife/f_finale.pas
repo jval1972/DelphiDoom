@@ -922,7 +922,7 @@ begin
   if castname = '' then
   begin
     castname := mobjinfo[Ord(castorder[castnum]._type)].name;
-    if Pos('MT_', castname) = 1 then
+    if Pos1('MT_', castname) then
       Delete(castname, 1, 3);
   end;
 

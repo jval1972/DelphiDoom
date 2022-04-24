@@ -358,7 +358,7 @@ begin
   end;
 
   check := strupper(strremovespaces(name));
-  if Pos(DEH_ACTOR_PREFIX, check) = 1 then
+  if Pos1(DEH_ACTOR_PREFIX, check) then
   begin
     snum := Copy(check, Length(DEH_ACTOR_PREFIX) + 1, Length(check) - Length(DEH_ACTOR_PREFIX));
     if StrIsLongWord(snum) then
@@ -372,7 +372,7 @@ begin
   check := check + '=';
   for i := mobjinfo_aliases.Count - 1 downto 0 do
   begin
-    if Pos(check, mobjinfo_aliases.Strings[i]) = 1 then
+    if Pos1(check, mobjinfo_aliases.Strings[i]) then
     begin
       splitstring_ch(mobjinfo_aliases.Strings[i], check, snum, '=');
       result := atoi(snum);
@@ -992,7 +992,7 @@ var
   check: string;
 begin
   check := strupper(s);
-  if Pos('IG_', check) <> 1 then
+  if not Pos1('IG_', check) then
     check := 'IG_' + check;
 
   if check = 'IG_DEFAULT' then
@@ -1055,7 +1055,7 @@ var
   check: string;
 begin
   check := strupper(s);
-  if Pos('PG_', check) <> 1 then
+  if not Pos1('PG_', check) then
     check := 'PG_' + check;
 
   if check = 'PG_GROUPLESS' then
@@ -1126,7 +1126,7 @@ var
   check: string;
 begin
   check := strupper(s);
-  if Pos('SG_', check) <> 1 then
+  if not Pos1('SG_', check) then
     check := 'SG_' + check;
 
   if check = 'SG_DEFAULT' then

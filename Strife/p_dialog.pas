@@ -1175,7 +1175,7 @@ var
   nameloc: string;
 begin
   // if the message starts with "RANDOM"...
-  if Pos('RANDOM', strupper(_message)) = 1 then
+  if Pos1('RANDOM', strupper(_message)) then
     if length(_message) >= 11 then
     begin
       nameloc := strupper(_message[8] + _message[9] + _message[10] + _message[11]);

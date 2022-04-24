@@ -212,14 +212,14 @@ var
     Result := afunc(aname);
     if Result then
       Exit;
-    if Pos('CR_', strupper(aname)) = 1 then
+    if Pos1('CR_', strupper(aname)) then
     begin
       stmp := aname;
       Delete(stmp, 3, 1);
       Result := afunc(stmp);
       Exit;
     end;
-    if Pos('CR', strupper(aname)) = 1 then
+    if Pos1('CR', strupper(aname)) then
     begin
       stmp := aname;
       Insert('_', stmp, 3);
@@ -241,14 +241,14 @@ begin
   idx := translations.IndexOf(check);
   if idx < 0 then
   begin
-    if Pos('CR_', check) = 1 then
+    if Pos1('CR_', check) then
     begin
       Delete(check, 1, 3);
       idx := translations.IndexOf(check);
     end;
     if idx < 0 then
     begin
-      if Pos('CR', check) = 1 then
+      if Pos1('CR', check) then
       begin
         Delete(check, 1, 2);
         idx := translations.IndexOf(check);

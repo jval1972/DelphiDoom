@@ -571,8 +571,8 @@ begin
     begin
       if s[1] = 'E' then
         if s[3] = 'M' then
-          if Pos(s[2], sNUMS) > 0 then
-            if Pos(s[4], sNUMS) > 0 then
+          if CharPos(s[2], sNUMS) > 0 then
+            if CharPos(s[4], sNUMS) > 0 then
               inc(nummaps1);
     end
     else if Length(s) = 5 then
@@ -580,8 +580,8 @@ begin
       if s[1] = 'M' then
         if s[2] = 'A' then
           if s[3] = 'P' then
-            if Pos(s[4], sNUMS) > 0 then
-              if Pos(s[5], sNUMS) > 0 then
+            if CharPos(s[4], sNUMS) > 0 then
+              if CharPos(s[5], sNUMS) > 0 then
                 inc(nummaps2);
     end
   end;

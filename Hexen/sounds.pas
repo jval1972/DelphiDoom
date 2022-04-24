@@ -132,7 +132,7 @@ begin
 
   // JVAL: Register the new sound
 
-  if Pos('DS', name) = 1 then
+  if Pos1('DS', name) then
     name := Copy(name, 3, Length(name) - 2);
   if name = '' then // JVAL: Normally this should not happen!
   begin
@@ -225,7 +225,7 @@ begin
   end;
 
   // JVAL: look first for 'ds....' sound names
-  if Pos('DS', sfxname) = 1 then
+  if Pos1('DS', sfxname then
   begin
     sfxname1 := sfxname;
     sfxname2 := Copy(sfxname, 3, Length(sfxname) - 2)
@@ -354,7 +354,7 @@ begin
 
   // JVAL: Register the new music
 
-  if Pos('D_', name) = 1 then
+  if Pos1('D_', name) then
     name := Copy(name, 3, Length(name) - 2);
   if name = '' then // JVAL: Normally this should not happen!
   begin
