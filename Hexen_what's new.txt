@@ -3,12 +3,12 @@ Virtual filesystem places hi-res textures in 'TEXTURES' directory.
 Wall textures can be loaded from pk3/zip filesystem without a TEXTUREx equivalent. They must be located inside "TEXTURES" folder.
 Fixed problem with lump reading when a namespace was required.
 It will load KVX voxels even if the ".kvx" extension is not defined in VOXELDEF.
-Improved ZDoom compatiblility in VOXELDEF lumps.
+Improved ZDoom compatibility in VOXELDEF lumps.
 Added usepk3textures console variable. When true, it will load additional resources from pk3. Default is false.
 Support for TX_START/TX_END namespace (if the usepk3textures console variable is set to true).
 Load flats in HI_START/HI_END namespace (if the usepk3textures console variable is set to true).
-Faster startup, by ommiting parsing the default and unedited GAMEDEF lump. Instead it uses the build-in info.
-8bit trasparency LUTs are calculated in multiple threads to speed-up startup.
+Faster startup, by omitting parsing the default and unedited GAMEDEF lump. Instead it uses the build-in info.
+8bit transparency LUTs are calculated in multiple threads to speed-up startup.
 Fixed dynamic lights problem with palette changes and gamma changes in 8 bit color mode.
 Speed optimizations to PascalScript initialization.
 Speed optimizations to startup memo text output.
@@ -26,7 +26,7 @@ Version 2.0.7 build 733 - (20220414)
 Small optimizations to plane rendering (software mode).
 Speed optimizations to transparent sprite rendering.
 Small speed optimizations to renderstyle Add & Subtract in 8 bit color mode.
-Added SPIN field in VOXELDEF lumps, it compines DROPPEDSPIN & PLACEDSPIN behavior.
+Added SPIN field in VOXELDEF lumps, it combines DROPPEDSPIN & PLACEDSPIN behavior.
 Added diher8bittransparency console variable.
 Better transparency manipulation in 8 bit color software rendering.
 If depthbuffer is active will draw sprites from front to back to avoid overdraw.
@@ -62,7 +62,7 @@ Fixed crosshair drawing in OpenGL mode.
 Added support for tall patches in PNG format.
 More robust uncapped framerate.
 Speed optimizations to the OpenGL rendering.
-Fixes to 3d colissions of actors moving up or down other actors.
+Fixes to 3d collisions of actors moving up or down other actors.
 Default sound channels raised to 32, maximum sound channels raised to 64.
 Corrections to key bindings menu.
 Key bindings for the AUTOMAP keys.
@@ -77,7 +77,7 @@ Added ExportInfoPascal, InfoExportPascal, ExportInfoPascalBI, InfoExportPascalBI
 Added SaveInfoPascal, InfoSavePascal, SaveInfoPascalBI, InfoSavePascalBI, SaveInfoPascalBuiltIn & InfoSavePascalBuiltIn console commands.
 Added MF3_EX_ABSOLUTEDAMAGE mobj flag.
 Added MF3_EX_NOGRAVITYDEATH mobj flag. When set, does not remove the MF_NOGRAVITY flag on death.
-Fixed MF2_CANTLEAVEFLOORPIC flag behaviour in 3d floors.
+Fixed MF2_CANTLEAVEFLOORPIC flag behavior in 3d floors.
 Removed generalized sector consts for forcefields.
 Added "A_PlayerHurtExplode(damage: integer; radius: integer);" ACTORDEF function.
 Added A_SetPushable() & A_UnSetPushable() ACTORDEF functions.
@@ -193,7 +193,7 @@ Added MF4_EX_NOTHRESHOLD mobj flag. When set the actor can target other actors w
 Added MF4_EX_LONGMELEERANGE mobj flag. When set the actor has long melee range.
 Ripper projectile will play ripsound when rips thru things.
 Fixed translation table for translations 4-7.
-Parse [SPRITES] DEHACKED/BEX extention.
+Parse [SPRITES] DEHACKED/BEX extension.
 Added MF4_EX_MAP07BOSS1 & MF4_EX_MAP07BOSS2 mobj flags.
 Added A_BossDeath() ACTORDEF function.
 Dynamic ceiling slope check correction.
@@ -271,7 +271,7 @@ Fixed support for TEXTURE3 lump.
 Allow CRxxxxxx colorregions outside CR_START, CR_END namespace.
 "RADIUS" alias for "WIDTH" DEHACKED field.
 Added CR_BLACK, CR_PURPL & CR_WHITE translation tables.
-Displays a warning when disk buzy lump not found.
+Displays a warning when disk busy lump not found.
 Fixed translation tables for players.
 Blood color support (mbf21 specs).
 Translation tables for things.
@@ -287,7 +287,7 @@ Added A_SetBloodColor(color: string) ACTORDEF function.
 Fix some problems with player movement clipping when landing on other actors.
 Emulates correctly the ripple effect in OpenGL mode.
 XMI (Extended midi), CMF (Creative music file) & SOP (Sopepos) music support.
-Use the carret ("^") instead of slash ("\") while searching for external textures for sprites (OpenGL).
+Use the caret ("^") instead of slash ("\") while searching for external textures for sprites (OpenGL).
 The engine can use the zfloor & zceiling fields of vertexes in UDMF.
 Support for the health and gravity fields of things in UDMF.
 Prevent crash or undefined behavior when parsing MAPINFO lump.
@@ -295,15 +295,15 @@ Displays the game mode sooner in startup screen.
 Default turbo scale set to 200.
 Process C lang style defines and conditions in custom content.
 The default value of autoloadgwafiles console variable changed to false.
-Added the #exitif conditianal directive in text content definition lumps.
-Recognizes IWAD file extention.
+Added the #exitif conditional directive in text content definition lumps.
+Recognizes IWAD file extension.
 Added SetConsoleStr, SetConsoleInt & SetConsoleBool PascalScript functions to set console variables. The new value will not be saved to the ini file and it can only be retrived with the GetConsoleStr, GetConsoleInt & GetConsoleBool PascalScript functions.
-Save/Load mechanism global changes to easily accomodate new fields additions.
+Save/Load mechanism global changes to easily accommodate new fields additions.
 Speed optimization to string manipulation routines.
 Remember last skill level.
 Small optimizations to the software voxel rendering.
 Corrected flat scale in OpenGL mode.
-Faster proccessing of include files.
+Faster processing of include files.
 Added #CVARFORCE directive. It can be placed in any text content and forces the value of a console variable to the value specified.
 Search and compile ACS script if the BEHAVIOR lump is invalid or missing.
 Remember line's renderflags in saved games.
@@ -430,7 +430,7 @@ Improved midi playback.
 Max light source distance increased from 2048px to 8192px in software rendering.
 Small optimizations to sprite rendering.
 Fixed masked middle texture bleeding when player was exactly placed on the line.
-Small optimization to masked middle textute software rendering.
+Small optimization to masked middle texture software rendering.
 Bosses will have only seesound and deathsound at full volume by default.
 
 Version 2.0.6 build 729 - (20211011)
@@ -459,7 +459,7 @@ Fixed potential memory corruption problem in R_MakeSpans().
 Friction field in ACTORDEF & Dehacked.
 Added A_SetFriction() ACTORDEF function.
 Friction available in PascalScript. Added GetActorFriction(), SetActorFriction() & GetMobjInfoFriction PascalScript functions.
-FastMM upgrated to ver. 4.993.
+FastMM upgraded to ver. 4.993.
 Bug fix: Corrected potential issue while loading text files.
 ZDoom compatibility constants for A_SpawnItemEx() & A_CustomMissile() ACTORDEF functions.
 Actor friction is available in ACTORDEF functions parameters.
@@ -469,17 +469,17 @@ Version 2.0.6 build 728 - (20210219)
 Fixed memory corruption problem in I_ReverseScreen().
 Corrected lump name character case for runtime loading.
 Fixes to tall texture patches.
-Removed limit on intecepts.
+Removed limit on intercepts.
 Changed traverse order of mobjinfo table.
 Easyslope item to easily create slopes.
 When an invalid blockmap is detected will build a new one.
 Added -blockmap command line parameter. When set it will force to generate blockmap while loading a map.
 Support for flats up to 4096x4096 px.
 FLATINFO lump with information regarding flat definitions.
-Fixed bug in erronous width & height screen dimentions input when the -geom command line parameter is specified.
+Fixed bug in erroneous width & height screen dimensions input when the -geom command line parameter is specified.
 Fixed bug that did't recornized the '-keyboardmode 2' command line parameter for ESDF movement.
 Speed improvements in maps with high number of slopes.
-Optimizations to slope rendering in sofware mode.
+Optimizations to slope rendering in software mode.
 Corrections to Doom patch detection algorithm.
 Now can theoretically handle maps up to 65536x65536 px.
 Fixed serious bug while deallocating thinkers.
@@ -573,7 +573,7 @@ Added minmissilechance mobjinfo field.
 MAXCEILINGS changed to 128 from 30.
 MAXLINEANIMS changed to 1024 from 256.
 Check overflow of animated lines. (limit is 1024).
-Consistancy check of removed mobjs.
+Consistency check of removed mobjs.
 Always kill monsters if falling with momz > 23 * FRACUNIT (P_MonsterFallingDamage)
 Finale text spacing changed.
 Added floatspeed, normalspeed & fastspeed mobjinfo fields.
@@ -619,7 +619,7 @@ Added PrintActordef console command alias for DEH_PrintActordef.
 Added SaveActordef console command alias for DEH_SaveActordef.
 Small improvements to multithreading tasks.
 Corrected dehacked parsing of the "CODEP FRAME" keyword.
-Prevent infinite loop for erronous A_Chase() placement.
+Prevent infinite loop for erroneous A_Chase() placement.
 
 Version 2.0.5 build 726 - (8/5/2020)
 -----------------------
@@ -639,7 +639,7 @@ Warning in TEvalFunction.Value() function displays function name.
 Fixed FRANDOM parameters parsing.
 ACTORDEF parsing improvements.
 The engine detects missing sprite frames and displays warning.
-Summon and Spawnmobj console commands refuze to work during demo playback/recording and when we have a net game.
+Summon and Spawnmobj console commands refuse to work during demo playback/recording and when we have a net game.
 Avoid repeating I_Warning messages when a state has errors in parameter list.
 Lightmap cast light to slopes.
 Fixed interpolation problem: Didn't interpolated player position and angle.
@@ -650,7 +650,7 @@ Smoother interpolation in uncapped framerate.
 Added DEH_PrintActordef command, print current mobjinfo as ACTORDEF declaration.
 Added DEH_SaveActordef command, save current mobjinfo as ACTORDEF file definition.
 More flexible flags parsing in ACTORDEF lumps. Will recognize +MF_***, +MF_EX_*** etc syntax.
-Added MF3_EX_NOMAXMOVE mobj flag, when set it will not limit momx & momy to 30 map units per tic (original behaviour).
+Added MF3_EX_NOMAXMOVE mobj flag, when set it will not limit momx & momy to 30 map units per tic (original behavior).
 Added angle extra parameter to A_ThrustXY ACTORDEF function
 States can have random tics in ACTORDEF lumps.
 
@@ -658,7 +658,7 @@ Version 2.0.5 build 724 - (8/3/2020)
 -----------------------
 Fixed bug that could crash the engine while spawning map things.
 Fixed texture cache bug that could crash the engine (texture height was set to zero).
-Fixed bug that could crash the engine when MAPS without nodes are stored in continous lumps inside WAD.
+Fixed bug that could crash the engine when MAPS without nodes are stored in continuous lumps inside WAD.
 Fixed bug while spawning dropped items.
 Added FLOORBOUNCE, CEILINGBOUNCE and WALLBOUNCE mobj flags.
 Added new ACTORDEF functions to set the new bouncing flags:
@@ -679,7 +679,7 @@ Version 2.0.5 build 722 - (2/2/2020)
 -----------------------
 Fixes to uncapped framerate calculation, runs smoother.
 Change the interpolateoncapped console variable from the menu (Options/Display/Advanced/Interpolate on capped)
-Added interpolateprecise console variable. When true it will try to make more accurate interpolation in uncapped framerate by taking by accound the time needed to render the frame.
+Added interpolateprecise console variable. When true it will try to make more accurate interpolation in uncapped framerate by taking by account the time needed to render the frame.
 
 Version 2.0.5 build 721 - (31/1/2020)
 -----------------------
@@ -694,7 +694,7 @@ New ACTORDEF functions:
   A_ResetTargetHealth
   A_SetTargetHealth
 Small fixes to the menu.
-Mouse sensitivity for X & Y mouses axis can be configured thru the menus (Controls/Mouse sensitivity).
+Mouse sensitivity for X & Y mouse axis can be configured thru the menus (Controls/Mouse sensitivity).
 Added option for textured menu background.
 Added menubackgroundflat console variable.
 In multithreading mode the visplanes initialization is done in a separate thread while running the logic to improve performance (software renderer).
@@ -704,7 +704,7 @@ Added -keyboardmode command line parameter. Usage is:
   3) "-keyboardmode ESDF" -> use ESDF to navigate
 Key bindings menu to customize keyboard player control.
 Menu beautificiations.
-Support for DOOMWADPATH & HEXENWADPATH enviroment variables.
+Support for DOOMWADPATH & HEXENWADPATH environment variables.
 Search for installed steam applications to find wad files.
 r_drawvoxels console variable is preserved in defaults file.
 Openings are dynamically allocated, depending on screen resolution.
@@ -716,15 +716,15 @@ Automap fixes:
  -Fixed automap grid rotation.
  -Added automapgrid console variable.
  -Automap works correct in cheat modes.
-Support for the C-style #include and Pascal-style {$INCLUDE} directives inside all content definition lumps (ACTORDEF, MODELDEF, VOXELDEF?, LIGHTDEF & SNDINFO). Recoursive include calls are not supported. Maximum include depth set to 32.
+Support for the C-style #include and Pascal-style {$INCLUDE} directives inside all content definition lumps (ACTORDEF, MODELDEF, VOXELDEF?, LIGHTDEF & SNDINFO). Recursive include calls are not supported. Maximum include depth set to 32.
 Added png screenshot format (default). The mirrorjpgsshot console variable is set to false by default. It can be changed from the menu (Options/System)
 Fullscreen menu item moved from Options/Display Options/Advanced to Options/Detail/Set Video Mode menu.
-Added Ascpect Ratio & Camera menus (Display Options/Advanced).
-Fixed bug with string to float convertion when the system's decimal separator was comma.
+Added Aspect Ratio & Camera menus (Display Options/Advanced).
+Fixed bug with string to float conversion when the system's decimal separator was comma.
 Will recognize the '+CANPASS' alias for 'PASSMOBJ' flag in ACTORDEF definitions (as well as 'CANPASS').
-Will load kvx voxels from pk3/zip/pak files without the kvx extention, if they are placed inside voxels\*. directory
-Corrected the behaviour of Actordef keyword "replaces".
-In ACTORDEF lumps when a flag specified with the "-" character, it will remove the flag (usefull with inherited objects)
+Will load kvx voxels from pk3/zip/pak files without the kvx extension, if they are placed inside voxels\*. directory
+Corrected the behavior of Actordef keyword "replaces".
+In ACTORDEF lumps when a flag specified with the "-" character, it will remove the flag (useful with inherited objects)
 "Funny rotations" generate an I_Warning, not an I_Error.
 Wipe effect in OpenGL branch.
 Support for renderstyle ADD & renderstyle SUBTRACT. The new renderstyles can be defined in ACTOR (BEX/ACTORDEF) definitions.
@@ -810,8 +810,8 @@ Added r_generatespritesfromvoxels console variable. When true (default) it will 
 Fixed uncapped framerate glitch in teleporting monsters.
 LIGHTDEF lumps now define lights in a per actor basis and not in a per sprite bases. 
 Fixed clipping problems on voxels and models in OpenGL mode.
-Speed optimizations to the upcapped framerate subsystem by processing only the mobjs that the renderer touched.
-Texture width is not requiered to be power of 2 (software rendering).
+Speed optimizations to the uncapped framerate subsystem by processing only the mobjs that the renderer touched.
+Texture width is not required to be power of 2 (software rendering).
 Corrected issues with tall textures in OpenGL rendering.
 Added interpolateoncapped console variable. It will smooth display in capped framerate. Default is true.
 Fixed glitch in sky drawing, it was ignoring visplanes with 1 px height.
@@ -829,7 +829,7 @@ Added MF2_EX_DONTBLOCKPLAYER flag, when set a solid object does not block player
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------
-Now recornizes kvx voxels inside the VX_START/VX_END namespace.
+Now recognizes kvx voxels inside the VX_START/VX_END namespace.
 Added vox_exportlightmap console command (OpenGL version only). Exports the current lightmap into a ddvox voxel.
 Limit OpenGL framerate to monitor refresh rate is now preserved and executed correctly from defaults.
 Lower memory utilization for OpenGL renderer (visplane declaration does not include the unneeded for the gl renderer visindex arrays).
@@ -859,7 +859,7 @@ When the -dontsavedefaults is passed to the command line parameters, the default
 
 Version 2.0.4 build 718 - (13/10/2018)
 -----------------------
-Paraller vissprite sorting using separate thread.
+Parallel vissprite sorting using separate thread.
 Fixed rare bug that could crash the engine. The error could occur if multithreading mode was enabled and total spans had never exceeded the number of active threads for flat drawing.
 
 Version 2.0.4 build 717 - (20/9/2018)
@@ -906,7 +906,7 @@ Will also read BMP (bitmaps) sprites inside WADs.
 
 Version 2.0.4 build 714 - (22/1/2018)
 -----------------------
-Interpolate sector flag can be controled within PascalScript.
+Interpolate sector flag can be controlled within PascalScript.
 Fixed accuracy of status bar drawing in 8 bit display mode.
 Hires lookup tables are calculated using multiple threads if possible.
 New icon, that resembles an ancient temple of Delphi archaeological site.
@@ -944,8 +944,8 @@ Speed optimizations in things rendering (software renderer).
 
 Version 2.0.4 build 708 - (21/12/2017)
 -----------------------
-Mobjs do not slip while descenting a slopped floor.
-Added line special 251, mobjs on tagged sectors will slip if descenting a slope.
+Mobjs do not slip while descending a slopped floor.
+Added line special 251, mobjs on tagged sectors will slip if descending a slope.
 Added "Gravity" sector field (controlled by PascalScript).
 Added GetSectorGravity & SetSectorGravity PascalScript functions
 Added RippleFloor, RippleCeiling and Gravity properties for PascalScript !TSector class.
@@ -956,10 +956,10 @@ Added GetConsoleStr(), GetConsoleInt() and GetConsoleBool() PascalScript functio
 Corrected glitches when rendering the dynamic lightmap (OpenGL renderer).
 Corrected glitches when rendering transparent middle textures (OpenGL renderer).
 High resolution patches inside HI_START/HI_END namespace (OpenGL renderer).
-Presice rw_distance and rw_offset calculation (https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1340433)
+Precise rw_distance and rw_offset calculation (https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1340433)
 Visplanes with the same texture now match up far better than before (https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1342176)
-R_PointToAngle function in rendering replaced with a floating point equivelant to eliminate glitches in huge maps.
-Precalculated finesine and finecosine tables replaced with larger and more accurate equivelants (rendering only - not logic).
+R_PointToAngle function in rendering replaced with a floating point equivalent to eliminate glitches in huge maps.
+Precalculated finesine and finecosine tables replaced with larger and more accurate equivalents (rendering only - not logic).
 Added MF2_EX_DONOTRENDERSHADOW mobj flags, when set the mobj do not cast shadow (OpenGL renderer).
 Speed optimizations for the software renderer.
 Fixed tutti frutti bug for short textures.
@@ -988,7 +988,7 @@ Will load configuration file (hexen32.ini) of previous versions.
 Version 2.0.2 build 703 - (17/10/2017)
 -----------------------
 Added PCX image external texture support.
-A_Gotoxxxxx functions evaluate small expresions in state parameter (addition & substraction of a constant value).
+A_Gotoxxxxx functions evaluate small expressions in state parameter (addition & subtraction of a constant value).
 Added AllMissiles method to "Actors" PascalScript variable.
 Added mobj functions to control flow depending on map & world variables:
  - A_JumpIfMapStringEqual
@@ -1034,7 +1034,7 @@ Builds map nodes if missing.
 Version 2.0.2 build 702 - (30/8/2017)
 -----------------------
 Fixed alpha channel in TGA screenshots.
-Added keepsavegamename console variable, when true (default) you do not have to re-ender the save game name when overwritting saves.
+Added keepsavegamename console variable, when true (default) you do not have to re-ender the save game name when overwriting saves.
 The mouse sensitivity slider within menus can accept values up to 20.
 
 Version 2.0.1 build 701 - (28/12/2016)
@@ -1047,7 +1047,7 @@ Version 2.0.1 build 700 - (22/12/2016)
 Places screenshots inside data\screenshots folder.
 Mirror screenshot to jpg format.
 General purpose multithreading utilities will use more than 2 logical CPUs if available.
-Sound precaching discarted. (was causing problems with memory managment)
+Sound precaching discarded. (was causing problems with memory management)
 Added -cgaX3 command line parameter, starts at 960X600 resolution.
 SpawnMobj console command also gets angle as parameter.
 Search for ACTORDEF lumps inside PK3/PAK files.
@@ -1080,7 +1080,7 @@ Teleport zoom effect.
 Added getworldvar & getmapvar console commands. Display pascal script world and map variables.
 Added setworldvar & setmapvar console commands. Set pascal script world and map variables.
 Will use PK3ENTRY lump inside a wad file to define long filename aliases for other wad lumps.
-Added MF2_EX_CUSTOMDROPITEM mobj flag. When set, the specified instance of the mobj drops a cutom dropitem
+Added MF2_EX_CUSTOMDROPITEM mobj flag. When set, the specified instance of the mobj drops a custom dropitem
 Added A_SetDropItem & A_SetDefaultDropItem mobj functions.
 Added A_TargetDropItem & A_DefaultTargetDropItem mobj functions.
 Added overlaydrawtextleft, overlaydrawtextright, overlaydrawtextcenter, overlaydrawpixel and overlayputpixel console commands.
@@ -1094,7 +1094,7 @@ Fixes to the textured automap.
 Version 1.1.6 build 600 - (31/12/2015)
 -----------------------
 When setblocks = 10 viewwidth does not pad div 8.
-Unlimited buffer when recordifng demos.
+Unlimited buffer when recording demos.
 Fake3d fixes.
 Added excludewidescreenplayersprites console variable, will not apply widescreen correction to player sprites.
 Software renderer speed optimizations.
@@ -1135,7 +1135,7 @@ Executes all console commands inside wad lumps with the "AUTOEXEC"name.
 Maximum visplanes increased to 8192.
 Added line specials 255, create ripple effect to tagged sectors floor or/and ceiling (sector tag=Arg0, floor=Arg1, Ceiling=Arg2).
 Added -cga command line parameter.
-Corrected bug with mouse sensivity in different screen resolutions.
+Corrected bug with mouse sensitivity in different screen resolutions.
 Replaced old zone memory allocation.
 Removed limit on number of visprites, now they are allocated dynamically.
 R_SortVisSprites now uses quicksort for better performance.
@@ -1143,7 +1143,7 @@ Added precisescalefromglobalangle console variable, when true uses more precise 
 Added MF2_EX_FRIGHTENED mobj flag.
 Added A_SetFrightened and A_UnSetFrightened mobj functions.
 Changed menu font.
-New fake3d algorythm, better 3d emulation and faster in software rendering mode.
+New fake3d algorithm, better 3d emulation and faster in software rendering mode.
 The idmypos cheat shows also the z coordinate.
 Added blancbeforerender command line parameter, blanc screen before render.
 Support for voxels in OpenGL rendering mode.
@@ -1157,7 +1157,7 @@ version 1.1.4.551 (Released 19/3/2013)
 Fixed wav chunks reading bug.
 Added A_RemoveSelf  mobj function.
 Chase camera positioning improvements.
-FastMM memory manager upgrated to version 4.99.
+FastMM memory manager upgraded to version 4.99.
 Zlib updated to version 1.2.5
 Added OpenGL renderer.
 Added dynamic lights definitions.
@@ -1167,14 +1167,14 @@ Corrected floorclip bug.
 Faster loading when -devparm is defined.
 Added A_GoTo, A_GoToIfCloser, A_GoToIfHealthLower mobj functions.
 DLIGHTSDRAWRANGE and SHADOWSDRAWRANGE increased to 2048 * FRACUNIT.
-Fixed disapearing sprites with transparency < 50% in OpenGL mode. 
+Fixed disappearing sprites with transparency < 50% in OpenGL mode. 
 Doesn't try to spawn DoomBuilder 3D Editing mode camera (doomednum=32000).
 'TEXT' keyword in dehacked files works now with music.
-Great speed optimizations in 8 bit color software mode (fps incresed 10-15%).
+Great speed optimizations in 8 bit color software mode (fps increased 10-15%).
 Added A_ConsoleCommand mobj function.
 Turbo scale limited to 200%
 Added modelmapping console command to determine which models are present. (OpenGL version only)
-Fixed ascpect ratio when using widscreen monitors.
+Fixed aspect ratio when using widescreen monitors.
 Added allowhidetails console variable.
 Added widescreen,widescreensupport console variables.
 Added forcedaspect console variable to set custom aspect ratio.
@@ -1186,10 +1186,10 @@ Added assumecommontranspantcolors console variable, when true assumes x0FFFF, x0
 --------------------------------------
 version 1.1.3.500 (Released 20/1/2012)
 --------------------------------------
-Displays Disk Buzy icon for 4 ticks instead of 4 frames.
+Displays Disk Busy icon for 4 ticks instead of 4 frames.
 WAD lumps hash indexing for better performance. (using djb2 hash function)
-Satan and skel cheats changed to idsatan and idcheat due to problems with WASD key compination for moving
-Fixed bug that didn't recornized mf2_ex flags inside ACTORDEF lumps
+Satan and skel cheats changed to idsatan and idcheat due to problems with WASD key combination for moving
+Fixed bug that didn't recognize mf2_ex flags inside ACTORDEF lumps
 Added displayresolution alias for "detaillevel" console variable.
 Maximum display resolution increased to 2048x1536.
 Added jpeg external textures support.
@@ -1205,4 +1205,3 @@ Hash Indexing of external PAK/PK3/ZIP files.
 Added option to start game in random class.
 New simplified blocklinks handling mechanism.
 New external texture format named (using .material extension) to combine at load time with user defined parameters more than one external textures into one.
-

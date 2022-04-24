@@ -5,14 +5,14 @@ Virtual filesystem places hi-res textures in 'TEXTURES' directory.
 Wall textures can be loaded from pk3/zip filesystem without a TEXTUREx equivalent. They must be located inside "TEXTURES" folder.
 Fixed problem with lump reading when a namespace was required.
 It will load KVX voxels even if the ".kvx" extension is not defined in VOXELDEF.
-Improved ZDoom compatiblility in VOXELDEF lumps.
+Improved ZDoom compatibility in VOXELDEF lumps.
 Added usepk3textures console variable. When true, it will load additional resources from pk3. Default is false.
 Support for TX_START/TX_END namespace (if the usepk3textures console variable is set to true).
 Load flats in HI_START/HI_END namespace (if the usepk3textures console variable is set to true).
-Faster startup, by ommiting parsing the default and unedited GAMEDEF lump. Instead it uses the build-in info.
+Faster startup, by omiting parsing the default and unedited GAMEDEF lump. Instead it uses the build-in info.
 Display correct quit messages depending on game.
 Vulgar messages will be displayed only if the vulgarquitmessages console variable is set to true (default is false).
-8bit trasparency LUTs are calculated in multiple threads to speed-up startup.
+8bit transparency LUTs are calculated in multiple threads to speed-up startup.
 Fixed dynamic lights problem with palette changes and gamma changes in 8 bit color mode.
 Speed optimizations to PascalScript initialization.
 Speed optimizations to startup memo text output.
@@ -34,7 +34,7 @@ Small optimizations to plane rendering (software mode).
 Fixed missiles not exploding in lower textures with sky ceiling.
 Speed optimizations to transparent sprite rendering (eg plasma shot).
 Small speed optimizations to renderstyle Add & Subtract in 8 bit color mode.
-Added SPIN field in VOXELDEF lumps, it compines DROPPEDSPIN & PLACEDSPIN behavior.
+Added SPIN field in VOXELDEF lumps, it combines DROPPEDSPIN & PLACEDSPIN behavior.
 If depthbuffer is active will draw sprites from front to back to avoid overdraw.
 Fixed some voxel glitches for voxels on a 3d floors.
 Speed optimizations to slope software rendering.
@@ -73,7 +73,7 @@ Fixed crosshair drawing in OpenGL mode.
 Added support for tall patches in PNG format.
 More robust uncapped framerate.
 Speed optimizations to the OpenGL rendering.
-Fixes to 3d colissions of actors moving up or down other actors.
+Fixes to 3d collisions of actors moving up or down other actors.
 Default sound channels raised to 32, maximum sound channels raised to 64.
 Key bindings for the AUTOMAP keys.
 Improved multithreading handling in software rendering mode.
@@ -87,7 +87,7 @@ Added ExportInfoPascal, InfoExportPascal, ExportInfoPascalBI, InfoExportPascalBI
 Added SaveInfoPascal, InfoSavePascal, SaveInfoPascalBI, InfoSavePascalBI, SaveInfoPascalBuiltIn & InfoSavePascalBuiltIn console commands.
 Added MF3_EX_ABSOLUTEDAMAGE mobj flag.
 Added MF3_EX_NOGRAVITYDEATH mobj flag. When set, does not remove the MF_NOGRAVITY flag on death.
-Fixed MF2_EX_CANTLEAVEFLOORPIC flag behaviour.
+Fixed MF2_EX_CANTLEAVEFLOORPIC flag behavior.
 Removed generalized sector consts for forcefields.
 Fixed uncapped framerate bug for floor & ceiling offsets.
 Added "A_PlayerHurtExplode(damage: integer; radius: integer);" ACTORDEF function.
@@ -306,7 +306,7 @@ UMAPINFO support.
 Remember last skill level.
 Small optimizations to the software voxel rendering.
 Corrected flat scale in OpenGL mode.
-Faster proccessing of include files.
+Faster processing of include files.
 Added #CVARFORCE directive. It can be placed in any text content and forces the value of a console variable to the value specified.
 Detect 426x200 screens.
 Added new PascalSccript functions to access the new SideDefs' fields:
@@ -434,7 +434,7 @@ Improved midi playback.
 Max light source distance increased from 2048px to 8192px in software rendering.
 Small optimizations to sprite rendering.
 Fixed masked middle texture bleeding when player was exactly placed on the line.
-Small optimization to masked middle textute software rendering.
+Small optimization to masked middle texture software rendering.
 Bosses will have only seesound and deathsound at full volume by default.
 
 Version 2.0.6 build 729 - (20211011)
@@ -457,7 +457,7 @@ Overlay functions as mobj codepointers:
 Bug fix: Does not load twice default state names in case of missing STATEDEF lump.
 Fixed UTF16 loading problem.
 Fixed ddmodel rendering when the game is paused.
-Holds up to 2047 bytes for enviroment variables (eg DOOMWADPATH).
+Holds up to 2047 bytes for environment variables (eg DOOMWADPATH).
 Added r_blitmultiplier console variable. Default value is 1. Higher values can correct choppy look when interpolation is disabled but with performance penalty.
 Fixed potential memory corruption problem in R_MakeSpans().
 Support for "IDFA Armor" & "IDFA Armor Class" names in Dehacked.
@@ -472,7 +472,7 @@ Corrected transparent voxel & sprite rendering in invulnerability mode.
 Added uselightboostgodmode console variable. When true (default) the glow lights are drawned in invulnerability mode. 
 ZDoom compatibility constants for A_SpawnItemEx() & A_CustomMissile() ACTORDEF functions.
 Actor friction is available in ACTORDEF functions parameters.
-When sliding a wall it will take into acount the "maxstepheight" property to decide if it can pass.
+When sliding a wall it will take into account the "maxstepheight" property to decide if it can pass.
 
 Version 2.0.6 build 728 - (20210219)
 -----------------------
@@ -485,7 +485,7 @@ Support for flats up to 4096x4096 px.
 FLATINFO lump with information regarding flat definitions.
 Fixed bug in erronous width & height screen dimentions input when the -geom command line parameter is specified.
 Speed improvements in maps with high number of slopes.
-Optimizations to slope rendering in sofware mode.
+Optimizations to slope rendering in software mode.
 Corrections to Doom patch detection algorithm.
 Now can theoretically handle maps up to 65536x65536 px.
 Fixed serious bug while deallocating thinkers.
@@ -590,7 +590,7 @@ Check overflow of animated lines. (limit is 1024).
 Improved vanilla demo playback compatibility.
 Save elevator data to saved game.
 Fixed potential memory corruption problem when allocating custom colormaps.
-Intermission screen graphics load consistancy.
+Intermission screen graphics load consistency.
 Check for 1-sided lines as doors.
 Sound org of sfx_oof sound when trying to open a locked door with key is the player.
 If the wrong side of door is pushed, play the sfx_oof sound.
@@ -607,7 +607,7 @@ Added MF3_EX_MELEECHECKZ mobj flag, when set checks z values for melee attack.
 Corrected A_PlayerMessage bug.
 Dehacked parsing speed optimizations.
 gldefs_as_lightdef & decorate_as_actordef can be configured from the Compatibility Menu. Needs restart for the changes to take effect.
-show_obituaries console variable can be configured from the Menu (Option/Display/Appearence).
+show_obituaries console variable can be configured from the Menu (Option/Display/Appearance).
 Added MF3_EX_NOTIMEFREEZE mobj flag. When it's set, the actor continues on freeze console command.
 Added MF3_EX_CAUSEFEAR & MF3_EX_NOFEAR flags.
 Added MF3_EX_SLIDE mobj flag.
@@ -649,7 +649,7 @@ Added PrintActordef console command alias for DEH_PrintActordef.
 Added SaveActordef console command alias for DEH_SaveActordef.
 Small improvements to multithreading tasks.
 Corrected dehacked parsing of the "CODEP FRAME" keyword.
-Prevent infinite loop for erronous A_Chase() placement.
+Prevent infinite loop for erroneous A_Chase() placement.
 
 Version 2.0.5 build 726 - (8/5/2020)
 -----------------------
@@ -670,7 +670,7 @@ Warning in TEvalFunction.Value() function displays function name.
 Fixed FRANDOM parameters parsing.
 ACTORDEF parsing improvements.
 The engine detects missing sprite frames and displays warning.
-Summon and Spawnmobj console commands refuze to work during demo playback/recording and when we have a net game.
+Summon and Spawnmobj console commands refuse to work during demo playback/recording and when we have a net game.
 Avoid repeating I_Warning messages when a state has errors in parameter list.
 Lightmap cast light to slopes.
 Fixed interpolation problem: Didn't interpolated player position and angle.
@@ -689,7 +689,7 @@ Version 2.0.5 build 724 - (8/3/2020)
 -----------------------
 Fixed bug that could crash the engine while spawning map things.
 Fixed texture cache bug that could crash the engine (texture height was set to zero).
-Fixed bug that could crash the engine when MAPS without nodes are stored in continous lumps inside WAD.
+Fixed bug that could crash the engine when MAPS without nodes are stored in continuous lumps inside WAD.
 Fixed bug while spawning dropped items.
 Fix SKULL attack when PASSOBJ flag is set
 Added FLOORBOUNCE, CEILINGBOUNCE and WALLBOUNCE mobj flags.
@@ -712,7 +712,7 @@ Version 2.0.5 build 722 - (2/2/2020)
 -----------------------
 Fixes to uncapped framerate calculation, runs smoother.
 Change the interpolateoncapped console variable from the menu (Options/Display/Advanced/Interpolate on capped)
-Added interpolateprecise console variable. When true it will try to make more accurate interpolation in uncapped framerate by taking by accound the time needed to render the frame.
+Added interpolateprecise console variable. When true it will try to make more accurate interpolation in uncapped framerate by taking by account the time needed to render the frame.
 
 Version 2.0.5 build 721 - (31/1/2020)
 -----------------------
@@ -735,8 +735,8 @@ Added -keyboardmode command line parameter. Usage is:
   2) "-keyboardmode WASD" -> use WASD to navigate
   3) "-keyboardmode ESDF" -> use ESDF to navigate
 Key bindings menu to customize keyboard player control.
-Menu beautificiations.
-Support for DOOMWADPATH enviroment variable.
+Menu beautifications.
+Support for DOOMWADPATH environment variable.
 Search for installed steam applications to find wad files.
 Openings are dynamically allocated, depending on screen resolution.
 Screen resolution can be changed from the menu.
@@ -747,13 +747,13 @@ Automap fixes:
  -Fixed automap grid rotation.
  -Added automapgrid console variable.
 Support for the C-style #include and Pascal-style {$INCLUDE} directives inside all content definition lumps (ACTORDEF, MODELDEF, VOXELDEF?, LIGHTDEF & SNDINFO). 
- -Recoursive include calls are detected to avoid infinite loop.
+ -Recursive include calls are detected to avoid infinite loop.
  -Maximum include depth set to 32. 
  -Also added support the #include_all and {$INCLUDE_ALL} directives, that parse all the pk3 entries with the same name.
 Added png screenshot format (default). The mirrorjpgsshot console variable is set to false by default. It can be changed from the menu (Options/System)
 Fullscreen menu item moved from Options/Display Options/Advanced to Options/Detail/Set Video Mode menu.
-Added Ascpect Ratio & Camera menus (Display Options/Advanced).
-Fixed bug with string to float convertion when the system's decimal separator was comma.
+Added Aspect Ratio & Camera menus (Display Options/Advanced).
+Fixed bug with string to float conversion when the system's decimal separator was comma.
 Will recognize the '+CANPASS' alias for 'PASSMOBJ' flag in ACTORDEF definitions (as well as 'CANPASS').
 Will load kvx voxels from pk3/zip/pak files without the kvx extention, if they are placed inside voxels\*. directory
 Corrected the behaviour of Actordef keyword "replaces".
@@ -862,7 +862,7 @@ If an unknown texture is found in SWITCHES lump will not exit with I_Error, it w
 Support for MBF dogs.
 Added dogs and dog_jumping console variables.
 Added MF2_EX_FRIEND flag (friendly monsters).
-Fixed ghost bug of ressurected bodies.
+Fixed ghost bug of resurected bodies.
 Masked textures can have columns without patches.
 WASD keyboard preset uses the "E" key for jumping.
 Support for tall textures in software rendering.
@@ -903,7 +903,7 @@ When the -dontsavedefaults is passed to the command line parameters, the default
 
 Version 2.0.4 build 718 - (13/10/2018)
 -----------------------
-Paraller vissprite sorting using separate thread.
+Parallel vissprite sorting using separate thread.
 Fixed rare bug that could crash the engine. The error could occur if multithreading mode was enabled and total spans had never exceeded the number of active threads for flat drawing.
 
 Version 2.0.4 build 717 - (20/9/2018)
@@ -950,7 +950,7 @@ Will also read BMP (bitmaps) sprites inside WADs.
 
 Version 2.0.4 build 714 - (22/1/2018)
 -----------------------
-Interpolate sector flag can be controled within PascalScript.
+Interpolate sector flag can be controlled within PascalScript.
 Fixed accuracy of status bar drawing in 8 bit display mode.
 Hires lookup tables are calculated using multiple threads if possible.
 New icon, that resembles an ancient temple of Delphi archaeological site.
@@ -989,8 +989,8 @@ Speed optimizations in things rendering (software renderer).
 
 Version 2.0.4 build 708 - (21/12/2017)
 -----------------------
-Mobjs do not slip while descenting a slopped floor.
-Added line special 283, mobjs on tagged sectors will slip if descenting a slope.
+Mobjs do not slip while descending a slopped floor.
+Added line special 283, mobjs on tagged sectors will slip if descending a slope.
 Added "Gravity" sector field (controlled by PascalScript).
 Added GetSectorGravity & SetSectorGravity PascalScript functions
 Added RippleFloor, RippleCeiling and Gravity properties for PascalScript !TSector class.
@@ -1005,10 +1005,10 @@ Fixed the "Picked up a medikit that you REALLY need!" bug (https://doomwiki.org/
 Corrected T_FireFlicker savegame bug (https://doomwiki.org/wiki/Sector_type_17_is_disabled_after_loading_a_saved_game)
 Fixed the Arch-Vile fire spawned at the wrong location bug (https://doomwiki.org/wiki/Arch-Vile_fire_spawned_at_the_wrong_location)
 High resolution patches inside HI_START/HI_END namespace (OpenGL renderer).
-Presice rw_distance and rw_offset calculation (https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1340433)
+Precise rw_distance and rw_offset calculation (https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1340433)
 Visplanes with the same texture now match up far better than before (https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1342176)
-R_PointToAngle function in rendering replaced with a floating point equivelant to eliminate glitches in huge maps.
-Precalculated finesine and finecosine tables replaced with larger and more accurate equivelants (rendering only - not logic).
+R_PointToAngle function in rendering replaced with a floating point equivalent to eliminate glitches in huge maps.
+Precalculated finesine and finecosine tables replaced with larger and more accurate equivalents (rendering only - not logic).
 Added MF2_EX_DONOTRENDERSHADOW mobj flags, when set the mobj do not cast shadow (OpenGL renderer).
 Speed optimizations for the software renderer.
 Fixed tutti frutti bug for short textures.
@@ -1038,7 +1038,7 @@ Will load configuration file (doom32.ini) of previous versions.
 Version 2.0.2 build 703 - (17/10/2017)
 -----------------------
 Added PCX image external texture support.
-A_Gotoxxxxx functions evaluate small expresions in state parameter (addition & substraction of a constant value).
+A_Gotoxxxxx functions evaluate small expressions in state parameter (addition & subtraction of a constant value).
 Added AllMissiles method to "Actors" PascalScript variable.
 Added mobj functions to control flow depending on map & world variables:
  - A_JumpIfMapStringEqual
@@ -1084,7 +1084,7 @@ Builds map nodes if missing.
 Version 2.0.2 build 702 - (30/8/2017)
 -----------------------
 Fixed alpha channel in TGA screenshots.
-Added keepsavegamename console variable, when true (default) you do not have to re-ender the save game name when overwritting saves.
+Added keepsavegamename console variable, when true (default) you do not have to re-ender the save game name when overwriting saves.
 The mouse sensitivity slider within menus can accept values up to 20.
 Will not crush when finishing MAP33 etc levels.
 Fixed revenant internal demo bug (https://www.doomworld.com/forum/topic/95719-a_tracer-and-gametic/?do=findComment&comment=1788516)
@@ -1100,7 +1100,7 @@ Ignores map things 4001, 4002, 4003 & 4004 (Boom compatibility).
 Places screenshots inside data\screenshots folder.
 Mirror screenshot to jpg format.
 General purpose multithreading utilities will use more than 2 logical CPUs if available.
-Sound precaching discarted. (was causing problems with memory managment)
+Sound precaching discarded. (was causing problems with memory management)
 Added -cgaX3 command line parameter, starts at 960X600 resolution.
 Advanced scripting mechanism (PascalScript).
 Added A_RunScript mobj function. Executes 1 or more PascalScripts.
@@ -1116,7 +1116,7 @@ Added A_GhostOff mobj function.
 THINKER keyword inside ACTORDEF lumps (runs script).
 Added -con command line parameter, executes at loadtime a file containing console commands.
 Added halt console command, stops executing without endscreen and without end sound.
-Corrected bug that crashed programm while loading savegame with PULLERS(MT_PULL) or PUSHERS(MT_PUSH).
+Corrected bug that crashed program while loading savegame with PULLERS(MT_PULL) or PUSHERS(MT_PUSH).
 Added line special 282, create ladder to tagged sectors.
 Saved games contain texture and flat names, no texture and flat numbers (SAVEGAMEVERSION = 122).
 Added A_Blocking mobj function.
@@ -1156,7 +1156,7 @@ Added excludewidescreenplayersprites console variable, will not apply widescreen
 Menu appearance improvements.
 Software renderer speed optimizations.
 Improved Chex Quest compatibility.
-Now recornizes all FREEDOOM iwads.
+Now recognizes all FREEDOOM iwads.
 Added doadjustmissingtextures console command, adjust missing upper/lower textures on demand, regardless the value of adjustmissingtextures console variable.
 Check for music aliases inside wad.
 Bug fix, now displays the correct translation of sprites in OpenGL mode.
@@ -1285,7 +1285,7 @@ Added engage console command, alias for start and playgame.
 Precalculate floating point parameters of custom mobj functions as fixed_t.
 Boom compatible friction effect.
 Boom compatible pushers. (linedef special 224/wind, 225/current, 226/push-pull)
-Suspends interpolation for teleporting objects, that eliminates some drawing gliches.
+Suspends interpolation for teleporting objects, that eliminates some drawing glitches.
 Fixed transparency HUD in OpenGL mode.
 Added support for GL_FRIENDLY nodes (OpenGL version). 
 Automatically loads *.GWA files if autoloadgwafiles console variable is set to true. (OpenGL version). 
@@ -1294,7 +1294,7 @@ Added giveallkeys, idkeys console commands, give all keys (idkeys cheat).
 Fixed sprite clipping bug in OpenGL mode when looking up/down.
 Removed limit on lines hit.
 Hash Indexing of external PAK/PK3/ZIP files.
-FastMM memory manager upgrated to version 4.94.
+FastMM memory manager upgraded to version 4.94.
 Default miditempo changed to 128.
 Added MF2_EX_PUSHABLE and MF2_EX_CANNOTPUSH mobj flags, enabled pushable objects.
 Added A_HideThing and A_UnHideThing mobj functions.
@@ -1305,7 +1305,7 @@ Fixed sky rendering problems in OpenGL mode.
 Added Crash state in mobjs.
 New simplified blocklinks handling mechanism.
 Fixed Dehacked bug, now correctly handles POINTER keyword
-Added gl_stencilsky conslole variable.
+Added gl_stencilsky console variable.
 Corrected some issues in OpenGL rendering.
 Added support for MD2 models (OpenGL only).
 Check for LIGHTDEF lumps inside PAK/PK3 files. (First parse all LIGHTDEF entries and then all LIGHTDEF.txt entries)
@@ -1359,7 +1359,7 @@ Fixes:
    1. Fixed zip library memory leak.
    2. Speed optimization for V_ReadPalette function.
    3. Fixed lighting effect glitches in OpenGL rendering.
-   4. Fixed very rare bug that caused crashes when statusbar drawned.
+   4. Fixed very rare bug that caused crashes when statusbar drawn.
 
 --------------------------------------
 version 0.8.5.342 (Released 4/1/2008)
@@ -1415,7 +1415,7 @@ Added usemp3 and preferemp3namesingamedirectory defaults.
 Added defaults and setdefaults console commands for resetting all variables to default values.
 Added default console command to set the default value for a specified variable. Use default * to reset variables to defaults.
 More efficient palette change emulation for hi-resolution textures.
-Better search algorythm inside PK3 directory stucture. 
+Better search algorithm inside PK3 directory structure. 
 Added iddt console command.
 Added idspispopd and idclip console commands.
 Modified games with shareware are allowed when in development mode.
@@ -1460,7 +1460,7 @@ Due to internal string manipulation are allowed DEHACKED strings bigger than ori
 Music lumps does not require the 'D_' prefix.
 Sound lumps does not require the 'DS' prefix.
 Corrected bug: Cyberdeamon death in E4M2 will no longer trigger G_ExitLevel().
-Added badbossdeathendsdoom1level varyable to end Doom1 levels if Cyberdeamon or Spider Die.
+Added badbossdeathendsdoom1level variable to end Doom1 levels if Cyberdeamon or Spider Die.
 Added type and cat console commands.
 Added -file1, -file2 .. -file9 command line parameters to specify priority PWADs.
 Added -pakfile1, -pakfile2 .. -pakfile9 command line parameters to specify priority PAK files.
@@ -1495,7 +1495,7 @@ Added MF_EX_CUSTOMEXPLODE flag.
 Added ExplosionDamage and ExplosionRadius mobj fields to use with A_Explode when MF_EX_CUSTOMEXPLODE flag is set.
 Added MF_EX_BOSS flag.
 Replaced original memory manager with FastMM.
-Added lowgravity cheat (available trhu console only).
+Added lowgravity cheat (available thru console only).
 Added -singletics command line parameter to prevent adaptiveness of internal clock.
 Added support for SNDINFO lump (sound aliases).
 Added support for functions with custom parameters inside ACTORDEF lumps.
@@ -1669,7 +1669,7 @@ Add medium resolution, classic Doom's high.
 Normal resolution now uses unfilterer textures with dynamic lighting.
 Programming: Speed optimizations.
 Corrected aspect ratio display. 
-Correted masked columns rendering bug.
+Corrected masked columns rendering bug.
 Corrected E4M8 end bug in ultimate Doom.
 Added 'set usetransparentsprites' console command to enable/disable transparency.
 Added flag for transparent Rocket explosion.
@@ -1732,7 +1732,7 @@ Added Quake-style console.
 Added console commands.
 Display stderr, stdout in console.
 Changed network code, still net unavailable.
-Corrected mouse sensivity.
+Corrected mouse sensitivity.
 Save game and Load game slots increased from 6 to 8.
 In automap is displayed the level time.
 Corrected FPC rendering issues.
@@ -1748,7 +1748,7 @@ Fixed the sky texture bug. Now displays the correct sky texture depending on the
 Fixed the change music cheat bug in shareware version, now does not change the music if music number is invalid.
 Change: The god mode cheat after the player's death reborns the player.
 Fixed status bar drawing from older game versions. Now works with ancient ver 0.99 shareware IWAD.
-Corrected sound probjem with 22KHz samples (??)
+Corrected sound problem with 22KHz samples (??)
 No more mono audio, now supports 2 channels stereo sound.
 Increased maximum numbers of visible sprites from 128 to 1024.
 Increased MAXDRAWSEGS from 1024 to 2048 (originally 256)
