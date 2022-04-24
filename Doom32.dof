@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=rDDVOX-0.41.7.zip RDVXTEST41.zip 
+RunParams=sample.wad -iwad doom2f.wad
 HostApplication=
 Launcher=
 UseLauncher=0

@@ -2950,6 +2950,7 @@ end;
 //
 var
   epi: integer;
+  lumpepi: integer = -2;
 
 //==============================================================================
 //
@@ -2958,7 +2959,12 @@ var
 //==============================================================================
 procedure M_DrawEpisode;
 begin
-  V_DrawPatch(54, 38, SCN_TMP, 'M_EPISOD', false);
+  if lumpepi = -2 then
+    lumpepi := W_CheckNumForName('M_EPISOD');
+  if lumpepi >= 0 then
+    V_DrawPatch(54, 38, SCN_TMP, lumpepi, false)
+  else
+    M_WriteText(54, 38, 'Which Episode?');
 end;
 
 //==============================================================================
