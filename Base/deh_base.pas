@@ -1032,6 +1032,7 @@ function DEH_StatesCSV: TDStringList;
 var
   i, j, idx1, idx2: integer;
   s1, s2, headstr, datstr: string;
+  csstring: string;
   cs: TDStringList;
 
   function _statename(const x: integer): string;
@@ -1051,11 +1052,13 @@ begin
 
   headstr := '';
   for i := idx1 + 1 to idx2 - 1 do
-    if strtrim(cs.Strings[i]) <> '' then
-      if CharPos('#', strtrim(cs.Strings[i])) <> 1 then
-        if Pos('//', strtrim(cs.Strings[i])) < 1 then
+  begin
+    csstring := strtrim(cs.Strings[i]);
+    if csstring <> '' then
+      if CharPos('#', csstring) <> 1 then
+        if Pos('//', csstring) < 1 then
         begin
-          if Pos1('FRAME ', strtrim(strupper(cs.Strings[i]))) then
+          if Pos1('FRAME ', strupper(csstring)) then
           begin
             if headstr = '' then
               headstr := '"Name";"id"'
@@ -1064,10 +1067,11 @@ begin
           end
           else if headstr <> '' then
           begin
-            splitstring_ch(strtrim(cs.Strings[i]), s1, s2, '=');
+            splitstring_ch(csstring, s1, s2, '=');
             headstr := headstr + ';' + '"' + strtrim(s1) + '"';
           end;
         end;
+  end;
 
   result := TDStringList.Create;
   result.Add(headstr);
@@ -1076,12 +1080,13 @@ begin
   datstr := '';
   for i := idx1 + 1 to idx2 - 1 do
   begin
-    if strtrim(cs.Strings[i]) <> '' then
-      if CharPos('#', strtrim(cs.Strings[i])) <> 1 then
-        if Pos('//', strtrim(cs.Strings[i])) < 1 then
-          if not Pos1('FRAME ', strtrim(strupper(cs.Strings[i]))) then
+    csstring := strtrim(cs.Strings[i]);
+    if csstring <> '' then
+      if CharPos('#', csstring) <> 1 then
+        if Pos('//', csstring) < 1 then
+          if not Pos1('FRAME ', strupper(csstring)) then
           begin
-            splitstring_ch(strtrim(cs.Strings[i]), s1, s2, '=');
+            splitstring_ch(csstring, s1, s2, '=');
             for j := 1 to length(s2) do
               if s2[j] = '"' then
                 s2[j] := ' ';
