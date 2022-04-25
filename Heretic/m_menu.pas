@@ -2932,7 +2932,10 @@ begin
   G_ValidateMapName(map, @epi, @mapnum);
   EpiMenuEpi[EpiDef.numitems] := epi;
   EpiMenuMap[EpiDef.numitems] := mapnum;
-  EpisodeMenu[EpiDef.numitems].name := gfx;
+  if gfx = '' then
+    EpisodeMenu[EpiDef.numitems].name := '-'
+  else
+    EpisodeMenu[EpiDef.numitems].name := gfx;
   EpisodeMenu[EpiDef.numitems].alttext := txt;
   EpisodeMenu[EpiDef.numitems].alphaKey := alpha;
   inc(EpiDef.numitems);
