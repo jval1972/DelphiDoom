@@ -70,23 +70,26 @@ begin
   for i := 0 to Count - 1 do
   begin
     stmp := Strings[i];
-    stmp2 := '';
-    for j := 1 to Length(stmp) do
-      if stmp[j] = ',' then
-        stmp2 := stmp2 + #13#10
-      else
-        stmp2 := stmp2 + stmp[j];
-    stmp := strtrim(stmp2);
-    if stmp <> '' then
+    if CharPos(',', stmp) > 0 then
     begin
-      list.Text := stmp;
-      for j := 0 to list.Count - 1 do
-        list.Strings[j] := strtrim(list.Strings[j]);
-      if list.IndexOf(S) > -1 then
+      stmp2 := '';
+      for j := 1 to Length(stmp) do
+        if stmp[j] = ',' then
+          stmp2 := stmp2 + #13#10
+        else
+          stmp2 := stmp2 + stmp[j];
+      stmp := strtrim(stmp2);
+      if stmp <> '' then
       begin
-        list.Free;
-        result := i;
-        exit;
+        list.Text := stmp;
+        for j := 0 to list.Count - 1 do
+          list.Strings[j] := strtrim(list.Strings[j]);
+        if list.IndexOf(S) > -1 then
+        begin
+          list.Free;
+          result := i;
+          exit;
+        end;
       end;
     end;
   end;
