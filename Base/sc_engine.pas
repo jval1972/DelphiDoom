@@ -94,7 +94,8 @@ type
     function MatchString(const str: string): boolean; overload;
     function MatchPosString(const str: string): boolean;
     function MustMatchString(strs: TDStringList): integer;
-    function Compare(const txt: string): boolean;
+    function Compare(const txt: string): boolean; overload;
+    function Compare(const txt: string; const scmp: string): boolean; overload;
     procedure AddAlias(const src, dest: string);
     procedure ClearAliases;
     property _Integer: integer read sc_Integer;
@@ -427,7 +428,7 @@ begin
     if code <> 0 then
     begin
       for i := 1 to Length(str) do
-        if str[i] in ['.', ','] then
+        if str[i] = ',' then
           str[i] := '.';
       val(str, sc_Float, code);
       if code <> 0 then
@@ -474,11 +475,14 @@ end;
 //
 //==============================================================================
 function TScriptEngine.GetBoolean: boolean;
+var
+  ustr: string;
 begin
   if GetString then
   begin
-    result := (strupper(sc_string) = 'TRUE') or (strupper(sc_string) = 'FALSE');
-    sc_boolean := strupper(sc_string) = 'TRUE';
+    ustr := strupper(sc_string);
+    result := (ustr = 'TRUE') or (ustr = 'FALSE');
+    sc_boolean := ustr = 'TRUE';
   end
   else
     result := false;
@@ -530,10 +534,12 @@ function TScriptEngine.MatchString(const strs: TDStringList): integer;
 // array of strings, or -1 if not found.
 var
   i: integer;
+  scmp: string;
 begin
+  scmp := fuToken;
   for i := 0 to strs.Count - 1 do
   begin
-    if Compare(strs.Strings[i]) then
+    if Compare(strs.Strings[i], scmp) then
     begin
       result := i;
       exit;
@@ -578,6 +584,16 @@ end;
 function TScriptEngine.Compare(const txt: string): boolean;
 begin
   result := strupper(txt) = fuToken;
+end;
+
+//==============================================================================
+//
+// TScriptEngine.Compare
+//
+//==============================================================================
+function TScriptEngine.Compare(const txt: string; const scmp: string): boolean;
+begin
+  result := strupper(txt) = scmp;
 end;
 
 //==============================================================================
@@ -740,7 +756,9 @@ begin
     end;
   end;
   txt^ := Chr(0);
-  if ignonelist.IndexOf(strupper(StringVal(sc_String))) < 0 then
+  if ignonelist.Count = 0 then
+    result := true
+  else if ignonelist.IndexOf(strupper(StringVal(sc_String))) < 0 then
     result := true
   else
     Result := GetString;
