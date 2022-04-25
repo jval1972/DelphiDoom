@@ -648,6 +648,7 @@ var
   item: TPSLineInfo;
   s, name: TbtString;
   current, i: Longint;
+  p: integer;
   ds: TPSDefineState;
   AppContinue: Boolean;
   ADoWrite: Boolean;
@@ -686,20 +687,22 @@ begin
         end;
         //-- end_jgv
 
-        if CharPos(TbtChar(' '), s) = 0 then
+        p := CharPos(TbtChar(' '), s);
+        if p = 0 then
         begin
-          name := uppercase(s);
+          name := UpperCase(s);
           s := '';
         end
         else
         begin
-          Name := uppercase(Copy(s, 1, CharPos(' ', s) - 1));
-          Delete(s, 1, CharPos(' ', s));
+          Name := UpperCase(Copy(s, 1, p - 1));
+          Delete(s, 1, p);
         end;
 
         //-- 20050707_jgv - ask the application
         AppContinue := True;
-        if @OnProcessDirective <> nil then OnProcessDirective (Self, Parser, FDefineState.DoWrite, name, s, AppContinue);
+        if @OnProcessDirective <> nil then
+          OnProcessDirective (Self, Parser, FDefineState.DoWrite, name, s, AppContinue);
 
         if AppContinue then
         //-- end jgv

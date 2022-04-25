@@ -2101,7 +2101,7 @@ begin
     end
     else
     begin
-      s := trim(Copy(PName, 1, i - 1));
+      s := Trim(Copy(PName, 1, i - 1));
       Delete(PName, 1, i);
     end;
     pp := GetPropInfo(PTypeInfo(Instance.ClassInfo), string(s));
@@ -3168,7 +3168,7 @@ begin
     for I := FSpecialProcList.Count - 1 downto 0 do
     begin
       p := FSpecialProcList[I];
-      IF (p^.name = '') or ((p^.namehash = fnh) and (p^.name = fname)) then
+      if (p^.name = '') or ((p^.namehash = fnh) and (p^.name = fname)) then
       begin
         if p^.P(Self, Proc, p^.tag) then
         begin
