@@ -4530,14 +4530,14 @@ end;
 //==============================================================================
 function TDStrings.IndexOfName(const Name: string): Integer;
 var
-  P: Integer;
-  S: string;
+  s: string;
+  check: string;
 begin
+  check := name + '=';
   for result := 0 to GetCount - 1 do
   begin
-    S := Get(result);
-    P := CharPos('=', S);
-    if (P <> 0) and (AnsiCompareText(Copy(S, 1, P - 1), Name) = 0) then
+    s := Get(result);
+    if Pos1(check, s) then
       Exit;
   end;
   result := -1;
