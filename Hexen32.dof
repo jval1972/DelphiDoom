@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=2
 MinorVer=0
 Release=7
-Build=733
+Build=734
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Hexen to Delphi Total Conversion
-FileVersion=2.0.7.733
+FileVersion=2.0.7.734
 InternalName=Hexen
 LegalCopyright=Copyright 2005 - 2022, Jim Valavanis
 LegalTrademarks=Copyright 2005 - 2022, Jim Valavanis
