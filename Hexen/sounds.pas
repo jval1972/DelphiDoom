@@ -225,7 +225,7 @@ begin
   end;
 
   // JVAL: look first for 'ds....' sound names
-  if Pos1('DS', sfxname then
+  if Pos1('DS', sfxname) then
   begin
     sfxname1 := sfxname;
     sfxname2 := Copy(sfxname, 3, Length(sfxname) - 2)
