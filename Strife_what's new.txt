@@ -1,3 +1,5 @@
+Version 2.0.7 build 734 - (20220428)
+-----------------------
 Corrections to external textures caching in software rendering mode.
 Virtual filesystem places hi-res textures in 'TEXTURES' directory.
 Fixed support for 'TEXTURE3' texture lump. It was working only in old TEXTURE format.
