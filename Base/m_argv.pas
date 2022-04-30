@@ -239,8 +239,9 @@ begin
       exit;
     end;
     if myargv[i] <> '' then
-      if fexists(myargv[i]) then
-        myargv[i] := fexpand(myargv[i]);
+      if myargv[i][1] <> '-' then
+        if fexists(myargv[i]) then
+          myargv[i] := fexpand(myargv[i]);
   end;
 
   defargv := DEFARGVFILENAME;
