@@ -370,7 +370,7 @@ begin
     rover := at;
 
   rover := history.rover - rover;
-  if rover > NUMPLAYERTRACEHISTORY then
+  if rover >= NUMPLAYERTRACEHISTORY then
     rover := rover - NUMPLAYERTRACEHISTORY
   else if rover < 0 then
     rover := rover + NUMPLAYERTRACEHISTORY;
