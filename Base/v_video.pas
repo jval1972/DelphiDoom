@@ -3425,12 +3425,25 @@ begin
         dest := @desttop[delta * swidth];
         count := column.length;
 
-        while count > 0 do
+        if v_translation <> nil then
         begin
-          dest^ := videopal[source^];
-          inc(source);
-          inc(dest, swidth);
-          dec(count);
+          while count > 0 do
+          begin
+            dest^ := videopal[v_translation[source^]];
+            inc(source);
+            inc(dest, swidth);
+            dec(count);
+          end;
+        end
+        else
+        begin
+          while count > 0 do
+          begin
+            dest^ := videopal[source^];
+            inc(source);
+            inc(dest, swidth);
+            dec(count);
+          end;
         end;
         if not tallpatch then
         begin
@@ -3473,52 +3486,105 @@ begin
 
       sheight := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF};
 
-      while col < pw do
+      if v_translation <> nil then
       begin
-        column := Pcolumn_t(integer(patch) + patch.columnofs[fracx div FRACUNIT]);
-        delta := 0;
-        tallpatch := false;
-      // step through the posts in a column
-        while column.topdelta <> $ff do
+        while col < pw do
         begin
-          source := PByte(integer(column) + 3);
-          vs := videopal[source^];
-          delta := delta + column.topdelta;
-          dest := @desttop[((delta * sheight div 200) * swidth)];
-          count := column.length;
-          fracy := 0;
-          lasty := 0;
-
-          while count > 0 do
+          column := Pcolumn_t(integer(patch) + patch.columnofs[fracx div FRACUNIT]);
+          delta := 0;
+          tallpatch := false;
+        // step through the posts in a column
+          while column.topdelta <> $ff do
           begin
-            dest^ := vs;
-            inc(dest, swidth);
-            fracy := fracy + fracystep;
-            cury := LongWord(fracy) shr FRACBITS;
-            if cury > lasty then
+            source := PByte(integer(column) + 3);
+            vs := videopal[v_translation[source^]];
+            delta := delta + column.topdelta;
+            dest := @desttop[(Round(delta * sheight / 200) * swidth)];
+            count := column.length;
+            fracy := 0;
+            lasty := 0;
+
+            while count > 0 do
             begin
-              lasty := cury;
-              inc(source);
-              vs := videopal[source^];
-              dec(count);
+              dest^ := vs;
+              inc(dest, swidth);
+              fracy := fracy + fracystep;
+              cury := LongWord(fracy) shr FRACBITS;
+              if cury > lasty then
+              begin
+                lasty := cury;
+                inc(source);
+                vs := videopal[v_translation[source^]];
+                dec(count);
+              end;
             end;
-          end;
-          if not tallpatch then
-          begin
-            prevdelta := column.topdelta;
-            column := Pcolumn_t(integer(column) + column.length + 4);
-            if column.topdelta > prevdelta then
-              delta := 0
+            if not tallpatch then
+            begin
+              prevdelta := column.topdelta;
+              column := Pcolumn_t(integer(column) + column.length + 4);
+              if column.topdelta > prevdelta then
+                delta := 0
+              else
+                tallpatch := true;
+            end
             else
-              tallpatch := true;
-          end
-          else
-            column := Pcolumn_t(integer(column) + column.length + 4);
-        end;
-        inc(col);
-        desttop := @desttop[1];
+              column := Pcolumn_t(integer(column) + column.length + 4);
+          end;
+          inc(col);
+          desttop := @desttop[1];
 
-        fracx := fracx + fracxstep;
+          fracx := fracx + fracxstep;
+        end;
+      end
+      else
+      begin
+        while col < pw do
+        begin
+          column := Pcolumn_t(integer(patch) + patch.columnofs[fracx div FRACUNIT]);
+          delta := 0;
+          tallpatch := false;
+        // step through the posts in a column
+          while column.topdelta <> $ff do
+          begin
+            source := PByte(integer(column) + 3);
+            vs := videopal[source^];
+            delta := delta + column.topdelta;
+            dest := @desttop[(Round(delta * sheight / 200) * swidth)];
+            count := column.length;
+            fracy := 0;
+            lasty := 0;
+
+            while count > 0 do
+            begin
+              dest^ := vs;
+              inc(dest, swidth);
+              fracy := fracy + fracystep;
+              cury := LongWord(fracy) shr FRACBITS;
+              if cury > lasty then
+              begin
+                lasty := cury;
+                inc(source);
+                vs := videopal[source^];
+                dec(count);
+              end;
+            end;
+            if not tallpatch then
+            begin
+              prevdelta := column.topdelta;
+              column := Pcolumn_t(integer(column) + column.length + 4);
+              if column.topdelta > prevdelta then
+                delta := 0
+              else
+                tallpatch := true;
+            end
+            else
+              column := Pcolumn_t(integer(column) + column.length + 4);
+          end;
+          inc(col);
+          desttop := @desttop[1];
+
+          fracx := fracx + fracxstep;
+        end;
       end;
     end;
   end;
