@@ -1505,6 +1505,13 @@ procedure FillDWord(const dest: Pointer; Count: Integer; Value: LongWord); assem
 //==============================================================================
 function Pos1(const subs, s: string): boolean;
 
+//==============================================================================
+//
+// Max3I
+//
+//==============================================================================
+function Max3I(const x1, x2, x3: Integer): Integer;
+
 implementation
 
 uses
@@ -7091,6 +7098,20 @@ begin
   end;
 
   Result := True;
+end;
+
+//==============================================================================
+//
+// Max3I
+//
+//==============================================================================
+function Max3I(const x1, x2, x3: Integer): Integer;
+begin
+  Result := x1;
+  if x2 > Result then
+    Result := x2;
+  if x3 > Result then
+    Result := x3;
 end;
 
 end.
