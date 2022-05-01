@@ -805,6 +805,7 @@ type
     od_allowautomaprotate,
     od_texturedautomap,
     od_automapgrid,
+    od_automapstats,
     od_automapplayertrace,
     od_automap_empty1,
     optdispautomap_end
@@ -5767,6 +5768,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @automapgrid;
   pmi.alphaKey := 'g';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Display statistics';
+  pmi.cmd := 'amdrawstats';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @amdrawstats;
+  pmi.alphaKey := 's';
 
   inc(pmi);
   pmi.status := 2;
