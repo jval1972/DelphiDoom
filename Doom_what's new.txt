@@ -1,5 +1,6 @@
 Fix problem when starting from different folder than the executable. (https://www.doomworld.com/forum/topic/92113-delphidoom-207734-udmf-umapinfo-mbf21-apr-28-2022/?do=findComment&comment=2487932)
 Fixed crash when enter automap mode in certain screen resolutions. (https://www.doomworld.com/forum/topic/92113-delphidoom-207734-udmf-umapinfo-mbf21-apr-28-2022/?do=findComment&comment=2488715)
+Fixed drawing problem in OpenGL mode when changing screen resolution.
 
 Version 2.0.7 build 734 - (20220428)
 -----------------------

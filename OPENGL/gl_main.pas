@@ -914,6 +914,29 @@ begin
 end;
 
 //==============================================================================
+//
+// GL_CreateOverlayTexture
+//
+//==============================================================================
+procedure GL_CreateOverlayTexture;
+begin
+  glGenTextures(1, @overlay_tex);
+  glBindTexture(GL_TEXTURE_2D, overlay_tex);
+  glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);  {Texture blends with object background}
+  if gl_linear_hud then
+  begin
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  end
+  else
+  begin
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  end;
+  glTexImage2D(GL_TEXTURE_2D, 0, 4, GLDRAWTEXWIDTH, GLDRAWTEXHEIGHT, 0, GL_BGRA, GL_UNSIGNED_BYTE, screen32);
+end;
+
+//==============================================================================
 // GL_InitGraphics
 //
 // Called by D_DoomMain,
@@ -1104,22 +1127,9 @@ begin
   screen := mallocA(allocscreensize, $10000, oscreen); // JVAL: Memory padding may increase performance until 4%
   screen32 := screen;
 
-  glGenTextures(1, @overlay_tex);
-  glBindTexture(GL_TEXTURE_2D, overlay_tex);
-  glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);  {Texture blends with object background}
-  if gl_linear_hud then
-  begin
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  end
-  else
-  begin
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-  end;
-  set_hud := gl_linear_hud;
+  GL_CreateOverlayTexture;
 
-  glTexImage2D(GL_TEXTURE_2D, 0, 4, GLDRAWTEXWIDTH, GLDRAWTEXHEIGHT, 0, GL_BGRA, GL_UNSIGNED_BYTE, screen32);
+  set_hud := gl_linear_hud;
 
   GL_NotifyDisplayMode;
 end;
@@ -1194,6 +1204,10 @@ begin
 
     SCREENWIDTH := nwidth;
     SCREENHEIGHT := nheight;
+
+    V_ReInit;
+    glDeleteTextures(1, @overlay_tex);
+    GL_CreateOverlayTexture;
 
     GL_ChangeFullScreen(fullscreen);
 
