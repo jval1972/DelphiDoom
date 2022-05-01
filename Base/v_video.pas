@@ -5613,7 +5613,7 @@ begin
   pct := round((1 - (4 / 3) / (w / h)) * 100);
 
   if (pct <= 0) or (pct >= 100) or (screenblocks > 10) then
-     if not (amstate = am_only) then
+  //   if not (amstate = am_only) then
        exit;
 
   l := ((pct div 2) * 320) div 100;
@@ -5668,7 +5668,7 @@ begin
   pct := round((1 - (4 / 3) / (SCREENWIDTH / SCREENHEIGHT)) * 100);
 
   if (pct <= 0) or (pct >= 100) or (screenblocks > 10) then
-     if not (amstate = am_only) then
+  //   if not (amstate = am_only) then
        exit;
 
   R_FillBackStatusbar;
