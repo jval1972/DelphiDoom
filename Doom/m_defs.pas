@@ -176,7 +176,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}230{$ELSE}232{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}231{$ELSE}233{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -1081,6 +1081,15 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tInteger),
+
+    (name: 'amdrawstats';
+     location: @amdrawstats;
+     oldlocation: nil;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
 
      // Textures
     (name: 'Textures';

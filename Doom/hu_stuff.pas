@@ -172,6 +172,7 @@ function HU_FPS: integer;
 var
   drawfps: boolean;
   drawcrosshair: boolean;
+  amdrawstats: boolean; 
 
 implementation
 
@@ -194,6 +195,7 @@ uses
   r_draw,
   r_main,
   s_sound,
+  st_stuff,
   sounddata,
   v_data,
   v_video;
@@ -786,6 +788,131 @@ begin
   Z_ChangeTag(dp, PU_CACHE);
 end;
 
+var
+  lump_trn: Integer = -2;
+
+//==============================================================================
+//
+// HU_WriteText
+// Write a string using the hu_font, use white for numeric characters
+//
+//==============================================================================
+function HU_WriteText(x, y: integer; const str: string; const highlightnums: boolean = false): menupos_t;
+var
+  w: integer;
+  ch: integer;
+  c: integer;
+  currchar: char;
+  cx: integer;
+  cy: integer;
+  len: integer;
+  oldtranslation, newtranslation: PByteArray;
+  dowhite: boolean;
+begin
+  len := Length(str);
+  if len = 0 then
+  begin
+    result.x := x;
+    result.y := y;
+    exit;
+  end;
+
+  ch := 1;
+  cx := x;
+  cy := y;
+
+  if lump_trn < 0 then
+    lump_trn := W_GetNumForName('TRN_MENU');
+
+  oldtranslation := v_translation;
+  newtranslation := W_CacheLumpNum(lump_trn, PU_STATIC);
+
+  dowhite := False;
+
+  while true do
+  begin
+    if ch > len then
+      break;
+
+    currchar := str[ch];
+    c := Ord(currchar);
+    inc(ch);
+
+    if highlightnums then
+      dowhite := dowhite or (currchar in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
+
+    if c = 0 then
+      break;
+
+    if c = 10 then
+    begin
+      cx := x;
+      continue;
+    end;
+
+    if c = 13 then
+    begin
+      cy := cy + 12;
+      continue;
+    end;
+
+    c := Ord(toupper(Chr(c))) - Ord(HU_FONTSTART);
+    if (c < 0) or (c >= HU_FONTSIZE) then
+    begin
+      cx := cx + 4;
+      continue;
+    end;
+
+    w := hu_font[c].width;
+    if (cx + w) > 320 then
+      break;
+
+    if dowhite then
+      v_translation := newtranslation
+    else
+      v_translation := oldtranslation;
+
+    V_DrawPatch(cx, cy, SCN_FG, hu_font[c], true);
+
+    cx := cx + w;
+  end;
+
+  Z_ChangeTag(newtranslation, PU_CACHE);
+  v_translation := oldtranslation;
+
+  result.x := cx;
+  result.y := cy;
+end;
+
+procedure HU_DrawAMStats;
+const
+  XOFFS = 320 - 2;
+  YOFFS = ST_Y - 1;
+var
+  s1, s2, s3: string;
+  x, y: integer;
+begin
+  if not amdrawstats then
+    exit;
+
+  if plr = nil then
+    exit;
+
+  sprintf(s1, 'Kills: %d/%d', [plr.killcount, totalkills]);
+  sprintf(s2, 'Items: %d/%d', [plr.itemcount, totalitems]);
+  sprintf(s3, 'Secrets: %d/%d', [plr.secretcount, totalsecret]);
+
+  x := XOFFS - Max3I(M_StringWidth(s1), M_StringWidth(s2), M_StringWidth(s3));
+  y := YOFFS - M_StringHeight(s3);
+  HU_WriteText(x, y, s3, True);
+
+  y := y - M_StringHeight(s2);
+  HU_WriteText(x, y, s2, True);
+
+  y := y - M_StringHeight(s1);
+  HU_WriteText(x, y, s1, True);
+end;
+
 //==============================================================================
 //
 // HU_Drawer
@@ -841,6 +968,9 @@ begin
       HUlib_addCharToTextLine(@w_leveltime, lt[i]);
     HUlib_drawTextLine(@w_leveltime, false);
     HUlib_drawTextLine(@w_title, false);
+
+    // JVAL: 20220501 - Draw automap stats (https://www.doomworld.com/forum/topic/92113-delphidoom-207734-udmf-umapinfo-mbf21-apr-28-2022/?do=findComment&comment=2488715)
+    HU_DrawAMStats;
   end;
 end;
 
