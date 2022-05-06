@@ -287,10 +287,6 @@ uses
 const
   MOBJ_CYCLE_LIMIT = 1000000;
 
-var
-  prev_states: TDNumberList;
-  recursion_level: integer = 0;
-
 //==============================================================================
 // P_DoSetMobjState
 //
@@ -304,15 +300,7 @@ var
   cycle_counter: integer;
 begin
   cycle_counter := 0;
-  result := true;
-  if recursion_level = 0 then
-    prev_states := TDNumberList.Create;
-  Inc(recursion_level);
   repeat
-    if prev_states.IndexOf(Ord(state)) > 0 then
-      Break;
-    prev_states.Add(Ord(state));
-
     if state = S_NULL then
     begin
       if mobj.flags_ex and MF_EX_DONOTREMOVE = 0 then // JVAL Do not remove missile
@@ -321,7 +309,7 @@ begin
         P_RemoveMobj(mobj);
       end;
       result := false;
-      break;
+      exit;
     end;
 
     if mobj.validcount <> validcount then
@@ -341,7 +329,6 @@ begin
     // Call action functions when the state is set
     if Assigned(st.action.acp1) and runthinker then
     begin
-
       if st.params <> nil then
         st.params.Actor := mobj;
       st.action.acp2(mobj, nil);
@@ -353,9 +340,8 @@ begin
     if cycle_counter > MOBJ_CYCLE_LIMIT then
       I_Error('P_SetMobjState(): Infinite state cycle detected in object "%s"!', [Info_GetMobjName(mobj.info)]);
   until mobj.tics <> 0;
-  Dec(recursion_level);
-  if recursion_level = 0 then
-    prev_states.Free;
+
+  result := true;
 end;
 
 //==============================================================================
