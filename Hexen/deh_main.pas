@@ -376,7 +376,7 @@ begin
 
         mobj_val := atoi(token2, -1);
 
-        if mobj_idx in [1, 3, 7, 10, 11, 12, 13, 23, 38, 40, 64, 72] then
+        if mobj_idx in [1, 3, 7, 10, 11, 12, 13, 23, 38, 40, 64, 72, 80] then
         begin
           stmp := firstword_ch(token2);
           if (stmp = 'NEWFRAME') or (stmp = 'NEWSTATE') then  // JVAL: a new defined state
@@ -408,7 +408,8 @@ begin
            4: mobjinfo[mobj_no].seesound := S_GetSoundNumForName(token2);
            5: mobjinfo[mobj_no].reactiontime := mobj_val;
            6: mobjinfo[mobj_no].attacksound := S_GetSoundNumForName(token2);
-           7: mobjinfo[mobj_no].painstate := mobj_val;
+           7,
+          80: mobjinfo[mobj_no].painstate := mobj_val;
            8: mobjinfo[mobj_no].painchance := mobj_val;
            9: mobjinfo[mobj_no].painsound := S_GetSoundNumForName(token2);
           10: mobjinfo[mobj_no].meleestate := mobj_val;
@@ -2259,6 +2260,7 @@ begin
   mobj_tokens.Add('DROPPED ITEM');       // .dropitem                 // 77 - Alias for 36
   mobj_tokens.Add('MISSILEHEIGHT');      // .missileheight (DelphiDoom) // 78
   mobj_tokens.Add('MELEE THRESHOLD');    // .meleethreshold           // 79
+  mobj_tokens.Add('PAIN FRAME');         // .painstate                // 80 - Alias for 7
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);

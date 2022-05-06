@@ -1,3 +1,5 @@
+Added "PAIN FRAME" alias for "INJURY FRAME" in Dehacked.
+
 Version 2.0.7 build 735 - (20220501)
 -----------------------
 Fix problem when starting from different folder than the executable. (https://www.doomworld.com/forum/topic/92113-delphidoom-207734-udmf-umapinfo-mbf21-apr-28-2022/?do=findComment&comment=2487932)
