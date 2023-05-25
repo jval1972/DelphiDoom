@@ -669,7 +669,7 @@ begin
   if N <> 4 then
   begin
     close(F);
-    I_Warning('TPakManager.PAddFile(): Can read file "%s"'#13#10, [FileName]);
+    I_Warning('TPakManager.PAddFile(): Can not read file "%s"'#13#10, [FileName]);
     exit;
   end;
   if (Id <> Pakid) and (Id <> WAD2Id) and (Id <> WAD3Id){$IFNDEF FPC} and (id <> ZIPFILESIGNATURE) {$ENDIF} and
