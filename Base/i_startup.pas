@@ -278,6 +278,7 @@ begin
     gamemodeset := true;
     StartUpConsoleForm.GameLabel.Caption := s;
     StartUpConsoleForm.GamePanel.Visible := true;
+    StartUpConsoleForm.GamePanel.Repaint;
   end;
 end;
 
