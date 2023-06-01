@@ -1,4 +1,5 @@
 Added "PAIN FRAME" alias for "INJURY FRAME" in Dehacked.
+Creative Voice File inside WAD.
 
 Version 2.0.7 build 735 - (20220501)
 -----------------------
