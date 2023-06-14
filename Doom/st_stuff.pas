@@ -1065,12 +1065,24 @@ begin
       if gamemode = commercial then
       begin
         epsd := 0;
-        map := (Ord(buf[1]) - Ord('0')) * 10 + Ord(buf[2]) - Ord('0');
+        if (buf[1] = '0') and (buf[2] = '0') then
+          map := gamemap
+        else
+          map := (Ord(buf[1]) - Ord('0')) * 10 + Ord(buf[2]) - Ord('0');
       end
       else
       begin
-        epsd := Ord(buf[1]) - Ord('0');
-        map := Ord(buf[2]) - Ord('0');
+        if (buf[1] = '0') and (buf[2] = '0') then
+        begin
+          epsd := gameepisode;
+          map := gamemap;
+        end
+        else
+        begin
+          epsd := Ord(buf[1]) - Ord('0');
+          map := Ord(buf[2]) - Ord('0');
+        end;
+        
         // Catch invalid maps.
         if epsd < 1 then
           exit;
