@@ -7520,7 +7520,7 @@ begin
                     TbtU32(var1^) := TbtU32(var1^) + TbtS64(var2^);
                   {$ENDIF}
                   btChar:
-                    TbtU32(var1^) := TbtU32(var1^) +  Ord(TbtChar(var2^));
+                    TbtU32(var1^) := TbtU32(var1^) + Ord(TbtChar(var2^));
                   {$IFNDEF PS_NOWIDESTRING}
                   btWideChar:
                     TbtU32(var1^) := TbtU32(var1^) + Ord(TbtWideChar(var2^));
@@ -7558,7 +7558,7 @@ begin
                     TbtS32(var1^) := TbtS32(var1^) + TbtS64(var2^);
                   {$ENDIF}
                   btChar:
-                    TbtS32(var1^) := TbtS32(var1^) +  Ord(TbtChar(var2^));
+                    TbtS32(var1^) := TbtS32(var1^) + Ord(TbtChar(var2^));
                   {$IFNDEF PS_NOWIDESTRING}
                   btWideChar:
                     TbtS32(var1^) := TbtS32(var1^) + Ord(TbtWideChar(var2^));
@@ -7608,7 +7608,7 @@ begin
                   btCurrency:
                     TbtSingle(var1^) := TbtSingle(var1^) + TbtCurrency(var2^);
                   btVariant:
-                    TbtSingle(var1^) := TbtSingle(var1^) +  Variant(var2^);
+                    TbtSingle(var1^) := TbtSingle(var1^) + Variant(var2^);
                   else
                     raise Exception.Create(RPS_TypeMismatch);
                 end;
@@ -7648,7 +7648,7 @@ begin
                   btCurrency:
                     TbtDouble(var1^) := TbtDouble(var1^) + TbtCurrency(var2^);
                   btVariant:
-                    TbtDouble(var1^) := TbtDouble(var1^) +  Variant(var2^);
+                    TbtDouble(var1^) := TbtDouble(var1^) + Variant(var2^);
                   else
                     raise Exception.Create(RPS_TypeMismatch);
                 end;
@@ -7688,7 +7688,7 @@ begin
                   btCurrency:
                     TbtCurrency(var1^) := TbtCurrency(var1^) + TbtCurrency(var2^);
                   btVariant:
-                    TbtCurrency(var1^) := TbtCurrency(var1^) +  Variant(var2^);
+                    TbtCurrency(var1^) := TbtCurrency(var1^) + Variant(var2^);
                   else
                     raise Exception.Create(RPS_TypeMismatch);
                 end;
@@ -7728,7 +7728,7 @@ begin
                   btCurrency:
                     TbtExtended(var1^) := TbtExtended(var1^) + TbtCurrency(var2^);
                   btVariant:
-                    TbtExtended(var1^) := TbtExtended(var1^) +  Variant(var2^);
+                    TbtExtended(var1^) := TbtExtended(var1^) + Variant(var2^);
                   else
                     raise Exception.Create(RPS_TypeMismatch);
                 end;
@@ -7737,7 +7737,7 @@ begin
             btString:
               TbtString(var1^) := TbtString(var1^) + PSGetAnsiString(Var2, var2type);
             btChar:
-              TbtChar(var1^) := TbtChar(ord(TbtChar(var1^)) +  PSGetUInt(Var2, var2type));
+              TbtChar(var1^) := TbtChar(ord(TbtChar(var1^)) + PSGetUInt(Var2, var2type));
             {$IFNDEF PS_NOWIDESTRING}
             btWideChar:
               TbtWideChar(var1^) := widechar(ord(TbtWideChar(var1^)) + PSGetUInt(Var2, var2type));
@@ -7816,7 +7816,7 @@ begin
                     TbtU32(var1^) := TbtU32(var1^) - TbtS64(var2^);
                   {$ENDIF}
                   btChar:
-                    TbtU32(var1^) := TbtU32(var1^) -  Ord(TbtChar(var2^));
+                    TbtU32(var1^) := TbtU32(var1^) - Ord(TbtChar(var2^));
                   {$IFNDEF PS_NOWIDESTRING}
                   btWideChar:
                     TbtU32(var1^) := TbtU32(var1^) - Ord(TbtWideChar(var2^));
@@ -7854,7 +7854,7 @@ begin
                     TbtS32(var1^) := TbtS32(var1^) - TbtS64(var2^);
                   {$ENDIF}
                   btChar:
-                    TbtS32(var1^) := TbtS32(var1^) -  Ord(TbtChar(var2^));
+                    TbtS32(var1^) := TbtS32(var1^) - Ord(TbtChar(var2^));
                   {$IFNDEF PS_NOWIDESTRING}
                   btWideChar:
                     TbtS32(var1^) := TbtS32(var1^) - Ord(TbtWideChar(var2^));
@@ -7983,7 +7983,7 @@ begin
                   btCurrency:
                     TbtDouble(var1^) := TbtDouble(var1^) - TbtCurrency(var2^);
                   btVariant:
-                    TbtDouble(var1^) := TbtDouble(var1^) -  Variant(var2^);
+                    TbtDouble(var1^) := TbtDouble(var1^) - Variant(var2^);
                   else
                     raise Exception.Create(RPS_TypeMismatch);
                 end;
@@ -8102,7 +8102,7 @@ begin
                     TbtU32(var1^) := TbtU32(var1^) * TbtS64(var2^);
                   {$ENDIF}
                   btChar:
-                    TbtU32(var1^) := TbtU32(var1^) *  Ord(TbtChar(var2^));
+                    TbtU32(var1^) := TbtU32(var1^) * Ord(TbtChar(var2^));
                   {$IFNDEF PS_NOWIDESTRING}
                   btWideChar:
                     TbtU32(var1^) := TbtU32(var1^) * Ord(TbtWideChar(var2^));
@@ -8140,7 +8140,7 @@ begin
                     TbtS32(var1^) := TbtS32(var1^) * TbtS64(var2^);
                   {$ENDIF}
                   btChar:
-                    TbtS32(var1^) := TbtS32(var1^) *  Ord(TbtChar(var2^));
+                    TbtS32(var1^) := TbtS32(var1^) * Ord(TbtChar(var2^));
                   {$IFNDEF PS_NOWIDESTRING}
                   btWideChar:
                     TbtS32(var1^) := TbtS32(var1^) * Ord(TbtWideChar(var2^));
@@ -8190,7 +8190,7 @@ begin
                   btCurrency:
                     TbtCurrency(var1^) := TbtCurrency(var1^) * TbtCurrency(var2^);
                   btVariant:
-                    TbtCurrency(var1^) := TbtCurrency(var1^) *  Variant(var2^);
+                    TbtCurrency(var1^) := TbtCurrency(var1^) * Variant(var2^);
                   else
                     raise Exception.Create(RPS_TypeMismatch);
                 end;
@@ -8383,7 +8383,7 @@ begin
                     TbtU32(var1^) := TbtU32(var1^) div TbtS64(var2^);
                   {$ENDIF}
                   btChar:
-                    TbtU32(var1^) := TbtU32(var1^) div  Ord(TbtChar(var2^));
+                    TbtU32(var1^) := TbtU32(var1^) div Ord(TbtChar(var2^));
                   {$IFNDEF PS_NOWIDESTRING}
                   btWideChar:
                     TbtU32(var1^) := TbtU32(var1^) div Ord(TbtWideChar(var2^));
@@ -8421,7 +8421,7 @@ begin
                     TbtS32(var1^) := TbtS32(var1^) div TbtS64(var2^);
                   {$ENDIF}
                   btChar:
-                    TbtS32(var1^) := TbtS32(var1^) div  Ord(TbtChar(var2^));
+                    TbtS32(var1^) := TbtS32(var1^) div Ord(TbtChar(var2^));
                   {$IFNDEF PS_NOWIDESTRING}
                   btWideChar:
                     TbtS32(var1^) := TbtS32(var1^) div Ord(TbtWideChar(var2^));
@@ -8471,7 +8471,7 @@ begin
                   btCurrency:
                     TbtSingle(var1^) := TbtSingle(var1^) / TbtCurrency(var2^);
                   btVariant:
-                    TbtSingle(var1^) := TbtSingle(var1^) /  Variant(var2^);
+                    TbtSingle(var1^) := TbtSingle(var1^) / Variant(var2^);
                   else
                     raise Exception.Create(RPS_TypeMismatch);
                 end;
@@ -8511,7 +8511,7 @@ begin
                   btCurrency:
                     TbtCurrency(var1^) := TbtCurrency(var1^) / TbtCurrency(var2^);
                   btVariant:
-                    TbtCurrency(var1^) := TbtCurrency(var1^) /  Variant(var2^);
+                    TbtCurrency(var1^) := TbtCurrency(var1^) / Variant(var2^);
                   else
                     raise Exception.Create(RPS_TypeMismatch);
                 end;
@@ -8551,7 +8551,7 @@ begin
                   btCurrency:
                     TbtDouble(var1^) := TbtDouble(var1^) / TbtCurrency(var2^);
                   btVariant:
-                    TbtDouble(var1^) := TbtDouble(var1^) /  Variant(var2^);
+                    TbtDouble(var1^) := TbtDouble(var1^) / Variant(var2^);
                   else
                     raise Exception.Create(RPS_TypeMismatch);
                 end;
@@ -8591,7 +8591,7 @@ begin
                   btCurrency:
                     TbtExtended(var1^) := TbtExtended(var1^) / TbtCurrency(var2^);
                   btVariant:
-                    TbtExtended(var1^) := TbtExtended(var1^) /  Variant(var2^);
+                    TbtExtended(var1^) := TbtExtended(var1^) / Variant(var2^);
                   else
                     raise Exception.Create(RPS_TypeMismatch);
                 end;
@@ -8660,7 +8660,7 @@ begin
                     TbtU32(var1^) := TbtU32(var1^) mod TbtS64(var2^);
                   {$ENDIF}
                   btChar:
-                    TbtU32(var1^) := TbtU32(var1^) mod  Ord(TbtChar(var2^));
+                    TbtU32(var1^) := TbtU32(var1^) mod Ord(TbtChar(var2^));
                   {$IFNDEF PS_NOWIDESTRING}
                   btWideChar:
                     TbtU32(var1^) := TbtU32(var1^) mod Ord(TbtWideChar(var2^));
@@ -8698,7 +8698,7 @@ begin
                     TbtS32(var1^) := TbtS32(var1^) mod TbtS64(var2^);
                   {$ENDIF}
                   btChar:
-                    TbtS32(var1^) := TbtS32(var1^) mod  Ord(TbtChar(var2^));
+                    TbtS32(var1^) := TbtS32(var1^) mod Ord(TbtChar(var2^));
                   {$IFNDEF PS_NOWIDESTRING}
                   btWideChar:
                     TbtS32(var1^) := TbtS32(var1^) mod Ord(TbtWideChar(var2^));
