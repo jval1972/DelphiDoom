@@ -194,10 +194,12 @@ begin
     exit;
   end;
 
-  BlockWrite(handle, source^, len, count);
-  close(handle);
-
-  Result := count = len;
+  try
+    BlockWrite(handle, source^, len, count);
+    Result := count = len;
+  finally
+    close(handle);
+  end;
 end;
 
 //==============================================================================
@@ -221,9 +223,12 @@ begin
   if len > 0 then
   begin
     handle := TFile.Create(name, fOpenReadWrite);
-    handle.Seek(handle.Size, sFromBeginning);
-    Result := handle.Write(source^, len);
-    handle.Free;
+    try
+      handle.Seek(handle.Size, sFromBeginning);
+      Result := handle.Write(source^, len);
+    finally
+      handle.Free;
+    end;
   end
   else
     Result := 0;
@@ -301,26 +306,27 @@ var
 begin
   bufsize := SCREENWIDTH * SCREENHEIGHT * 4 + 18;
   buffer := malloc(bufsize);
-  ZeroMemory(buffer, 18);
-  buffer[2] := 2;    // uncompressed type
-  buffer[12] := SCREENWIDTH and 255;
-  buffer[13] := SCREENWIDTH div 256;
-  buffer[14] := SCREENHEIGHT and 255;
-  buffer[15] := SCREENHEIGHT div 256;
-  buffer[16] := 32;  // pixel size
-  buffer[17] := {$IFDEF OPENGL}0{$ELSE}32{$ENDIF};  // Origin in upper left-hand corner.
+  try
+    ZeroMemory(buffer, 18);
+    buffer[2] := 2;    // uncompressed type
+    buffer[12] := SCREENWIDTH and 255;
+    buffer[13] := SCREENWIDTH div 256;
+    buffer[14] := SCREENHEIGHT and 255;
+    buffer[15] := SCREENHEIGHT div 256;
+    buffer[16] := 32;  // pixel size
+    buffer[17] := {$IFDEF OPENGL}0{$ELSE}32{$ENDIF};  // Origin in upper left-hand corner.
 
-  src := @buffer[18];
+    src := @buffer[18];
+    I_ReadScreen32(src);
 
-  I_ReadScreen32(src);
+    // JVAL 21/4/2017: Thanks Vladimir :)
+    for i := 0 to SCREENWIDTH * SCREENHEIGHT - 1 do
+      src[i * 4 + 3] := 255;
 
-  // JVAL 21/4/2017: Thanks Vladimir :)
-  for i := 0 to SCREENWIDTH * SCREENHEIGHT - 1 do
-    src[i * 4 + 3] := 255;
-
-  Result := M_WriteFile(filename, buffer, SCREENWIDTH * SCREENHEIGHT * 4 + 18);
-
-  memfree(pointer(buffer), bufsize);
+    Result := M_WriteFile(filename, buffer, SCREENWIDTH * SCREENHEIGHT * 4 + 18);
+  finally
+    memfree(pointer(buffer), bufsize);
+  end;
 end;
 
 //==============================================================================
@@ -338,26 +344,29 @@ var
 begin
   bufsize := SCREENWIDTH * SCREENHEIGHT * 4;
   buf := malloc(bufsize);
-  I_ReadScreen32(buf);
-  png := TPngObject.CreateBlank(COLOR_RGB, 8, SCREENWIDTH, SCREENHEIGHT);
   try
-    for r := 0 to SCREENHEIGHT - 1 do
-    begin
-      lpng := png.Scanline[{$IFDEF OPENGL}SCREENHEIGHT - 1 - {$ENDIF}r];
-      lsrc := @buf[r * SCREENWIDTH * 4];
-      for c := 0 to SCREENWIDTH - 1 do
+    I_ReadScreen32(buf);
+    png := TPngObject.CreateBlank(COLOR_RGB, 8, SCREENWIDTH, SCREENHEIGHT);
+    try
+      for r := 0 to SCREENHEIGHT - 1 do
       begin
-        lpng[c * 3] := lsrc[c * 4];
-        lpng[c * 3 + 1] := lsrc[c * 4 + 1];
-        lpng[c * 3 + 2] := lsrc[c * 4 + 2];
+        lpng := png.Scanline[{$IFDEF OPENGL}SCREENHEIGHT - 1 - {$ENDIF}r];
+        lsrc := @buf[r * SCREENWIDTH * 4];
+        for c := 0 to SCREENWIDTH - 1 do
+        begin
+          lpng[c * 3] := lsrc[c * 4];
+          lpng[c * 3 + 1] := lsrc[c * 4 + 1];
+          lpng[c * 3 + 2] := lsrc[c * 4 + 2];
+        end;
       end;
+      png.SaveToFile(filename);
+      result := png.IOresult = '';
+    finally
+      png.Free;
     end;
-    png.SaveToFile(filename);
-    result := png.IOresult = '';
   finally
-    png.Free;
+    memfree(pointer(buf), bufsize);
   end;
-  memfree(pointer(buf), bufsize);
 end;
 
 //==============================================================================
