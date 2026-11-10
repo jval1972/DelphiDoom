@@ -3,7 +3,7 @@
 //  DelphiDoom is a source port of the game Doom and it is
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2022 by Jim Valavanis
+//  Copyright (C) 2004-2026 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -470,7 +470,7 @@ begin
         jpgname := M_SaveFileName('DATA\SCREENSHOTS\JPG\' + jpgname);
     if CharPos('/', pngname) = 0 then
       if CharPos('\', pngname) = 0 then
-        jpgname := M_SaveFileName('DATA\SCREENSHOTS\PNG\' + pngname);
+        pngname := M_SaveFileName('DATA\SCREENSHOTS\PNG\' + pngname);
   end;
 
   if sctype = 'TGA' then
