@@ -197,7 +197,7 @@ begin
   BlockWrite(handle, source^, len, count);
   close(handle);
 
-  Result := count > 0;
+  Result := count = len;
 end;
 
 //==============================================================================
